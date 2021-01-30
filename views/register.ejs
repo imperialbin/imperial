@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon/favicon-96x96.png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/reallyGlobal.css">
+    <link rel="stylesheet" href="/assets/css/register.css">
+    <title>IMPERIAL | Register</title>
+    <meta name="description" content="Register for Imperial here!">
+</head>
+
+<body>
+    <h1>Sign up</h1>
+    <i class="error">
+        <% if( error ) {%>
+            <%= error %>
+                <% } %>
+    </i>
+    <form action="/register" method="POST">
+        <div>
+            <% if( user ) {%>
+                <input type="text" id="name" name="name" placeholder="Name" autocomplete="off" value="<%= user %>"
+                    required>
+                <% } else { %>
+                    <input type="text" id="name" name="name" placeholder="Name" autocomplete="off" required>
+                    <% } %>
+        </div>
+        <div>
+            <% if( email ) {%>
+                <input type="text" id="email" name="email" placeholder="Email" autocomplete="off" value="<%= email %>"
+                    required>
+                <% } else { %>
+                    <input type="text" id="email" name="email" placeholder="Email" autocomplete="off" required>
+                    <% } %>
+        </div>
+        <div>
+            <input type="password" id="password" name="password" placeholder="Password" autocomplete="off" required>
+        </div>
+        <div>
+            <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm password"
+                autocomplete="off" required>
+        </div>
+        <div>
+            <input type="text" id="code" name="code" placeholder="Beta code" autocomplete="off" required>
+        </div>
+        <button type="submit">Register</button>
+    </form>
+    <nav>
+        <ul>
+            <a href="/">
+                <li>HOME</li>
+            </a>
+            <a href="#">
+                <li class="on-link">REGISTER</li>
+            </a>
+            <a href="/login">
+                <li>LOGIN</li>
+            </a>
+            <a href="https://discord.gg/cTm85eW49D" target="_blank">
+                <li>DISCORD</li>
+            </a>
+        </ul>
+    </nav>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('inviteCode')) {
+            localStorage.setItem('inviteCode', urlParams.get('inviteCode'));
+            document.getElementById('code').value = urlParams.get('inviteCode');
+        } else if (localStorage.getItem('inviteCode')) {
+            document.getElementById('code').value = localStorage.getItem('inviteCode');
+        }
+    </script>
+</body>
+
+</html>
