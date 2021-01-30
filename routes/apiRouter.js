@@ -15,6 +15,7 @@ routes.get('/', (req, res) => res.json({ message: 'Welcome to Imperial Bin\'s AP
 
 routes.post('/postCode/', (req, res) => {
     db.link.loadDatabase();
+    console.log(req.body);
     const code = req.body.code;
     if (req.headers.authorization || req.body.apiToken) {
         const apiToken = req.headers.authorization || req.body.apiToken;
@@ -24,7 +25,7 @@ routes.post('/postCode/', (req, res) => {
                 const imageEmbed = req.body.imageEmbed || false
                 var expiration = req.body.expiration || 5
                 const instantDelete = req.body.instantDelete || false
-                const creator = user._id
+                const creator = JSON.parse(JSON.stringify(user._id))
                 var quality = 40;
                 var str = Math.random().toString(36).substring(2)
                 if (user.memberPlus)
