@@ -103,6 +103,7 @@ app.post('/login', passport.authenticate('local', {
 
 // Routes
 const indexRouter = require('./routes/indexRouter');
+const loginRouter = require('./routes/loginRouter');
 const accountRouter = require('./routes/accountRouter');
 const authRouter = require('./routes/authRouter');
 const apiRouter = require('./routes/apiRouter');
@@ -112,6 +113,7 @@ const pasteRouter = require('./routes/pasteRouter');
 
 // Initialize the routes
 app.use('/', indexRouter);
+app.use('/login', loginRouter)
 app.use('/account', checkAuthenticated, accountRouter);
 app.use('/api', apiLimiter, apiRouter);
 app.use('/auth', authRouter);
