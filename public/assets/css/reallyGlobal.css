@@ -342,7 +342,7 @@ code {
   z-index: 1;
 }
 #messages li {
-  padding: 5px 0;
+  padding: 5px 1;
   margin-bottom: 10px;
   display: block;
   list-style: none;
