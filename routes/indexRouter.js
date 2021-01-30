@@ -111,8 +111,8 @@ routes.post('/register', async (req, res) => {
                             db.betaCodes.findOne({ betaCode: code }, (err, code) => {
                                 console.log(code);
                                 if (code) {
-                                    Users.findOne({ email: email }, async (err, user) => {
-                                        if (!user) {
+                                    Users.findOne({ email: email }, async (err, data) => {
+                                        if (!data) {
                                             try {
                                                 const emailToken = Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2);
                                                 db.emailTokens.insert({ token: emailToken, email: email, used: false })
