@@ -8,8 +8,9 @@
     </title>
 
     <link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon/favicon-96x96.png">
-    <meta content="IMPERIAL - Document <%= documentName %> " property="og:title">
-    <meta content="IMPERIAL" property="og:site_name">
+    <meta content="IMPERIAL - Document <%= documentName %>" property="og:title">
+    <meta content="IMPERIAL | <%= deleteDate %>" property="og:site_name">
+    <meta content="cum" property="og:author_name">
     <meta name="theme-color" content="#24292e">
     <% if(imageEmbed){ %>
         <meta property="twitter:card" content="summary_large_image">
@@ -19,6 +20,7 @@
         <% } else if (deleteDate !=='Deletes after being viewed.' ){ %>
             <meta content="<%= code %> " property="description">
             <meta content="<%= code %> " property="og:description">
+            <meta content="IMPERIAL | Expires after being viewed" property="og:site_name">
             <% } %>
                 <script type="text/javascript" src="/assets/js/highlight.pack.js?v=3"></script>
                 <link rel="stylesheet" href="/assets/css/codeColor.css?v=3">
