@@ -1,0 +1,72 @@
+
+
+.hljs-comment,
+.hljs-quote {
+  color: #7e7887;
+}
+.hljs-function {
+  color: #c3d3e2;
+}
+
+/* Atelier-Cave Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-attribute,
+.hljs-regexp,
+.hljs-link,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class {
+  color: #be4678;
+}
+
+/* Atelier-Cave Orange */
+.hljs-number,
+.hljs-meta,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params {
+  color: #69a4e7;
+}
+
+/* Atelier-Cave Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet {
+  color: #79b8ff;
+}
+
+/* Atelier-Cave Blue */
+.hljs-title,
+.hljs-section {
+  color: #5568c8;
+}
+
+/* Atelier-Cave Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+  color: #dd5c69;
+}
+
+.hljs-deletion,
+.hljs-addition {
+  color: #19171c;
+  display: inline-block;
+  width: 100%;
+}
+
+.hljs-deletion { background-color: #be4678 }
+.hljs-addition { background-color: #2a9292 }
+
+.hljs {
+  display: block;
+  overflow-x: auto;
+  color: #b0b7be;
+  padding: 0.5em;
+}
+
+.hljs-emphasis { font-style: italic }
+.hljs-strong { font-weight: bold }
