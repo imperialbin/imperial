@@ -185,7 +185,8 @@ routes.post('/saveCode', (req, res) => {
     if (req.isAuthenticated()) {
         if (securedUrls) var str = Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2);
         if (time >= 31) var time = 31
-        var creator = req.user;
+        var creator = JSON.parse(JSON.stringify(req.user)); // this has to be like this mainly because its being dumb, and has a bunch of rando characters even tho its a string, wtf man?
+        console.log(creator)
     } else {
         var time = 7;
         var instantDelete = false;
