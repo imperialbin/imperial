@@ -15,7 +15,6 @@ routes.get('/', (req, res) => res.json({ message: 'Welcome to Imperial Bin\'s AP
 
 routes.post('/postCode/', (req, res) => {
     db.link.loadDatabase();
-    console.log(req.body);
     const code = req.body.code;
     if (req.headers.authorization || req.body.apiToken) {
         const apiToken = req.headers.authorization || req.body.apiToken;
