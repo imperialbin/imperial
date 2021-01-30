@@ -1,0 +1,254 @@
+body {
+    background: var(--main-background);
+    text-align: center;
+}
+
+#pfpLabel {
+    transform: translate3d(0, 40px, 0)!important;
+    -webkit-transform: translate3d(0, 40px, 0)!important;
+    -moz-transform: translate3d(0, 40px, 0)!important;
+    -ms-transform: translate3d(0, 40px, 0)!important;
+    -o-transform: translate3d(0, 40px, 0)!important;
+}
+
+#label,
+#pfpLabel {
+    position: absolute;
+    margin-left: -143px;
+    color: var(--text-light);
+    font-weight: 200;
+    font-size: 14px;
+    transform: translate3d(0, 50px, 0);
+    transition: transform 1s cubic-bezier(.17, .17, .06, 1);
+    -webkit-transform: translate3d(0, 50px, 0);
+    -moz-transform: translate3d(0, 50px, 0);
+    -ms-transform: translate3d(0, 50px, 0);
+    -o-transform: translate3d(0, 50px, 0);
+    -webkit-transition: transform 1s cubic-bezier(.17, .17, .06, 1);
+    -moz-transition: transform 1s cubic-bezier(.17, .17, .06, 1);
+    -ms-transition: transform 1s cubic-bezier(.17, .17, .06, 1);
+    -o-transition: transform 1s cubic-bezier(.17, .17, .06, 1);
+}
+
+h1 {
+    color: var(--text-lighter);
+    margin: 0 0 10px 0;
+    font-weight: 300;
+    transform: translate3d(0, 40px, 0);
+    transition: transform 1.45s cubic-bezier(.17, .17, .06, 1);
+}
+
+h2 {
+    color: var(--text-lighter);
+    font-weight: 300;
+    margin-top: -30px;
+    margin-bottom: 10px;
+    transform: translate3d(0, 30px, 0);
+    transition: opacity 666ms cubic-bezier(.17, .17, .06, 1), transform 1s cubic-bezier(.17, .17, .06, 1);
+}
+
+p {
+    margin-bottom: 20px;
+    color: var(--text-light);
+    transform: translate3d(0, 40px, 0);
+    transition: opacity 666ms cubic-bezier(.17, .17, .06, 1), transform 1s cubic-bezier(.17, .17, .06, 1);
+}
+
+input {
+    width: 300px;
+    height: 40px;
+    padding: 0 10px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 8px;
+    color: var(--text-light);
+    background: var(--kinda-dark-background);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    transform: translate3d(0, 40px, 0);
+    transition: transform 1s cubic-bezier(.17, .17, .06, 1);
+    -webkit-transform: translate3d(0, 40px, 0);
+    -moz-transform: translate3d(0, 40px, 0);
+    -ms-transform: translate3d(0, 40px, 0);
+    -o-transform: translate3d(0, 40px, 0);
+}
+
+input::placeholder {
+    color: var(--text-light);
+}
+
+.gravatarContainer {
+    display: none;
+}
+
+.gravatar {
+    opacity: .4;
+    display: inline-block;
+    margin-top: 7px;
+    transform: translate3d(0, 30px, 0);
+    transition: opacity 666ms cubic-bezier(.17, .17, .06, 1), transform 1s cubic-bezier(.17, .17, .06, 1);
+    font-size: 14px;
+    margin: 12px 0 0 0;
+}
+
+.gravatar:hover {
+    opacity: 1;
+}
+
+.memberPlusActivation {
+    opacity: .4;
+    display: inline-block;
+    margin-top: 7px;
+    transform: translate3d(0, 30px, 0);
+    transition: opacity 666ms cubic-bezier(.17, .17, .06, 1), transform 1s cubic-bezier(.17, .17, .06, 1);
+    font-size: 14px;
+}
+
+.memberPlusActivation:hover { opacity: 1 }
+
+.pfp {
+    margin: 40px 0;
+    border-radius: 50%;
+    width: 90px;
+    height: 90px;
+    transform: translate3d(0, 30px, 0);
+    transition: transform 1.45s cubic-bezier(.17, .17, .06, 1);
+}
+
+.error {
+    font-size: 18px;
+    font-weight: 300;
+    color: var(--text-error);
+    background: unset;
+}
+
+button {
+    transform: translate3d(0, 60px, 0);
+    transition: background-color .5s, transform 1s cubic-bezier(.17, .17, .06, 1);
+}
+
+span {
+    color: var(--text-lighter);
+    opacity: .4;
+    font-weight: 300;
+    margin-top: -30px;
+    margin-bottom: 10px;
+    transform: translate3d(0, 30px, 0);
+    transition: opacity 666ms cubic-bezier(.17, .17, .06, 1), transform 1s cubic-bezier(.17, .17, .06, 1);
+    -webkit-transition: opacity 666ms cubic-bezier(.17, .17, .06, 1), transform 1s cubic-bezier(.17, .17, .06, 1);
+    -moz-transition: opacity 666ms cubic-bezier(.17, .17, .06, 1), transform 1s cubic-bezier(.17, .17, .06, 1);
+    -ms-transition: opacity 666ms cubic-bezier(.17, .17, .06, 1), transform 1s cubic-bezier(.17, .17, .06, 1);
+    -o-transition: opacity 666ms cubic-bezier(.17, .17, .06, 1), transform 1s cubic-bezier(.17, .17, .06, 1);
+}
+
+.blur {
+    filter: blur(4px);
+    -webkit-filter: blur(4px);
+    z-index: 999;
+    transition: .25s;
+    -webkit-transition: .25s;
+    -moz-transition: .25s;
+    -ms-transition: .25s;
+    -o-transition: .25s;
+}
+
+.blur:hover {
+    filter: unset;
+    -webkit-filter: unset;
+}
+
+.recentPastes {
+    background: var(--button);
+    position: absolute;
+    margin-top: -4px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
+    margin-left: -62px;
+}
+
+.dumbLinks {
+    cursor: initial;
+}
+
+.paste {
+    display: inline-block;
+    cursor: pointer;
+}
+
+#tippy-1 {
+    top: unset!important;
+	margin-left: unset!important;
+}
+
+#invites,
+#editEmail {
+    background: var(--button);
+    position: absolute;
+    margin-top: -55px;
+    margin-left: 20px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
+}
+
+#invites:hover,
+#editEmail:hover,
+.recentPastes:hover {
+    background: var(--button-hover);
+}
+
+#editEmail {
+    margin-left: 85px;
+}
+
+#password {
+    margin-top: 0;
+    margin-bottom: 30px;
+}
+
+#logout {
+    color: var(--text-light);
+    background: var(--button);
+    margin-bottom: 25px;
+}
+
+#logout:hover {
+    background: var(--danger);
+    color: var(--text-light);
+}
+
+input#pfp {padding-right: 110px }
+button#pfp {
+    background: var(--button-hover);
+    position: absolute;
+    margin-top: -64px;
+    margin-left: 49px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
+}
+button#pfp:hover { background: var(--button) }
+
+a {
+    text-decoration: none;
+    transform: translate3d(0, 40px, 0);
+    transition: transform 1s cubic-bezier(.17, .17, .06, 1);
+}
+
+nav {
+    transform: translate3d(0, 20px, 0);
+    transition: opacity 666ms cubic-bezier(.17, .17, .06, 1), transform 1s cubic-bezier(.17, .17, .06, 1);
+    width: 100%;
+}
+
+li {
+    font-size: 18px;
+    font-weight: 300;
+    padding: 0 10px;
+    text-align: center;
+    display: inline;
+    color: var(--text-lighter);
+    transition: color 466ms
+}
+
+#invitesLeft {
+    padding: 0;
+    margin-top: -20px;
+    color: var(--text-lighter);
+    opacity: .5;
+}
+.on-link { color: var(--text-lighter)}
