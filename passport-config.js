@@ -6,8 +6,8 @@ function initialize(passport) {
     const authenticateUser = async (email, password, done) => {
         Users.findOne({ $or: [{ 'email': email.toLowerCase() }, { 'name': email.toLowerCase() }] }, async (err, user) => {
             if (!user) return done(null, false, { message: 'No user with that email' })
-            if (user.confirmed == true) {
-                if (user.banned == false) {
+            if (user.confirmed) {
+                if (!user.banned) {
                     try {
                         if (await bcrypt.compare(password, user.password)) {
                             return done(null, user)
