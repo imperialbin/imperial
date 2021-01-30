@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon/favicon-96x96.png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/register.css">
+    <title>IMPERIAL | Redeem code</title>
+    <meta name="description" content="Have a Member+ code? Activate it here!">
+</head>
+
+<body>
+    <h1>Redeem code</h1>
+    <i class="error">
+        <% if( error ) {%>
+            <%= error %>
+                <% } %>
+    </i>
+    <form action="/account/redeem" method="POST">
+        <div>
+            <input type="text" id="code" name="code" placeholder="Code" autocomplete="off" required>
+        </div>
+        <button type="submit">Redeem code</button>
+    </form>
+    <nav>
+        <ul>
+            <a href="/">
+                <li>HOME</li>
+            </a>
+            <a href="#">
+                <li class="on-link">ACCOUNT</li>
+            </a>
+            <a href="https://discord.gg/cTm85eW49D" target="_blank">
+                <li>DISCORD</li>
+            </a>
+        </ul>
+    </nav>
+</body>
+
+</html>
