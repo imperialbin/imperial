@@ -9,6 +9,8 @@ routes.get('/', (req, res) => {
     res.redirect(`/p/${req.originalUrl.split('/')[1]}/${req.originalUrl.split('/')[2]}`)
 })
 
+
+// This entire thing i will be redoing soon lmfao
 routes.get(['/:documentId', '/:slug/:documentId', '/:slug/:slugTwo/:documentId', '/:slug/:slugTwo/slugThree/:documentId'], (req, res) => {
     const documentId = req.params.documentId;
     db.link.loadDatabase();
@@ -40,7 +42,7 @@ routes.get(['/:documentId', '/:slug/:documentId', '/:slug/:slugTwo/:documentId',
                     if (req.isAuthenticated()) {
                         Users.findOne({ _id: req.user }, (err, user) => {
                             var editorArray = doc.allowedEditor
-                            if (req.user === doc.creator || editorArray.indexOf(req.user) != -1) {
+                            if (req.user == doc.creator || editorArray.indexOf(req.user) != -1) {
                                 var creator = true;
                             } else {
                                 var creator = false;
