@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IMPERIAL | Comparing documents</title>
+    <script src="/assets/js/highlight.pack.js"></script>
+    <link rel="stylesheet" href="/assets/css/codeColor.css">
+    <link rel="stylesheet" href="/assets/css/reallyGlobal.css">
+    <link rel="stylesheet" href="/assets/css/compare.css">
+    <link rel="stylesheet" href="https://unpkg.com/tippy.js@6.2.7/animations/shift-away.css" />
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500&display=swap" rel="stylesheet">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="https://kit.fontawesome.com/ec3f0c8487.js" crossorigin="anonymous"></script>
+    <script src="/assets/js/main.js"></script>
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
+    <script>
+        hljs.initHighlightingOnLoad();
+    </script>
+    <meta property="og:image" content="/assets/favicon/favicon-96x96.png">
+</head>
+
+<body>
+    <div class="goBack" id="goBackWrapper" style="display: none;">
+        <button id="goBack" onclick="goBack()"><i class="fas fa-chevron-left"></i></button>
+    </div>
+    <main>
+        <div class="code-box">
+            <div class="code-lines"></div>
+            <pre class="box"><code id="submitCode"><%= documentOne %></code></pre>
+        </div>
+        <div class="code-box">
+            <div class="code-linesTwo"></div>
+            <pre class="box"><code id="submitCode"><%= documentTwo %></code></pre>
+        </div>
+    </main>
+    <textarea spellcheck="false" id="codeThingOne" style="display:none;"><%= documentOne %></textarea>
+    <textarea spellcheck="false" id="codeThingTwo" style="display:none;"><%= documentTwo %></textarea>
+    <script>
+        tippy('#goBack', {
+            content: 'Go back',
+            placement: 'right',
+            animation: 'shift-away',
+            arrow: false
+        })
+        const url = new URL(window.location.href);
+        if (url.searchParams.get('from')) {
+            document.getElementById('goBackWrapper').style.display = 'block';
+        }
+        function goBack() {
+            location.href = `/p/${url.searchParams.get('from')}`
+        }
+        var lineCount = $("#codeThingOne").val().split("\n");
+        document.querySelector('.code-lines').textContent = '';
+        for (var i = 1; i <= lineCount.length; i++) {
+            $('.code-lines').append(`${i.toString()} <br>`);
+        }
+        var lineCount = $("#codeThingTwo").val().split("\n");
+        document.querySelector('.code-linesTwo').textContent = '';
+        for (var i = 1; i <= lineCount.length; i++) {
+            $('.code-linesTwo').append(`${i.toString()} <br>`);
+        }
+    </script>
+</body>
