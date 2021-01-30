@@ -135,16 +135,12 @@ routes.get('/getShareXConfig/:apiToken', (req, res) => {
             "Version": "13.4.0",
             "DestinationType": "TextUploader",
             "RequestMethod": "POST",
-            "RequestURL": "https://www.imperialb.in/api/postCode/",
-            "Body": "FormURLEncoded",
-            "Arguments": {
-                "code": "$input$",
-                "apiToken": apiToken,
-                "longerUrls": "false",
-                "instantDelete": "false",
-                "imageEmbed": "false",
-                "expiration": "14"
+            "RequestURL": "https://imperialb.in/api/postCode/",
+            "Headers": {
+                "Authorization": apiToken
             },
+            "Body": "JSON",
+            "Data": "{\n  \"code\": \"$input$\",\n  \"longerUrls\": false,\n  \"imageEmbed\": true,\n  \"instantDelete\": false\n}",
             "URL": "$json:formattedLink$"
         });
 })
