@@ -5,7 +5,6 @@ const webshot = require('webshot-node');
 const Datastore = require('nedb');
 const bcrypt = require('bcrypt');
 const mailer = require('nodemailer');
-const getIp = require('ipware')().get_ip;
 var db = {};
 db.users = new Datastore({ filename: './databases/users' });
 db.link = new Datastore({ filename: './databases/links' });
@@ -42,14 +41,6 @@ routes.get('/', (req, res) => {
     } else {
         res.render('index.ejs', { loggedIn: false })
     }
-})
-
-routes.get('/register', checkNotAuthenticated, (req, res) => {
-    res.render('register.ejs', { error: false, user: false, email: false });
-})
-
-routes.get('/login', checkNotAuthenticated, (req, res) => {
-    res.render('login.ejs');
 })
 
 routes.get('/success', (req, res) => {
@@ -91,87 +82,6 @@ routes.get('/logout', (req, res) => {
         req.logout();
     })
     res.redirect('/login');
-})
-
-routes.post('/register', async (req, res) => {
-    db.betaCodes.loadDatabase()
-    const email = req.body.email.toLowerCase();
-    const user = req.body.name.toLowerCase();
-    const password = req.body.password;
-    const confirmPassword = req.body.confirmPassword;
-    const code = req.body.code;
-    const actualIp = getIp(req);
-    Users.findOne({ name: user }, (err, checkUsername) => {
-        console.log(checkUsername);
-        if (!checkUsername) {
-            Users.findOne({ ip: actualIp.clientIp }, (err, indexIp) => {
-                if (!indexIp) {
-                    if (password.length >= 8) {
-                        if (confirmPassword === password) {
-                            db.betaCodes.findOne({ betaCode: code }, (err, code) => {
-                                console.log(code);
-                                if (code) {
-                                    Users.findOne({ email: email }, async (err, data) => {
-                                        if (!data) {
-                                            try {
-                                                const emailToken = Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2);
-                                                db.emailTokens.insert({ token: emailToken, email: email, used: false })
-                                                const hashedPass = await bcrypt.hash(password, 13);
-                                                const newUser = new Users({
-                                                    name: user,
-                                                    email: email,
-                                                    betaCode: code.betaCode,
-                                                    banned: false,
-                                                    confirmed: false,
-                                                    ip: actualIp.clientIp,
-                                                    codesLeft: 0,
-                                                    icon: '/assets/img/pfp.png',
-                                                    password: hashedPass,
-                                                    memberPlus: false,
-                                                    codes: []
-                                                })
-                                                newUser.save()
-                                                    .then(() => {
-                                                        let mailOptions = {
-                                                            from: 'IMPERIAL',
-                                                            to: email,
-                                                            subject: 'Confirm your email',
-                                                            text: 'Hey there!',
-                                                            html: `Please click this link to verify your email! <br> https://www.imperialb.in/auth/${emailToken}`
-                                                        }
-                                                        transporter.sendMail(mailOptions, err => {
-                                                            if (err) return console.log(err)
-                                                            db.betaCodes.remove({ betaCode: code.betaCode }, (err) => console.log(err))
-                                                            Users.findOneAndUpdate({ codes: { code: code.betaCode } }, { $pull: { 'codes': { 'code': code.betaCode } } }, (err, result) => console.log(err, result))
-                                                        })
-                                                        res.render('success.ejs', { successMessage: `Please check your email to verify! (${email})` })
-                                                    })
-                                                    .catch(err => console.log(err));
-                                            } catch (err) {
-                                                res.render('register.ejs', { error: 'An internal server error happened! Please contact an admin!', email, user })
-                                            }
-                                        } else {
-                                            res.render('register.ejs', { error: 'A user with that email already has an account!', email: false, user })
-                                        }
-                                    })
-                                } else {
-                                    res.render('register.ejs', { error: 'Incorrect access code!', email, user })
-                                }
-                            })
-                        } else {
-                            res.render('register.ejs', { error: 'Passwords do not match!', email, user })
-                        }
-                    } else {
-                        res.render('register.ejs', { error: 'Please make your password atleast 8 characters long!', email, user })
-                    }
-                } else {
-                    res.render('register.ejs', { error: 'IP is already associated with an account!', email, user })
-                }
-            })
-        } else {
-            res.render('register.ejs', { error: 'That username is taken!', email, user: false })
-        }
-    })
 })
 
 routes.post('/saveCode', (req, res) => {
