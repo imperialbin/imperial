@@ -4,21 +4,15 @@ const app = express();
 const flash = require('express-flash');
 const session = require('express-session');
 const cookieParser = require('cookie-parser')
-const Datastore = require('nedb');
 const mongoose = require('mongoose');
 const fs = require('fs');
 const passport = require('passport');
 const initializePassport = require('./passport-config')
 const methodOverride = require('method-override')
-const CronJob = require('cron').CronJob;
-const rateLimit = require('express-rate-limit');
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 const MongoStore = require('connect-mongo')(session);
 const CrawlerDetect = require('crawler-detect');
-var db = {};
-db.link = new Datastore({ filename: './databases/links' });
-db.link.loadDatabase();
 require('dotenv').config();
 
 // Middleware
@@ -29,10 +23,12 @@ mongoose.connect(`mongodb+srv://${process.env.DB_NAME}:${process.env.DB_PASS}@us
     if (err) return err;
     console.log('CONNECTED DATABASE');
 })
-const Users = require('./models/Users');
+
+// Utilities
+const apiLimiter = require('./utilities/apiLimiter');
+require('./utilities/autoDelete');
 
 // Passport
-
 initializePassport(passport)
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -47,62 +43,9 @@ app.use(express.static(__dirname + '/public'));
 app.disable('x-powered-by');
 app.set('view-engine', 'ejs');
 
-const apiLimiter = rateLimit({
-    windowMs: 15 * 60 * 1000,
-    max: 15,
-    handler: function (req, res, next) {
-        if (req.headers.authorization || req.body.apiToken) {
-            const apiToken = req.headers.authorization || req.body.apiToken;
-            Users.findOne({ apiToken }, (err, user) => {
-                if (user) {
-                    next();
-                } else {
-                    res.status(429).json({
-                        success: false,
-                        message: "API token is invalid! Please get an API token at https://imperialb.in/account"
-                    });
-                }
-            })
-        } else {
-            res.status(429).json({
-                success: false,
-                message: "You have reached the 15 requests every 15 minutes, please link an API key to raise that amount! (https://www.imperialb.in/account)"
-            });
-        }
-    }
-});
-
-var job = new CronJob('00 00 00 * * *', () => {
-    db.link.find({}, (err, data) => {
-        console.log('attempting')
-        for (var entry = 0, len = data.length; entry < len; entry++) {
-            if (new Date().getTime() >= data[entry].deleteDate) {
-                try {
-                    const id = data[entry]._id;
-                    fs.unlink(`./pastes/${data[entry].URL}.txt`, err => {
-                        if (err) return err;
-                        db.link.remove({ _id: id })
-                    })
-                    if (data[entry].imageEmbed) {
-                        fs.unlink(`./public/assets/img/${data[entry].URL}.jpeg`, err => { if (err) console.log(err) })
-                    }
-                } catch (err) {
-                    console.log(err);
-                }
-            }
-        }
-    })
-}, null, true, 'America/Los_Angeles');
-job.start();
-
-app.post('/login', passport.authenticate('local', {
-    successRedirect: '/',
-    failureRedirect: '/login',
-    failureFlash: true
-}))
-
 // Routes
 const indexRouter = require('./routes/indexRouter');
+const registerRouter = require('./routes/registerRouter');
 const loginRouter = require('./routes/loginRouter');
 const accountRouter = require('./routes/accountRouter');
 const authRouter = require('./routes/authRouter');
@@ -113,7 +56,8 @@ const pasteRouter = require('./routes/pasteRouter');
 
 // Initialize the routes
 app.use('/', indexRouter);
-app.use('/login', loginRouter)
+app.use('/login', loginRouter);
+app.use('/register', registerRouter);
 app.use('/account', checkAuthenticated, accountRouter);
 app.use('/api', apiLimiter, apiRouter);
 app.use('/auth', authRouter);
