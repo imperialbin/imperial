@@ -78,6 +78,14 @@ routes.post('/postCode/', (req, res) => {
     }
 })
 
+routes.delete('/purgePastes/', (req,res) => {
+    // I actually have to add the delete stuff here lmfao
+})
+
+routes.delete('/deletePaste/:slug', (req, res) => {
+    // I also actually have to add the delete stuff here aswell lmfao
+})
+
 routes.get('/getCode/:slug', (req, res) => {
     const document = req.params.slug;
     try {
