@@ -37,6 +37,12 @@
                 <script src="/assets/js/global.js?v=3"></script>
                 <script src="https://cdn.socket.io/socket.io-3.0.1.min.js"></script>
                 <script>
+                    const urlParams = new URLSearchParams(window.location.search);
+                    if (urlParams.get('lang') && urlParams.get('lang').toLowerCase() !== 'none') {
+                        hljs.configure({ languages: [urlParams.get('lang')] });
+                    } else if (urlParams.get('lang') && urlParams.get('lang').toLowerCase() === 'none') {
+                        hljs.configure({ languages: ['nohighlight'] });
+                    }
                     hljs.initHighlightingOnLoad();
                 </script>
 </head>
@@ -69,7 +75,6 @@
             <br>
 </body>
 <script>
-    const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('copyLink') === 'true') {
         window.history.pushState({}, document.title, window.location.pathname);
         var link = location.href;
