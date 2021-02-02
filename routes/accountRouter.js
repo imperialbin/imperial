@@ -10,6 +10,7 @@ db.betaCodes = new Datastore({ filename: './databases/betaCodes' });
 db.plusCodes = new Datastore({ filename: './databases/plusCodes' });
 db.betaCodes.loadDatabase()
 db.plusCodes.loadDatabase()
+require('dotenv');
 
 routes.get('/', (req, res) => {
     db.link.loadDatabase();
@@ -128,7 +129,7 @@ routes.post('/createInvite', (req, res) => {
 
 routes.get('/createPlusInvite', (req, res) => {
     db.plusCodes.loadDatabase();
-    if (req.user === '5fc9720765dd66032764a077') {
+    if (req.user.toString() === process.env.DEVELOPER_USER) {
         const plusCode = Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2);
         db.plusCodes.insert({ code: plusCode, used: false })
         res.render('success.ejs', { successMessage: `Plus code: ${plusCode}` });
