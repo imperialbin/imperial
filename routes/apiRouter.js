@@ -28,7 +28,7 @@ routes.post(['/document', '/postCode', '/paste'], (req, res) => {
                 const imageEmbed = req.body.imageEmbed || false
                 var expiration = req.body.expiration || 5
                 const instantDelete = req.body.instantDelete || false
-                const creator = JSON.parse(JSON.stringify(user._id))
+                const creator = user._id.toString()
                 var quality = 40;
                 var str = Math.random().toString(36).substring(2)
                 if (user.memberPlus)
@@ -84,7 +84,7 @@ routes.patch(['/document', '/editCode', '/paste'], (req, res) => {
     Users.findOne({ apiToken }, (err, user) => {
         if (err) return throwApiError(res, "An internal server error occurred! Please contact an admin!")
         if (user) {
-            const userId = JSON.parse(JSON.stringify(user._id));
+            const userId = user._id.toString();
             db.link.loadDatabase();
             db.link.findOne({ URL: document }, (err, documentInfo) => {
                 if (documentInfo) {
@@ -115,7 +115,38 @@ routes.patch(['/document', '/editCode', '/paste'], (req, res) => {
 })
 
 routes.delete('/purgePastes', (req, res) => {
-    // I actually have to add the delete stuff here lmfao
+    const apiToken = req.headers.authorization;
+    if (!apiToken) return throwApiError(res, "Please put in an API token!");
+    Users.findOne({ apiToken }, (err, user) => {
+        if (err) return throwApiError(res, "An internal server error occurred! Please contact an admin!")
+        if (user) {
+            const creator = user._id.toString();
+            db.link.loadDatabase()
+            db.link.find({ creator }, (err, documents) => {
+                if (err) return throwApiError(res, "An internal server error occurred! Please contact an admin!");
+                if (documents[0]) {
+                    for (var entry = 0, len = documents.length; entry < len; entry++) {
+                        const _id = documents[entry]._id;
+                        fs.unlink(`./pastes/${documents[entry].URL}.txt`, err => {
+                            if (err) return err;
+                            db.link.remove({ _id })
+                        })
+                        if (documents[entry].imageEmbed) {
+                            fs.unlink(`./public/assets/img/${documents[entry].URL}.jpeg`, err => { if (err) console.log(err) })
+                        }
+                    }
+                    res.json({
+                        success: true,
+                        message: `Deleted a total of ${documents.length}!`
+                    })
+                } else {
+                    return throwApiError(res, "There was no documents to delete!");
+                }
+            })
+        } else {
+            return throwApiError(res, "Invalid API token!")
+        }
+    })
 })
 
 routes.delete(['/document/:slug', '/deleteCode', '/paste'], (req, res) => {
@@ -125,7 +156,7 @@ routes.delete(['/document/:slug', '/deleteCode', '/paste'], (req, res) => {
     Users.findOne({ apiToken }, (err, user) => {
         if (err) return throwApiError(res, "An internal server error occurred! Please contact an admin!")
         if (user) {
-            const userId = JSON.parse(JSON.stringify(user._id));
+            const userId = user._id.toString();
             db.link.loadDatabase();
             db.link.findOne({ URL: document }, (err, documentInfo) => {
                 if (documentInfo) {
