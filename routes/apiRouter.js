@@ -78,7 +78,7 @@ routes.post(['/document', '/postCode', '/paste'], (req, res) => {
     }
 })
 
-routes.patch(['/document', '/editPaste', '/paste'], (req, res) => {
+routes.patch(['/document', '/editCode', '/paste'], (req, res) => {
 
 })
 
@@ -86,7 +86,7 @@ routes.delete('/purgePastes', (req, res) => {
     // I actually have to add the delete stuff here lmfao
 })
 
-routes.delete(['/document/:slug', '/deletePaste', '/paste'], (req, res) => {
+routes.delete(['/document/:slug', '/deleteCode', '/paste'], (req, res) => {
     // I also actually have to add the delete stuff here aswell lmfao
 })
 
