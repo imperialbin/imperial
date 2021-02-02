@@ -70,11 +70,10 @@ function editPaste() {
 }
 function postEditPaste() {
     const code = $('#codeThing').val();
-    const documentId = location.href.split('/').pop() || location.href.split('/').pop();
+    const documentId = location.href.split('/').pop();
     if (!code == '') {
         $('.editButton').remove();
         $('#edit').append('<button id="icon" class="editButton" onclick="editPaste()"><i class= "fas fa-pencil-alt" ></i ></button >');
-        console.log('posting paste');
         var options = {
             method: 'POST',
             headers: {
