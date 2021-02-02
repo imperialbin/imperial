@@ -114,10 +114,14 @@ routes.patch(['/document', '/editCode', '/paste'], (req, res) => {
     })
 })
 
-routes.delete('/purgePastes', (req, res) => {
-    const apiToken = req.headers.authorization;
-    if (!apiToken) return throwApiError(res, "Please put in an API token!");
-    Users.findOne({ apiToken }, (err, user) => {
+routes.delete('/purgePastes', async (req, res) => {
+    var index = { 'apiToken': req.headers.authorization };
+    if (req.isAuthenticated()) {
+        const authedUser = await Users.findOne({ _id: req.user.toString() })
+        var index = { '_id': authedUser._id };
+    }
+    if (!index) return throwApiError(res, "Please put in an API token!");
+    Users.findOne(index, (err, user) => {
         if (err) return throwApiError(res, "An internal server error occurred! Please contact an admin!")
         if (user) {
             const creator = user._id.toString();
@@ -135,9 +139,10 @@ routes.delete('/purgePastes', (req, res) => {
                             fs.unlink(`./public/assets/img/${documents[entry].URL}.jpeg`, err => { if (err) console.log(err) })
                         }
                     }
+                    if (Object.keys(index).indexOf('_id') > -1) return res.redirect('/account')
                     res.json({
                         success: true,
-                        message: `Deleted a total of ${documents.length} documents!!`
+                        message: `Deleted a total of ${documents.length} documents!`
                     })
                 } else {
                     return throwApiError(res, "There was no documents to delete!");
