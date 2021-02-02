@@ -137,7 +137,7 @@ routes.delete('/purgePastes', (req, res) => {
                     }
                     res.json({
                         success: true,
-                        message: `Deleted a total of ${documents.length}!`
+                        message: `Deleted a total of ${documents.length} documents!!`
                     })
                 } else {
                     return throwApiError(res, "There was no documents to delete!");
