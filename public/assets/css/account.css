@@ -156,17 +156,23 @@ span {
     -webkit-filter: unset;
 }
 
-.recentPastes {
+.recentPastes, .deletePaste {
     background: var(--button);
     position: absolute;
-    margin-top: -4px;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
+}
+.recentPastes {
+    margin-top: -4px;
     margin-left: -62px;
 }
-
-.dumbLinks {
-    cursor: initial;
+.deletePaste {
+    margin-top: -4px;
+    margin-left: -103px;
+    padding: 6px 10px;
 }
+.deletePaste:hover { color: var(--text-error) }
+.deleteForm { display: inline }
+.dumbLinks { cursor: initial }
 
 .paste {
     display: inline-block;
