@@ -118,6 +118,11 @@
                                         <input class="paste" type="text" id="token" value="<%= pastes[i].URL %>"
                                             readonly>
                                     </a>
+                                    <form class="deleteForm" method="POST" action="/api/document/<%= pastes[i].URL %>?_method=DELETE">
+                                        <button type="submit" class="deletePaste tooltip"
+                                            data-tippy-content="Delete paste"><i
+                                                class="fas fa-trash"></i></button>
+                                    </form>
                                     <% if(pastes[i].instantDelete=='false' ) {%>
                                         <button type="submit" class="recentPastes tooltip"
                                             data-tippy-content="Deleting <%= new Date(pastes[i].deleteDate).getMonth() + 1 %>/<%= new Date(pastes[i].deleteDate).getDate() %>/<%= new Date(pastes[i].deleteDate).getFullYear() %>"><i
