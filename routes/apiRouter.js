@@ -80,8 +80,14 @@ routes.post(['/document', '/postCode', '/paste'], (req, res) => {
 
 routes.patch(['/document', '/editCode', '/paste'], (req, res) => {
     const apiToken = req.headers.authorization;
-    const document = req.document;
-    const newCode = req.newCode;
+    const document = req.body.document;
+    const newCode = req.body.newCode;
+    if (!apiToken) {
+        return res.json({
+            success: false,
+            message: "Please put in an API token!"
+        })
+    }
     Users.findOne({ apiToken }, (err, user) => {
         if (err) {
             return res.json({
@@ -91,24 +97,32 @@ routes.patch(['/document', '/editCode', '/paste'], (req, res) => {
         }
         if (user) {
             const userId = JSON.parse(JSON.stringify(user._id));
+            db.link.loadDatabase();
             db.link.findOne({ URL: document }, (err, documentInfo) => {
-                const editorArray = documentInfo.allowedEditor
-                if (documentInfo.creator === userId && editorArray.indexOf(userId) != -1) {
-                    fs.writeFile(`./pastes/${document}.txt`, newCode, () => {
-                        res.json({
-                            success: true,
-                            message: 'Successfully edited the document!',
-                            documentId: document,
-                            rawLink: `https://www.imperialb.in/r/${document}`,
-                            formattedLink: `https://www.imperialb.in/p/${document}`,
-                            expiresIn: new Date(documentInfo.deleteDate),
-                            instantDelete: documentInfo.instantDelete
+                if (documentInfo) {
+                    const editorArray = documentInfo.allowedEditor
+                    if (documentInfo.creator === userId || editorArray.indexOf(userId) != -1) {
+                        fs.writeFile(`./pastes/${document}.txt`, newCode, () => {
+                            res.json({
+                                success: true,
+                                message: 'Successfully edited the document!',
+                                documentId: document,
+                                rawLink: `https://www.imperialb.in/r/${document}`,
+                                formattedLink: `https://www.imperialb.in/p/${document}`,
+                                expiresIn: new Date(documentInfo.deleteDate),
+                                instantDelete: documentInfo.instantDelete
+                            })
                         })
-                    })
+                    } else {
+                        res.json({
+                            success: false,
+                            message: "You do not have access to edit this document!"
+                        })
+                    }
                 } else {
                     res.json({
                         success: false,
-                        message: "You do not have access to edit this document!"
+                        message: "We couldn't find that document!"
                     })
                 }
             })
