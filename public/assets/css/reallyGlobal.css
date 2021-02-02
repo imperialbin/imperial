@@ -3,11 +3,11 @@
   box-sizing: border-box;
   margin: 0;
   padding:0;
-  transition: opacity 234ms ease-in-out, background-color 164ms ease-in-out;
-  -webkit-transition: opacity 234ms ease-in-out, background-color 164ms ease-in-out;
-  -moz-transition: opacity 234ms ease-in-out, background-color 164ms ease-in-out;
-  -ms-transition: opacity 234ms ease-in-out, background-color 164ms ease-in-out;
-  -o-transition: opacity 234ms ease-in-out, background-color 164ms ease-in-out;
+  transition: opacity 234ms ease-in-out, background-color 164ms ease-in-out, color 34ms ease-in-out;
+  -webkit-transition: opacity 234ms ease-in-out, background-color 164ms ease-in-out, color 34ms ease-in-out;
+  -moz-transition: opacity 234ms ease-in-out, background-color 164ms ease-in-out, color 34ms ease-in-out;
+  -ms-transition: opacity 234ms ease-in-out, background-color 164ms ease-in-out, color 34ms ease-in-out;
+  -o-transition: opacity 234ms ease-in-out, background-color 164ms ease-in-out, color 34ms ease-in-out;
 }
 :root {
   --scrollbar-track: #1f252a;
