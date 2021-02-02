@@ -3,6 +3,11 @@
   box-sizing: border-box;
   margin: 0;
   padding:0;
+  transition: opacity 234ms ease-in-out, background-color 234ms ease-in-out;
+  -webkit-transition: opacity 234ms ease-in-out, background-color 234ms ease-in-out;
+  -moz-transition: opacity 234ms ease-in-out, background-color 234ms ease-in-out;
+  -ms-transition: opacity 234ms ease-in-out, background-color 234ms ease-in-out;
+  -o-transition: opacity 234ms ease-in-out, background-color 234ms ease-in-out;
 }
 :root {
   --scrollbar-track: #1f252a;
@@ -47,11 +52,6 @@ body {
    padding: 20px 50px;
    font-family: 'Poppins', sans-serif;
    font-weight: 300;
-   transition: opacity 234ms ease;
-   -webkit-transition: opacity 234ms ease;
-   -moz-transition: opacity 234ms ease;
-   -ms-transition: opacity 234ms ease;
-   -o-transition: opacity 234ms ease;
 }
 
 /* Menus */
