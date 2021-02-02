@@ -47,11 +47,16 @@
 }
 
 body {
-   background: var(--main-background);
-   color: var(--text-light);
-   padding: 20px 50px;
-   font-family: 'Poppins', sans-serif;
-   font-weight: 300;
+  background: var(--main-background);
+  color: var(--text-light);
+  padding: 20px 50px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 300;
+  transition: none;
+  -webkit-transition: none;
+  -moz-transition: none;
+  -ms-transition: none;
+  -o-transition: none;
 }
 
 /* Menus */
