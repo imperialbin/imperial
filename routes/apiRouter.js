@@ -13,7 +13,7 @@ db.resetTokens = new Datastore({ filename: './databases/resetTokens' });
 
 routes.get('/', (req, res) => res.json({ message: 'Welcome to Imperial Bin\'s API!' }))
 
-routes.post('/postCode/', (req, res) => {
+routes.post(['/document', '/postCode', '/paste'], (req, res) => {
     db.link.loadDatabase();
     const code = req.body.code;
     if (req.headers.authorization || req.body.apiToken) {
@@ -78,15 +78,19 @@ routes.post('/postCode/', (req, res) => {
     }
 })
 
-routes.delete('/purgePastes/', (req,res) => {
+routes.patch(['/document', '/editPaste', '/paste'], (req, res) => {
+
+})
+
+routes.delete('/purgePastes', (req, res) => {
     // I actually have to add the delete stuff here lmfao
 })
 
-routes.delete('/deletePaste/:slug', (req, res) => {
+routes.delete(['/document/:slug', '/deletePaste', '/paste'], (req, res) => {
     // I also actually have to add the delete stuff here aswell lmfao
 })
 
-routes.get('/getCode/:slug', (req, res) => {
+routes.get(['/document/:slug', '/getCode/:slug', '/paste/:slug'], (req, res) => {
     const document = req.params.slug;
     try {
         fs.readFile(`./pastes/${document}.txt`, (err, data) => {
