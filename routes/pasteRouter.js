@@ -41,7 +41,7 @@ routes.get(['/:documentId', '/:slug/:documentId', '/:slug/:slugTwo/:documentId',
                         var enableImageEmbed = false
                     if (req.isAuthenticated()) {
                         Users.findOne({ _id: req.user }, (err, user) => {
-                            var editorArray = doc.allowedEditor
+                            const editorArray = doc.allowedEditor
                             if (req.user == doc.creator || editorArray.indexOf(req.user) != -1) {
                                 var creator = true;
                             } else {
