@@ -68,16 +68,10 @@ routes.post(['/document', '/postCode', '/paste'], (req, res) => {
                     }
                 })
             } else {
-                res.json({
-                    success: false,
-                    message: "You need to post code! No code was submitted!"
-                })
+                return throwApiError(res, "You need to post code! No code was submitted!");
             }
         } catch (err) {
-            res.json({
-                success: false,
-                message: "An internal server error occured, please contact an admin!"
-            })
+            return throwApiError(res, "An internal server error occurred, please contact an admin!");
         }
     }
 })
@@ -86,13 +80,9 @@ routes.patch(['/document', '/editCode', '/paste'], (req, res) => {
     const apiToken = req.headers.authorization;
     const document = req.body.document;
     const newCode = req.body.newCode;
-    if (!apiToken) {
-        return throwApiError(res, "Please put in an API token!")
-    }
+    if (!apiToken) return throwApiError(res, "Please put in an API token!")
     Users.findOne({ apiToken }, (err, user) => {
-        if (err) {
-            return throwApiError(res, "An internal server error occurred! Please contact an admin!")
-        }
+        if (err) return throwApiError(res, "An internal server error occurred! Please contact an admin!")
         if (user) {
             const userId = JSON.parse(JSON.stringify(user._id));
             db.link.loadDatabase();
@@ -143,41 +133,25 @@ routes.get(['/document/:slug', '/getCode/:slug', '/paste/:slug'], (req, res) => 
                     document: rawData
                 });
             } else {
-                res.json({
-                    success: false,
-                    message: 'We couldn\'t find that document!'
-                });
+                return throwApiError(res, "We couldn't find that document!");
             }
         })
     } catch (err) {
-        console.log(err);
-        res.json({
-            success: false,
-            message: 'An internal server error has occured!'
-        });
+        return throwApiError(res, "An internal server error has occurred!");
     }
 })
 
 routes.get('/checkApiToken/:apiToken', (req, res) => {
     const apiToken = req.headers.authorization || req.params.apiToken;
     Users.findOne({ apiToken }, (err, valid) => {
-        if (err) {
-            return res.json({
-                success: false,
-                message: 'A server error has occured!'
-            })
-        }
+        if (err) return throwApiError(res, "An internal server error has occurred!");
         if (valid) {
             res.json({
                 success: true,
                 message: 'API token is valid!'
             })
         } else {
-            res.json({
-                success: false,
-                message: 'API token is invalid!'
-            })
-
+            return throwApiError(res, "API token is invalid!");
         }
     })
 })
