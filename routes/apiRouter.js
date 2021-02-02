@@ -11,6 +11,10 @@ db.plusCodes = new Datastore({ filename: './databases/plusCodes' });
 db.emailTokens = new Datastore({ filename: './databases/emailTokens' });
 db.resetTokens = new Datastore({ filename: './databases/resetTokens' });
 
+
+// Utilites
+const throwApiError = require('../utilities/throwApiError');
+
 routes.get('/', (req, res) => res.json({ message: 'Welcome to Imperial Bin\'s API!' }))
 
 routes.post(['/document', '/postCode', '/paste'], (req, res) => {
@@ -83,17 +87,11 @@ routes.patch(['/document', '/editCode', '/paste'], (req, res) => {
     const document = req.body.document;
     const newCode = req.body.newCode;
     if (!apiToken) {
-        return res.json({
-            success: false,
-            message: "Please put in an API token!"
-        })
+        return throwApiError(res, "Please put in an API token!")
     }
     Users.findOne({ apiToken }, (err, user) => {
         if (err) {
-            return res.json({
-                success: false,
-                message: "An internal server error occurred! Please contact an admin!"
-            })
+            return throwApiError(res, "An internal server error occurred! Please contact an admin!")
         }
         if (user) {
             const userId = JSON.parse(JSON.stringify(user._id));
@@ -114,23 +112,14 @@ routes.patch(['/document', '/editCode', '/paste'], (req, res) => {
                             })
                         })
                     } else {
-                        res.json({
-                            success: false,
-                            message: "You do not have access to edit this document!"
-                        })
+                        return throwApiError(res, "You do not have access to edit this document!")
                     }
                 } else {
-                    res.json({
-                        success: false,
-                        message: "We couldn't find that document!"
-                    })
+                    return throwApiError(res, "We couldn't find that document!")
                 }
             })
         } else {
-            res.json({
-                success: false,
-                message: "Invalid API token!"
-            })
+            return throwApiError(res, "Invalid API token!")
         }
     })
 })
