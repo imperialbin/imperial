@@ -119,6 +119,40 @@ routes.delete('/purgePastes', (req, res) => {
 })
 
 routes.delete(['/document/:slug', '/deleteCode', '/paste'], (req, res) => {
+    const apiToken = req.headers.authorization;
+    const document = req.params.slug;
+    if (!apiToken) return throwApiError(res, "Please put in an API token!")
+    Users.findOne({ apiToken }, (err, user) => {
+        if (err) return throwApiError(res, "An internal server error occurred! Please contact an admin!")
+        if (user) {
+            const userId = JSON.parse(JSON.stringify(user._id));
+            db.link.loadDatabase();
+            db.link.findOne({ URL: document }, (err, documentInfo) => {
+                if (documentInfo) {
+                    // Only allow the owner of the document to delete
+                    if (documentInfo.creator === userId) {
+                        fs.unlink(`./pastes/${documentInfo.URL}.txt`, err => {
+                            if (err) return throwApiError(res, "An internal server error occurred! Please contact an admin!")
+                            db.link.remove({ _id: documentInfo._id })
+                            if (documentInfo.imageEmbed) {
+                                fs.unlink(`./public/assets/img/${documentInfo.URL}.jpeg`, err => { if (err) console.log(err) })
+                            }
+                            res.json({
+                                success: true,
+                                message: "Successfully delete the document!"
+                            })
+                        })
+                    } else {
+                        return throwApiError(res, "You do not have access to delete this document!")
+                    }
+                } else {
+                    return throwApiError(res, "We couldn't find that document!")
+                }
+            })
+        } else {
+            return throwApiError(res, "Invalid API token!")
+        }
+    })
     // I also actually have to add the delete stuff here aswell lmfao
 })
 
