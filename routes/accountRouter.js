@@ -15,7 +15,7 @@ routes.get('/', (req, res) => {
     db.link.loadDatabase();
     Users.findOne({ _id: req.user }, (err, user) => {
         if (user) {
-            db.link.find({ creator: req.user }).sort({ dateCreated: -1 }).limit(10).exec((err, pastes) => {
+            db.link.find({ creator: req.user.toString() }).sort({ dateCreated: -1 }).limit(10).exec((err, pastes) => {
                 res.render('account.ejs', { user: user, error: false, success: false, codeError: false, pfpError: false, pastes: pastes })
             })
         }
@@ -28,7 +28,7 @@ routes.post('/redeem', (req, res) => {
         if (codeData) {
             if (!codeData[0].used) {
                 Users.updateOne({ _id: req.user }, { $set: { memberPlus: true } }, err => {
-                    if(err) return console.log(err);
+                    if (err) return console.log(err);
                 })
                 db.plusCodes.remove({ _id: codeData[0]._id });
                 res.render('success.ejs', { successMessage: 'You are now Member+!' })
