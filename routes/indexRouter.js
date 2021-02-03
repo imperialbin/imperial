@@ -171,12 +171,20 @@ routes.post('/editCode', (req, res) => {
     const code = req.body.code;
     const documentId = req.body.documentId;
     if (req.isAuthenticated()) {
-        db.link.find({ URL: documentId }, (err, doc) => {
-            if (doc[0].creator == req.user.toString() || doc[0].allowedEditor.indexOf(req.user.toString()) != -1) {
-                fs.writeFile(`./pastes/${documentId}.txt`, code, () => {
-                    res.json({
-                        status: 'success'
+        db.link.findOne({ URL: documentId }, (err, doc) => {
+            if (doc) {
+                if (doc.creator == req.user.toString() || doc.allowedEditor.indexOf(req.user.toString()) != -1) {
+                    fs.writeFile(`./pastes/${documentId}.txt`, code, () => {
+                        res.json({
+                            status: 'success'
+                        })
                     })
+                }
+            }
+            else {
+                res.json({
+                    success: false,
+                    message: 'That document doesn\'t even fucking exist you bafoon!'
                 })
             }
         })
