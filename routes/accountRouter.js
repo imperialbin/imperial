@@ -14,7 +14,7 @@ require('dotenv');
 
 routes.get('/', (req, res) => {
     db.link.loadDatabase();
-    Users.findOne({ _id: req.user }, (err, user) => {
+    Users.findOne({ _id: req.user.toString() }, (err, user) => {
         if (user) {
             db.link.find({ creator: req.user.toString() }).sort({ dateCreated: -1 }).limit(10).exec((err, pastes) => {
                 res.render('account.ejs', { user: user, error: false, success: false, codeError: false, pfpError: false, pastes: pastes })
@@ -28,7 +28,7 @@ routes.post('/redeem', (req, res) => {
     db.plusCodes.find({ code }, (err, codeData) => {
         if (codeData) {
             if (!codeData[0].used) {
-                Users.updateOne({ _id: req.user }, { $set: { memberPlus: true } }, err => {
+                Users.updateOne({ _id: req.user.toString() }, { $set: { memberPlus: true } }, err => {
                     if (err) return console.log(err);
                 })
                 db.plusCodes.remove({ _id: codeData[0]._id });
@@ -41,12 +41,12 @@ routes.post('/redeem', (req, res) => {
 })
 
 routes.post('/resetPasswordForm', (req, res) => {
-    const id = req.user;
+    const id = req.user.toString();
     const oldPassword = req.body.oldPassword;
     const newPassword = req.body.newPassword;
     const confirmPassword = req.body.confirmPassword;
     Users.findOne({ _id: id }, async (err, user) => {
-        db.link.find({ creator: req.user }).sort({ dateCreated: -1 }).limit(10).exec(async (err, pastes) => {
+        db.link.find({ creator: id }).sort({ dateCreated: -1 }).limit(10).exec(async (err, pastes) => {
             if (await bcrypt.compare(oldPassword, user.password)) {
                 if (newPassword.length >= 8) {
                     if (newPassword == confirmPassword) {
@@ -73,11 +73,11 @@ routes.post('/changePfp', (req, res) => {
     const pfpUrl = `https://github.com/${gitHubName}.png`
     fetch(`https://github.com/${gitHubName}.png`)
         .then(data => {
-            Users.findOne({ _id: req.user }, (err, user) => {
-                db.link.find({ creator: req.user }).sort({ dateCreated: -1 }).limit(10).exec((err, pastes) => {
+            Users.findOne({ _id: req.user.toString() }, (err, user) => {
+                db.link.find({ creator: req.user.toString() }).sort({ dateCreated: -1 }).limit(10).exec((err, pastes) => {
                     if (data.status == 200) {
                         try {
-                            Users.updateOne({ _id: req.user }, { $set: { icon: pfpUrl } }, err => {
+                            Users.updateOne({ _id: req.user.toString() }, { $set: { icon: pfpUrl } }, err => {
                                 if (err) return console.log(err);
                             })
                             res.render('account.ejs', { user: user, error: false, success: false, codeError: false, pfpError: false, pastes: pastes })
@@ -95,10 +95,10 @@ routes.post('/changePfp', (req, res) => {
 routes.post('/changePfpGravatar', async (req, res) => {
     const gravatarEmail = req.body.pfp;
     const gravatarUrl = await gravatar.url(gravatarEmail);
-    Users.findOne({ _id: req.user }, (err, user) => {
-        db.link.find({ creator: req.user }).sort({ dateCreated: -1 }).limit(10).exec((err, pastes) => {
+    Users.findOne({ _id: req.user.toString() }, (err, user) => {
+        db.link.find({ creator: req.user.toString() }).sort({ dateCreated: -1 }).limit(10).exec((err, pastes) => {
             try {
-                Users.updateOne({ _id: req.user }, { $set: { icon: gravatarUrl } }, err => {
+                Users.updateOne({ _id: req.user.toString() }, { $set: { icon: gravatarUrl } }, err => {
                     if (err) return console.log(err);
                 })
                 res.render('account.ejs', { user: user, error: false, success: false, codeError: false, pfpError: false, pastes: pastes })
@@ -111,12 +111,12 @@ routes.post('/changePfpGravatar', async (req, res) => {
 
 routes.post('/createInvite', (req, res) => {
     db.betaCodes.loadDatabase();
-    Users.findOne({ _id: req.user }, (err, user) => {
+    Users.findOne({ _id: req.user.toString() }, (err, user) => {
         if (err) return console.log(err);
-        db.link.find({ creator: req.user }).sort({ dateCreated: -1 }).limit(10).exec((err, pastes) => {
+        db.link.find({ creator: req.user.toString() }).sort({ dateCreated: -1 }).limit(10).exec((err, pastes) => {
             if (user.codesLeft > 0) {
                 const str = Math.random().toString(36).substring(4);
-                Users.updateOne({ _id: req.user }, { $set: { codesLeft: user.codesLeft - 1 }, $push: { codes: { code: str } } }, err => {
+                Users.updateOne({ _id: req.user.toString() }, { $set: { codesLeft: user.codesLeft - 1 }, $push: { codes: { code: str } } }, err => {
                     if (err) return console.log(err);
                 })
                 db.betaCodes.insert({ betaCode: str }, () => res.render('account.ejs', { user: user, error: false, success: false, codeError: false, pfpError: false, pastes: pastes }))
@@ -144,7 +144,7 @@ routes.post('/changeEmail', (req, res) => {
 })
 
 routes.post('/updateApiToken', (req, res) => {
-    Users.updateOne({ _id: req.user }, { $set: { 'apiToken': createToken() } }, err => {
+    Users.updateOne({ _id: req.user.toString() }, { $set: { 'apiToken': createToken() } }, err => {
         if (err) return res.render('error.ejs', { error: 'There was an error creating your API token!' })
         res.redirect('/account');
     })
