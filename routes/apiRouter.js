@@ -113,7 +113,7 @@ routes.patch(['/document', '/editCode', '/paste'], (req, res) => {
     })
 })
 
-routes.delete('/purgePastes', async (req, res) => {
+/* routes.delete('/purgePastes', async (req, res) => {
     var index = { 'apiToken': req.headers.authorization };
     if (req.isAuthenticated()) {
         const authedUser = await Users.findOne({ _id: req.user.toString() })
@@ -151,7 +151,7 @@ routes.delete('/purgePastes', async (req, res) => {
             return throwApiError(res, "Invalid API token!")
         }
     })
-})
+}) */
 
 routes.delete(['/document/:slug', '/deleteCod/:slug', '/paste/:slug'], async (req, res) => {
     var index = { 'apiToken': req.headers.authorization };
