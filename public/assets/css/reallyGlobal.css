@@ -201,7 +201,8 @@ h6 {
 	font-weight: 400;
 	padding-top: 20px;
 }
-
+a { text-decoration: none }
+li.deletePaste {width: 105px!important }
 .hljs { background: var(--main-background) }
 textarea {
   font-family: monospace;
