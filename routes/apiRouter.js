@@ -193,7 +193,6 @@ routes.delete(['/document/:slug', '/deleteCod/:slug', '/paste/:slug'], async (re
             return throwApiError(res, "Invalid API token!")
         }
     })
-    // I also actually have to add the delete stuff here aswell lmfao
 })
 
 routes.get(['/document/:slug', '/getCode/:slug', '/paste/:slug'], (req, res) => {

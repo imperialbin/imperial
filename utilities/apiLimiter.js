@@ -5,7 +5,8 @@ module.exports = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 15,
   handler: function (req, res, next) {
-    if (req.headers.authorization || req.body.apiToken) {
+    if (req.headers.authorization || req.body.apiToken || req.isAuthenticated()) {
+      if (req.isAuthenticated()) next();
       const apiToken = req.headers.authorization || req.body.apiToken;
       Users.findOne({ apiToken }, (err, user) => {
         if (user) {
