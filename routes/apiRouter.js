@@ -4,7 +4,6 @@ const fs = require('fs');
 const Users = require('../models/Users');
 const webshot = require('webshot-node');
 var db = {};
-db.users = new Datastore({ filename: './databases/users' });
 db.link = new Datastore({ filename: './databases/links' });
 db.betaCodes = new Datastore({ filename: './databases/betaCodes' });
 db.plusCodes = new Datastore({ filename: './databases/plusCodes' });
@@ -136,7 +135,7 @@ routes.delete('/purgePastes', async (req, res) => {
                             db.link.remove({ _id })
                         })
                         if (documents[entry].imageEmbed) {
-                            fs.unlink(`./public/assets/img/${documents[entry].URL}.jpeg`, err => { if (err) console.log(err) })
+                            fs.unlinkSync(`./public/assets/img/${documents[entry].URL}.jpeg`)
                         }
                     }
                     if (Object.keys(index).indexOf('_id') > -1) return res.redirect('/account')
