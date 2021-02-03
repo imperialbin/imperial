@@ -35,7 +35,7 @@ const checkNotAuthenticated = require('../middleware/checkNotAuthenticated');
 
 routes.get('/', (req, res) => {
     if (req.isAuthenticated()) {
-        Users.findOne({ _id: req.user }, (err, user) => {
+        Users.findOne({ _id: req.user.toString() }, (err, user) => {
             res.render('index.ejs', { loggedIn: true, pfp: user.icon })
         })
     } else {
@@ -95,7 +95,7 @@ routes.post('/saveCode', (req, res) => {
     if (req.isAuthenticated()) {
         if (securedUrls) var str = Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2);
         if (time >= 31) var time = 31
-        var creator = JSON.parse(JSON.stringify(req.user)); // this has to be like this mainly because its being dumb, and has a bunch of rando characters even tho its a string, wtf man?
+        var creator = req.user.toString(); // this has to be like this mainly because its being dumb, and has a bunch of rando characters even tho its a string, wtf man?
     } else {
         var time = 7;
         var instantDelete = false;
@@ -121,7 +121,7 @@ routes.post('/saveCode', (req, res) => {
                         Users.findOne({ name: allowedEditor.split(',')[editor] }, (err, user) => {
                             if (err) return console.log(err);
                             if (user) {
-                                db.link.update({ URL: str }, { $push: { allowedEditor: JSON.parse(JSON.stringify(user._id)) } })
+                                db.link.update({ URL: str }, { $push: { allowedEditor: user._id.toString() } })
                                 db.link.loadDatabase();
                             }
                         })
@@ -129,7 +129,7 @@ routes.post('/saveCode', (req, res) => {
                 }
                 // Check for image embeds
                 if (imageEmbeds && !instantDelete) {
-                    Users.findOne({ _id: req.user }, (err, user) => {
+                    Users.findOne({ _id: req.user.toString() }, (err, user) => {
                         if (err) return db.link.update({ URL: str }, { $set: { imageEmbed: false } })
                         if (user) {
                             // Change the quality of paste depending if you are Member+ or not
@@ -172,7 +172,7 @@ routes.post('/editCode', (req, res) => {
     const documentId = req.body.documentId;
     if (req.isAuthenticated()) {
         db.link.find({ URL: documentId }, (err, doc) => {
-            if (doc[0].creator == req.user || doc[0].allowedEditor.indexOf(req.user) != -1) {
+            if (doc[0].creator == req.user.toString() || doc[0].allowedEditor.indexOf(req.user.toString()) != -1) {
                 fs.writeFile(`./pastes/${documentId}.txt`, code, () => {
                     res.json({
                         status: 'success'
