@@ -171,11 +171,11 @@ routes.delete(['/document/:slug', '/deleteCod/:slug', '/paste/:slug'], async (re
                 if (documentInfo) {
                     // Only allow the owner of the document to delete
                     if (documentInfo.creator === userId) {
+                        db.link.remove({ _id: documentInfo._id })
                         fs.unlink(`./pastes/${documentInfo.URL}.txt`, err => {
                             if (err) return throwApiError(res, "An internal server error occurred! Please contact an admin!")
-                            db.link.remove({ _id: documentInfo._id })
                             if (documentInfo.imageEmbed) {
-                                fs.unlink(`./public/assets/img/${documentInfo.URL}.jpeg`, err => { if (err) console.log(err) })
+                                fs.unlinkSync(`./public/assets/img/${documentInfo.URL}.jpeg`)
                             }
                             if (Object.keys(index).indexOf('_id') > -1) return res.redirect('/account')
                             res.json({

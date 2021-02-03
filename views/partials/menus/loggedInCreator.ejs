@@ -5,8 +5,15 @@
             <li class="setting" onclick="toggleMenu()">Paste settings</li>
             <li class="setting" id="discord" onclick="window.open('https://discord.gg/cTm85eW49D', '_blank')">
                 Discord</li>
-            <div class="dumbLine"></div>
-            <li class="setting" id="logoutBtn" onclick="location.href = '/logout?_method=DELETE'">Logout</li>
+            <% if(originalCreator===incomingUser) { %>
+                <form class="deleteDocument" method="POST" action="/api/document/<%= documentName %>?_method=DELETE">
+                    <a href="javascript:$('.deleteDocument').submit()">
+                        <li class="deletePaste">Delete paste</li>
+                    </a>
+                </form>
+                <% } %>
+                    <div class="dumbLine"></div>
+                    <li class="setting" id="logoutBtn" onclick="location.href = '/logout?_method=DELETE'">Logout</li>
         </ul>
     </div>
     <div class="menu-content">

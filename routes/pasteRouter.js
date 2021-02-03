@@ -42,12 +42,12 @@ routes.get(['/:documentId', '/:slug/:documentId', '/:slug/:slugTwo/:documentId',
                     if (req.isAuthenticated()) {
                         Users.findOne({ _id: req.user }, (err, user) => {
                             const editorArray = doc.allowedEditor
-                            if (req.user == doc.creator || editorArray.indexOf(req.user) != -1) {
+                            if (req.user.toString() == doc.creator || editorArray.indexOf(req.user.toString()) != -1) {
                                 var creator = true;
                             } else {
                                 var creator = false;
                             }
-                            res.render('pasted.ejs', { documentName: documentId, imageEmbed: enableImageEmbed, code: code, loggedIn: true, pfp: user.icon, deleteDate: deleteDate, creator: creator })
+                            res.render('pasted.ejs', { documentName: documentId, imageEmbed: enableImageEmbed, code: code, loggedIn: true, pfp: user.icon, deleteDate: deleteDate, creator: creator, originalCreator: doc.creator, incomingUser: req.user.toString() })
                         })
                     } else {
                         res.render('pasted.ejs', { documentName: documentId, imageEmbed: enableImageEmbed, code: code, loggedIn: false, deleteDate: deleteDate, creator: false })
