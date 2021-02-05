@@ -47,19 +47,16 @@ routes.post(['/document', '/postCode', '/paste'], (req, res) => {
     function createPaste(str, imageEmbed, instantDelete, expiration, creator, quality) {
         try {
             if (code) {
-                db.link.insert({ URL: str, imageEmbed: imageEmbed, dateCreated: new Date().getTime(), deleteDate: new Date().setDate(new Date().getDate() + Number(expiration)), instantDelete: instantDelete, creator: creator, allowedEditor: [] }, (err, doc) => {
-                    fs.writeFile(`./pastes/${str}.txt`, code, () => {
-                        res.json({
-                            success: true,
-                            documentId: str,
-                            rawLink: `https://www.imperialb.in/r/${str}`,
-                            formattedLink: `https://www.imperialb.in/p/${str}`,
-                            expiresIn: new Date(doc.deleteDate),
-                            instantDelete: instantDelete
-                        })
+                db.link.insert({ URL: str, imageEmbed, dateCreated: new Date().getTime(), deleteDate: new Date().setDate(new Date().getDate() + Number(expiration)), instantDelete, creator, code, allowedEditor: [] }, (err, doc) => {
+                    res.json({
+                        success: true,
+                        documentId: str,
+                        rawLink: `https://www.imperialb.in/r/${str}`,
+                        formattedLink: `https://www.imperialb.in/p/${str}`,
+                        expiresIn: new Date(doc.deleteDate),
+                        instantDelete: instantDelete
                     })
                     if (quality && !instantDelete && imageEmbed) {
-                        console.log('screenshotting');
                         webshot(`https://www.imperialb.in/p/${str}`, `./public/assets/img/${str}.jpeg`, { customCSS: ".menu, #messages {display:none}", quality: quality, captureSelector: '.hljs' }, err => {
                             if (err) return db.link.update({ URL: str }, { $set: { imageEmbed: false } })
                             db.link.update({ URL: str }, { $set: { imageEmbed: true } })
@@ -78,7 +75,7 @@ routes.post(['/document', '/postCode', '/paste'], (req, res) => {
 routes.patch(['/document', '/editCode', '/paste'], (req, res) => {
     const apiToken = req.headers.authorization;
     const document = req.body.document;
-    const newCode = req.body.newCode;
+    const newCode = req.body.newCode || req.body.code;
     if (!apiToken) return throwApiError(res, "Please put in an API token!")
     Users.findOne({ apiToken }, (err, user) => {
         if (err) return throwApiError(res, "An internal server error occurred! Please contact an admin!")
