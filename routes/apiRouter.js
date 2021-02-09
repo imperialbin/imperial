@@ -2,7 +2,6 @@ const routes = require('express').Router();
 const Datastore = require('nedb');
 const fs = require('fs');
 const Users = require('../models/Users');
-const webshot = require('webshot-node');
 var db = {};
 db.link = new Datastore({ filename: './databases/links' });
 db.betaCodes = new Datastore({ filename: './databases/betaCodes' });
@@ -13,6 +12,7 @@ db.resetTokens = new Datastore({ filename: './databases/resetTokens' });
 
 // Utilites
 const throwApiError = require('../utilities/throwApiError');
+const screenshotDocument = require('../utilities/screenshotDocument');
 
 routes.get('/', (req, res) => res.json({ message: 'Welcome to Imperial Bin\'s API!' }))
 
@@ -47,7 +47,7 @@ routes.post(['/document', '/postCode', '/paste'], (req, res) => {
     function createPaste(str, imageEmbed, instantDelete, expiration, creator, quality) {
         try {
             if (code) {
-                db.link.insert({ URL: str, imageEmbed, dateCreated: new Date().getTime(), deleteDate: new Date().setDate(new Date().getDate() + Number(expiration)), instantDelete, creator, code, allowedEditor: [] }, (err, doc) => {
+                db.link.insert({ URL: str, imageEmbed, instantDelete, creator, code, dateCreated: new Date().getTime(), deleteDate: new Date().setDate(new Date().getDate() + Number(expiration)), allowedEditor: [] }, (err, doc) => {
                     res.json({
                         success: true,
                         documentId: str,
@@ -57,10 +57,7 @@ routes.post(['/document', '/postCode', '/paste'], (req, res) => {
                         instantDelete: instantDelete
                     })
                     if (quality && !instantDelete && imageEmbed) {
-                        webshot(`https://www.imperialb.in/p/${str}`, `./public/assets/img/${str}.jpeg`, { customCSS: ".menu, #messages {display:none}", quality: quality, captureSelector: '.hljs' }, err => {
-                            if (err) return db.link.update({ URL: str }, { $set: { imageEmbed: false } })
-                            db.link.update({ URL: str }, { $set: { imageEmbed: true } })
-                        });
+                        screenshotDocument(str, quality);
                     }
                 })
             } else {
@@ -86,7 +83,8 @@ routes.patch(['/document', '/editCode', '/paste'], (req, res) => {
                 if (documentInfo) {
                     const editorArray = documentInfo.allowedEditor
                     if (documentInfo.creator === userId || editorArray.indexOf(userId) != -1) {
-                        fs.writeFile(`./pastes/${document}.txt`, newCode, () => {
+                        db.link.update({ url: document }, { $set: { newCode } }, (err, documentInfo) => {
+                            if (err) return throwApiError(res, "You do not have access to edit this document!")
                             res.json({
                                 success: true,
                                 message: 'Successfully edited the document!',
@@ -110,7 +108,7 @@ routes.patch(['/document', '/editCode', '/paste'], (req, res) => {
     })
 })
 
-/* routes.delete('/purgePastes', async (req, res) => {
+routes.delete('/purgePastes', async (req, res) => {
     var index = { 'apiToken': req.headers.authorization };
     if (req.isAuthenticated()) {
         const authedUser = await Users.findOne({ _id: req.user.toString() })
@@ -127,14 +125,12 @@ routes.patch(['/document', '/editCode', '/paste'], (req, res) => {
                 if (documents[0]) {
                     for (var entry = 0, len = documents.length; entry < len; entry++) {
                         const _id = documents[entry]._id;
-                        fs.unlink(`./pastes/${documents[entry].URL}.txt`, err => {
-                            if (err) return err;
-                            db.link.remove({ _id })
-                        })
+                        db.link.remove({ _id })
                         if (documents[entry].imageEmbed) {
                             fs.unlinkSync(`./public/assets/img/${documents[entry].URL}.jpeg`)
                         }
                     }
+                    db.link.loadDatabase();
                     if (Object.keys(index).indexOf('_id') > -1) return res.redirect('/account')
                     res.json({
                         success: true,
@@ -148,7 +144,7 @@ routes.patch(['/document', '/editCode', '/paste'], (req, res) => {
             return throwApiError(res, "Invalid API token!")
         }
     })
-}) */
+})
 
 routes.delete(['/document/:slug', '/deleteCod/:slug', '/paste/:slug'], async (req, res) => {
     var index = { 'apiToken': req.headers.authorization };
@@ -167,12 +163,9 @@ routes.delete(['/document/:slug', '/deleteCod/:slug', '/paste/:slug'], async (re
                 if (documentInfo) {
                     // Only allow the owner of the document to delete
                     if (documentInfo.creator === userId) {
-                        db.link.remove({ _id: documentInfo._id })
-                        fs.unlink(`./pastes/${documentInfo.URL}.txt`, err => {
+                        db.link.remove({ _id: documentInfo._id }, err => {
                             if (err) return throwApiError(res, "An internal server error occurred! Please contact an admin!")
-                            if (documentInfo.imageEmbed) {
-                                fs.unlinkSync(`./public/assets/img/${documentInfo.URL}.jpeg`)
-                            }
+                            if (documentInfo.imageEmbed) fs.unlinkSync(`./public/assets/img/${documentInfo.URL}.jpeg`)
                             if (Object.keys(index).indexOf('_id') > -1) return res.redirect('/account')
                             res.json({
                                 success: true,
@@ -195,13 +188,15 @@ routes.delete(['/document/:slug', '/deleteCod/:slug', '/paste/:slug'], async (re
 routes.get(['/document/:slug', '/getCode/:slug', '/paste/:slug'], (req, res) => {
     const document = req.params.slug;
     try {
-        fs.readFile(`./pastes/${document}.txt`, (err, data) => {
-            if (data) {
-                const rawData = data.toString();
+        db.link.loadDatabase();
+        db.link.findOne({ URL: document }, (err, document) => {
+            if (err) return throwApiError(res, "An internal server error has occurred!");
+            if (document) {
+                const rawData = document.code;
                 res.json({
                     success: true,
                     document: rawData
-                });
+                })
             } else {
                 return throwApiError(res, "We couldn't find that document!");
             }
