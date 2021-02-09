@@ -108,7 +108,7 @@ routes.patch(['/document', '/editCode', '/paste'], (req, res) => {
     })
 })
 
-routes.delete('/purgePastes', async (req, res) => {
+routes.delete('/purgeDocuments', async (req, res) => {
     var index = { 'apiToken': req.headers.authorization };
     if (req.isAuthenticated()) {
         const authedUser = await Users.findOne({ _id: req.user.toString() })
