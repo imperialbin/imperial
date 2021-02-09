@@ -109,23 +109,23 @@
                                 </div>
                                 <button type="submit" id="password">Reset Password</button>
                             </form>
-                            <% if( pastes[0] ) {%>
+                            <% if( documents[0] ) {%>
                                 <br><br><br>
-                                <h2>Recent pastes</h2><br>
-                                <span>(Showing the 10 most recent pastes)</span><br>
-                                <% for(var i=0; i<pastes.length; i++) {%>
-                                    <a href="/p/<%= pastes[i].URL %>" class="dumbLinks">
-                                        <input class="paste" type="text" id="token" value="<%= pastes[i].URL %>"
+                                <h2>Recent documents</h2><br>
+                                <span>(Showing the 10 most recent documents)</span><br>
+                                <% for(var i=0; i<documents.length; i++) {%>
+                                    <a href="/p/<%= documents[i].URL %>" class="dumbLinks">
+                                        <input class="paste" type="text" id="token" value="<%= documents[i].URL %>"
                                             readonly>
                                     </a>
                                     <form class="deleteForm" method="POST"
-                                        action="/api/document/<%= pastes[i].URL %>?_method=DELETE">
+                                        action="/api/document/<%= documents[i].URL %>?_method=DELETE">
                                         <button type="submit" class="deletePaste tooltip"
                                             data-tippy-content="Delete paste"><i class="fas fa-trash"></i></button>
                                     </form>
-                                    <% if(!pastes[i].instantDelete) {%>
+                                    <% if(!documents[i].instantDelete) {%>
                                         <button type="submit" class="recentPastes tooltip"
-                                            data-tippy-content="Deleting <%= new Date(pastes[i].deleteDate).getMonth() + 1 %>/<%= new Date(pastes[i].deleteDate).getDate() %>/<%= new Date(pastes[i].deleteDate).getFullYear() %>"><i
+                                            data-tippy-content="Deleting <%= new Date(documents[i].deleteDate).getMonth() + 1 %>/<%= new Date(documents[i].deleteDate).getDate() %>/<%= new Date(documents[i].deleteDate).getFullYear() %>"><i
                                                 class="fas fa-info-circle"></i></button><br>
                                         <% } else { %>
                                             <button type="submit" class="recentPastes tooltip"
@@ -133,8 +133,8 @@
                                                     class="fas fa-info-circle"></i></button><br>
                                             <% } %>
                                                 <% } %>
-                                                    <form method="POST" action="/api/purgePastes?_method=DELETE">
-                                                        <button type="submit">Purge pastes</button>
+                                                    <form method="POST" action="/api/purgeDocuments?_method=DELETE">
+                                                        <button type="submit">Purge documents</button>
                                                     </form><br>
                                                     <% } %>
                                                         <br><br><br>
