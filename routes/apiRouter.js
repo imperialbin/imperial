@@ -126,7 +126,7 @@ routes.delete('/purgeDocuments', async (req, res) => {
                     for (var entry = 0, len = documents.length; entry < len; entry++) {
                         const _id = documents[entry]._id;
                         db.link.remove({ _id })
-                        if (documents[entry].imageEmbed) {
+                        if (documents[entry].imageEmbed && fs.existsSync(`./public/assets/img/${documents[entry].URL}.jpeg`)) {
                             fs.unlinkSync(`./public/assets/img/${documents[entry].URL}.jpeg`)
                         }
                     }
