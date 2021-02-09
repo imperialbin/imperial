@@ -14,7 +14,7 @@ module.exports = async (documentId, quality) => {
   const page = await browser.newPage();
   const url = `https://imperialb.in/p/${documentId}`;
   await page.goto(url)
-  await page.addStyleTag({ content: '.menu{display: none;} .lines {display: none}' })
+  await page.addStyleTag({ content: '.menu, #lines{display: none;}' })
   await page.screenshot({ path: `./public/assets/img/${documentId}.jpg`, quality });
   await browser.close();
 }
