@@ -14,10 +14,7 @@ module.exports = async (documentId, quality) => {
   const page = await browser.newPage();
   const url = `https://imperialb.in/p/${documentId}`;
   await page.goto(url)
-    .then(async () => {
-      await page.$$('.hljs');
-      await page.addStyleTag({ content: '.menu{display: none;} .lines {display: none}' })
-      await page.screenshot({ path: `./public/assets/img/${documentId}.jpg`, quality });
-      await browser.close();
-    })
+  await page.addStyleTag({ content: '.menu{display: none;} .lines {display: none}' })
+  await page.screenshot({ path: `./public/assets/img/${documentId}.jpg`, quality });
+  await browser.close();
 }
