@@ -15,8 +15,8 @@ module.exports = new CronJob('00 00 00 * * *', () => {
             if (err) return err;
             link.remove({ _id: id })
           })
-          if (data[entry].imageEmbed && fs.existsSync(`./public/assets/img/${data[entry].URL}.jpeg`)) {
-            fs.unlinkSync(`./public/assets/img/${data[entry].URL}.jpeg`)
+          if (data[entry].imageEmbed && fs.existsSync(`./public/assets/img/${data[entry].URL}.jpg`)) {
+            fs.unlinkSync(`./public/assets/img/${data[entry].URL}.jpg`)
           }
         } catch (err) {
           console.log(err);

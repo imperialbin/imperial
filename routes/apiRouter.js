@@ -126,8 +126,8 @@ routes.delete('/purgeDocuments', async (req, res) => {
                     for (var entry = 0, len = documents.length; entry < len; entry++) {
                         const _id = documents[entry]._id;
                         db.link.remove({ _id })
-                        if (documents[entry].imageEmbed && fs.existsSync(`./public/assets/img/${documents[entry].URL}.jpeg`)) {
-                            fs.unlinkSync(`./public/assets/img/${documents[entry].URL}.jpeg`)
+                        if (documents[entry].imageEmbed && fs.existsSync(`./public/assets/img/${documents[entry].URL}.jpg`)) {
+                            fs.unlinkSync(`./public/assets/img/${documents[entry].URL}.jpg`)
                         }
                     }
                     db.link.loadDatabase();
@@ -165,7 +165,7 @@ routes.delete(['/document/:slug', '/deleteCod/:slug', '/paste/:slug'], async (re
                     if (documentInfo.creator === userId) {
                         db.link.remove({ _id: documentInfo._id }, err => {
                             if (err) return throwApiError(res, "An internal server error occurred! Please contact an admin!")
-                            if (documentInfo.imageEmbed) fs.unlinkSync(`./public/assets/img/${documentInfo.URL}.jpeg`)
+                            if (documentInfo.imageEmbed) fs.unlinkSync(`./public/assets/img/${documentInfo.URL}.jpg`)
                             if (Object.keys(index).indexOf('_id') > -1) return res.redirect('/account')
                             res.json({
                                 success: true,
