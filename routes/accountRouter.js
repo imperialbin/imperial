@@ -16,8 +16,8 @@ routes.get('/', (req, res) => {
     db.link.loadDatabase();
     Users.findOne({ _id: req.user.toString() }, (err, user) => {
         if (user) {
-            db.link.find({ creator: req.user.toString() }).sort({ dateCreated: -1 }).limit(10).exec((err, pastes) => {
-                res.render('account.ejs', { user: user, error: false, success: false, codeError: false, pfpError: false, pastes: pastes })
+            db.link.find({ creator: req.user.toString() }).sort({ dateCreated: -1 }).limit(10).exec((err, documents) => {
+                res.render('account.ejs', { user: user, error: false, success: false, codeError: false, pfpError: false, documents })
             })
         }
     })
@@ -46,7 +46,7 @@ routes.post('/resetPasswordForm', (req, res) => {
     const newPassword = req.body.newPassword;
     const confirmPassword = req.body.confirmPassword;
     Users.findOne({ _id: id }, async (err, user) => {
-        db.link.find({ creator: id }).sort({ dateCreated: -1 }).limit(10).exec(async (err, pastes) => {
+        db.link.find({ creator: id }).sort({ dateCreated: -1 }).limit(10).exec(async (err, documents) => {
             if (await bcrypt.compare(oldPassword, user.password)) {
                 if (newPassword.length >= 8) {
                     if (newPassword == confirmPassword) {
@@ -54,15 +54,15 @@ routes.post('/resetPasswordForm', (req, res) => {
                         Users.updateOne({ _id: id }, { $set: { password: hashedPass } }, err => {
                             if (err) return console.log(err);
                         })
-                        res.render('account.ejs', { user: user, error: false, success: 'Successfully reset your password!', codeError: false, pfpError: false, pastes: pastes })
+                        res.render('account.ejs', { user: user, error: false, success: 'Successfully reset your password!', codeError: false, pfpError: false, documents })
                     } else {
-                        res.render('account.ejs', { user: user, error: 'New passwords do not match!', success: false, codeError: false, pfpError: false, pastes: pastes })
+                        res.render('account.ejs', { user: user, error: 'New passwords do not match!', success: false, codeError: false, pfpError: false, documents })
                     }
                 } else {
-                    res.render('account.ejs', { user: user, error: 'Please make the password more than 8 characters long!', success: false, codeError: false, pfpError: false, pastes: pastes })
+                    res.render('account.ejs', { user: user, error: 'Please make the password more than 8 characters long!', success: false, codeError: false, pfpError: false, documents })
                 }
             } else {
-                res.render('account.ejs', { user: user, error: 'Incorrect old password!', success: false, codeError: false, pfpError: false, pastes: pastes })
+                res.render('account.ejs', { user: user, error: 'Incorrect old password!', success: false, codeError: false, pfpError: false, documents })
             }
         })
     })
@@ -74,18 +74,18 @@ routes.post('/changePfp', (req, res) => {
     fetch(`https://github.com/${gitHubName}.png`)
         .then(data => {
             Users.findOne({ _id: req.user.toString() }, (err, user) => {
-                db.link.find({ creator: req.user.toString() }).sort({ dateCreated: -1 }).limit(10).exec((err, pastes) => {
+                db.link.find({ creator: req.user.toString() }).sort({ dateCreated: -1 }).limit(10).exec((err, documents) => {
                     if (data.status == 200) {
                         try {
                             Users.updateOne({ _id: req.user.toString() }, { $set: { icon: pfpUrl } }, err => {
                                 if (err) return console.log(err);
                             })
-                            res.render('account.ejs', { user: user, error: false, success: false, codeError: false, pfpError: false, pastes: pastes })
+                            res.render('account.ejs', { user: user, error: false, success: false, codeError: false, pfpError: false, documents })
                         } catch (err) {
-                            res.render('account.ejs', { user: user, error: 'An error has occured whilst trying to change your pfp!', success: false, codeError: false, pfpError: false, pastes: pastes })
+                            res.render('account.ejs', { user: user, error: 'An error has occured whilst trying to change your pfp!', success: false, codeError: false, pfpError: false, documents })
                         }
                     } else {
-                        res.render('account.ejs', { user: user, error: false, success: false, codeError: false, pfpError: 'We couldn\'t find that GitHub user!', pastes: pastes })
+                        res.render('account.ejs', { user: user, error: false, success: false, codeError: false, pfpError: 'We couldn\'t find that GitHub user!', documents })
                     }
                 })
             })
@@ -96,14 +96,14 @@ routes.post('/changePfpGravatar', async (req, res) => {
     const gravatarEmail = req.body.pfp;
     const gravatarUrl = await gravatar.url(gravatarEmail);
     Users.findOne({ _id: req.user.toString() }, (err, user) => {
-        db.link.find({ creator: req.user.toString() }).sort({ dateCreated: -1 }).limit(10).exec((err, pastes) => {
+        db.link.find({ creator: req.user.toString() }).sort({ dateCreated: -1 }).limit(10).exec((err, documents) => {
             try {
                 Users.updateOne({ _id: req.user.toString() }, { $set: { icon: gravatarUrl } }, err => {
                     if (err) return console.log(err);
                 })
-                res.render('account.ejs', { user: user, error: false, success: false, codeError: false, pfpError: false, pastes: pastes })
+                res.render('account.ejs', { user: user, error: false, success: false, codeError: false, pfpError: false, documents })
             } catch (err) {
-                res.render('account.ejs', { user: user, error: false, success: false, codeError: false, pfpError: 'An error has occured whilst trying to change your pfp!', pastes: pastes })
+                res.render('account.ejs', { user: user, error: false, success: false, codeError: false, pfpError: 'An error has occured whilst trying to change your pfp!', documents })
             }
         })
     })
@@ -113,15 +113,15 @@ routes.post('/createInvite', (req, res) => {
     db.betaCodes.loadDatabase();
     Users.findOne({ _id: req.user.toString() }, (err, user) => {
         if (err) return console.log(err);
-        db.link.find({ creator: req.user.toString() }).sort({ dateCreated: -1 }).limit(10).exec((err, pastes) => {
+        db.link.find({ creator: req.user.toString() }).sort({ dateCreated: -1 }).limit(10).exec((err, documents) => {
             if (user.codesLeft > 0) {
                 const str = Math.random().toString(36).substring(4);
                 Users.updateOne({ _id: req.user.toString() }, { $set: { codesLeft: user.codesLeft - 1 }, $push: { codes: { code: str } } }, err => {
                     if (err) return console.log(err);
                 })
-                db.betaCodes.insert({ betaCode: str }, () => res.render('account.ejs', { user: user, error: false, success: false, codeError: false, pfpError: false, pastes: pastes }))
+                db.betaCodes.insert({ betaCode: str }, () => res.render('account.ejs', { user: user, error: false, success: false, codeError: false, pfpError: false, documents }))
             } else {
-                res.render('account.ejs', { user: user, error: false, success: false, codeError: 'You\'ve exceeded your max invite count!', pfpError: false, pastes: pastes })
+                res.render('account.ejs', { user: user, error: false, success: false, codeError: 'You\'ve exceeded your max invite count!', pfpError: false, documents })
             }
         })
     })
