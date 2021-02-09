@@ -134,7 +134,8 @@ routes.delete('/purgeDocuments', async (req, res) => {
                     if (Object.keys(index).indexOf('_id') > -1) return res.redirect('/account')
                     res.json({
                         success: true,
-                        message: `Deleted a total of ${documents.length} documents!`
+                        message: `Deleted a total of ${documents.length} documents!`,
+                        numberDeleted: documents.length
                     })
                 } else {
                     return throwApiError(res, "There was no documents to delete!");
