@@ -33,7 +33,7 @@ routes.get(['/:documentId', '/:slug/:documentId', '/:slug/:slugTwo/:documentId',
                         var deleteDate = 'Deletes after being viewed.'
                     }
                 }
-                if (document.imageEmbed && fs.existsSync(`./public/assets/img/${documentId}.jpeg`)) {
+                if (document.imageEmbed && fs.existsSync(`./public/assets/img/${document.URL}.jpg`)) {
                     var enableImageEmbed = true;
                 } else {
                     var enableImageEmbed = false;
@@ -47,6 +47,7 @@ routes.get(['/:documentId', '/:slug/:documentId', '/:slug/:slugTwo/:documentId',
                         } else {
                             var creator = false;
                         }
+                        console.log(enableImageEmbed);
                         res.render('pasted.ejs', { documentName: documentId, imageEmbed: enableImageEmbed, code: document.code, loggedIn: true, pfp: user.icon, deleteDate: deleteDate, creator: creator, originalCreator: document.creator, incomingUser: userId })
                     })
                 } else {
