@@ -1,7 +1,5 @@
 const routes = require('express').Router();
 const Users = require('../models/Users');
-const fs = require('fs');
-const webshot = require('webshot-node');
 const Datastore = require('nedb');
 const bcrypt = require('bcrypt');
 const mailer = require('nodemailer');
@@ -32,6 +30,9 @@ const transporter = mailer.createTransport({
 // Middleware
 const checkAuthenticated = require('../middleware/checkAuthenticated');
 const checkNotAuthenticated = require('../middleware/checkNotAuthenticated');
+
+// Utilities
+const screenshotDocument = require('../utilities/screenshotDocument');
 
 routes.get('/', (req, res) => {
     if (req.isAuthenticated()) {
@@ -88,7 +89,7 @@ routes.post('/saveCode', (req, res) => {
     const code = req.body.code;
     const securedUrls = JSON.parse(req.body.securedUrls.toString().toLowerCase())
     var instantDelete = JSON.parse(req.body.instantDelete.toString().toLowerCase())
-    var imageEmbeds = JSON.parse(req.body.imageEmbeds.toString().toLowerCase())
+    var imageEmbed = JSON.parse(req.body.imageEmbeds.toString().toLowerCase())
     var time = req.body.time;
     var str = Math.random().toString(36).substring(2);
     var allowedEditor = req.body.allowedEditor;
@@ -101,7 +102,7 @@ routes.post('/saveCode', (req, res) => {
         var instantDelete = false;
         var creator = 'none'
         var allowedEditor = 'NONE'
-        var imageEmbeds = false;
+        var imageEmbed = false;
     }
     try {
         // Check if input is more than 0
@@ -109,11 +110,12 @@ routes.post('/saveCode', (req, res) => {
             if (req.isAuthenticated()) {
                 db.link.insert({
                     URL: str,
-                    imageEmbed: imageEmbeds,
+                    imageEmbed,
+                    instantDelete,
+                    creator,
+                    code,
                     dateCreated: new Date().getTime(),
                     deleteDate: new Date().setDate(new Date().getDate() + Number(time)),
-                    instantDelete: instantDelete,
-                    creator: creator,
                     allowedEditor: []
                 })
                 if (allowedEditor) {
@@ -128,37 +130,33 @@ routes.post('/saveCode', (req, res) => {
                     }
                 }
                 // Check for image embeds
-                if (imageEmbeds && !instantDelete) {
+                if (imageEmbed && !instantDelete) {
                     Users.findOne({ _id: req.user.toString() }, (err, user) => {
                         if (err) return db.link.update({ URL: str }, { $set: { imageEmbed: false } })
                         if (user) {
                             // Change the quality of paste depending if you are Member+ or not
                             if (user.memberPlus) var quality = 80;
-                            else var quality = 40;
+                            else var quality = 55;
                             // Take a screenshot of the paste
-                            webshot(`https://www.imperialb.in/p/${str}`, `./public/assets/img/${str}.jpeg`, { customCSS: '.menu, #messages { display:none }', quality: quality, captureSelector: '.hljs' }, err => {
-                                if (err) return db.link.update({ URL: str }, { $set: { imageEmbed: false } })
-                                db.link.update({ URL: str }, { $set: { imageEmbed: true } })
-                            });
+                            screenshotDocument(str, quality);
                         }
                     })
                 }
             } else {
                 db.link.insert({
                     URL: str,
-                    imageEmbed: imageEmbeds,
+                    imageEmbed,
+                    instantDelete,
+                    creator,
+                    code,
                     dateCreated: new Date().getTime(),
                     deleteDate: new Date().setDate(new Date().getDate() + Number(time)),
-                    instantDelete: instantDelete,
-                    creator: creator,
                     allowedEditor: 'NONE'
                 })
             }
-            fs.writeFile(`./pastes/${str}.txt`, code, () => {
-                res.json({
-                    status: 'success',
-                    link: `/p/${str}`
-                })
+            res.json({
+                status: 'success',
+                link: `/p/${str}`
             })
             db.link.loadDatabase();
         }
@@ -174,7 +172,8 @@ routes.post('/editCode', (req, res) => {
         db.link.findOne({ URL: documentId }, (err, doc) => {
             if (doc) {
                 if (doc.creator == req.user.toString() || doc.allowedEditor.indexOf(req.user.toString()) != -1) {
-                    fs.writeFile(`./pastes/${documentId}.txt`, code, () => {
+                    db.link.update({ URL: documentId }, { $set: { code } }, (err, document) => {
+                        if (err) return console.log(err);
                         res.json({
                             status: 'success'
                         })
