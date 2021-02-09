@@ -18,18 +18,22 @@ routes.get('/:documentIdOne/:documentIdTwo', (req, res) => {
     const documentOne = req.params.documentIdOne;
     const documentTwo = req.params.documentIdTwo;
     try {
-        fs.readFile(`./pastes/${documentOne}.txt`, 'utf-8', (err, documentOneCode) => {
-            if (err) return res.render('error.ejs', { error: `We couldn\'t find the document ${documentOne} to compare to ${documentTwo}` });
-            fs.readFile(`./pastes/${documentTwo}.txt`, 'utf-8', (err, documentTwoCode) => {
-                if (err) return res.render('error.ejs', { error: `We couldn\'t find the document ${documentTwo} to compare to ${documentOne}` });
-                if (documentTwoCode && documentOneCode) {
-                    res.render('compare.ejs', { documentOne: documentOneCode, documentTwo: documentTwoCode })
-                }
-            })
+        db.link.findOne({ URL: documentOne }, (err, documentOneInfo) => {
+            if (err) return res.render('error.ejs', { error: 'An internal server error occurred please contact an admin!' });
+            if (documentOneInfo) {
+                db.link.findOne({ url: documentTwo }, (err, documentTwoInfo) => {
+                    if (documentTwoInfo) {
+                        res.render('compare.ejs', { documentOne: documentOneCode, documentTwo: documentTwoCode })
+                    } else {
+                        res.render('error.ejs', { error: `We couldn\'t find the document ${documentTwo} to compare to ${documentOne}` });
+                    }
+                })
+            } else {
+                res.render('error.ejs', { error: `We couldn\'t find the document ${documentOne} to compare to ${documentTwo}` });
+            }
         })
     } catch (err) {
         res.render('error.ejs', { error: 'An error occured!' });
-        console.log(err);
     }
 })
 
