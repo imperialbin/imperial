@@ -6,15 +6,12 @@ db.link = new Datastore({ filename: './databases/links' });
 routes.get('/', (req, res) => res.redirect('/'))
 
 routes.get('/:documentId', (req, res) => {
-    db.link.loadDatabase();
     const document = req.params.documentId;
     try {
-        db.links.findOne({ URL: document }, (err, document) => {
+        db.link.loadDatabase();
+        db.link.findOne({ URL: document }, (err, document) => {
             if (err) return res.render('error.ejs', { error: 'An error occurred!' });
             if (document) {
-                res.writeHead(200, {
-                    'Content-Type': 'application/json'
-                })
                 res.write(document.code)
                 res.end();
                 if (document.instantDelete) {
