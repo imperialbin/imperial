@@ -72,7 +72,7 @@ routes.post(['/document', '/postCode', '/paste'], (req, res) => {
 routes.patch(['/document', '/editCode', '/paste'], (req, res) => {
     const apiToken = req.headers.authorization;
     const document = req.body.document;
-    const newCode = req.body.newCode || req.body.code;
+    const code = req.body.newCode || req.body.code;
     if (!apiToken) return throwApiError(res, "Please put in an API token!")
     Users.findOne({ apiToken }, (err, user) => {
         if (err) return throwApiError(res, "An internal server error occurred! Please contact an admin!")
@@ -83,7 +83,7 @@ routes.patch(['/document', '/editCode', '/paste'], (req, res) => {
                 if (documentInfo) {
                     const editorArray = documentInfo.allowedEditor
                     if (documentInfo.creator === userId || editorArray.indexOf(userId) != -1) {
-                        db.link.update({ url: document }, { $set: { newCode } }, (err, documentInfo) => {
+                        db.link.update({ URL: document }, { $set: { code } }, err => {
                             if (err) return throwApiError(res, "You do not have access to edit this document!")
                             res.json({
                                 success: true,
