@@ -135,8 +135,8 @@ routes.post('/saveCode', (req, res) => {
                         if (err) return db.link.update({ URL: str }, { $set: { imageEmbed: false } })
                         if (user) {
                             // Change the quality of paste depending if you are Member+ or not
-                            if (user.memberPlus) var quality = 80;
-                            else var quality = 55;
+                            if (user.memberPlus) var quality = 100;
+                            else var quality = 73;
                             // Take a screenshot of the paste
                             screenshotDocument(str, quality);
                         }
