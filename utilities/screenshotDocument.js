@@ -12,9 +12,10 @@ module.exports = async (documentId, quality) => {
     defaultViewport: null
   })
   const page = await browser.newPage();
-  const url = `https://imperialb.in/p/${documentId}`;
-  await page.goto(url)
+  await page.goto(`https://imperialb.in/p/9oqpqk4mqht`)
+  await page.waitForSelector('.hljs');
   await page.addStyleTag({ content: '.menu, #lines{display: none;}' })
-  await page.screenshot({ path: `./public/assets/img/${documentId}.jpg`, quality });
+  const elementToScreenshot = await page.$('.hljs');
+  await elementToScreenshot.screenshot({ path: `./public/assets/img/${documentId}.jpg`, quality });
   await browser.close();
 }
