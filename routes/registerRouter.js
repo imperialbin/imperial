@@ -62,7 +62,8 @@ routes.post('/', async (req, res) => {
                           icon: '/assets/img/pfp.png',
                           password: hashedPass,
                           memberPlus: false,
-                          codes: []
+                          codes: [],
+                          documentsMade: 0
                         })
                         newUser.save()
                           .then(() => {
