@@ -56,6 +56,8 @@
     </a><br>
     <label for="email" id="label">Your email</label> <br>
     <input type="text" id="token" value="<%= user.email %>" readonly> <br>
+    <label for="documentsMade" id="label">Number of documents made</label> <br>
+    <input type="text" id="token" value="<%= user.documentsMade %>" readonly> <br>
     <label for="memberPlus" id="label">Member+ status</label> <br>
     <input type="text" id="token" value="<%= user.memberPlus %>" readonly> <br>
     <% if( !user.memberPlus ) {%>
@@ -108,7 +110,7 @@
                                         placeholder="Confirm password" autocomplete="off" required>
                                 </div>
                                 <button type="submit" id="password">Reset Password</button>
-                            </form>
+                            </form><br>
                             <% if( documents[0] ) {%>
                                 <br><br><br>
                                 <h2>Recent documents</h2><br>
