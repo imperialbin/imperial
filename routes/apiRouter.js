@@ -28,10 +28,10 @@ routes.post(['/document', '/postCode', '/paste'], (req, res) => {
                 var expiration = req.body.expiration || 5
                 const instantDelete = req.body.instantDelete || false
                 const creator = user._id.toString()
-                var quality = 40;
+                var quality = 73;
                 var str = Math.random().toString(36).substring(2)
                 if (user.memberPlus)
-                    var quality = 80;
+                    var quality = 100;
                 if (longerUrls)
                     var str = Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2);
                 if (expiration >= 31)
