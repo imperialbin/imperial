@@ -85,7 +85,7 @@ routes.get('/logout', (req, res) => {
     res.redirect('/login');
 })
 
-routes.post('/saveCode', (req, res) => {
+routes.post('/saveCode', async (req, res) => {
     const code = req.body.code;
     const securedUrls = JSON.parse(req.body.securedUrls.toString().toLowerCase())
     var instantDelete = JSON.parse(req.body.instantDelete.toString().toLowerCase())
@@ -108,6 +108,7 @@ routes.post('/saveCode', (req, res) => {
         // Check if input is more than 0
         if (code.length > 0) {
             if (req.isAuthenticated()) {
+                await Users.updateOne({ _id: creator }, { $inc: { documentsMade: 1 } })
                 db.link.insert({
                     URL: str,
                     imageEmbed,
