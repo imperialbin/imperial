@@ -44,9 +44,10 @@ routes.post(['/document', '/postCode', '/paste'], (req, res) => {
     } else {
         createPaste(Math.random().toString(36).substring(2), false, false, 5, 'NONE');
     }
-    function createPaste(str, imageEmbed, instantDelete, expiration, creator, quality) {
+    async function createPaste(str, imageEmbed, instantDelete, expiration, creator, quality) {
         try {
             if (code) {
+                await Users.updateOne({ _id: creator }, { $inc: { documentsMade: 1 } })
                 db.link.insert({ URL: str, imageEmbed, instantDelete, creator, code, dateCreated: new Date().getTime(), deleteDate: new Date().setDate(new Date().getDate() + Number(expiration)), allowedEditor: [] }, (err, doc) => {
                     res.json({
                         success: true,
