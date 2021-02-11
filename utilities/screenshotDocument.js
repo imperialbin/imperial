@@ -12,7 +12,7 @@ module.exports = async (documentId, quality) => {
     defaultViewport: null
   })
   const page = await browser.newPage();
-  await page.goto(`https://imperialb.in/p/9oqpqk4mqht`)
+  await page.goto(`https://imperialb.in/p/${documentId}`)
   await page.waitForSelector('.hljs');
   await page.addStyleTag({ content: '.menu, #lines{display: none;}' })
   const elementToScreenshot = await page.$('.hljs');
