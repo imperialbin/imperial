@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "devStart": "nodemon server.js"
+    "devStart": "nodemon server.js",
+    "lint": "eslint ."
   },
   "repository": {
     "type": "git",
@@ -46,5 +47,9 @@
     "passport-local": "^1.0.0",
     "puppeteer": "^7.0.1",
     "socket.io": "^3.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.19.0",
+    "prettier": "^2.2.1"
   }
 }
