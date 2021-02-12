@@ -23,8 +23,7 @@ function toggleMenu() {
   if (localStorage.getItem("customURL")) {
     $("#customURL").val(localStorage.getItem("customURL"));
     $("#previewURL").text(
-      `(https://www.imperialb.in/${
-        document.getElementById("customURL").value
+      `(https://www.imperialb.in/${document.getElementById("customURL").value
       }/documentID)`
     );
   } else {
