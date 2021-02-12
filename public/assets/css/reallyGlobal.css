@@ -1,13 +1,20 @@
 /* Basics */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
-  padding:0;
-  transition: opacity 234ms ease-in-out, background-color 164ms ease-in-out, color 34ms ease-in-out;
-  -webkit-transition: opacity 234ms ease-in-out, background-color 164ms ease-in-out, color 34ms ease-in-out;
-  -moz-transition: opacity 234ms ease-in-out, background-color 164ms ease-in-out, color 34ms ease-in-out;
-  -ms-transition: opacity 234ms ease-in-out, background-color 164ms ease-in-out, color 34ms ease-in-out;
-  -o-transition: opacity 234ms ease-in-out, background-color 164ms ease-in-out, color 34ms ease-in-out;
+  padding: 0;
+  transition: opacity 234ms ease-in-out, background-color 164ms ease-in-out,
+    color 34ms ease-in-out;
+  -webkit-transition: opacity 234ms ease-in-out,
+    background-color 164ms ease-in-out, color 34ms ease-in-out;
+  -moz-transition: opacity 234ms ease-in-out, background-color 164ms ease-in-out,
+    color 34ms ease-in-out;
+  -ms-transition: opacity 234ms ease-in-out, background-color 164ms ease-in-out,
+    color 34ms ease-in-out;
+  -o-transition: opacity 234ms ease-in-out, background-color 164ms ease-in-out,
+    color 34ms ease-in-out;
 }
 :root {
   --scrollbar-track: #1f252a;
@@ -35,22 +42,26 @@
   --text-lighter: #c8c7c7;
 }
 
-::-webkit-scrollbar { width: 10px }
-::-webkit-scrollbar-track { background: var(--scrollbar-track) }
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+}
 ::-webkit-scrollbar-thumb {
-	background:var(--scrollbar-thumb);
-	border-radius: 8px;
-	-webkit-border-radius: 8px;
-	-moz-border-radius: 8px;
-	-ms-border-radius: 8px;
-	-o-border-radius: 8px;
+  background: var(--scrollbar-thumb);
+  border-radius: 8px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  -ms-border-radius: 8px;
+  -o-border-radius: 8px;
 }
 
 body {
   background: var(--main-background);
   color: var(--text-light);
   padding: 20px 50px;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   font-weight: 300;
   transition: none;
   -webkit-transition: none;
@@ -66,9 +77,11 @@ body {
   z-index: 99999;
 }
 #paster.active {
-	animation: fadeInFromNone 0.5s ease-in;
+  animation: fadeInFromNone 0.5s ease-in;
 }
-.active { display: flex!important}
+.active {
+  display: flex !important;
+}
 .pasteSettings {
   top: 0;
   left: 0;
@@ -92,7 +105,7 @@ body {
 .pasteContainer {
   text-align: center;
   width: 600px;
-  height:  auto;
+  height: auto;
   background: var(--secondary-background);
   border-radius: 10px;
   -webkit-border-radius: 10px;
@@ -102,11 +115,11 @@ body {
 }
 .pasteContainer p {
   padding: 0 15px;
-  margin: .67em;
+  margin: 0.67em;
 }
 .pasteContainer h1 {
   font-weight: 200;
-  margin: .67em;
+  margin: 0.67em;
 }
 .switch {
   position: relative;
@@ -114,7 +127,7 @@ body {
   width: 40px;
   height: 20px;
 }
-.switch input { 
+.switch input {
   opacity: 0;
   width: 0;
   height: 0;
@@ -128,11 +141,11 @@ body {
   right: 0;
   bottom: 0;
   background: var(--dark-background);
-  transition: .4s;
-  -webkit-transition: .4s;
-  -moz-transition: .4s;
-  -ms-transition: .4s;
-  -o-transition: .4s;
+  transition: 0.4s;
+  -webkit-transition: 0.4s;
+  -moz-transition: 0.4s;
+  -ms-transition: 0.4s;
+  -o-transition: 0.4s;
 }
 .slider:before {
   position: absolute;
@@ -142,11 +155,11 @@ body {
   left: -5px;
   bottom: 0;
   background-color: var(--text-light);
-  transition: .4s;
-  -webkit-transition: .4s;
-  -moz-transition: .4s;
-  -ms-transition: .4s;
-  -o-transition: .4s;
+  transition: 0.4s;
+  -webkit-transition: 0.4s;
+  -moz-transition: 0.4s;
+  -ms-transition: 0.4s;
+  -o-transition: 0.4s;
 }
 input:checked + .slider:before {
   transform: translateX(26px);
@@ -155,14 +168,18 @@ input:checked + .slider:before {
   -ms-transform: translateX(26px);
   -o-transform: translateX(26px);
 }
-input:checked + .slider { background: var(--lightest-background)}
-input:focus + .slider { outline: none }
+input:checked + .slider {
+  background: var(--lightest-background);
+}
+input:focus + .slider {
+  outline: none;
+}
 .slider.round {
-  border-radius:34px;
-  -webkit-border-radius:34px;
-  -moz-border-radius:34px;
-  -ms-border-radius:34px;
-  -o-border-radius:34px;
+  border-radius: 34px;
+  -webkit-border-radius: 34px;
+  -moz-border-radius: 34px;
+  -ms-border-radius: 34px;
+  -o-border-radius: 34px;
 }
 .slider.round:before {
   border-radius: 50%;
@@ -185,29 +202,37 @@ select {
   -o-border-radius: 4px;
 }
 
-.cancelSettings { margin-right: 20px }
-.cancelSettings:hover { }
-
+.cancelSettings {
+  margin-right: 20px;
+}
+.cancelSettings:hover {
+}
 
 /* Some general things */
 
 h6 {
-	user-select: none;
-	color: #acacac;
-	font-size: 21px;
-	padding:0;
-	text-align: center;
-	margin:0;
-	font-weight: 400;
-	padding-top: 20px;
+  user-select: none;
+  color: #acacac;
+  font-size: 21px;
+  padding: 0;
+  text-align: center;
+  margin: 0;
+  font-weight: 400;
+  padding-top: 20px;
 }
-a { text-decoration: none }
+a {
+  text-decoration: none;
+}
 .bringToHome {
   margin: 0 auto;
   display: block;
 }
-li.deletePaste {width: 105px!important }
-.hljs { background: var(--main-background) }
+li.deletePaste {
+  width: 105px !important;
+}
+.hljs {
+  background: var(--main-background);
+}
 #codeThing {
   font-family: monospace;
   position: fixed;
@@ -219,8 +244,8 @@ li.deletePaste {width: 105px!important }
   background: 0 0;
   border: 0;
   padding: 0;
-  margin: 0 unset;
-  opacity: .95;
+  margin: 0 ;
+  opacity: 0.95;
   color: var(--text-light);
 }
 #lines {
@@ -228,7 +253,7 @@ li.deletePaste {width: 105px!important }
   z-index: -1000;
   position: absolute;
   top: 20px;
-  left: 0px;
+  left: 0;
   width: 30px; /* 30 to get 20 away from box */
   font-size: 14px;
   font-family: monospace;
@@ -245,39 +270,47 @@ li.deletePaste {width: 105px!important }
   overflow: inherit;
 }
 #box code {
-  padding:0;
-  background: transparent!important;
+  padding: 0;
+  background: transparent !important;
 }
 code {
   font-size: 14px;
   display: block;
-  overflow-x: unset!important;
+  overflow-x: unset !important;
 }
 
-#login, #signup { margin: 0 20px 14px 0 }
-#signup, .pfp { margin-right: 35px }
+#login,
+#signup {
+  margin: 0 20px 14px 0;
+}
+#signup,
+.pfp {
+  margin-right: 35px;
+}
 #icon {
   padding: 12.5px;
   margin-right: 20px;
 }
 #discord:hover {
-  background: #7289DA;
-  color: #fff!important;
+  background: #7289da;
+  color: #fff !important;
 }
 .pfp {
   width: 50px;
   height: 50px;
   cursor: pointer;
-  opacity: .8;
+  opacity: 0.8;
   vertical-align: middle;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.15);
   border-radius: 50%;
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
   -ms-border-radius: 50%;
   -o-border-radius: 50%;
 }
-.pfp:hover { opacity: 1 }
+.pfp:hover {
+  opacity: 1;
+}
 
 /* Tippy Context Menus */
 
@@ -286,10 +319,12 @@ code {
   width: 100%;
   margin: 8px 0;
   border-bottom: 1px solid var(--text-light);
-  opacity: .2;
+  opacity: 0.2;
 }
 
-.tippy-arrow { color: var(--button-hover) }
+.tippy-arrow {
+  color: var(--button-hover);
+}
 .tippy-box {
   background: var(--button-hover);
   border-radius: 8px;
@@ -297,50 +332,60 @@ code {
   -moz-border-radius: 8px;
   -ms-border-radius: 8px;
   -o-border-radius: 8px;
-	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
 }
-#save { padding-bottom: 10px }
+#save {
+  padding-bottom: 10px;
+}
 #tippy-1 {
-	top: 13px!important;
-	margin-left: -18px!important;
+  top: 13px !important;
+  margin-left: -18px !important;
 }
-#tippy-1,#tippy-2,#tippy-3 {
-	user-select: none;
+#tippy-1,
+#tippy-2,
+#tippy-3 {
+  user-select: none;
 }
 
 .account {
-  z-index: 1999!important;
+  z-index: 1999 !important;
   text-align: center;
   margin: 0;
   padding: 10px;
-  padding-bottom: 7px!important;
+  padding-bottom: 7px !important;
 }
 .account li {
-	position: relative;
-	margin: 8px 0;
+  position: relative;
+  margin: 8px 0;
   display: block;
   color: var(--text-light);
   font-weight: 400;
-	cursor: pointer;
-	padding: 3px 8px;
-	border-radius: 4px;
-	-webkit-border-radius: 4px;
-	-moz-border-radius: 4px;
-	-ms-border-radius: 4px;
-	-o-border-radius: 4px;
-	transition: background-color 434ms ease;
-	-webkit-transition: background-color 434ms ease;
-	-moz-transition: background-color 434ms ease;
-	-ms-transition: background-color 434ms ease;
-	-o-transition: background-color 434ms ease;
+  cursor: pointer;
+  padding: 3px 8px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  transition: background-color 434ms ease;
+  -webkit-transition: background-color 434ms ease;
+  -moz-transition: background-color 434ms ease;
+  -ms-transition: background-color 434ms ease;
+  -o-transition: background-color 434ms ease;
 }
-.account li:hover { background: var(--dark-background) }
-.account li:first-child { margin-top: 0 }
+.account li:hover {
+  background: var(--dark-background);
+}
+.account li:first-child {
+  margin-top: 0;
+}
 .account li:last-child {
   margin: 0 auto;
   width: 70px;
 }
-.account li:last-child:hover { background: var(--danger) }
+.account li:last-child:hover {
+  background: var(--danger);
+}
 
 /* Messages */
 #messages {
@@ -357,27 +402,41 @@ code {
   margin-bottom: 10px;
   display: block;
   list-style: none;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
 }
 .message {
-	position: relative;
-	text-align: center;
-	width: 100%;
-	margin-top: -27px!important;
-	margin-bottom: 10px!important;
-  display: block!important;
-  list-style: none!important;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25)!important;
-  padding-top: 31px!important;
-	border-bottom-left-radius: 15px;
+  position: relative;
+  text-align: center;
+  width: 100%;
+  margin-top: -27px !important;
+  margin-bottom: 10px !important;
+  display: block !important;
+  list-style: none !important;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25) !important;
+  padding-top: 31px !important;
+  border-bottom-left-radius: 15px;
 }
-.message:nth-child(1) { z-index: 0 }
-.message:nth-child(n+2) { margin-top: -35px!important }
-.message:nth-child(2) { z-index: -1 }
-.message:nth-child(3) { z-index: -2 }
-.message:nth-child(4) { z-index: -3 }
-.message:nth-child(5) { z-index: -4 }
-.message:nth-child(6) { z-index: -5 }
+.message:nth-child(1) {
+  z-index: 0;
+}
+.message:nth-child(n + 2) {
+  margin-top: -35px !important;
+}
+.message:nth-child(2) {
+  z-index: -1;
+}
+.message:nth-child(3) {
+  z-index: -2;
+}
+.message:nth-child(4) {
+  z-index: -3;
+}
+.message:nth-child(5) {
+  z-index: -4;
+}
+.message:nth-child(6) {
+  z-index: -5;
+}
 .error {
   color: var(--text-error);
   background: var(--error-background);
@@ -398,7 +457,7 @@ button {
   font-size: 14px;
   padding: 6px 20px;
   cursor: pointer;
-	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   border: none;
   border-radius: 8px;
   -webkit-border-radius: 8px;
@@ -406,9 +465,15 @@ button {
   -ms-border-radius: 8px;
   -o-border-radius: 8px;
 }
-button:hover { background: var(--button-hover) }
-button:focus { outline: 0 }
-button:active { opacity: .9 }
+button:hover {
+  background: var(--button-hover);
+}
+button:focus {
+  outline: 0;
+}
+button:active {
+  opacity: 0.9;
+}
 
 .addEditors {
   padding-bottom: 10px;
@@ -418,36 +483,47 @@ button:active { opacity: .9 }
   position: absolute;
   margin-top: 6px;
   margin-left: -104px;
-  background:var(--secondary-background);
+  background: var(--secondary-background);
 }
 ul {
-	z-index:1999;
-	text-decoration: none;
-	margin-block-start: .65em;
-	padding-inline-start: 30px;
-	user-select: none;
+  z-index: 1999;
+  text-decoration: none;
+  margin-block-start: 0.65em;
+  padding-inline-start: 30px;
+  user-select: none;
 }
-ul#usersToAdd { padding-inline-start: 0px }
-ul#usersToAdd button { margin-bottom:10px }
+ul#usersToAdd {
+  padding-inline-start: 0;
+}
+ul#usersToAdd button {
+  margin-bottom: 10px;
+}
 .deleteUser {
   margin-top: 16px;
   position: absolute;
   margin-left: -60px;
   color: var(--danger);
 }
-.deleteUser:hover { opacity: .8 }
+.deleteUser:hover {
+  opacity: 0.8;
+}
 
 li {
   display: inline;
   user-select: none;
 }
 
-#edit, #compare {
+#edit,
+#compare {
   padding-bottom: 10px;
   margin-left: -12px;
 }
-#edit { padding-left: 14px }
-#compare {margin-left: 0 }
+#edit {
+  padding-left: 14px;
+}
+#compare {
+  margin-left: 0;
+}
 #new {
   margin: 0 5px 0 -10px;
   padding-bottom: 10px;
@@ -463,15 +539,17 @@ li {
   top: -10px;
 }
 .menu-content {
-	position: relative;
+  position: relative;
   right: 0;
-  top: 0px;
+  top: 0;
   z-index: 999;
   background: var(--secondary-background);
   border-bottom-left-radius: 25px;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
 }
-.menu-content ul { padding-bottom: 17px }
+.menu-content ul {
+  padding-bottom: 17px;
+}
 
 input {
   width: 300px;
@@ -480,7 +558,7 @@ input {
   margin-bottom: 40px;
   color: var(--text-light);
   background: var(--kinda-dark-background);
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   border: none;
   border-radius: 8px;
   -webkit-border-radius: 8px;
@@ -488,21 +566,33 @@ input {
   -ms-border-radius: 8px;
   -o-border-radius: 8px;
 }
-input::placeholder { color: var(--text-light) }
-input:focus {
-  outline: 0;
-  background:var(--button-hover)
-}
-input#user { padding-right: 110px }
-input#token { margin:10px 0 0 5px }
-#token { opacity: .6 }
-#token:focus { background: var(--kinda-dark-background) }
-
-.urlInputOne {
-  margin-bottom:0;
+input::placeholder {
   color: var(--text-light);
 }
-.urlInputOne:focus { background-color: var(--kinda-dark-background) }
+input:focus {
+  outline: 0;
+  background: var(--button-hover);
+}
+input#user {
+  padding-right: 110px;
+}
+input#token {
+  margin: 10px 0 0 5px;
+}
+#token {
+  opacity: 0.6;
+}
+#token:focus {
+  background: var(--kinda-dark-background);
+}
+
+.urlInputOne {
+  margin-bottom: 0;
+  color: var(--text-light);
+}
+.urlInputOne:focus {
+  background-color: var(--kinda-dark-background);
+}
 
 .urlInputTwo {
   position: relative;
@@ -514,12 +604,12 @@ input#token { margin:10px 0 0 5px }
 }
 
 @media screen and (max-width: 675px) {
-	.pasteContainer {
-		width: 90%;
-	}
+  .pasteContainer {
+    width: 90%;
+  }
 }
 @media screen and (max-height: 702px) {
-	.pasteContainer {
-		overflow-y: scroll;
-	}
+  .pasteContainer {
+    overflow-y: scroll;
+  }
 }
