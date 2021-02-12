@@ -1,3 +1,4 @@
+require("dotenv/config");
 const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
@@ -13,18 +14,18 @@ const http = require("http").createServer(app);
 const io = require("socket.io")(http);
 const MongoStore = require("connect-mongo")(session);
 const CrawlerDetect = require("crawler-detect");
-require("dotenv").config();
 
 // Middleware
 const checkAuthenticated = require("./middleware/checkAuthenticated");
 
 // Database
 mongoose.connect(
-  `mongodb+srv://${process.env.DB_NAME}:${process.env.DB_PASS}@users.vc1kj.mongodb.net/USERS?retryWrites=true&w=majority`,
+  process.env.MONGO_URI ||
+    `mongodb+srv://${process.env.DB_NAME}:${process.env.DB_PASS}@users.vc1kj.mongodb.net/USERS?retryWrites=true&w=majority`,
   { useNewUrlParser: true, useUnifiedTopology: true },
   (err) => {
     if (err) return err;
-    console.log("CONNECTED DATABASE");
+    console.log("Connected to database");
   }
 );
 
@@ -38,6 +39,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(flash());
 app.use(cookieParser(process.env.COOKIE_SECRET));
+
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
@@ -53,6 +55,7 @@ app.use(
     unset: "destroy",
   })
 );
+
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(methodOverride("_method"));
@@ -80,6 +83,7 @@ app.use("/account", checkAuthenticated, accountRouter);
 app.use("/api", apiLimiter, apiRouter);
 app.use("/auth", authRouter);
 app.use(["/raw", "/r", "/raw/:documentId", "/r/:documentId"], rawRouter);
+
 app.use(
   [
     "/c",
@@ -89,6 +93,7 @@ app.use(
   ],
   compareRouter
 );
+
 app.use(
   [
     "/p",

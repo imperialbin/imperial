@@ -1,5 +1,3 @@
-require("dotenv/config");
-
 const routes = require("express").Router();
 const Users = require("../models/Users");
 const getIp = require("ipware")().get_ip;
