@@ -1,4 +1,6 @@
 const highlight = editor => {
+  // This is a bug in HighlightJS
+  // eslint-disable-next-line no-self-assign
   editor.textContent = editor.textContent;
   hljs.highlightBlock(editor)
 }
