@@ -9,7 +9,6 @@ routes.get('/', (req, res) => {
     res.redirect(`/p/${req.originalUrl.split('/')[1]}/${req.originalUrl.split('/')[2]}`)
 })
 
-
 // This entire thing i will be redoing soon lmfao
 routes.get(['/:documentId', '/:slug/:documentId', '/:slug/:slugTwo/:documentId', '/:slug/:slugTwo/slugThree/:documentId'], (req, res) => {
     const documentId = req.params.documentId;
@@ -21,10 +20,12 @@ routes.get(['/:documentId', '/:slug/:documentId', '/:slug/:slugTwo/:documentId',
                 var enableImageEmbed;
                 if (!document.instantDelete) {
                     const documentDate = new Date(document.deleteDate);
-                    const month = documentDate.getMonth() + 1 // we have to put a + 1 here because months start at 0
-                    const day = documentDate.getDate()
-                    const year = documentDate.getFullYear()
-                    var deleteDate = `Deletes on ${day}/${month}/${year}`
+                    const date = { 
+                        year: documentDate.getFullYear(), 
+                        month: documentDate.getMonth() + 1,
+                        day: documentDate.getDate() 
+                    };
+                    var deleteDate = `Deletes on ${date.day}/${date.month}/${date.year}`
                 } else {
                     if (!req.isCrawler()) {
                         setTimeout(() => {
@@ -33,20 +34,17 @@ routes.get(['/:documentId', '/:slug/:documentId', '/:slug/:slugTwo/:documentId',
                     }
                     var deleteDate = 'Deletes after being viewed.'
                 }
-                if (document.imageEmbed && fs.existsSync(`./public/assets/img/${document.URL}.jpg`)) {
-                    var enableImageEmbed = true;
-                } else {
-                    var enableImageEmbed = false;
-                }
+                var enableImageEmbed;
+                if (document.imageEmbed && fs.existsSync(`./public/assets/img/${document.URL}.jpg`)) enableImageEmbed = true;
+                else enableImageEmbed = false;
+                
                 if (req.isAuthenticated()) {
                     const userId = req.user.toString();
                     Users.findOne({ _id: userId }, (err, user) => {
                         const editorArray = document.allowedEditor;
-                        if (userId == document.creator || editorArray.indexOf(userId) != -1) {
-                            var creator = true;
-                        } else {
-                            var creator = false;
-                        }
+                        var creator;
+                        if (userId == document.creator || editorArray.indexOf(userId) != -1) creator = true;
+                        else creator = false;
                         res.render('pasted.ejs', { documentName: documentId, imageEmbed: enableImageEmbed, code: document.code, loggedIn: true, pfp: user.icon, deleteDate: deleteDate, creator: creator, originalCreator: document.creator, incomingUser: userId })
                     })
                 } else {
