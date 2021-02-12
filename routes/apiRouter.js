@@ -7,6 +7,10 @@ const db = {
     link: new Datastore({ filename: "./databases/emailTokens" })
 };
 
+// Possibly in the future make a config
+// to easily edit mass used strings like this?
+const internalError = (res) => { throwApiError(res, "Sorry! There was a internal server error, please contact a administrator!"); };
+
 // Utilites
 const throwApiError = require('../utilities/throwApiError');
 const screenshotDocument = require('../utilities/screenshotDocument');
@@ -22,10 +26,12 @@ routes.post(['/document', '/postCode', '/paste'], (req, res) => {
     if(!req.headers.authorization || !req.body.apiToken) return guestPaste();
     const apiToken = req.headers.authorization || req.body.apiToken;
     Users.findOne({ apiToken }, (err, user) => {
-        if(err) return throwApiError(res, "Sorry! There was a internal server error, please contact a administrator!");
+        if(err) return internalError(res);
         if(!user) return guestPaste();
 
         const creator = user._id.toString();
+        // All settings related to the document,
+        // should be a nice interface if we were using TS :)
         const documentSettings = {
             longerUrls: req.body.longerUrls || false,
             imageEmbed: req.body.imageEmbed || false,
@@ -39,7 +45,7 @@ routes.post(['/document', '/postCode', '/paste'], (req, res) => {
         str += Math.random().toString(36).substr(2, 8);
         // Long URLs are 15 characters long.
         if(documentSettings.longerUrls) str += Math.random().toString(36).substring(2, 7);
-        // Max duration.
+        // The max duration is 31 days.
         if(documentSettings.expiration > 31) documentSettings.expiration = 31;
 
         return createPaste(str, documentSettings.imageEmbed, documentSettings.instantDelete, documentSettings.expiration, creator, documentSettings.quality);
@@ -57,7 +63,7 @@ routes.post(['/document', '/postCode', '/paste'], (req, res) => {
                 deleteDate: new Date().setDate(new Date().getDate() + Number(expiration)), 
                 allowedEditor: [] 
             }, async (err, doc) => {
-                if(err) return throwApiError(res, "Sorry! There was a internal server error, please contact a administrator!");
+                if(err) return internalError(res);
                 await Users.updateOne({ _id: creator }, { $inc: { documentsMade: 1 } });
 
                 if(quality && !instantDelete && imageEmbed) screenshotDocument(str, quality);
@@ -71,7 +77,7 @@ routes.post(['/document', '/postCode', '/paste'], (req, res) => {
                 });
 
             });
-        } catch { return throwApiError(res, "Sorry! There was a internal server error, please contact a administrator!"); }
+        } catch { return internalError(res); }
     }
 });
 
@@ -83,7 +89,7 @@ routes.patch(['/document', '/editCode', '/paste'], (req, res) => {
     const code = req.body.newCode || req.body.code;
 
     Users.findOne({ apiToken }, (err, user) => {
-        if(err) return throwApiError(res, "Sorry! There was a internal server error, please contact a administrator!");
+        if(err) return internalError(res);
         if(!user) return throwApiError(res, "Please put in an API token!");
         const userId = user._id.toString();
 
@@ -98,6 +104,7 @@ routes.patch(['/document', '/editCode', '/paste'], (req, res) => {
             
             db.link.update({ URL: document }, { $set: { code } }, err => {
                 if(err) return throwApiError("Sorry! You aren't allowed to edit this document.");
+                
                 return res.json({
                     success: true,
                     message: 'Successfully edited the document!',
@@ -121,13 +128,13 @@ routes.delete('/purgeDocuments', async (req, res) => {
 
     if(!index) return throwApiError(res, "Please put in an API token!");
     Users.findOne(index, (err, user) => {
-        if(err) return throwApiError(res, "Sorry! There was a internal server error, please contact a administrator!");
+        if(err) return internalError(res);
         if(!user) return throwApiError(res, "Please put in a valid API token!");
         const creator = user._id.toString();
-        
+
         db.link.loadDatabase();
         db.findOne({ creator }, (err, documents) => {
-            if(err) return throwApiError(res, "Sorry! There was a internal server error, please contact a administrator!");
+            if(err) return internalError(res);
             if(documents.length == 0) return throwApiError(res, "There was no documents to delete!");
             // Go through every document to delete them.
             for(const document of documents) {
@@ -164,7 +171,7 @@ routes.delete(['/document/:slug', '/deleteCode/:slug', '/deleteCod/:slug', '/pas
     const document = req.params.slug;
 
     Users.findOne(index, (err, user) => {
-        if(err) return throwApiError(res, "Sorry! There was a internal server error, please contact a administrator!");
+        if(err) return internalError(res);
         if(!user) return throwApiError(res, "Please put in a valid API token!");
         const userId = user._id.toString();
 
@@ -174,7 +181,7 @@ routes.delete(['/document/:slug', '/deleteCode/:slug', '/deleteCod/:slug', '/pas
             if(documentInfo.creator !== userId) return throwApiError("Sorry! You aren't allowed to modify this document.");
             // Delete specific document.
             db.link.remove({ _id: documentInfo._id }, err => {
-                if(err) return throwApiError(res, "Sorry! There was a internal server error, please contact a administrator!");
+                if(err) return internalError(res);
                 if(documentInfo.imageEmbed && fs.existsSync(`./public/assets/img/${documentInfo.URL}.jpg`))
                     fs.unlinkSync(`./public/assets/img/${documentInfo.URL}.jpg`);
             });
@@ -192,7 +199,7 @@ routes.get(['/document/:slug', '/getCode/:slug', '/paste/:slug'], (req, res) => 
     const document = req.params.slug;
     db.link.loadDatabase();
     db.link.findOne({ URL: document }, (err, documentInfo) => {
-        if(err) return throwApiError(res, "Sorry! There was a internal server error, please contact a administrator!");
+        if(err) return internalError(res);
         if(!documentInfo) return throwApiError(res, "Sorry! There was no document with that ID.");
 
         const rawData = documentInfo.code;
@@ -208,7 +215,7 @@ routes.get('/checkApiToken/:apiToken', (req, res) => {
     if(!apiToken) return throwApiError(res, "Please put in an API token!");
 
     Users.findOne({ apiToken }, (err, actuallyExists) => {
-        if(err) return throwApiError(res, "Sorry! There was a internal server error, please contact a administrator!");
+        if(err) return internalError(res);
         return res.json({
             success: actuallyExists ? true : false,
             message: actuallyExists ? 'API token is valid!' : 'API token is invalid!'
