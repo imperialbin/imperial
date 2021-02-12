@@ -12,7 +12,8 @@ routes.get('/:documentId', (req, res) => {
         db.link.findOne({ URL: document }, (err, document) => {
             if (err) return res.render('error.ejs', { error: 'An error occurred!' });
             if (document) {
-                res.write(document.code)
+                res.setHeader("Content-Type", "text/plain");
+                res.send(document.code)
                 res.end();
                 if (document.instantDelete) {
                     setTimeout(() => {
