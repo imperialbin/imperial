@@ -76,7 +76,6 @@ routes.post(['/document', '/postCode', '/paste'], (req, res) => {
                     expiresIn: new Date(doc.deleteDate),
                     instantDelete: instantDelete
                 });
-
             });
         } catch { return internalError(res); }
     }
@@ -142,7 +141,7 @@ routes.delete('/purgeDocuments', async (req, res) => {
                 const documentID = document._id;
                 db.link.remove({ documentID });
 
-                if(document.imageEmbed && fs.existsSync(`./public/assets/img/${document.URL}.jpg`));
+                if(document.imageEmbed && fs.existsSync(`./public/assets/img/${document.URL}.jpg`)) 
                     fs.unlinkSync(`./public/assets/img/${document.URL}.jpg`);
             }
             // (Tech) - I don't see a point in doing this again when
