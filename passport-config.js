@@ -12,16 +12,16 @@ function initialize(passport) {
                         if (await bcrypt.compare(password, user.password)) {
                             return done(null, user)
                         } else {
-                            return done(null, false, { message: 'Incorrect password!' })
+                            return done(null, false, { message: 'Incorrect password!' });
                         }
                     } catch (e) {
                         return done(e)
                     }
                 } else {
-                    return done(null, false, { message: 'Your account is banned for not following rules!' })
+                    return done(null, false, { message: 'Your account is banned for not following rules!' });
                 }
             } else {
-                return done(null, false, { message: 'Please confirm your email!' })
+                return done(null, false, { message: 'Please confirm your email!' });
             }
         });
     }
