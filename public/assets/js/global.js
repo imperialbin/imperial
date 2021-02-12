@@ -91,12 +91,11 @@ function postEditPaste() {
   const code = $("#codeThing").val();
   const documentId = location.href.split("/").pop();
 
-  if (!code === "") {
+  if (code !== "") {
     $(".editButton").remove();
     $("#edit").append(
       '<button id="icon" class="editButton" onclick="editPaste()"><i class= "fas fa-pencil-alt" ></i ></button >'
     );
-
     fetch("/editCode", {
       method: "POST",
       headers: {
