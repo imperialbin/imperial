@@ -185,24 +185,18 @@ routes.delete(['/document/:slug', '/deleteCode/:slug', '/deleteCod/:slug', '/pas
 
 routes.get(['/document/:slug', '/getCode/:slug', '/paste/:slug'], (req, res) => {
     const document = req.params.slug;
-    try {
-        db.link.loadDatabase();
-        db.link.findOne({ URL: document }, (err, document) => {
-            if (err) return throwApiError(res, "An internal server error has occurred!");
-            if (document) {
-                const rawData = document.code;
-                res.json({
-                    success: true,
-                    document: rawData
-                })
-            } else {
-                return throwApiError(res, "We couldn't find that document!");
-            }
-        })
-    } catch (err) {
-        return throwApiError(res, "An internal server error has occurred!");
-    }
-})
+    db.link.loadDatabase();
+    db.link.findOne({ URL: document }, (err, documentInfo) => {
+        if(err) return throwApiError(res, "Sorry! There was a internal server error, please contact a administrator!");
+        if(!documentInfo) return throwApiError(res, "Sorry! There was no document with that ID.");
+
+        const rawData = documentInfo.code;
+        return res.json({
+            success: true,
+            document: rawData
+        });
+    });
+});
 
 routes.get('/checkApiToken/:apiToken', (req, res) => {
     const apiToken = req.headers.authorization || req.params.apiToken;
