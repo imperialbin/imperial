@@ -40,7 +40,7 @@
     "mongoose": "^5.11.14",
     "nedb": "^1.8.0",
     "node-fetch": "^2.6.1",
-    "nodemailer": "^6.4.17",
+    "nodemailer": "^6.4.18",
     "nodemon": "^2.0.7",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
