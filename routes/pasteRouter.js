@@ -49,8 +49,7 @@ routes.get(['/:documentId', '/:slug/:documentId', '/:slug/:slugTwo/:documentId',
                     else creator = false;
                     return res.render('pasted.ejs', { documentName: documentId, imageEmbed: enableImageEmbed, code: document.code, loggedIn: true, pfp: user.icon, deleteDate: deleteDate, creator: creator, originalCreator: document.creator, incomingUser: userId });
                 });
-            }
-            return res.render('pasted.ejs', { documentName: documentId, imageEmbed: enableImageEmbed, code: document.code, loggedIn: false, deleteDate: deleteDate, creator: false });
+            } else return res.render('pasted.ejs', { documentName: documentId, imageEmbed: enableImageEmbed, code: document.code, loggedIn: false, deleteDate: deleteDate, creator: false });
         });
     } catch(_) {
         return res.render('error.ejs', { error: 'An error occurred whilst getting that document!' });
