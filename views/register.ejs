@@ -16,25 +16,24 @@
     <h1>Sign up</h1>
     <i class="error">
         <% if( error ) {%>
-            <%= error %>
-                <% } %>
+        <%= error %>
+        <% } %>
     </i>
     <form action="/register" method="POST">
         <div>
             <% if( user ) {%>
-                <input type="text" id="name" name="name" placeholder="Name" autocomplete="off" value="<%= user %>"
-                    required>
-                <% } else { %>
-                    <input type="text" id="name" name="name" placeholder="Name" autocomplete="off" required>
-                    <% } %>
+            <input type="text" id="name" name="name" placeholder="Name" autocomplete="off" value="<%= user %>" required>
+            <% } else { %>
+            <input type="text" id="name" name="name" placeholder="Name" autocomplete="off" required>
+            <% } %>
         </div>
         <div>
             <% if( email ) {%>
-                <input type="text" id="email" name="email" placeholder="Email" autocomplete="off" value="<%= email %>"
-                    required>
-                <% } else { %>
-                    <input type="text" id="email" name="email" placeholder="Email" autocomplete="off" required>
-                    <% } %>
+            <input type="text" id="email" name="email" placeholder="Email" autocomplete="off" value="<%= email %>"
+                required>
+            <% } else { %>
+            <input type="text" id="email" name="email" placeholder="Email" autocomplete="off" required>
+            <% } %>
         </div>
         <div>
             <input type="password" id="password" name="password" placeholder="Password" autocomplete="off" required>

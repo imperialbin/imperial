@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "devStart": "nodemon server.js"
+    "devStart": "nodemon server.js",
+    "lint": "eslint ."
   },
   "repository": {
     "type": "git",
@@ -23,6 +24,7 @@
   "homepage": "https://github.com/Looskie/imperial#readme",
   "dependencies": {
     "bcrypt": "^5.0.0",
+    "body-parser": "^1.19.0",
     "connect-mongo": "^3.2.0",
     "cookie-parser": "^1.4.5",
     "crawler-detect": "^1.0.1",
@@ -46,5 +48,16 @@
     "passport-local": "^1.0.0",
     "puppeteer": "^7.0.1",
     "socket.io": "^3.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.19.0",
+    "husky": "^5.0.9",
+    "prettier": "^2.2.1",
+    "pretty-quick": "^3.1.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
   }
 }
