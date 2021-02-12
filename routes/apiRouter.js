@@ -52,7 +52,15 @@ routes.post(['/document', '/postCode', '/paste'], (req, res) => {
     function createPaste(str, imageEmbed, instantDelete, expiration, creator, quality) {
         if(!code) return throwApiError(res, "You need to post code! No code was submitted.");
         try {
-            db.link.insert({ URL: str, imageEmbed, instantDelete, creator, code, dateCreated: new Date().getTime(), deleteDate: new Date().setDate(new Date().getDate() + Number(expiration)), allowedEditor: [] }, async (err, doc) => {
+            db.link.insert({ 
+                URL: str, 
+                imageEmbed, 
+                instantDelete, 
+                creator, code, 
+                dateCreated: new Date().getTime(), 
+                deleteDate: new Date().setDate(new Date().getDate() + Number(expiration)), 
+                allowedEditor: [] 
+            }, async (err, doc) => {
                 if(err) return throwApiError(res, "Sorry! There was a internal server error, please contact a administrator!");
                 await Users.updateOne({ _id: creator }, { $inc: { documentsMade: 1 } });
 
