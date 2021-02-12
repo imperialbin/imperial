@@ -12,7 +12,8 @@ const UserSchema = mongoose.Schema({
     password: String,
     memberPlus: Boolean,
     codes: Array,
-    apiToken: String
+    apiToken: String,
+    documentsMade: Number
 })
 
 module.exports = mongoose.model('Users', UserSchema);

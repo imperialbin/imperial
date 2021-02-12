@@ -15,7 +15,7 @@
         }
     </script>
     <link rel="stylesheet" href="/assets/css/reallyGlobal.css?v=3">
-    <link rel="stylesheet" href="/assets/css/account.css?v=3">
+    <link rel="stylesheet" href="/assets/css/account.css?v=4">
     <link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon/favicon-96x96.png">
     <meta property="og:image" content="/assets/favicon/favicon-96x96.png">
     <meta name="description" content="View your account here!">
@@ -42,9 +42,9 @@
     <p>Here is some information about your account!</p>
     <i class="error">
         <% if( pfpError ) {%>
-            <br><br>
-            <%= pfpError %><br>
-                <% } %>
+        <br><br>
+        <%= pfpError %><br>
+        <% } %>
     </i>
     <form action="/account/changePfp" method="POST" id="changePfpForm">
         <label for="pfp" id="pfpLabel">User icon (via GitHub)</label><br>
@@ -56,157 +56,160 @@
     </a><br>
     <label for="email" id="label">Your email</label> <br>
     <input type="text" id="token" value="<%= user.email %>" readonly> <br>
+    <label for="documentsMade" id="label">Number of documents made</label> <br>
+    <input type="text" id="token" value="<%= user.documentsMade %>" readonly> <br>
     <label for="memberPlus" id="label">Member+ status</label> <br>
     <input type="text" id="token" value="<%= user.memberPlus %>" readonly> <br>
     <% if( !user.memberPlus ) {%>
-        <a href="/redeem">
-            <p class="memberPlusActivation">Have a member+ code?</p><br>
-        </a>
+    <a href="/redeem">
+        <p class="memberPlusActivation">Have a member+ code?</p><br>
+    </a>
+    <% } %>
+    <label for="code" id="label">Your invite code</label> <br>
+    <input type="text" id="token" value="<%= user.betaCode %>" readonly> <br>
+    <form action="/account/createInvite" method="POST">
+        <button type="submit" id="invites">Create invite</button>
+    </form><br>
+    <% if( user.codes[0] ) {%>
+    <br><br>
+    <h2>Your invite codes</h2>
+    <p id="invitesLeft">(You have <%= user.codesLeft %> invites left!)</p>
+    <% } %>
+    <i class="error">
+        <% if( codeError ) {%>
+        <%= codeError %><br>
         <% } %>
-            <label for="code" id="label">Your invite code</label> <br>
-            <input type="text" id="token" value="<%= user.betaCode %>" readonly> <br>
-            <form action="/account/createInvite" method="POST">
-                <button type="submit" id="invites">Create invite</button>
-            </form><br>
-            <% if( user.codes[0] ) {%>
-                <p>Your invite codes</p><br>
-                <p id="invitesLeft">You have <%= user.codesLeft %> invites left!</p><br>
-                <% } %>
-                    <i class="error">
-                        <% if( codeError ) {%>
-                            <%= codeError %><br>
-                                <% } %>
-                    </i>
-                    <% for(var i=0; i<user.codes.length; i++) {%>
-                        <a onclick="copyLink('<%= user.codes[i].code %>')" class="dumbLinks">
-                            <input type="text" class="paste tooltip" id="token" value="<%= user.codes[i].code %>"
-                                data-tippy-content="Click to copy invite code!" readonly> <br>
-                        </a>
-                        <% } %>
-                            <br><br><br>
-
-                            <i class="error">
-                                <% if( error ) {%>
-                                    <%= error %>
-                                        <% } %>
-                                            <% if( success ) {%>
-                                                <%= success %>
-                                                    <% } %>
-                            </i>
-                            <form action="/account/resetPasswordForm" method="POST">
-                                <h2 id="resetPassword">Reset password</h2>
-                                <div>
-                                    <input type="password" id="oldPassword" name="oldPassword"
-                                        placeholder="Old password" autocomplete="off" required>
-                                </div>
-                                <div>
-                                    <input type="password" id="newPassword" name="newPassword"
-                                        placeholder="New password" autocomplete="off" required>
-                                </div>
-                                <div>
-                                    <input type="password" id="confirmPassword" name="confirmPassword"
-                                        placeholder="Confirm password" autocomplete="off" required>
-                                </div>
-                                <button type="submit" id="password">Reset Password</button>
-                            </form>
-                            <% if( documents[0] ) {%>
-                                <br><br><br>
-                                <h2>Recent documents</h2><br>
-                                <span>(Showing the 10 most recent documents)</span><br>
-                                <% for(var i=0; i<documents.length; i++) {%>
-                                    <a href="/p/<%= documents[i].URL %>" class="dumbLinks">
-                                        <input class="paste" type="text" id="token" value="<%= documents[i].URL %>"
-                                            readonly>
-                                    </a>
-                                    <form class="deleteForm" method="POST"
-                                        action="/api/document/<%= documents[i].URL %>?_method=DELETE">
-                                        <button type="submit" class="deletePaste tooltip"
-                                            data-tippy-content="Delete paste"><i class="fas fa-trash"></i></button>
-                                    </form>
-                                    <% if(!documents[i].instantDelete) {%>
-                                        <button type="submit" class="recentPastes tooltip"
-                                            data-tippy-content="Deleting <%= new Date(documents[i].deleteDate).getMonth() + 1 %>/<%= new Date(documents[i].deleteDate).getDate() %>/<%= new Date(documents[i].deleteDate).getFullYear() %>"><i
-                                                class="fas fa-info-circle"></i></button><br>
-                                        <% } else { %>
-                                            <button type="submit" class="recentPastes tooltip"
-                                                data-tippy-content="Deleting after being viewed"><i
-                                                    class="fas fa-info-circle"></i></button><br>
-                                            <% } %>
-                                                <% } %>
-                                                    <form method="POST" action="/api/purgeDocuments?_method=DELETE">
-                                                        <button type="submit">Purge documents</button>
-                                                    </form><br>
-                                                    <% } %>
-                                                        <br><br><br>
-                                                        <h2>API Token</h2>
-                                                        <% if( user.apiToken ) {%>
-                                                            <label for="email" id="label">Your API key</label> <br>
-                                                            <a class="dumbLinks"
-                                                                onclick="copyApi('<%= user.apiToken %>')">
-                                                                <input type="text" id="token" class="paste tooltip blur"
-                                                                    value="<%= user.apiToken %>"
-                                                                    data-tippy-content="Click to copy API key!"
-                                                                    readonly>
-                                                            </a>
-                                                            <% } %>
-                                                                <form action="/account/updateApiToken" method="POST">
-                                                                    <button type="submit">Generate new API</button>
-                                                                </form><br>
-                                                                <% if( user.apiToken ) {%>
-                                                                    <a class="dumbLinks"
-                                                                        href="/api/getShareXConfig/<%= user.apiToken %>"
-                                                                        download>
-                                                                        <button>Download ShareX config</button>
-                                                                    </a>
-                                                                    <% } else { %>
-                                                                        <button id="token" class="tooltip"
-                                                                            data-tippy-content="Please generate an API token first!">Download
-                                                                            ShareX config</button>
-                                                                        <% } %>
-                                                                            <br><br>
-                                                                            <button type="submit" id="logout"
-                                                                                onclick="location.href = '/logout?_method=DELETE'">Log
-                                                                                Out</button>
-                                                                            <br><br><br><br><br><br>
-                                                                            <script>
-                                                                                tippy('.tooltip', { arrow: false })
-                                                                                function togglePfpType(type) {
-                                                                                    const label = document.getElementById('pfpLabel')
-                                                                                    const button = document.querySelector('.dynamicFunction');
-                                                                                    const form = document.getElementById('changePfpForm');
-                                                                                    const dynamicPfpChoice = document.getElementById('dynamicPfpChoice');
-                                                                                    var textBox = document.querySelector("#pfp")
-                                                                                    if (type == 'github') {
-                                                                                        label.innerHTML = 'User icon (via GitHub)';
-                                                                                        textBox.placeholder = 'Enter your GitHub username'
-                                                                                        button.setAttribute('onclick', "togglePfpType('gravatar')")
-                                                                                        form.action = '/account/changePfp'
-                                                                                        dynamicPfpChoice.innerHTML = 'Or use Gravatar'
-                                                                                    } else {
-                                                                                        label.innerHTML = 'User icon (via Gravatar)';
-                                                                                        textBox.placeholder = 'Enter your Gravatar email'
-                                                                                        button.setAttribute('onclick', "togglePfpType('github')")
-                                                                                        form.action = '/account/changePfpGravatar'
-                                                                                        dynamicPfpChoice.innerHTML = 'Or use Github'
-                                                                                    }
-                                                                                }
-                                                                                function copyLink(code) {
-                                                                                    const linkBox = document.createElement('textarea');
-                                                                                    linkBox.value = `https://www.imperialb.in/register?inviteCode=${code}`
-                                                                                    document.body.appendChild(linkBox);
-                                                                                    linkBox.select();
-                                                                                    document.execCommand('copy');
-                                                                                    document.body.removeChild(linkBox);
-                                                                                }
-                                                                                function copyApi(api) {
-                                                                                    const linkBox = document.createElement('textarea');
-                                                                                    linkBox.value = api
-                                                                                    document.body.appendChild(linkBox);
-                                                                                    linkBox.select();
-                                                                                    document.execCommand('copy');
-                                                                                    document.body.removeChild(linkBox);
-                                                                                }
-                                                                            </script>
+    </i>
+    <% for(var i=0; i<user.codes.length; i++) {%>
+    <a onclick="copyLink('<%= user.codes[i].code %>')" class="dumbLinks">
+        <input type="text" class="paste tooltip" id="token" value="<%= user.codes[i].code %>"
+            data-tippy-content="Click to copy invite code!" readonly> <br>
+    </a>
+    <% } %>
+    <br><br>
+    <% if( documents[0] ) {%>
+    <br><br>
+    <h2>Recent documents</h2><br>
+    <span>(Showing the 10 most recent documents)</span><br>
+    <% for(var i=0; i<documents.length; i++) {%>
+    <a href="/p/<%= documents[i].URL %>" class="dumbLinks">
+        <input class="paste ellipsis" type="text" id="token" value="<%= documents[i].URL %>" readonly>
+    </a>
+    <form class="deleteForm" method="POST" action="/api/document/<%= documents[i].URL %>?_method=DELETE">
+        <button type="submit" class="deletePaste tooltip" data-tippy-content="Delete paste"><i
+                class="fas fa-trash"></i></button>
+    </form>
+    <% if(!documents[i].instantDelete) {%>
+    <button type="submit" class="recentPastes tooltip"
+        data-tippy-content="Deleting <%= new Date(documents[i].deleteDate).getMonth() + 1 %>/<%= new Date(documents[i].deleteDate).getDate() %>/<%= new Date(documents[i].deleteDate).getFullYear() %>"><i
+            class="fas fa-info-circle"></i></button><br>
+    <% } else { %>
+    <button type="submit" class="recentPastes tooltip" data-tippy-content="Deleting after being viewed"><i
+            class="fas fa-info-circle"></i></button><br>
+    <% } %>
+    <% } %>
+    <form method="POST" action="/api/purgeDocuments?_method=DELETE">
+        <button type="submit">Purge documents</button>
+    </form><br>
+    <% } %>
+    <br><br>
+    <br>
+    <i class="error">
+        <% if( error ) {%>
+        <%= error %>
+        <% } %>
+        <% if( success ) {%>
+        <%= success %>
+        <% } %>
+    </i>
+    <form action="/account/resetPasswordForm" method="POST">
+        <h2 id="resetPassword">Reset password</h2>
+        <div>
+            <input type="password" id="oldPassword" name="oldPassword" placeholder="Old password" autocomplete="off"
+                required>
+        </div>
+        <div>
+            <input type="password" id="newPassword" name="newPassword" placeholder="New password" autocomplete="off"
+                required>
+        </div>
+        <div>
+            <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm password"
+                autocomplete="off" required>
+        </div>
+        <button type="submit" id="password">Reset Password</button>
+    </form><br><br><br>
+    <h2>API Token</h2>
+    <% if( user.apiToken ) {%>
+    <label for="email" id="label">Your API key</label> <br>
+    <a class="dumbLinks" onclick="copyApi('<%= user.apiToken %>')">
+        <input type="text" id="token" class="paste tooltip blur" value="<%= user.apiToken %>"
+            data-tippy-content="Click to copy API key!" readonly>
+    </a>
+    <% } %>
+    <form action="/account/updateApiToken" method="POST">
+        <button type="submit">Generate new API</button>
+    </form><br>
+    <% if( user.apiToken ) {%>
+    <a class="dumbLinks" href="/api/getShareXConfig/<%= user.apiToken %>" download>
+        <button>Download ShareX config</button>
+    </a>
+    <% } else { %>
+    <button id="token" class="tooltip" data-tippy-content="Please generate an API token first!">Download
+        ShareX config</button>
+    <% } %>
+    <br><br><br><br><br>
+    <form action="/account/me" method="POST">
+        <h2 id="resetPassword">View your user
+            data</h2>
+        <div>
+            <input type="password" name="password" placeholder="password" autocomplete="off" required>
+        </div>
+        <button type="submit">View
+            your
+            data</button>
+    </form><br><br>
+    <button type="submit" id="logout" onclick="location.href = '/logout?_method=DELETE'">Log
+        Out</button>
+    <br><br><br><br><br><br>
+    <script>
+        tippy('.tooltip', { arrow: false })
+        function togglePfpType(type) {
+            const label = document.getElementById('pfpLabel')
+            const button = document.querySelector('.dynamicFunction');
+            const form = document.getElementById('changePfpForm');
+            const dynamicPfpChoice = document.getElementById('dynamicPfpChoice');
+            var textBox = document.querySelector("#pfp")
+            if (type == 'github') {
+                label.innerHTML = 'User icon (via GitHub)';
+                textBox.placeholder = 'Enter your GitHub username'
+                button.setAttribute('onclick', "togglePfpType('gravatar')")
+                form.action = '/account/changePfp'
+                dynamicPfpChoice.innerHTML = 'Or use Gravatar'
+            } else {
+                label.innerHTML = 'User icon (via Gravatar)';
+                textBox.placeholder = 'Enter your Gravatar email'
+                button.setAttribute('onclick', "togglePfpType('github')")
+                form.action = '/account/changePfpGravatar'
+                dynamicPfpChoice.innerHTML = 'Or use Github'
+            }
+        }
+        function copyLink(code) {
+            const linkBox = document.createElement('textarea');
+            linkBox.value = `https://www.imperialb.in/register?inviteCode=${code}`
+            document.body.appendChild(linkBox);
+            linkBox.select();
+            document.execCommand('copy');
+            document.body.removeChild(linkBox);
+        }
+        function copyApi(api) {
+            const linkBox = document.createElement('textarea');
+            linkBox.value = api
+            document.body.appendChild(linkBox);
+            linkBox.select();
+            document.execCommand('copy');
+            document.body.removeChild(linkBox);
+        }
+    </script>
 </body>
 
 </html>

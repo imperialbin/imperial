@@ -23,6 +23,23 @@ routes.get('/', (req, res) => {
     })
 })
 
+routes.post('/me', (req, res) => {
+    const password = req.body.password;
+    Users.findOne({ _id: req.user.toString() }, async (err, user) => {
+        if (user) {
+            if (await bcrypt.compare(password, user.password)) {
+                res.setHeader("Content-Type", "text/plain");
+                res.write(user.toString());
+                res.end()
+            } else {
+                db.link.find({ creator: req.user.toString() }).sort({ dateCreated: -1 }).limit(10).exec((err, documents) => {
+                    res.render('account.ejs', { user: user, error: false, success: false, codeError: false, pfpError: 'We couldn\'t get your user data because your password was incorrect!', documents })
+                })
+            }
+        }
+    })
+})
+
 routes.post('/redeem', (req, res) => {
     const code = req.body.code;
     db.plusCodes.find({ code }, (err, codeData) => {

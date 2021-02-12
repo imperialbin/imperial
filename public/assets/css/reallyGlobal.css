@@ -208,12 +208,11 @@ a { text-decoration: none }
 }
 li.deletePaste {width: 105px!important }
 .hljs { background: var(--main-background) }
-textarea {
+#codeThing {
   font-family: monospace;
   position: fixed;
   width: 100%;
   height: 97%;
-  color: #fff;
   font-size: 14px;
   outline: none;
   resize: none;
@@ -221,6 +220,8 @@ textarea {
   border: 0;
   padding: 0;
   margin: 0 unset;
+  opacity: .95;
+  color: var(--text-light);
 }
 #lines {
   color: #40474e;
