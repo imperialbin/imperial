@@ -200,18 +200,16 @@ routes.get(['/document/:slug', '/getCode/:slug', '/paste/:slug'], (req, res) => 
 
 routes.get('/checkApiToken/:apiToken', (req, res) => {
     const apiToken = req.headers.authorization || req.params.apiToken;
-    Users.findOne({ apiToken }, (err, valid) => {
-        if (err) return throwApiError(res, "An internal server error has occurred!");
-        if (valid) {
-            res.json({
-                success: true,
-                message: 'API token is valid!'
-            })
-        } else {
-            return throwApiError(res, "API token is invalid!");
-        }
-    })
-})
+    if(!apiToken) return throwApiError(res, "Please put in an API token!");
+
+    Users.findOne({ apiToken }, (err, actuallyExists) => {
+        if(err) return throwApiError(res, "Sorry! There was a internal server error, please contact a administrator!");
+        return res.json({
+            success: actuallyExists ? true : false,
+            message: actuallyExists ? 'API token is valid!' : 'API token is invalid!'
+        });
+    });
+});
 
 routes.get('/getShareXConfig/:apiToken', (req, res) => {
     const apiToken = req.headers.authorization || req.params.apiToken;
