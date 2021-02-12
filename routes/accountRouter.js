@@ -68,7 +68,7 @@ routes.post("/resetPasswordForm", (req, res) => {
       .exec(async (err, documents) => {
         if (await bcrypt.compare(oldPassword, user.password)) {
           if (newPassword.length >= 8) {
-            if (newPassword == confirmPassword) {
+            if (newPassword === confirmPassword) {
               const hashedPass = await bcrypt.hash(newPassword, 13);
               Users.updateOne(
                 { _id: id },
@@ -129,7 +129,7 @@ routes.post("/changePfp", (req, res) => {
         .sort({ dateCreated: -1 })
         .limit(10)
         .exec((err, documents) => {
-          if (data.status == 200) {
+          if (data.status === 200) {
             try {
               Users.updateOne(
                 { _id: req.user.toString() },
@@ -271,7 +271,7 @@ routes.get("/createPlusInvite", (req, res) => {
   }
 });
 
-routes.post("/changeEmail", (req, res) => {
+routes.post("/changeEmail", (req) => {
   const email = req.body.email;
   console.log(email);
 });
@@ -294,8 +294,8 @@ function createToken() {
   return "IMPERIAL-xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(
     /[xy]/g,
     (c) => {
-      var r = (Math.random() * 16) | 0,
-        v = c == "x" ? r : (r & 0x3) | 0x8;
+      const r = (Math.random() * 16) | 0,
+        v = c === "x" ? r : (r & 0x3) | 0x8;
       return v.toString(16);
     }
   );

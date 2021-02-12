@@ -1,5 +1,5 @@
 window.addEventListener("popstate", () => {
-  if (location.pathname == "/" || location.pathname == "/p/") {
+  if (location.pathname === "/" || location.pathname === "/p/") {
     $("#submitCode").text("");
     $("#lines").text(">");
     $("#codeThing").focus();
@@ -10,18 +10,19 @@ window.addEventListener("popstate", () => {
 
 $(document).ready(() => {
   $("#codeThing").focus();
-  if (localStorage.hasOwnProperty("duplicatePaste")) {
-    $("#codeThing").val(localStorage.getItem("duplicatePaste"));
+  const duplicate = localStorage.getItem("duplicatePaste");
+  if (duplicate) {
+    $("#codeThing").val(duplicate);
     localStorage.removeItem("duplicatePaste");
   } else {
     navigator.clipboard
       .readText()
       .then((copiedText) => {
-        if (localStorage.getItem("clipboard") == "true") {
+        if (localStorage.getItem("clipboard") === "true") {
           $("#codeThing").val(copiedText);
         }
       })
-      .catch((err) => {
+      .catch(() => {
         console.log("denied paste capabilities");
       });
   }
@@ -63,18 +64,21 @@ function setPaste() {
 }
 function toggleMenu() {
   $(".pasteSettings").addClass("active");
-  if (localStorage.getItem("clipboard") == "true") {
+
+  if (localStorage.getItem("clipboard") === "true") {
     $("#clipCheck").prop("checked", "true");
   }
-  if (localStorage.getItem("securedUrls") == "true") {
+  if (localStorage.getItem("securedUrls") === "true") {
     $("#linkCheck").prop("checked", "true");
   }
-  if (localStorage.getItem("instantDelete") == "true") {
+  if (localStorage.getItem("instantDelete") === "true") {
     $("#deleteCheck").prop("checked", "true");
   }
-  if (localStorage.getItem("imageEmbeds") == "true") {
+
+  if (localStorage.getItem("imageEmbeds") === "true") {
     $("#embedCheck").prop("checked", "true");
   }
+
   if (localStorage.getItem("customURL")) {
     $("#customURL").val(localStorage.getItem("customURL"));
     $("#previewURL").text(
@@ -99,12 +103,12 @@ function saveSettings() {
   localStorage.setItem("deleteTime", deleteTime);
   localStorage.setItem("instantDelete", deleteCheck);
   localStorage.setItem("imageEmbeds", embedCheck);
-  if ($.trim(customURL) == "") {
+  if (customURL.trim() === "") {
     localStorage.setItem("customURL", "p");
   } else {
     localStorage.setItem("customURL", customURL);
   }
-  if (deleteCheck && $(".error").length == 0) {
+  if (deleteCheck && $(".error").length === 0) {
     $("#messages").append(
       '<li class="message error"><i class="fas fa-info-circle" style="padding-right: 4px;"></i> Instant delete is on!</li>'
     );
@@ -118,8 +122,8 @@ function cancelSettings(clearThingy) {
   if (clearThingy) {
     $(".user").remove();
     const getUsers = localStorage.getItem("addUser");
-    if (getUsers !== null && !getUsers == "") {
-      if (getUsers[0] == ",") {
+    if (getUsers !== null && !getUsers === "") {
+      if (getUsers[0] === ",") {
         const regex = /^[,]+|[,]+$/g;
         localStorage.setItem("addUser", getUsers.replace(regex, ""));
       }
@@ -137,8 +141,8 @@ function newDocument() {
 }
 
 const getUsers = localStorage.getItem("addUser");
-if (getUsers !== null && !getUsers == "") {
-  if (getUsers[0] == ",") {
+if (getUsers !== null && !getUsers === "") {
+  if (getUsers[0] === ",") {
     const regex = /^[,]+|[,]+$/g;
     localStorage.setItem("addUser", getUsers.replace(regex, ""));
   }
@@ -151,7 +155,7 @@ function toggleAddUser() {
     localStorage.removeItem("addUser");
   }
   if (getUsers !== null && getUsers !== "") {
-    for (var users = 0; users < getUsers.split(",").length; users++) {
+    for (let users = 0; users < getUsers.split(",").length; users++) {
       const user = getUsers.split(",")[users];
       $(".users").append(
         `<div class="user" id="${user}"> <input id="token" type="text" value="${user}" readonly> <button class="deleteUser" onclick="removeUser('${user}')"><i class="fas fa-trash"></i></button> </div>`
@@ -165,22 +169,25 @@ function removeUser(user) {
   const getUsers = localStorage.getItem("addUser");
   $(`#${user}`).remove();
   localStorage.setItem("addUser", getUsers.replace(user, ""));
-  if (getUsers == "" || getUsers === undefined) {
+
+  if (getUsers === "" || getUsers === undefined) {
     localStorage.removeItem("addUsers");
   }
 }
 
 function addUser(user) {
   const users = localStorage.getItem("addUser");
-  if (!$.trim(user) == "") {
+  if (user.trim() !== "") {
     // checks if input has an actual user or just spaces, those sneaky bastards.
     const regex = /^[,"]+|[,"]+$/g;
     const formattedUser = user.replace(regex, "");
-    if (users !== null && !users == "") {
+    if (users !== null && users !== "") {
       const newUsers = `${users},${formattedUser}`;
+
       $(".users").append(
         `<div class="user" id="${formattedUser}"> <input id="token" type="text" value="${formattedUser}" readonly> <button class="deleteUser" onclick="removeUser('${formattedUser}')"><i class="fas fa-trash"></i></button> </div>`
       );
+
       localStorage.setItem("addUser", newUsers);
       document.getElementById("user").value = "";
       document.getElementById("user").focus();
@@ -219,16 +226,21 @@ async function uploadCode() {
   fetch("/saveCode", options)
     .then((res) => res.json())
     .then((json) => {
-      if (json.status == "success") {
-        if (instantDelete == "true") {
+      if (json.status === "success") {
+        if (instantDelete === "true") {
           $("#codeThing").attr("readonly", true);
-          var lineCount = $("#codeThing").val().split("\n");
+          const lines = $("#codeThing").val().split("\n");
           document.getElementById("lines").textContent = "";
-          for (var i = 1; i <= lineCount.length; i++) {
-            $("#lines").append(`${i.toString()} <br>`);
+
+          const $lines = $("#lines");
+
+          for (let i = 1; i <= lines.length; i++) {
+            $lines.append(`${i.toString()} <br>`);
           }
+
           document.getElementById("submitCode").textContent = code;
           $("#codeThing").val("");
+
           if (localStorage.getItem("customURL") !== "p") {
             window.history.pushState(
               {},
@@ -244,9 +256,11 @@ async function uploadCode() {
           $("#messages").append(
             '<li class="message success"><i class="fas fa-check" style="padding-right: 4px;"></i> Copied link!</li>'
           );
+
           document.querySelectorAll("pre code").forEach((block) => {
             hljs.highlightBlock(block);
           });
+
           localStorage.removeItem("addUser");
         } else {
           if ($.trim($("#codeThing").val())) {
