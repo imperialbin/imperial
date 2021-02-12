@@ -88,27 +88,31 @@ routes.get("/logout", (req, res) => {
 routes.post("/saveCode", (req, res) => {
   const code = req.body.code;
   const securedUrls = JSON.parse(req.body.securedUrls.toString().toLowerCase());
-  var instantDelete = JSON.parse(
+
+  let instantDelete = JSON.parse(
     req.body.instantDelete.toString().toLowerCase()
   );
-  var imageEmbed = JSON.parse(req.body.imageEmbeds.toString().toLowerCase());
-  var time = req.body.time;
-  var str = Math.random().toString(36).substring(2);
-  var allowedEditor = req.body.allowedEditor;
+
+  let imageEmbed = JSON.parse(req.body.imageEmbeds.toString().toLowerCase());
+  let time = req.body.time;
+  let str = Math.random().toString(36).substring(2);
+  let allowedEditor = req.body.allowedEditor;
+  let creator;
+
   if (req.isAuthenticated()) {
     if (securedUrls)
-      var str =
+      str =
         Math.random().toString(36).slice(2) +
         Math.random().toString(36).slice(2) +
         Math.random().toString(36).slice(2);
-    if (time >= 31) var time = 31;
-    var creator = req.user.toString(); // this has to be like this mainly because its being dumb, and has a bunch of rando characters even tho its a string, wtf man?
+    if (time >= 31) time = 31;
+    creator = req.user.toString(); // this has to be like this mainly because its being dumb, and has a bunch of rando characters even tho its a string, wtf man?
   } else {
-    var time = 7;
-    var instantDelete = false;
-    var creator = "none";
-    var allowedEditor = "NONE";
-    var imageEmbed = false;
+    time = 7;
+    instantDelete = false;
+    creator = "none";
+    allowedEditor = "NONE";
+    imageEmbed = false;
   }
   try {
     // Check if input is more than 0
@@ -154,10 +158,8 @@ routes.post("/saveCode", (req, res) => {
                 { $set: { imageEmbed: false } }
               );
             if (user) {
-              // Change the quality of paste depending if you are Member+ or not
-              if (user.memberPlus) var quality = 100;
-              else var quality = 73;
-              // Take a screenshot of the paste
+              // Non plus members can not use higher resolution screenshots
+              const quality = user.memberPlus ? 100 : 73;
               screenshotDocument(str, quality);
             }
           });
@@ -192,19 +194,13 @@ routes.post("/editCode", (req, res) => {
     db.link.findOne({ URL: documentId }, (err, doc) => {
       if (doc) {
         if (
-          doc.creator == req.user.toString() ||
-          doc.allowedEditor.indexOf(req.user.toString()) != -1
+          doc.creator === req.user.toString() ||
+          doc.allowedEditor.indexOf(req.user.toString()) !== -1
         ) {
-          db.link.update(
-            { URL: documentId },
-            { $set: { code } },
-            (err, document) => {
-              if (err) return console.log(err);
-              res.json({
-                status: "success",
-              });
-            }
-          );
+          db.link.update({ URL: documentId }, { $set: { code } }, (err) => {
+            if (err) return console.log(err);
+            res.json({ status: "success" });
+          });
         }
       } else {
         res.json({

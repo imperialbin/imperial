@@ -1,7 +1,7 @@
 const routes = require("express").Router();
-const fs = require("fs");
 const Datastore = require("nedb");
-var db = {};
+
+const db = {};
 db.users = new Datastore({ filename: "./databases/users" });
 db.link = new Datastore({ filename: "./databases/links" });
 db.betaCodes = new Datastore({ filename: "./databases/betaCodes" });
@@ -26,18 +26,22 @@ routes.get("/:documentIdOne/:documentIdTwo", (req, res) => {
         db.link.findOne({ url: documentTwo }, (err, documentTwoInfo) => {
           if (documentTwoInfo) {
             res.render("compare.ejs", {
+              // please refer to https://github.com/imperialbin/imperial/pull/11 for looskie's brain
+              // todo(@looskie): please fix this, vars straight up dont exist
+              // eslint-disable-next-line no-undef
               documentOne: documentOneCode,
+              // eslint-disable-next-line no-undef
               documentTwo: documentTwoCode,
             });
           } else {
             res.render("error.ejs", {
-              error: `We couldn\'t find the document ${documentTwo} to compare to ${documentOne}`,
+              error: `We couldn't find the document ${documentTwo} to compare to ${documentOne}`,
             });
           }
         });
       } else {
         res.render("error.ejs", {
-          error: `We couldn\'t find the document ${documentOne} to compare to ${documentTwo}`,
+          error: `We couldn't find the document ${documentOne} to compare to ${documentTwo}`,
         });
       }
     });
