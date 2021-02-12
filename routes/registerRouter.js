@@ -44,7 +44,7 @@ routes.post('/', async (req, res) => {
 
     Users.findOne({ name: user }, (err, checkUsername) => {
         if(err) return internalError(email, user);
-        if(!checkUsername) return res.render('register.ejs', { error: 'That username is taken!', email, user: false });
+        if(checkUsername) return res.render('register.ejs', { error: 'That username is taken!', email, user: false });
         
         Users.findOne({ ip: ip.clientIp }, (err, indexIp) => {
             if(err) return internalError(email, user);
