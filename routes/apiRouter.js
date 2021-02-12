@@ -3,6 +3,10 @@ const Datastore = require("nedb");
 const fs = require("fs");
 const Users = require("../models/Users");
 
+const db = {
+    link: new Datastore({ filename: "./databases/emailTokens" })
+};
+
 // Utilites
 const throwApiError = require('../utilities/throwApiError');
 const screenshotDocument = require('../utilities/screenshotDocument');
