@@ -92,7 +92,7 @@ routes.post('/', async (req, res) => {
                             if(err) console.log(`Failed to send confirmation email to ${user}!`);
                             
                             db.betaCodes.remove({ betaCode: inviteCode }, (err) => console.log(err))
-                            Users.findOneAndUpdate({ codes: { code: inviteCode } }, { $pull: { 'codes': { 'code': inviteCode } } }, (err, result) => console.log(err))
+                            Users.findOneAndUpdate({ codes: { code: inviteCode } }, { $pull: { 'codes': { 'code': inviteCode } } });
                             
                             return res.render('success.ejs', { successMessage: `Please check your email to verify! (${email})` })
                         });
