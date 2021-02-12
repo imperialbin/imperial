@@ -51,6 +51,13 @@
   },
   "devDependencies": {
     "eslint": "^7.19.0",
-    "prettier": "^2.2.1"
+    "husky": "^5.0.9",
+    "prettier": "^2.2.1",
+    "pretty-quick": "^3.1.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
   }
 }
