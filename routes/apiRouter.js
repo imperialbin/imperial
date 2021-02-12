@@ -147,44 +147,41 @@ routes.delete('/purgeDocuments', async (req, res) => {
     });
 });
 
-routes.delete(['/document/:slug', '/deleteCod/:slug', '/paste/:slug'], async (req, res) => {
+//                                             (Tech) - I hate cods.
+routes.delete(['/document/:slug', '/deleteCode/:slug', '/deleteCod/:slug', '/paste/:slug'], async (req, res) => {
     var index = { 'apiToken': req.headers.authorization };
-    if (req.isAuthenticated()) {
-        const authedUser = await Users.findOne({ _id: req.user.toString() })
-        var index = { '_id': authedUser._id };
+    if(req.isAuthenticated()) {
+        const authedUser = await Users.findOne({ _id: req.user.toString() });
+        index = { '_id': authedUser._id };
     }
-    if (!index) return throwApiError(res, "Please put in an API token!");
+
+    if(!index) return throwApiError(res, "Please put in an API token!");
     const document = req.params.slug;
+
     Users.findOne(index, (err, user) => {
-        if (err) return throwApiError(res, "An internal server error occurred! Please contact an admin!")
-        if (user) {
-            const userId = user._id.toString();
-            db.link.loadDatabase();
-            db.link.findOne({ URL: document }, (err, documentInfo) => {
-                if (documentInfo) {
-                    // Only allow the owner of the document to delete
-                    if (documentInfo.creator === userId) {
-                        db.link.remove({ _id: documentInfo._id }, err => {
-                            if (err) return throwApiError(res, "An internal server error occurred! Please contact an admin!")
-                            if (documentInfo.imageEmbed && fs.existsSync(`./public/assets/img/${documents[entry].URL}.jpg`)) fs.unlinkSync(`./public/assets/img/${documentInfo.URL}.jpg`)
-                            if (Object.keys(index).indexOf('_id') > -1) return res.redirect('/account')
-                            res.json({
-                                success: true,
-                                message: "Successfully delete the document!"
-                            })
-                        })
-                    } else {
-                        return throwApiError(res, "You do not have access to delete this document!")
-                    }
-                } else {
-                    return throwApiError(res, "We couldn't find that document!")
-                }
-            })
-        } else {
-            return throwApiError(res, "Invalid API token!")
-        }
-    })
-})
+        if(err) return throwApiError(res, "Sorry! There was a internal server error, please contact a administrator!");
+        if(!user) return throwApiError(res, "Please put in a valid API token!");
+        const userId = user._id.toString();
+
+        db.link.loadDatabase();
+        db.link.findOne({ URL: document }, (err, documentInfo) => {
+            if(!documentInfo) return throwApiError("Sorry! That document doesn't exist.");
+            if(documentInfo.creator !== userId) return throwApiError("Sorry! You aren't allowed to modify this document.");
+            // Delete specific document.
+            db.link.remove({ _id: documentInfo._id }, err => {
+                if(err) return throwApiError(res, "Sorry! There was a internal server error, please contact a administrator!");
+                if(documentInfo.imageEmbed && fs.existsSync(`./public/assets/img/${documentInfo.URL}.jpg`))
+                    fs.unlinkSync(`./public/assets/img/${documentInfo.URL}.jpg`);
+            });
+            
+            if(Object.keys(index).indexOf('_id') > -1) return res.redirect('/account');
+            res.json({
+                success: true,
+                message: "Successfully delete the document!"
+            });
+        });
+    });
+});
 
 routes.get(['/document/:slug', '/getCode/:slug', '/paste/:slug'], (req, res) => {
     const document = req.params.slug;
