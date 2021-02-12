@@ -5,25 +5,25 @@ const bcrypt = require('bcrypt')
 function initialize(passport) {
     const authenticateUser = async (email, password, done) => {
         Users.findOne({ $or: [{ 'email': email.toLowerCase() }, { 'name': email.toLowerCase() }] }, async (err, user) => {
-            if (!user) return done(null, false, { message: 'No users found using that email!' })
+            if (!user) return done(null, false, { message: 'No user found using that email!' })
             if (user.confirmed) {
                 if (!user.banned) {
                     try {
                         if (await bcrypt.compare(password, user.password)) {
                             return done(null, user)
                         } else {
-                            return done(null, false, { message: 'Incorrect password! Reset it if you forgot!' })
+                            return done(null, false, { message: 'Incorrect password!' })
                         }
                     } catch (e) {
                         return done(e)
                     }
                 } else {
-                    return done(null, false, { message: 'Sadly, your account could not be accessed because your are banned.' })
+                    return done(null, false, { message: 'Your account is banned for not following rules!' })
                 }
             } else {
-                return done(null, false, { message: 'Please verify your email!' })
+                return done(null, false, { message: 'Please confirm your email!' })
             }
-        })
+        });
     }
 
     passport.use(new LocalStrategy({ usernameField: 'email' }, authenticateUser))
@@ -31,8 +31,8 @@ function initialize(passport) {
     passport.deserializeUser(async (id, done) => {
         Users.findById(id, (err, user) => {
             done(err, user._id);
-        })
-    })
+        });
+    });
 }
 
 module.exports = initialize

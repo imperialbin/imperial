@@ -23,5 +23,5 @@ module.exports = new CronJob('00 00 00 * * *', () => {
         }
       }
     }
-  })
+  });
 }, null, true, 'America/Los_Angeles').start();

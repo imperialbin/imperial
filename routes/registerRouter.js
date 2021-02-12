@@ -22,11 +22,11 @@ const transporter = mailer.createTransport({
   tls: {
     rejectUnauthorized: false
   }
-})
+});
 
 routes.get('/', checkNotAuthenticated, (req, res) => {
   res.render('register.ejs', { error: false, user: false, email: false });
-})
+});
 
 routes.post('/', async (req, res) => {
   db.betaCodes.loadDatabase();
@@ -105,7 +105,7 @@ routes.post('/', async (req, res) => {
     } else {
       res.render('register.ejs', { error: 'That username is taken!', email, user: false })
     }
-  })
-})
+  });
+});
 
 module.exports = routes;

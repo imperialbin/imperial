@@ -10,7 +10,7 @@ module.exports = async (documentId, quality) => {
       '--disable-setuid-sandbox'
     ],
     defaultViewport: null
-  })
+  });
   const page = await browser.newPage();
   await page.goto(`https://imperialb.in/p/${documentId}`)
   await page.waitForSelector('.hljs');

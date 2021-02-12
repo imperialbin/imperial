@@ -27,6 +27,6 @@ routes.get('/:documentId', (req, res) => {
     } catch (err) {
         res.render('error.ejs', { error: 'We couldn\'t find that document or an error occurred!' });
     }
-})
+});
 
 module.exports = routes;

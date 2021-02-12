@@ -10,10 +10,10 @@ db.betaCodes = new Datastore({ filename: './databases/betaCodes' });
 db.plusCodes = new Datastore({ filename: './databases/plusCodes' });
 db.emailTokens = new Datastore({ filename: './databases/emailTokens' });
 db.resetTokens = new Datastore({ filename: './databases/resetTokens' });
-db.betaCodes.loadDatabase()
-db.plusCodes.loadDatabase()
-db.emailTokens.loadDatabase()
-db.resetTokens.loadDatabase()
+db.betaCodes.loadDatabase();
+db.plusCodes.loadDatabase();
+db.emailTokens.loadDatabase();
+db.resetTokens.loadDatabase();
 db.link.loadDatabase();
 
 const transporter = mailer.createTransport({
@@ -42,11 +42,11 @@ routes.get('/', (req, res) => {
     } else {
         res.render('index.ejs', { loggedIn: false })
     }
-})
+});
 
 routes.get('/success', (req, res) => {
     res.render('success.ejs', { successMessage: 'bruh' })
-})
+});
 
 routes.get(['/discord', '/dis', '/dsc'], (req, res) => {
     res.redirect('https://discord.com/invite/cTm85eW49D')
@@ -54,11 +54,11 @@ routes.get(['/discord', '/dis', '/dsc'], (req, res) => {
 
 routes.get(['/github', '/gh', '/git'], (req, res) => {
     res.redirect('https://github.com/imperialbin')
-})
+});
 
 routes.get('/forgot', (req, res) => {
     res.render('forgot.ejs', { error: false });
-})
+});
 
 routes.get('/resetPassword/:resetToken', (req, res) => {
     const resetToken = req.params.resetToken;
@@ -69,21 +69,21 @@ routes.get('/resetPassword/:resetToken', (req, res) => {
         } else {
             res.render('error.ejs', { error: 'Token is not valid!' })
         }
-    })
-})
+    });
+});
 
 routes.get('/redeem', checkAuthenticated, (req, res) => {
     res.render('redeem.ejs', { error: false })
-})
+});
 
 routes.get('/logout', (req, res) => {
     req.session.destroy(err => {
         if (err) return console.log(err);
         req.session = null;
         req.logout();
-    })
+    });
     res.redirect('/login');
-})
+});
 
 routes.post('/saveCode', (req, res) => {
     const code = req.body.code;

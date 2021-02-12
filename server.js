@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const app = express();
 const flash = require('express-flash');
 const session = require('express-session');
-const cookieParser = require('cookie-parser')
+const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const fs = require('fs');
 const passport = require('passport');
@@ -21,8 +21,8 @@ const checkAuthenticated = require('./middleware/checkAuthenticated');
 // Database
 mongoose.connect(`mongodb+srv://${process.env.DB_NAME}:${process.env.DB_PASS}@users.vc1kj.mongodb.net/USERS?retryWrites=true&w=majority`, { useNewUrlParser: true, useUnifiedTopology: true }, (err) => {
     if (err) return err;
-    console.log('CONNECTED DATABASE ;P');
-})
+    console.log('CONNECTED TO THE DATABASE');
+});
 
 // Utilities
 const apiLimiter = require('./utilities/apiLimiter');
@@ -34,8 +34,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(flash())
 app.use(cookieParser(process.env.COOKIE_SECRET))
-app.use(session({ secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: false, cookie: { maxAge: 120 * 60 * 60 * 1000 }, store: new MongoStore({ mongooseConnection: mongoose.connection, ttl: 5 * 24 * 60 * 60, autoRemove: 'interval', autoRemoveInterval: 10 }), unset: 'destroy' }))
-app.use(passport.initialize())
+app.use(session({ secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: false, cookie: { maxAge: 120 * 60 * 60 * 1000 }, store: new MongoStore({ mongooseConnection: mongoose.connection, ttl: 5 * 24 * 60 * 60, autoRemove: 'interval', autoRemoveInterval: 10 }), unset: 'destroy' }));
+app.use(passport.initialize());
 app.use(passport.session());
 app.use(methodOverride('_method'));
 app.use(CrawlerDetect.express());
@@ -72,22 +72,22 @@ process.on('uncaughtException', (err, origin) => {
         `Caught exception: ${err}\n` +
         `Exception origin: ${origin}`
     );
-})
+});
 
 // SOCKET IO STUFF
 // this shit literally doesnt work, i think its my fault for the nginx config, but fuck men, like what the hell dude, just work :facepalm:
 http.listen(8080, () => {
     console.log('SOCKETIO SERVER LISTENING!');
-})
+});
 
 io.on('connection', socket => {
     socket.on('editPasteEmit', code => {
         io.emit('getEditPasteEmit', code);
-    })
-})
+    });
+});
 
 app.get('*', (req, res) => {
     res.redirect('/');
-})
+});
 
 app.listen(3000, () => console.log('Running on 3000!'));
