@@ -2,7 +2,8 @@ const routes = require("express").Router();
 const Datastore = require("nedb");
 const fs = require("fs");
 const Users = require("../models/Users");
-var db = {};
+
+const db = {};
 db.link = new Datastore({ filename: "./databases/links" });
 db.betaCodes = new Datastore({ filename: "./databases/betaCodes" });
 db.plusCodes = new Datastore({ filename: "./databases/plusCodes" });
@@ -26,18 +27,21 @@ routes.post(["/document", "/postCode", "/paste"], (req, res) => {
       if (user) {
         const longerUrls = req.body.longerUrls || false;
         const imageEmbed = req.body.imageEmbed || false;
-        var expiration = req.body.expiration || 5;
         const instantDelete = req.body.instantDelete || false;
         const creator = user._id.toString();
-        var quality = 73;
-        var str = Math.random().toString(36).substring(2);
-        if (user.memberPlus) var quality = 100;
-        if (longerUrls)
-          var str =
+        const quality = user.memberPlus ? 100 : 73;
+
+        let str = Math.random().toString(36).substring(2);
+        let expiration = req.body.expiration || 5;
+
+        if (longerUrls) {
+          str =
             Math.random().toString(36).slice(2) +
             Math.random().toString(36).slice(2) +
             Math.random().toString(36).slice(2);
-        if (expiration >= 31) var expiration = 31;
+        }
+
+        if (expiration >= 31) expiration = 31;
         createPaste(
           str,
           imageEmbed,
@@ -134,10 +138,7 @@ routes.patch(["/document", "/editCode", "/paste"], (req, res) => {
       db.link.findOne({ URL: document }, (err, documentInfo) => {
         if (documentInfo) {
           const editorArray = documentInfo.allowedEditor;
-          if (
-            documentInfo.creator === userId ||
-            editorArray.indexOf(userId) != -1
-          ) {
+          if (documentInfo.creator === userId || editorArray.includes(userId)) {
             db.link.update({ URL: document }, { $set: { code } }, (err) => {
               if (err)
                 return throwApiError(
@@ -171,11 +172,12 @@ routes.patch(["/document", "/editCode", "/paste"], (req, res) => {
 });
 
 routes.delete("/purgeDocuments", async (req, res) => {
-  var index = { apiToken: req.headers.authorization };
+  let index = { apiToken: req.headers.authorization };
   if (req.isAuthenticated()) {
     const authedUser = await Users.findOne({ _id: req.user.toString() });
-    var index = { _id: authedUser._id };
+    index = { _id: authedUser._id };
   }
+
   if (!index) return throwApiError(res, "Please put in an API token!");
   Users.findOne(index, (err, user) => {
     if (err)
@@ -224,11 +226,13 @@ routes.delete("/purgeDocuments", async (req, res) => {
 routes.delete(
   ["/document/:slug", "/deleteCod/:slug", "/paste/:slug"],
   async (req, res) => {
-    var index = { apiToken: req.headers.authorization };
+    let index = { apiToken: req.headers.authorization };
+
     if (req.isAuthenticated()) {
       const authedUser = await Users.findOne({ _id: req.user.toString() });
-      var index = { _id: authedUser._id };
+      index = { _id: authedUser._id };
     }
+
     if (!index) return throwApiError(res, "Please put in an API token!");
     const document = req.params.slug;
     Users.findOne(index, (err, user) => {
@@ -253,6 +257,9 @@ routes.delete(
                 if (
                   documentInfo.imageEmbed &&
                   fs.existsSync(
+                    // again, a looskie fuckywucky in production
+                    // todo: fix this
+                    // eslint-disable-next-line no-undef
                     `./public/assets/img/${documents[entry].URL}.jpg`
                   )
                 )
