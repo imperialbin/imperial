@@ -221,6 +221,7 @@ li.deletePaste {width: 105px!important }
   padding: 0;
   margin: 0 unset;
   opacity: .95;
+  color: var(--text-light);
 }
 #lines {
   color: #40474e;
