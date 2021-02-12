@@ -66,7 +66,7 @@ routes.get("/resetPassword/:resetToken", (req, res) => {
   const resetToken = req.params.resetToken;
   db.resetTokens.find({ token: resetToken }, (err, data) => {
     if (err) return console.log(err);
-    if (!data == undefined || !data.length == 0) {
+    if (!data === undefined || !data.length === 0) {
       res.render("resetPassword.ejs", { token: resetToken, error: false });
     } else {
       res.render("error.ejs", { error: "Token is not valid!" });
@@ -120,7 +120,7 @@ routes.post("/saveCode", async (req, res) => {
     // Check if input is more than 0
     if (code.length > 0) {
       if (req.isAuthenticated()) {
-                await Users.updateOne({ _id: creator }, { $inc: { documentsMade: 1 } })
+        await Users.updateOne({ _id: creator }, { $inc: { documentsMade: 1 } });
         db.link.insert({
           URL: str,
           imageEmbed,
@@ -259,7 +259,7 @@ routes.post("/resetPassword", (req, res) => {
   const password = req.body.password;
   const confirmPassword = req.body.confirmPassword;
   db.resetTokens.find({ token: resetToken }, async (err, data) => {
-    if (!data == undefined || !data.length == 0) {
+    if (data || data.length !== 0) {
       if (password.length >= 8) {
         if (password)
           if (confirmPassword === password) {

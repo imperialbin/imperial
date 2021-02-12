@@ -73,7 +73,7 @@ routes.post("/", async (req, res) => {
                           password: hashedPass,
                           memberPlus: false,
                           codes: [],
-                          documentsMade: 0
+                          documentsMade: 0,
                         });
                         newUser
                           .save()

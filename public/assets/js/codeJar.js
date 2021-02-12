@@ -1,19 +1,30 @@
 export function CodeJar(editor, highlight, opt = {}) {
-  const options = Object.assign({ tab: '\t', indentOn: /{$/, spellcheck: false, catchTab: true, preserveIdent: true, addClosing: true, history: true }, opt);
+  const options = Object.assign(
+    {
+      tab: "\t",
+      indentOn: /{$/,
+      spellcheck: false,
+      catchTab: true,
+      preserveIdent: true,
+      addClosing: true,
+      history: true,
+    },
+    opt
+  );
   let listeners = [];
   let history = [];
   let at = -1;
   let focus = false;
   let callback;
   let prev; // code content prior keydown event
-  let isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
-  editor.setAttribute('contentEditable', isFirefox ? 'true' : 'plaintext-only');
-  editor.setAttribute('spellcheck', options.spellcheck ? 'true' : 'false');
-  editor.style.outline = 'none';
-  editor.style.overflowWrap = 'break-word';
-  editor.style.overflowY = 'auto';
-  editor.style.resize = 'vertical';
-  editor.style.whiteSpace = 'pre-wrap';
+  let isFirefox = navigator.userAgent.toLowerCase().indexOf("firefox") > -1;
+  editor.setAttribute("contentEditable", isFirefox ? "true" : "plaintext-only");
+  editor.setAttribute("spellcheck", options.spellcheck ? "true" : "false");
+  editor.style.outline = "none";
+  editor.style.overflowWrap = "break-word";
+  editor.style.overflowY = "auto";
+  editor.style.resize = "vertical";
+  editor.style.whiteSpace = "pre-wrap";
   highlight(editor);
   const debounceHighlight = debounce(() => {
     const pos = save();
@@ -22,11 +33,14 @@ export function CodeJar(editor, highlight, opt = {}) {
   }, 30);
   let recording = false;
   const shouldRecord = (event) => {
-    return !isUndo(event) && !isRedo(event)
-      && event.key !== 'Meta'
-      && event.key !== 'Control'
-      && event.key !== 'Alt'
-      && !event.key.startsWith('Arrow');
+    return (
+      !isUndo(event) &&
+      !isRedo(event) &&
+      event.key !== "Meta" &&
+      event.key !== "Control" &&
+      event.key !== "Alt" &&
+      !event.key.startsWith("Arrow")
+    );
   };
   const debounceRecordHistory = debounce((event) => {
     if (shouldRecord(event)) {
@@ -38,18 +52,13 @@ export function CodeJar(editor, highlight, opt = {}) {
     listeners.push([type, fn]);
     editor.addEventListener(type, fn);
   };
-  on('keydown', event => {
-    if (event.defaultPrevented)
-      return;
+  on("keydown", (event) => {
+    if (event.defaultPrevented) return;
     prev = toString();
-    if (options.preserveIdent)
-      handleNewLine(event);
-    else
-      firefoxNewLineFix(event);
-    if (options.catchTab)
-      handleTabCharacters(event);
-    if (options.addClosing)
-      handleSelfClosingCharacters(event);
+    if (options.preserveIdent) handleNewLine(event);
+    else firefoxNewLineFix(event);
+    if (options.catchTab) handleTabCharacters(event);
+    if (options.addClosing) handleSelfClosingCharacters(event);
     if (options.history) {
       handleUndoRedo(event);
       if (shouldRecord(event) && !recording) {
@@ -58,88 +67,76 @@ export function CodeJar(editor, highlight, opt = {}) {
       }
     }
   });
-  on('keyup', event => {
-    if (event.defaultPrevented)
-      return;
-    if (event.isComposing)
-      return;
-    if (prev !== toString())
-      debounceHighlight();
+  on("keyup", (event) => {
+    if (event.defaultPrevented) return;
+    if (event.isComposing) return;
+    if (prev !== toString()) debounceHighlight();
     debounceRecordHistory(event);
-    if (callback)
-      callback(toString());
+    if (callback) callback(toString());
   });
-  on('focus', _event => {
+  on("focus", (_event) => {
     focus = true;
   });
-  on('blur', _event => {
+  on("blur", (_event) => {
     focus = false;
   });
-  on('paste', event => {
+  on("paste", (event) => {
     recordHistory();
     handlePaste(event);
     recordHistory();
-    if (callback)
-      callback(toString());
+    if (callback) callback(toString());
   });
   function save() {
     const s = window.getSelection();
     const pos = { start: 0, end: 0, dir: undefined };
-    visit(editor, el => {
+    visit(editor, (el) => {
       if (el === s.anchorNode && el === s.focusNode) {
         pos.start += s.anchorOffset;
         pos.end += s.focusOffset;
-        pos.dir = s.anchorOffset <= s.focusOffset ? '->' : '<-';
-        return 'stop';
+        pos.dir = s.anchorOffset <= s.focusOffset ? "->" : "<-";
+        return "stop";
       }
       if (el === s.anchorNode) {
         pos.start += s.anchorOffset;
         if (!pos.dir) {
-          pos.dir = '->';
+          pos.dir = "->";
+        } else {
+          return "stop";
         }
-        else {
-          return 'stop';
-        }
-      }
-      else if (el === s.focusNode) {
+      } else if (el === s.focusNode) {
         pos.end += s.focusOffset;
         if (!pos.dir) {
-          pos.dir = '<-';
-        }
-        else {
-          return 'stop';
+          pos.dir = "<-";
+        } else {
+          return "stop";
         }
       }
       if (el.nodeType === Node.TEXT_NODE) {
-        if (pos.dir != '->')
-          pos.start += el.nodeValue.length;
-        if (pos.dir != '<-')
-          pos.end += el.nodeValue.length;
+        if (pos.dir !== "->") pos.start += el.nodeValue.length;
+        if (pos.dir !== "<-") pos.end += el.nodeValue.length;
       }
     });
     return pos;
   }
   function restore(pos) {
     const s = window.getSelection();
-    let startNode, startOffset = 0;
-    let endNode, endOffset = 0;
-    if (!pos.dir)
-      pos.dir = '->';
-    if (pos.start < 0)
-      pos.start = 0;
-    if (pos.end < 0)
-      pos.end = 0;
+    let startNode,
+      startOffset = 0;
+    let endNode,
+      endOffset = 0;
+    if (!pos.dir) pos.dir = "->";
+    if (pos.start < 0) pos.start = 0;
+    if (pos.end < 0) pos.end = 0;
     // Flip start and end if the direction reversed
-    if (pos.dir == '<-') {
+    if (pos.dir === "<-") {
       const { start, end } = pos;
       pos.start = end;
       pos.end = start;
     }
     let current = 0;
-    visit(editor, el => {
-      if (el.nodeType !== Node.TEXT_NODE)
-        return;
-      const len = (el.nodeValue || '').length;
+    visit(editor, (el) => {
+      if (el.nodeType !== Node.TEXT_NODE) return;
+      const len = (el.nodeValue || "").length;
       if (current + len >= pos.start) {
         if (!startNode) {
           startNode = el;
@@ -148,19 +145,22 @@ export function CodeJar(editor, highlight, opt = {}) {
         if (current + len >= pos.end) {
           endNode = el;
           endOffset = pos.end - current;
-          return 'stop';
+          return "stop";
         }
       }
       current += len;
     });
     // If everything deleted place cursor at editor
-    if (!startNode)
-      startNode = editor;
-    if (!endNode)
-      endNode = editor;
+    if (!startNode) startNode = editor;
+    if (!endNode) endNode = editor;
     // Flip back the selection
-    if (pos.dir == '<-') {
-      [startNode, startOffset, endNode, endOffset] = [endNode, endOffset, startNode, startOffset];
+    if (pos.dir === "<-") {
+      [startNode, startOffset, endNode, endOffset] = [
+        endNode,
+        endOffset,
+        startNode,
+        startOffset,
+      ];
     }
     s.setBaseAndExtent(startNode, startOffset, endNode, endOffset);
   }
@@ -181,7 +181,7 @@ export function CodeJar(editor, highlight, opt = {}) {
     return r.toString();
   }
   function handleNewLine(event) {
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
       const before = beforeCursor();
       const after = afterCursor();
       let [padding] = findPadding(before);
@@ -195,15 +195,14 @@ export function CodeJar(editor, highlight, opt = {}) {
       if (newLinePadding.length > 0) {
         preventDefault(event);
         event.stopPropagation();
-        insert('\n' + newLinePadding);
-      }
-      else {
+        insert("\n" + newLinePadding);
+      } else {
         firefoxNewLineFix(event);
       }
       // Place adjacent "}" on next line
-      if (newLinePadding !== padding && after[0] === '}') {
+      if (newLinePadding !== padding && after[0] === "}") {
         const pos = save();
-        insert('\n' + padding);
+        insert("\n" + padding);
         restore(pos);
       }
     }
@@ -211,17 +210,16 @@ export function CodeJar(editor, highlight, opt = {}) {
   function firefoxNewLineFix(event) {
     // Firefox does not support plaintext-only mode
     // and puts <div><br></div> on Enter. Let's help.
-    if (isFirefox && event.key === 'Enter') {
+    if (isFirefox && event.key === "Enter") {
       preventDefault(event);
       event.stopPropagation();
-      if (afterCursor() == '') {
-        insert('\n ');
+      if (afterCursor() === "") {
+        insert("\n ");
         const pos = save();
         pos.start = --pos.end;
         restore(pos);
-      }
-      else {
-        insert('\n');
+      } else {
+        insert("\n");
       }
     }
   }
@@ -230,20 +228,25 @@ export function CodeJar(editor, highlight, opt = {}) {
     const close = `)]}'"`;
     const codeAfter = afterCursor();
     const codeBefore = beforeCursor();
-    const escapeCharacter = codeBefore.substr(codeBefore.length - 1) === '\\';
+    const escapeCharacter = codeBefore.substr(codeBefore.length - 1) === "\\";
     const charAfter = codeAfter.substr(0, 1);
-    if (close.includes(event.key) && !escapeCharacter && charAfter === event.key) {
+    if (
+      close.includes(event.key) &&
+      !escapeCharacter &&
+      charAfter === event.key
+    ) {
       // We already have closing char next to cursor.
       // Move one char to right.
       const pos = save();
       preventDefault(event);
       pos.start = ++pos.end;
       restore(pos);
-    }
-    else if (open.includes(event.key)
-      && !escapeCharacter
+    } else if (
+      open.includes(event.key) &&
+      !escapeCharacter &&
       // Only if string or have empty space after
-      && (`"'`.includes(event.key) || ['', ' ', '\n'].includes(charAfter))) {
+      (`"'`.includes(event.key) || ["", " ", "\n"].includes(charAfter))
+    ) {
       // Place closing char.
       const pos = save();
       preventDefault(event);
@@ -254,23 +257,22 @@ export function CodeJar(editor, highlight, opt = {}) {
     }
   }
   function handleTabCharacters(event) {
-    if (event.key === 'Tab') {
+    if (event.key === "Tab") {
       preventDefault(event);
       if (event.shiftKey) {
         const before = beforeCursor();
-        let [padding, start,] = findPadding(before);
+        let [padding, start] = findPadding(before);
         if (padding.length > 0) {
           const pos = save();
           // Remove full length tab or just remaining padding
           const len = Math.min(options.tab.length, padding.length);
           restore({ start, end: start + len });
-          document.execCommand('delete');
+          document.execCommand("delete");
           pos.start -= len;
           pos.end -= len;
           restore(pos);
         }
-      }
-      else {
+      } else {
         insert(options.tab);
       }
     }
@@ -284,8 +286,7 @@ export function CodeJar(editor, highlight, opt = {}) {
         editor.innerHTML = record.html;
         restore(record.pos);
       }
-      if (at < 0)
-        at = 0;
+      if (at < 0) at = 0;
     }
     if (isRedo(event)) {
       preventDefault(event);
@@ -295,20 +296,20 @@ export function CodeJar(editor, highlight, opt = {}) {
         editor.innerHTML = record.html;
         restore(record.pos);
       }
-      if (at >= history.length)
-        at--;
+      if (at >= history.length) at--;
     }
   }
   function recordHistory() {
-    if (!focus)
-      return;
+    if (!focus) return;
     const html = editor.innerHTML;
     const pos = save();
     const lastRecord = history[at];
     if (lastRecord) {
-      if (lastRecord.html === html
-        && lastRecord.pos.start === pos.start
-        && lastRecord.pos.end === pos.end)
+      if (
+        lastRecord.html === html &&
+        lastRecord.pos.start === pos.start &&
+        lastRecord.pos.end === pos.end
+      )
         return;
     }
     at++;
@@ -322,7 +323,9 @@ export function CodeJar(editor, highlight, opt = {}) {
   }
   function handlePaste(event) {
     preventDefault(event);
-    const text = (event.originalEvent || event).clipboardData.getData('text/plain');
+    const text = (event.originalEvent || event).clipboardData.getData(
+      "text/plain"
+    );
     const pos = save();
     insert(text);
     highlight(editor);
@@ -330,16 +333,12 @@ export function CodeJar(editor, highlight, opt = {}) {
   }
   function visit(editor, visitor) {
     const queue = [];
-    if (editor.firstChild)
-      queue.push(editor.firstChild);
+    if (editor.firstChild) queue.push(editor.firstChild);
     let el = queue.pop();
     while (el) {
-      if (visitor(el) === 'stop')
-        break;
-      if (el.nextSibling)
-        queue.push(el.nextSibling);
-      if (el.firstChild)
-        queue.push(el.firstChild);
+      if (visitor(el) === "stop") break;
+      if (el.nextSibling) queue.push(el.nextSibling);
+      if (el.firstChild) queue.push(el.firstChild);
       el = queue.pop();
     }
   }
@@ -347,19 +346,19 @@ export function CodeJar(editor, highlight, opt = {}) {
     return event.metaKey || event.ctrlKey;
   }
   function isUndo(event) {
-    return isCtrl(event) && !event.shiftKey && event.key === 'z';
+    return isCtrl(event) && !event.shiftKey && event.key === "z";
   }
   function isRedo(event) {
-    return isCtrl(event) && event.shiftKey && event.key === 'z';
+    return isCtrl(event) && event.shiftKey && event.key === "z";
   }
   function insert(text) {
     text = text
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#039;');
-    document.execCommand('insertHTML', false, text);
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+    document.execCommand("insertHTML", false, text);
   }
   function debounce(cb, wait) {
     let timeout = 0;
@@ -371,17 +370,15 @@ export function CodeJar(editor, highlight, opt = {}) {
   function findPadding(text) {
     // Find beginning of previous line.
     let i = text.length - 1;
-    while (i >= 0 && text[i] !== '\n')
-      i--;
+    while (i >= 0 && text[i] !== "\n") i--;
     i++;
     // Find padding of the line.
     let j = i;
-    while (j < text.length && /[ \t]/.test(text[j]))
-      j++;
-    return [text.substring(i, j) || '', i, j];
+    while (j < text.length && /[ \t]/.test(text[j])) j++;
+    return [text.substring(i, j) || "", i, j];
   }
   function toString() {
-    return editor.textContent || '';
+    return editor.textContent || "";
   }
   function preventDefault(event) {
     event.preventDefault();
