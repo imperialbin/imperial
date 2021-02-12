@@ -11,4 +11,13 @@ module.exports = {
     ecmaVersion: 12,
   },
   rules: {},
+  overrides: [
+    {
+      files: "./public/assets/**/*.js",
+      rules: {
+        "no-undef": "off",
+        "no-unused-vars": "off",
+      },
+    },
+  ],
 };

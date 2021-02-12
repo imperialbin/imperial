@@ -2,9 +2,11 @@ const routes = require("express").Router();
 const Users = require("../models/Users");
 const Datastore = require("nedb");
 const bcrypt = require("bcrypt");
-var db = {};
-db.emailTokens = new Datastore({ filename: "./databases/emailTokens" });
-db.resetTokens = new Datastore({ filename: "./databases/resetTokens" });
+
+const db = {
+  emailTokens: new Datastore({ filename: "./databases/emailTokens" }),
+  resetTokens: new Datastore({ filename: "./databases/resetTokens" }),
+};
 
 routes.get("/", (req, res) => {
   res.redirect("/");
@@ -38,13 +40,13 @@ routes.post("/resetPassword", (req, res) => {
   const password = req.body.password;
   const confirmPassword = req.body.confirmPassword;
   db.resetTokens.findOne({ token: resetToken }, async (err, data) => {
-    if (!data == undefined || !data.length == 0) {
+    if (!data === undefined || !data.length === 0) {
       if (password.length >= 8) {
         if (password)
           if (confirmPassword === password) {
             const hashedPass = await bcrypt.hash(password, 13);
             res.render("success.ejs", {
-              successMessage: "Successfully resetted your password!",
+              successMessage: "Successfully reset your password!",
             });
             Users.updateOne(
               { email: data.email },
