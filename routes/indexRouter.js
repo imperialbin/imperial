@@ -3,13 +3,15 @@ const Users = require("../models/Users");
 const Datastore = require("nedb");
 const bcrypt = require("bcrypt");
 const mailer = require("nodemailer");
-var db = {};
+
+const db = {};
 db.users = new Datastore({ filename: "./databases/users" });
 db.link = new Datastore({ filename: "./databases/links" });
 db.betaCodes = new Datastore({ filename: "./databases/betaCodes" });
 db.plusCodes = new Datastore({ filename: "./databases/plusCodes" });
 db.emailTokens = new Datastore({ filename: "./databases/emailTokens" });
 db.resetTokens = new Datastore({ filename: "./databases/resetTokens" });
+
 db.betaCodes.loadDatabase();
 db.plusCodes.loadDatabase();
 db.emailTokens.loadDatabase();
@@ -85,7 +87,7 @@ routes.get("/logout", (req, res) => {
   res.redirect("/login");
 });
 
-routes.post("/saveCode", (req, res) => {
+routes.post("/saveCode", async (req, res) => {
   const code = req.body.code;
   const securedUrls = JSON.parse(req.body.securedUrls.toString().toLowerCase());
 
@@ -118,6 +120,7 @@ routes.post("/saveCode", (req, res) => {
     // Check if input is more than 0
     if (code.length > 0) {
       if (req.isAuthenticated()) {
+                await Users.updateOne({ _id: creator }, { $inc: { documentsMade: 1 } })
         db.link.insert({
           URL: str,
           imageEmbed,

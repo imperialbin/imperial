@@ -183,14 +183,12 @@ span {
   margin-left: -103px;
   padding: 6px 10px;
 }
-.deletePaste:hover {
-  color: var(--text-error);
-}
-.deleteForm {
-  display: inline;
-}
-.dumbLinks {
-  cursor: initial;
+.deletePaste:hover { color: var(--text-error) }
+.deleteForm { display: inline }
+.dumbLinks { cursor: initial }
+.ellipsis {
+    padding-right: 110px;
+    text-overflow: ellipsis;
 }
 
 .paste {

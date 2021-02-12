@@ -1,16 +1,17 @@
+require("dotenv/config");
 const routes = require("express").Router();
 const Users = require("../models/Users");
 const bcrypt = require("bcrypt");
 const gravatar = require("gravatar");
 const fetch = require("node-fetch");
 const Datastore = require("nedb");
-var db = {};
+
+const db = {};
 db.link = new Datastore({ filename: "./databases/links" });
 db.betaCodes = new Datastore({ filename: "./databases/betaCodes" });
 db.plusCodes = new Datastore({ filename: "./databases/plusCodes" });
 db.betaCodes.loadDatabase();
 db.plusCodes.loadDatabase();
-require("dotenv");
 
 routes.get("/", (req, res) => {
   db.link.loadDatabase();
@@ -33,6 +34,23 @@ routes.get("/", (req, res) => {
     }
   });
 });
+
+routes.post('/me', (req, res) => {
+    const password = req.body.password;
+    Users.findOne({ _id: req.user.toString() }, async (err, user) => {
+        if (user) {
+            if (await bcrypt.compare(password, user.password)) {
+                res.setHeader("Content-Type", "text/plain");
+                res.write(user.toString());
+                res.end()
+            } else {
+                db.link.find({ creator: req.user.toString() }).sort({ dateCreated: -1 }).limit(10).exec((err, documents) => {
+                    res.render('account.ejs', { user: user, error: false, success: false, codeError: false, pfpError: 'We couldn\'t get your user data because your password was incorrect!', documents })
+                })
+            }
+        }
+    })
+})
 
 routes.post("/redeem", (req, res) => {
   const code = req.body.code;

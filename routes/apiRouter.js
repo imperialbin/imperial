@@ -69,7 +69,7 @@ routes.post(["/document", "/postCode", "/paste"], (req, res) => {
       "NONE"
     );
   }
-  function createPaste(
+  asyncfunction createPaste(
     str,
     imageEmbed,
     instantDelete,
@@ -78,7 +78,7 @@ routes.post(["/document", "/postCode", "/paste"], (req, res) => {
     quality
   ) {
     try {
-      if (code) {
+      if (code) {await Users.updateOne({ _id: creator }, { $inc: { documentsMade: 1 } })
         db.link.insert(
           {
             URL: str,
