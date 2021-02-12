@@ -30,7 +30,7 @@ routes.post(['/document', '/postCode', '/paste'], (req, res) => {
         if(!user) return guestPaste();
 
         const creator = user._id.toString();
-        const userSettings = {
+        const documentSettings = {
             longerUrls: req.body.longerUrls || false,
             imageEmbed: req.body.imageEmbed || false,
             expiration: req.body.expiration || 5,
@@ -42,11 +42,11 @@ routes.post(['/document', '/postCode', '/paste'], (req, res) => {
         // Short URLs are 8 characters long.
         str += Math.random().toString(36).substr(2, 8);
         // Long URLs are 15 characters long.
-        if(userSettings.longerUrls) str += Math.random().toString(36).substring(2, 7);
+        if(documentSettings.longerUrls) str += Math.random().toString(36).substring(2, 7);
         // Max duration.
-        if(userSettings.expiration > 31) userSettings.expiration = 31;
+        if(documentSettings.expiration > 31) documentSettings.expiration = 31;
 
-        createPaste(str, userSettings.imageEmbed, userSettings.instantDelete, userSettings.expiration, creator, userSettings.quality);
+        createPaste(str, documentSettings.imageEmbed, documentSettings.instantDelete, documentSettings.expiration, creator, documentSettings.quality);
     });
 
     function createPaste(str, imageEmbed, instantDelete, expiration, creator, quality) {
