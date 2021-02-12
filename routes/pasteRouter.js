@@ -44,6 +44,7 @@ routes.get(['/:documentId', '/:slug/:documentId', '/:slug/:slugTwo/:documentId',
                     // If there's some sort of error just return the Guest paste.
                     if(err) return res.render('pasted.ejs', { documentName: documentId, imageEmbed: enableImageEmbed, code: document.code, loggedIn: false, deleteDate: deleteDate, creator: false });
                     
+                    const editorArray = document.allowedEditor;
                     var creator;
                     if (userId == document.creator || editorArray.indexOf(userId) != -1) creator = true;
                     else creator = false;
