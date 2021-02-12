@@ -109,42 +109,43 @@ routes.patch(['/document', '/editCode', '/paste'], (req, res) => {
 
 routes.delete('/purgeDocuments', async (req, res) => {
     var index = { 'apiToken': req.headers.authorization };
-    if (req.isAuthenticated()) {
-        const authedUser = await Users.findOne({ _id: req.user.toString() })
-        var index = { '_id': authedUser._id };
+    if(req.isAuthenticated()) {
+        const authedUser = await Users.findOne({ _id: req.user.toString() });
+        index = { '_id': authedUser._id };
     }
-    if (!index) return throwApiError(res, "Please put in an API token!");
+
+    if(!index) return throwApiError(res, "Please put in an API token!");
     Users.findOne(index, (err, user) => {
-        if (err) return throwApiError(res, "An internal server error occurred! Please contact an admin!")
-        if (user) {
-            const creator = user._id.toString();
-            db.link.loadDatabase()
-            db.link.find({ creator }, (err, documents) => {
-                if (err) return throwApiError(res, "An internal server error occurred! Please contact an admin!");
-                if (documents[0]) {
-                    for (var entry = 0, len = documents.length; entry < len; entry++) {
-                        const _id = documents[entry]._id;
-                        db.link.remove({ _id })
-                        if (documents[entry].imageEmbed && fs.existsSync(`./public/assets/img/${documents[entry].URL}.jpg`)) {
-                            fs.unlinkSync(`./public/assets/img/${documents[entry].URL}.jpg`)
-                        }
-                    }
-                    db.link.loadDatabase();
-                    if (Object.keys(index).indexOf('_id') > -1) return res.redirect('/account')
-                    res.json({
-                        success: true,
-                        message: `Deleted a total of ${documents.length} documents!`,
-                        numberDeleted: documents.length
-                    })
-                } else {
-                    return throwApiError(res, "There was no documents to delete!");
-                }
-            })
-        } else {
-            return throwApiError(res, "Invalid API token!")
-        }
-    })
-})
+        if(err) return throwApiError(res, "Sorry! There was a internal server error, please contact a administrator!");
+        if(!user) return throwApiError(res, "Please put in a valid API token!");
+        const creator = user._id.toString();
+        
+        db.link.loadDatabase();
+        db.findOne({ creator }, (err, documents) => {
+            if(err) return throwApiError(res, "Sorry! There was a internal server error, please contact a administrator!");
+            if(documents.length == 0) return throwApiError(res, "There was no documents to delete!");
+            // Go through every document to delete them.
+            for(const document of documents) {
+                const documentID = document._id;
+                db.link.remove({ documentID });
+
+                if(document.imageEmbed && fs.existsSync(`./public/assets/img/${document.URL}.jpg`));
+                    fs.unlinkSync(`./public/assets/img/${document.URL}.jpg`);
+            }
+            // (Tech) - I don't see a point in doing this again when
+            // it's already loaded once above? Something i'm missing like
+            // do the new values not update until you load this again?
+            db.link.loadDatabase();
+            // If the user is logged in redirect to the account page.
+            if(Object.keys(index).indexOf('_id') > -1) return res.redirect('account');
+            res.json({
+                success: true,
+                message: `Deleted a total of ${documents.length} documents!`,
+                numberDeleted: documents.length
+            });
+        });
+    });
+});
 
 routes.delete(['/document/:slug', '/deleteCod/:slug', '/paste/:slug'], async (req, res) => {
     var index = { 'apiToken': req.headers.authorization };
