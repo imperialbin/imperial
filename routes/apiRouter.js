@@ -58,7 +58,8 @@ routes.post(['/document', '/postCode', '/paste'], (req, res) => {
                 URL: str, 
                 imageEmbed, 
                 instantDelete, 
-                creator, code, 
+                creator, 
+                code, 
                 dateCreated: new Date().getTime(), 
                 deleteDate: new Date().setDate(new Date().getDate() + Number(expiration)), 
                 allowedEditor: [] 
