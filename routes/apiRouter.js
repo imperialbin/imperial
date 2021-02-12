@@ -9,7 +9,6 @@ db.plusCodes = new Datastore({ filename: './databases/plusCodes' });
 db.emailTokens = new Datastore({ filename: './databases/emailTokens' });
 db.resetTokens = new Datastore({ filename: './databases/resetTokens' });
 
-
 // Utilites
 const throwApiError = require('../utilities/throwApiError');
 const screenshotDocument = require('../utilities/screenshotDocument');
@@ -24,7 +23,6 @@ routes.post(['/document', '/postCode', '/paste'], (req, res) => {
 
     if(!req.headers.authorization || !req.body.apiToken) return guestPaste();
     const apiToken = req.headers.authorization || req.body.apiToken;
-    
     Users.findOne({ apiToken }, (err, user) => {
         if(err) return throwApiError(res, "Sorry! There was a internal server error, please contact a administrator!");
         if(!user) return guestPaste();
@@ -46,7 +44,7 @@ routes.post(['/document', '/postCode', '/paste'], (req, res) => {
         // Max duration.
         if(documentSettings.expiration > 31) documentSettings.expiration = 31;
 
-        createPaste(str, documentSettings.imageEmbed, documentSettings.instantDelete, documentSettings.expiration, creator, documentSettings.quality);
+        return createPaste(str, documentSettings.imageEmbed, documentSettings.instantDelete, documentSettings.expiration, creator, documentSettings.quality);
     });
 
     function createPaste(str, imageEmbed, instantDelete, expiration, creator, quality) {
@@ -64,7 +62,8 @@ routes.post(['/document', '/postCode', '/paste'], (req, res) => {
                 if(err) return throwApiError(res, "Sorry! There was a internal server error, please contact a administrator!");
                 await Users.updateOne({ _id: creator }, { $inc: { documentsMade: 1 } });
 
-                res.json({
+                if(quality && !instantDelete && imageEmbed) screenshotDocument(str, quality);
+                return res.json({
                     success: true,
                     documentId: str,
                     rawLink: `https://www.imperialb.in/r/${str}`,
@@ -73,9 +72,7 @@ routes.post(['/document', '/postCode', '/paste'], (req, res) => {
                     instantDelete: instantDelete
                 });
 
-                if(quality && !instantDelete && imageEmbed) screenshotDocument(str, quality);
             });
-
         } catch { return throwApiError(res, "Sorry! There was a internal server error, please contact a administrator!"); }
     }
 });
@@ -98,12 +95,12 @@ routes.patch(['/document', '/editCode', '/paste'], (req, res) => {
             if(!documentInfo) return throwApiError("Sorry! We couldn't find that document.");
 
             const editors = documentInfo.allowedEditor;
+            // Make sure user is actually allowed to edit the document.
             if(documentInfo.creator !== userId || editors.indexOf(userId) == -1) return throwApiError("Sorry! You aren't allowed to edit this document.");
             
             db.link.update({ URL: document }, { $set: { code } }, err => {
                 if(err) return throwApiError("Sorry! You aren't allowed to edit this document.");
-
-                res.json({
+                return res.json({
                     success: true,
                     message: 'Successfully edited the document!',
                     documentId: document,
@@ -148,7 +145,7 @@ routes.delete('/purgeDocuments', async (req, res) => {
             db.link.loadDatabase();
             // If the user is logged in redirect to the account page.
             if(Object.keys(index).indexOf('_id') > -1) return res.redirect('account');
-            res.json({
+            return res.json({
                 success: true,
                 message: `Deleted a total of ${documents.length} documents!`,
                 numberDeleted: documents.length
@@ -185,7 +182,7 @@ routes.delete(['/document/:slug', '/deleteCode/:slug', '/deleteCod/:slug', '/pas
             });
             
             if(Object.keys(index).indexOf('_id') > -1) return res.redirect('/account');
-            res.json({
+            return res.json({
                 success: true,
                 message: "Successfully delete the document!"
             });
