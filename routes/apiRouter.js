@@ -27,7 +27,26 @@ routes.post(['/document', '/postCode', '/paste'], (req, res) => {
     
     Users.findOne({ apiToken }, (err, user) => {
         if(err) return throwApiError(res, "Sorry! There was a internal server error, please contact a administrator!");
+        if(!user) return guestPaste();
 
+        const creator = user._id.toString();
+        const userSettings = {
+            longerUrls: req.body.longerUrls || false,
+            imageEmbed: req.body.imageEmbed || false,
+            expiration: req.body.expiration || 5,
+            instantDelete: req.body.instantDelete || false,
+            quality: !user.memberPlus ? 73 : 100 
+        }
+
+        var str = "";
+        // Short URLs are 8 characters long.
+        str += Math.random().toString(36).substr(2, 8);
+        // Long URLs are 15 characters long.
+        if(userSettings.longerUrls) str += Math.random().toString(36).substring(2, 7);
+        // Max duration.
+        if(userSettings.expiration > 31) userSettings.expiration = 31;
+
+        createPaste(str, userSettings.imageEmbed, userSettings.instantDelete, userSettings.expiration, creator, userSettings.quality);
     });
 
     function createPaste(str, imageEmbed, instantDelete, expiration, creator, quality) {
@@ -51,97 +70,42 @@ routes.post(['/document', '/postCode', '/paste'], (req, res) => {
     }
 });
 
-routes.post(['/document', '/postCode', '/paste'], (req, res) => {
-    db.link.loadDatabase();
-    const code = req.body.code;
-    if (req.headers.authorization || req.body.apiToken) {
-        const apiToken = req.headers.authorization || req.body.apiToken;
-        Users.findOne({ apiToken }, (err, user) => {
-            if (user) {
-                const longerUrls = req.body.longerUrls || false
-                const imageEmbed = req.body.imageEmbed || false
-                var expiration = req.body.expiration || 5
-                const instantDelete = req.body.instantDelete || false
-                const creator = user._id.toString()
-                var quality = 73;
-                var str = Math.random().toString(36).substring(2)
-                if (user.memberPlus)
-                    var quality = 100;
-                if (longerUrls)
-                    var str = Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2);
-                if (expiration >= 31)
-                    var expiration = 31;
-                createPaste(str, imageEmbed, instantDelete, expiration, creator, quality);
-            } else {
-                createPaste(Math.random().toString(36).substring(2), false, false, 5, 'NONE');
-            }
-        })
-    } else {
-        createPaste(Math.random().toString(36).substring(2), false, false, 5, 'NONE');
-    }
-    function createPaste(str, imageEmbed, instantDelete, expiration, creator, quality) {
-        try {
-            if (code) {
-                db.link.insert({ URL: str, imageEmbed, instantDelete, creator, code, dateCreated: new Date().getTime(), deleteDate: new Date().setDate(new Date().getDate() + Number(expiration)), allowedEditor: [] }, (err, doc) => {
-                    res.json({
-                        success: true,
-                        documentId: str,
-                        rawLink: `https://www.imperialb.in/r/${str}`,
-                        formattedLink: `https://www.imperialb.in/p/${str}`,
-                        expiresIn: new Date(doc.deleteDate),
-                        instantDelete: instantDelete
-                    })
-                    if (quality && !instantDelete && imageEmbed) {
-                        screenshotDocument(str, quality);
-                    }
-                })
-            } else {
-                return throwApiError(res, "You need to post code! No code was submitted!");
-            }
-        } catch (err) {
-            return throwApiError(res, "An internal server error occurred, please contact an admin!");
-        }
-    }
-})
-
 routes.patch(['/document', '/editCode', '/paste'], (req, res) => {
     const apiToken = req.headers.authorization;
+    if(!apiToken) return throwApiError(res, "An invalid API token was provided.");
+
     const document = req.body.document;
     const code = req.body.newCode || req.body.code;
-    if (!apiToken) return throwApiError(res, "Please put in an API token!")
+
     Users.findOne({ apiToken }, (err, user) => {
-        if (err) return throwApiError(res, "An internal server error occurred! Please contact an admin!")
-        if (user) {
-            const userId = user._id.toString();
-            db.link.loadDatabase();
-            db.link.findOne({ URL: document }, (err, documentInfo) => {
-                if (documentInfo) {
-                    const editorArray = documentInfo.allowedEditor
-                    if (documentInfo.creator === userId || editorArray.indexOf(userId) != -1) {
-                        db.link.update({ URL: document }, { $set: { code } }, err => {
-                            if (err) return throwApiError(res, "You do not have access to edit this document!")
-                            res.json({
-                                success: true,
-                                message: 'Successfully edited the document!',
-                                documentId: document,
-                                rawLink: `https://www.imperialb.in/r/${document}`,
-                                formattedLink: `https://www.imperialb.in/p/${document}`,
-                                expiresIn: new Date(documentInfo.deleteDate),
-                                instantDelete: documentInfo.instantDelete
-                            })
-                        })
-                    } else {
-                        return throwApiError(res, "You do not have access to edit this document!")
-                    }
-                } else {
-                    return throwApiError(res, "We couldn't find that document!")
-                }
-            })
-        } else {
-            return throwApiError(res, "Invalid API token!")
-        }
-    })
-})
+        if(err) return throwApiError(res, "Sorry! There was a internal server error, please contact a administrator!");
+        if(!user) return throwApiError(res, "Please put in an API token!");
+        const userId = user._id.toString();
+
+        db.link.loadDatabase();
+        db.link.findOne({ URL: document }, (err, documentInfo) => {
+            if(err) return throwApiError("Sorry! We couldn't find that document.");
+            if(!documentInfo) return throwApiError("Sorry! We couldn't find that document.");
+
+            const editors = documentInfo.allowedEditor;
+            if(documentInfo.creator !== userId || editors.indexOf(userId) == -1) return throwApiError("Sorry! You aren't allowed to edit this document.");
+            
+            db.link.update({ URL: document }, { $set: { code } }, err => {
+                if(err) return throwApiError("Sorry! You aren't allowed to edit this document.");
+
+                res.json({
+                    success: true,
+                    message: 'Successfully edited the document!',
+                    documentId: document,
+                    rawLink: `https://www.imperialb.in/r/${document}`,
+                    formattedLink: `https://www.imperialb.in/p/${document}`,
+                    expiresIn: new Date(documentInfo.deleteDate),
+                    instantDelete: documentInfo.instantDelete
+                });
+            });
+        });
+    });
+});
 
 routes.delete('/purgeDocuments', async (req, res) => {
     var index = { 'apiToken': req.headers.authorization };
