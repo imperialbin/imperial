@@ -1,5 +1,3 @@
-import { CodeJar } from "./codeJar.js";
-
 const editor = document.querySelector("#codeThing");
 const codeBox = CodeJar(editor, hljs.highlightBlock(editor));
 
