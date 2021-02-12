@@ -35,8 +35,7 @@ routes.post('/', async (req, res) => {
     const internalError = (email, user) => { res.render('register.ejs', { error: 'Sorry! There was a internal server error, please contact a administrator!', email, user }); }
 
     const email = req.body.email.toLowerCase();
-    // Why was this made lowercase before?
-    const user = req.body.name;
+    const user = req.body.name.toLowerCase(); 
     const password = req.body.password;
     const confirmPassword = req.body.confirmPassword;
     const inviteCode = req.body.code;
