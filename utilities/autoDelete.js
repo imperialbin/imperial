@@ -1,4 +1,4 @@
-const CronJob = require("cron").CronJob;
+const { CronJob } = require("cron");
 const fs = require("fs");
 const Datastore = require("nedb");
 const link = new Datastore({ filename: "./databases/links" });
