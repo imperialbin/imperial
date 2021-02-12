@@ -19,6 +19,41 @@ routes.get('/', (req, res) => res.json({ message: 'Welcome to Imperial Bin\'s AP
 routes.post(['/document', '/postCode', '/paste'], (req, res) => {
     db.link.loadDatabase();
     const code = req.body.code;
+    // Anon function to quickly make a guest paste.
+    const guestPaste = () => { createPaste(Math.random().toString(36).substring(2), false, false, 5, 'NONE'); }
+
+    if(!req.headers.authorization || !req.body.apiToken) return guestPaste();
+    const apiToken = req.headers.authorization || req.body.apiToken;
+    
+    Users.findOne({ apiToken }, (err, user) => {
+        if(err) return throwApiError(res, "Sorry! There was a internal server error, please contact a administrator!");
+
+    });
+
+    function createPaste(str, imageEmbed, instantDelete, expiration, creator, quality) {
+        if(!code) return throwApiError(res, "You need to post code! No code was submitted.");
+        try {
+            db.link.insert({ URL: str, imageEmbed, instantDelete, creator, code, dateCreated: new Date().getTime(), deleteDate: new Date().setDate(new Date().getDate() + Number(expiration)), allowedEditor: [] }, (err, doc) => {
+                if(err) return throwApiError(res, "Sorry! There was a internal server error, please contact a administrator!");
+
+                res.json({
+                    success: true,
+                    documentId: str,
+                    rawLink: `https://www.imperialb.in/r/${str}`,
+                    formattedLink: `https://www.imperialb.in/p/${str}`,
+                    expiresIn: new Date(doc.deleteDate),
+                    instantDelete: instantDelete
+                });
+                if(quality && !instantDelete && imageEmbed) screenshotDocument(str, quality);
+            });
+
+        } catch { return throwApiError(res, "Sorry! There was a internal server error, please contact a administrator!"); }
+    }
+});
+
+routes.post(['/document', '/postCode', '/paste'], (req, res) => {
+    db.link.loadDatabase();
+    const code = req.body.code;
     if (req.headers.authorization || req.body.apiToken) {
         const apiToken = req.headers.authorization || req.body.apiToken;
         Users.findOne({ apiToken }, (err, user) => {
