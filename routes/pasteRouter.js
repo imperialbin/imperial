@@ -2,7 +2,8 @@ const routes = require("express").Router();
 const fs = require("fs");
 const Users = require("../models/Users");
 const Datastore = require("nedb");
-var db = {};
+
+const db = {};
 db.link = new Datastore({ filename: "./databases/links" });
 
 routes.get("/", (req, res) => {
@@ -11,7 +12,6 @@ routes.get("/", (req, res) => {
   );
 });
 
-// This entire thing i will be redoing soon lmfao
 routes.get(
   [
     "/:documentId",
@@ -33,13 +33,15 @@ routes.get(
             error: "We couldn't find that document!",
           });
 
+        let deleteDate;
+
         if (document.instantDelete) {
           if (!req.isCrawler()) {
             setTimeout(() => {
               db.link.remove({ URL: document.URL });
-            }, 1 * 1000);
+            }, 1000);
           }
-          var deleteDate = "Deletes after being viewed.";
+          deleteDate = "Deletes after being viewed.";
         } else {
           const documentDate = new Date(document.deleteDate);
           const date = {
@@ -47,15 +49,13 @@ routes.get(
             month: documentDate.getMonth() + 1,
             day: documentDate.getDate(),
           };
-          var deleteDate = `Deletes on ${date.day}/${date.month}/${date.year}.`;
+          deleteDate = `Deletes on ${date.day}/${date.month}/${date.year}.`;
         }
-        var enableImageEmbed;
-        if (
+
+        let enableImageEmbed = !!(
           document.imageEmbed &&
           fs.existsSync(`./public/assets/img/${document.URL}.jpg`)
-        )
-          enableImageEmbed = true;
-        else enableImageEmbed = false;
+        );
 
         if (req.isAuthenticated()) {
           const userId = req.user.toString();
@@ -72,10 +72,10 @@ routes.get(
               });
 
             const editorArray = document.allowedEditor;
-            var creator;
-            if (userId == document.creator || editorArray.indexOf(userId) != -1)
-              creator = true;
-            else creator = false;
+
+            const isCreator =
+              userId === document.creator || editorArray.includes(userId);
+
             return res.render("pasted.ejs", {
               documentName: documentId,
               imageEmbed: enableImageEmbed,
@@ -83,7 +83,7 @@ routes.get(
               loggedIn: true,
               pfp: user.icon,
               deleteDate: deleteDate,
-              creator: creator,
+              creator: isCreator,
               originalCreator: document.creator,
               incomingUser: userId,
             });
