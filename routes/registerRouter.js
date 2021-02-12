@@ -1,16 +1,17 @@
-const routes = require('express').Router();
-const Users = require('../models/Users');
-const getIp = require('ipware')().get_ip;
-const mailer = require('nodemailer');
-const bcrypt = require('bcrypt');
-const Datastore = require('nedb');
-var db = {};
-db.betaCodes = new Datastore({ filename: './databases/betaCodes' });
-db.emailTokens = new Datastore({ filename: './databases/emailTokens' });
-require('dotenv').config();
+const routes = require("express").Router();
+const Users = require("../models/Users");
+const getIp = require("ipware")().get_ip;
+const mailer = require("nodemailer");
+const bcrypt = require("bcrypt");
+const Datastore = require("nedb");
+
+const db = {};
+
+db.betaCodes = new Datastore({ filename: "./databases/betaCodes" });
+db.emailTokens = new Datastore({ filename: "./databases/emailTokens" });
 
 // Middleware
-const checkNotAuthenticated = require('../middleware/checkNotAuthenticated');
+const checkNotAuthenticated = require("../middleware/checkNotAuthenticated");
 
 // Utilities
 const transporter = mailer.createTransport({

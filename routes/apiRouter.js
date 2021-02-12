@@ -1,13 +1,7 @@
-const routes = require('express').Router();
-const Datastore = require('nedb');
-const fs = require('fs');
-const Users = require('../models/Users');
-var db = {};
-db.link = new Datastore({ filename: './databases/links' });
-db.betaCodes = new Datastore({ filename: './databases/betaCodes' });
-db.plusCodes = new Datastore({ filename: './databases/plusCodes' });
-db.emailTokens = new Datastore({ filename: './databases/emailTokens' });
-db.resetTokens = new Datastore({ filename: './databases/resetTokens' });
+const routes = require("express").Router();
+const Datastore = require("nedb");
+const fs = require("fs");
+const Users = require("../models/Users");
 
 // Utilites
 const throwApiError = require('../utilities/throwApiError');

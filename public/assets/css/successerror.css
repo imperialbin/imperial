@@ -1,23 +1,27 @@
 body {
-    background: var(--main-background);
-    text-align: center;
+  background: var(--main-background);
+  text-align: center;
 }
 
 h1 {
-    color: var(--text-lighter);
-    margin: 80px 0 70px 0;
-    font-weight: 300;
+  color: var(--text-lighter);
+  margin: 80px 0 70px 0;
+  font-weight: 300;
 }
 h2 {
-    margin: 20px;
-    font-weight: 400;
+  margin: 20px;
+  font-weight: 400;
 }
 
 p {
-    font-size: 18px;
-    color: var(--text-light);
-    margin: 15px 0;
+  font-size: 18px;
+  color: var(--text-light);
+  margin: 15px 0;
 }
 
-.errorText { color: var(--text-error) }
-.successText { color: var(--text-success) }
+.errorText {
+  color: var(--text-error);
+}
+.successText {
+  color: var(--text-success);
+}
