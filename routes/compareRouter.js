@@ -28,10 +28,11 @@ routes.get("/:documentIdOne/:documentIdTwo", (req, res) => {
             res.render("compare.ejs", {
               // please refer to https://github.com/imperialbin/imperial/pull/11 for looskie's brain
               // todo(@looskie): please fix this, vars straight up dont exist
+              // todo(@alii): deez nuts, i fixed it :)
               // eslint-disable-next-line no-undef
-              documentOne: documentOneCode,
+              documentOne: documentOneInfo.code,
               // eslint-disable-next-line no-undef
-              documentTwo: documentTwoCode,
+              documentTwo: documentTwoInfo.code,
             });
           } else {
             res.render("error.ejs", {
