@@ -13,7 +13,7 @@ const UserSchema = mongoose.Schema({
   memberPlus: Boolean,
   codes: Array,
   apiToken: String,
-    documentsMade: Number
+  documentsMade: Number,
 });
 
 module.exports = mongoose.model("Users", UserSchema);

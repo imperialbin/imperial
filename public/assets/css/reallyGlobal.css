@@ -244,8 +244,8 @@ li.deletePaste {
   background: 0 0;
   border: 0;
   padding: 0;
-  margin: 0 unset;
-  opacity: .95;
+  margin: 0 ;
+  opacity: 0.95;
   color: var(--text-light);
 }
 #lines {
@@ -253,7 +253,7 @@ li.deletePaste {
   z-index: -1000;
   position: absolute;
   top: 20px;
-  left: 0px;
+  left: 0;
   width: 30px; /* 30 to get 20 away from box */
   font-size: 14px;
   font-family: monospace;
@@ -301,7 +301,7 @@ code {
   cursor: pointer;
   opacity: 0.8;
   vertical-align: middle;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.15);
   border-radius: 50%;
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
@@ -332,7 +332,7 @@ code {
   -moz-border-radius: 8px;
   -ms-border-radius: 8px;
   -o-border-radius: 8px;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
 }
 #save {
   padding-bottom: 10px;
@@ -402,7 +402,7 @@ code {
   margin-bottom: 10px;
   display: block;
   list-style: none;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
 }
 .message {
   position: relative;
@@ -412,7 +412,7 @@ code {
   margin-bottom: 10px !important;
   display: block !important;
   list-style: none !important;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) !important;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25) !important;
   padding-top: 31px !important;
   border-bottom-left-radius: 15px;
 }
@@ -457,7 +457,7 @@ button {
   font-size: 14px;
   padding: 6px 20px;
   cursor: pointer;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   border: none;
   border-radius: 8px;
   -webkit-border-radius: 8px;
@@ -493,7 +493,7 @@ ul {
   user-select: none;
 }
 ul#usersToAdd {
-  padding-inline-start: 0px;
+  padding-inline-start: 0;
 }
 ul#usersToAdd button {
   margin-bottom: 10px;
@@ -541,11 +541,11 @@ li {
 .menu-content {
   position: relative;
   right: 0;
-  top: 0px;
+  top: 0;
   z-index: 999;
   background: var(--secondary-background);
   border-bottom-left-radius: 25px;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
 }
 .menu-content ul {
   padding-bottom: 17px;
@@ -558,7 +558,7 @@ input {
   margin-bottom: 40px;
   color: var(--text-light);
   background: var(--kinda-dark-background);
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   border: none;
   border-radius: 8px;
   -webkit-border-radius: 8px;
