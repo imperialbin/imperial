@@ -136,7 +136,7 @@ routes.delete('/purgeDocuments', async (req, res) => {
         db.findOne({ creator }, (err, documents) => {
             if(err) return internalError(res);
             if(documents.length == 0) return throwApiError(res, "There was no documents to delete!");
-            // Go through every document to delete them.
+            // Go through every document to delete it.
             for(const document of documents) {
                 const documentID = document._id;
                 db.link.remove({ documentID });
