@@ -17,7 +17,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500&display=swap" rel="stylesheet">
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <script src="https://kit.fontawesome.com/ec3f0c8487.js" crossorigin="anonymous"></script>
-    <script src="/assets/js/main.js?v=3"></script>
+    <script type="module" src="/assets/js/main.js?v=3"></script>
+    <script src="/assets/js/global.js"></script>
     <script src="https://unpkg.com/@popperjs/core@2"></script>
     <script src="https://unpkg.com/tippy.js@6"></script>
 </head>
@@ -52,110 +53,169 @@
         </div>
     </div>
     <%- include('partials/pasteSettings.ejs'); %>
-        <% if( loggedIn ) {%>
-            <div class="menu">
-                <div class="settings" id="accountDrop" style="display: none;">
-                    <ul class="account">
-                        <li class="setting" onclick="location.href='/account'">User settings</li>
-                        <li class="setting" onclick="toggleMenu()">Paste settings</li>
-                        <li class="setting" id="discord"
-                            onclick="window.open('https://discord.gg/cTm85eW49D', '_blank')">
-                            Discord</li>
-                        <div class="dumbLine"></div>
-                        <li class="setting" id="logoutBtn" onclick="location.href = '/logout?_method=DELETE'">Logout
-                        </li>
-                    </ul>
-                </div>
-                <div class="menu-content">
-                    <h6>IMPERIAL</h6>
-                    <ul>
-                        <li id="users" class="addEditors"><button id="icon" onclick="toggleAddUser()"><i
-                                    class="fas fa-user-friends"></i></button></li>
-                        <li id="save" class="save"> <button id="icon" onclick="uploadCode()"><i
-                                    class="far fa-save fa-lg"></i></button>
-                        </li>
-                        <li id="new" class="new"> <button id="icon" onclick="newDocument()"><i
-                                    class="fas fa-file-alt fa-lg"></i></button> </li>
-                        <li id="account"> <img src="<%= pfp %>" alt="Profile picture" class="pfp" draggable="false">
-                        </li>
-                    </ul>
-                </div>
-                <ul id="messages"></ul>
-            </div>
-            <% } else { %>
-                <div class="menu">
-                    <div class="settings" id="accountDrop" style="display: none;"></div>
-                    <div class="menu-content">
-                        <h6>IMPERIAL</h6>
-                        <ul>
-                            <li id="save" class="save"> <button id="icon" onclick="uploadCode()"><i
-                                        class="far fa-save fa-lg"></i></button></li>
-                            <li id="new" class="new"> <button id="icon" onclick="newDocument()"><i
-                                        class="fas fa-file-alt fa-lg"></i><br></button>
-                            </li>
-                            <li> <button id="login" onclick="location.href='/login'">Login</button> </li>
-                            <li> <button id="signup" onclick="location.href='/register'">Signup</button> </li>
-                            <li id="account"> <img src="/assets/img/pfp.png" alt="Profile picture" class="pfp"
-                                    draggable="false" style="display: none"> </li>
-                        </ul>
-                    </div>
-                    <ul id="messages"></ul>
-                </div>
-                <% }%>
-                    <div id="lines">></div>
-                    <pre id="box" class="hljs" tabindex="0"><code id="submitCode"></code></pre>
-                    <textarea spellcheck="false" id="codeThing"
-                        onkeydown="if(event.keyCode===9){var v=this.value,s=this.selectionStart,e=this.selectionEnd;this.value=v.substring(0, s)+'\t'+v.substring(e);this.selectionStart=this.selectionEnd=s+1;return false;}"></textarea>
-                    <br><br>
-                    <script>
-                        if (!localStorage.getItem('clipboard')) {
-                            document.querySelector('#paster').classList.add('active');
-                            document.querySelector("#clipCheck2").addEventListener('change', (e) => {
-                                navigator.permissions.query({ name: 'clipboard-read' }).then(result => {
-                                    if (result.state == 'granted') {
-                                        $('#allow').css('display', 'none');
-                                    } else {
-                                        if (e.target.checked) {
-                                            $('#allow').css('display', 'block')
-                                        } else {
-                                            $('#allow').css('display', 'none');
-                                        }
-                                    }
-                                })
-                            })
+    <% if( loggedIn ) {%>
+    <div class="menu">
+        <div class="settings" id="accountDrop" style="display: none;">
+            <ul class="account">
+                <li class="setting" onclick="location.href='/account'">User settings</li>
+                <li class="setting" onclick="toggleMenu()">Paste settings</li>
+                <li class="setting" id="discord" onclick="window.open('https://discord.gg/cTm85eW49D', '_blank')">
+                    Discord</li>
+                <div class="dumbLine"></div>
+                <li class="setting" id="logoutBtn" onclick="location.href = '/logout?_method=DELETE'">Logout
+                </li>
+            </ul>
+        </div>
+        <div class="menu-content">
+            <h6>IMPERIAL</h6>
+            <ul>
+                <li id="users" class="addEditors"><button id="icon" onclick="toggleAddUser()"><i
+                            class="fas fa-user-friends"></i></button></li>
+                <li id="save" class="save"> <button id="icon" onclick="uploadCode()"><i
+                            class="far fa-save fa-lg"></i></button>
+                </li>
+                <li id="new" class="new"> <button id="icon" onclick="newDocument()"><i
+                            class="fas fa-file-alt fa-lg"></i></button> </li>
+                <li id="account"> <img src="<%= pfp %>" alt="Profile picture" class="pfp" draggable="false">
+                </li>
+            </ul>
+        </div>
+        <ul id="messages"></ul>
+    </div>
+    <% } else { %>
+    <div class="menu">
+        <div class="settings" id="accountDrop" style="display: none;"></div>
+        <div class="menu-content">
+            <h6>IMPERIAL</h6>
+            <ul>
+                <li id="save" class="save"> <button id="icon" onclick="uploadCode()"><i
+                            class="far fa-save fa-lg"></i></button></li>
+                <li id="new" class="new"> <button id="icon" onclick="newDocument()"><i
+                            class="fas fa-file-alt fa-lg"></i><br></button>
+                </li>
+                <li> <button id="login" onclick="location.href='/login'">Login</button> </li>
+                <li> <button id="signup" onclick="location.href='/register'">Signup</button> </li>
+                <li id="account"> <img src="/assets/img/pfp.png" alt="Profile picture" class="pfp" draggable="false"
+                        style="display: none"> </li>
+            </ul>
+        </div>
+        <ul id="messages"></ul>
+    </div>
+    <% }%>
+    <div id="lines">></div>
+    <pre id="box" class="hljs" tabindex="0"><code id="submitCode"></code></pre>
+    <div class="editor" id="codeThing" data-gramm="false" contenteditable="plaintext-only" spellcheck="false"></div>
+    <script>
+        if (!localStorage.getItem('clipboard')) {
+            document.querySelector('#paster').classList.add('active');
+            document.querySelector("#clipCheck2").addEventListener('change', (e) => {
+                navigator.permissions.query({ name: 'clipboard-read' }).then(result => {
+                    if (result.state == 'granted') {
+                        $('#allow').css('display', 'none');
+                    } else {
+                        if (e.target.checked) {
+                            $('#allow').css('display', 'block')
+                        } else {
+                            $('#allow').css('display', 'none');
                         }
-                        const template = document.getElementById('accountDrop');
-                        tippy('#account', {
-                            content: template.innerHTML,
-                            allowHTML: true,
-                            trigger: 'click',
-                            placement: 'bottom',
-                            animation: 'shift-away',
-                            interactive: true,
-                        });
-                        tippy('#users', {
-                            content: 'Add editors',
-                            placement: 'bottom',
-                            animation: 'shift-away',
-                            arrow: false
-                        })
-                        tippy('#save', {
-                            content: 'Save document',
-                            placement: 'bottom',
-                            animation: 'shift-away',
-                            arrow: false
-                        })
-                        tippy('#new', {
-                            content: 'New document',
-                            placement: 'bottom',
-                            animation: 'shift-away',
-                            arrow: false
-                        })
-                        let loggedIn = '<%= JSON.stringify(loggedIn) %>'
-                        if (loggedIn == 'true' && localStorage.getItem('instantDelete') == 'true') {
-                            $('#messages').append('<li class="message error"><i class="fas fa-info-circle" style="padding-right: 4px;"></i> Instant delete is on!</li>');
-                        }
-                    </script>
+                    }
+                })
+            })
+        }
+        const template = document.getElementById('accountDrop');
+        tippy('#account', {
+            content: template.innerHTML,
+            allowHTML: true,
+            trigger: 'click',
+            placement: 'bottom',
+            animation: 'shift-away',
+            interactive: true,
+        });
+        tippy('#users', {
+            content: 'Add editors',
+            placement: 'bottom',
+            animation: 'shift-away',
+            arrow: false
+        })
+        tippy('#save', {
+            content: 'Save document',
+            placement: 'bottom',
+            animation: 'shift-away',
+            arrow: false
+        })
+        tippy('#new', {
+            content: 'New document',
+            placement: 'bottom',
+            animation: 'shift-away',
+            arrow: false
+        })
+        function setPaste() {
+            const clipboardCheck = $('#clipCheck2').is(':checked');
+            localStorage.setItem('securedUrls', false);
+            localStorage.setItem('clipboard', clipboardCheck);
+            localStorage.setItem('deleteTime', '7');
+            localStorage.setItem('instantDelete', 'false');
+            localStorage.setItem('imageEmbeds', 'true');
+            localStorage.setItem('customURL', 'p');
+            $('.pasteSettings').removeClass('active');
+        }
+
+        const getUsers = localStorage.getItem('addUser')
+        if (getUsers !== null && !getUsers == '') {
+            if (getUsers[0] == ',') {
+                const regex = /^[,]+|[,]+$/g;
+                localStorage.setItem('addUser', getUsers.replace(regex, ''))
+            }
+        }
+
+        function toggleAddUser() {
+            $('#addUser').addClass('active');
+            const getUsers = localStorage.getItem('addUser')
+            if (getUsers === 'undefined') {
+                localStorage.removeItem('addUser');
+            }
+            if (getUsers !== null && getUsers !== '') {
+                for (var users = 0; users < getUsers.split(',').length; users++) {
+                    const user = getUsers.split(',')[users]
+                    $('.users').append(`<div class="user" id="${user}"> <input id="token" type="text" value="${user}" readonly> <button class="deleteUser" onclick="removeUser('${user}')"><i class="fas fa-trash"></i></button> </div>`)
+                }
+            }
+            document.getElementById('user').focus()
+        }
+
+        function removeUser(user) {
+            const getUsers = localStorage.getItem('addUser')
+            $(`#${user}`).remove()
+            localStorage.setItem('addUser', getUsers.replace(user, ''))
+            if (getUsers == '' || getUsers === undefined) {
+                localStorage.removeItem('addUsers');
+            }
+        }
+
+        function addUser(user) {
+            const users = localStorage.getItem('addUser');
+            if (!$.trim(user) == '') { // checks if input has an actual user or just spaces, those sneaky bastards.
+                const regex = /^[,"]+|[,"]+$/g;
+                const formattedUser = user.replace(regex, '');
+                if (users !== null && !users == '') {
+                    const newUsers = `${users},${formattedUser}`
+                    $('.users').append(`<div class="user" id="${formattedUser}"> <input id="token" type="text" value="${formattedUser}" readonly> <button class="deleteUser" onclick="removeUser('${formattedUser}')"><i class="fas fa-trash"></i></button> </div>`)
+                    localStorage.setItem('addUser', newUsers);
+                    document.getElementById('user').value = '';
+                    document.getElementById('user').focus()
+                } else {
+                    localStorage.setItem('addUser', formattedUser);
+                    $('.users').append(`<div class="user" id="${formattedUser}"> <input id="token" type="text" value="${formattedUser}" readonly> <button class="deleteUser" onclick="removeUser('${formattedUser}')"><i class="fas fa-trash"></i></button> </div>`)
+                    document.getElementById('user').value = '';
+                    document.getElementById('user').focus()
+                }
+            }
+        }
+        let loggedIn = '<%= JSON.stringify(loggedIn) %>'
+        if (loggedIn == 'true' && localStorage.getItem('instantDelete') == 'true') {
+            $('#messages').append('<li class="message error"><i class="fas fa-info-circle" style="padding-right: 4px;"></i> Instant delete is on!</li>');
+        }
+    </script>
 </body>
 
 </html>
