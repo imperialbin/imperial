@@ -50,7 +50,7 @@ routes.post('/', async (req, res) => {
             if(indexIp) return res.render('register.ejs', { error: 'IP is already associated with an account!', email, user });
             
             if(password.length < 8) return res.render('register.ejs', { error: 'Please make your password atleast 8 characters long!', email, user });
-            if(password !== confirmPassword ) return res.render('register.ejs', { error: 'Passwords do not match!', email, user });
+            if(password !== confirmPassword) return res.render('register.ejs', { error: 'Passwords do not match!', email, user });
 
             db.betaCodes.findOne({ betaCode: inviteCode }, (err, code) => {
                 if(err) return internalError(email, user);
