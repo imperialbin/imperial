@@ -47,7 +47,7 @@ routes.get(['/:documentId', '/:slug/:documentId', '/:slug/:slugTwo/:documentId',
                     var creator;
                     if (userId == document.creator || editorArray.indexOf(userId) != -1) creator = true;
                     else creator = false;
-                    res.render('pasted.ejs', { documentName: documentId, imageEmbed: enableImageEmbed, code: document.code, loggedIn: true, pfp: user.icon, deleteDate: deleteDate, creator: creator, originalCreator: document.creator, incomingUser: userId });
+                    return res.render('pasted.ejs', { documentName: documentId, imageEmbed: enableImageEmbed, code: document.code, loggedIn: true, pfp: user.icon, deleteDate: deleteDate, creator: creator, originalCreator: document.creator, incomingUser: userId });
                 });
             }
             return res.render('pasted.ejs', { documentName: documentId, imageEmbed: enableImageEmbed, code: document.code, loggedIn: false, deleteDate: deleteDate, creator: false });
