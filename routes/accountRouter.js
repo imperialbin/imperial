@@ -28,6 +28,7 @@ routes.post('/me', (req, res) => {
     Users.findOne({ _id: req.user.toString() }, async (err, user) => {
         if (user) {
             if (await bcrypt.compare(password, user.password)) {
+                res.setHeader("Content-Type", "text/plain");
                 res.write(user.toString());
                 res.end()
             } else {
