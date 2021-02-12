@@ -21,7 +21,7 @@ const checkAuthenticated = require('./middleware/checkAuthenticated');
 // Database
 mongoose.connect(`mongodb+srv://${process.env.DB_NAME}:${process.env.DB_PASS}@users.vc1kj.mongodb.net/USERS?retryWrites=true&w=majority`, { useNewUrlParser: true, useUnifiedTopology: true }, (err) => {
     if (err) return err;
-    console.log('CONNECTED DATABASE');
+    console.log('CONNECTED DATABASE ;P');
 })
 
 // Utilities

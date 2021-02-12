@@ -5,23 +5,23 @@ const bcrypt = require('bcrypt')
 function initialize(passport) {
     const authenticateUser = async (email, password, done) => {
         Users.findOne({ $or: [{ 'email': email.toLowerCase() }, { 'name': email.toLowerCase() }] }, async (err, user) => {
-            if (!user) return done(null, false, { message: 'No user with that email' })
+            if (!user) return done(null, false, { message: 'No users found using that email!' })
             if (user.confirmed) {
                 if (!user.banned) {
                     try {
                         if (await bcrypt.compare(password, user.password)) {
                             return done(null, user)
                         } else {
-                            return done(null, false, { message: 'Password incorrect' })
+                            return done(null, false, { message: 'Incorrect password! Reset it if you forgot!' })
                         }
                     } catch (e) {
                         return done(e)
                     }
                 } else {
-                    return done(null, false, { message: 'You are banned!' })
+                    return done(null, false, { message: 'Sadly, your account could not be accessed because your are banned.' })
                 }
             } else {
-                return done(null, false, { message: 'Please confirm your email!' })
+                return done(null, false, { message: 'Please verify your email!' })
             }
         })
     }
