@@ -22,10 +22,7 @@ function toggleMenu() {
   }
   if (localStorage.getItem("customURL")) {
     $("#customURL").val(localStorage.getItem("customURL"));
-    $("#previewURL").text(
-      `(https://www.imperialb.in/${document.getElementById("customURL").value
-      }/documentID)`
-    );
+    $("#previewURL").text(`(https://www.imperialb.in/${document.getElementById("customURL").value}/documentID)`);
   } else {
     $("#customURL").val("p");
   }
@@ -91,7 +88,7 @@ function postEditPaste() {
   const code = $("#codeThing").val();
   const documentId = location.href.split("/").pop();
 
-  if (!code === "") {
+  if (code !== "") {
     $(".editButton").remove();
     $("#edit").append(
       '<button id="icon" class="editButton" onclick="editPaste()"><i class= "fas fa-pencil-alt" ></i ></button >'
@@ -289,12 +286,7 @@ function CodeJar(editor, highlight, opt = {}) {
     if (!endNode) endNode = editor;
     // Flip back the selection
     if (pos.dir === "<-") {
-      [startNode, startOffset, endNode, endOffset] = [
-        endNode,
-        endOffset,
-        startNode,
-        startOffset,
-      ];
+      [startNode, startOffset, endNode, endOffset] = [endNode, endOffset, startNode, startOffset];
     }
     s.setBaseAndExtent(startNode, startOffset, endNode, endOffset);
   }
@@ -364,11 +356,7 @@ function CodeJar(editor, highlight, opt = {}) {
     const codeBefore = beforeCursor();
     const escapeCharacter = codeBefore.substr(codeBefore.length - 1) === "\\";
     const charAfter = codeAfter.substr(0, 1);
-    if (
-      close.includes(event.key) &&
-      !escapeCharacter &&
-      charAfter === event.key
-    ) {
+    if (close.includes(event.key) && !escapeCharacter && charAfter === event.key) {
       // We already have closing char next to cursor.
       // Move one char to right.
       const pos = save();
@@ -439,12 +427,7 @@ function CodeJar(editor, highlight, opt = {}) {
     const pos = save();
     const lastRecord = history[at];
     if (lastRecord) {
-      if (
-        lastRecord.html === html &&
-        lastRecord.pos.start === pos.start &&
-        lastRecord.pos.end === pos.end
-      )
-        return;
+      if (lastRecord.html === html && lastRecord.pos.start === pos.start && lastRecord.pos.end === pos.end) return;
     }
     at++;
     history[at] = { html, pos };
@@ -457,9 +440,7 @@ function CodeJar(editor, highlight, opt = {}) {
   }
   function handlePaste(event) {
     preventDefault(event);
-    const text = (event.originalEvent || event).clipboardData.getData(
-      "text/plain"
-    );
+    const text = (event.originalEvent || event).clipboardData.getData("text/plain");
     const pos = save();
     insert(text);
     highlight(editor);
