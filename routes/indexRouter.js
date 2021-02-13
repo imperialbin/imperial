@@ -91,9 +91,7 @@ routes.post("/saveCode", async (req, res) => {
   const code = req.body.code;
   const securedUrls = JSON.parse(req.body.securedUrls.toString().toLowerCase());
 
-  let instantDelete = JSON.parse(
-    req.body.instantDelete.toString().toLowerCase()
-  );
+  let instantDelete = JSON.parse(req.body.instantDelete.toString().toLowerCase());
 
   let imageEmbed = JSON.parse(req.body.imageEmbeds.toString().toLowerCase());
   let time = req.body.time;
@@ -104,9 +102,7 @@ routes.post("/saveCode", async (req, res) => {
   if (req.isAuthenticated()) {
     if (securedUrls)
       str =
-        Math.random().toString(36).slice(2) +
-        Math.random().toString(36).slice(2) +
-        Math.random().toString(36).slice(2);
+        Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2);
     if (time >= 31) time = 31;
     creator = req.user.toString(); // this has to be like this mainly because its being dumb, and has a bunch of rando characters even tho its a string, wtf man?
   } else {
@@ -132,34 +128,20 @@ routes.post("/saveCode", async (req, res) => {
           allowedEditor: [],
         });
         if (allowedEditor) {
-          for (
-            var editor = 0;
-            editor < allowedEditor.split(",").length;
-            editor++
-          ) {
-            Users.findOne(
-              { name: allowedEditor.split(",")[editor] },
-              (err, user) => {
-                if (err) return console.log(err);
-                if (user) {
-                  db.link.update(
-                    { URL: str },
-                    { $push: { allowedEditor: user._id.toString() } }
-                  );
-                  db.link.loadDatabase();
-                }
+          for (var editor = 0; editor < allowedEditor.split(",").length; editor++) {
+            Users.findOne({ name: allowedEditor.split(",")[editor] }, (err, user) => {
+              if (err) return console.log(err);
+              if (user) {
+                db.link.update({ URL: str }, { $push: { allowedEditor: user._id.toString() } });
+                db.link.loadDatabase();
               }
-            );
+            });
           }
         }
         // Check for image embeds
         if (imageEmbed && !instantDelete) {
           Users.findOne({ _id: req.user.toString() }, (err, user) => {
-            if (err)
-              return db.link.update(
-                { URL: str },
-                { $set: { imageEmbed: false } }
-              );
+            if (err) return db.link.update({ URL: str }, { $set: { imageEmbed: false } });
             if (user) {
               // Non plus members can not use higher resolution screenshots
               const quality = user.memberPlus ? 100 : 73;
@@ -196,10 +178,7 @@ routes.post("/editCode", (req, res) => {
   if (req.isAuthenticated()) {
     db.link.findOne({ URL: documentId }, (err, doc) => {
       if (doc) {
-        if (
-          doc.creator === req.user.toString() ||
-          doc.allowedEditor.indexOf(req.user.toString()) !== -1
-        ) {
+        if (doc.creator === req.user.toString() || doc.allowedEditor.indexOf(req.user.toString()) !== -1) {
           db.link.update({ URL: documentId }, { $set: { code } }, (err) => {
             if (err) return console.log(err);
             res.json({ status: "success" });
@@ -267,13 +246,9 @@ routes.post("/resetPassword", (req, res) => {
             res.render("success.ejs", {
               successMessage: "Successfully resetted your password!",
             });
-            Users.updateOne(
-              { email: data[0].email },
-              { $set: { password: hashedPass } },
-              (err) => {
-                if (err) return err;
-              }
-            );
+            Users.updateOne({ email: data[0].email }, { $set: { password: hashedPass } }, (err) => {
+              if (err) return err;
+            });
             db.resetTokens.remove({ token: resetToken });
           } else {
             res.render("resetPassword.ejs", {
