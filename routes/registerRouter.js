@@ -86,10 +86,7 @@ routes.post("/", async (req, res) => {
 
                             transporter.sendMail(mailOptions, (err) => {
                               if (err) return console.log(err);
-                              db.betaCodes.remove(
-                                { betaCode: code.betaCode },
-                                (err) => console.log(err)
-                              );
+                              db.betaCodes.remove({ betaCode: code.betaCode }, (err) => console.log(err));
                               Users.findOneAndUpdate(
                                 { codes: { code: code.betaCode } },
                                 { $pull: { codes: { code: code.betaCode } } },
@@ -104,8 +101,7 @@ routes.post("/", async (req, res) => {
                           .catch((err) => console.log(err));
                       } catch (err) {
                         res.render("register.ejs", {
-                          error:
-                            "An internal server error happened! Please contact an admin!",
+                          error: "An internal server error happened! Please contact an admin!",
                           email,
                           user,
                         });
