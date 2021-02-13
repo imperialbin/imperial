@@ -287,12 +287,9 @@ routes.post("/createInvite", (req, res) => {
 routes.get("/createPlusInvite", (req, res) => {
   db.plusCodes.loadDatabase();
   if (req.user.toString() === process.env.DEVELOPER_USER) {
-    const plusCode =
-      Math.random().toString(36).slice(2) +
-      Math.random().toString(36).slice(2) +
-      Math.random().toString(36).slice(2) +
-      Math.random().toString(36).slice(2) +
-      Math.random().toString(36).slice(2);
+    let plusCode = "";
+    for(let i = 0; i < 5; i++) plusCode += Math.random().toString(36).slice(2);
+
     db.plusCodes.insert({ code: plusCode, used: false });
     res.render("success.ejs", { successMessage: `Plus code: ${plusCode}` });
   } else {
