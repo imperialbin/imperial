@@ -217,7 +217,6 @@ routes.get(["/document/:slug", "/getCode/:slug", "/paste/:slug"], (req, res) => 
   const document = req.params.slug;
   db.link.loadDatabase();
   db.link.findOne({ URL: document }, (err, documentInfo) => {
-    console.log(documentInfo);
     if (err) return internalError(res);
     if (!documentInfo) return throwApiError(res, "Sorry! There was no document with that ID.");
 
