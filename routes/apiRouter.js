@@ -65,7 +65,9 @@ routes.post(['/document', '/postCode', '/paste'], (req, res) => {
                 allowedEditor: [] 
             }, async (err, doc) => {
                 if(err) return internalError(res);
-                await Users.updateOne({ _id: creator }, { $inc: { documentsMade: 1 } });
+                // Make sure this is not a guest paste.
+                if(creator !== "NONE") 
+                    await Users.updateOne({ _id: creator }, { $inc: { documentsMade: 1 } });
 
                 if(quality && !instantDelete && imageEmbed) screenshotDocument(str, quality);
                 return res.json({
