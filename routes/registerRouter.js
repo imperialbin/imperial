@@ -90,8 +90,11 @@ routes.post('/', async (req, res) => {
                         };
 
                         transporter.sendMail(mailOptions, err => {
-                            if(err) console.log(`Failed to send confirmation email to ${user}!`);
-                            
+                            if(err) {
+                                console.log(`Failed to send confirmation email to ${user}!`);
+                                return internalError(email, user);
+                            }                            
+
                             db.betaCodes.remove({ betaCode: inviteCode }, (err) => console.log(err))
                             Users.findOneAndUpdate({ codes: { code: inviteCode } }, { $pull: { 'codes': { 'code': inviteCode } } });
                             
