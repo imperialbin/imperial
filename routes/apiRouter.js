@@ -4,7 +4,7 @@ const fs = require("fs");
 const Users = require("../models/Users");
 
 const db = {
-    link: new Datastore({ filename: "./databases/emailTokens" })
+    link: new Datastore({ filename: "./databases/links" })
 };
 
 // Possibly in the future make a config
