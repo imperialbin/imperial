@@ -119,44 +119,6 @@ routes.patch(['/document', '/editCode', '/paste'], (req, res) => {
             });
         });
     });
-
-routes.patch(["/document", "/editCode", "/paste"], (req, res) => {
-  const apiToken = req.headers.authorization;
-  const document = req.body.document;
-  const code = req.body.newCode || req.body.code;
-  if (!apiToken) return throwApiError(res, "Please put in an API token!");
-  Users.findOne({ apiToken }, (err, user) => {
-    if (err) return throwApiError(res, "An internal server error occurred! Please contact an admin!");
-    if (user) {
-      const userId = user._id.toString();
-      db.link.loadDatabase();
-      db.link.findOne({ URL: document }, (err, documentInfo) => {
-        if (documentInfo) {
-          const editorArray = documentInfo.allowedEditor;
-          if (documentInfo.creator === userId || editorArray.includes(userId)) {
-            db.link.update({ URL: document }, { $set: { code } }, (err) => {
-              if (err) return throwApiError(res, "You do not have access to edit this document!");
-              res.json({
-                success: true,
-                message: "Successfully edited the document!",
-                documentId: document,
-                rawLink: `https://www.imperialb.in/r/${document}`,
-                formattedLink: `https://www.imperialb.in/p/${document}`,
-                expiresIn: new Date(documentInfo.deleteDate),
-                instantDelete: documentInfo.instantDelete,
-              });
-            });
-          } else {
-            return throwApiError(res, "You do not have access to edit this document!");
-          }
-        } else {
-          return throwApiError(res, "We couldn't find that document!");
-        }
-      });
-    } else {
-      return throwApiError(res, "Invalid API token!");
-    }
-  });
 });
 
 routes.delete('/purgeDocuments', async (req, res) => {
