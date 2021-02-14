@@ -7,18 +7,11 @@ const db = {};
 db.link = new Datastore({ filename: "./databases/links" });
 
 routes.get("/", (req, res) => {
-  res.redirect(
-    `/p/${req.originalUrl.split("/")[1]}/${req.originalUrl.split("/")[2]}`
-  );
+  res.redirect(`/p/${req.originalUrl.split("/")[1]}/${req.originalUrl.split("/")[2]}`);
 });
 
 routes.get(
-  [
-    "/:documentId",
-    "/:slug/:documentId",
-    "/:slug/:slugTwo/:documentId",
-    "/:slug/:slugTwo/slugThree/:documentId",
-  ],
+  ["/:documentId", "/:slug/:documentId", "/:slug/:slugTwo/:documentId", "/:slug/:slugTwo/slugThree/:documentId"],
   (req, res) => {
     const documentId = req.params.documentId;
     db.link.loadDatabase();
@@ -52,10 +45,7 @@ routes.get(
           deleteDate = `Deletes on ${date.day}/${date.month}/${date.year}.`;
         }
 
-        let enableImageEmbed = !!(
-          document.imageEmbed &&
-          fs.existsSync(`./public/assets/img/${document.URL}.jpg`)
-        );
+        let enableImageEmbed = !!(document.imageEmbed && fs.existsSync(`./public/assets/img/${document.URL}.jpg`));
 
         if (req.isAuthenticated()) {
           const userId = req.user.toString();
@@ -73,8 +63,7 @@ routes.get(
 
             const editorArray = document.allowedEditor;
 
-            const isCreator =
-              userId === document.creator || editorArray.includes(userId);
+            const isCreator = userId === document.creator || editorArray.includes(userId);
 
             return res.render("pasted.ejs", {
               documentName: documentId,

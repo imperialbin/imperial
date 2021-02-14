@@ -18,10 +18,7 @@ module.exports = new CronJob(
               link.remove({ _id: id });
             });
 
-            if (
-              entry.imageEmbed &&
-              fs.existsSync(`./public/assets/img/${entry.URL}.jpg`)
-            ) {
+            if (entry.imageEmbed && fs.existsSync(`./public/assets/img/${entry.URL}.jpg`)) {
               fs.unlinkSync(`./public/assets/img/${entry.URL}.jpg`);
             }
           } catch (err) {
