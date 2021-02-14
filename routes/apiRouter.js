@@ -27,7 +27,7 @@ routes.post(["/document", "/postCode", "/paste"], (req, res) => {
     createPaste(Math.random().toString(36).substring(2), false, false, 5, "NONE");
   };
 
-  if (!req.headers.authorization || !req.body.apiToken) return guestPaste();
+  if (!req.headers.authorization) return guestPaste();
   const apiToken = req.headers.authorization || req.body.apiToken;
   Users.findOne({ apiToken }, (err, user) => {
     if (err) return internalError(res);
@@ -47,8 +47,11 @@ routes.post(["/document", "/postCode", "/paste"], (req, res) => {
     var str = "";
     // Short URLs are 8 characters long.
     str += Math.random().toString(36).substr(2, 8);
-    // Long URLs are 15 characters long.
-    if (documentSettings.longerUrls) str += Math.random().toString(36).substring(2, 7);
+    // Long URLs are 15 characters long. edit: WRONG they're like 26 characters now lololololol
+    if (documentSettings.longerUrls) str +=
+      Math.random().toString(36).substring(2, 7) +
+      Math.random().toString(36).substring(2, 7) +
+      Math.random().toString(36).substring(2, 7); // just a quick easy fix for now
     // The max duration is 31 days.
     if (documentSettings.expiration > 31) documentSettings.expiration = 31;
 
