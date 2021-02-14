@@ -241,17 +241,15 @@ routes.post("/createInvite", (req, res) => {
             },
             (err) => {
               if (err) return console.log(err);
+              res.render("account.ejs", {
+                user: user,
+                error: false,
+                success: false,
+                codeError: false,
+                pfpError: false,
+                documents,
+              });
             }
-          );
-          db.betaCodes.insert({ betaCode: str }, () =>
-            res.render("account.ejs", {
-              user: user,
-              error: false,
-              success: false,
-              codeError: false,
-              pfpError: false,
-              documents,
-            })
           );
         } else {
           res.render("account.ejs", {
