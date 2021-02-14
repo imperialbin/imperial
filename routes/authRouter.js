@@ -18,13 +18,9 @@ routes.get("/:authCode", (req, res) => {
   db.emailTokens.findOne({ token: authCode }, (err, data) => {
     if (data) {
       db.emailTokens.remove({ token: authCode });
-      Users.updateOne(
-        { email: data.email },
-        { $set: { confirmed: true } },
-        (err) => {
-          if (err) return err;
-        }
-      );
+      Users.updateOne({ email: data.email }, { $set: { confirmed: true } }, (err) => {
+        if (err) return err;
+      });
       res.render("login.ejs");
     } else {
       res.render("error.ejs", {
@@ -48,13 +44,9 @@ routes.post("/resetPassword", (req, res) => {
             res.render("success.ejs", {
               successMessage: "Successfully reset your password!",
             });
-            Users.updateOne(
-              { email: data.email },
-              { $set: { password: hashedPass } },
-              (err) => {
-                if (err) return err;
-              }
-            );
+            Users.updateOne({ email: data.email }, { $set: { password: hashedPass } }, (err) => {
+              if (err) return err;
+            });
             db.resetTokens.remove({ token: resetToken });
           } else {
             res.render("resetPassword.ejs", {

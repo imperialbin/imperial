@@ -53,8 +53,7 @@ routes.post("/me", (req, res) => {
               error: false,
               success: false,
               codeError: false,
-              pfpError:
-                "We couldn't get your user data because your password was incorrect!",
+              pfpError: "We couldn't get your user data because your password was incorrect!",
               documents,
             });
           });
@@ -68,13 +67,9 @@ routes.post("/redeem", (req, res) => {
   db.plusCodes.find({ code }, (err, codeData) => {
     if (codeData) {
       if (!codeData[0].used) {
-        Users.updateOne(
-          { _id: req.user.toString() },
-          { $set: { memberPlus: true } },
-          (err) => {
-            if (err) return console.log(err);
-          }
-        );
+        Users.updateOne({ _id: req.user.toString() }, { $set: { memberPlus: true } }, (err) => {
+          if (err) return console.log(err);
+        });
         db.plusCodes.remove({ _id: codeData[0]._id });
         res.render("success.ejs", { successMessage: "You are now Member+!" });
       }
@@ -99,13 +94,9 @@ routes.post("/resetPasswordForm", (req, res) => {
           if (newPassword.length >= 8) {
             if (newPassword === confirmPassword) {
               const hashedPass = await bcrypt.hash(newPassword, 13);
-              Users.updateOne(
-                { _id: id },
-                { $set: { password: hashedPass } },
-                (err) => {
-                  if (err) return console.log(err);
-                }
-              );
+              Users.updateOne({ _id: id }, { $set: { password: hashedPass } }, (err) => {
+                if (err) return console.log(err);
+              });
               res.render("account.ejs", {
                 user: user,
                 error: false,
@@ -160,13 +151,9 @@ routes.post("/changePfp", (req, res) => {
         .exec((err, documents) => {
           if (data.status === 200) {
             try {
-              Users.updateOne(
-                { _id: req.user.toString() },
-                { $set: { icon: pfpUrl } },
-                (err) => {
-                  if (err) return console.log(err);
-                }
-              );
+              Users.updateOne({ _id: req.user.toString() }, { $set: { icon: pfpUrl } }, (err) => {
+                if (err) return console.log(err);
+              });
               res.render("account.ejs", {
                 user: user,
                 error: false,
@@ -210,13 +197,9 @@ routes.post("/changePfpGravatar", async (req, res) => {
       .limit(10)
       .exec((err, documents) => {
         try {
-          Users.updateOne(
-            { _id: req.user.toString() },
-            { $set: { icon: gravatarUrl } },
-            (err) => {
-              if (err) return console.log(err);
-            }
-          );
+          Users.updateOne({ _id: req.user.toString() }, { $set: { icon: gravatarUrl } }, (err) => {
+            if (err) return console.log(err);
+          });
           res.render("account.ejs", {
             user: user,
             error: false,
@@ -258,17 +241,15 @@ routes.post("/createInvite", (req, res) => {
             },
             (err) => {
               if (err) return console.log(err);
+              res.render("account.ejs", {
+                user: user,
+                error: false,
+                success: false,
+                codeError: false,
+                pfpError: false,
+                documents,
+              });
             }
-          );
-          db.betaCodes.insert({ betaCode: str }, () =>
-            res.render("account.ejs", {
-              user: user,
-              error: false,
-              success: false,
-              codeError: false,
-              pfpError: false,
-              documents,
-            })
           );
         } else {
           res.render("account.ejs", {
@@ -303,28 +284,21 @@ routes.post("/changeEmail", (req) => {
 });
 
 routes.post("/updateApiToken", (req, res) => {
-  Users.updateOne(
-    { _id: req.user.toString() },
-    { $set: { apiToken: createToken() } },
-    (err) => {
-      if (err)
-        return res.render("error.ejs", {
-          error: "There was an error creating your API token!",
-        });
-      res.redirect("/account");
-    }
-  );
+  Users.updateOne({ _id: req.user.toString() }, { $set: { apiToken: createToken() } }, (err) => {
+    if (err)
+      return res.render("error.ejs", {
+        error: "There was an error creating your API token!",
+      });
+    res.redirect("/account");
+  });
 });
 
 function createToken() {
-  return "IMPERIAL-xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(
-    /[xy]/g,
-    (c) => {
-      const r = (Math.random() * 16) | 0,
-        v = c === "x" ? r : (r & 0x3) | 0x8;
-      return v.toString(16);
-    }
-  );
+  return "IMPERIAL-xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
+    const r = (Math.random() * 16) | 0,
+      v = c === "x" ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
 }
 
 module.exports = routes;

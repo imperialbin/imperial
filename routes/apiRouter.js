@@ -3,349 +3,243 @@ const Datastore = require("nedb");
 const fs = require("fs");
 const Users = require("../models/Users");
 
-const db = {};
-db.link = new Datastore({ filename: "./databases/links" });
-db.betaCodes = new Datastore({ filename: "./databases/betaCodes" });
-db.plusCodes = new Datastore({ filename: "./databases/plusCodes" });
-db.emailTokens = new Datastore({ filename: "./databases/emailTokens" });
-db.resetTokens = new Datastore({ filename: "./databases/resetTokens" });
+const db = {
+    link: new Datastore({ filename: "./databases/emailTokens" })
+};
+
+// Possibly in the future make a config
+// to easily edit mass used strings like this?
+const internalError = (res) => { throwApiError(res, "Sorry! There was a internal server error, please contact a administrator!"); };
 
 // Utilites
-const throwApiError = require("../utilities/throwApiError");
-const screenshotDocument = require("../utilities/screenshotDocument");
+const throwApiError = require('../utilities/throwApiError');
+const screenshotDocument = require('../utilities/screenshotDocument');
 
-routes.get("/", (req, res) =>
-  res.json({ message: "Welcome to Imperial Bin's API!" })
-);
+routes.get('/', (req, res) => res.json({ message: 'Welcome to Imperial Bin\'s API!' }))
 
-routes.post(["/document", "/postCode", "/paste"], (req, res) => {
-  db.link.loadDatabase();
-  const code = req.body.code;
-  if (req.headers.authorization || req.body.apiToken) {
+routes.post(['/document', '/postCode', '/paste'], (req, res) => {
+    db.link.loadDatabase();
+    const code = req.body.code;
+    // Anon function to quickly make a guest paste.
+    const guestPaste = () => { createPaste(Math.random().toString(36).substring(2), false, false, 5, 'NONE'); }
+
+    if(!req.headers.authorization || !req.body.apiToken) return guestPaste();
     const apiToken = req.headers.authorization || req.body.apiToken;
     Users.findOne({ apiToken }, (err, user) => {
-      if (user) {
-        const longerUrls = req.body.longerUrls || false;
-        const imageEmbed = req.body.imageEmbed || false;
-        const instantDelete = req.body.instantDelete || false;
+        if(err) return internalError(res);
+        if(!user) return guestPaste();
+
         const creator = user._id.toString();
-        const quality = user.memberPlus ? 100 : 73;
-
-        let str = Math.random().toString(36).substring(2);
-        let expiration = req.body.expiration || 5;
-
-        if (longerUrls) {
-          str =
-            Math.random().toString(36).slice(2) +
-            Math.random().toString(36).slice(2) +
-            Math.random().toString(36).slice(2);
+        // All settings related to the document,
+        // should be a nice interface if we were using TS :)
+        const documentSettings = {
+            longerUrls: req.body.longerUrls || false,
+            imageEmbed: req.body.imageEmbed || false,
+            expiration: req.body.expiration || 5,
+            instantDelete: req.body.instantDelete || false,
+            quality: !user.memberPlus ? 73 : 100 
         }
 
-        if (expiration >= 31) expiration = 31;
-        createPaste(
-          str,
-          imageEmbed,
-          instantDelete,
-          expiration,
-          creator,
-          quality
-        );
-      } else {
-        createPaste(
-          Math.random().toString(36).substring(2),
-          false,
-          false,
-          5,
-          "NONE"
-        );
-      }
+        var str = "";
+        // Short URLs are 8 characters long.
+        str += Math.random().toString(36).substr(2, 8);
+        // Long URLs are 15 characters long.
+        if(documentSettings.longerUrls) str += Math.random().toString(36).substring(2, 7);
+        // The max duration is 31 days.
+        if(documentSettings.expiration > 31) documentSettings.expiration = 31;
+
+        return createPaste(str, documentSettings.imageEmbed, documentSettings.instantDelete, documentSettings.expiration, creator, documentSettings.quality);
     });
-  } else {
-    createPaste(
-      Math.random().toString(36).substring(2),
-      false,
-      false,
-      5,
-      "NONE"
-    );
-  }
 
-  async function createPaste(
-    str,
-    imageEmbed,
-    instantDelete,
-    expiration,
-    creator,
-    quality
-  ) {
-    try {
-      if (code) {
-        await Users.updateOne({ _id: creator }, { $inc: { documentsMade: 1 } });
-        db.link.insert(
-          {
-            URL: str,
-            imageEmbed,
-            instantDelete,
-            creator,
-            code,
-            dateCreated: new Date().getTime(),
-            deleteDate: new Date().setDate(
-              new Date().getDate() + Number(expiration)
-            ),
-            allowedEditor: [],
-          },
-          (err, doc) => {
-            res.json({
-              success: true,
-              documentId: str,
-              rawLink: `https://www.imperialb.in/r/${str}`,
-              formattedLink: `https://www.imperialb.in/p/${str}`,
-              expiresIn: new Date(doc.deleteDate),
-              instantDelete: instantDelete,
+    function createPaste(str, imageEmbed, instantDelete, expiration, creator, quality) {
+        if(!code) return throwApiError(res, "You need to post code! No code was submitted.");
+        try {
+            db.link.insert({ 
+                URL: str, 
+                imageEmbed, 
+                instantDelete, 
+                creator, 
+                code, 
+                dateCreated: new Date().getTime(), 
+                deleteDate: new Date().setDate(new Date().getDate() + Number(expiration)), 
+                allowedEditor: [] 
+            }, async (err, doc) => {
+                if(err) return internalError(res);
+                // Make sure this is not a guest paste.
+                if(creator !== "NONE") 
+                    await Users.updateOne({ _id: creator }, { $inc: { documentsMade: 1 } });
+
+                if(quality && !instantDelete && imageEmbed) screenshotDocument(str, quality);
+                return res.json({
+                    success: true,
+                    documentId: str,
+                    rawLink: `https://www.imperialb.in/r/${str}`,
+                    formattedLink: `https://www.imperialb.in/p/${str}`,
+                    expiresIn: new Date(doc.deleteDate),
+                    instantDelete: instantDelete
+                });
             });
-            if (quality && !instantDelete && imageEmbed) {
-              screenshotDocument(str, quality);
-            }
-          }
-        );
-      } else {
-        return throwApiError(
-          res,
-          "You need to post code! No code was submitted!"
-        );
-      }
-    } catch (err) {
-      return throwApiError(
-        res,
-        "An internal server error occurred, please contact an admin!"
-      );
+        } catch { return internalError(res); }
     }
-  }
 });
 
-routes.patch(["/document", "/editCode", "/paste"], (req, res) => {
-  const apiToken = req.headers.authorization;
-  const document = req.body.document;
-  const code = req.body.newCode || req.body.code;
-  if (!apiToken) return throwApiError(res, "Please put in an API token!");
-  Users.findOne({ apiToken }, (err, user) => {
-    if (err)
-      return throwApiError(
-        res,
-        "An internal server error occurred! Please contact an admin!"
-      );
-    if (user) {
-      const userId = user._id.toString();
-      db.link.loadDatabase();
-      db.link.findOne({ URL: document }, (err, documentInfo) => {
-        if (documentInfo) {
-          const editorArray = documentInfo.allowedEditor;
-          if (documentInfo.creator === userId || editorArray.includes(userId)) {
-            db.link.update({ URL: document }, { $set: { code } }, (err) => {
-              if (err)
-                return throwApiError(
-                  res,
-                  "You do not have access to edit this document!"
-                );
-              res.json({
-                success: true,
-                message: "Successfully edited the document!",
-                documentId: document,
-                rawLink: `https://www.imperialb.in/r/${document}`,
-                formattedLink: `https://www.imperialb.in/p/${document}`,
-                expiresIn: new Date(documentInfo.deleteDate),
-                instantDelete: documentInfo.instantDelete,
-              });
-            });
-          } else {
-            return throwApiError(
-              res,
-              "You do not have access to edit this document!"
-            );
-          }
-        } else {
-          return throwApiError(res, "We couldn't find that document!");
-        }
-      });
-    } else {
-      return throwApiError(res, "Invalid API token!");
-    }
-  });
-});
+routes.patch(['/document', '/editCode', '/paste'], (req, res) => {
+    const apiToken = req.headers.authorization;
+    if(!apiToken) return throwApiError(res, "An invalid API token was provided.");
 
-routes.delete("/purgeDocuments", async (req, res) => {
-  let index = { apiToken: req.headers.authorization };
-  if (req.isAuthenticated()) {
-    const authedUser = await Users.findOne({ _id: req.user.toString() });
-    index = { _id: authedUser._id };
-  }
+    const document = req.body.document;
+    const code = req.body.newCode || req.body.code;
 
-  if (!index) return throwApiError(res, "Please put in an API token!");
-  Users.findOne(index, (err, user) => {
-    if (err)
-      return throwApiError(
-        res,
-        "An internal server error occurred! Please contact an admin!"
-      );
-    if (user) {
-      const creator = user._id.toString();
-      db.link.loadDatabase();
-      db.link.find({ creator }, (err, documents) => {
-        if (err)
-          return throwApiError(
-            res,
-            "An internal server error occurred! Please contact an admin!"
-          );
-        if (documents[0]) {
-          for (var entry = 0, len = documents.length; entry < len; entry++) {
-            const _id = documents[entry]._id;
-            db.link.remove({ _id });
-            if (
-              documents[entry].imageEmbed &&
-              fs.existsSync(`./public/assets/img/${documents[entry].URL}.jpg`)
-            ) {
-              fs.unlinkSync(`./public/assets/img/${documents[entry].URL}.jpg`);
-            }
-          }
-          db.link.loadDatabase();
-          if (Object.keys(index).indexOf("_id") > -1)
-            return res.redirect("/account");
-          res.json({
-            success: true,
-            message: `Deleted a total of ${documents.length} documents!`,
-            numberDeleted: documents.length,
-          });
-        } else {
-          return throwApiError(res, "There was no documents to delete!");
-        }
-      });
-    } else {
-      return throwApiError(res, "Invalid API token!");
-    }
-  });
-});
-
-routes.delete(
-  ["/document/:slug", "/deleteCod/:slug", "/paste/:slug"],
-  async (req, res) => {
-    let index = { apiToken: req.headers.authorization };
-
-    if (req.isAuthenticated()) {
-      const authedUser = await Users.findOne({ _id: req.user.toString() });
-      index = { _id: authedUser._id };
-    }
-
-    if (!index) return throwApiError(res, "Please put in an API token!");
-    const document = req.params.slug;
-    Users.findOne(index, (err, user) => {
-      if (err)
-        return throwApiError(
-          res,
-          "An internal server error occurred! Please contact an admin!"
-        );
-      if (user) {
+    Users.findOne({ apiToken }, (err, user) => {
+        if(err) return internalError(res);
+        if(!user) return throwApiError(res, "Please put in an API token!");
         const userId = user._id.toString();
+
         db.link.loadDatabase();
         db.link.findOne({ URL: document }, (err, documentInfo) => {
-          if (documentInfo) {
-            // Only allow the owner of the document to delete
-            if (documentInfo.creator === userId) {
-              db.link.remove({ _id: documentInfo._id }, (err) => {
-                if (err)
-                  return throwApiError(
-                    res,
-                    "An internal server error occurred! Please contact an admin!"
-                  );
-                if (
-                  documentInfo.imageEmbed &&
-                  fs.existsSync(
-                    // again, a looskie fuckywucky in production
-                    // todo: fix this
-                    // eslint-disable-next-line no-undef
-                    `./public/assets/img/${documents[entry].URL}.jpg`
-                  )
-                )
-                  fs.unlinkSync(`./public/assets/img/${documentInfo.URL}.jpg`);
-                if (Object.keys(index).indexOf("_id") > -1)
-                  return res.redirect("/account");
-                res.json({
-                  success: true,
-                  message: "Successfully delete the document!",
+            if(err) return throwApiError("Sorry! We couldn't find that document.");
+            if(!documentInfo) return throwApiError("Sorry! We couldn't find that document.");
+
+            const editors = documentInfo.allowedEditor;
+            // Make sure user is actually allowed to edit the document.
+            if(documentInfo.creator !== userId || editors.indexOf(userId) == -1) return throwApiError("Sorry! You aren't allowed to edit this document.");
+            
+            db.link.update({ URL: document }, { $set: { code } }, err => {
+                if(err) return throwApiError("Sorry! You aren't allowed to edit this document.");
+                
+                return res.json({
+                    success: true,
+                    message: 'Successfully edited the document!',
+                    documentId: document,
+                    rawLink: `https://www.imperialb.in/r/${document}`,
+                    formattedLink: `https://www.imperialb.in/p/${document}`,
+                    expiresIn: new Date(documentInfo.deleteDate),
+                    instantDelete: documentInfo.instantDelete
                 });
-              });
-            } else {
-              return throwApiError(
-                res,
-                "You do not have access to delete this document!"
-              );
-            }
-          } else {
-            return throwApiError(res, "We couldn't find that document!");
-          }
+            });
         });
-      } else {
-        return throwApiError(res, "Invalid API token!");
-      }
     });
-  }
-);
+});
 
-routes.get(
-  ["/document/:slug", "/getCode/:slug", "/paste/:slug"],
-  (req, res) => {
+routes.delete('/purgeDocuments', async (req, res) => {
+    var index = { 'apiToken': req.headers.authorization };
+    if(req.isAuthenticated()) {
+        const authedUser = await Users.findOne({ _id: req.user.toString() });
+        index = { '_id': authedUser._id };
+    }
+
+    if(!index) return throwApiError(res, "Please put in an API token!");
+    Users.findOne(index, (err, user) => {
+        if(err) return internalError(res);
+        if(!user) return throwApiError(res, "Please put in a valid API token!");
+        const creator = user._id.toString();
+
+        db.link.loadDatabase();
+        db.findOne({ creator }, (err, documents) => {
+            if(err) return internalError(res);
+            if(documents.length == 0) return throwApiError(res, "There was no documents to delete!");
+            // Go through every document to delete it.
+            for(const document of documents) {
+                const documentID = document._id;
+                db.link.remove({ documentID });
+
+                if(document.imageEmbed && fs.existsSync(`./public/assets/img/${document.URL}.jpg`)) 
+                    fs.unlinkSync(`./public/assets/img/${document.URL}.jpg`);
+            }
+            // (Tech) - I don't see a point in doing this again when
+            // it's already loaded once above? Something i'm missing like
+            // do the new values not update until you load this again?
+            db.link.loadDatabase();
+            // If the user is logged in redirect to the account page.
+            if(Object.keys(index).indexOf('_id') > -1) return res.redirect('account');
+            return res.json({
+                success: true,
+                message: `Deleted a total of ${documents.length} documents!`,
+                numberDeleted: documents.length
+            });
+        });
+    });
+});
+
+//                                             (Tech) - I hate cods.
+routes.delete(['/document/:slug', '/deleteCode/:slug', '/deleteCod/:slug', '/paste/:slug'], async (req, res) => {
+    var index = { 'apiToken': req.headers.authorization };
+    if(req.isAuthenticated()) {
+        const authedUser = await Users.findOne({ _id: req.user.toString() });
+        index = { '_id': authedUser._id };
+    }
+
+    if(!index) return throwApiError(res, "Please put in an API token!");
     const document = req.params.slug;
-    try {
-      db.link.loadDatabase();
-      db.link.findOne({ URL: document }, (err, document) => {
-        if (err)
-          return throwApiError(res, "An internal server error has occurred!");
-        if (document) {
-          const rawData = document.code;
-          res.json({
+
+    Users.findOne(index, (err, user) => {
+        if(err) return internalError(res);
+        if(!user) return throwApiError(res, "Please put in a valid API token!");
+        const userId = user._id.toString();
+
+        db.link.loadDatabase();
+        db.link.findOne({ URL: document }, (err, documentInfo) => {
+            if(!documentInfo) return throwApiError("Sorry! That document doesn't exist.");
+            if(documentInfo.creator !== userId) return throwApiError("Sorry! You aren't allowed to modify this document.");
+            // Delete specific document.
+            db.link.remove({ _id: documentInfo._id }, err => {
+                if(err) return internalError(res);
+                if(documentInfo.imageEmbed && fs.existsSync(`./public/assets/img/${documentInfo.URL}.jpg`))
+                    fs.unlinkSync(`./public/assets/img/${documentInfo.URL}.jpg`);
+            });
+            
+            if(Object.keys(index).indexOf('_id') > -1) return res.redirect('/account');
+            return res.json({
+                success: true,
+                message: "Successfully delete the document!"
+            });
+        });
+    });
+});
+
+routes.get(['/document/:slug', '/getCode/:slug', '/paste/:slug'], (req, res) => {
+    const document = req.params.slug;
+    db.link.loadDatabase();
+    db.link.findOne({ URL: document }, (err, documentInfo) => {
+        if(err) return internalError(res);
+        if(!documentInfo) return throwApiError(res, "Sorry! There was no document with that ID.");
+
+        const rawData = documentInfo.code;
+        return res.json({
             success: true,
-            document: rawData,
-          });
-        } else {
-          return throwApiError(res, "We couldn't find that document!");
-        }
-      });
-    } catch (err) {
-      return throwApiError(res, "An internal server error has occurred!");
-    }
-  }
-);
-
-routes.get("/checkApiToken/:apiToken", (req, res) => {
-  const apiToken = req.headers.authorization || req.params.apiToken;
-  Users.findOne({ apiToken }, (err, valid) => {
-    if (err)
-      return throwApiError(res, "An internal server error has occurred!");
-    if (valid) {
-      res.json({
-        success: true,
-        message: "API token is valid!",
-      });
-    } else {
-      return throwApiError(res, "API token is invalid!");
-    }
-  });
+            document: rawData
+        });
+    });
 });
 
-routes.get("/getShareXConfig/:apiToken", (req, res) => {
-  const apiToken = req.headers.authorization || req.params.apiToken;
-  res.attachment("imperialbin.sxcu").send({
-    Version: "13.4.0",
-    DestinationType: "TextUploader",
-    RequestMethod: "POST",
-    RequestURL: "https://imperialb.in/api/postCode/",
-    Headers: {
-      Authorization: apiToken,
-    },
-    Body: "JSON",
-    Data:
-      '{\n  "code": "$input$",\n  "longerUrls": false,\n  "imageEmbed": true,\n  "instantDelete": false\n}',
-    URL: "$json:formattedLink$",
-  });
+routes.get('/checkApiToken/:apiToken', (req, res) => {
+    const apiToken = req.headers.authorization || req.params.apiToken;
+    if(!apiToken) return throwApiError(res, "Please put in an API token!");
+
+    Users.findOne({ apiToken }, (err, actuallyExists) => {
+        if(err) return internalError(res);
+        return res.json({
+            success: actuallyExists ? true : false,
+            message: actuallyExists ? 'API token is valid!' : 'API token is invalid!'
+        });
+    });
 });
+
+routes.get('/getShareXConfig/:apiToken', (req, res) => {
+    const apiToken = req.headers.authorization || req.params.apiToken;
+    res.attachment('imperialbin.sxcu')
+        .send({
+            "Version": "13.4.0",
+            "DestinationType": "TextUploader",
+            "RequestMethod": "POST",
+            "RequestURL": "https://imperialb.in/api/postCode/",
+            "Headers": {
+                "Authorization": apiToken
+            },
+            "Body": "JSON",
+            "Data": "{\n  \"code\": \"$input$\",\n  \"longerUrls\": false,\n  \"imageEmbed\": true,\n  \"instantDelete\": false\n}",
+            "URL": "$json:formattedLink$"
+        });
+})
 
 module.exports = routes;
