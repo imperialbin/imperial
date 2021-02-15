@@ -85,12 +85,7 @@ app.use("/auth", authRouter);
 app.use(["/raw", "/r", "/raw/:documentId", "/r/:documentId"], rawRouter);
 
 app.use(
-  [
-    "/c",
-    "/compare",
-    "/c/:documentIdOne/:documentIdTwo",
-    "/compare/:documentIdOne/:documentIdTwo",
-  ],
+  ["/c", "/compare", "/c/:documentIdOne/:documentIdTwo", "/compare/:documentIdOne/:documentIdTwo"],
   compareRouter
 );
 
@@ -112,10 +107,7 @@ app.use(
 );
 
 process.on("uncaughtException", (err, origin) => {
-  fs.writeSync(
-    process.stderr.fd,
-    `Caught exception: ${err}\n` + `Exception origin: ${origin}`
-  );
+  fs.writeSync(process.stderr.fd, `Caught exception: ${err}\n` + `Exception origin: ${origin}`);
 });
 
 // SOCKET IO STUFF
