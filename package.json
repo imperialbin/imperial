@@ -39,7 +39,7 @@
     "gravatar": "^1.8.1",
     "ipware": "^2.0.0",
     "method-override": "^3.0.0",
-    "mongoose": "^5.11.14",
+    "mongoose": "^5.11.16",
     "nedb": "^1.8.0",
     "node-fetch": "^2.6.1",
     "nodemailer": "^6.4.17",
