@@ -25,7 +25,7 @@ routes.post(["/document", "/postCode", "/paste"], (req, res) => {
   const code = req.body.code;
   // Anon function to quickly make a guest paste.
   const guestPaste = () => {
-    createPaste(Math.random().toString(36).substring(2), false, false, 5, "NONE");
+    createPaste(generateString(8), false, false, 5, "NONE");
   };
 
   if (!req.headers.authorization) return guestPaste();
@@ -138,7 +138,7 @@ routes.patch(["/document", "/editCode", "/paste"], (req, res) => {
 
 routes.delete("/purgeDocuments", async (req, res) => {
   // If coming from outside
-  var index = { apiToken: req.headers.authorization };
+  let index = { apiToken: req.headers.authorization };
   // If coming from inside Imperial
   if (req.isAuthenticated()) {
     const authedUser = await Users.findOne({ _id: req.user.toString() });
@@ -180,7 +180,7 @@ routes.delete("/purgeDocuments", async (req, res) => {
 
 //                                             (Tech) - I hate cods.
 routes.delete(["/document/:slug", "/deleteCode/:slug", "/deleteCod/:slug", "/paste/:slug"], async (req, res) => {
-  var index = { apiToken: req.headers.authorization };
+  let index = { apiToken: req.headers.authorization };
   if (req.isAuthenticated()) {
     const authedUser = await Users.findOne({ _id: req.user.toString() });
     index = { _id: authedUser._id };

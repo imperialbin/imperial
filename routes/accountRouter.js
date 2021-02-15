@@ -5,11 +5,13 @@ const gravatar = require("gravatar");
 const fetch = require("node-fetch");
 const Datastore = require("nedb");
 
-const db = {};
-db.link = new Datastore({ filename: "./databases/links" });
-db.betaCodes = new Datastore({ filename: "./databases/betaCodes" });
-db.plusCodes = new Datastore({ filename: "./databases/plusCodes" });
-db.betaCodes.loadDatabase();
+// Utilities
+const generateString = require("../utilities/generateString");
+
+const db = {
+  link: new Datastore({ filename: "./databases/links" }),
+  plusCodes: new Datastore({ filename: "./databases/plusCodes" }),
+};
 db.plusCodes.loadDatabase();
 
 routes.get("/", (req, res) => {
@@ -223,7 +225,6 @@ routes.post("/changePfpGravatar", async (req, res) => {
 });
 
 routes.post("/createInvite", (req, res) => {
-  db.betaCodes.loadDatabase();
   Users.findOne({ _id: req.user.toString() }, (err, user) => {
     if (err) return console.log(err);
     db.link
@@ -232,7 +233,8 @@ routes.post("/createInvite", (req, res) => {
       .limit(10)
       .exec((err, documents) => {
         if (user.codesLeft > 0) {
-          const str = Math.random().toString(36).substring(4);
+          const str = generateString(8);
+          console.log(str);
           Users.updateOne(
             { _id: req.user.toString() },
             {
@@ -268,12 +270,7 @@ routes.post("/createInvite", (req, res) => {
 routes.get("/createPlusInvite", (req, res) => {
   db.plusCodes.loadDatabase();
   if (req.user.toString() === process.env.DEVELOPER_USER) {
-    const plusCode =
-      Math.random().toString(36).slice(2) +
-      Math.random().toString(36).slice(2) +
-      Math.random().toString(36).slice(2) +
-      Math.random().toString(36).slice(2) +
-      Math.random().toString(36).slice(2);
+    const plusCode = generateString(33);
     db.plusCodes.insert({ code: plusCode, used: false });
     res.render("success.ejs", { successMessage: `Plus code: ${plusCode}` });
   } else {

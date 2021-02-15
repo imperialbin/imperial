@@ -1,7 +1,8 @@
 const routes = require("express").Router();
 const Datastore = require("nedb");
-var db = {};
-db.link = new Datastore({ filename: "./databases/links" });
+var db = {
+  link: new Datastore({ filename: "./databases/links" })
+};
 
 routes.get("/", (req, res) => res.redirect("/"));
 

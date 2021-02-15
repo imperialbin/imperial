@@ -5,10 +5,9 @@ const mailer = require("nodemailer");
 const bcrypt = require("bcrypt");
 const Datastore = require("nedb");
 
-const db = {};
-
-db.betaCodes = new Datastore({ filename: "./databases/betaCodes" });
-db.emailTokens = new Datastore({ filename: "./databases/emailTokens" });
+const db = {
+  emailTokens: new Datastore({ filename: "./databases/emailTokens" }),
+};
 
 // Middleware
 const checkNotAuthenticated = require("../middleware/checkNotAuthenticated");
@@ -31,7 +30,6 @@ routes.get("/", checkNotAuthenticated, (req, res) => {
 });
 
 routes.post("/", async (req, res) => {
-  db.betaCodes.loadDatabase();
   db.emailTokens.loadDatabase();
   // (Tech) - Quick anon function because I'm really lazy.
   const internalError = (email, user) => {
