@@ -14,6 +14,7 @@ db.emailTokens = new Datastore({ filename: "./databases/emailTokens" });
 const checkNotAuthenticated = require("../middleware/checkNotAuthenticated");
 
 // Utilities
+const generateString = require("../utilities/generateString");
 const transporter = mailer.createTransport({
   service: "gmail",
   auth: {
@@ -80,10 +81,7 @@ routes.post("/", async (req, res) => {
                 user,
               });
 
-            const emailToken =
-              Math.random().toString(36).slice(2) +
-              Math.random().toString(36).slice(2) +
-              Math.random().toString(36).slice(2);
+            const emailToken = generateString(30);
             db.emailTokens.insert({ token: emailToken, email: email, used: false });
 
             const hashedPass = await bcrypt.hash(password, 13);
