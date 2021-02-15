@@ -16,6 +16,7 @@ const internalError = (res) => {
 // Utilites
 const throwApiError = require("../utilities/throwApiError");
 const screenshotDocument = require("../utilities/screenshotDocument");
+const generateString = require("../utilities/generateString");
 
 routes.get("/", (req, res) => res.json({ message: "Welcome to Imperial Bin's API!" }));
 
@@ -43,15 +44,10 @@ routes.post(["/document", "/postCode", "/paste"], (req, res) => {
       instantDelete: req.body.instantDelete || false,
       quality: !user.memberPlus ? 73 : 100,
     };
-
-    var str = "";
     // Short URLs are 8 characters long.
-    str += Math.random().toString(36).substr(2, 8);
+    let str = generateString(8);
     // Long URLs are 15 characters long. edit: WRONG they're like 26 characters now lololololol
-    if (documentSettings.longerUrls) str +=
-      Math.random().toString(36).substring(2, 7) +
-      Math.random().toString(36).substring(2, 7) +
-      Math.random().toString(36).substring(2, 7); // just a quick easy fix for now
+    if (documentSettings.longerUrls) str = generateString(26);
     // The max duration is 31 days.
     if (documentSettings.expiration > 31) documentSettings.expiration = 31;
 
@@ -141,7 +137,9 @@ routes.patch(["/document", "/editCode", "/paste"], (req, res) => {
 });
 
 routes.delete("/purgeDocuments", async (req, res) => {
+  // If coming from outside
   var index = { apiToken: req.headers.authorization };
+  // If coming from inside Imperial
   if (req.isAuthenticated()) {
     const authedUser = await Users.findOne({ _id: req.user.toString() });
     index = { _id: authedUser._id };
