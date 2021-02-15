@@ -12,11 +12,7 @@ module.exports = new CronJob(
         if (new Date().getTime() >= entry.deleteDate) {
           try {
             const id = entry._id;
-
-            fs.unlink(`./pastes/${entry.URL}.txt`, (err) => {
-              if (err) return err;
-              link.remove({ _id: id });
-            });
+            link.remove({ _id: id });
 
             if (entry.imageEmbed && fs.existsSync(`./public/assets/img/${entry.URL}.jpg`)) {
               fs.unlinkSync(`./public/assets/img/${entry.URL}.jpg`);

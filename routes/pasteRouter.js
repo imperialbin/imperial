@@ -3,8 +3,9 @@ const fs = require("fs");
 const Users = require("../models/Users");
 const Datastore = require("nedb");
 
-const db = {};
-db.link = new Datastore({ filename: "./databases/links" });
+const db = {
+  link: new Datastore({ filename: "./databases/links" }),
+};
 
 routes.get("/", (req, res) => {
   res.redirect(`/p/${req.originalUrl.split("/")[1]}/${req.originalUrl.split("/")[2]}`);

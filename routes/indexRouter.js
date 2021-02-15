@@ -4,17 +4,11 @@ const Datastore = require("nedb");
 const bcrypt = require("bcrypt");
 const mailer = require("nodemailer");
 
-const db = {};
-db.users = new Datastore({ filename: "./databases/users" });
-db.link = new Datastore({ filename: "./databases/links" });
-db.betaCodes = new Datastore({ filename: "./databases/betaCodes" });
-db.plusCodes = new Datastore({ filename: "./databases/plusCodes" });
-db.emailTokens = new Datastore({ filename: "./databases/emailTokens" });
-db.resetTokens = new Datastore({ filename: "./databases/resetTokens" });
+const db = {
+  link: new Datastore({ filename: "./databases/links" }),
+  resetTokens: new Datastore({ filename: "./databases/resetTokens" }),
+};
 
-db.betaCodes.loadDatabase();
-db.plusCodes.loadDatabase();
-db.emailTokens.loadDatabase();
 db.resetTokens.loadDatabase();
 db.link.loadDatabase();
 

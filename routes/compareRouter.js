@@ -1,13 +1,9 @@
 const routes = require("express").Router();
 const Datastore = require("nedb");
 
-const db = {};
-db.users = new Datastore({ filename: "./databases/users" });
-db.link = new Datastore({ filename: "./databases/links" });
-db.betaCodes = new Datastore({ filename: "./databases/betaCodes" });
-db.plusCodes = new Datastore({ filename: "./databases/plusCodes" });
-db.emailTokens = new Datastore({ filename: "./databases/emailTokens" });
-db.resetTokens = new Datastore({ filename: "./databases/resetTokens" });
+const db = {
+  link: new Datastore({ filename: "./databases/links" }),
+};
 
 routes.get("/", (req, res) => {
   res.redirect("/");
