@@ -251,10 +251,7 @@ routes.get(["/document/:slug", "/getCode/:slug", "/paste/:slug"], (req, res) => 
       try {
         rawData = decrypt(password, documentInfo.code, documentInfo.encryptedIv);
       } catch {
-        return res.json({
-          success: false,
-          message: "Incorrect password for encrypted document!",
-        });
+        return throwApiError(res, "Incorrect password for encrypted document!");
       }
     } else {
       rawData = documentInfo.code;
