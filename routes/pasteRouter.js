@@ -5,7 +5,6 @@ const Datastore = require("nedb");
 
 // Utilities
 const decrypt = require("../utilities/decrypt");
-const { S_IFBLK } = require("constants");
 
 const db = {
   link: new Datastore({ filename: "./databases/links" }),
