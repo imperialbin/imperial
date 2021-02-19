@@ -2,163 +2,166 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IMPERIAL | Document <%= documentName %>
-    </title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IMPERIAL | Document <%= documentName %>
+  </title>
 
-    <link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon/favicon-96x96.png">
-    <meta content="IMPERIAL - Document <%= documentName %>" property="og:title">
-    <meta name="theme-color" content="#24292e">
-    <meta content="IMPERIAL | <%= deleteDate %>" property="og:site_name">
-    <% if(imageEmbed){ %>
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="og:image" content="/assets/img/<%= documentName %>.jpg" />
-    <meta property="og:image:url" content="/assets/img/<%= documentName %>.jpg" />
-    <meta property="twitter:image" content="/assets/img/<%= documentName %>.jpg" />
-    <% } else if (deleteDate !=='Deletes after being viewed.' ){ %>
-    <meta content="<%= code %> " property="description">
-    <meta content="<%= code %> " property="og:description">
-    <% } %>
-    <script type="text/javascript" src="/assets/js/highlight.pack.js?v=3"></script>
-    <link rel="stylesheet" href="/assets/css/codeColor.css?v=3">
-    <link rel="stylesheet" href="/assets/css/reallyGlobal.css?v=3.1">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://unpkg.com/tippy.js@6.2.7/animations/shift-away.css" />
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script src="https://unpkg.com/@popperjs/core@2"></script>
-    <script src="https://unpkg.com/tippy.js@6"></script>
-    <script src="https://kit.fontawesome.com/ec3f0c8487.js" crossorigin="anonymous"></script>
-    <script src="/assets/js/secondary.js?v=3"></script>
-    <script src="/assets/js/global.js?v=4"></script>
-    <script src="https://cdn.socket.io/socket.io-3.0.1.min.js"></script>
-    <script>
-        const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.get('lang') && urlParams.get('lang').toLowerCase() !== 'none') {
-            hljs.configure({ languages: [urlParams.get('lang')] });
-        } else if (urlParams.get('lang') && urlParams.get('lang').toLowerCase() === 'none') {
-            hljs.configure({ languages: ['nohighlight'] });
-        }
-        hljs.initHighlightingOnLoad();
-    </script>
+  <link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon/favicon-96x96.png">
+  <meta content="IMPERIAL - Document <%= documentName %>" property="og:title">
+  <meta name="theme-color" content="#24292e">
+  <meta content="IMPERIAL | <%= deleteDate %>" property="og:site_name">
+  <% if(imageEmbed){ %>
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="og:image" content="/assets/img/<%= documentName %>.jpg" />
+  <meta property="og:image:url" content="/assets/img/<%= documentName %>.jpg" />
+  <meta property="twitter:image" content="/assets/img/<%= documentName %>.jpg" />
+  <% } else if (deleteDate !=='Deletes after being viewed.' ){ %>
+  <meta content="<%= code %> " property="description">
+  <meta content="<%= code %> " property="og:description">
+  <% } %>
+  <script type="text/javascript" src="/assets/js/highlight.pack.js?v=3"></script>
+  <link rel="stylesheet" href="/assets/css/codeColor.css?v=3">
+  <link rel="stylesheet" href="/assets/css/reallyGlobal.css?v=3.1">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/tippy.js@6.2.7/animations/shift-away.css" />
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <script src="https://unpkg.com/@popperjs/core@2"></script>
+  <script src="https://unpkg.com/tippy.js@6"></script>
+  <script src="https://kit.fontawesome.com/ec3f0c8487.js" crossorigin="anonymous"></script>
+  <script src="/assets/js/secondary.js?v=3"></script>
+  <script src="/assets/js/global.js?v=4"></script>
+  <script src="https://cdn.socket.io/socket.io-3.0.1.min.js"></script>
+  <script>
+    if (location.pathname.includes('getDocumentAccess')) {
+      window.history.pushState({}, null, `../<%= documentName %>`);
+    }
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('lang') && urlParams.get('lang').toLowerCase() !== 'none') {
+      hljs.configure({ languages: [urlParams.get('lang')] });
+    } else if (urlParams.get('lang') && urlParams.get('lang').toLowerCase() === 'none') {
+      hljs.configure({ languages: ['nohighlight'] });
+    }
+    hljs.initHighlightingOnLoad();
+  </script>
 </head>
 
 <body>
-    <div class="pasteSettings" id="compareDocuments">
-        <div class="pasteContainer">
-            <h1>Compare documents</h1>
-            <input id="compareDocumentText" type="text" autocomplete="off" placeholder="Put a document ID here"
-                oninput="document.getElementById('docBeingCompared').value = document.getElementById('compareDocumentText').value;">
-            <div class="documents">
-                <input id="initialDoc" type="text" class="readOnly" value="<%= documentName %> (Viewing now)" readonly>
-                <br>
-                <i class="fas fa-exchange-alt" style="margin-bottom:20px;"></i>
-                <br>
-                <input id="docBeingCompared" class="readOnly" type="text" value="No document" readonly>
-            </div>
-            <br><button id="cancel-settings" class="cancelSettings" onclick="cancelSettings()">Cancel</button>
-            <button
-                onclick="location.href = `/c/<%= documentName %>/${document.getElementById('docBeingCompared').value}?from=<%= documentName %>`">Go</button>
-            <br><br>
-        </div>
+  <div class="pasteSettings" id="compareDocuments">
+    <div class="pasteContainer">
+      <h1>Compare documents</h1>
+      <input id="compareDocumentText" type="text" autocomplete="off" placeholder="Put a document ID here"
+        oninput="document.getElementById('docBeingCompared').value = document.getElementById('compareDocumentText').value;">
+      <div class="documents">
+        <input id="initialDoc" type="text" class="readOnly" value="<%= documentName %> (Viewing now)" readonly>
+        <br>
+        <i class="fas fa-exchange-alt" style="margin-bottom:20px;"></i>
+        <br>
+        <input id="docBeingCompared" class="readOnly" type="text" value="No document" readonly>
+      </div>
+      <br><button id="cancel-settings" class="cancelSettings" onclick="cancelSettings()">Cancel</button>
+      <button
+        onclick="location.href = `/c/<%= documentName %>/${document.getElementById('docBeingCompared').value}?from=<%= documentName %>`">Go</button>
+      <br><br>
     </div>
-    <%- include('partials/pasteSettings.ejs'); %>
-    <%- include('partials/setMenu.ejs'); %>
-    <div id="lines">></div>
-    <pre id="box" class="hljs"><code id="submitCode"><%= code %></code></pre>
-    <textarea spellcheck="false" id="codeThing" style="display:none;"
-        onkeydown="if(event.keyCode===9){var v=this.value,s=this.selectionStart,e=this.selectionEnd;this.value=v.substring(0, s)+'\t'+v.substring(e);this.selectionStart=this.selectionEnd=s+1;return false;}"><%= code %></textarea>
-    <br>
+  </div>
+  <%- include('partials/pasteSettings.ejs'); %>
+  <%- include('partials/setMenu.ejs'); %>
+  <div id="lines">></div>
+  <pre id="box" class="hljs"><code id="submitCode"><%= code %></code></pre>
+  <textarea spellcheck="false" id="codeThing" style="display:none;"
+    onkeydown="if(event.keyCode===9){var v=this.value,s=this.selectionStart,e=this.selectionEnd;this.value=v.substring(0, s)+'\t'+v.substring(e);this.selectionStart=this.selectionEnd=s+1;return false;}"><%= code %></textarea>
+  <br>
 </body>
 <script>
-    if (urlParams.get('copyLink') === 'true') {
-        window.history.pushState({}, document.title, window.location.pathname);
-        var link = location.href;
-        if (location.href.includes('/p/') && localStorage.getItem('customURL') !== 'p')
-            var link = location.href.split('/p/')[0] + "/" + location.href.split('/p/')[1]
-        navigator.clipboard.writeText(link)
-            .then(() => $('#messages').append('<li class="message success"><i class="fas fa-check" style="padding-right: 4px;"></i> Copied link!</li>'))
-            .catch(err => $('#messages').append('<li class="message error"><i class="fas fa-times-circle" style="padding-right: 4px;"></i> Couldn\'t copy link!</li>'))
-    }
+  if (urlParams.get('copyLink') === 'true') {
+    window.history.pushState({}, document.title, window.location.pathname);
+    var link = location.href;
+    if (location.href.includes('/p/') && localStorage.getItem('customURL') !== 'p')
+      var link = location.href.split('/p/')[0] + "/" + location.href.split('/p/')[1]
+    navigator.clipboard.writeText(link)
+      .then(() => $('#messages').append('<li class="message success"><i class="fas fa-check" style="padding-right: 4px;"></i> Copied link!</li>'))
+      .catch(err => $('#messages').append('<li class="message error"><i class="fas fa-times-circle" style="padding-right: 4px;"></i> Couldn\'t copy link!</li>'))
+  }
 
-    // SOCKET IO STUFF
+  // SOCKET IO STUFF
 
-    var connectionOptions = {
-        "force new connection": true,
-        "reconnectionAttempts": "Infinity", //avoid having user reconnect manually in order to prevent dead clients after a server restart
-        "timeout": 10000,                  //before connect_error and connect_timeout are emitted.
-        "transports": ["websocket"],
-        "secure": true
-    };
+  var connectionOptions = {
+    "force new connection": true,
+    "reconnectionAttempts": "Infinity", //avoid having user reconnect manually in order to prevent dead clients after a server restart
+    "timeout": 10000,                  //before connect_error and connect_timeout are emitted.
+    "transports": ["websocket"],
+    "secure": true
+  };
 
-    var socket = io('https://www.imperialb.in/socket.io/', connectionOptions);
-    socket.on('getEditPasteEmit', code => {
-        document.getElementById('submitCode').textContent = code;
-        $('#box').css('display', 'block');
-        $('#codeThing').css('display', 'none');
-        var lineCount = $("#codeThing").val().split("\n");
-        document.getElementById('lines').textContent = '';
-        for (var i = 1; i <= lineCount.length; i++) {
-            $('#lines').append(`${i.toString()} <br>`);
-        }
-        document.querySelectorAll('pre code').forEach(block => {
-            hljs.highlightBlock(block);
-        });
-        if ($('#success').length === 0) {
-            $('.success').append('<li id="success"><i class="fas fa-check" style="padding-right: 9px;"></i> Post has been edited!</li>');
-        }
-    })
-    function emitEditPost() {
-        socket.emit('editPasteEmit', $('#codeThing').val());
-    }
-
-    let loggedIn = '<%= JSON.stringify(loggedIn) %>'
-    if (loggedIn == 'true' && localStorage.getItem('instantDelete') == 'true') {
-        $('#messages').append('<li class="message error"><i class="fas fa-info-circle" style="padding-right: 4px;"></i> Instant delete is on!</li>');
-    }
+  var socket = io('https://www.imperialb.in/socket.io/', connectionOptions);
+  socket.on('getEditPasteEmit', code => {
+    document.getElementById('submitCode').textContent = code;
+    $('#box').css('display', 'block');
+    $('#codeThing').css('display', 'none');
     var lineCount = $("#codeThing").val().split("\n");
     document.getElementById('lines').textContent = '';
     for (var i = 1; i <= lineCount.length; i++) {
-        $('#lines').append(`${i.toString()} <br>`);
+      $('#lines').append(`${i.toString()} <br>`);
     }
-    const template = document.getElementById('accountDrop');
-    tippy('#account', {
-        content: template.innerHTML,
-        allowHTML: true,
-        trigger: 'click',
-        placement: 'bottom',
-        animation: 'shift-away',
-        interactive: true,
+    document.querySelectorAll('pre code').forEach(block => {
+      hljs.highlightBlock(block);
     });
-    tippy('#edit', {
-        content: 'Edit paste',
-        placement: 'bottom',
-        animation: 'shift-away',
-        arrow: false
-    })
-    $(window).on("keydown", e => {
-        if (e.key === 't' && e.altKey) {
-            window.open(`https://twitter.com/intent/tweet?text=Here%20is%20a%20paste%20I%20made%20on%20ImperialBin%20https://www.imperialbin.com/p/<%= documentName %>`, '_blank');
-        }
-    })
-    tippy('#compare', {
-        content: 'Compare documents',
-        placement: 'bottom',
-        animation: 'shift-away',
-        arrow: false
-    })
-    tippy('#save', {
-        content: 'Duplicate document',
-        placement: 'bottom',
-        animation: 'shift-away',
-        arrow: false
-    })
-    tippy('#new', {
-        content: 'New document',
-        placement: 'bottom',
-        animation: 'shift-away',
-        arrow: false
-    })
+    if ($('#success').length === 0) {
+      $('.success').append('<li id="success"><i class="fas fa-check" style="padding-right: 9px;"></i> Post has been edited!</li>');
+    }
+  })
+  function emitEditPost() {
+    socket.emit('editPasteEmit', $('#codeThing').val());
+  }
+
+  let loggedIn = '<%= JSON.stringify(loggedIn) %>'
+  if (loggedIn == 'true' && localStorage.getItem('instantDelete') == 'true') {
+    $('#messages').append('<li class="message error"><i class="fas fa-info-circle" style="padding-right: 4px;"></i> Instant delete is on!</li>');
+  }
+  var lineCount = $("#codeThing").val().split("\n");
+  document.getElementById('lines').textContent = '';
+  for (var i = 1; i <= lineCount.length; i++) {
+    $('#lines').append(`${i.toString()} <br>`);
+  }
+  const template = document.getElementById('accountDrop');
+  tippy('#account', {
+    content: template.innerHTML,
+    allowHTML: true,
+    trigger: 'click',
+    placement: 'bottom',
+    animation: 'shift-away',
+    interactive: true,
+  });
+  tippy('#edit', {
+    content: 'Edit paste',
+    placement: 'bottom',
+    animation: 'shift-away',
+    arrow: false
+  })
+  $(window).on("keydown", e => {
+    if (e.key === 't' && e.altKey) {
+      window.open(`https://twitter.com/intent/tweet?text=Here%20is%20a%20paste%20I%20made%20on%20ImperialBin%20https://www.imperialbin.com/p/<%= documentName %>`, '_blank');
+    }
+  })
+  tippy('#compare', {
+    content: 'Compare documents',
+    placement: 'bottom',
+    animation: 'shift-away',
+    arrow: false
+  })
+  tippy('#save', {
+    content: 'Duplicate document',
+    placement: 'bottom',
+    animation: 'shift-away',
+    arrow: false
+  })
+  tippy('#new', {
+    content: 'New document',
+    placement: 'bottom',
+    animation: 'shift-away',
+    arrow: false
+  })
 </script>
 
 </html>

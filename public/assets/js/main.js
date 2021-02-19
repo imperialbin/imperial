@@ -213,7 +213,7 @@ async function uploadCode() {
 
 function copyLink(password) {
   const linkBox = document.createElement("textarea");
-  linkBox.value = password ? `password: ${password}\n${location.href}` : location.href;
+  linkBox.value = password ? `${location.href}?password=${password}` : location.href;
   document.body.appendChild(linkBox);
   linkBox.select();
   document.execCommand("copy");
