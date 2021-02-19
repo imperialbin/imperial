@@ -17,9 +17,10 @@ function toggleMenu() {
     $("#embedCheck").prop("checked", "true");
   }
 
-  if (localStorage.getItem("customURL")) {
-    console.log(localStorage.getItem("customURL"));
+  if (localStorage.getItem("encrypted") === "true") {
+    $("#encryptedCheck").prop("checked", "true");
   }
+
   if (localStorage.getItem("customURL")) {
     $("#customURL").val(localStorage.getItem("customURL"));
     $("#previewURL").text(`(https://www.imperialb.in/${document.getElementById("customURL").value}/documentID)`);
@@ -45,12 +46,14 @@ function saveSettings() {
   const urlcheck = $("#linkCheck").is(":checked");
   const embedCheck = $("#embedCheck").is(":checked");
   const customURL = document.getElementById("customURL").value;
+  const encryptedCheck = $("#encryptedCheck").is(":checked");
 
   localStorage.setItem("securedUrls", urlcheck);
   localStorage.setItem("clipboard", clipboardCheck);
   localStorage.setItem("deleteTime", deleteTime);
   localStorage.setItem("instantDelete", deleteCheck);
   localStorage.setItem("imageEmbeds", embedCheck);
+  localStorage.setItem("encrypted", encryptedCheck);
 
   if (customURL.trim() === "") {
     localStorage.setItem("customURL", "p");

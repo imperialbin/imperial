@@ -1,10 +1,10 @@
-const highlight = editor => {
+const highlight = (editor) => {
   // This is a bug in HighlightJS
   // eslint-disable-next-line no-self-assign
   editor.textContent = editor.textContent;
-  hljs.highlightBlock(editor)
-}
-const editor = document.querySelector('#codeThing');
+  hljs.highlightBlock(editor);
+};
+const editor = document.querySelector("#codeThing");
 const codeBox = CodeJar(editor, highlight);
 
 window.addEventListener("popstate", () => {
@@ -63,65 +63,74 @@ $(window).on("keydown", (e) => {
 });
 
 function toggleAddUser() {
-  $('#addUser').addClass('active');
-  const getUsers = localStorage.getItem('addUser')
-  if (getUsers === 'undefined') {
-    localStorage.removeItem('addUser');
+  $("#addUser").addClass("active");
+  const getUsers = localStorage.getItem("addUser");
+  if (getUsers === "undefined") {
+    localStorage.removeItem("addUser");
   }
-  if (getUsers !== null && getUsers !== '') {
-    for (var users = 0; users < getUsers.split(',').length; users++) {
-      const user = getUsers.split(',')[users]
-      $('.users').append(`<div class="user" id="${user}"> <input id="token" type="text" value="${user}" readonly> <button class="deleteUser" onclick="removeUser('${user}')"><i class="fas fa-trash"></i></button> </div>`)
+  if (getUsers !== null && getUsers !== "") {
+    for (var users = 0; users < getUsers.split(",").length; users++) {
+      const user = getUsers.split(",")[users];
+      $(".users").append(
+        `<div class="user" id="${user}"> <input id="token" type="text" value="${user}" readonly> <button class="deleteUser" onclick="removeUser('${user}')"><i class="fas fa-trash"></i></button> </div>`
+      );
     }
   }
-  document.getElementById('user').focus()
+  document.getElementById("user").focus();
 }
 
 function removeUser(user) {
-  const getUsers = localStorage.getItem('addUser')
-  $(`#${user}`).remove()
-  localStorage.setItem('addUser', getUsers.replace(user, ''))
-  if (getUsers == '' || getUsers === undefined) {
-    localStorage.removeItem('addUsers');
+  const getUsers = localStorage.getItem("addUser");
+  $(`#${user}`).remove();
+  localStorage.setItem("addUser", getUsers.replace(user, ""));
+  if (getUsers == "" || getUsers === undefined) {
+    localStorage.removeItem("addUsers");
   }
 }
 
 function addUser(user) {
-  const users = localStorage.getItem('addUser');
-  if (!$.trim(user) == '') { // checks if input has an actual user or just spaces, those sneaky bastards.
+  const users = localStorage.getItem("addUser");
+  if (!$.trim(user) == "") {
+    // checks if input has an actual user or just spaces, those sneaky bastards.
     const regex = /^[,"]+|[,"]+$/g;
-    const formattedUser = user.replace(regex, '');
-    if (users !== null && !users == '') {
-      const newUsers = `${users},${formattedUser}`
-      $('.users').append(`<div class="user" id="${formattedUser}"> <input id="token" type="text" value="${formattedUser}" readonly> <button class="deleteUser" onclick="removeUser('${formattedUser}')"><i class="fas fa-trash"></i></button> </div>`)
-      localStorage.setItem('addUser', newUsers);
-      document.getElementById('user').value = '';
-      document.getElementById('user').focus()
+    const formattedUser = user.replace(regex, "");
+    if (users !== null && !users == "") {
+      const newUsers = `${users},${formattedUser}`;
+      $(".users").append(
+        `<div class="user" id="${formattedUser}"> <input id="token" type="text" value="${formattedUser}" readonly> <button class="deleteUser" onclick="removeUser('${formattedUser}')"><i class="fas fa-trash"></i></button> </div>`
+      );
+      localStorage.setItem("addUser", newUsers);
+      document.getElementById("user").value = "";
+      document.getElementById("user").focus();
     } else {
-      localStorage.setItem('addUser', formattedUser);
-      $('.users').append(`<div class="user" id="${formattedUser}"> <input id="token" type="text" value="${formattedUser}" readonly> <button class="deleteUser" onclick="removeUser('${formattedUser}')"><i class="fas fa-trash"></i></button> </div>`)
-      document.getElementById('user').value = '';
-      document.getElementById('user').focus()
+      localStorage.setItem("addUser", formattedUser);
+      $(".users").append(
+        `<div class="user" id="${formattedUser}"> <input id="token" type="text" value="${formattedUser}" readonly> <button class="deleteUser" onclick="removeUser('${formattedUser}')"><i class="fas fa-trash"></i></button> </div>`
+      );
+      document.getElementById("user").value = "";
+      document.getElementById("user").focus();
     }
   }
 }
 
 function setPaste() {
-  const clipboardCheck = $('#clipCheck2').is(':checked');
-  localStorage.setItem('securedUrls', false);
-  localStorage.setItem('clipboard', clipboardCheck);
-  localStorage.setItem('deleteTime', '7');
-  localStorage.setItem('instantDelete', 'false');
-  localStorage.setItem('imageEmbeds', 'true');
-  localStorage.setItem('customURL', 'p');
-  $('.pasteSettings').removeClass('active');
+  const clipboardCheck = $("#clipCheck2").is(":checked");
+  localStorage.setItem("securedUrls", false);
+  localStorage.setItem("clipboard", clipboardCheck);
+  localStorage.setItem("deleteTime", "7");
+  localStorage.setItem("instantDelete", "false");
+  localStorage.setItem("imageEmbeds", "true");
+  localStorage.setItem("customURL", "p");
+  localStorage.setItem("encrypted", "false");
+  localStorage.setItem("password", "none");
+  $(".pasteSettings").removeClass("active");
 }
 
-const getUsers = localStorage.getItem('addUser')
-if (getUsers !== null && !getUsers == '') {
-  if (getUsers[0] == ',') {
+const getUsers = localStorage.getItem("addUser");
+if (getUsers !== null && !getUsers == "") {
+  if (getUsers[0] == ",") {
     const regex = /^[,]+|[,]+$/g;
-    localStorage.setItem('addUser', getUsers.replace(regex, ''))
+    localStorage.setItem("addUser", getUsers.replace(regex, ""));
   }
 }
 
@@ -136,6 +145,7 @@ async function uploadCode() {
   const instantDelete = localStorage.getItem("instantDelete");
   const allowedEditor = localStorage.getItem("addUser");
   const imageEmbeds = localStorage.getItem("imageEmbeds");
+  const encrypted = localStorage.getItem("encrypted");
   var options = {
     method: "POST",
     headers: {
@@ -148,14 +158,15 @@ async function uploadCode() {
       instantDelete,
       allowedEditor,
       imageEmbeds,
+      encrypted,
     }),
   };
   fetch("/saveCode", options)
     .then((res) => res.json())
     .then((json) => {
       if (json.status === "success") {
-        if (instantDelete === "true") {
-          $("#codeThing").attr("readonly", true);
+        if (instantDelete === "true" || json.password) {
+          editor.style.display = "none";
           const lines = codeBox.toString().split("\n");
           document.getElementById("lines").textContent = "";
 
@@ -167,20 +178,23 @@ async function uploadCode() {
           document.getElementById("submitCode").textContent = code;
           codeBox.updateCode("");
           if (localStorage.getItem("customURL") !== "p") {
-            window.history.pushState(
-              {},
-              null,
-              `${localStorage.getItem("customURL")}/${json.link.substring(3)}`
-            );
+            window.history.pushState({}, null, `${localStorage.getItem("customURL")}/${json.link.substring(3)}`);
           } else {
             window.history.pushState({}, null, json.link);
           }
           const link = json.link.substring(3);
           document.title = `Document ${link}`;
-          copyLink();
-          $("#messages").append(
-            '<li class="message success"><i class="fas fa-check" style="padding-right: 4px;"></i> Copied link!</li>'
-          );
+          if (json.password) {
+            copyLink(json.password);
+            $("#messages").append(
+              '<li class="message success"><i class="fas fa-check" style="padding-right: 4px;"></i> Copied link and password!</li>'
+            );
+          } else {
+            copyLink();
+            $("#messages").append(
+              '<li class="message success"><i class="fas fa-check" style="padding-right: 4px;"></i> Copied link!</li>'
+            );
+          }
           document.querySelectorAll("pre code").forEach((block) => {
             hljs.highlightBlock(block);
           });
@@ -188,11 +202,7 @@ async function uploadCode() {
         } else {
           if ($.trim(codeBox.toString())) {
             localStorage.removeItem("addUser");
-            location.href =
-              localStorage.getItem("customURL") +
-              "/" +
-              json.link.substring(3) +
-              "?copyLink=true";
+            location.href = localStorage.getItem("customURL") + "/" + json.link.substring(3) + "?copyLink=true";
           } else {
             $("#codeThing").focus();
           }
@@ -201,9 +211,9 @@ async function uploadCode() {
     });
 }
 
-function copyLink() {
+function copyLink(password) {
   const linkBox = document.createElement("textarea");
-  linkBox.value = location.href;
+  linkBox.value = password ? `password: ${password}\n${location.href}` : location.href;
   document.body.appendChild(linkBox);
   linkBox.select();
   document.execCommand("copy");
