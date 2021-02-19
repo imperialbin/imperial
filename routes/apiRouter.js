@@ -2,6 +2,7 @@ const routes = require("express").Router();
 const Datastore = require("nedb");
 const fs = require("fs");
 const Users = require("../models/Users");
+const crypto = require("crypto");
 
 const db = {
   link: new Datastore({ filename: "./databases/links" }),
@@ -17,6 +18,8 @@ const internalError = (res) => {
 const throwApiError = require("../utilities/throwApiError");
 const screenshotDocument = require("../utilities/screenshotDocument");
 const generateString = require("../utilities/generateString");
+const encrypt = require("../utilities/encrypt");
+const decrypt = require("../utilities/decrypt");
 
 routes.get("/", (req, res) => res.json({ message: "Welcome to Imperial Bin's API!" }));
 
@@ -43,6 +46,8 @@ routes.post(["/document", "/postCode", "/paste"], (req, res) => {
       expiration: req.body.expiration || 5,
       instantDelete: req.body.instantDelete || false,
       quality: !user.memberPlus ? 73 : 100,
+      encrypted: req.body.encrypted || false,
+      encryptedPassword: req.body.encryptedPassword || false,
     };
     // Short URLs are 8 characters long.
     let str = generateString(8);
@@ -57,12 +62,21 @@ routes.post(["/document", "/postCode", "/paste"], (req, res) => {
       documentSettings.instantDelete,
       documentSettings.expiration,
       creator,
-      documentSettings.quality
+      documentSettings.quality,
+      documentSettings.encrypted,
+      documentSettings.encryptedPassword
     );
   });
 
-  function createPaste(str, imageEmbed, instantDelete, expiration, creator, quality) {
+  function createPaste(str, imageEmbed, instantDelete, expiration, creator, quality, encrypted, encryptedPassword) {
     if (!code) return throwApiError(res, "You need to post code! No code was submitted.");
+    if (encrypted) {
+      // We literally have to use var here, but if anyone knows how to get rid of the vars please pr :(((
+      var password = typeof encryptedPassword === "string" ? encryptedPassword : generateString(12);
+      var initVector = crypto.randomBytes(16);
+      var hashedPassword = crypto.createHash("sha256").update(password).digest();
+      /*       const decrypted = decrypt(hashedPassword, encrypted, initVector); */
+    }
     try {
       db.link.insert(
         {
@@ -70,10 +84,12 @@ routes.post(["/document", "/postCode", "/paste"], (req, res) => {
           imageEmbed,
           instantDelete,
           creator,
-          code,
+          code: encrypted ? encrypt(hashedPassword, code, initVector) : code,
           dateCreated: new Date().getTime(),
           deleteDate: new Date().setDate(new Date().getDate() + Number(expiration)),
           allowedEditor: [],
+          encrypted: encrypted,
+          encryptedIv: initVector,
         },
         async (err, doc) => {
           if (err) return internalError(res);
@@ -88,6 +104,7 @@ routes.post(["/document", "/postCode", "/paste"], (req, res) => {
             formattedLink: `https://www.imperialb.in/p/${str}`,
             expiresIn: new Date(doc.deleteDate),
             instantDelete: instantDelete,
+            encrypted,
           });
         }
       );
@@ -152,13 +169,13 @@ routes.delete("/purgeDocuments", async (req, res) => {
     const creator = user._id.toString();
 
     db.link.loadDatabase();
-    db.findOne({ creator }, (err, documents) => {
+    db.link.find({ creator }, (err, documents) => {
       if (err) return internalError(res);
       if (documents.length == 0) return throwApiError(res, "There was no documents to delete!");
       // Go through every document to delete it.
       for (const document of documents) {
-        const documentID = document._id;
-        db.link.remove({ documentID });
+        const _id = document._id;
+        db.link.remove({ _id });
 
         if (document.imageEmbed && fs.existsSync(`./public/assets/img/${document.URL}.jpg`))
           fs.unlinkSync(`./public/assets/img/${document.URL}.jpg`);
@@ -168,7 +185,7 @@ routes.delete("/purgeDocuments", async (req, res) => {
       // do the new values not update until you load this again?
       db.link.loadDatabase();
       // If the user is logged in redirect to the account page.
-      if (Object.keys(index).indexOf("_id") > -1) return res.redirect("account");
+      if (Object.keys(index).indexOf("_id") > -1) return res.redirect("/account");
       return res.json({
         success: true,
         message: `Deleted a total of ${documents.length} documents!`,
