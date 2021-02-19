@@ -28,7 +28,7 @@ routes.post(["/document", "/postCode", "/paste"], (req, res) => {
   const code = req.body.code;
   // Anon function to quickly make a guest paste.
   const guestPaste = () => {
-    createPaste(generateString(8), false, false, 5, "NONE");
+    createPaste(generateString(8), false, false, 5, "NONE", false);
   };
 
   if (!req.headers.authorization) return guestPaste();
@@ -47,7 +47,7 @@ routes.post(["/document", "/postCode", "/paste"], (req, res) => {
       instantDelete: req.body.instantDelete || false,
       quality: !user.memberPlus ? 73 : 100,
       encrypted: req.body.encrypted || false,
-      encryptedPassword: req.body.encryptedPassword || false,
+      password: req.body.password || false,
     };
     // Short URLs are 8 characters long.
     let str = generateString(8);
@@ -64,18 +64,17 @@ routes.post(["/document", "/postCode", "/paste"], (req, res) => {
       creator,
       documentSettings.quality,
       documentSettings.encrypted,
-      documentSettings.encryptedPassword
+      documentSettings.password
     );
   });
 
   function createPaste(str, imageEmbed, instantDelete, expiration, creator, quality, encrypted, encryptedPassword) {
     if (!code) return throwApiError(res, "You need to post code! No code was submitted.");
+    let password, initVector, hashedPassword;
     if (encrypted) {
-      // We literally have to use var here, but if anyone knows how to get rid of the vars please pr :(((
-      var password = typeof encryptedPassword === "string" ? encryptedPassword : generateString(12);
-      var initVector = crypto.randomBytes(16);
-      var hashedPassword = crypto.createHash("sha256").update(password).digest();
-      /*       const decrypted = decrypt(hashedPassword, encrypted, initVector); */
+      password = typeof encryptedPassword === "string" ? encryptedPassword : generateString(12);
+      initVector = crypto.randomBytes(16);
+      hashedPassword = crypto.createHash("sha256").update(password).digest();
     }
     try {
       db.link.insert(
@@ -88,23 +87,24 @@ routes.post(["/document", "/postCode", "/paste"], (req, res) => {
           dateCreated: new Date().getTime(),
           deleteDate: new Date().setDate(new Date().getDate() + Number(expiration)),
           allowedEditor: [],
-          encrypted: encrypted,
-          encryptedIv: initVector,
+          encrypted,
+          encryptedIv: encrypted ? initVector.toString("hex") : null,
         },
         async (err, doc) => {
           if (err) return internalError(res);
           // Make sure this is not a guest paste.
           if (creator !== "NONE") await Users.updateOne({ _id: creator }, { $inc: { documentsMade: 1 } });
 
-          if (quality && !instantDelete && imageEmbed) screenshotDocument(str, quality);
+          if (quality && !instantDelete && imageEmbed && !encrypted) screenshotDocument(str, quality);
           return res.json({
             success: true,
             documentId: str,
             rawLink: `https://www.imperialb.in/r/${str}`,
             formattedLink: `https://www.imperialb.in/p/${str}`,
             expiresIn: new Date(doc.deleteDate),
-            instantDelete: instantDelete,
+            instantDelete,
             encrypted,
+            password: encrypted ? password : false,
           });
         }
       );
@@ -233,12 +233,32 @@ routes.delete(["/document/:slug", "/deleteCode/:slug", "/deleteCod/:slug", "/pas
 
 routes.get(["/document/:slug", "/getCode/:slug", "/paste/:slug"], (req, res) => {
   const document = req.params.slug;
+  const password = req.query.password || false;
   db.link.loadDatabase();
   db.link.findOne({ URL: document }, (err, documentInfo) => {
     if (err) return internalError(res);
     if (!documentInfo) return throwApiError(res, "Sorry! There was no document with that ID.");
+    if (documentInfo.encrypted && !password) {
+      return throwApiError(
+        res,
+        "You need to pass ?password=PASSWORD with your request, since this paste is encrypted!"
+      );
+    }
 
-    const rawData = documentInfo.code;
+    let rawData;
+
+    if (documentInfo.encrypted && password) {
+      try {
+        rawData = decrypt(password, documentInfo.code, documentInfo.encryptedIv);
+      } catch {
+        return res.json({
+          success: false,
+          message: "Incorrect password for encrypted document!",
+        });
+      }
+    } else {
+      rawData = documentInfo.code;
+    }
     return res.json({
       success: true,
       document: rawData,
