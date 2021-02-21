@@ -127,17 +127,19 @@ routes.patch(["/document", "/editCode", "/paste"], (req, res) => {
     const userId = user._id.toString();
 
     db.link.loadDatabase();
-    db.link.findOne({ URL: document }, (err, documentInfo) => {
+    db.link.findOne({ URL: document }, async (err, documentInfo) => {
       if (err) return throwApiError(res, "Sorry! We couldn't find that document.");
       if (!documentInfo) return throwApiError(res, "Sorry! We couldn't find that document.");
-      if (documentInfo.encrypted) return throwApiError(res, "Sorry! You can not edit encrypted documents just yet! Soon!");
+      if (documentInfo.encrypted)
+        return throwApiError(res, "Sorry! You can not edit encrypted documents just yet! Soon!");
 
       const editors = documentInfo.allowedEditor;
       // Make sure user is actually allowed to edit the document.
-      if (documentInfo.creator !== userId || editors.indexOf(userId) == -1)
+      if (documentInfo.creator != userId && editors.indexOf(userId) === -1)
         return throwApiError(res, "Sorry! You aren't allowed to edit this document.");
 
       db.link.update({ URL: document }, { $set: { code } }, (err) => {
+        console.log(err);
         if (err) return throwApiError(res, "Sorry! You aren't allowed to edit this document.");
 
         return res.json({
@@ -215,7 +217,8 @@ routes.delete(["/document/:slug", "/deleteCode/:slug", "/deleteCod/:slug", "/pas
     db.link.loadDatabase();
     db.link.findOne({ URL: document }, (err, documentInfo) => {
       if (!documentInfo) return throwApiError(res, "Sorry! That document doesn't exist.");
-      if (documentInfo.creator !== userId) return throwApiError(res, "Sorry! You aren't allowed to modify this document.");
+      if (documentInfo.creator !== userId)
+        return throwApiError(res, "Sorry! You aren't allowed to modify this document.");
       // Delete specific document.
       db.link.remove({ _id: documentInfo._id }, (err) => {
         if (err) return internalError(res);
