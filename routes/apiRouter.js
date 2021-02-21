@@ -49,10 +49,11 @@ routes.post(["/document", "/postCode", "/paste"], (req, res) => {
       encrypted: req.body.encrypted || false,
       password: req.body.password || false,
     };
-    // Short URLs are 8 characters long.
-    let str = generateString(8);
-    // Long URLs are 15 characters long. edit: WRONG they're like 26 characters now lololololol
+    
+    let str;
     if (documentSettings.longerUrls) str = generateString(26);
+    else str = generateString(8);
+    
     // The max duration is 31 days.
     if (documentSettings.expiration > 31) documentSettings.expiration = 31;
 
@@ -72,11 +73,13 @@ routes.post(["/document", "/postCode", "/paste"], (req, res) => {
     const date = new Date();
     if (!code) return throwApiError(res, "You need to post code! No code was submitted.");
     let password, initVector, hashedPassword;
+    
     if (encrypted) {
       password = typeof encryptedPassword === "string" ? encryptedPassword : generateString(12);
       initVector = crypto.randomBytes(16);
       hashedPassword = crypto.createHash("sha256").update(password).digest();
     }
+    
     try {
       db.link.insert(
         {
