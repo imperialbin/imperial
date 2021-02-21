@@ -73,11 +73,13 @@ routes.post(["/document", "/postCode", "/paste"], (req, res) => {
     const date = new Date();
     if (!code) return throwApiError(res, "You need to post code! No code was submitted.");
     let password, initVector, hashedPassword;
+    
     if (encrypted) {
       password = typeof encryptedPassword === "string" ? encryptedPassword : generateString(12);
       initVector = crypto.randomBytes(16);
       hashedPassword = crypto.createHash("sha256").update(password).digest();
     }
+    
     try {
       db.link.insert(
         {
