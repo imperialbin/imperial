@@ -57,10 +57,11 @@ routes.get("/forgot", (req, res) => {
 });
 
 routes.get("/resetPassword/:resetToken", (req, res) => {
+  db.resetTokens.loadDatabase();
   const resetToken = req.params.resetToken;
-  db.resetTokens.find({ token: resetToken }, (err, data) => {
+  db.resetTokens.findOne({ token: resetToken }, (err, tokenExists) => {
     if (err) return console.log(err);
-    if (!data === undefined || !data.length === 0) {
+    if (tokenExists) {
       res.render("resetPassword.ejs", { token: resetToken, error: false });
     } else {
       res.render("error.ejs", { error: "Token is not valid!" });
