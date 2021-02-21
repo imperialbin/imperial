@@ -15,7 +15,7 @@
     }
   </script>
   <link rel="stylesheet" href="/assets/css/reallyGlobal.css?v=3">
-  <link rel="stylesheet" href="/assets/css/account.css?v=4">
+  <link rel="stylesheet" href="/assets/css/account.css?v=5">
   <link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon/favicon-96x96.png">
   <meta property="og:image" content="/assets/favicon/favicon-96x96.png">
   <meta name="description" content="View your account here!">
@@ -93,7 +93,8 @@
   <span>(Showing the 10 most recent documents)</span><br>
   <% for(var i=0; i<documents.length; i++) {%>
   <a href="/p/<%= documents[i].URL %>" class="dumbLinks">
-    <input class="paste <%= documents[i].encrypted ? 'ellipsisEncrypted' : 'ellipsis' %>" type="text" id="token" value="<%= documents[i].URL %>" readonly>
+    <input class="paste <%= documents[i].encrypted ? 'ellipsisEncrypted' : 'ellipsis' %>" type="text" id="token"
+      value="<%= documents[i].URL %>" readonly>
   </a>
   <% if (documents[i].encrypted) {%>
   <form class="encryptedContainer">
