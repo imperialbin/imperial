@@ -69,6 +69,7 @@ routes.post(["/document", "/postCode", "/paste"], (req, res) => {
   });
 
   function createPaste(str, imageEmbed, instantDelete, expiration, creator, quality, encrypted, encryptedPassword) {
+    const date = new Date();
     if (!code) return throwApiError(res, "You need to post code! No code was submitted.");
     let password, initVector, hashedPassword;
     if (encrypted) {
@@ -84,8 +85,8 @@ routes.post(["/document", "/postCode", "/paste"], (req, res) => {
           instantDelete,
           creator,
           code: encrypted ? encrypt(hashedPassword, code, initVector) : code,
-          dateCreated: new Date().getTime(),
-          deleteDate: new Date().setDate(new Date().getDate() + Number(expiration)),
+          dateCreated: date.getTime(),
+          deleteDate: date.setDate(date.getDate() + Number(expiration)),
           allowedEditor: [],
           encrypted,
           encryptedIv: encrypted ? initVector.toString("hex") : null,
