@@ -158,7 +158,8 @@ span {
 }
 
 .recentPastes,
-.deletePaste {
+.deletePaste,
+.encrypted {
   background: var(--button);
   position: absolute;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.15);
@@ -167,28 +168,37 @@ span {
   margin-top: -4px;
   margin-left: -62px;
 }
-.deletePaste {
+.deletePaste,
+.encrypted {
   margin-top: -4px;
   margin-left: -103px;
   padding: 6px 10px;
 }
 .encrypted {
-  margin-left: -146px;
+  margin-left: -146px !important;
+}
+.encrypted:hover {
+  color: var(--text-info) !important;
 }
 .deletePaste:hover {
   color: var(--text-error);
 }
-.deleteForm {
+/* Little weird what I do here, I basically use a form even though im not using the form functionality its so then everything doesnt fucking break, but yeah know, Ill do a long term fix in a bit */
+.deleteForm,
+.encryptedContainer {
   display: inline;
 }
 .dumbLinks {
   cursor: initial;
 }
-.ellipsis {
+.ellipsis,
+.ellipsisEncrypted {
   padding-right: 110px;
   text-overflow: ellipsis;
 }
-
+.ellipsisEncrypted {
+  padding-right: 149px !important;
+}
 .paste {
   display: inline-block;
   cursor: pointer;
