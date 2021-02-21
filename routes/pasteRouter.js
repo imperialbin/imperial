@@ -67,6 +67,7 @@ routes.get(
                 loggedIn: false,
                 deleteDate: deleteDate,
                 creator: false,
+                encrypted: false,
               });
 
             const editorArray = document.allowedEditor;
@@ -83,6 +84,7 @@ routes.get(
               creator: isCreator,
               originalCreator: document.creator,
               incomingUser: userId,
+              encrypted: false,
             });
           });
         } else
@@ -93,6 +95,7 @@ routes.get(
             loggedIn: false,
             deleteDate: deleteDate,
             creator: false,
+            encrypted: false,
           });
       });
     } catch (_) {
@@ -148,6 +151,7 @@ routes.post("/getDocumentAccess/:documentId", (req, res) => {
               loggedIn: false,
               deleteDate: deleteDate,
               creator: false,
+              encrypted: true,
             });
 
           const editorArray = document.allowedEditor;
@@ -164,7 +168,7 @@ routes.post("/getDocumentAccess/:documentId", (req, res) => {
             creator: isCreator,
             originalCreator: document.creator,
             incomingUser: userId,
-            encrypted: true
+            encrypted: true,
           });
         });
       } else
@@ -175,6 +179,7 @@ routes.post("/getDocumentAccess/:documentId", (req, res) => {
           loggedIn: false,
           deleteDate: deleteDate,
           creator: false,
+          encrypted: true,
         });
     } catch {
       return res.render("enterPassword.ejs", { error: "Incorrect password", documentId });
