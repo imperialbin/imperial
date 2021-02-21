@@ -185,6 +185,7 @@ async function uploadCode() {
           const link = json.link.substring(3);
           document.title = `Document ${link}`;
           if (json.password) {
+            window.history.pushState({}, null, `${json.link}?password=${json.password}`);
             copyLink(json.password);
             $("#messages").append(
               '<li class="message success"><i class="fas fa-check" style="padding-right: 4px;"></i> Copied link and password!</li>'
