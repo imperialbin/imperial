@@ -164,6 +164,7 @@ routes.post("/getDocumentAccess/:documentId", (req, res) => {
             creator: isCreator,
             originalCreator: document.creator,
             incomingUser: userId,
+            encrypted: true
           });
         });
       } else
