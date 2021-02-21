@@ -93,11 +93,11 @@
   <span>(Showing the 10 most recent documents)</span><br>
   <% for(var i=0; i<documents.length; i++) {%>
   <a href="/p/<%= documents[i].URL %>" class="dumbLinks">
-    <input class="paste ellipsis" type="text" id="token" value="<%= documents[i].URL %>" readonly>
+    <input class="paste <%= documents[i].encrypted ? 'ellipsisEncrypted' : 'ellipsis' %>" type="text" id="token" value="<%= documents[i].URL %>" readonly>
   </a>
   <% if (documents[i].encrypted) {%>
-  <form class="deleteForm" method="POST" action="/api/document/<%= documents[i].URL %>?_method=DELETE">
-    <button type="submit" class="deletePaste tooltip encrypted" data-tippy-content="Document is encrypted and password protected"><i
+  <form class="encryptedContainer">
+    <button class="tooltip encrypted" data-tippy-content="This Document is encrypted and password protected"><i
         class="fas fa-key"></i></button>
   </form>
   <% } %>
