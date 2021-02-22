@@ -33,7 +33,7 @@
     "ejs": "^3.1.5",
     "express": "^4.17.1",
     "express-flash": "0.0.2",
-    "express-rate-limit": "^5.2.3",
+    "express-rate-limit": "^5.2.6",
     "express-session": "^1.17.1",
     "fs": "0.0.1-security",
     "gravatar": "^1.8.1",
