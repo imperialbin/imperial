@@ -1,6 +1,6 @@
 const puppeteer = require("puppeteer");
 
-// this ugly lmfao
+// Праліўны лівень спермы.
 module.exports = async (documentId, quality) => {
   const browser = await puppeteer.launch({
     headless: true,
