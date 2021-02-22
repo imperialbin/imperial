@@ -5,7 +5,6 @@ module.exports = async (documentId, quality) => {
   const browser = await puppeteer.launch({
     headless: true,
     args: ["--no-sandbox", "--disable-setuid-sandbox"],
-    defaultViewport: null,
   });
   const page = await browser.newPage();
   await page.goto(`https://imperialb.in/p/${documentId}`);
