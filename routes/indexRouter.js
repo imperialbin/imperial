@@ -215,12 +215,7 @@ routes.post("/requestResetPassword", checkNotAuthenticated, (req, res) => {
       });
     }
     try {
-      const resetToken =
-        Math.random().toString(36).slice(2) +
-        Math.random().toString(36).slice(2) +
-        Math.random().toString(36).slice(2) +
-        Math.random().toString(36).slice(2) +
-        Math.random().toString(36).slice(2);
+      const resetToken = generateString(30);
       db.resetTokens.insert({ token: resetToken, email: email, used: false });
       let mailOptions = {
         from: "IMPERIAL",
