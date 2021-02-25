@@ -49,11 +49,11 @@ routes.post(["/document", "/postCode", "/paste"], (req, res) => {
       encrypted: req.body.encrypted || false,
       password: req.body.password || false,
     };
-    
+
     let str;
     if (documentSettings.longerUrls) str = generateString(26);
     else str = generateString(8);
-    
+
     // The max duration is 31 days.
     if (documentSettings.expiration > 31) documentSettings.expiration = 31;
 
@@ -73,13 +73,13 @@ routes.post(["/document", "/postCode", "/paste"], (req, res) => {
     const date = new Date();
     if (!code) return throwApiError(res, "You need to post code! No code was submitted.");
     let password, initVector, hashedPassword;
-    
+
     if (encrypted) {
       password = typeof encryptedPassword === "string" ? encryptedPassword : generateString(12);
       initVector = crypto.randomBytes(16);
       hashedPassword = crypto.createHash("sha256").update(password).digest();
     }
-    
+
     try {
       db.link.insert(
         {
@@ -248,7 +248,8 @@ routes.get(["/document/:slug", "/getCode/:slug", "/paste/:slug"], (req, res) => 
     if (documentInfo.encrypted && !password) {
       return throwApiError(
         res,
-        "You need to pass ?password=PASSWORD with your request, since this paste is encrypted!"
+        "You need to pass ?password=PASSWORD with your request, since this paste is encrypted!",
+        401
       );
     }
 
@@ -258,7 +259,7 @@ routes.get(["/document/:slug", "/getCode/:slug", "/paste/:slug"], (req, res) => 
       try {
         rawData = decrypt(password, documentInfo.code, documentInfo.encryptedIv);
       } catch {
-        return throwApiError(res, "Incorrect password for encrypted document!");
+        return throwApiError(res, "Incorrect password for encrypted document!", 401);
       }
     } else {
       rawData = documentInfo.code;
