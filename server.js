@@ -12,22 +12,17 @@ const initializePassport = require("./passport-config");
 const methodOverride = require("method-override");
 const http = require("http").createServer(app);
 const io = require("socket.io")(http);
-const MongoStore = require("connect-mongo")(session);
+const MongoStore = require("connect-mongo").default;
 const CrawlerDetect = require("crawler-detect");
 
 // Middleware
 const checkAuthenticated = require("./middleware/checkAuthenticated");
 
 // Database
-mongoose.connect(
-  process.env.MONGO_URI ||
-    `mongodb+srv://${process.env.DB_NAME}:${process.env.DB_PASS}@users.vc1kj.mongodb.net/USERS?retryWrites=true&w=majority`,
-  { useNewUrlParser: true, useUnifiedTopology: true },
-  (err) => {
-    if (err) return err;
-    console.log("Connected to database");
-  }
-);
+mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true }, (err) => {
+  if (err) return err;
+  console.log("Connected to database");
+});
 
 // Utilities
 const apiLimiter = require("./utilities/apiLimiter");
@@ -46,11 +41,12 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: { maxAge: 120 * 60 * 60 * 1000 },
-    store: new MongoStore({
-      mongooseConnection: mongoose.connection,
+    store: MongoStore.create({
+      mongoUrl: process.env.MONGO_URI,
+      dbName: "sessions",
       ttl: 5 * 24 * 60 * 60,
       autoRemove: "interval",
-      autoRemoveInterval: 10,
+      autoRemoveInterval: 1,
     }),
     unset: "destroy",
   })
