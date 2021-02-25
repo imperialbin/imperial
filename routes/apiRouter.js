@@ -301,7 +301,7 @@ routes.get("/getShareXConfig/:apiToken", (req, res) => {
 });
 
 routes.get("*", (req, res) => {
-  throwApiError(res, "That route does not exist or you have inproper URL formatting!", 404);
+  throwApiError(res, "That route does not exist or you have improper URL formatting!", 404);
 });
 
 module.exports = routes;
