@@ -1,10 +1,10 @@
 // Some random imports and consts we need
 import express from "express";
 const app = express();
-import bodeParser from "body-parser";
+import bodyParser from "body-parser";
 import { connect } from "mongoose";
 import flash from "express-flash";
-import session from "express-session";
+import session, { Store } from "express-session";
 import cookieParser from "cookie-parser";
 import passport from "passport";
 import methodOverride from "method-override";
@@ -13,6 +13,8 @@ import MongoStore from "connect-mongo";
 // Our ENV!!! hiii env!
 import "dotenv/config";
 const MONGOURI = process.env.MONGO_URI ?? "";
+const COOKIE_SECRET = process.env.COOKIE_SECRET ?? "";
+const SESSION_SECRET = process.env.SESSION_SECRET ?? "";
 const PORT = process.env.PORT ?? 3000;
 
 // Database
@@ -24,6 +26,33 @@ connect(
     console.log("Connected to database");
   }
 );
+
+// Some stupid express stuff
+app.set("view", __dirname + "../views");
+app.set("view-engine", "ejs");
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(express.static("../public"));
+app.use(flash());
+app.use(cookieParser(COOKIE_SECRET));
+app.use(
+  session({
+    secret: SESSION_SECRET,
+    resave: true,
+    saveUninitialized: false,
+    cookie: { maxAge: 120 * 60 * 60 * 1000 },
+    store: MongoStore.create({
+      mongoUrl: MONGOURI,
+      dbName: "sessions",
+      ttl: 5 * 24 * 60 * 60,
+      autoRemove: "interval",
+      autoRemoveInterval: 15,
+    }),
+    unset: "destroy",
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Some of our routes
 import { routes as indexRouter } from "./routes/indexRouter";
