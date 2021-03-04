@@ -41,6 +41,7 @@ app.use(
     resave: true,
     saveUninitialized: false,
     cookie: { maxAge: 120 * 60 * 60 * 1000 },
+    // @ts-expect-error cum
     store: MongoStore.create({
       mongoUrl: MONGOURI,
       dbName: "sessions",
