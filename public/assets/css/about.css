@@ -1,0 +1,117 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #20252a;
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  color: #acacac;
+}
+
+.home {
+  min-height: 60vh;
+  text-align: center;
+  margin-bottom: 80px;
+}
+.logo {
+  margin: 5px;
+  width: 85px;
+  height: auto;
+  text-align: left !important;
+}
+
+h1 {
+  margin-top: 100px;
+  font-size: 45px;
+  font-weight: 300;
+}
+p {
+  font-size: 25px;
+  font-weight: 300;
+}
+button {
+  padding: 8px 20px;
+  background: #1a252e;
+  border-radius: 8px;
+  border: none;
+  color: #acacac;
+  font-size: 14px;
+  cursor: pointer;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  margin: 25px 0 0 0;
+}
+button:hover {
+  background: #1f2a35;
+}
+button:focus {
+  outline: 0;
+}
+button:active {
+  background: #131c24;
+}
+
+.not-really-home {
+}
+.containers {
+  width: 80%;
+  margin: 0 auto;
+}
+.a-quite-large-container {
+  text-align: center;
+  background: #273038;
+  border-radius: 13px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.35);
+}
+h2 {
+  text-align: center;
+  padding: 15px;
+  font-weight: 400;
+}
+p {
+  padding: 0 30px;
+  font-size: 19px;
+}
+.discord {
+  margin-bottom: 25px;
+}
+
+.features h2 {
+  padding: 13px 15px 0px 15px;
+}
+.features p {
+  padding-bottom: 25px;
+}
+
+.small-container {
+  margin-bottom: 25px;
+  text-align: center;
+  background: #273038;
+  border-radius: 13px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.35);
+}
+
+@media only screen and (min-width: 900px) {
+  .containers {
+    width: 800px;
+  }
+  .features {
+    width: 100%;
+  }
+  .another-container {
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .small-container {
+    display: inline-block;
+    width: 25%;
+    margin-right: 30px;
+    min-height: 200px;
+    vertical-align: top;
+  }
+}
