@@ -1,7 +1,0 @@
-node_modules/
-.env
-databases/
-pastes/
-.idea
-*.log
-yarn.lock
