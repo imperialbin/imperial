@@ -12,9 +12,17 @@ import MongoStore from "connect-mongo";
 
 // Our ENV!!! hiii env!
 import "dotenv/config";
+const MONGOURI = process.env.MONGO_URI;
 
 // Database
-connect(process.env.MONGO_URI, {})
+connect(
+  MONGOURI,
+  { useNewUrlParser: true, useUnifiedTopology: true },
+  (err) => {
+    if (err) return console.log(err);
+    console.log("Connected to database");
+  }
+);
 
 // Some of our routes
 import { routes as indexRouter } from "./routes/indexRouter";
