@@ -2,7 +2,7 @@ import { Strategy as LocalStrategy } from "passport-local";
 import { IUser, Users } from "../models/Users";
 import bcrypt from "bcrypt";
 
-export function initialize(passport: any) {
+export default function initialize(passport: any) {
   const authenticateUser = async (
     email: string,
     password: string,
