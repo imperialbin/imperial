@@ -4,7 +4,7 @@ const app = express();
 import bodyParser from "body-parser";
 import { connect } from "mongoose";
 import flash from "express-flash";
-import session, { Store } from "express-session";
+import session from "express-session";
 import cookieParser from "cookie-parser";
 import passport from "passport";
 import methodOverride from "method-override";
@@ -41,7 +41,6 @@ app.use(
     resave: true,
     saveUninitialized: false,
     cookie: { maxAge: 120 * 60 * 60 * 1000 },
-    // @ts-expect-error cum
     store: MongoStore.create({
       mongoUrl: MONGOURI,
       dbName: "sessions",

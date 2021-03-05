@@ -16,6 +16,7 @@
         "@typescript-eslint"
     ],
     "rules": {
-      "no-undef": "off"
+      "no-undef": "off",
+      "@typescript-eslint/no-explicit-any": "off"
     }
 }
