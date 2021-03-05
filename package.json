@@ -21,6 +21,7 @@
   "homepage": "https://github.com/imperialbin/imperial#readme",
   "devDependencies": {
     "@types/bcrypt": "^3.0.0",
+    "@types/cron": "^1.7.2",
     "@types/express": "^4.17.11",
     "@types/node": "^14.14.31",
     "@types/passport-local": "^1.0.33",
@@ -42,6 +43,7 @@
     "connect-mongo": "^4.2.2",
     "cookie-parser": "^1.4.5",
     "crawler-detect": "^1.0.1",
+    "cron": "^1.8.2",
     "dotenv": "^8.2.0",
     "eslint": "^7.21.0",
     "express": "^4.17.1",
@@ -52,6 +54,8 @@
     "mongoose": "^5.11.18",
     "nedb": "^1.8.0",
     "passport": "^0.4.1",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "puppeteer": "^8.0.0",
+    "redis": "^3.0.2"
   }
 }
