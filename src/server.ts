@@ -8,7 +8,14 @@ import session from "express-session";
 import cookieParser from "cookie-parser";
 import passport from "passport";
 import methodOverride from "method-override";
+
+// @ts-ignore shut the fuck up
+import CrawlerDetect from "crawler-detect";
 import MongoStore from "connect-mongo";
+
+// Passport
+import initializePassport from "./auth/passport-config";
+initializePassport(passport);
 
 // Our ENV!!! hiii env!
 import "dotenv/config";
@@ -53,6 +60,9 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(methodOverride("_method"));
+app.use(CrawlerDetect.express());
+app.disable("x-powered-by");
 
 // Some of our routes
 import { routes as indexRouter } from "./routes/indexRouter";
