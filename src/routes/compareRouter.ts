@@ -3,7 +3,7 @@ export const routes = Router();
 import Datastore from "nedb";
 
 const db = {
-  link: new Datastore({ filename: "../databases/links" }),
+  link: new Datastore({ filename: "./databases/links" }),
 };
 
 routes.get("/", (req: Request, res: Response) => {
