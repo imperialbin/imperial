@@ -1670,6 +1670,11 @@ ipaddr.js@1.9.1:
   resolved "https://registry.yarnpkg.com/ipaddr.js/-/ipaddr.js-1.9.1.tgz#bff38543eeb8984825079ff3a2a8e6cbd46781b3"
   integrity sha512-0KI/607xoxSToH7GjN1FfSbLoU0+btTicjsQSWQlh/hZykN8KpmMf7uYwPW3R+akZ6R/w18ZlXSHBYXiYUPO3g==
 
+ipware@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/ipware/-/ipware-2.0.0.tgz#5baa8977bb33411cb17d5dd2953a5c5c89be587c"
+  integrity sha512-xOqLoYyWIBcO6ANVZK7GgnuH9V7wbqDf6/MrRi4I+Ae1A11m6jcaNRtMSezypkupRUjiSSLq3F/DTvAM1cZfQw==
+
 is-binary-path@~2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/is-binary-path/-/is-binary-path-2.1.0.tgz#ea1f7f3b80f064236e83470f86c09c254fb45b09"
