@@ -20,6 +20,7 @@ routes.get("/", (req: Request, res: Response) =>
   res.json({ message: "Welcome to Imperialbin's API!" })
 );
 
+// Post document
 routes.post("/document", (req: Request, res: Response) => {
   const code = req.body.code;
   if (!code)
@@ -154,6 +155,7 @@ routes.post("/document", (req: Request, res: Response) => {
   };
 });
 
+// Get document
 routes.get("/document/:documentId", (req: Request, res: Response) => {
   const documentId = req.params.documentId;
   const password: any = req.query.password || false;
