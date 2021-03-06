@@ -2,7 +2,7 @@ import crypto from "crypto";
 
 // Usage decrypt(hashedPassword, documentInfo.code, documentInfo.encryptedIv);
 
-export default (
+export const decrypt = (
   password: string,
   cipherText: string,
   initVector: string
