@@ -43,7 +43,7 @@ connect(
 );
 
 // Some stupid express stuff
-app.set("view", __dirname + "../views");
+app.set("views", "./views");
 app.set("view-engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
