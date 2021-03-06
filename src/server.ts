@@ -17,6 +17,14 @@ import MongoStore from "connect-mongo";
 import initializePassport from "./auth/passport-config";
 initializePassport(passport);
 
+// Utilities
+import apiLimiter from "./utilities/apiLimiter";
+import "./utilities/autoDelete";
+
+// Middleware
+import checkAuthenticated from "./middleware/checkAuthenticated";
+import checkNotAuthenticated from "./middleware/checkNotAuthenticated";
+
 // Our ENV!!! hiii env!
 import "dotenv/config";
 const MONGOURI = process.env.MONGO_URI ?? "";
@@ -76,11 +84,11 @@ import { routes as rawRouter } from "./routes/rawRouter";
 import { routes as registerRouter } from "./routes/registerRouter";
 
 app.use("/", indexRouter);
-app.use("/api", apiRouter);
+app.use("/api", apiLimiter, apiRouter);
 app.use("/auth", authRouter);
-app.use("/login", loginRouter);
-app.use("/register", registerRouter);
-app.use("/account", accountRouter);
+app.use("/login", checkNotAuthenticated, loginRouter);
+app.use("/register", checkNotAuthenticated, registerRouter);
+app.use("/account", checkAuthenticated, accountRouter);
 
 app.use(
   [
