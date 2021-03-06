@@ -1,6 +1,6 @@
 import puppeteer from "puppeteer";
 
-export const screenshotDocumennt = async (documentId: string, quality: number) => {
+export const screenshotDocument = async (documentId: string, quality: number) => {
   const browser = await puppeteer.launch({
     headless: true,
     args: ["--no-sandbox", "--disable-setuid-sandbox"],
