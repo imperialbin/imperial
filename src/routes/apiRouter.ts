@@ -7,7 +7,7 @@ import crypto from "crypto";
 
 // uhhhhhhhhhhhhhhhhhhhhh
 const db = {
-  link: new Datastore({ filename: "../databases/links" }),
+  link: new Datastore({ filename: "./databases/links" }),
 };
 
 export const routes = Router();

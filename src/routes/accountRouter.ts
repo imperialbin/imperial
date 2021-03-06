@@ -13,8 +13,8 @@ import { generateString } from "../utilities/generateString";
 
 // uhhhhhhhhhhhhhhhhhhhhh
 const db = {
-  link: new Datastore({ filename: "../databases/links" }),
-  plusCodes: new Datastore({ filename: "../databases/plusCodes" }),
+  link: new Datastore({ filename: "./databases/links" }),
+  plusCodes: new Datastore({ filename: "./databases/plusCodes" }),
 };
 
 export const routes = Router();
