@@ -10,6 +10,7 @@ import { throwApiError } from "../utilities/throwApiError";
 import { DocumentSettings } from "../utilities/documentSettingsInterface";
 import { encrypt } from "../utilities/encrypt";
 import { screenshotDocument } from "../utilities/screenshotDocument";
+import { decrypt } from "../utilities/decrypt";
 
 const db = {
   link: new Datastore({ filename: "./databases/links" }),
@@ -151,4 +152,47 @@ routes.post("/document", (req: Request, res: Response) => {
       );
     }
   };
+});
+
+routes.get("/document/:documentId", (req: Request, res: Response) => {
+  const documentId = req.params.documentId;
+  const password: any = req.query.password || false;
+
+  db.link.loadDatabase();
+  db.link.findOne({ URL: documentId }, (err, document) => {
+    if (err)
+      return throwApiError(
+        res,
+        "An internal server error occurred! Please contact an admin!",
+        500
+      );
+    if (!document)
+      return throwApiError(res, "We couldn't find that document!", 404);
+    if (document.encrypted && !password)
+      return throwApiError(
+        res,
+        "You need to pass ?password=PASSWORD with your request, since this paste is encrypted!",
+        401
+      );
+
+    let code;
+    if (document.encrypted && password) {
+      try {
+        code = decrypt(password, document.code, document.encryptedIv);
+      } catch {
+        return throwApiError(
+          res,
+          "Incorrect password for encrypted document!",
+          401
+        );
+      }
+    } else {
+      code = document.code;
+    }
+
+    return res.json({
+      success: true,
+      document: code,
+    });
+  });
 });
