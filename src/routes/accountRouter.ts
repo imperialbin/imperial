@@ -9,7 +9,7 @@ import Datastore from "nedb";
 const DEVELOPER_USER = process.env.DEVELOPER_USER;
 
 // Utilities
-import generateString from "../utilities/generateString";
+import { generateString } from "../utilities/generateString";
 
 // uhhhhhhhhhhhhhhhhhhhhh
 const db = {
