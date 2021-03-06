@@ -198,3 +198,62 @@ routes.get("/document/:documentId", (req: Request, res: Response) => {
     });
   });
 });
+
+// Edit document
+routes.patch("/document", (req: Request, res: Response) => {
+  const authorization = req.isAuthenticated()
+    ? req.user?.toString()
+    : // @ts-ignore I dont even know why you're complaing man
+      req.headers.authorization;
+  if (!authorization) return throwApiError(res, "You must be authorized!", 401);
+
+  const documentId = req.body.document;
+  const code = req.body.newCode || req.body.code;
+  if (!documentId)
+    return throwApiError(res, "You must include a document id!", 400);
+  if (!code)
+    return throwApiError(
+      res,
+      "You must give code to replace the old code with!",
+      400
+    );
+
+  Users.findOne(
+    {
+      $or: [{ _id: authorization }, { apiToken: authorization }],
+    },
+    (err: string, user: IUser) => {
+      if (err)
+        return throwApiError(
+          res,
+          "An internal server occurred whilst getting user",
+          500
+        );
+
+      db.link.findOne({ URL: documentId }, (err, document) => {
+        if (err)
+          return throwApiError(
+            res,
+            "An internal server occurred whilst getting document!",
+            500
+          );
+        if (!document)
+          return throwApiError(
+            res,
+            "We couldn't find the document you're trying to edit!",
+            404
+          );
+
+        if (document.encrypted)
+          return throwApiError(
+            res,
+            "You cannot edit encrypted documents right now, please try again later",
+            401
+          );
+
+        const editors = document.allowedEditor;
+        
+      });
+    }
+  );
+});
