@@ -859,11 +859,6 @@ core-util-is@~1.0.0:
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
   integrity sha1-tf1UIgqivFq1eqtxQMlAdUUDwac=
 
-crawler-detect@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/crawler-detect/-/crawler-detect-1.0.1.tgz#10a367ae1ea702a2fc93f95b03d6d0eecaf205ba"
-  integrity sha512-s1WrxAlf5Waskh6Fs9jgjD3BvHK/JmSa4USrgAjTYUbOhfzOgnC+GRBgj4EMF0NeBrqo04bDHwfWrJmtZ7c/3g==
-
 create-require@^1.1.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/create-require/-/create-require-1.1.1.tgz#c1d7e8f1e5f6cfc9ff65f9cd352d37348756c333"
@@ -1066,6 +1061,11 @@ enquirer@^2.3.5:
   integrity sha512-yjNnPr315/FjS4zIsUxYguYUPP2e1NK4d7E7ZOLiyYCcbFBiTMyID+2wvm2w6+pZ/odMA7cRkjhsPbltwBOrLg==
   dependencies:
     ansi-colors "^4.1.1"
+
+es6-crawler-detect@^3.1.2:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/es6-crawler-detect/-/es6-crawler-detect-3.1.2.tgz#1ed0fe47be7e3b26aafb877ee7e4df26bfc122de"
+  integrity sha512-m0TnbB/bhbOmQnkBRDPsB003lP3Zxhix56+oUgSTysSqtrzsvJQAo3Wy+NXf9ugEiR2DK52LryKgMznn50KPOQ==
 
 escape-goat@^2.0.0:
   version "2.1.1"
