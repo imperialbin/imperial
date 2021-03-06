@@ -3,6 +3,7 @@ export const routes = Router();
 import { IUser, Users } from "../models/Users";
 import Datastore from "nedb";
 import crypto from "crypto";
+import fs from "fs";
 
 // Utilities
 import { generateString } from "../utilities/generateString";
@@ -229,6 +230,7 @@ routes.patch("/document", (req: Request, res: Response) => {
           "An internal server occurred whilst getting user",
           500
         );
+      const _id = user._id.toString();
 
       db.link.findOne({ URL: documentId }, (err, document) => {
         if (err)
@@ -252,8 +254,200 @@ routes.patch("/document", (req: Request, res: Response) => {
           );
 
         const editors = document.allowedEditor;
-        
+
+        if (document.creator != _id && editors.indexOf(_id) === -1)
+          return throwApiError(
+            res,
+            "Sorry! You aren't allowed to edit this document.",
+            401
+          );
+
+        /*         db.link.update(
+          { URL: documentId },
+          { $set: { code } },
+          (err: string) => {
+            if (err)
+              return throwApiError(
+                res,
+                "An internal server error occurred whilst editing the document! Please contact an admin!",
+                500
+              );
+
+            return res.json({
+              success: true,
+              message: "Successfully edit the document!",
+              documentId: documentId,
+              rawLink: `https://imperialb.in/r/${documentId}`,
+              formattedLink: `https://imperialb.in/p/${documentId}`,
+              expiresIn: new Date(document.deleteDate),
+              instantDelete: document.instantDelete,
+            });
+          }
+        ); */
       });
     }
+  );
+});
+
+// Delete document
+routes.delete("/document/:documentId", async (req: Request, res: Response) => {
+  const authorization = req.isAuthenticated()
+    ? req.user?.toString()
+    : // @ts-ignore I dont even know why you're complaing man
+      req.headers.authorization;
+  if (!authorization) return throwApiError(res, "You must be authorized!", 401);
+
+  const documentId = req.params.documentId;
+  Users.findOne(
+    {
+      $or: [{ _id: authorization }, { apiToken: authorization }],
+    },
+    (err: string, user: IUser) => {
+      if (err)
+        return throwApiError(
+          res,
+          "An internal server occurred whilst getting user",
+          500
+        );
+      if (!user)
+        return throwApiError(res, "Please put in a valid API token!", 401);
+
+      const _id = user._id.toString();
+
+      db.link.loadDatabase();
+      db.link.findOne({ URL: documentId }, (err, document) => {
+        if (!document)
+          return throwApiError(res, "Sorry! That document doesn't exist.", 404);
+        if (document.creator !== _id)
+          return throwApiError(
+            res,
+            "Sorry! You aren't allowed to modify this document.",
+            401
+          );
+
+        db.link.remove({ URL: documentId }, (err) => {
+          if (err)
+            return throwApiError(
+              res,
+              "An internal server occurred whilst deleting document",
+              500
+            );
+
+          if (
+            document.imageEmbed &&
+            fs.existsSync(`./public/assets/img/${documentId}.jpg`)
+          )
+            fs.unlinkSync(`./public/assets/img/${documentId}.jpg`);
+        });
+
+        if (req.isAuthenticated()) return res.redirect("/account");
+
+        return res.json({
+          success: true,
+          message: "Successfully deleted the document!",
+        });
+      });
+    }
+  );
+});
+
+// Purging documents
+routes.delete("/purgeDocuments", (req: Request, res: Response) => {
+  const authorization = req.isAuthenticated()
+    ? req.user?.toString()
+    : // @ts-ignore I dont even know why you're complaing man
+      req.headers.authorization;
+  if (!authorization) return throwApiError(res, "You must be authorized!", 401);
+
+  Users.findOne(
+    {
+      $or: [{ _id: authorization }, { apiToken: authorization }],
+    },
+    (err: string, user: IUser) => {
+      if (err)
+        return throwApiError(
+          res,
+          "An internal server occurred whilst getting user",
+          500
+        );
+      if (!user)
+        return throwApiError(res, "Please put in a valid API token!", 401);
+
+      const creator = user._id.toString();
+      db.link.loadDatabase();
+      db.link.find({ creator }, (err: string, documents: any) => {
+        if (err)
+          return throwApiError(
+            res,
+            "An internal server occurred whilst getting documents!",
+            500
+          );
+
+        if (documents.length == 0)
+          return throwApiError(res, "There was no documents to delete!", 400);
+
+        for (const document of documents) {
+          const _id = document._id;
+          db.link.remove({ _id });
+
+          if (
+            document.imageEmbed &&
+            fs.existsSync(`./public/assets/img/${document.URL}.jpg`)
+          )
+            fs.unlinkSync(`./public/assets/img/${document.URL}.jpg`);
+        }
+
+        if (req.isAuthenticated()) return res.redirect("/account");
+
+        return res.json({
+          success: true,
+          message: `Deleted a total of ${documents.length} documents!`,
+          numberDeleted: documents.length,
+        });
+      });
+    }
+  );
+});
+
+routes.get("/checkApiToken/:apiToken", (req: Request, res: Response) => {
+  const apiToken = req.params.apiToken;
+
+  Users.findOne({ apiToken }, (err: string, user: IUser) => {
+    if (err)
+      return throwApiError(
+        res,
+        "An internal server occurred whilst getting user",
+        500
+      );
+
+    return res.json({
+      success: user ? true : false,
+      message: user ? "API token is valid!" : "API token is invalid!",
+    });
+  });
+});
+
+routes.get("/getShareXConfig/:apiToken", (req: Request, res: Response) => {
+  const apiToken = req.params.apiToken;
+  res.attachment("imperialbin.sxcu").send({
+    Version: "13.4.0",
+    DestinationType: "TextUploader",
+    RequestMethod: "POST",
+    RequestURL: "https://imperialb.in/api/postCode/",
+    Headers: {
+      Authorization: apiToken,
+    },
+    Body: "JSON",
+    Data:
+      '{\n  "code": "$input$",\n  "longerUrls": false,\n  "imageEmbed": true,\n  "instantDelete": false\n}',
+    URL: "$json:formattedLink$",
+  });
+});
+
+routes.get("*", (req: Request, res: Response) => {
+  throwApiError(
+    res,
+    "That route does not exist or you have improper URL formatting!",
+    404
   );
 });
