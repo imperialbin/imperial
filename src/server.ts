@@ -9,7 +9,7 @@ import cookieParser from "cookie-parser";
 import passport from "passport";
 import methodOverride from "method-override";
 
-// @ts-ignore shut the fuck up
+// @ts-ignore shut the fuck up pwetty pwease
 import CrawlerDetect from "crawler-detect";
 import MongoStore from "connect-mongo";
 
@@ -18,7 +18,7 @@ import initializePassport from "./auth/passport-config";
 initializePassport(passport);
 
 // Utilities
-import apiLimiter from "./utilities/apiLimiter";
+import { rateLimiter } from "./utilities/apiLimiter";
 import "./utilities/autoDelete";
 
 // Middleware
@@ -47,7 +47,7 @@ app.set("views", "./views");
 app.set("view-engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(express.static("../public"));
+app.use(express.static("./public"));
 app.use(flash());
 app.use(cookieParser(COOKIE_SECRET));
 app.use(
@@ -84,7 +84,7 @@ import { routes as rawRouter } from "./routes/rawRouter";
 import { routes as registerRouter } from "./routes/registerRouter";
 
 app.use("/", indexRouter);
-app.use("/api", apiLimiter, apiRouter);
+app.use("/api", rateLimiter, apiRouter);
 app.use("/auth", authRouter);
 app.use("/login", checkNotAuthenticated, loginRouter);
 app.use("/register", checkNotAuthenticated, registerRouter);
@@ -92,7 +92,6 @@ app.use("/account", checkAuthenticated, accountRouter);
 
 app.use(
   [
-    "/:documentId",
     "/p",
     "/paste",
     "/document",
@@ -116,7 +115,6 @@ app.use(
   ],
   compareRouter
 );
-
 app.use(["/r", "/raw", "/r/:documentId", "/raw/:documentId"], rawRouter);
 
 process.on("uncaughtException", (err: string, origin: string) => {
