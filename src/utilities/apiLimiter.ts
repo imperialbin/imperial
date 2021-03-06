@@ -1,7 +1,7 @@
 import rateLimit from "express-rate-limit";
 import { IUser, Users } from "../models/Users";
 
-export default rateLimit({
+export const rateLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 15,
   handler: (req, res, next) => {
