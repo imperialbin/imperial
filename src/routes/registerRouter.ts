@@ -40,7 +40,7 @@ routes.post("/", async (req: Request, res: Response) => {
     return throwInternalError("That username is taken", email, username);
 
   // Check if we already have an IP associated with existing user
-  const ipCheck = await Users.findOne({ ip: usersIp });
+  const ipCheck = await Users.findOne({ ip: usersIp.clientIp });
   if (ipCheck)
     return throwInternalError(
       "IP is already associated with an account!",
@@ -91,6 +91,8 @@ routes.post("/", async (req: Request, res: Response) => {
     });
     await newUser.save();
 
+    db.emailTokens.loadDatabase();
+    db.emailTokens.insert({ token: emailToken, email, used: false });
     mail(
       email,
       "Confirm your email",

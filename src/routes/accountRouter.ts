@@ -107,7 +107,7 @@ routes.post("/resetPasswordForm", (req: Request, res: Response) => {
         try {
           if (!(await bcrypt.compare(oldPassword, user.password)))
             throw "Incorrect old password!";
-          if (newPassword.length! >= 8)
+          if (newPassword.length < 8)
             throw "Please make your new password more than 8 characters long!";
           if (newPassword !== confirmPassword)
             throw "New passwords do not match!";

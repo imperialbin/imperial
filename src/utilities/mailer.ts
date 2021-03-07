@@ -1,5 +1,5 @@
 // @ts-ignore uwu
-import nodeMailer from "node-mailer";
+import nodeMailer from "nodemailer";
 
 // ENV stuff
 const HOST = process.env.EMAIL_HOST,
@@ -16,7 +16,7 @@ export const mail = (
   // Emailing settings
   const transporter = nodeMailer.createTransport({
     service: "gmail",
-    auth: { USER, PASS },
+    auth: { user: USER, pass: PASS },
     tls: {
       rejectUnauthorized: false,
     },
@@ -33,7 +33,10 @@ export const mail = (
   // Return a promise to email the user
   return new Promise<string>((resolve, reject) => {
     transporter.sendMail(mailOptions, async (err: string) => {
-      if (err) return reject("An error has occurred whilst emailing");
+      if (err) {
+        console.log(err);
+        return reject("An error has occurred whilst emailing");
+      }
       resolve("Successfully emailed user!");
     });
   });

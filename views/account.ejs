@@ -68,12 +68,11 @@
   <label for="code" id="label">Your invite code</label> <br>
   <input type="text" id="token" value="<%= user.betaCode %>" readonly> <br>
   <form action="/account/createInvite" method="POST">
-    <button type="submit" id="invites">Create invite</button>
+    <button type="submit" id="invites" class="tooltip" data-tippy-content="You have <%= user.codesLeft %> invites left">Create invite</button>
   </form><br>
   <% if( user.codes[0] ) {%>
   <br><br>
   <h2>Your invite codes</h2>
-  <p id="invitesLeft">(You have <%= user.codesLeft %> invites left!)</p>
   <% } %>
   <i class="error">
     <% if( codeError ) {%>
