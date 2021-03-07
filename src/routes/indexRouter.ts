@@ -74,9 +74,6 @@ routes.get(["/github", "/git", "/gh"], (req: Request, res: Response) =>
   res.redirect("https://github.com/imperialbin")
 );
 
-// something stupid so the server doesnt get confused
-routes.use("/:slug", pasteRouter);
-
 // Some posts for resetting your password
 routes.post(
   "/requestResetPassword",
