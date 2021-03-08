@@ -18,7 +18,7 @@ const db = {
 };
 
 routes.get("/", (req: Request, res: Response) =>
-  res.json({ message: "Welcome to Imperialbin's API!" })
+  res.json({ message: "Welcome to Imperial's API!" })
 );
 
 // Post document
@@ -262,28 +262,24 @@ routes.patch("/document", (req: Request, res: Response) => {
             401
           );
 
-        /*         db.link.update(
-          { URL: documentId },
-          { $set: { code } },
-          (err: string) => {
-            if (err)
-              return throwApiError(
-                res,
-                "An internal server error occurred whilst editing the document! Please contact an admin!",
-                500
-              );
+        db.link.update({ URL: documentId }, { $set: { code } }, {}, (err) => {
+          if (err)
+            return throwApiError(
+              res,
+              "An internal server error occurred whilst editing the document! Please contact an admin!",
+              500
+            );
 
-            return res.json({
-              success: true,
-              message: "Successfully edit the document!",
-              documentId: documentId,
-              rawLink: `https://imperialb.in/r/${documentId}`,
-              formattedLink: `https://imperialb.in/p/${documentId}`,
-              expiresIn: new Date(document.deleteDate),
-              instantDelete: document.instantDelete,
-            });
-          }
-        ); */
+          return res.json({
+            success: true,
+            message: "Successfully edit the document!",
+            documentId: documentId,
+            rawLink: `https://imperialb.in/r/${documentId}`,
+            formattedLink: `https://imperialb.in/p/${documentId}`,
+            expiresIn: new Date(document.deleteDate),
+            instantDelete: document.instantDelete,
+          });
+        });
       });
     }
   );
