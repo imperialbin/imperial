@@ -3,7 +3,7 @@ const Users = require("../models/Users");
 
 module.exports = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 15,
+  max: 25,
   handler: function (req, res, next) {
     if (req.headers.authorization || req.body.apiToken || req.isAuthenticated()) {
       if (req.isAuthenticated()) next();
