@@ -76,6 +76,7 @@ routes.post("/", async (req: Request, res: Response) => {
     const emailToken = generateString(30);
     const hashedPass = await bcrypt.hash(password, 13);
     const newUser = new Users({
+      userId: await Users.collection.count() + 1,
       name: username,
       email: email,
       betaCode: inviteCode,
