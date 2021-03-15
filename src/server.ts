@@ -14,7 +14,7 @@ import { middleware as crawlerMiddleware } from "es6-crawler-detect";
 import MongoStore from "connect-mongo";
 
 // Passport
-import initializePassport from "./auth/passport-config";
+import { initialize as initializePassport } from "./auth/passport-config";
 initializePassport(passport);
 
 // Utilities
