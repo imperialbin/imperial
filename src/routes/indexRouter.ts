@@ -22,7 +22,11 @@ const db = {
 routes.get("/", (req: Request, res: Response) => {
   if (req.isAuthenticated()) {
     Users.findOne({ _id: req.user.toString() }, (err: string, user: IUser) => {
-      res.render("index.ejs", { loggedIn: true, pfp: user.icon });
+      res.render("index.ejs", {
+        loggedIn: true,
+        pfp: user.icon,
+        settings: user.settings,
+      });
     });
   } else {
     res.render("index.ejs", { loggedIn: false });

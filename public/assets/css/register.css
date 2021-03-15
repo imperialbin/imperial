@@ -1,8 +1,5 @@
 /* Used for ./login and ./register */
 
-body {
-  text-align: center;
-}
 h1 {
   font-weight: 300;
 }
