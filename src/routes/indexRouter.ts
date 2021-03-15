@@ -5,9 +5,6 @@ import { IUser, Users } from "../models/Users";
 import Datastore from "nedb";
 import bcrypt from "bcrypt";
 
-// Routes
-import { routes as pasteRouter } from "./pasteRouter";
-
 // Middleware
 import checkAuthenticated from "../middleware/checkAuthenticated";
 import checkNotAuthenticated from "../middleware/checkNotAuthenticated";
