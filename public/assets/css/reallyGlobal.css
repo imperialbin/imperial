@@ -55,7 +55,6 @@
 body {
   background: var(--main-background);
   color: var(--text-light);
-  padding: 20px 50px;
   font-family: "Poppins", sans-serif;
   font-weight: 300;
   transition: none;
@@ -226,32 +225,13 @@ li.deletePaste {
   background: var(--main-background);
 }
 #codeThing {
-  font-family: monospace;
   position: fixed;
   width: 100%;
-  height: 97%;
-  font-size: 14px;
-  outline: none;
-  resize: none;
-  background: 0 0;
-  border: 0;
-  padding: 0;
-  margin: 0;
-  opacity: 0.95;
+  height: 100%;
+  padding-top: 10px;
   color: var(--text-light);
 }
-#lines {
-  color: #40474e;
-  z-index: -1000;
-  position: absolute;
-  top: 20px;
-  left: 0;
-  width: 30px; /* 30 to get 20 away from box */
-  font-size: 14px;
-  font-family: monospace;
-  text-align: right;
-  user-select: none;
-}
+
 #box {
   padding: 0;
   margin: 0;
@@ -570,6 +550,9 @@ input#user {
 }
 input#token {
   margin: 10px 0 0 5px;
+}
+.inputTiles {
+  
 }
 #token {
   opacity: 0.6;

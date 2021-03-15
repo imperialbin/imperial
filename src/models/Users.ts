@@ -1,5 +1,13 @@
 import { Document, model, Schema } from "mongoose";
 
+export interface UserSettings {
+  clipboard: boolean;
+  longerUrls: boolean;
+  instantDelete: boolean;
+  encrypted: boolean;
+  time: number;
+  imageEmbed: boolean;
+}
 export interface IUser extends Document {
   userId: number;
   name: string;
@@ -15,6 +23,7 @@ export interface IUser extends Document {
   codes: Array<string>;
   apiToken: string;
   documentsMade: number;
+  settings: UserSettings;
 }
 
 const UserSchema = new Schema({
@@ -32,6 +41,14 @@ const UserSchema = new Schema({
   codes: Array,
   apiToken: String,
   documentsMade: Number,
+  settings: {
+    clipboard: Boolean,
+    longerUrls: Boolean,
+    instantDelete: Boolean,
+    encrypted: Boolean,
+    time: Number,
+    imageEmbed: Boolean,
+  },
 });
 
 export const Users = model<IUser>("Users", UserSchema);

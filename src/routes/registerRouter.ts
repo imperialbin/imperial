@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
 export const routes = Router();
-import { IUser, Users } from "../models/Users";
+import { IUser, Users, UserSettings } from "../models/Users";
 import bcrypt from "bcrypt";
 import Datastore from "nedb";
 // @ts-ignore shhh
@@ -76,7 +76,7 @@ routes.post("/", async (req: Request, res: Response) => {
     const emailToken = generateString(30);
     const hashedPass = await bcrypt.hash(password, 13);
     const newUser = new Users({
-      userId: await Users.collection.count() + 1,
+      userId: (await Users.collection.count()) + 1,
       name: username,
       email: email,
       betaCode: inviteCode,
@@ -89,6 +89,14 @@ routes.post("/", async (req: Request, res: Response) => {
       memberPlus: false,
       codes: [],
       documentsMade: 0,
+      settings: {
+        clipboard: false,
+        longerUrls: false,
+        instantDelete: false,
+        encrypted: false,
+        time: 7,
+        imageEmbed: false,
+      },
     });
     await newUser.save();
 

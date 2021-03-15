@@ -1,41 +1,3 @@
-const highlight = (editor) => {
-  // This is a bug in HighlightJS
-  // eslint-disable-next-line no-self-assign
-  editor.textContent = editor.textContent;
-  hljs.highlightBlock(editor);
-};
-const editor = document.querySelector("#codeThing");
-const codeBox = CodeJar(editor, highlight);
-
-window.addEventListener("popstate", () => {
-  if (location.pathname === "/" || location.pathname === "/p/") {
-    $("#submitCode").text("");
-    $("#lines").text(">");
-    $("#codeThing").focus();
-  } else {
-    location.reload();
-  }
-});
-
-$(document).ready(() => {
-  $("#codeThing").focus();
-  const duplicate = localStorage.getItem("duplicatePaste");
-  if (duplicate) {
-    codeBox.updateCode(duplicate);
-    localStorage.removeItem("duplicatePaste");
-  } else {
-    navigator.clipboard
-      .readText()
-      .then((copiedText) => {
-        if (localStorage.getItem("clipboard") === "true") {
-          codeBox.updateCode(copiedText);
-        }
-      })
-      .catch(() => {
-        console.log("denied paste capabilities");
-      });
-  }
-});
 $(window).on("keydown", (e) => {
   switch (true) {
     case e.key === "s" && e.ctrlKey:
@@ -138,14 +100,19 @@ function newDocument() {
   location.href = "/";
 }
 
+async function createDocument() {
+  console.log(JSON.parse(settings));
+  const options = {};
+  /*   fetch("/api/document", options)
+    .then((res) => res.json())
+    .then((document) => {
+      console.log(document);
+    }); */
+}
+
 async function uploadCode() {
   const code = codeBox.toString();
-  const securedUrls = localStorage.getItem("securedUrls");
-  const time = localStorage.getItem("deleteTime");
-  const instantDelete = localStorage.getItem("instantDelete");
   const allowedEditor = localStorage.getItem("addUser");
-  const imageEmbeds = localStorage.getItem("imageEmbeds");
-  const encrypted = localStorage.getItem("encrypted");
   var options = {
     method: "POST",
     headers: {
@@ -178,14 +145,22 @@ async function uploadCode() {
           document.getElementById("submitCode").textContent = code;
           codeBox.updateCode("");
           if (localStorage.getItem("customURL") !== "p") {
-            window.history.pushState({}, null, `${localStorage.getItem("customURL")}/${json.link.substring(3)}`);
+            window.history.pushState(
+              {},
+              null,
+              `${localStorage.getItem("customURL")}/${json.link.substring(3)}`
+            );
           } else {
             window.history.pushState({}, null, json.link);
           }
           const link = json.link.substring(3);
           document.title = `Document ${link}`;
           if (json.password) {
-            window.history.pushState({}, null, `${json.link}?password=${json.password}`);
+            window.history.pushState(
+              {},
+              null,
+              `${json.link}?password=${json.password}`
+            );
             copyLink(json.password);
             $("#messages").append(
               '<li class="message success"><i class="fas fa-check" style="padding-right: 4px;"></i> Copied link and password!</li>'
@@ -203,7 +178,11 @@ async function uploadCode() {
         } else {
           if ($.trim(codeBox.toString())) {
             localStorage.removeItem("addUser");
-            location.href = localStorage.getItem("customURL") + "/" + json.link.substring(3) + "?copyLink=true";
+            location.href =
+              localStorage.getItem("customURL") +
+              "/" +
+              json.link.substring(3) +
+              "?copyLink=true";
           } else {
             $("#codeThing").focus();
           }
@@ -214,7 +193,9 @@ async function uploadCode() {
 
 function copyLink(password) {
   const linkBox = document.createElement("textarea");
-  linkBox.value = password ? `${location.href}?password=${password}` : location.href;
+  linkBox.value = password
+    ? `${location.href}?password=${password}`
+    : location.href;
   document.body.appendChild(linkBox);
   linkBox.select();
   document.execCommand("copy");
