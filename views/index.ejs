@@ -148,6 +148,7 @@
       navigator.clipboard
         .readText()
         .then((copiedText) => {
+          // Cody remember to change this in prod
           if (true) window.editor.setValue(copiedText);
         })
         .catch((err) => {
