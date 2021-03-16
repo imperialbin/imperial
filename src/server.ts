@@ -22,8 +22,8 @@ import { rateLimiter } from "./utilities/apiLimiter";
 import "./utilities/autoDelete";
 
 // Middleware
-import checkAuthenticated from "./middleware/checkAuthenticated";
-import checkNotAuthenticated from "./middleware/checkNotAuthenticated";
+import { checkAuthenticated } from "./middleware/checkAuthenticated";
+import { checkNotAuthenticated } from "./middleware/checkNotAuthenticated";
 
 // Our ENV!!! hiii env!
 import "dotenv/config";
