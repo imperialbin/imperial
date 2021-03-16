@@ -29,7 +29,7 @@ routes.get("/", (req: Request, res: Response) => {
       });
     });
   } else {
-    res.render("index.ejs", { loggedIn: false });
+    res.render("index.ejs", { loggedIn: false, settings: false });
   }
 });
 
