@@ -158,7 +158,7 @@
 
     async function createDocument() {
       if (window.editor.getValue() == 0) return console.log("you gotta put sum in b");
-      
+
       const options = {
         method: "POST",
         headers: {
@@ -173,11 +173,15 @@
           encrypted: settings.encrypted,
         })
       }
-      console.log(options)
       fetch("/api/document", options)
         .then(res => res.json())
         .then((document) => {
-          console.log(document);
+          if (document.instantDelete || document.encrypted) {
+            return console.log('Encrypted or instant delete')
+          }
+
+          localStorage.removeItem('editors')
+          location.href = `/p/${document.documentId}?copyLink=true`
         }).catch(err => {
           console.log(err);
         });
@@ -202,7 +206,7 @@
         })
       })
     }
-    
+
     // A tippy thing
     const template = document.getElementById('accountDrop');
     tippy('#account', {
