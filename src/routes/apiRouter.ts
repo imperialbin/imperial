@@ -24,7 +24,6 @@ routes.get("/", (req: Request, res: Response) =>
 // Post document
 routes.post("/document", (req: Request, res: Response) => {
   const code = req.body.code;
-  console.log(req.body);
   if (!code)
     return throwApiError(
       res,
@@ -69,6 +68,7 @@ routes.post("/document", (req: Request, res: Response) => {
           allowedEditor: [],
           encrypted,
           encryptedIv: encrypted ? initVector?.toString("hex") : null,
+          views: 0,
         },
         async (err, document) => {
           if (err)
