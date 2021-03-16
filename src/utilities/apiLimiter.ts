@@ -1,8 +1,13 @@
 import rateLimit from "express-rate-limit";
+import RedisStore from "rate-limit-redis";
+import { redis } from "./redis";
 import { IUser, Users } from "../models/Users";
 
 export const rateLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
+  store: new RedisStore({
+    client: redis,
+  }),
   max: 15,
   handler: (req, res, next) => {
     if (req.headers.authorization || req.isAuthenticated()) {

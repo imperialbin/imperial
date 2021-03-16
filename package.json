@@ -36,6 +36,7 @@
     "@types/node-fetch": "^2.5.8",
     "@types/passport": "^1.0.6",
     "@types/passport-local": "^1.0.33",
+    "@types/rate-limit-redis": "^1.7.1",
     "@types/redis": "^2.8.28",
     "@typescript-eslint/eslint-plugin": "^4.16.1",
     "@typescript-eslint/parser": "^4.16.1",
@@ -69,6 +70,7 @@
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "puppeteer": "^8.0.0",
+    "rate-limit-redis": "^2.1.0",
     "redis": "^3.0.2"
   }
 }
