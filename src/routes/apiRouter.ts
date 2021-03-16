@@ -24,60 +24,13 @@ routes.get("/", (req: Request, res: Response) =>
 // Post document
 routes.post("/document", (req: Request, res: Response) => {
   const code = req.body.code;
+  console.log(req.body);
   if (!code)
     return throwApiError(
       res,
       "You need to give text in the `code` parameter!",
       400
     );
-
-  const guestPaste = () => {
-    createPaste(generateString(8), false, false, 5, "NONE", 20, false, false);
-  };
-
-  if (!req.isAuthenticated() || !req.headers.authorization) return guestPaste();
-
-  const authorization = req.isAuthenticated()
-    ? req.user?.toString()
-    : // @ts-ignore I dont even know why you're complaing man
-      req.headers.authorization;
-
-  Users.findOne(
-    {
-      $or: [{ _id: authorization }, { apiToken: authorization }],
-    },
-    (err: string, user: IUser) => {
-      if (err)
-        return throwApiError(
-          res,
-          "There was an error whilst getting your account! Please contact an admin!",
-          500
-        );
-      if (!user) return guestPaste();
-
-      const creator = user._id.toString();
-      const documentSettings: DocumentSettings = {
-        longerUrls: req.body.longerUrls || false,
-        imageEmbed: req.body.imageEmbed || false,
-        expiration: req.body.expiration || 5,
-        instantDelete: req.body.instantDelete || false,
-        quality: !user.memberPlus ? 73 : 100,
-        encrypted: req.body.encrypted || false,
-        password: req.body.password || false,
-      };
-
-      return createPaste(
-        documentSettings.longerUrls ? generateString(26) : generateString(8),
-        documentSettings.imageEmbed,
-        documentSettings.instantDelete,
-        documentSettings.expiration > 31 ? 31 : documentSettings.expiration,
-        creator,
-        documentSettings.quality,
-        documentSettings.encrypted,
-        documentSettings.password
-      );
-    }
-  );
 
   const createPaste = (
     URL: string,
@@ -136,7 +89,7 @@ routes.post("/document", (req: Request, res: Response) => {
 
           return res.json({
             success: true,
-            documnetId: URL,
+            documentId: URL,
             rawLink: `https://imperialb.in/r/${URL}`,
             formattedLink: `https://imperialb.in/p/${URL}`,
             expiresIn: new Date(document.deleteDate),
@@ -154,6 +107,54 @@ routes.post("/document", (req: Request, res: Response) => {
       );
     }
   };
+
+  const guestPaste = () => {
+    createPaste(generateString(8), false, false, 5, "NONE", 20, false, false);
+  };
+
+  if (!req.isAuthenticated() || !req.headers.authorization) return guestPaste();
+
+  const authorization = req.isAuthenticated()
+    ? req.user?.toString()
+    : // @ts-ignore I dont even know why you're complaing man
+      req.headers.authorization;
+
+  Users.findOne(
+    {
+      $or: [{ _id: authorization }, { apiToken: authorization }],
+    },
+    (err: string, user: IUser) => {
+      if (err)
+        return throwApiError(
+          res,
+          "There was an error whilst getting your account! Please contact an admin!",
+          500
+        );
+      if (!user) return guestPaste();
+
+      const creator = user._id.toString();
+      const documentSettings: DocumentSettings = {
+        longerUrls: req.body.longerUrls || false,
+        imageEmbed: req.body.imageEmbed || false,
+        expiration: req.body.expiration || 5,
+        instantDelete: req.body.instantDelete || false,
+        quality: !user.memberPlus ? 73 : 100,
+        encrypted: req.body.encrypted || false,
+        password: req.body.password || false,
+      };
+
+      return createPaste(
+        documentSettings.longerUrls ? generateString(26) : generateString(8),
+        documentSettings.imageEmbed,
+        documentSettings.instantDelete,
+        documentSettings.expiration > 31 ? 31 : documentSettings.expiration,
+        creator,
+        documentSettings.quality,
+        documentSettings.encrypted,
+        documentSettings.password
+      );
+    }
+  );
 });
 
 // Get document

@@ -101,20 +101,32 @@
   <div id="codeThing" class="editor"></div>
   <script src="/assets/js/min/vs/loader.js"></script>
   <script>
+    // Some consts we need
+    const loggedIn = JSON.parse('<%= loggedIn %>')
+    const settings = {
+      longerUrls: loggedIn ? JSON.parse('<%= settings.longerUrls %>') : false,
+      instantDelete: loggedIn ? JSON.parse('<%= settings.instantDelete %>') : false,
+      encrypted: loggedIn ? JSON.parse('<%= settings.encrypted %>') : false,
+      expiration: loggedIn ? JSON.parse('<%= settings.expiration %>') : 5,
+      imageEmbed: loggedIn ? JSON.parse('<%= settings.imageEmbed %>') : false,
+    }
+
+    // Some monaco stuff
     require.config({ paths: { vs: '/assets/js/min/vs/' } });
 
     require(['vs/editor/editor.main'], async function () {
+
+      // Fetch theme
       await fetch('./assets/themes/theme.json')
         .then(res => res.json())
         .then(theme => {
-          console.log(theme);
           monaco.editor.defineTheme('theme', theme)
           monaco.editor.setTheme('theme');
         }).catch((err) => {
-          console.log(err);
           monaco.editor.setTheme('vs-dark');
         })
-      const editor = monaco.editor.create(document.getElementById('codeThing'), {
+      // Set editor
+      window.editor = monaco.editor.create(document.getElementById('codeThing'), {
         language: 'javascript',
         automaticLayout: true,
         scrollBeyondLastLine: false,
@@ -126,25 +138,50 @@
           enabled: false,
         }
       });
+
+      // After setting the editor focus on it
       $("#codeThing").focus();
+
       const duplicate = localStorage.getItem("duplicatePaste");
-      if (duplicate) {
-        codeBox.updateCode(duplicate);
-        localStorage.removeItem("duplicatePaste");
-      } else {
-        navigator.clipboard
-          .readText()
-          .then((copiedText) => {
-            if (localStorage.getItem("clipboard") === "true") {
-              editor.setValue(copiedText);
-            }
-          })
-          .catch((err) => {
-            console.log(err);
-            console.log("denied paste capabilities");
-          });
-      }
+      if (duplicate) return window.editor.setValue(duplicate);
+
+      navigator.clipboard
+        .readText()
+        .then((copiedText) => {
+          if (true) window.editor.setValue(copiedText);
+        })
+        .catch((err) => {
+          console.log(err);
+          console.log("denied paste capabilities");
+        });
     });
+
+    async function createDocument() {
+      if (window.editor.getValue() == 0) return console.log("you gotta put sum in b");
+      
+      const options = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          code: window.editor.getValue().toString(),
+          longerUrls: settings.longerUrls,
+          imageEmbed: settings.imageEmbed,
+          expiration: settings.expiration,
+          instantDelete: settings.instantDelete,
+          encrypted: settings.encrypted,
+        })
+      }
+      console.log(options)
+      fetch("/api/document", options)
+        .then(res => res.json())
+        .then((document) => {
+          console.log(document);
+        }).catch(err => {
+          console.log(err);
+        });
+    }
   </script>
   <script src="/assets/js/global.js?v=4"></script>
   <script src="/assets/js/main.js?v=4"></script>
@@ -165,6 +202,8 @@
         })
       })
     }
+    
+    // A tippy thing
     const template = document.getElementById('accountDrop');
     tippy('#account', {
       content: template.innerHTML,
@@ -174,10 +213,6 @@
       animation: 'shift-away',
       interactive: true,
     });
-    let loggedIn = '<%= JSON.stringify(loggedIn) %>'
-    if (loggedIn == 'true' && localStorage.getItem('instantDelete') == 'true') {
-      $('#messages').append('<li class="message error"><i class="fas fa-info-circle" style="padding-right: 4px;"></i> Instant delete is on!</li>');
-    }
   </script>
 </body>
 

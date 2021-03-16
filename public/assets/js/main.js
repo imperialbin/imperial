@@ -2,7 +2,7 @@ $(window).on("keydown", (e) => {
   switch (true) {
     case e.key === "s" && e.ctrlKey:
       e.preventDefault();
-      uploadCode();
+      createDocument();
       break;
     case e.key === "o" && e.ctrlKey:
       e.preventDefault();
@@ -100,17 +100,7 @@ function newDocument() {
   location.href = "/";
 }
 
-async function createDocument() {
-  console.log(JSON.parse(settings));
-  const options = {};
-  /*   fetch("/api/document", options)
-    .then((res) => res.json())
-    .then((document) => {
-      console.log(document);
-    }); */
-}
-
-async function uploadCode() {
+/* async function uploadCode() {
   const code = codeBox.toString();
   const allowedEditor = localStorage.getItem("addUser");
   var options = {
@@ -189,7 +179,7 @@ async function uploadCode() {
         }
       }
     });
-}
+} */
 
 function copyLink(password) {
   const linkBox = document.createElement("textarea");
