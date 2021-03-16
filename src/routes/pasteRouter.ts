@@ -25,8 +25,14 @@ routes.get(
     const CrawlerDetect = new Crawler(req);
     db.link.loadDatabase();
     db.link.findOne({ URL: documentId }, (err, document) => {
-      if (err) throw "An error occurred whilst getting that document!";
-      if (!document) throw "We couldn't find that document!";
+      if (err)
+        return res.render("error.ejs", {
+          error: "An error occurred whilst getting that document!",
+        });
+      if (!document)
+        res.render("error.ejs", {
+          error: "We couldn't find that document!",
+        });
 
       if (document.encrypted)
         return res.render("enterPassword.ejs", { error: false, documentId });
