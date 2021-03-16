@@ -1,8 +1,9 @@
 import { Router, Request, Response } from "express";
-export const routes = Router();
 import { Users } from "../models/Users";
 import Datastore from "nedb";
 import bcrypt from "bcrypt";
+
+export const routes = Router();
 
 // Utilities
 const db = {
