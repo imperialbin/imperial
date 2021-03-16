@@ -5,7 +5,7 @@ export interface UserSettings {
   longerUrls: boolean;
   instantDelete: boolean;
   encrypted: boolean;
-  time: number;
+  expiration: number;
   imageEmbed: boolean;
 }
 export interface IUser extends Document {
@@ -46,7 +46,7 @@ const UserSchema = new Schema({
     longerUrls: Boolean,
     instantDelete: Boolean,
     encrypted: Boolean,
-    time: Number,
+    expiration: Number,
     imageEmbed: Boolean,
   },
 });
