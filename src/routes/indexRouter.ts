@@ -6,8 +6,8 @@ import Datastore from "nedb";
 import bcrypt from "bcrypt";
 
 // Middleware
-import checkAuthenticated from "../middleware/checkAuthenticated";
-import checkNotAuthenticated from "../middleware/checkNotAuthenticated";
+import { checkAuthenticated } from "../middleware/checkAuthenticated";
+import { checkNotAuthenticated } from "../middleware/checkNotAuthenticated";
 
 // Utilities
 import { generateString } from "../utilities/generateString";
