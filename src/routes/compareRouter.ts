@@ -1,5 +1,6 @@
 import { Router, Request, Response } from "express";
 import { Documents } from "../models/Documents";
+
 export const routes = Router();
 
 routes.get("/", (req: Request, res: Response) => {

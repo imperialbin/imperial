@@ -1,5 +1,4 @@
 import { Router, Request, Response } from "express";
-export const routes = Router();
 
 import { IUser, Users } from "../models/Users";
 import Datastore from "nedb";
@@ -16,6 +15,8 @@ import { mail } from "../utilities/mailer";
 const db = {
   resetTokens: new Datastore({ filename: "./databases/resetTokens" }),
 };
+
+export const routes = Router();
 
 // default pages
 routes.get("/", (req: Request, res: Response) => {

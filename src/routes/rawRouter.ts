@@ -1,10 +1,11 @@
 import { Router, Request, Response } from "express";
 import { Documents, IDocument } from "../models/Documents";
-export const routes = Router();
 
 // Utilities
 import { decrypt } from "../utilities/decrypt";
 import { throwApiError } from "../utilities/throwApiError";
+
+export const routes = Router();
 
 routes.get("/", (req: Request, res: Response) => {
   res.redirect("/");

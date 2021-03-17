@@ -3,13 +3,14 @@ import { Users } from "../models/Users";
 import Datastore from "nedb";
 import bcrypt from "bcrypt";
 
-export const routes = Router();
 
 // Utilities
 const db = {
   emailTokens: new Datastore({ filename: "./databases/emailTokens" }),
   resetTokens: new Datastore({ filename: "./databases/resetTokens" }),
 };
+
+export const routes = Router();
 
 routes.get("/", (req: Request, res: Response) => {
   res.redirect("/");
