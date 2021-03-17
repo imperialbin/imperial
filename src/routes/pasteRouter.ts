@@ -29,22 +29,22 @@ routes.get(
             error: "An error occurred whilst getting that document!",
           });
         if (!document)
-          res.render("error.ejs", {
+          return res.render("error.ejs", {
             error: "We couldn't find that document!",
           });
-        if (document?.encrypted)
+        if (document.encrypted)
           return res.render("enterPassword.ejs", { error: false, documentId });
 
         let deleteDate: string;
-        if (document?.instantDelete) {
+        if (document.instantDelete) {
           if (!CrawlerDetect.isCrawler()) {
             setTimeout(async () => {
-              await Documents.remove({ URL: document?.URL });
+              await Documents.remove({ URL: document.URL });
             }, 1000);
           }
           deleteDate = "Deletes after being viewed.";
         } else {
-          const documentDate = new Date(document?.deleteDate);
+          const documentDate = new Date(document.deleteDate);
           const date = {
             year: documentDate.getFullYear(),
             month: documentDate.getMonth() + 1, // We have to have a +1 here because it starts at 0
@@ -54,7 +54,7 @@ routes.get(
         }
 
         const enableImageEmbed = !!(
-          document?.imageEmbed &&
+          document.imageEmbed &&
           fs.existsSync(`./public/assets/img/${document?.URL}.jpg`)
         );
         if (req.isAuthenticated()) {
@@ -64,17 +64,17 @@ routes.get(
             return res.render("pasted.ejs", {
               documentName: documentId,
               imageEmbed: enableImageEmbed,
-              code: document?.code,
+              code: document.code,
               loggedIn: false,
               deleteDate: deleteDate,
               creator: false,
               encrypted: false,
             });
 
-            // The editor array is returning a fucky wucky for some reason, dear future cody, please fix
-          const editorArray = document?.allowedEditors;
+          // The editor array is returning a fucky wucky for some reason, dear future cody, please fix
+          const editorArray = document.allowedEditors;
           const isCreator =
-            _id === document?.creator || editorArray.includes(_id);
+            _id === document.creator || editorArray.includes(_id);
 
           return res.render("pasted.ejs", {
             documentName: documentId,
@@ -84,7 +84,7 @@ routes.get(
             pfp: user.icon,
             deleteDate: deleteDate,
             creator: isCreator,
-            originalCreator: document?.creator,
+            originalCreator: document.creator,
             incomingUser: _id,
             encrypted: false,
           });
@@ -92,7 +92,7 @@ routes.get(
           return res.render("pasted.ejs", {
             documentName: documentId,
             imageEmbed: enableImageEmbed,
-            code: document?.code,
+            code: document.code,
             loggedIn: false,
             deleteDate: deleteDate,
             creator: false,
@@ -126,15 +126,15 @@ routes.post("/getDocumentAccess/:documentId", (req: Request, res: Response) => {
         code = decrypt(password, document?.code, document.encryptedIv!);
         let deleteDate: string;
 
-        if (document?.instantDelete) {
+        if (document.instantDelete) {
           if (!CrawlerDetect.isCrawler()) {
             setTimeout(() => {
-              Documents.remove({ URL: document?.URL });
+              Documents.remove({ URL: document.URL });
             }, 100);
           }
           deleteDate = "Deletes after being viewed.";
         } else {
-          const documentDate = new Date(document?.deleteDate);
+          const documentDate = new Date(document.deleteDate);
           const date = {
             year: documentDate.getFullYear(),
             month: documentDate.getMonth() + 1,
@@ -143,12 +143,12 @@ routes.post("/getDocumentAccess/:documentId", (req: Request, res: Response) => {
           deleteDate = `Deletes on ${date.day}/${date.month}/${date.year}.`;
         }
         const enableImageEmbed = !!(
-          document?.imageEmbed &&
-          fs.existsSync(`./public/assets/img/${document?.URL}.jpg`)
+          document.imageEmbed &&
+          fs.existsSync(`./public/assets/img/${document.URL}.jpg`)
         );
 
         if (req.isAuthenticated()) {
-          const _id = req.user?.toString();
+          const _id = req.user.toString();
           const user = await Users.findOne({ _id });
           if (!user)
             return res.render("pasted.ejs", {
@@ -161,9 +161,9 @@ routes.post("/getDocumentAccess/:documentId", (req: Request, res: Response) => {
               encrypted: true,
             });
 
-          const editorArray = document?.allowedEditors;
+          const editorArray = document.allowedEditors;
           const isCreator =
-            _id === document?.creator || editorArray.includes(_id);
+            _id === document.creator || editorArray.includes(_id);
 
           return res.render("pasted.ejs", {
             documentName: documentId,
@@ -173,7 +173,7 @@ routes.post("/getDocumentAccess/:documentId", (req: Request, res: Response) => {
             pfp: user.icon,
             deleteDate: deleteDate,
             creator: isCreator,
-            originalCreator: document?.creator,
+            originalCreator: document.creator,
             incomingUser: _id,
             encrypted: true,
           });
