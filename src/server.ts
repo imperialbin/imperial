@@ -110,10 +110,12 @@ app.use(
 );
 app.use(["/r", "/raw", "/r/:documentId", "/raw/:documentId"], rawRouter);
 
-process.on("uncaughtException", (err: string, origin: string) => {
+process.on("uncaughtException", (err: any, origin: string) => {
   console.error(
     process.stderr.fd,
-    `Caught exception: ${err}\n` + `Exception origin: ${origin}`
+    `Caught exception: ${err}\n` +
+      `Exception origin: ${origin}\n` +
+      `Error stack: ${err.stack}`
   );
 });
 
