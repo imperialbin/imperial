@@ -10,6 +10,7 @@ const DEVELOPER_USER = process.env.DEVELOPER_USER;
 
 // Utilities
 import { generateString } from "../utilities/generateString";
+import { getDocuments } from "../utilities/getDocuments";
 
 // uhhhhhhhhhhhhhhhhhhhhh
 const db = {
@@ -20,23 +21,18 @@ const db = {
 export const routes = Router();
 
 routes.get("/", (req: Request, res: Response) => {
-  db.link.loadDatabase();
   Users.findOne({ _id: req.user?.toString() }, (err: string, user: IUser) => {
     if (user) {
-      db.link
-        .find({ creator: req.user?.toString() })
-        .sort({ dateCreated: -1 })
-        .limit(10)
-        .exec((err, documents) => {
-          res.render("account.ejs", {
-            user: user,
-            error: false,
-            success: false,
-            codeError: false,
-            pfpError: false,
-            documents,
-          });
+      getDocuments(req.user?.toString(), 10).then((documents) => {
+        res.render("account.ejs", {
+          user,
+          error: false,
+          success: false,
+          codeError: false,
+          pfpError: false,
+          documents,
         });
+      });
     }
   });
 });
@@ -53,21 +49,17 @@ routes.post("/me", (req: Request, res: Response) => {
           res.write(user.toString());
           res.end();
         } else {
-          db.link
-            .find({ creator: req.user?.toString() })
-            .sort({ dateCreated: -1 })
-            .limit(10)
-            .exec((err, documents) => {
-              res.render("account.ejs", {
-                user: user,
-                error: false,
-                success: false,
-                codeError: false,
-                pfpError:
-                  "We couldn't get your user data because your password was incorrect!",
-                documents,
-              });
+          getDocuments(req.user?.toString(), 10).then((documents) => {
+            res.render("account.ejs", {
+              user: user,
+              error: false,
+              success: false,
+              codeError: false,
+              pfpError:
+                "We couldn't get your user data because your password was incorrect!",
+              documents,
             });
+          });
         }
       }
     }
@@ -99,25 +91,54 @@ routes.post("/resetPasswordForm", (req: Request, res: Response) => {
   const confirmPassword = req.body.confirmPassword;
 
   Users.findOne({ _id }, (err: string, user: IUser) => {
-    db.link
-      .find({ creator: _id })
-      .sort({ dateCreated: -1 })
-      .limit(10)
-      .exec(async (err, documents) => {
-        try {
-          if (!(await bcrypt.compare(oldPassword, user.password)))
-            throw "Incorrect old password!";
-          if (newPassword.length < 8)
-            throw "Please make your new password more than 8 characters long!";
-          if (newPassword !== confirmPassword)
-            throw "New passwords do not match!";
+    getDocuments(req.user?.toString(), 10).then(async (documents) => {
+      try {
+        if (!(await bcrypt.compare(oldPassword, user.password)))
+          throw "Incorrect old password!";
+        if (newPassword.length < 8)
+          throw "Please make your new password more than 8 characters long!";
+        if (newPassword !== confirmPassword)
+          throw "New passwords do not match!";
 
-          const hashedPass = await bcrypt.hash(newPassword, 13);
-          await Users.updateOne({ _id }, { $set: { password: hashedPass } });
+        const hashedPass = await bcrypt.hash(newPassword, 13);
+        await Users.updateOne({ _id }, { $set: { password: hashedPass } });
+        res.render("account.ejs", {
+          user: user,
+          error: false,
+          success: "Successfully reset your password!",
+          codeError: false,
+          pfpError: false,
+          documents,
+        });
+      } catch (err) {
+        res.render("account.ejs", {
+          user: user,
+          error: err,
+          success: false,
+          codeError: false,
+          pfpError: false,
+          documents,
+        });
+      }
+    });
+  });
+});
+
+routes.post("/changePfp", (req: Request, res: Response) => {
+  const gitHubName = req.body.pfp;
+  const _id = req.user?.toString();
+  const pfpUrl = `https://github.com/${gitHubName}.png`;
+  fetch(pfpUrl).then((data) => {
+    Users.findOne({ _id }, (err: string, user: IUser) => {
+      getDocuments(_id, 10).then(async (documents) => {
+        try {
+          if (data.status !== 200) throw "We could not find that Github user!";
+
+          await Users.updateOne({ _id }, { $set: { icon: pfpUrl } });
           res.render("account.ejs", {
             user: user,
             error: false,
-            success: "Successfully reset your password!",
+            success: false,
             codeError: false,
             pfpError: false,
             documents,
@@ -133,44 +154,6 @@ routes.post("/resetPasswordForm", (req: Request, res: Response) => {
           });
         }
       });
-  });
-});
-
-routes.post("/changePfp", (req: Request, res: Response) => {
-  const gitHubName = req.body.pfp;
-  const _id = req.user?.toString();
-  const pfpUrl = `https://github.com/${gitHubName}.png`;
-  fetch(pfpUrl).then((data) => {
-    Users.findOne({ _id }, (err: string, user: IUser) => {
-      db.link
-        .find({ creator: _id })
-        .sort({ dateCreated: -1 })
-        .limit(10)
-        .exec(async (err, documents) => {
-          try {
-            if (data.status !== 200)
-              throw "We could not find that Github user!";
-
-            await Users.updateOne({ _id }, { $set: { icon: pfpUrl } });
-            res.render("account.ejs", {
-              user: user,
-              error: false,
-              success: false,
-              codeError: false,
-              pfpError: false,
-              documents,
-            });
-          } catch (err) {
-            res.render("account.ejs", {
-              user: user,
-              error: err,
-              success: false,
-              codeError: false,
-              pfpError: false,
-              documents,
-            });
-          }
-        });
     });
   });
 });
@@ -179,14 +162,45 @@ routes.post("/changePfpGravatar", async (req: Request, res: Response) => {
   const gravatarEmail = req.body.pfp;
   const _id = req.user?.toString();
   const gravatarUrl = await gravatar.url(gravatarEmail);
-  db.link
-    .find({ creator: _id })
-    .sort({ dateCreated: -1 })
-    .limit(10)
-    .exec(async (err, documents) => {
-      const user = await Users.findOne({ _id });
-      try {
-        await Users.updateOne({ _id }, { $set: { icon: gravatarUrl } });
+  getDocuments(_id, 10).then(async (documents) => {
+    const user = await Users.findOne({ _id });
+    try {
+      await Users.updateOne({ _id }, { $set: { icon: gravatarUrl } });
+      res.render("account.ejs", {
+        user: user,
+        error: false,
+        success: false,
+        codeError: false,
+        pfpError: false,
+        documents,
+      });
+    } catch (err) {
+      res.render("account.ejs", {
+        user: user,
+        error: false,
+        success: false,
+        codeError: false,
+        pfpError: "An error has occured whilst trying to change your pfp!",
+        documents,
+      });
+    }
+  });
+});
+
+routes.post("/createInvite", (req: Request, res: Response) => {
+  const _id = req.user?.toString();
+  Users.findOne({ _id }, (err: string, user: IUser) => {
+    getDocuments(_id, 10).then(async (documents) => {
+      if (user.codesLeft > 0) {
+        await Users.updateOne(
+          { _id },
+          {
+            $set: { codesLeft: user.codesLeft - 1 },
+            // @ts-ignore fuck you typescript
+            $push: { codes: { code: generateString(8) } },
+          }
+        );
+
         res.render("account.ejs", {
           user: user,
           error: false,
@@ -195,56 +209,17 @@ routes.post("/changePfpGravatar", async (req: Request, res: Response) => {
           pfpError: false,
           documents,
         });
-      } catch (err) {
+      } else {
         res.render("account.ejs", {
           user: user,
           error: false,
           success: false,
-          codeError: false,
-          pfpError: "An error has occured whilst trying to change your pfp!",
+          codeError: "You've exceeded your max invite count!",
+          pfpError: false,
           documents,
         });
       }
     });
-});
-
-routes.post("/createInvite", (req: Request, res: Response) => {
-  const _id = req.user?.toString();
-  Users.findOne({ _id }, (err: string, user: IUser) => {
-    db.link
-      .find({ creator: _id })
-      .sort({ dateCreated: -1 })
-      .limit(10)
-      .exec(async (err, documents) => {
-        if (user.codesLeft > 0) {
-          await Users.updateOne(
-            { _id },
-            {
-              $set: { codesLeft: user.codesLeft - 1 },
-              // @ts-ignore fuck you typescript
-              $push: { codes: { code: generateString(8) } },
-            }
-          );
-
-          res.render("account.ejs", {
-            user: user,
-            error: false,
-            success: false,
-            codeError: false,
-            pfpError: false,
-            documents,
-          });
-        } else {
-          res.render("account.ejs", {
-            user: user,
-            error: false,
-            success: false,
-            codeError: "You've exceeded your max invite count!",
-            pfpError: false,
-            documents,
-          });
-        }
-      });
   });
 });
 
