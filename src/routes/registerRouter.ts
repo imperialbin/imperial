@@ -1,5 +1,4 @@
 import { Router, Request, Response } from "express";
-export const routes = Router();
 import { IUser, Users, UserSettings } from "../models/Users";
 import bcrypt from "bcrypt";
 import Datastore from "nedb";
@@ -13,6 +12,9 @@ const db = {
 // Utilities
 import { generateString } from "../utilities/generateString";
 import { mail } from "../utilities/mailer";
+import { generateApiToken } from "../utilities/generateApiToken";
+
+export const routes = Router();
 
 routes.get("/", (req: Request, res: Response) => {
   res.render("register.ejs", { error: false, user: false, email: false });
@@ -87,6 +89,7 @@ routes.post("/", async (req: Request, res: Response) => {
       icon: "/assets/img/pfp.png",
       password: hashedPass,
       memberPlus: false,
+      apiToken: generateApiToken(),
       codes: [],
       documentsMade: 0,
       settings: {
@@ -135,3 +138,43 @@ routes.post("/", async (req: Request, res: Response) => {
     );
   }
 });
+
+/* async function bruh() {
+  Users.find({}, (err, users) => {
+    for (const user of users) {
+      if (!user.apiToken) {
+        Users.updateOne(
+          { _id: user._id },
+          { $set: { apiToken: generateApiToken() } },
+          {},
+          (err: string, user: IUser) => {
+            console.log(err, user);
+          }
+        );
+      }
+    }
+  });
+}
+bruh(); */
+
+/* async function bruh() {
+  await Users.updateMany(
+    {},
+    {
+      $set: {
+        settings: {
+          clipboard: false,
+          longerUrls: false,
+          instantDelete: false,
+          encrypted: false,
+          expiration: 5,
+          imageEmbed: false,
+        },
+      },
+    },
+    { multi: true }
+  );
+}
+
+bruh();
+ */

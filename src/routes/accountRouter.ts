@@ -11,6 +11,7 @@ const DEVELOPER_USER = process.env.DEVELOPER_USER;
 // Utilities
 import { generateString } from "../utilities/generateString";
 import { getDocuments } from "../utilities/getDocuments";
+import { generateApiToken as createToken } from "../utilities/generateApiToken";
 
 // uhhhhhhhhhhhhhhhhhhhhh
 const db = {
@@ -240,14 +241,3 @@ routes.post("/updateApiToken", async (req: Request, res: Response) => {
   );
   res.redirect("/account");
 });
-
-const createToken = (): string => {
-  return "IMPERIAL-xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(
-    /[xy]/g,
-    (c) => {
-      const r = (Math.random() * 16) | 0,
-        v = c === "x" ? r : (r & 0x3) | 0x8;
-      return v.toString(16);
-    }
-  );
-};
