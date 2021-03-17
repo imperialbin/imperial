@@ -222,44 +222,39 @@ routes.patch("/document", (req: Request, res: Response) => {
         );
       const _id = user._id.toString();
 
-      db.link.findOne({ URL: documentId }, (err, document) => {
-        if (err)
-          return throwApiError(
-            res,
-            "An internal server occurred whilst getting document!",
-            500
-          );
-        if (!document)
-          return throwApiError(
-            res,
-            "We couldn't find the document you're trying to edit!",
-            404
-          );
-
-        if (document.encrypted)
-          return throwApiError(
-            res,
-            "You cannot edit encrypted documents right now, please try again later",
-            401
-          );
-
-        const editors = document.allowedEditor;
-
-        if (document.creator != _id && editors.indexOf(_id) === -1)
-          return throwApiError(
-            res,
-            "Sorry! You aren't allowed to edit this document.",
-            401
-          );
-
-        db.link.update({ URL: documentId }, { $set: { code } }, {}, (err) => {
+      Documents.findOne(
+        { URL: documentId },
+        async (err: string, document: IDocument) => {
           if (err)
             return throwApiError(
               res,
-              "An internal server error occurred whilst editing the document! Please contact an admin!",
+              "An internal server occurred whilst getting document!",
               500
             );
+          if (!document)
+            return throwApiError(
+              res,
+              "We couldn't find the document you're trying to edit!",
+              404
+            );
 
+          if (document.encrypted)
+            return throwApiError(
+              res,
+              "You cannot edit encrypted documents right now, please try again later",
+              401
+            );
+
+          const editors = document.allowedEditors;
+
+          if (document.creator != _id && editors.indexOf(_id) === -1)
+            return throwApiError(
+              res,
+              "Sorry! You aren't allowed to edit this document.",
+              401
+            );
+
+          await Documents.updateOne({ URL: documentId }, { $set: { code } });
           return res.json({
             success: true,
             message: "Successfully edit the document!",
@@ -269,8 +264,8 @@ routes.patch("/document", (req: Request, res: Response) => {
             expiresIn: new Date(document.deleteDate),
             instantDelete: document.instantDelete,
           });
-        });
-      });
+        }
+      );
     }
   );
 });
