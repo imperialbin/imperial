@@ -2,7 +2,6 @@
 import express from "express";
 const app = express();
 import bodyParser from "body-parser";
-import { connect } from "mongoose";
 import flash from "express-flash";
 import session from "express-session";
 import cookieParser from "cookie-parser";
@@ -33,14 +32,8 @@ const SESSION_SECRET = process.env.SESSION_SECRET ?? "";
 const PORT = process.env.PORT ?? 3000;
 
 // Database
-connect(
-  MONGOURI,
-  { useNewUrlParser: true, useUnifiedTopology: true },
-  (err) => {
-    if (err) return console.log(err);
-    console.log("Connected to database");
-  }
-);
+import { connectDatabase } from "./utilities/connectDatabases";
+connectDatabase();
 
 // Some stupid express stuff
 app.set("views", "./views");
