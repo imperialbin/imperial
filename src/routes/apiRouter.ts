@@ -31,7 +31,6 @@ routes.post("/document", (req: Request, res: Response) => {
     : { apiToken: req.headers.authorization };
 
   Users.findOne(index, (err: string, user: IUser) => {
-    console.log(err, user);
     if (err)
       return throwApiError(
         res,
