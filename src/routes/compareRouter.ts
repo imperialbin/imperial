@@ -1,45 +1,39 @@
 import { Router, Request, Response } from "express";
+import { Documents } from "../models/Documents";
 export const routes = Router();
-import Datastore from "nedb";
-
-const db = {
-  link: new Datastore({ filename: "./databases/links" }),
-};
 
 routes.get("/", (req: Request, res: Response) => {
   res.redirect("/");
 });
 
-routes.get("/:documentIdOne/:documentIdTwo", (req: Request, res: Response) => {
-  const documentOne = req.params.documentIdOne;
-  const documentTwo = req.params.documentIdTwo;
-  db.link.loadDatabase();
-  try {
-    db.link.findOne({ URL: documentOne }, (err, documentOneInfo) => {
-      if (err)
-        throw "An internal server error occurred please contact an admin!";
-      if (!documentOneInfo)
-        throw `We couldn't find the document ${documentOne} to compare to ${documentTwo}`;
-      if (documentOneInfo.encrypted)
-        throw `${documentOne} is encrypted! You can not compare encrypted documents!`;
+routes.get(
+  "/:documentIdOne/:documentIdTwo",
+  async (req: Request, res: Response) => {
+    const documentOneId = req.params.documentIdOne;
+    const documentTwoId = req.params.documentIdTwo;
 
-      db.link.findOne({ URL: documentTwo }, (err, documentTwoInfo) => {
-        if (err)
-          throw "An internal server error occurred please contact an admin!";
-        if (!documentTwoInfo)
-          throw `We couldn't find the document ${documentTwo} to compare to ${documentOne}`;
-        if (documentTwoInfo.encrypted)
-          throw `${documentTwo} is encrypted! You can not compare encrypted documents!`;
+    try {
+      const documentOne = await Documents.findOne({ URL: documentOneId });
+      const documentTwo = await Documents.findOne({ URL: documentTwoId });
 
-        res.render("compare.ejs", {
-          documentOne: documentOneInfo.code,
-          documentTwo: documentTwoInfo.code,
-        });
+      if (await !documentOne)
+        throw `We couldn't find the document ${documentOneId} to compare to ${documentTwoId}`;
+      if (await !documentOne?.encrypted)
+        throw `${documentOneId} is encrypted! You can not compare encrypted documents!`;
+
+      if (await !documentTwo)
+        throw `We couldn't find the document ${documentTwoId} to compare to ${documentOneId}`;
+      if (await !documentTwo?.encrypted)
+        throw `${documentTwoId} is encrypted! You can not compare encrypted documents!`;
+
+      res.render("compare.ejs", {
+        documentOne: documentOne?.code,
+        documentTwo: documentTwo?.code,
       });
-    });
-  } catch (error) {
-    res.render("error.ejs", {
-      error,
-    });
+    } catch (error) {
+      res.render("error.ejs", {
+        error,
+      });
+    }
   }
-});
+);
