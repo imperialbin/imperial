@@ -1,14 +1,10 @@
 import { Router, Request, Response } from "express";
+import { Documents, IDocument } from "../models/Documents";
 export const routes = Router();
-import Datastore from "nedb";
 
 // Utilities
 import { decrypt } from "../utilities/decrypt";
 import { throwApiError } from "../utilities/throwApiError";
-
-const db = {
-  link: new Datastore({ filename: "./databases/links" }),
-};
 
 routes.get("/", (req: Request, res: Response) => {
   res.redirect("/");
@@ -18,8 +14,7 @@ routes.get("/:documentId", (req, res) => {
   const documentId = req.params.documentId;
   const password: any = req.query.password || false;
 
-  db.link.loadDatabase();
-  db.link.findOne({ URL: documentId }, (err, document) => {
+  Documents.findOne({ URL: documentId }, (err: string, document: IDocument) => {
     if (err)
       return throwApiError(
         res,
@@ -38,7 +33,7 @@ routes.get("/:documentId", (req, res) => {
     let code;
     if (document.encrypted && password) {
       try {
-        code = decrypt(password, document.code, document.encryptedIv);
+        code = decrypt(password, document.code, document.encryptedIv!);
       } catch (error) {
         return throwApiError(
           res,
@@ -55,8 +50,8 @@ routes.get("/:documentId", (req, res) => {
     res.end();
 
     if (document.instantDelete) {
-      setTimeout(() => {
-        db.link.remove({ URL: documentId });
+      setTimeout(async () => {
+        await Documents.remove({ URL: documentId });
       }, 1000);
     }
   });
