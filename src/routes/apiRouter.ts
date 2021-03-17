@@ -1,5 +1,4 @@
 import { Router, Request, Response } from "express";
-export const routes = Router();
 import { IUser, Users } from "../models/Users";
 import crypto from "crypto";
 import fs from "fs";
@@ -12,6 +11,8 @@ import { encrypt } from "../utilities/encrypt";
 import { decrypt } from "../utilities/decrypt";
 import { screenshotDocument } from "../utilities/screenshotDocument";
 import { Documents, IDocument } from "../models/Documents";
+
+export const routes = Router();
 
 routes.get("/", (req: Request, res: Response) =>
   res.json({ message: "Welcome to Imperial's API!" })

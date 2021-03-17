@@ -1,5 +1,4 @@
 import { Router, Request, Response } from "express";
-export const routes = Router();
 import { IUser, Users } from "../models/Users";
 // @ts-ignore shhh
 import { Crawler } from "es6-crawler-detect";
@@ -8,6 +7,8 @@ import fs from "fs";
 // Utilities
 import { decrypt } from "../utilities/decrypt";
 import { Documents, IDocument } from "../models/Documents";
+
+export const routes = Router();
 
 routes.get(
   [
