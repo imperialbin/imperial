@@ -295,39 +295,37 @@ routes.delete("/document/:documentId", async (req: Request, res: Response) => {
 
       const _id = user._id.toString();
 
-      db.link.loadDatabase();
-      db.link.findOne({ URL: documentId }, (err, document) => {
-        if (!document)
-          return throwApiError(res, "Sorry! That document doesn't exist.", 404);
-        if (document.creator !== _id)
-          return throwApiError(
-            res,
-            "Sorry! You aren't allowed to modify this document.",
-            401
-          );
-
-        db.link.remove({ URL: documentId }, (err) => {
-          if (err)
+      Documents.findOne(
+        { URL: documentId },
+        async (err: string, document: IDocument) => {
+          if (!document)
             return throwApiError(
               res,
-              "An internal server occurred whilst deleting document",
-              500
+              "Sorry! That document doesn't exist.",
+              404
+            );
+          if (document.creator !== _id)
+            return throwApiError(
+              res,
+              "Sorry! You aren't allowed to modify this document.",
+              401
             );
 
+          await Documents.remove({ URL: documentId });
           if (
             document.imageEmbed &&
             fs.existsSync(`./public/assets/img/${documentId}.jpg`)
           )
             fs.unlinkSync(`./public/assets/img/${documentId}.jpg`);
-        });
 
-        if (req.isAuthenticated()) return res.redirect("/account");
+          if (req.isAuthenticated()) return res.redirect("/account");
 
-        return res.json({
-          success: true,
-          message: "Successfully deleted the document!",
-        });
-      });
+          return res.json({
+            success: true,
+            message: "Successfully deleted the document!",
+          });
+        }
+      );
     }
   );
 });
