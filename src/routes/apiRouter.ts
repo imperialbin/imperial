@@ -353,37 +353,37 @@ routes.delete("/purgeDocuments", (req: Request, res: Response) => {
         return throwApiError(res, "Please put in a valid API token!", 401);
 
       const creator = user._id.toString();
-      db.link.loadDatabase();
-      db.link.find({ creator }, (err: string, documents: any) => {
-        if (err)
-          return throwApiError(
-            res,
-            "An internal server occurred whilst getting documents!",
-            500
-          );
+      Documents.find(
+        { creator },
+        async (err: string, documents: Array<IDocument>) => {
+          if (err)
+            return throwApiError(
+              res,
+              "An internal server occurred whilst getting documents!",
+              500
+            );
 
-        if (documents.length == 0)
-          return throwApiError(res, "There was no documents to delete!", 400);
+          if (documents.length == 0)
+            return throwApiError(res, "There was no documents to delete!", 400);
 
-        for (const document of documents) {
-          const _id = document._id;
-          db.link.remove({ _id });
+          await Documents.deleteMany({ creator });
+          for (const document of documents) {
+            if (
+              document.imageEmbed &&
+              fs.existsSync(`./public/assets/img/${document.URL}.jpg`)
+            )
+              fs.unlinkSync(`./public/assets/img/${document.URL}.jpg`);
+          }
 
-          if (
-            document.imageEmbed &&
-            fs.existsSync(`./public/assets/img/${document.URL}.jpg`)
-          )
-            fs.unlinkSync(`./public/assets/img/${document.URL}.jpg`);
+          if (req.isAuthenticated()) return res.redirect("/account");
+
+          return res.json({
+            success: true,
+            message: `Deleted a total of ${documents.length} documents!`,
+            numberDeleted: documents.length,
+          });
         }
-
-        if (req.isAuthenticated()) return res.redirect("/account");
-
-        return res.json({
-          success: true,
-          message: `Deleted a total of ${documents.length} documents!`,
-          numberDeleted: documents.length,
-        });
-      });
+      );
     }
   );
 });
