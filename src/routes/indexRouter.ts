@@ -14,7 +14,6 @@ import { generateString } from "../utilities/generateString";
 import { mail } from "../utilities/mailer";
 
 const db = {
-  link: new Datastore({ filename: "./databases/links" }),
   resetTokens: new Datastore({ filename: "./databases/resetTokens" }),
 };
 
