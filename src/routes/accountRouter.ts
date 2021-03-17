@@ -14,7 +14,6 @@ import { getDocuments } from "../utilities/getDocuments";
 
 // uhhhhhhhhhhhhhhhhhhhhh
 const db = {
-  link: new Datastore({ filename: "./databases/links" }),
   plusCodes: new Datastore({ filename: "./databases/plusCodes" }),
 };
 
