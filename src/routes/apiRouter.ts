@@ -32,7 +32,7 @@ routes.post("/document", (req: Request, res: Response) => {
     imageEmbed: boolean,
     instantDelete: boolean,
     expiration: number,
-    creator: string,
+    creator: string | null,
     quality: number,
     encrypted: boolean,
     password: any
@@ -85,9 +85,8 @@ routes.post("/document", (req: Request, res: Response) => {
             password: encrypted ? password : false,
           });
         })
-        .catch(() => {
-          // Throw so it goes right below
-          throw "";
+        .catch((err) => {
+          throw "an error happened";
         });
     } catch (error) {
       return throwApiError(
@@ -99,7 +98,7 @@ routes.post("/document", (req: Request, res: Response) => {
   };
 
   const guestPaste = () => {
-    createPaste(generateString(8), false, false, 5, "NONE", 20, false, false);
+    createPaste(generateString(8), false, false, 5, null, 20, false, false);
   };
 
   if (!req.isAuthenticated() || !req.headers.authorization) return guestPaste();
