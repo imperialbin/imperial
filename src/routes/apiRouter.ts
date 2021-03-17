@@ -1,7 +1,6 @@
 import { Router, Request, Response } from "express";
 export const routes = Router();
 import { IUser, Users } from "../models/Users";
-import Datastore from "nedb";
 import crypto from "crypto";
 import fs from "fs";
 
@@ -10,12 +9,9 @@ import { generateString } from "../utilities/generateString";
 import { throwApiError } from "../utilities/throwApiError";
 import { DocumentSettings } from "../utilities/documentSettingsInterface";
 import { encrypt } from "../utilities/encrypt";
-import { screenshotDocument } from "../utilities/screenshotDocument";
 import { decrypt } from "../utilities/decrypt";
-
-const db = {
-  link: new Datastore({ filename: "./databases/links" }),
-};
+import { screenshotDocument } from "../utilities/screenshotDocument";
+import { Documents, IDocument } from "../models/Documents";
 
 routes.get("/", (req: Request, res: Response) =>
   res.json({ message: "Welcome to Imperial's API!" })
@@ -31,7 +27,7 @@ routes.post("/document", (req: Request, res: Response) => {
       400
     );
 
-  const createPaste = (
+  const createPaste = async (
     URL: string,
     imageEmbed: boolean,
     instantDelete: boolean,
@@ -55,30 +51,22 @@ routes.post("/document", (req: Request, res: Response) => {
     }
 
     try {
-      db.link.loadDatabase();
-      db.link.insert(
-        {
-          URL,
-          imageEmbed,
-          instantDelete,
-          creator,
-          code: encrypted ? encrypt(hashedPassword, code, initVector) : code,
-          dateCreated: date.getTime(),
-          deleteDate: date.setDate(date.getDate() + expiration),
-          allowedEditor: [],
-          encrypted,
-          encryptedIv: encrypted ? initVector?.toString("hex") : null,
-          views: 0,
-        },
-        async (err, document) => {
-          if (err)
-            return throwApiError(
-              res,
-              "An internal server error occurred whilst creating document!",
-              500
-            );
-
-          if (creator !== "NONE")
+      new Documents({
+        URL,
+        imageEmbed,
+        instantDelete,
+        creator,
+        code: encrypted ? encrypt(hashedPassword, code, initVector) : code,
+        dateCreated: date.getTime(),
+        deleteDate: date.setDate(date.getDate() + expiration),
+        allowedEditors: [],
+        encrypted,
+        encryptedIv: encrypted ? initVector?.toString("hex") : null,
+        views: 0,
+      })
+        .save()
+        .then(async (document) => {
+          if (creator)
             await Users.updateOne(
               { _id: creator },
               { $inc: { documentsMade: 1 } }
@@ -86,7 +74,6 @@ routes.post("/document", (req: Request, res: Response) => {
 
           if (quality && !instantDelete && imageEmbed && !encrypted)
             screenshotDocument(URL, quality);
-
           return res.json({
             success: true,
             documentId: URL,
@@ -97,8 +84,11 @@ routes.post("/document", (req: Request, res: Response) => {
             encrypted,
             password: encrypted ? password : false,
           });
-        }
-      );
+        })
+        .catch(() => {
+          // Throw so it goes right below
+          throw "";
+        });
     } catch (error) {
       return throwApiError(
         res,
@@ -162,8 +152,7 @@ routes.get("/document/:documentId", (req: Request, res: Response) => {
   const documentId = req.params.documentId;
   const password: any = req.query.password || false;
 
-  db.link.loadDatabase();
-  db.link.findOne({ URL: documentId }, (err, document) => {
+  Documents.findOne({ URL: documentId }, (err: string, document: IDocument) => {
     if (err)
       return throwApiError(
         res,
@@ -182,7 +171,7 @@ routes.get("/document/:documentId", (req: Request, res: Response) => {
     let code;
     if (document.encrypted && password) {
       try {
-        code = decrypt(password, document.code, document.encryptedIv);
+        code = decrypt(password, document.code, document.encryptedIv!);
       } catch {
         return throwApiError(
           res,
