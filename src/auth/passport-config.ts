@@ -45,4 +45,4 @@ export const initialize = (passport: any) => {
       done(err, user._id);
     });
   });
-}
+};

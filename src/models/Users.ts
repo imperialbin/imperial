@@ -33,7 +33,7 @@ export interface IUser extends Document {
 }
 
 export const Users = userDatabase.model<IUser>(
-  "Documents",
+  "Users",
   new Schema({
     userId: Number,
     name: String,
