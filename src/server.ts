@@ -17,7 +17,7 @@ import { initialize as initializePassport } from "./auth/passport-config";
 initializePassport(passport);
 
 // Utilities
-import { rateLimiter } from "./utilities/apiLimiter";
+import { rateLimiter } from "./utilities/apiLimit";
 import "./utilities/autoDelete";
 
 // Middleware

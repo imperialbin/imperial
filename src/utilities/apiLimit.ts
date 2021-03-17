@@ -4,11 +4,11 @@ import { redis } from "./redis";
 import { IUser, Users } from "../models/Users";
 
 export const rateLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
   store: new RedisStore({
     client: redis,
+    expiry: 10,
   }),
-  max: 15,
+  max: 5,
   handler: (req, res, next) => {
     if (req.headers.authorization || req.isAuthenticated()) {
       if (req.isAuthenticated()) next();
