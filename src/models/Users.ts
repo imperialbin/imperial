@@ -1,4 +1,5 @@
-import { Document, model, Schema } from "mongoose";
+import { Document, Schema } from "mongoose";
+import { userDatabase } from "../utilities/connectDatabases";
 
 /* ¡¿ESTÁS LEVANTADO?!  ¡¿ESTÁS BUSCANDO ESA BOLSA ?!  ¡¿ESTÁS CORRIENDO  HACIA
 ESA BOLSA ?! ¡¿ESTÁS VOLANDO  A ESA BOLSA ?! ¡¿ESTÁS CONDUCIENDO A ESA BOLSA ?!
@@ -31,29 +32,30 @@ export interface IUser extends Document {
   settings: UserSettings;
 }
 
-const UserSchema = new Schema({
-  userId: Number,
-  name: String,
-  email: String,
-  betaCode: String,
-  banned: Boolean,
-  confirmed: Boolean,
-  ip: String,
-  codesLeft: Number,
-  icon: String,
-  password: String,
-  memberPlus: Boolean,
-  codes: Array,
-  apiToken: String,
-  documentsMade: Number,
-  settings: {
-    clipboard: Boolean,
-    longerUrls: Boolean,
-    instantDelete: Boolean,
-    encrypted: Boolean,
-    expiration: Number,
-    imageEmbed: Boolean,
-  },
-});
-
-export const Users = model<IUser>("Users", UserSchema);
+export const Users = userDatabase.model<IUser>(
+  "Documents",
+  new Schema({
+    userId: Number,
+    name: String,
+    email: String,
+    betaCode: String,
+    banned: Boolean,
+    confirmed: Boolean,
+    ip: String,
+    codesLeft: Number,
+    icon: String,
+    password: String,
+    memberPlus: Boolean,
+    codes: Array,
+    apiToken: String,
+    documentsMade: Number,
+    settings: {
+      clipboard: Boolean,
+      longerUrls: Boolean,
+      instantDelete: Boolean,
+      encrypted: Boolean,
+      expiration: Number,
+      imageEmbed: Boolean,
+    },
+  })
+);
