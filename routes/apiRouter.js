@@ -244,7 +244,7 @@ routes.get(["/document/:slug", "/getCode/:slug", "/paste/:slug"], (req, res) => 
   db.link.loadDatabase();
   db.link.findOne({ URL: document }, (err, documentInfo) => {
     if (err) return internalError(res);
-    if (!documentInfo) return throwApiError(res, "Sorry! There was no document with that ID.");
+    if (!documentInfo) return throwApiError(res, "Sorry! There was no document with that ID.", 404);
     if (documentInfo.encrypted && !password) {
       return throwApiError(
         res,
