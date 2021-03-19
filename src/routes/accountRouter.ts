@@ -21,17 +21,15 @@ const db = {
 export const routes = Router();
 
 routes.get("/", (req: Request, res: Response) => {
-  Users.findOne({ _id: req.user?.toString() }, (err: string, user: IUser) => {
+  Users.findOne({ _id: req.user?.toString() }, async (err: string, user: IUser) => {
     if (user) {
-      getDocuments(req.user?.toString(), 10).then((documents) => {
-        res.render("account.ejs", {
-          user,
-          error: false,
-          success: false,
-          codeError: false,
-          pfpError: false,
-          documents,
-        });
+      res.render("account.ejs", {
+        user,
+        error: false,
+        success: false,
+        codeError: false,
+        pfpError: false,
+        documents: await getDocuments(req.user?.toString(), 10),
       });
     }
   });
