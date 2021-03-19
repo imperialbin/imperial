@@ -54,6 +54,35 @@
   <%- include('partials/setMenu.ejs'); %>
   <div id="codeThing" class="editor"></div>
   <script src="/assets/js/min/vs/loader.js"></script>
+  <script>
+    // Some monaco stuff
+    require.config({ paths: { vs: '/assets/js/min/vs/' } });
+    require(['vs/editor/editor.main'], async function () {
+
+      // Fetch theme
+      await fetch('./assets/themes/theme.json')
+        .then(res => res.json())
+        .then(theme => {
+          monaco.editor.defineTheme('theme', theme)
+          monaco.editor.setTheme('theme');
+        }).catch((err) => {
+          monaco.editor.setTheme('vs-dark');
+        })
+      // Set editor
+      window.editor = monaco.editor.create(document.getElementById('codeThing'), {
+        language: 'javascript',
+        automaticLayout: true,
+        scrollBeyondLastLine: false,
+        wordWrap: true,
+        tabCompletion: true,
+        links: true,
+        theme: "theme",
+        minimap: {
+          enabled: false,
+        }
+      })
+    });
+  </script>
 </body>
 <script>
   if (urlParams.get('copyLink') === 'true') {
