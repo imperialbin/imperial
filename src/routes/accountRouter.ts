@@ -21,18 +21,21 @@ const db = {
 export const routes = Router();
 
 routes.get("/", (req: Request, res: Response) => {
-  Users.findOne({ _id: req.user?.toString() }, async (err: string, user: IUser) => {
-    if (user) {
-      res.render("account.ejs", {
-        user,
-        error: false,
-        success: false,
-        codeError: false,
-        pfpError: false,
-        documents: await getDocuments(req.user?.toString(), 10),
-      });
+  Users.findOne(
+    { _id: req.user?.toString() },
+    async (err: string, user: IUser) => {
+      if (user) {
+        res.render("account.ejs", {
+          user,
+          error: false,
+          success: false,
+          codeError: false,
+          pfpError: false,
+          documents: await getDocuments(req.user?.toString(), 10),
+        });
+      }
     }
-  });
+  );
 });
 
 // Retrieving User data
@@ -47,16 +50,13 @@ routes.post("/me", (req: Request, res: Response) => {
           res.write(user.toString());
           res.end();
         } else {
-          getDocuments(req.user?.toString(), 10).then((documents) => {
-            res.render("account.ejs", {
-              user: user,
-              error: false,
-              success: false,
-              codeError: false,
-              pfpError:
-                "We couldn't get your user data because your password was incorrect!",
-              documents,
-            });
+          res.render("account.ejs", {
+            user,
+            error: false,
+            success: false,
+            codeError: false,
+            pfpError: false,
+            documents: await getDocuments(req.user?.toString(), 10),
           });
         }
       }
@@ -88,37 +88,34 @@ routes.post("/resetPasswordForm", (req: Request, res: Response) => {
   const newPassword = req.body.newPassword;
   const confirmPassword = req.body.confirmPassword;
 
-  Users.findOne({ _id }, (err: string, user: IUser) => {
-    getDocuments(req.user?.toString(), 10).then(async (documents) => {
-      try {
-        if (!(await bcrypt.compare(oldPassword, user.password)))
-          throw "Incorrect old password!";
-        if (newPassword.length < 8)
-          throw "Please make your new password more than 8 characters long!";
-        if (newPassword !== confirmPassword)
-          throw "New passwords do not match!";
+  Users.findOne({ _id }, async (err: string, user: IUser) => {
+    try {
+      if (!(await bcrypt.compare(oldPassword, user.password)))
+        throw "Incorrect old password!";
+      if (newPassword.length < 8)
+        throw "Please make your new password more than 8 characters long!";
+      if (newPassword !== confirmPassword) throw "New passwords do not match!";
 
-        const hashedPass = await bcrypt.hash(newPassword, 13);
-        await Users.updateOne({ _id }, { $set: { password: hashedPass } });
-        res.render("account.ejs", {
-          user: user,
-          error: false,
-          success: "Successfully reset your password!",
-          codeError: false,
-          pfpError: false,
-          documents,
-        });
-      } catch (err) {
-        res.render("account.ejs", {
-          user: user,
-          error: err,
-          success: false,
-          codeError: false,
-          pfpError: false,
-          documents,
-        });
-      }
-    });
+      const hashedPass = await bcrypt.hash(newPassword, 13);
+      await Users.updateOne({ _id }, { $set: { password: hashedPass } });
+      res.render("account.ejs", {
+        user,
+        error: false,
+        success: "Successfully reset your password!",
+        codeError: false,
+        pfpError: false,
+        documents: await getDocuments(req.user?.toString(), 10),
+      });
+    } catch (error) {
+      res.render("account.ejs", {
+        user,
+        error,
+        success: false,
+        codeError: false,
+        pfpError: false,
+        documents: await getDocuments(req.user?.toString(), 10),
+      });
+    }
   });
 });
 
@@ -127,31 +124,29 @@ routes.post("/changePfp", (req: Request, res: Response) => {
   const _id = req.user?.toString();
   const pfpUrl = `https://github.com/${gitHubName}.png`;
   fetch(pfpUrl).then((data) => {
-    Users.findOne({ _id }, (err: string, user: IUser) => {
-      getDocuments(_id, 10).then(async (documents) => {
-        try {
-          if (data.status !== 200) throw "We could not find that Github user!";
+    Users.findOne({ _id }, async (err: string, user: IUser) => {
+      try {
+        if (data.status !== 200) throw "We could not find that Github user!";
 
-          await Users.updateOne({ _id }, { $set: { icon: pfpUrl } });
-          res.render("account.ejs", {
-            user: user,
-            error: false,
-            success: false,
-            codeError: false,
-            pfpError: false,
-            documents,
-          });
-        } catch (err) {
-          res.render("account.ejs", {
-            user: user,
-            error: err,
-            success: false,
-            codeError: false,
-            pfpError: false,
-            documents,
-          });
-        }
-      });
+        await Users.updateOne({ _id }, { $set: { icon: pfpUrl } });
+        res.render("account.ejs", {
+          user,
+          error: false,
+          success: false,
+          codeError: false,
+          pfpError: false,
+          documents: await getDocuments(req.user?.toString(), 10),
+        });
+      } catch (error) {
+        res.render("account.ejs", {
+          user,
+          error,
+          success: false,
+          codeError: false,
+          pfpError: false,
+          documents: await getDocuments(req.user?.toString(), 10),
+        });
+      }
     });
   });
 });
@@ -160,29 +155,27 @@ routes.post("/changePfpGravatar", async (req: Request, res: Response) => {
   const gravatarEmail = req.body.pfp;
   const _id = req.user?.toString();
   const gravatarUrl = await gravatar.url(gravatarEmail);
-  getDocuments(_id, 10).then(async (documents) => {
-    const user = await Users.findOne({ _id });
-    try {
-      await Users.updateOne({ _id }, { $set: { icon: gravatarUrl } });
-      res.render("account.ejs", {
-        user: user,
-        error: false,
-        success: false,
-        codeError: false,
-        pfpError: false,
-        documents,
-      });
-    } catch (err) {
-      res.render("account.ejs", {
-        user: user,
-        error: false,
-        success: false,
-        codeError: false,
-        pfpError: "An error has occured whilst trying to change your pfp!",
-        documents,
-      });
-    }
-  });
+  const user = await Users.findOne({ _id });
+  try {
+    await Users.updateOne({ _id }, { $set: { icon: gravatarUrl } });
+    res.render("account.ejs", {
+      user,
+      error: false,
+      success: false,
+      codeError: false,
+      pfpError: false,
+      documents: await getDocuments(req.user?.toString(), 10),
+    });
+  } catch (err) {
+    res.render("account.ejs", {
+      user,
+      error: false,
+      success: false,
+      codeError: false,
+      pfpError: "An error has occured whilst trying to change your pfp!",
+      documents: await getDocuments(req.user?.toString(), 10),
+    });
+  }
 });
 
 routes.post("/createInvite", (req: Request, res: Response) => {
