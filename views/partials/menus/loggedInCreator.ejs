@@ -22,15 +22,15 @@
     </a>
     <ul>
       <% if(!encrypted) { %>
-      <li id="edit"> <button id="icon" class="editButton" onclick="editPaste()"><i
+      <li id="edit" class="tooltip" data-tippy-content="Edit document"> <button id="icon" class="editButton" onclick="editDocument()"><i
             class="fas fa-pencil-alt"></i></button></li>
       <% } %>
-      <li id="compare"><button id="icon" onclick="toggleCompareDocuments('<%= documentName %>')"><i
+      <li id="compare" class="tooltip" data-tippy-content="Compare document"><button id="icon" onclick="toggleCompareDocuments('<%= documentName %>')"><i
             class="fas fa-clone"></i></button>
       </li>
-      <li id="save"> <button id="icon" onclick="duplicate()"><i class="fas fa-file-import"></i></i></button>
+      <li id="save" class="tooltip" data-tippy-content="Duplicate document"> <button id="icon" onclick="duplicateDocument()"><i class="fas fa-file-import"></i></i></button>
       </li>
-      <li id="new"> <button id="icon" onclick="newDocument()"><i class="fas fa-file-alt fa-lg"></i></button> </li>
+      <li id="new" class="tooltip" data-tippy-content="New document"> <button id="icon" onclick="newDocument()"><i class="fas fa-file-alt fa-lg"></i></button> </li>
       <li id="account"> <img src="<%= pfp %>" alt="Profile picture" class="pfp" draggable="false"> </li>
     </ul>
   </div>
