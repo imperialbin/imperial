@@ -14,6 +14,7 @@ export interface UserSettings {
   expiration: number;
   imageEmbed: boolean;
 }
+
 export interface IUser extends Document {
   userId: number;
   name: string;
