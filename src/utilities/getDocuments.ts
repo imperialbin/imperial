@@ -1,6 +1,6 @@
 import { Documents, IDocument } from "../models/Documents";
 
-// Usage getDocuments("", 10).then(console.log);
+// Usage await getDocuments("", 10);
 
 /* Creator can be undefined or a string, so then when using it - it doesn't yell
 and scream and pout and also because if there is no user I still want to
