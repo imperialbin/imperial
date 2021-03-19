@@ -103,35 +103,9 @@
   <div id="codeThing" class="editor"></div>
   <script src="/assets/js/min/vs/loader.js"></script>
   <script>
-    // A tippy thing
-    const template = document.getElementById('accountDrop');
-    tippy('#account', {
-      content: template.innerHTML,
-      allowHTML: true,
-      trigger: 'click',
-      placement: 'bottom',
-      animation: 'shift-away',
-      interactive: true,
-    });
-    tippy('.tooltip', {
-      arrow: false,
-      animation: 'shift-away',
-      placement: 'bottom'
-    })
-    // Some consts we need
-    const loggedIn = JSON.parse('<%= loggedIn %>')
-    const settings = {
-      longerUrls: loggedIn ? JSON.parse('<%= settings.longerUrls %>') : false,
-      instantDelete: loggedIn ? JSON.parse('<%= settings.instantDelete %>') : false,
-      encrypted: loggedIn ? JSON.parse('<%= settings.encrypted %>') : false,
-      expiration: loggedIn ? JSON.parse('<%= settings.expiration %>') : 5,
-      imageEmbed: loggedIn ? JSON.parse('<%= settings.imageEmbed %>') : false,
-    }
-
     // Some monaco stuff
     require.config({ paths: { vs: '/assets/js/min/vs' } });
     require(['vs/editor/editor.main'], async function () {
-
       // Fetch theme
       await fetch('./assets/themes/theme.json')
         .then(res => res.json())
@@ -172,6 +146,30 @@
           console.log("denied paste capabilities");
         });
     });
+    // A tippy thing
+    const template = document.getElementById('accountDrop');
+    tippy('#account', {
+      content: template.innerHTML,
+      allowHTML: true,
+      trigger: 'click',
+      placement: 'bottom',
+      animation: 'shift-away',
+      interactive: true,
+    });
+    tippy('.tooltip', {
+      arrow: false,
+      animation: 'shift-away',
+      placement: 'bottom'
+    })
+    // Some consts we need
+    const loggedIn = JSON.parse('<%= loggedIn %>')
+    const settings = {
+      longerUrls: loggedIn ? JSON.parse('<%= settings.longerUrls %>') : false,
+      instantDelete: loggedIn ? JSON.parse('<%= settings.instantDelete %>') : false,
+      encrypted: loggedIn ? JSON.parse('<%= settings.encrypted %>') : false,
+      expiration: loggedIn ? JSON.parse('<%= settings.expiration %>') : 5,
+      imageEmbed: loggedIn ? JSON.parse('<%= settings.imageEmbed %>') : false,
+    }
 
     async function createDocument() {
       if (window.editor.getValue() == 0) return console.log("you gotta put sum in b");
