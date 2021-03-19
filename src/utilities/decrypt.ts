@@ -1,4 +1,4 @@
-import crypto from "crypto";
+import { createHash, createDecipheriv } from "crypto";
 
 // Usage decrypt(hashedPassword, documentInfo.code, documentInfo.encryptedIv);
 
@@ -7,8 +7,8 @@ export const decrypt = (
   cipherText: string,
   initVector: string
 ): string => {
-  const hashedPassword = crypto.createHash("sha256").update(password).digest();
-  const decipher = crypto.createDecipheriv(
+  const hashedPassword = createHash("sha256").update(password).digest();
+  const decipher = createDecipheriv(
     "aes256",
     hashedPassword,
     Buffer.from(initVector, "hex")
