@@ -54,7 +54,14 @@
   <%- include('partials/setMenu.ejs'); %>
   <div id="codeThing" class="editor"></div>
   <script src="/assets/js/min/vs/loader.js"></script>
+
   <script>
+
+    function htmlDecode(input) {
+      const doc = new DOMParser().parseFromString(input, "text/html");
+      return doc.documentElement.textContent;
+    }
+
     // Some monaco stuff
     require.config({ paths: { vs: '/assets/js/min/vs' } });
     require(['vs/editor/editor.main'], async function () {
@@ -82,20 +89,20 @@
           enabled: false,
         },
       })
-      window.editor.setValue(`<%= code %>`.toString());
+      window.editor.setValue(htmlDecode(`<%= code %>`));
     });
   </script>
 </body>
 <script>
-/*   if (urlParams.get('copyLink') === 'true') {
-    window.history.pushState({}, document.title, window.location.pathname);
-    var link = location.href;
-    if (location.href.includes('/p/') && localStorage.getItem('customURL') !== 'p')
-      var link = location.href.split('/p/')[0] + "/" + location.href.split('/p/')[1]
-    navigator.clipboard.writeText(link)
-      .then(() => $('#messages').append('<li class="message success"><i class="fas fa-check" style="padding-right: 4px;"></i> Copied link!</li>'))
-      .catch(err => $('#messages').append('<li class="message error"><i class="fas fa-times-circle" style="padding-right: 4px;"></i> Couldn\'t copy link!</li>'))
-  } */
+  /*   if (urlParams.get('copyLink') === 'true') {
+      window.history.pushState({}, document.title, window.location.pathname);
+      var link = location.href;
+      if (location.href.includes('/p/') && localStorage.getItem('customURL') !== 'p')
+        var link = location.href.split('/p/')[0] + "/" + location.href.split('/p/')[1]
+      navigator.clipboard.writeText(link)
+        .then(() => $('#messages').append('<li class="message success"><i class="fas fa-check" style="padding-right: 4px;"></i> Copied link!</li>'))
+        .catch(err => $('#messages').append('<li class="message error"><i class="fas fa-times-circle" style="padding-right: 4px;"></i> Couldn\'t copy link!</li>'))
+    } */
 
   // A tippy thing
   const template = document.getElementById('accountDrop');
