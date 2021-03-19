@@ -58,18 +58,15 @@
     // Some monaco stuff
     require.config({ paths: { vs: '/assets/js/min/vs' } });
     require(['vs/editor/editor.main'], async function () {
-      console.log('tes')
       // Fetch theme
       await fetch('/assets/themes/theme.json')
         .then(res => res.json())
         .then(theme => {
-          console.log(theme)
           monaco.editor.defineTheme('theme', theme)
           monaco.editor.setTheme('theme');
         }).catch((err) => {
           monaco.editor.setTheme('vs-dark');
         })
-      console.log('gerewrg')
 
       // Set editor
       window.editor = monaco.editor.create(document.getElementById('codeThing'), {
