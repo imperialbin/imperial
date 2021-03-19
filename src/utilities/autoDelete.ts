@@ -1,6 +1,6 @@
 import { CronJob } from "cron";
-import fs from "fs";
 import { Documents, IDocument } from "../models/Documents";
+import fs from "fs";
 
 export default new CronJob("00 00 00 * * *", () => {
   Documents.find({}, (err: string, documents: Array<IDocument>) => {
