@@ -287,6 +287,11 @@ li.deletePaste {
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
 }
 
+#tippy-1 {
+  top: 13px !important;
+  margin-left: -18px !important;
+}
+
 #tippy-1,
 #tippy-2,
 #tippy-3 {
