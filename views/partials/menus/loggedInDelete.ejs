@@ -14,9 +14,9 @@
       <h6>IMPERIAL</h6>
     </a>
     <ul>
-      <li id="save"> <button id="icon" onclick="duplicate()"><i class="fas fa-file-import"></i></i></button>
+      <li id="save" class="tooltip" data-tippy-content="Duplicate document"> <button id="icon" onclick="duplicateDocument()"><i class="fas fa-file-import"></i></i></button>
       </li>
-      <li id="new"> <button id="icon" onclick="newDocument()"><i class="fas fa-file-alt fa-lg"></i></button> </li>
+      <li id="new" class="tooltip" data-tippy-content="New document"> <button id="icon" onclick="newDocument()"><i class="fas fa-file-alt fa-lg"></i></button> </li>
       <li id="account"> <img src="<%= pfp %>" alt="Profile picture" class="pfp" draggable="false"> </li>
     </ul>
   </div>
