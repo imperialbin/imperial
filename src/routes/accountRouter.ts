@@ -180,37 +180,35 @@ routes.post("/changePfpGravatar", async (req: Request, res: Response) => {
 
 routes.post("/createInvite", (req: Request, res: Response) => {
   const _id = req.user?.toString();
-  Users.findOne({ _id }, (err: string, user: IUser) => {
-    getDocuments(_id, 10).then(async (documents) => {
-      if (user.codesLeft > 0) {
-        await Users.updateOne(
-          { _id },
-          {
-            $set: { codesLeft: user.codesLeft - 1 },
-            // @ts-ignore fuck you typescript
-            $push: { codes: { code: generateString(8) } },
-          }
-        );
+  Users.findOne({ _id }, async (err: string, user: IUser) => {
+    if (user.codesLeft > 0) {
+      await Users.updateOne(
+        { _id },
+        {
+          $set: { codesLeft: user.codesLeft - 1 },
+          // @ts-ignore fuck you typescript
+          $push: { codes: { code: generateString(8) } },
+        }
+      );
 
-        res.render("account.ejs", {
-          user: user,
-          error: false,
-          success: false,
-          codeError: false,
-          pfpError: false,
-          documents,
-        });
-      } else {
-        res.render("account.ejs", {
-          user: user,
-          error: false,
-          success: false,
-          codeError: "You've exceeded your max invite count!",
-          pfpError: false,
-          documents,
-        });
-      }
-    });
+      res.render("account.ejs", {
+        user,
+        error: false,
+        success: false,
+        codeError: false,
+        pfpError: false,
+        documents: await getDocuments(req.user?.toString(), 10),
+      });
+    } else {
+      res.render("account.ejs", {
+        user,
+        error: false,
+        success: false,
+        codeError: "You've exceeded your max invite count!",
+        pfpError: false,
+        documents: await getDocuments(req.user?.toString(), 10),
+      });
+    }
   });
 });
 
