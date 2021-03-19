@@ -66,11 +66,12 @@
     <div class="menu-content">
       <h6>IMPERIAL</h6>
       <ul>
-        <li id="users" class="addEditors"><button id="icon" onclick="toggleAddUser()"><i
+        <li id="users" class="addEditors tooltip"  data-tippy-content="Add users"><button id="icon" onclick="toggleAddUser()"><i
               class="fas fa-user-friends"></i></button></li>
-        <li id="save" class="save"> <button id="icon" onclick="createDocument()"><i class="far fa-save fa-lg"></i></button>
+        <li id="save" class="save tooltip"  data-tippy-content="Create document"> <button id="icon" onclick="createDocument()"><i
+              class="far fa-save fa-lg"></i></button>
         </li>
-        <li id="new" class="new"> <button id="icon" onclick="newDocument()"><i
+        <li id="new" class="new tooltip"  data-tippy-content="New document"> <button id="icon" onclick="newDocument()"><i
               class="fas fa-file-alt fa-lg"></i></button> </li>
         <li id="account"> <img src="<%= pfp %>" alt="Profile picture" class="pfp" draggable="false">
         </li>
@@ -84,9 +85,10 @@
     <div class="menu-content">
       <h6>IMPERIAL</h6>
       <ul>
-        <li id="save" class="save"> <button id="icon" onclick="createDocument()"><i class="far fa-save fa-lg"></i></button>
+        <li id="save" class="save tooltip" data-tippy-content="Save document"> <button id="icon" onclick="createDocument()"><i
+              class="far fa-save fa-lg"></i></button>
         </li>
-        <li id="new" class="new"> <button id="icon" onclick="newDocument()"><i
+        <li id="new" class="new tooltip" data-tippy-content="New document"> <button id="icon" onclick="newDocument()"><i
               class="fas fa-file-alt fa-lg"></i><br></button>
         </li>
         <li> <button id="login" onclick="location.href='/login'">Login</button> </li>
@@ -101,6 +103,11 @@
   <div id="codeThing" class="editor"></div>
   <script src="/assets/js/min/vs/loader.js"></script>
   <script>
+    tippy('.tooltip', {
+      arrow: false,
+      animation: 'shift-away',
+      placement: 'bottom'
+    })
     // Some consts we need
     const loggedIn = JSON.parse('<%= loggedIn %>')
     const settings = {

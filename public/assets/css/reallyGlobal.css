@@ -5,11 +5,16 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  transition: opacity 234ms ease-in-out, background-color 164ms ease-in-out, color 34ms ease-in-out;
-  -webkit-transition: opacity 234ms ease-in-out, background-color 164ms ease-in-out, color 34ms ease-in-out;
-  -moz-transition: opacity 234ms ease-in-out, background-color 164ms ease-in-out, color 34ms ease-in-out;
-  -ms-transition: opacity 234ms ease-in-out, background-color 164ms ease-in-out, color 34ms ease-in-out;
-  -o-transition: opacity 234ms ease-in-out, background-color 164ms ease-in-out, color 34ms ease-in-out;
+  transition: opacity 234ms ease-in-out, background-color 164ms ease-in-out,
+    color 34ms ease-in-out;
+  -webkit-transition: opacity 234ms ease-in-out,
+    background-color 164ms ease-in-out, color 34ms ease-in-out;
+  -moz-transition: opacity 234ms ease-in-out, background-color 164ms ease-in-out,
+    color 34ms ease-in-out;
+  -ms-transition: opacity 234ms ease-in-out, background-color 164ms ease-in-out,
+    color 34ms ease-in-out;
+  -o-transition: opacity 234ms ease-in-out, background-color 164ms ease-in-out,
+    color 34ms ease-in-out;
 }
 :root {
   --scrollbar-track: #1f252a;
@@ -196,8 +201,6 @@ select {
 .cancelSettings {
   margin-right: 20px;
 }
-.cancelSettings:hover {
-}
 
 /* Some general things */
 
@@ -221,34 +224,12 @@ a {
 li.deletePaste {
   width: 105px !important;
 }
-.hljs {
-  background: var(--main-background);
-}
 #codeThing {
   position: fixed;
   width: 100%;
   height: 100%;
   padding-top: 10px;
   color: var(--text-light);
-}
-
-#box {
-  padding: 0;
-  margin: 0;
-  width: 100%;
-  border: 0;
-  outline: none;
-  font-size: 13px;
-  overflow: inherit;
-}
-#box code {
-  padding: 0;
-  background: transparent !important;
-}
-code {
-  font-size: 14px;
-  display: block;
-  overflow-x: unset !important;
 }
 
 #login,
@@ -261,7 +242,6 @@ code {
 }
 #icon {
   padding: 12.5px;
-  margin-right: 20px;
 }
 #discord:hover {
   background: #7289da;
@@ -306,13 +286,7 @@ code {
   -o-border-radius: 8px;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
 }
-#save {
-  padding-bottom: 10px;
-}
-#tippy-1 {
-  top: 13px !important;
-  margin-left: -18px !important;
-}
+
 #tippy-1,
 #tippy-2,
 #tippy-3 {
@@ -447,10 +421,6 @@ button:active {
   opacity: 0.9;
 }
 
-.addEditors {
-  padding-bottom: 10px;
-  margin-bottom: 10px;
-}
 .addUserBtn {
   position: absolute;
   margin-top: 6px;
@@ -483,6 +453,8 @@ ul#usersToAdd button {
 li {
   display: inline;
   user-select: none;
+  margin-right: 20px;
+  padding-bottom: 9px;
 }
 
 #edit,
@@ -497,10 +469,8 @@ li {
   margin-left: 0;
 }
 #new {
-  margin: 0 5px 0 -10px;
-  padding-bottom: 10px;
+  margin: 0 15px 0 -10px;
 }
-
 /* Actual menu */
 .menu {
   position: fixed;
@@ -552,7 +522,6 @@ input#token {
   margin: 10px 0 0 5px;
 }
 .inputTiles {
-  
 }
 #token {
   opacity: 0.6;
