@@ -56,22 +56,26 @@
   <script src="/assets/js/min/vs/loader.js"></script>
   <script>
     // Some monaco stuff
-    require.config({ paths: { vs: '/assets/js/min/vs/' } });
+    require.config({ paths: { vs: '/assets/js/min/vs' } });
     require(['vs/editor/editor.main'], async function () {
-
+      console.log('tes')
       // Fetch theme
-      await fetch('./assets/themes/theme.json')
+      await fetch('/assets/themes/theme.json')
         .then(res => res.json())
         .then(theme => {
+          console.log(theme)
           monaco.editor.defineTheme('theme', theme)
           monaco.editor.setTheme('theme');
         }).catch((err) => {
           monaco.editor.setTheme('vs-dark');
         })
+      console.log('gerewrg')
+
       // Set editor
       window.editor = monaco.editor.create(document.getElementById('codeThing'), {
         language: 'javascript',
         automaticLayout: true,
+        readOnly: true,
         scrollBeyondLastLine: false,
         wordWrap: true,
         tabCompletion: true,
@@ -79,13 +83,14 @@
         theme: "theme",
         minimap: {
           enabled: false,
-        }
+        },
       })
+      window.editor.setValue(`<%= code %>`.toString());
     });
   </script>
 </body>
 <script>
-  if (urlParams.get('copyLink') === 'true') {
+/*   if (urlParams.get('copyLink') === 'true') {
     window.history.pushState({}, document.title, window.location.pathname);
     var link = location.href;
     if (location.href.includes('/p/') && localStorage.getItem('customURL') !== 'p')
@@ -93,7 +98,7 @@
     navigator.clipboard.writeText(link)
       .then(() => $('#messages').append('<li class="message success"><i class="fas fa-check" style="padding-right: 4px;"></i> Copied link!</li>'))
       .catch(err => $('#messages').append('<li class="message error"><i class="fas fa-times-circle" style="padding-right: 4px;"></i> Couldn\'t copy link!</li>'))
-  }
+  } */
 
   // A tippy thing
   const template = document.getElementById('accountDrop');
