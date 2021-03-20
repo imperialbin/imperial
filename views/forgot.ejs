@@ -2,46 +2,42 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/assets/css/reallyGlobal.css">
-    <link rel="stylesheet" href="/assets/css/register.css">
-    <link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon/favicon-96x96.png">
-    <title>IMPERIAL | Forgot password</title>
-    <meta property="og:image" content="/assets/favicon/favicon-96x96.png">
-    <meta name="description" content="Forgot your password? No problem!">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/reallyGlobal.css">
+  <link rel="stylesheet" href="/assets/css/secondary.css">
+  <link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon/favicon-96x96.png">
+  <title>IMPERIAL | Forgot password</title>
+  <meta property="og:image" content="/assets/favicon/favicon-96x96.png">
+  <meta name="description" content="Forgot your password? No problem!">
 </head>
 
 <body>
-    <h1>Forgot password</h1>
-    <i class="error">
-        <% if( error ) {%>
-        <%= error %>
-        <% } %>
-    </i>
-    <form action="/requestResetPassword" method="POST">
-        <div>
-            <input type="text" id="email" name="email" placeholder="Email" autocomplete="off" required>
+  <main>
+    <img src="/assets/img/Logo.png" alt="IMPERIAL Logo" class="logo">
+    <div class="container">
+      <form action="/requestResetPassword" method="POST">
+        <h2>Forgot your password?</h2>
+        <i class="error">
+          <% if( error ) {%>
+          <%= error %>
+          <% } %>
+        </i>
+        <div class="actualStuff">
+          <div>
+            <div class="tile"><i class="far fa-envelope"></i></div>
+            <input type="text" id="email" placeholder="Email..." autocomplete="off" autofocus required>
+          </div>
+          <button type="submit">Login</button>
         </div>
-        <button type="submit">Send email</button>
-    </form>
-    <nav>
-        <ul>
-            <a href="/">
-                <li>HOME</li>
-            </a>
-            <a href="/register">
-                <li>REGISTER</li>
-            </a>
-            <a href="/login">
-                <li>LOGIN</li>
-            </a>
-            <a href="https://discord.gg/cTm85eW49D" target="_blank">
-                <li>DISCORD</li>
-            </a>
-        </ul>
-    </nav>
+      </form>
+    </div>
+    <div class="waves">
+      <img src="/assets/img/wave.svg" alt="IMPERIAL Wave svg" class="wave">
+    </div>
+  </main>
+  <script src="https://kit.fontawesome.com/ec3f0c8487.js" crossorigin="anonymous"></script>
 </body>
 
 </html>
