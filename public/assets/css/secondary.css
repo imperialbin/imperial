@@ -59,6 +59,10 @@ a:active {
 .noOpacity {
   opacity: 1;
 }
+.actualStuff {
+  position: relative;
+  width: 302px;
+}
 
 .tile {
   position: absolute;
@@ -81,7 +85,6 @@ input {
 }
 button[type="submit"] {
   padding: 8px 20px;
-  margin-right: 26px;
   float: right;
 }
 
