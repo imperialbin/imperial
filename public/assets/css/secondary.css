@@ -1,0 +1,77 @@
+body {
+  transition: all 0.3 ease-in-out;
+  -webkit-transition: all 0.3 ease-in-out;
+  -moz-transition: all 0.3 ease-in-out;
+  -ms-transition: all 0.3 ease-in-out;
+  -o-transition: all 0.3 ease-in-out;
+}
+.logo {
+  display: block;
+  width: 105px;
+  height: auto;
+  margin: 0 0 0 25px;
+}
+
+.container {
+  display: inline-block;
+  margin: 100px 0 0 65px;
+}
+.waves {
+  position: absolute;
+  height: 100vh;
+  right: 0;
+  top: 0;
+}
+
+.wave {
+  height: 100vh;
+  min-height: 500px;
+}
+
+img.wave {
+  filter: drop-shadow(-10px 4px 34px rgba(0, 0, 0, 0.25));
+  -webkit-filter: drop-shadow(-10px 4px 34px rgba(0, 0, 0, 0.25));
+}
+
+h2 {
+  font-weight: 400;
+  font-size: 30px;
+  margin-bottom: 40px;
+}
+
+a {
+  text-decoration: none;
+  color: var(--text-light);
+  opacity: 0.48;
+}
+a:hover {
+  opacity: 1;
+}
+a:active {
+  opacity: 0.6;
+}
+
+.tile {
+  position: absolute;
+  z-index: 1;
+  display: inline;
+  background: var(--button);
+  height: 40px;
+  margin-left: -1px;
+  padding: 8px 14px;
+  border-radius: 7px;
+  -webkit-border-radius: 7px;
+  -moz-border-radius: 7px;
+  -ms-border-radius: 7px;
+  -o-border-radius: 7px;
+}
+
+input {
+  padding-left: 50px;
+  margin-bottom: 22px;
+}
+button {
+  padding: 8px 20px;
+  margin-right: 26px;
+  float: right;
+}

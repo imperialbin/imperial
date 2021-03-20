@@ -8,30 +8,34 @@
   <title>IMPERIAL | Login</title>
   <link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon/favicon-96x96.png">
   <link rel="stylesheet" href="/assets/css/reallyGlobal.css?v=1">
-  <link rel="stylesheet" href="/assets/css/register.css?v=1">
+  <link rel="stylesheet" href="/assets/css/secondary.css">
 </head>
 
 <body>
-  <img src="/assets/img/Logo.png" alt="IMPERIAL Logo" class="logo">
-  <h2>Glad to see you back!</h2>
   <main>
+    <img src="/assets/img/Logo.png" alt="IMPERIAL Logo" class="logo">
     <div class="container">
       <form action="/login" method="POST">
+        <h2>Glad to see you back!</h2>
         <i class="error">
           <% if( messages.error ) {%>
           <%= messages.error %>
           <% } %>
         </i>
-        <div>
-          <div class="tile"><i class="far fa-envelope"></i></div>
-          <input type="text" id="email" placeholder="Email or Username" autocomplete="off" autofocus required>
+        <div class="actualStuff">
+          <div>
+            <div class="tile"><i class="far fa-envelope"></i></div>
+            <input type="text" id="email" placeholder="Email or username..." autocomplete="off" autofocus required>
+          </div>
+          <div>
+            <div class="tile"><i class="fas fa-lock"></i></div>
+            <input type="password" id="password" placeholder="Password..." autocomplete="off" required>
+          </div>
+          <a href="/forgot">
+            <span id="subtext">Forgot password?</span>
+          </a>
+          <button type="submit">Login</button>
         </div>
-        <div>
-          <div class="tile"><i class="fas fa-lock"></i></div>
-          <input type="password" id="password" placeholder="Password" autocomplete="off" required>
-        </div>
-        <span id="subtext">Forgot password?</span>
-        <button type="submit">Login</button>
       </form>
     </div>
     <div class="waves">

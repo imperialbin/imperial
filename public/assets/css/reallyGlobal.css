@@ -18,16 +18,16 @@
 }
 :root {
   --scrollbar-track: #1f252a;
-  --scrollbar-thumb: #404c58;
+  --scrollbar-thumb: #333c46;
 
-  --main-background: #24292e;
+  --main-background: #24292E;
   --secondary-background: #273038;
   --dark-background: #19222a;
-  --kinda-dark-background: #1a252e;
+  --kinda-dark-background: #161A1E;
   --lightest-background: #477094;
 
-  --button: #19222a;
-  --button-hover: #1f2a35;
+  --button: #1D2126;
+  --button-hover: #16191d;
 
   --danger: #7c3232;
   --error-background: #523939;
@@ -38,7 +38,7 @@
   --text-success: rgba(158, 240, 135, 0.8);
   --text-info: rgba(233, 240, 135, 0.8);
   --text-dark: #40474e;
-  --text-light: #acacac;
+  --text-light: #ACACAC;
   --text-lighter: #c8c7c7;
 }
 
