@@ -2,26 +2,33 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/assets/css/reallyGlobal.css">
-    <link rel="stylesheet" href="/assets/css/successerror.css">
-    <link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon/favicon-96x96.png">
-    <title>IMPERIAL | Error!</title>
-    <meta property="og:image" content="/assets/favicon/favicon-96x96.png">
-    <meta name="description" content="<%= error %>">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/reallyGlobal.css">
+  <link rel="stylesheet" href="/assets/css/secondary.css">
+  <link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon/favicon-96x96.png">
+  <title>IMPERIAL | Error!</title>
+  <meta property="og:image" content="/assets/favicon/favicon-96x96.png">
+  <meta name="description" content="<%= error %>">
 </head>
 
 <body>
-    <h1>Oopsies...</h1>
-    <h2 class="errorText">
-        <%= error %>
-    </h2>
-    <p>Perhaps maybe you would like to <br>paste something too?</p>
-    <a href="/">
-        <button>Start pasting</button>
-    </a>
+  <main>
+    <img src="/assets/img/Logo.png" alt="IMPERIAL Logo" class="logo">
+    <div class="container">
+      <h2 class="error">Error!</h2>
+      <div class="actualStuff">
+        <p><%= error %></p>
+        <a class="noOpacity" href="/">
+          <button>Go home</button>
+        </a>
+      </div>
+    </div>
+    <div class="waves">
+      <img src="/assets/img/wave.svg" alt="IMPERIAL Wave svg" class="wave">
+    </div>
+  </main>
 </body>
 
 </html>

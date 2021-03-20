@@ -39,6 +39,12 @@ h2 {
   margin-bottom: 40px;
 }
 
+p {
+  width: 401px;
+  font-size: 20px;
+  margin-bottom: 14px;
+}
+
 a {
   text-decoration: none;
   color: var(--text-light);
@@ -49,6 +55,9 @@ a:hover {
 }
 a:active {
   opacity: 0.6;
+}
+.noOpacity {
+  opacity: 1;
 }
 
 .tile {
@@ -70,8 +79,19 @@ input {
   padding-left: 50px;
   margin-bottom: 22px;
 }
-button {
+button[type="submit"] {
   padding: 8px 20px;
   margin-right: 26px;
   float: right;
+}
+
+.error {
+  background: transparent;
+  color: var(--text-error);
+}
+
+@media only screen and (max-width: 1100px) {
+  .wave {
+    display: none;
+  }
 }

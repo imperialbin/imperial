@@ -34,7 +34,7 @@
   --success-background: #3a5239;
   --info-background: #4e5239;
 
-  --text-error: rgba(240, 144, 135, 0.8);
+  --text-error: #F09087;
   --text-success: rgba(158, 240, 135, 0.8);
   --text-info: rgba(233, 240, 135, 0.8);
   --text-dark: #40474e;
