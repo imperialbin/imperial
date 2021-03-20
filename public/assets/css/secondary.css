@@ -88,9 +88,15 @@ button[type="submit"] {
   float: right;
 }
 
+.success,
 .error {
   background: transparent;
+}
+.error {
   color: var(--text-error);
+}
+.success {
+  color: var(--text-success);
 }
 
 @media only screen and (max-width: 1100px) {
