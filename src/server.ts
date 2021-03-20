@@ -1,5 +1,5 @@
 // Some random imports and consts we need
-import express from "express";
+import express, { Request, Response } from "express";
 const app = express();
 import bodyParser from "body-parser";
 import flash from "express-flash";
@@ -110,6 +110,11 @@ app.use(
 );
 app.use(["/r", "/raw", "/r/:documentId", "/raw/:documentId"], rawRouter);
 
+app.get("*", (req: Request, res: Response) => {
+  res.render("error.ejs", {
+    error: "We couldn't find the page/document you're looking for :(",
+  });
+});
 process.on("uncaughtException", (err: any, origin: string) => {
   console.error(
     process.stderr.fd,
