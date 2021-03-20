@@ -66,6 +66,17 @@ routes.get("/logout", (req: Request, res: Response) => {
   res.redirect("/login");
 });
 
+routes.get(["/terms", "/tos"], (req: Request, res: Response) => {
+  res.render("terms.ejs");
+});
+
+routes.get(
+  ["/policy", "/privacy", "/privacypolicy"],
+  (req: Request, res: Response) => {
+    res.render("privacy.ejs");
+  }
+);
+
 // Social Medias
 routes.get(["/discord", "/dis", "/dsc"], (req: Request, res: Response) =>
   res.redirect("https://discord.com/invite/cTm85eW49D")
