@@ -150,6 +150,20 @@ nav.generic .logo {
   background: var(--button);
 }
 
+.sensitive {
+  filter: blur(3px);
+  -webkit-filter: blur(3px);
+  z-index: 9999;
+  transition: 0.2s;
+  -webkit-transition: 0.2s;
+  -moz-transition: 0.2s;
+  -ms-transition: 0.2s;
+  -o-transition: 0.2s;
+}
+.sensitive:hover {
+  filter: blur(0);
+  -webkit-filter: blur(0);
+}
 .content {
   width: 70%;
   margin: 0 auto;
