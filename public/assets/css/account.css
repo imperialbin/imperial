@@ -71,6 +71,9 @@ h2 {
 #home {
   margin-top: 30px;
 }
+#codes {
+  margin-bottom: 25px;
+}
 h6 {
   padding: 0;
   opacity: 0.8;
@@ -140,6 +143,10 @@ input:disabled {
   float: unset !important;
   margin-left: -99px;
 }
+.alignedLeftBtn {
+  float: unset !important;
+  margin-bottom: 20px;
+}
 .clickable {
   opacity: 0.7;
   cursor: pointer;
@@ -154,4 +161,8 @@ input:disabled {
 
 .document {
   cursor: pointer;
+}
+
+.cum {
+  display: inline;
 }

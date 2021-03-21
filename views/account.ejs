@@ -40,7 +40,7 @@
       </li>
       <li>
         <a href="#documents" class="tooltip" data-tippy-content="Documents">
-          <i class="fas fa-file"></i>
+          <i class="fas fa-file-archive"></i>
         </a>
       </li>
       <li>
@@ -109,7 +109,7 @@
       <% documents.forEach(document => { %>
       <div>
         <a href="/p/<%= document.URL %>" class="noOpacity">
-          <div class="tile"><i class="fas fa-qrcode"></i></div>
+          <div class="tile"><i class="fas fa-file-alt"></i></div>
           <input type="text" name="documentInfo" class="document" value="<%= document.URL %>" readonly>
           <div class="secondaryTiles">
             <% if (!document.instantDelete) { %>           
@@ -131,6 +131,28 @@
     <% } else { %>
     <span>You have not made any recent documents!</span>
     <% } %>
+    <h2 id="codes">Your invite codes</h2>
+    <form action="/account/createInvite" method="POST">
+      <% if (user.codesLeft > 0) { %>
+        <button type="submit" class="tooltip alignedLeftBtn" data-tippy-content="You have <%= user.codesLeft %> codes left">Create invite</button>
+      <% } else { %>
+        <div class="cum tooltip" data-tippy-content="You do not have any invite codes!">
+          <button type="submit" class=" alignedLeftBtn" disabled>Create invite</button>
+        </div>
+      <% } %>
+    </form>
+      <% user.codes.forEach(code => { %>
+        <div>
+          <div class="tile"><i class="fas fa-qrcode"></i></div>
+          <input type="text" name="code" value="<%= code.code %>" readonly>
+          <div class="secondaryTiles">
+            <div class="secondaryTile codeTile tooltip" data-tippy-content="Copy">
+              <i class="fas fa-copy"></i>
+            </div>
+          </div>
+        </div>
+      <% }) %>
+    </h2>
   </main>
   <script src="https://kit.fontawesome.com/ec3f0c8487.js" crossorigin="anonymous"></script>
   <script>
