@@ -15,6 +15,7 @@
     }
   </script>
   <link rel="stylesheet" href="/assets/css/reallyGlobal.css?v=3">
+  <link rel="stylesheet" href="/assets/css/secondary.css">
   <link rel="stylesheet" href="/assets/css/account.css?v=5">
   <link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon/favicon-96x96.png">
   <meta property="og:image" content="/assets/favicon/favicon-96x96.png">
@@ -25,18 +26,41 @@
 <body>
   <nav>
     <ul>
-      <a href="/">
-        <li>HOME</li>
-      </a>
-      <a href="#">
-        <li class="on-link">ACCOUNT</li>
-      </a>
-      <a href="https://discord.gg/cTm85eW49D" target="_blank">
-        <li>DISCORD</li>
-      </a>
+      <li>
+        <a href="/">
+          <img src="/assets/img/Logo.png" alt="IMPERIAL's logo" class="logo" draggable="false">
+        </a>
+      </li>
+      <li>
+        <a href="#home">
+          <i class="fas fa-house-user"></i>
+        </a>
+      </li>
+      <li>
+        <a href="#documents">
+          <i class="fas fa-file"></i>
+        </a>
+      </li>
+      <li>
+        <a href="#codes">
+          <i class="fas fa-qrcode"></i>
+        </a>
+      </li>
+      <li>
+        <a href="#api">
+          <i class="fas fa-code"></i>
+        </a>
+      </li>
+      <div class="logout">
+        <a href="/logout" class="logoutBtn">
+          <i class="fas fa-sign-out-alt"></i>
+        </a>
+      </div>
     </ul>
+
   </nav>
-  <img src="<%= user.icon %>" alt="<%= user.name %>'s icon" class="pfp" draggable="false">
+  <script src="https://kit.fontawesome.com/ec3f0c8487.js" crossorigin="anonymous"></script>
+  <!--   <img src="<%= user.icon %>" alt="<%= user.name %>'s icon" class="pfp" draggable="false">
   <h1>Hi, <%= user.name %>
   </h1>
   <p>Here is some information about your account!</p>
@@ -213,7 +237,7 @@
       document.execCommand('copy');
       document.body.removeChild(linkBox);
     }
-  </script>
+  </script> -->
 </body>
 
 </html>
