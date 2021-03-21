@@ -106,28 +106,28 @@
     </div>
     <h2 id="documents">Documents</h2>
     <% if (documents[0]) { %>
-    <% documents.forEach(document => { %>
-    <div>
-      <a href="/p/<%= document.URL %>" class="noOpacity">
-        <div class="tile"><i class="fas fa-qrcode"></i></div>
-        <input type="text" name="documentInfo" class="document" value="<%= document.URL %>" readonly>
-        <div class="secondaryTiles">
-          <% if (!document.instantDelete) { %>           
-            <div class="secondaryTile infoTip" data-tippy-content="Deleting <%= new Date(document.deleteDate).getMonth() + 1 %>/<%= new Date(document.deleteDate).getDate() %>/<%= new Date(document.deleteDate).getFullYear() %>"><i
-                class="fas fa-info"></i></div>
-          <% } else { %>
-            <div class="secondaryTile infoTip" data-tippy-content="Deletes after being viewed"><i class="fas fa-info"></i></div>
-          <% } %>
+      <% documents.forEach(document => { %>
+      <div>
+        <a href="/p/<%= document.URL %>" class="noOpacity">
+          <div class="tile"><i class="fas fa-qrcode"></i></div>
+          <input type="text" name="documentInfo" class="document" value="<%= document.URL %>" readonly>
+          <div class="secondaryTiles">
+            <% if (!document.instantDelete) { %>           
+              <div class="secondaryTile infoTip" data-tippy-content="Deleting <%= new Date(document.deleteDate).getMonth() + 1 %>/<%= new Date(document.deleteDate).getDate() %>/<%= new Date(document.deleteDate).getFullYear() %>"><i
+                  class="fas fa-info"></i></div>
+            <% } else { %>
+              <div class="secondaryTile infoTip" data-tippy-content="Deletes after being viewed"><i class="fas fa-info"></i></div>
+            <% } %>
 
-          <div class="secondaryTile infoTip danger" data-tippy-content="Delete document"><i class="fas fa-trash"></i></div>
-          
-          <% if (document.encrypted) { %>
-            <div class="secondaryTile infoTip key" data-tippy-content="Password protected"><i class="fas fa-key"></i></div>
-          <% } %>
-        </div>
-      </a>
-    </div>
-    <% }) %>
+            <div class="secondaryTile infoTip danger" data-tippy-content="Delete document"><i class="fas fa-trash"></i></div>
+            
+            <% if (document.encrypted) { %>
+              <div class="secondaryTile infoTip key" data-tippy-content="Password protected"><i class="fas fa-key"></i></div>
+            <% } %>
+          </div>
+        </a>
+      </div>
+      <% }) %>
     <% } else { %>
     <span>You have not made any recent documents!</span>
     <% } %>
