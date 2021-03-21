@@ -20,13 +20,13 @@
   --scrollbar-track: #1f252a;
   --scrollbar-thumb: #333c46;
 
-  --main-background: #24292E;
-  --secondary-background: #273038;
+  --main-background: #24292e;
+  --secondary-background: #262d33;
   --dark-background: #19222a;
-  --kinda-dark-background: #161A1E;
+  --kinda-dark-background: #161a1e;
   --lightest-background: #477094;
 
-  --button: #1D2126;
+  --button: #1d2126;
   --button-hover: #16191d;
 
   --danger: #7c3232;
@@ -34,11 +34,11 @@
   --success-background: #3a5239;
   --info-background: #4e5239;
 
-  --text-error: #F09087;
+  --text-error: #f09087;
   --text-success: rgba(158, 240, 135, 0.8);
   --text-info: rgba(233, 240, 135, 0.8);
   --text-dark: #40474e;
-  --text-light: #ACACAC;
+  --text-light: #acacac;
   --text-lighter: #c8c7c7;
 }
 
@@ -238,7 +238,7 @@ li.deletePaste {
 }
 #signup,
 .pfp {
-  margin-right: 35px;
+  margin-right: 10px;
 }
 #icon {
   padding: 12.5px;
@@ -275,10 +275,10 @@ li.deletePaste {
 }
 
 .tippy-arrow {
-  color: var(--button-hover);
+  color: var(--button);
 }
 .tippy-box {
-  background: var(--button-hover);
+  background: var(--button);
   border-radius: 8px;
   -webkit-border-radius: 8px;
   -moz-border-radius: 8px;
@@ -288,8 +288,8 @@ li.deletePaste {
 }
 
 #tippy-1 {
-  top: 13px !important;
-  margin-left: -18px !important;
+  top: 5px !important;
+  margin-left: -3px !important;
 }
 
 #tippy-1,
@@ -325,7 +325,7 @@ li.deletePaste {
   -o-transition: background-color 434ms ease;
 }
 .account li:hover {
-  background: var(--dark-background);
+  background: var(--button-hover);
 }
 .account li:first-child {
   margin-top: 0;
