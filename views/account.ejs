@@ -88,9 +88,9 @@
       <label for="memberPlus">Account status:</label>
       <div class="space"></div>
       <div class="tile"><i class="fas fa-plus"></i></div>
-      <input type="text" id="memberPlus" name="memberPlus" value="<%= !user.memberPlus ? "Member+" : "Member" %>"
+      <input type="text" id="memberPlus" name="memberPlus" value="<%= user.memberPlus ? "Member+" : "Member" %>"
         readonly disabled>
-      <% if (user.memberPlus) { %>
+      <% if (!user.memberPlus) { %>
       <br>
       <a href="/redeem">
         <span>Have a Member+ code?</span>
