@@ -166,3 +166,7 @@ input:disabled {
 .cum {
   display: inline;
 }
+
+.token {
+  padding-right: 53px;
+}
