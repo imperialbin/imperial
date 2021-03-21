@@ -106,52 +106,58 @@
     </div>
     <h2 id="documents">Documents</h2>
     <% if (documents[0]) { %>
-      <% documents.forEach(document => { %>
-      <div>
-        <a href="/p/<%= document.URL %>" class="noOpacity">
-          <div class="tile"><i class="fas fa-file-alt"></i></div>
-          <input type="text" name="documentInfo" class="document" value="<%= document.URL %>" readonly>
-          <div class="secondaryTiles">
-            <% if (!document.instantDelete) { %>           
-              <div class="secondaryTile infoTip" data-tippy-content="Deleting <%= new Date(document.deleteDate).getMonth() + 1 %>/<%= new Date(document.deleteDate).getDate() %>/<%= new Date(document.deleteDate).getFullYear() %>"><i
-                  class="fas fa-info"></i></div>
-            <% } else { %>
-              <div class="secondaryTile infoTip" data-tippy-content="Deletes after being viewed"><i class="fas fa-info"></i></div>
-            <% } %>
-
-            <div class="secondaryTile infoTip danger" data-tippy-content="Delete document"><i class="fas fa-trash"></i></div>
-            
-            <% if (document.encrypted) { %>
-              <div class="secondaryTile infoTip key" data-tippy-content="Password protected"><i class="fas fa-key"></i></div>
-            <% } %>
+    <% documents.forEach(document => { %>
+    <div>
+      <a href="/p/<%= document.URL %>" class="noOpacity">
+        <div class="tile"><i class="fas fa-file-alt"></i></div>
+        <input type="text" name="documentInfo" class="document" value="<%= document.URL %>" readonly>
+        <div class="secondaryTiles">
+          <% if (!document.instantDelete) { %>
+          <div class="secondaryTile infoTip"
+            data-tippy-content="Deleting <%= new Date(document.deleteDate).getMonth() + 1 %>/<%= new Date(document.deleteDate).getDate() %>/<%= new Date(document.deleteDate).getFullYear() %>">
+            <i class="fas fa-info"></i></div>
+          <% } else { %>
+          <div class="secondaryTile infoTip" data-tippy-content="Deletes after being viewed"><i class="fas fa-info"></i>
           </div>
-        </a>
-      </div>
-      <% }) %>
+          <% } %>
+
+          <div class="secondaryTile infoTip danger" data-tippy-content="Delete document"><i class="fas fa-trash"></i>
+          </div>
+
+          <% if (document.encrypted) { %>
+          <div class="secondaryTile infoTip key" data-tippy-content="Password protected"><i class="fas fa-key"></i>
+          </div>
+          <% } %>
+        </div>
+      </a>
+    </div>
+    <% }) %>
     <% } else { %>
     <span>You have not made any recent documents!</span>
     <% } %>
     <h2 id="codes">Your invite codes</h2>
     <form action="/account/createInvite" method="POST">
       <% if (user.codesLeft > 0) { %>
-        <button type="submit" class="tooltip alignedLeftBtn" data-tippy-content="You have <%= user.codesLeft %> codes left">Create invite</button>
+      <button type="submit" class="tooltip alignedLeftBtn"
+        data-tippy-content="You have <%= user.codesLeft %> codes left">Create invite</button>
       <% } else { %>
-        <div class="cum tooltip" data-tippy-content="You do not have any invite codes!">
-          <button type="submit" class=" alignedLeftBtn" disabled>Create invite</button>
-        </div>
+      <div class="cum tooltip" data-tippy-content="You do not have any invite codes!">
+        <button type="submit" class=" alignedLeftBtn" disabled>Create invite</button>
+      </div>
       <% } %>
     </form>
-      <% user.codes.forEach(code => { %>
-        <div>
-          <div class="tile"><i class="fas fa-qrcode"></i></div>
-          <input type="text" name="code" value="<%= code.code %>" readonly>
-          <div class="secondaryTiles">
-            <div class="secondaryTile codeTile tooltip" data-tippy-content="Copy">
-              <i class="fas fa-copy"></i>
-            </div>
-          </div>
+    <% user.codes.forEach(code => { %>
+    <div>
+      <div class="tile"><i class="fas fa-qrcode"></i></div>
+      <input type="text" name="code" value="<%= code.code %>" readonly>
+      <div class="secondaryTiles">
+        <div class="secondaryTile codeTile tooltip" data-tippy-content="Copy">
+          <i class="fas fa-copy"></i>
         </div>
-      <% }) %>
+      </div>
+    </div>
+    <% }) %>
+
   </main>
   <script src="https://kit.fontawesome.com/ec3f0c8487.js" crossorigin="anonymous"></script>
   <script>
