@@ -61,6 +61,7 @@
     </ul>
   </nav>
   <main>
+    <!-- GENERAL SHIT -->
     <h1>Welcome back, <%= user.name %></h1>
     <div class="stat-tiles">
       <div class="stat-tile stat-pfp">
@@ -104,6 +105,8 @@
       </form>
       <span class="clickable" onclick="togglePfPType('gravatar')">Or use gravatar</span>
     </div>
+
+    <!-- DOCUMENTS  -->
     <h2 id="documents">Documents</h2>
     <% if (documents[0]) { %>
     <% documents.forEach(document => { %>
@@ -135,6 +138,8 @@
     <% } else { %>
     <span>You have not made any recent documents!</span>
     <% } %>
+
+    <!-- INVITE CODES -->
     <h2 id="codes">Your invite codes</h2>
     <form action="/account/createInvite" method="POST">
       <% if (user.codesLeft > 0) { %>
