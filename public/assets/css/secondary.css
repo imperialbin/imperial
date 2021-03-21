@@ -78,6 +78,33 @@ a:active {
   -ms-border-radius: 7px;
   -o-border-radius: 7px;
 }
+.secondaryTile {
+  position: absolute;
+  display: inline-flex;
+  z-index: 1;
+  padding: 8px 14px;
+  margin: 4px 0 0 -40px;
+  background: var(--button);
+  border-radius: 7px;
+  -webkit-border-radius: 7px;
+  -moz-border-radius: 7px;
+  -ms-border-radius: 7px;
+  -o-border-radius: 7px;
+}
+.secondaryTile:hover {
+  cursor: pointer;
+  background: var(--button-hover);
+}
+.secondaryTiles {
+  margin-top: -20px;
+  display: inline;
+}
+.secondaryTile:nth-child(2) {
+  margin-left: -87px;
+}
+.secondaryTile:nth-child(3) {
+  margin-left: -136px;
+}
 
 input {
   padding-left: 50px;
@@ -139,6 +166,13 @@ li {
 }
 li:before {
   content: "-";
+}
+
+.danger:hover {
+  color: var(--text-error);
+}
+.key:hover {
+  color: var(--text-info);
 }
 
 @media only screen and (max-width: 1100px) {

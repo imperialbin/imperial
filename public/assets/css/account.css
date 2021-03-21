@@ -131,9 +131,27 @@ input:disabled {
   opacity: 0.75;
 }
 .withBtn {
+  margin-bottom: 10px;
+}
+.withBtn {
   padding-right: 100px;
 }
 .inlineBtn {
   float: unset !important;
   margin-left: -99px;
+}
+.clickable {
+  opacity: 0.7;
+  cursor: pointer;
+}
+.clickable:hover {
+  opacity: 1;
+}
+
+.noOpacity:active {
+  opacity: 1;
+}
+
+.document {
+  cursor: pointer;
 }
