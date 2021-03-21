@@ -1,14 +1,24 @@
 nav {
+  position: fixed;
   width: 105px;
   height: 100vh;
-  background: var(--button);
+  background: var(--button-hover);
   box-shadow: 3px 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.tippy-arrow {
+  color: var(--button);
+}
+.tippy-box {
+  font-size: 15.5px;
+  margin-left: 10px;
+  background: var(--button);
 }
 
 .logo {
   position: absolute;
   top: 0;
-  left: -12px;
+  left: -24px;
 }
 .logout {
   position: absolute;
@@ -42,4 +52,88 @@ li {
 
 li:before {
   content: "";
+}
+
+main {
+  margin: 0 0 0 165px;
+  padding-top: 50px;
+}
+
+h1 {
+  font-weight: 400;
+}
+h2 {
+  font-weight: 300;
+  font-size: 35px;
+  margin-top: 60px;
+  text-transform: uppercase;
+}
+#home {
+  margin-top: 30px;
+}
+h6 {
+  padding: 0;
+  opacity: 0.8;
+  font-weight: 300;
+  margin: 6px 34px 3px 13px;
+  text-transform: uppercase;
+  user-select: unset;
+}
+span.stat {
+  opacity: 0.7;
+  font-size: 25px;
+  margin: 0 13px 10px 13px;
+}
+
+.stat-tiles {
+  margin-top: 50px;
+  display: inline-flex;
+}
+
+.stat-tile {
+  margin-right: 50px;
+  padding-bottom: 6px;
+  height: auto;
+  background: var(--button-hover);
+  display: inline-block;
+  box-shadow: 3px 5px 9px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+}
+.stat-pfp,
+.stat-pfp img {
+  height: 80px;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+}
+.stat-pfp img {
+  padding: 5px;
+}
+
+label {
+  cursor: text;
+  font-size: 18px;
+}
+
+.space {
+  margin-top: 4px;
+}
+input {
+  user-select: text;
+}
+input:disabled {
+  opacity: 0.75;
+}
+.withBtn {
+  padding-right: 100px;
+}
+.inlineBtn {
+  float: unset !important;
+  margin-left: -99px;
 }

@@ -17,6 +17,8 @@
   <link rel="stylesheet" href="/assets/css/reallyGlobal.css?v=3">
   <link rel="stylesheet" href="/assets/css/secondary.css">
   <link rel="stylesheet" href="/assets/css/account.css?v=5">
+  <link rel="stylesheet" href="https://unpkg.com/tippy.js@6.2.7/animations/shift-away.css" />
+  <script src="https://unpkg.com/tippy.js@6"></script>
   <link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon/favicon-96x96.png">
   <meta property="og:image" content="/assets/favicon/favicon-96x96.png">
   <meta name="description" content="View your account here!">
@@ -32,22 +34,22 @@
         </a>
       </li>
       <li>
-        <a href="#home">
+        <a href="#home" class="tooltip" data-tippy-content="General">
           <i class="fas fa-house-user"></i>
         </a>
       </li>
       <li>
-        <a href="#documents">
+        <a href="#documents" class="tooltip" data-tippy-content="Documents">
           <i class="fas fa-file"></i>
         </a>
       </li>
       <li>
-        <a href="#codes">
+        <a href="#codes" class="tooltip" data-tippy-content="Codes">
           <i class="fas fa-qrcode"></i>
         </a>
       </li>
       <li>
-        <a href="#api">
+        <a href="#api" class="tooltip" data-tippy-content="API">
           <i class="fas fa-code"></i>
         </a>
       </li>
@@ -59,9 +61,57 @@
     </ul>
   </nav>
   <main>
-    
+    <h1>Welcome back, <%= user.name %></h1>
+    <div class="stat-tiles">
+      <div class="stat-tile stat-pfp">
+        <img src="<%= user.icon %>" alt="<%= user.name %>'s pfp" draggable="false">
+      </div>
+      <div class="stat-tile">
+        <h6>User ID</h6>
+        <span class="stat">#<%= user.userId %></span>
+      </div>
+      <div class="stat-tile">
+        <h6>Documents made</h6>
+        <span class="stat"><%= user.documentsMade %></span>
+      </div>
+    </div>
+    <h2 id="home">general</h2>
+    <div>
+      <label for="email">Email:</label>
+      <div class="space"></div>
+      <div class="tile"><i class="far fa-envelope"></i></div>
+      <input type="text" id="email" name="email" value="<%= user.email %>" readonly>
+    </div>
+    <div>
+      <label for="memberPlus">Member+ status:</label>
+      <div class="space"></div>
+      <div class="tile"><i class="fas fa-plus"></i></div>
+      <input type="text" id="memberPlus" name="memberPlus" value="<%= user.memberPlus %>" readonly disabled>
+    </div>
+    <div>
+      <label for="inviteCode">Your invite code:</label>
+      <div class="space"></div>
+      <div class="tile"><i class="fas fa-qrcode"></i></div>
+      <input type="text" id="inviteCode" name="inviteCode" value="<%= user.betaCode %>" readonly disabled>
+    </div>
+    <div>
+      <form action="/account/changePfp">
+        <label for="pfp">Profile picture:</label>
+        <div class="space"></div>
+        <div class="tile"><i class="fas fa-user"></i></div>
+        <input type="text" id="pfp" class="withBtn" name="pfp" placeholder="Enter your Github name" required>
+        <button type="submit" class="inlineBtn">Change</button>
+      </form>
+    </div>
   </main>
   <script src="https://kit.fontawesome.com/ec3f0c8487.js" crossorigin="anonymous"></script>
+  <script>
+    tippy('.tooltip', {
+      arrow: true,
+      animation: 'shift-away',
+      placement: 'right'
+    })
+  </script>
   <!--   <img src="<%= user.icon %>" alt="<%= user.name %>'s icon" class="pfp" draggable="false">
   <h1>Hi, <%= user.name %>
   </h1>
