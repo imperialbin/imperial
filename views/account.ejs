@@ -102,7 +102,35 @@
         <input type="text" id="pfp" class="withBtn" name="pfp" placeholder="Enter your Github name" required>
         <button type="submit" class="inlineBtn">Change</button>
       </form>
+      <span class="clickable" onclick="togglePfPType('gravatar')">Or use gravatar</span>
     </div>
+    <h2 id="documents">Documents</h2>
+    <% if (documents[0]) { %>
+    <% documents.forEach(document => { %>
+    <div>
+      <a href="/p/<%= document.URL %>" class="noOpacity">
+        <div class="tile"><i class="fas fa-qrcode"></i></div>
+        <input type="text" name="documentInfo" class="document" value="<%= document.URL %>" readonly>
+        <div class="secondaryTiles">
+          <% if (!document.instantDelete) { %>           
+            <div class="secondaryTile infoTip" data-tippy-content="Deleting <%= new Date(document.deleteDate).getMonth() + 1 %>/<%= new Date(document.deleteDate).getDate() %>/<%= new Date(document.deleteDate).getFullYear() %>"><i
+                class="fas fa-info"></i></div>
+          <% } else { %>
+            <div class="secondaryTile infoTip" data-tippy-content="Deletes after being viewed"><i class="fas fa-info"></i></div>
+          <% } %>
+
+          <div class="secondaryTile infoTip danger" data-tippy-content="Delete document"><i class="fas fa-trash"></i></div>
+          
+          <% if (document.encrypted) { %>
+            <div class="secondaryTile infoTip key" data-tippy-content="Password protected"><i class="fas fa-key"></i></div>
+          <% } %>
+        </div>
+      </a>
+    </div>
+    <% }) %>
+    <% } else { %>
+    <span>You have not made any recent documents!</span>
+    <% } %>
   </main>
   <script src="https://kit.fontawesome.com/ec3f0c8487.js" crossorigin="anonymous"></script>
   <script>
@@ -110,6 +138,10 @@
       arrow: true,
       animation: 'shift-away',
       placement: 'right'
+    })
+    tippy('.infoTip', {
+      animation: 'shift-away',
+      placement: 'top'
     })
   </script>
   <!--   <img src="<%= user.icon %>" alt="<%= user.name %>'s icon" class="pfp" draggable="false">
