@@ -88,13 +88,14 @@
       <label for="memberPlus">Account status:</label>
       <div class="space"></div>
       <div class="tile"><i class="fas fa-plus"></i></div>
-      <input type="text" id="memberPlus" name="memberPlus" value="<%= !user.memberPlus ? "Member+" : "Member" %>" readonly disabled>
+      <input type="text" id="memberPlus" name="memberPlus" value="<%= !user.memberPlus ? "Member+" : "Member" %>"
+        readonly disabled>
       <% if (user.memberPlus) { %>
-        <br>
-        <a href="/redeem">
-          <span>Have a Member+ code?</span>
-        </a>
-        <br>
+      <br>
+      <a href="/redeem">
+        <span>Have a Member+ code?</span>
+      </a>
+      <br>
       <% } %>
     </div>
     <div>
@@ -189,6 +190,27 @@
       </a>
     </div>
 
+    <!-- RESET PASSWORD STUFF -->
+    <h2 id="reset">Reset your password</h2>
+    <form action="/account/resetPasswordForm" method="POST">
+      <div>
+        <div class="tile"><i class="fas fa-unlock"></i></div>
+        <input type="password" id="oldPassword" name="oldPassword" placeholder="Old password" autocomplete="off"
+          required>
+      </div>
+      <div>
+        <div class="tile"><i class="fas fa-lock"></i></div>
+        <input type="password" id="newPassword" name="newPassword" placeholder="New password" autocomplete="off"
+          required>
+      </div>
+      <div>
+        <div class="tile"><i class="fas fa-lock"></i></div>
+        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm password"
+          autocomplete="off" required>
+      </div>
+      <button type="submit" class="alignedLeftBtn"id="password">Reset Password</button>
+    </form>
+    <br><br>
   </main>
   <script src="https://kit.fontawesome.com/ec3f0c8487.js" crossorigin="anonymous"></script>
   <script>
