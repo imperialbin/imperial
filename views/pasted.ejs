@@ -53,9 +53,10 @@
   <%- include('partials/setMenu.ejs'); %>
   <div id="codeThing" class="editor"></div>
   <textarea id="raw" style="display: none;"><%= code %></textarea>
-
+  <script src="/assets/js/highlight.js"></script>
   <script src="/assets/js/min/vs/loader.js"></script>
   <script>
+    const code = document.getElementById('raw').innerHTML
 
     function htmlDecode(input) {
       const doc = new DOMParser().parseFromString(input, "text/html");
@@ -75,6 +76,7 @@
           monaco.editor.setTheme('vs-dark');
         })
 
+      console.log(hljs);
       // Set editor
       window.editor = monaco.editor.create(document.getElementById('codeThing'), {
         language: 'javascript',
@@ -89,7 +91,7 @@
           enabled: false,
         },
       })
-      window.editor.setValue(htmlDecode(document.getElementById('raw').value));
+      window.editor.setValue(htmlDecode(code));
     });
   </script>
 </body>
