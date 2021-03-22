@@ -163,10 +163,18 @@ input:disabled {
   cursor: pointer;
 }
 
-.cum {
+.cum,
+.inlineform {
   display: inline;
 }
 
 .token {
   padding-right: 53px;
+}
+
+.deleteDocument {
+  z-index: 6;
+}
+a {
+  z-index: 1;
 }
