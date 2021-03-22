@@ -178,3 +178,26 @@ input:disabled {
 a {
   z-index: 1;
 }
+
+.checkbox-container {
+  font-size: 20px;
+  width: 285px;
+  display: flex;
+  flex-direction: column;
+}
+.checkbox-description {
+  font-size: 18px;
+  font-weight: 200;
+}
+.checkbox {
+  margin-left: 305px;
+  margin-top: -49px;
+}
+
+.dumbline {
+  display: flex;
+  width: 356px;
+  margin: 8px 0;
+  border-bottom: 1px solid var(--text-light);
+  opacity: 0.2;
+}
