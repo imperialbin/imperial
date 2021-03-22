@@ -105,14 +105,14 @@
       <input type="text" id="inviteCode" name="inviteCode" value="<%= user.betaCode %>" readonly disabled>
     </div>
     <div>
-      <form action="/account/changePfp">
+      <form action="/account/changePfp" id="pfpForm" method="POST">
         <label for="pfp">Profile picture:</label>
         <div class="space"></div>
         <div class="tile"><i class="fas fa-user"></i></div>
         <input type="text" id="pfp" class="withBtn" name="pfp" placeholder="Enter your Github name" required>
         <button type="submit" class="inlineBtn">Change</button>
       </form>
-      <span class="clickable" onclick="togglePfPType('gravatar')">Or use gravatar</span>
+      <span class="clickable" id="platformBtn" onclick="togglePfpType('gravatar')">Or use gravatar</span>
     </div>
 
     <!-- DOCUMENTS  -->
@@ -260,6 +260,23 @@
         .catch(err => {
           console.log(err);
         })
+    }
+
+    function togglePfpType(platform) {
+      const placeholderElement = document.getElementById('pfp');
+      const form = document.getElementById('pfpForm');
+      const changePlatformBtn = document.getElementById('platformBtn');
+      if(platform === 'gravatar') {
+        placeholderElement.placeholder = 'Enter your gravatar email'
+        form.action = '/account/changePfpGravatar'
+        changePlatformBtn.innerHTML = 'Or use Github'
+        changePlatformBtn.setAttribute("onclick", "togglePfpType('github')")
+      } else {
+        placeholderElement.placeholder = 'Enter your Github name'
+        form.action = '/account/changePfp'
+        changePlatformBtn.innerHTML = 'Or use Gravatar'
+        changePlatformBtn.setAttribute("onclick", "togglePfpType('gravatar')")
+      }
     }
   </script>
   <!--
