@@ -16,6 +16,11 @@
   -o-transition: opacity 234ms ease-in-out, background-color 164ms ease-in-out,
     color 34ms ease-in-out;
 }
+
+html {
+  scroll-behavior: smooth;
+}
+
 :root {
   --scrollbar-track: #1f252a;
   --scrollbar-thumb: #333c46;
@@ -62,6 +67,7 @@ body {
   color: var(--text-light);
   font-family: "Poppins", sans-serif;
   font-weight: 300;
+  scroll-behavior: smooth;
   transition: none;
   -webkit-transition: none;
   -moz-transition: none;
