@@ -231,8 +231,6 @@ routes.delete("/document/:documentId", async (req: Request, res: Response) => {
         )
           fs.unlinkSync(`./public/assets/img/${documentId}.jpg`);
 
-        if (req.isAuthenticated()) return res.redirect("/account");
-
         return res.json({
           success: true,
           message: "Successfully deleted the document!",
