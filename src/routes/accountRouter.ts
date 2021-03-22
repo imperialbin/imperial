@@ -172,7 +172,7 @@ routes.post("/changePfpGravatar", async (req: Request, res: Response) => {
       error: false,
       success: false,
       codeError: false,
-      pfpError: "An error has occured whilst trying to change your pfp!",
+      pfpError: "An error has occurred whilst trying to change your pfp!",
       documents: await getDocuments(req.user?.toString(), 10),
     });
   }
