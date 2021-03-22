@@ -17,3 +17,23 @@ window.addEventListener("keydown", (event) => {
       }
   }
 });
+
+function toggleAddUser() {
+  document.getElementById("addUser").classList.add("active");
+}
+
+function closeAddUser() {
+  document.getElementById("addUser").classList.remove("active");
+}
+
+function clearUsers() {
+  document.getElementById("addUser").classList.remove("active");
+  localStorage.removeItem("editorArray");
+}
+
+function addUser(userToAdd) {
+  console.log(userToAdd);
+}
+function removeUser(userToRemove) {
+  console.log(userToRemove);
+}

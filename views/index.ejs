@@ -25,11 +25,20 @@
       <h1>Add users to allow edit access</h1>
       <input id="user" type="text" autocomplete="off" placeholder="Add a user here">
       <button class="addUserBtn" onclick="addUser(document.getElementById('user').value)">Add user</button>
-      <div class="users"></div>
+      <ul class="editorArray">
+        <li class="editor-user">
+          <img src="https://github.com/looskie.png" class="editor-pfp">
+          <span class="actualEditor">
+            devlooskie
+          </span>
+          <button class="editor-remove" onclick="removeUser('e')">
+            <i class="fas fa-trash error"></i>
+          </button>
+        </li>
+      </ul>
       <br><br><button id="cancel-settings" class="cancelSettings"
-        onclick="localStorage.removeItem('addUser'); cancelSettings('clearThing')">Clear
-        all</button>
-      <button onclick="cancelSettings('clearThing')">Save</button>
+        onclick="clearUsers()">Cancel and clear</button>
+      <button onclick="closeAddUser()">Save</button>
       <br><br>
     </div>
   </div>
