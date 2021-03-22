@@ -52,8 +52,9 @@
   </div>
   <%- include('partials/setMenu.ejs'); %>
   <div id="codeThing" class="editor"></div>
-  <script src="/assets/js/min/vs/loader.js"></script>
+  <textarea id="raw" style="display: none;"><%= code %></textarea>
 
+  <script src="/assets/js/min/vs/loader.js"></script>
   <script>
 
     function htmlDecode(input) {
@@ -88,7 +89,7 @@
           enabled: false,
         },
       })
-      window.editor.setValue(htmlDecode(`<%= code %>`));
+      window.editor.setValue(htmlDecode(document.getElementById('raw').value));
     });
   </script>
 </body>
