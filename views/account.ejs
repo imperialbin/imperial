@@ -77,6 +77,14 @@
         <span class="stat"><%= user.documentsMade %></span>
       </div>
     </div>
+    <% if (error) { %>
+    <br><br>
+    <i class="error"><%= error %></i>
+    <% } %>
+    <% if (success) { %>
+    <br><br>
+    <i class="success"><%= success %></i>
+    <% } %>
     <h2 id="home">general</h2>
     <div>
       <label for="email">Email:</label>
@@ -266,7 +274,7 @@
       const placeholderElement = document.getElementById('pfp');
       const form = document.getElementById('pfpForm');
       const changePlatformBtn = document.getElementById('platformBtn');
-      if(platform === 'gravatar') {
+      if (platform === 'gravatar') {
         placeholderElement.placeholder = 'Enter your gravatar email'
         form.action = '/account/changePfpGravatar'
         changePlatformBtn.innerHTML = 'Or use Github'
