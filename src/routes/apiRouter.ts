@@ -224,7 +224,7 @@ routes.delete("/document/:documentId", async (req: Request, res: Response) => {
             401
           );
 
-        await Documents.remove({ URL: documentId });
+        await Documents.deleteOne({ URL: documentId });
         if (
           document.imageEmbed &&
           fs.existsSync(`./public/assets/img/${documentId}.jpg`)
