@@ -151,6 +151,22 @@ routes.post("/changePfp", (req: Request, res: Response) => {
   });
 });
 
+routes.post("/changeDocumentSettings", (req: Request, res: Response) => {
+  const settings = req.body;
+  const _id = req.user?.toString();
+  Users.updateOne({ _id }, { $set: { settings } }, {}, (err: string) => {
+    if (err)
+      return res.json({
+        success: false,
+        message: "An error occurred whilst saving your settings!",
+      });
+    res.json({
+      success: true,
+      message: "Successfully changed your user settings!",
+    });
+  });
+});
+
 routes.post("/changePfpGravatar", async (req: Request, res: Response) => {
   const gravatarEmail = req.body.pfp;
   const _id = req.user?.toString();
