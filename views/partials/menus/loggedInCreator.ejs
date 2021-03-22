@@ -8,7 +8,7 @@
       <% if(originalCreator===incomingUser) { %>
       <form class="deleteDocument" method="POST" action="/api/document/<%= documentName %>?_method=DELETE">
         <a href="javascript:$('.deleteDocument').submit()">
-          <li class="deletePaste">Delete paste</li>
+          <li class="deletePaste">Delete</li>
         </a>
       </form>
       <% } %>
