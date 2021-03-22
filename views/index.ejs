@@ -17,7 +17,6 @@
   <script src="https://kit.fontawesome.com/ec3f0c8487.js" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/@popperjs/core@2"></script>
   <script src="https://unpkg.com/tippy.js@6"></script>
-  <script src="/assets/js/highlight.pack.js"></script>
 </head>
 
 
@@ -102,6 +101,16 @@
   <div id="codeThing" class="editor"></div>
   <script src="/assets/js/min/vs/loader.js"></script>
   <script>
+    // Some consts we need
+    const loggedIn = JSON.parse('<%= loggedIn %>')
+    const settings = {
+      clipboard: loggedIn ? JSON.parse('<%= settings.clipboard %>'): false,
+      longerUrls: loggedIn ? JSON.parse('<%= settings.longerUrls %>') : false,
+      instantDelete: loggedIn ? JSON.parse('<%= settings.instantDelete %>') : false,
+      encrypted: loggedIn ? JSON.parse('<%= settings.encrypted %>') : false,
+      expiration: loggedIn ? JSON.parse('<%= settings.expiration %>') : 5,
+      imageEmbed: loggedIn ? JSON.parse('<%= settings.imageEmbed %>') : false,
+    }
     // Some monaco stuff
     require.config({ paths: { vs: '/assets/js/min/vs' } });
     require(['vs/editor/editor.main'], async function () {
@@ -137,8 +146,9 @@
       navigator.clipboard
         .readText()
         .then((copiedText) => {
+          console.log(settings.clipboard)
           // Cody remember to change this in prod
-          if (true) window.editor.setValue(copiedText);
+          if (settings.clipboard) window.editor.setValue(copiedText);
         })
         .catch((err) => {
           console.log("denied paste capabilities");
@@ -159,15 +169,6 @@
       animation: 'shift-away',
       placement: 'bottom'
     })
-    // Some consts we need
-    const loggedIn = JSON.parse('<%= loggedIn %>')
-    const settings = {
-      longerUrls: loggedIn ? JSON.parse('<%= settings.longerUrls %>') : false,
-      instantDelete: loggedIn ? JSON.parse('<%= settings.instantDelete %>') : false,
-      encrypted: loggedIn ? JSON.parse('<%= settings.encrypted %>') : false,
-      expiration: loggedIn ? JSON.parse('<%= settings.expiration %>') : 5,
-      imageEmbed: loggedIn ? JSON.parse('<%= settings.imageEmbed %>') : false,
-    }
 
     async function createDocument() {
       if (window.editor.getValue() == 0) return console.log("you gotta put sum in b");
@@ -202,24 +203,6 @@
   </script>
   <script src="/assets/js/global.js?v=4"></script>
   <script src="/assets/js/main.js?v=4"></script>
-  <script>
-    if (!localStorage.getItem('clipboard')) {
-      document.querySelector('#paster').classList.add('active');
-      document.querySelector("#clipCheck2").addEventListener('change', (e) => {
-        navigator.permissions.query({ name: 'clipboard-read' }).then(result => {
-          if (result.state == 'granted') {
-            $('#allow').css('display', 'none');
-          } else {
-            if (e.target.checked) {
-              $('#allow').css('display', 'block')
-            } else {
-              $('#allow').css('display', 'none');
-            }
-          }
-        })
-      })
-    }
-  </script>
 </body>
 
 </html>
