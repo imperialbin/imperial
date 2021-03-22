@@ -39,7 +39,7 @@ routes.get(
         if (document.instantDelete) {
           if (!CrawlerDetect.isCrawler()) {
             setTimeout(async () => {
-              await Documents.remove({ URL: document.URL });
+              await Documents.deleteOne({ URL: document.URL });
             }, 1000);
           }
           deleteDate = "Deletes after being viewed.";
@@ -128,8 +128,8 @@ routes.post("/getDocumentAccess/:documentId", (req: Request, res: Response) => {
 
         if (document.instantDelete) {
           if (!CrawlerDetect.isCrawler()) {
-            setTimeout(() => {
-              Documents.remove({ URL: document.URL });
+            setTimeout(async() => {
+              await Documents.deleteOne({ URL: document.URL });
             }, 100);
           }
           deleteDate = "Deletes after being viewed.";

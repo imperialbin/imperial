@@ -8,7 +8,7 @@ export default new CronJob("00 00 00 * * *", () => {
       if (Number(new Date().getTime) >= document.deleteDate) {
         try {
           const _id = document._id;
-          Documents.remove({ _id });
+          Documents.deleteOne({ _id });
           if (
             document.imageEmbed &&
             fs.existsSync(`../public/assets/img/${document.URL}.jpg`)

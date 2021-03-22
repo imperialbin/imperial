@@ -52,7 +52,7 @@ routes.get("/:documentId", (req, res) => {
 
     if (document.instantDelete) {
       setTimeout(async () => {
-        await Documents.remove({ URL: documentId });
+        await Documents.deleteOne({ URL: documentId });
       }, 1000);
     }
   });
