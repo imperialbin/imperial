@@ -170,8 +170,9 @@
       <div class="tile"><i class="fas fa-qrcode"></i></div>
       <input type="text" name="code" value="<%= code.code %>" readonly>
       <div class="secondaryTiles">
-        <div class="secondaryTile codeTile tooltip" data-tippy-content="Copy">
-          <i class="fas fa-copy"></i>
+        <div class="secondaryTile codeTile tooltip" data-tippy-content="Copy"
+          onclick="copyThisPlease('https://www.imperialb.in/register?inviteCode=<%= code.code %>')">
+          <i id="https://www.imperialb.in/register?inviteCode=<%= code.code %>-icon" class="fas fa-copy"></i>
         </div>
       </div>
     </div>
@@ -184,8 +185,9 @@
       <div class="space"></div>
       <div class="tile"><i class="fas fa-fingerprint"></i></div>
       <input type="text" id="apiToken" class="sensitive token" name="apiToken" value="<%= user.apiToken %>" readonly>
-      <div class="secondaryTile codeTile tooltip" data-tippy-content="Copy">
-        <i class="fas fa-copy"></i>
+      <div class="secondaryTile codeTile tooltip" data-tippy-content="Copy"
+        onclick="copyThisPlease('<%= user.apiToken %>')">
+        <i id="<%= user.apiToken %>-icon" class="fas fa-copy"></i>
       </div>
     </div>
     <div>
@@ -227,6 +229,17 @@
       animation: 'shift-away',
       placement: 'top'
     })
+
+    function copyThisPlease(thingToCopy) {
+      const stupidBox = document.createElement('textarea');
+      stupidBox.value = thingToCopy;
+      document.body.appendChild(stupidBox)
+      stupidBox.select()
+      document.execCommand('copy');
+      document.body.removeChild(stupidBox)
+      document.getElementById(`${thingToCopy}-icon`).classList.replace('fa-copy', 'fa-check')
+      setTimeout(() => document.getElementById(`${thingToCopy}-icon`).classList.replace('fa-check', 'fa-copy'), 1000)
+    }
 
     function deleteDocument(documentId) {
       // Set the icon to a minus sign
