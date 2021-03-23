@@ -32,8 +32,62 @@ function clearUsers() {
 }
 
 function addUser(userToAdd) {
-  console.log(userToAdd);
+  const existingEditors = JSON.parse(localStorage.getItem("editorArray"));
+  if (existingEditors && existingEditors.includes(userToAdd)) {
+    console.log("user already added");
+  } else {
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: userToAdd.toLowerCase(),
+      }),
+    };
+    fetch("/api/checkUser", options)
+      .then((parsePlease) => parsePlease.json())
+      .then((user) => {
+        if (user.success) {
+          const input = document.getElementById("user");
+          const list = document.getElementById("editorArray");
+          const listItem = document.createElement("li");
+
+          input.value = "";
+          listItem.className = "editor-user";
+          listItem.id = user.username;
+          listItem.innerHTML = `
+            <img src="${user.userPfp}" class="editor-pfp" draggable="false">
+            <span class="actualEditor">
+              ${user.username}
+            </span>
+            <button class="editor-remove" onclick="removeUser('${user.username}')">
+              <i class="fas fa-trash error"></i>
+            </button>
+          `;
+          list.appendChild(listItem);
+          if (existingEditors) {
+            const existingEditorArray = JSON.parse(
+              localStorage.getItem("editorArray")
+            );
+            existingEditorArray.push(user.username);
+            localStorage.setItem(
+              "editorArray",
+              JSON.stringify(existingEditorArray)
+            );
+          } else {
+            const firstUserArray = [user.username];
+            localStorage.setItem("editorArray", JSON.stringify(firstUserArray));
+          }
+        } else {
+          console.error(res);
+        }
+      });
+  }
 }
 function removeUser(userToRemove) {
-  console.log(userToRemove);
+  const editorArray = JSON.parse(localStorage.getItem("editorArray"));
+  document.getElementById(userToRemove).remove();
+  editorArray.splice(editorArray.indexOf(userToRemove));
+  localStorage.setItem("editorArray", editorArray);
 }
