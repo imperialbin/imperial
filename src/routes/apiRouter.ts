@@ -1,4 +1,4 @@
-import { Router, Request, Response } from "express";
+import { Router, Request, Response, response } from "express";
 import { IUser, Users } from "../models/Users";
 import { Documents, IDocument } from "../models/Documents";
 import fs from "fs";
@@ -323,6 +323,21 @@ routes.get("/getShareXConfig/:apiToken", (req: Request, res: Response) => {
     Data:
       '{\n  "code": "$input$",\n  "longerUrls": false,\n  "imageEmbed": true,\n  "instantDelete": false\n}',
     URL: "$json:formattedLink$",
+  });
+});
+
+routes.post("/checkUser", (req: Request, res: Response) => {
+  const user = req.body.username;
+  Users.findOne({ name: user }, (err: string, user: IUser) => {
+    if (err)
+      return throwApiError(res, "An error occurred whilst getting user", 500);
+    if (!user) return throwApiError(res, "That user does not exist", 400);
+
+    return res.json({
+      success: true,
+      username: user.name,
+      userPfp: user.icon,
+    });
   });
 });
 
