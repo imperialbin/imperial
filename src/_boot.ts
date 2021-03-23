@@ -1,5 +1,5 @@
-if (process.env.APP_MODE === 'seed') {
-	import('./seed');
+if (process.env.APP_MODE === "seed") {
+  import("./seed");
 } else {
-	import('./server');
+  import("./server");
 }

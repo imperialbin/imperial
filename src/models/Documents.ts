@@ -20,16 +20,19 @@ export interface IDocument extends Document {
   views: number;
 }
 
-export const Documents = documentDatabase.model<IDocument>("Documents", new Schema({
-  URL: String,
-  imageEmbed: Boolean,
-  instantDelete: Boolean,
-  creator: String,
-  code: String,
-  dateCreated: Number,
-  deleteDate: Number,
-  allowedEditors: Array,
-  encrypted: Boolean,
-  encryptedIv: String,
-  views: Number,
-}))
+export const Documents = documentDatabase.model<IDocument>(
+  "Documents",
+  new Schema({
+    URL: String,
+    imageEmbed: Boolean,
+    instantDelete: Boolean,
+    creator: String,
+    code: String,
+    dateCreated: Number,
+    deleteDate: Number,
+    allowedEditors: Array,
+    encrypted: Boolean,
+    encryptedIv: String,
+    views: Number,
+  })
+);
