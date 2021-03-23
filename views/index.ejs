@@ -25,19 +25,8 @@
       <h1>Add users to allow edit access</h1>
       <input id="user" type="text" autocomplete="off" placeholder="Add a user here">
       <button class="addUserBtn" onclick="addUser(document.getElementById('user').value)">Add user</button>
-      <ul class="editorArray">
-        <li class="editor-user">
-          <img src="https://github.com/looskie.png" class="editor-pfp">
-          <span class="actualEditor">
-            devlooskie
-          </span>
-          <button class="editor-remove" onclick="removeUser('e')">
-            <i class="fas fa-trash error"></i>
-          </button>
-        </li>
-      </ul>
-      <br><br><button id="cancel-settings" class="cancelSettings"
-        onclick="clearUsers()">Cancel and clear</button>
+      <ul id="editorArray" class="editorArray"></ul>
+      <br><br><button id="cancel-settings" class="cancelSettings" onclick="clearUsers()">Cancel and clear</button>
       <button onclick="closeAddUser()">Save</button>
       <br><br>
     </div>
@@ -98,7 +87,7 @@
     // Some consts we need
     const loggedIn = JSON.parse('<%= loggedIn %>')
     const settings = {
-      clipboard: loggedIn ? JSON.parse('<%= settings.clipboard %>'): false,
+      clipboard: loggedIn ? JSON.parse('<%= settings.clipboard %>') : false,
       longerUrls: loggedIn ? JSON.parse('<%= settings.longerUrls %>') : false,
       instantDelete: loggedIn ? JSON.parse('<%= settings.instantDelete %>') : false,
       encrypted: loggedIn ? JSON.parse('<%= settings.encrypted %>') : false,
