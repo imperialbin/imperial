@@ -1,0 +1,6 @@
+dist
+node_modules
+.env
+LICENSE
+README.md
+.github
