@@ -4,7 +4,6 @@ tippy(".tippy", {
   arrow: false,
 });
 
-
 function duplicate() {
   localStorage.setItem("duplicatePaste", $("#codeThing").val());
   location.href = "/";

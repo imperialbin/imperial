@@ -20,7 +20,7 @@ window.addEventListener("keydown", (event) => {
 
 function toggleAddUser() {
   const editorArray = JSON.parse(localStorage.getItem("editorArray"));
-  
+
   document.getElementById("addUser").classList.add("active");
 }
 
