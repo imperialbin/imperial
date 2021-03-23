@@ -3,7 +3,6 @@ import { Users } from "../models/Users";
 import Datastore from "nedb";
 import bcrypt from "bcrypt";
 
-
 // Utilities
 const db = {
   emailTokens: new Datastore({ filename: "./databases/emailTokens" }),
