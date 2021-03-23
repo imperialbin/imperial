@@ -50,7 +50,7 @@ app.use(
     }),
     unset: "destroy",
   })
-);
+); // UwU
 
 app.use(passport.initialize());
 app.use(passport.session());
