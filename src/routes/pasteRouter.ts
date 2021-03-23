@@ -128,7 +128,7 @@ routes.post("/getDocumentAccess/:documentId", (req: Request, res: Response) => {
 
         if (document.instantDelete) {
           if (!CrawlerDetect.isCrawler()) {
-            setTimeout(async() => {
+            setTimeout(async () => {
               await Documents.deleteOne({ URL: document.URL });
             }, 100);
           }

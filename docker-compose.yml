@@ -1,25 +1,25 @@
-version: '3'
+version: "3"
 services:
   mongo:
     image: mongo
     volumes:
-      - 'mongo_data:/mongo/data'
+      - "mongo_data:/mongo/data"
     ports:
-      - '12345:27017'
+      - "12345:27017"
 
   redis:
     image: redis
     volumes:
-      - 'redis_data:/redis/data'
+      - "redis_data:/redis/data"
 
   app:
     build:
       context: .
       dockerfile: Dockerfile
-    command: 'yarn start'
+    command: "yarn start"
     env_file: .env
     ports:
-      - '8080:3000'
+      - "8080:3000"
 
 volumes:
   redis_data:
