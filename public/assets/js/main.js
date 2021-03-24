@@ -1,3 +1,5 @@
+/*  */
+
 window.addEventListener("keydown", (event) => {
   switch (true) {
     case event.key === "s" && event.ctrlKey:
@@ -28,13 +30,13 @@ function toggleAddUser() {
       const list = document.getElementById("editorArray");
       const listItem = document.createElement("li");
       listItem.className = "editor-user";
-      listItem.id = user;
+      listItem.id = user.username;
       listItem.innerHTML = `
-            <img src="${user}" class="editor-pfp" draggable="false">
+            <img src="${user.pfp}" class="editor-pfp" draggable="false">
             <span class="actualEditor">
-              ${user}
+              ${user.username}
             </span>
-            <button class="editor-remove" onclick="removeUser('${user}')">
+            <button class="editor-remove" onclick="removeUser('${user.username}')">
               <i class="fas fa-trash error"></i>
             </button>
           `;
@@ -56,7 +58,10 @@ function clearUsers() {
 
 function addUser(userToAdd) {
   const existingEditors = JSON.parse(localStorage.getItem("editorArray"));
-  if (existingEditors && existingEditors.includes(userToAdd)) {
+  if (
+    existingEditors &&
+    existingEditors.filter((stupid) => stupid.username === userToAdd).length > 0
+  ) {
     console.log("user already added");
   } else {
     const options = {
@@ -93,13 +98,21 @@ function addUser(userToAdd) {
             const existingEditorArray = JSON.parse(
               localStorage.getItem("editorArray")
             );
-            existingEditorArray.push(user.username);
+            existingEditorArray.push({
+              username: user.username,
+              pfp: user.userPfp,
+            });
             localStorage.setItem(
               "editorArray",
               JSON.stringify(existingEditorArray)
             );
           } else {
-            const firstUserArray = [user.username];
+            const firstUserArray = [
+              {
+                username: user.username,
+                pfp: user.userPfp,
+              },
+            ];
             localStorage.setItem("editorArray", JSON.stringify(firstUserArray));
           }
         } else {
@@ -110,7 +123,7 @@ function addUser(userToAdd) {
 }
 function removeUser(userToRemove) {
   const editorArray = JSON.parse(localStorage.getItem("editorArray"));
-  const newArray = editorArray.filter((cum) => cum !== userToRemove);
+  const newArray = editorArray.filter((cum) => cum.username !== userToRemove);
   document.getElementById(userToRemove).remove();
   localStorage.setItem("editorArray", JSON.stringify(newArray));
 }
