@@ -19,6 +19,28 @@ window.addEventListener("keydown", (event) => {
 });
 
 function toggleAddUser() {
+  const listCount = document
+    .getElementById("editorArray")
+    .getElementsByTagName("li").length;
+  const editorArray = JSON.parse(localStorage.getItem("editorArray"));
+  if (editorArray && listCount === 0) {
+    editorArray.forEach((user) => {
+      const list = document.getElementById("editorArray");
+      const listItem = document.createElement("li");
+      listItem.className = "editor-user";
+      listItem.id = user.username;
+      listItem.innerHTML = `
+            <img src="${user}" class="editor-pfp" draggable="false">
+            <span class="actualEditor">
+              ${user}
+            </span>
+            <button class="editor-remove" onclick="removeUser('${user}')">
+              <i class="fas fa-trash error"></i>
+            </button>
+          `;
+      list.append(listItem);
+    });
+  }
   document.getElementById("addUser").classList.add("active");
 }
 
