@@ -71,7 +71,7 @@ routes.post(["/document", "/postCode", "/paste"], (req, res) => {
 
   function createPaste(str, imageEmbed, instantDelete, expiration, creator, quality, encrypted, encryptedPassword) {
     const date = new Date();
-    if (!code) return throwApiError(res, "You need to post code! No code was submitted.");
+    if (!code) return throwApiError(res, "You need to post code! No code was submitted.", 400);
     let password, initVector, hashedPassword;
 
     if (encrypted) {
@@ -120,30 +120,30 @@ routes.post(["/document", "/postCode", "/paste"], (req, res) => {
 
 routes.patch(["/document", "/editCode", "/paste"], (req, res) => {
   const apiToken = req.headers.authorization;
-  if (!apiToken) return throwApiError(res, "An invalid API token was provided.");
+  if (!apiToken) return throwApiError(res, "An invalid API token was provided.", 401);
   const document = req.body.document;
   const code = req.body.newCode || req.body.code;
 
   Users.findOne({ apiToken }, (err, user) => {
     if (err) return internalError(res);
-    if (!user) return throwApiError(res, "Please put in an API token!");
+    if (!user) return throwApiError(res, "Please put in an API token!", 401);
     const userId = user._id.toString();
 
     db.link.loadDatabase();
     db.link.findOne({ URL: document }, async (err, documentInfo) => {
-      if (err) return throwApiError(res, "Sorry! We couldn't find that document.");
-      if (!documentInfo) return throwApiError(res, "Sorry! We couldn't find that document.");
+      if (err) return throwApiError(res, "Sorry! We couldn't find that document.", 404);
+      if (!documentInfo) return throwApiError(res, "Sorry! We couldn't find that document.", 404);
       if (documentInfo.encrypted)
-        return throwApiError(res, "Sorry! You can not edit encrypted documents just yet! Soon!");
+        return throwApiError(res, "Sorry! You can not edit encrypted documents just yet! Soon!", 400);
 
       const editors = documentInfo.allowedEditor;
       // Make sure user is actually allowed to edit the document.
       if (documentInfo.creator != userId && editors.indexOf(userId) === -1)
-        return throwApiError(res, "Sorry! You aren't allowed to edit this document.");
+        return throwApiError(res, "Sorry! You aren't allowed to edit this document.", 401);
 
       db.link.update({ URL: document }, { $set: { code } }, (err) => {
         console.log(err);
-        if (err) return throwApiError(res, "Sorry! You aren't allowed to edit this document.");
+        if (err) return throwApiError(res, "Sorry! You aren't allowed to edit this document.", 401);
 
         return res.json({
           success: true,
@@ -168,16 +168,16 @@ routes.delete("/purgeDocuments", async (req, res) => {
     index = { _id: authedUser._id };
   }
 
-  if (!index) return throwApiError(res, "Please put in an API token!");
+  if (!index) return throwApiError(res, "Please put in an API token!", 401);
   Users.findOne(index, (err, user) => {
     if (err) return internalError(res);
-    if (!user) return throwApiError(res, "Please put in a valid API token!");
+    if (!user) return throwApiError(res, "Please put in a valid API token!", 401);
     const creator = user._id.toString();
 
     db.link.loadDatabase();
     db.link.find({ creator }, (err, documents) => {
       if (err) return internalError(res);
-      if (documents.length == 0) return throwApiError(res, "There was no documents to delete!");
+      if (documents.length == 0) return throwApiError(res, "There was no documents to delete!", 400);
       // Go through every document to delete it.
       for (const document of documents) {
         const _id = document._id;
@@ -209,19 +209,19 @@ routes.delete(["/document/:slug", "/deleteCode/:slug", "/deleteCod/:slug", "/pas
     index = { _id: authedUser._id };
   }
 
-  if (!index) return throwApiError(res, "Please put in an API token!");
+  if (!index) return throwApiError(res, "Please put in an API token!", 401);
   const document = req.params.slug;
 
   Users.findOne(index, (err, user) => {
     if (err) return internalError(res);
-    if (!user) return throwApiError(res, "Please put in a valid API token!");
+    if (!user) return throwApiError(res, "Please put in a valid API token!", 401);
     const userId = user._id.toString();
 
     db.link.loadDatabase();
     db.link.findOne({ URL: document }, (err, documentInfo) => {
-      if (!documentInfo) return throwApiError(res, "Sorry! That document doesn't exist.");
+      if (!documentInfo) return throwApiError(res, "Sorry! That document doesn't exist.", 404);
       if (documentInfo.creator !== userId)
-        return throwApiError(res, "Sorry! You aren't allowed to modify this document.");
+        return throwApiError(res, "Sorry! You aren't allowed to modify this document.", 401);
       // Delete specific document.
       db.link.remove({ _id: documentInfo._id }, (err) => {
         if (err) return internalError(res);
