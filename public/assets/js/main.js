@@ -19,8 +19,6 @@ window.addEventListener("keydown", (event) => {
 });
 
 function toggleAddUser() {
-  const editorArray = JSON.parse(localStorage.getItem("editorArray"));
-
   document.getElementById("addUser").classList.add("active");
 }
 
@@ -89,7 +87,7 @@ function addUser(userToAdd) {
 }
 function removeUser(userToRemove) {
   const editorArray = JSON.parse(localStorage.getItem("editorArray"));
+  const newArray = editorArray.filter((cum) => cum !== userToRemove);
   document.getElementById(userToRemove).remove();
-  editorArray.splice(editorArray.indexOf(userToRemove));
-  localStorage.setItem("editorArray", editorArray);
+  localStorage.setItem("editorArray", JSON.stringify(newArray));
 }
