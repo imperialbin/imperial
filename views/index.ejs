@@ -154,6 +154,9 @@
 
     async function createDocument() {
       if (window.editor.getValue() == 0) return console.log("you gotta put sum in b");
+      const editorArray = JSON.parse(localStorage.getItem('editorArray'))
+      let editors = editorArray ? editorArray.map((user) => user.username) : []
+      
 
       const options = {
         method: "POST",
@@ -167,6 +170,7 @@
           expiration: settings.expiration,
           instantDelete: settings.instantDelete,
           encrypted: settings.encrypted,
+          editors: editors
         })
       }
       fetch("/api/document", options)

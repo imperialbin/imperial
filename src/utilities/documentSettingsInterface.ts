@@ -6,4 +6,5 @@ export interface DocumentSettings {
   quality: number;
   encrypted: boolean;
   password: any;
+  editorArray: Array<string>;
 }

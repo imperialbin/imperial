@@ -48,6 +48,7 @@ routes.post("/document", (req: Request, res: Response) => {
         20,
         false,
         false,
+        [],
         res
       );
 
@@ -60,6 +61,7 @@ routes.post("/document", (req: Request, res: Response) => {
       quality: !user.memberPlus ? 73 : 100,
       encrypted: req.body.encrypted || false,
       password: req.body.password || false,
+      editorArray: req.body.editors || [],
     };
 
     return createDocument(
@@ -72,6 +74,7 @@ routes.post("/document", (req: Request, res: Response) => {
       documentSettings.quality,
       documentSettings.encrypted,
       documentSettings.password,
+      documentSettings.editorArray,
       res
     );
   });

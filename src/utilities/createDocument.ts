@@ -14,7 +14,8 @@ export const createDocument = async (
   creator: string | null,
   quality: number,
   encrypted: boolean,
-  password: any,
+  password: string | boolean,
+  editors: Array<string | void>,
   res: any = null
 ): Promise<IDocument> => {
   return new Promise<IDocument>((resolve, reject) => {
@@ -38,7 +39,7 @@ export const createDocument = async (
         code: encrypted ? encrypt(hashedPassword, code, initVector) : code,
         dateCreated: date.getTime(),
         deleteDate: date.setDate(date.getDate() + expiration),
-        allowedEditors: [],
+        allowedEditors: editors,
         encrypted,
         encryptedIv: encrypted ? initVector?.toString("hex") : null,
         view: 0,
@@ -67,7 +68,7 @@ export const createDocument = async (
             });
           }
 
-          return resolve(document);
+          resolve(document);
         });
     } catch (error) {
       if (res) {
