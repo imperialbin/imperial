@@ -4,8 +4,8 @@ tippy(".tippy", {
   arrow: false,
 });
 
-function duplicate() {
-  localStorage.setItem("duplicatePaste", $("#codeThing").val());
+function duplicateDocument() {
+  localStorage.setItem("duplicateDocument", window.editor.getValue());
   location.href = "/";
 }
 
