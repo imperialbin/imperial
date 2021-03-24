@@ -23,15 +23,13 @@
   <link rel="stylesheet" href="/assets/css/reallyGlobal.css?v=4.1">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/tippy.js@6.2.7/animations/shift-away.css" />
-  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
   <script src="https://unpkg.com/@popperjs/core@2"></script>
   <script src="https://unpkg.com/tippy.js@6"></script>
   <script src="https://kit.fontawesome.com/ec3f0c8487.js" crossorigin="anonymous"></script>
-  <script src="/assets/js/secondary.js?v=5"></script>
-  <script src="/assets/js/global.js?v=5"></script>
 </head>
 
 <body>
+  <div id="documentId" style="display: none;"><%= documentName %></div>
   <div class="pasteSettings" id="compareDocuments">
     <div class="pasteContainer">
       <h1>Compare documents</h1>
@@ -94,6 +92,7 @@
       window.editor.setValue(htmlDecode(code));
     });
   </script>
+  <script src="/assets/js/global.js?v=5"></script>
 </body>
 <script>
   /*   if (urlParams.get('copyLink') === 'true') {
@@ -121,11 +120,22 @@
     animation: 'shift-away',
     placement: 'bottom'
   })
-  $(window).on("keydown", e => {
-    if (e.key === 't' && e.altKey) {
-      window.open(`https://twitter.com/intent/tweet?text=Here%20is%20a%20paste%20I%20made%20on%20ImperialBin%20https://www.imperialbin.com/p/<%= documentName %>`, '_blank');
+
+  window.addEventListener("keydown", (event) => {
+    switch (true) {
+      case event.key === "s" && event.ctrlKey:
+        event.preventDefault();
+        createDocument();
+        break;
+      case event.key === "t" && event.altKey:
+        if (location.pathname === "/") {
+          window.open(
+            `https://twitter.com/intent/tweet?text=IMPERIAL%20is%20a%20hastebin/pastebin%20alternative%20with%20user%20experience%20and%20UI%20design%20in%20mind.%20Try%20it%20out%20now%20at%20https://imperialb.in!`,
+            "_blank"
+          );
+        }
     }
-  })
+  });
 </script>
 
 </html>

@@ -22,7 +22,7 @@
     </a>
     <ul>
       <% if(!encrypted) { %>
-      <li id="edit" class="tooltip" data-tippy-content="Edit document"> <button id="icon" class="editButton" onclick="editDocument()"><i
+      <li id="edit" class="tooltip" data-tippy-content="Edit document"> <button id="icon" class="editButton editBtnFunc" onclick="editDocument()"><i id="editBtn"
             class="fas fa-pencil-alt"></i></button></li>
       <% } %>
       <li id="compare" class="tooltip" data-tippy-content="Compare document"><button id="icon" onclick="toggleCompareDocuments('<%= documentName %>')"><i
