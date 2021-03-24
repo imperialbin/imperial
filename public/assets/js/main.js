@@ -50,6 +50,7 @@ function closeAddUser() {
 
 function clearUsers() {
   document.getElementById("addUser").classList.remove("active");
+  document.getElementById("editorArray").innerHTML = "";
   localStorage.removeItem("editorArray");
 }
 
