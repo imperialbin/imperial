@@ -95,15 +95,11 @@
   <script src="/assets/js/global.js?v=5"></script>
 </body>
 <script>
-  /*   if (urlParams.get('copyLink') === 'true') {
-      window.history.pushState({}, document.title, window.location.pathname);
-      var link = location.href;
-      if (location.href.includes('/p/') && localStorage.getItem('customURL') !== 'p')
-        var link = location.href.split('/p/')[0] + "/" + location.href.split('/p/')[1]
-      navigator.clipboard.writeText(link)
-        .then(() => $('#messages').append('<li class="message success"><i class="fas fa-check" style="padding-right: 4px;"></i> Copied link!</li>'))
-        .catch(err => $('#messages').append('<li class="message error"><i class="fas fa-times-circle" style="padding-right: 4px;"></i> Couldn\'t copy link!</li>'))
-    } */
+  const urlParams = new URLSearchParams(window.location.search)
+  if(urlParams.get('copy') === 'true') {
+    window.history.pushState({}, document.title, window.location.pathname)
+    copyLink()
+  }
 
   // A tippy thing
   const template = document.getElementById('accountDrop');
