@@ -57,12 +57,13 @@ function clearUsers() {
 }
 
 function addUser(userToAdd) {
+  const errorSpan = document.getElementById("editor-error");
   const existingEditors = JSON.parse(localStorage.getItem("editorArray"));
   if (
     existingEditors &&
     existingEditors.filter((stupid) => stupid.username === userToAdd).length > 0
   ) {
-    console.log("user already added");
+    errorSpan.innerHTML = "User is already added!";
   } else {
     const options = {
       method: "POST",
@@ -81,6 +82,7 @@ function addUser(userToAdd) {
           const list = document.getElementById("editorArray");
           const listItem = document.createElement("li");
 
+          errorSpan.innerHTML = "";
           input.value = "";
           listItem.className = "editor-user";
           listItem.id = user.username;
@@ -116,7 +118,7 @@ function addUser(userToAdd) {
             localStorage.setItem("editorArray", JSON.stringify(firstUserArray));
           }
         } else {
-          console.error(res);
+          errorSpan.innerHTML = "User does not exist!";
         }
       });
   }

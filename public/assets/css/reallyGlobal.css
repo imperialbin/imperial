@@ -443,6 +443,10 @@ button:active {
   padding: 0;
 }
 
+#editor-error {
+  color: var(--text-error);
+}
+
 .editor-user {
   position: relative;
   display: flex;
