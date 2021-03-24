@@ -124,8 +124,11 @@
       // After setting the editor focus on it
       window.editor.focus()
 
-      const duplicate = localStorage.getItem("duplicatePaste");
-      if (duplicate) return window.editor.setValue(duplicate);
+      const duplicate = localStorage.getItem("duplicateDocument");
+      if (duplicate) {
+        localStorage.removeItem('duplicateDocument')
+        return window.editor.setValue(duplicate)
+      }
 
       navigator.clipboard
         .readText()
