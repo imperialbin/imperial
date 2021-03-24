@@ -18,16 +18,3 @@ $(window).on("keydown", (e) => {
       break;
   }
 });
-
-function newDocument() {
-  location.href = "/";
-}
-
-function copyLink() {
-  const linkBox = document.createElement("textarea");
-  linkBox.value = location.href;
-  document.body.appendChild(linkBox);
-  linkBox.select();
-  document.execCommand("copy");
-  document.body.removeChild(linkBox);
-}
