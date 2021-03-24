@@ -147,6 +147,8 @@ routes.patch("/document", (req: Request, res: Response) => {
         "An internal server occurred whilst getting user",
         500
       );
+    if (!user) return throwApiError(res, "Your authorization is invalid", 401);
+
     const _id = user._id.toString();
 
     Documents.findOne(
@@ -174,7 +176,7 @@ routes.patch("/document", (req: Request, res: Response) => {
 
         const editors = document.allowedEditors;
 
-        if (document.creator != _id && editors.indexOf(_id) === -1)
+        if (document.creator != _id && !editors.includes(user.name))
           return throwApiError(
             res,
             "Sorry! You aren't allowed to edit this document.",
