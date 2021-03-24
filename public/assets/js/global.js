@@ -14,16 +14,25 @@ function newDocument() {
 }
 
 function toggleCompareDocuments() {
-  $("#compareDocuments").addClass("active");
+  document.getElementById("compareDocuments").classList.add("active");
+}
+
+function cancelSettings() {
+  document.getElementById("compareDocuments").classList.remove("active");
 }
 
 function copyLink() {
-  const linkBox = document.createElement("textarea");
-  linkBox.value = location.href;
-  document.body.appendChild(linkBox);
-  linkBox.select();
-  document.execCommand("copy");
-  document.body.removeChild(linkBox);
+  const messages = document.getElementById("messages");
+  navigator.clipboard
+    .writeText(location.href)
+    .then(
+      () =>
+        (messages.innerHTML += `<li class="message success"><i class="fas fa-check" style="padding-right: 9px;"></i> Copied link!</li>`)
+    )
+    .catch(
+      (err) =>
+        (messages.innerHTML += `<li class="message error"><i class="fas fa-times" style="padding-right: 9px;"></i> Failed to copy link!</li>`)
+    );
 }
 
 function editDocument() {
