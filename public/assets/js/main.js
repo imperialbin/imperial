@@ -28,7 +28,7 @@ function toggleAddUser() {
       const list = document.getElementById("editorArray");
       const listItem = document.createElement("li");
       listItem.className = "editor-user";
-      listItem.id = user.username;
+      listItem.id = user;
       listItem.innerHTML = `
             <img src="${user}" class="editor-pfp" draggable="false">
             <span class="actualEditor">
