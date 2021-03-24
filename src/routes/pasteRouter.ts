@@ -74,7 +74,7 @@ routes.get(
           // The editor array is returning a fucky wucky for some reason, dear future cody, please fix
           const editorArray = document.allowedEditors;
           const isCreator =
-            _id === document.creator || editorArray.includes(_id);
+            _id === document.creator || editorArray.includes(user.name);
 
           return res.render("pasted.ejs", {
             documentName: documentId,
