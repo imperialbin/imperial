@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500&display=swap" rel="stylesheet">
+  <title>IMPERIAL | Admin panel</title>
+  <link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon/favicon-96x96.png">
+  <link rel="stylesheet" href="/assets/css/reallyGlobal.css?v=1">
+  <link rel="stylesheet" href="/assets/css/secondary.css">
+  <link rel="stylesheet" href="/assets/css/admin.css">
+</head>
+
+<body>
+  <main>
+    <img src="/assets/img/Logo.png" alt="IMPERIAL Logo" class="logo" draggable="false">
+    <div class="container">
+      <h2>Admin panel</h2>
+      <div class="actualStuff">
+        <div>
+          <div class="tile"><i class="fas fa-user" id="edit-icon"></i></div>
+          <input type="text" id="email" name="email" placeholder="Email or username..." autocomplete="off" autofocus
+            required>
+        </div>
+        <ul class="user-selection" id="usersArea">
+        </ul>
+      </div>
+    </div>
+    <div class="waves">
+      <img src="/assets/img/wave.svg" alt="IMPERIAL Wave svg" class="wave" draggable="false">
+    </div>
+  </main>
+  <script>
+    const input = document.getElementById('email');
+    const iconIcon = document.getElementById('edit-icon');
+    let timeout;
+
+    input.addEventListener('keyup', () => {
+      const userList = document.getElementById('usersArea');
+      userList.classList.add('active');
+      iconIcon.classList.replace('fa-user', 'fa-minus');
+      iconIcon.classList.replace('fa-check', 'fa-minus');
+      clearTimeout(timeout);
+
+      timeout = setTimeout(() => {
+        fetch(`/admin/getUsers/${input.value}`)
+          .then(res => res.json())
+          .then(actualRes => {
+            const users = actualRes.users
+            userList.innerHTML = ''
+            iconIcon.classList.replace('fa-minus', 'fa-check');
+
+            if (users.length <= 0) return userList.innerHTML = '<li class="user-select">Couldn\'t find that user!</li>'
+
+            users.forEach(user => {
+              const userItem = document.createElement('li');
+              userItem.className = 'user-select';
+              userItem.innerHTML = `
+              <a class="whatTheFuck" href="admin/user/${user._id}">
+                <img src="${user.icon}" class="icon">
+                ${user.name} <div class="email"> (${user.email})</div>
+              </a>
+              `
+              userList.append(userItem)
+              console.log(user);
+            })
+          }).catch(err => {
+            console.log(err)
+          })
+      }, 800)
+    })
+  </script>
+  <script src="https://kit.fontawesome.com/ec3f0c8487.js" crossorigin="anonymous"></script>
+</body>
+
+</html>
