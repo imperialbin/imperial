@@ -1,0 +1,91 @@
+import { Router, Request, Response } from "express";
+import { IUser, Users } from "../models/Users";
+import { generateString } from "../utilities/generateString";
+import { getDocuments } from "../utilities/getDocuments";
+
+export const routes = Router();
+
+routes.get("/", (req: Request, res: Response) => {
+  res.render("admin.ejs");
+});
+
+routes.get("/user/:id", (req: Request, res: Response) => {
+  const _id = req.params.id;
+  Users.findOne({ _id }, async (err: string, user: IUser) => {
+    if (err)
+      return res.render("error.ejs", {
+        error: "An error occurred whilst getting that user!",
+      });
+    if (!user)
+      return res.render("error.ejs", {
+        error: "That user doesn't exist!",
+      });
+
+    res.render("viewUser.ejs", {
+      user,
+      documents: await getDocuments(_id, 10),
+    });
+  });
+});
+
+routes.get("/getUsers/:query", async (req: Request, res: Response) => {
+  const query = req.params.query;
+  const users = await Users.find({
+    $or: [
+      { name: { $regex: query, $options: "i" } },
+      { email: { $regex: query, $options: "i" } },
+    ],
+  }).limit(8);
+
+  res.json({ users });
+});
+
+routes.post("/updateUser/", (req: Request, res: Response) => {
+  const body = req.body;
+});
+
+routes.post("/changeConfirm", async (req: Request, res: Response) => {
+  const status = JSON.parse(req.body.status.toLowerCase());
+  const _id = req.body._id;
+
+  await Users.updateOne({ _id }, { $set: { confirmed: !status } });
+
+  res.redirect(`/admin/user/${_id}`);
+});
+
+routes.post("/changeBanned", async (req: Request, res: Response) => {
+  const status = JSON.parse(req.body.status.toLowerCase());
+  const _id = req.body._id;
+
+  await Users.updateOne({ _id }, { $set: { banned: !status } });
+
+  res.redirect(`/admin/user/${_id}`);
+});
+
+routes.post("/changeMemberPlus", async (req: Request, res: Response) => {
+  const status = JSON.parse(req.body.status.toLowerCase());
+  const _id = req.body._id;
+
+  await Users.updateOne({ _id }, { $set: { memberPlus: !status } });
+
+  res.redirect(`/admin/user/${_id}`);
+});
+
+routes.post("/giveCode", async (req: Request, res: Response) => {
+  const _id = req.body._id;
+
+  await Users.updateOne(
+    { _id },
+    {
+      // @ts-ignore fuck you typescript
+      $push: { codes: { code: generateString(8) } },
+    }
+  );
+
+  res.redirect(`/admin/user/${_id}`);
+});
+
+routes.post('/changeUsersSetting', async (req: Request, res: Response) => {
+  const _id = req.body._id;
+  
+})
