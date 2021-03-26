@@ -1,5 +1,4 @@
 import puppeteer from "puppeteer";
-import ejs from "ejs";
 
 export const screenshotDocument = async (
   documentId: string,
@@ -9,20 +8,32 @@ export const screenshotDocument = async (
     headless: true,
     args: ["--no-sandbox", "--disable-setuid-sandbox"],
   });
-
   const page = await browser.newPage();
-  const pageContent = ejs.render("../views/pasted.ejs", {});
-  await page.setContent(pageContent);
-  await page.waitForSelector(".hljs");
+
+  await page.goto(`${process.env.MAIN_URI}/p/${documentId}`);
+  await page.waitForSelector(".ace_content");
   await page.addStyleTag({
-    content: ".menu, #lines { display: none; }",
+    content:
+      ".menu {display: none;} .current-line {background: transparent!important}",
   });
 
-  const elementToScreenshot = await page.$(".hljs");
-  await elementToScreenshot?.screenshot({
-    path: `../public/assets/img/${documentId}.jpg`,
-    quality,
-  });
+  const elementToScreenshot = await page.$(".ace_content");
+  const boundingBox = await elementToScreenshot?.boundingBox();
+  console.log(boundingBox);
+
+  if (elementToScreenshot && boundingBox) {
+    
+    await elementToScreenshot.screenshot({
+      path: `./public/assets/img/${documentId}.jpg`,
+      quality,
+      clip: {
+        x: boundingBox.x,
+        y: boundingBox.y,
+        width: boundingBox.width,
+        height: boundingBox.height,
+      },
+    });
+  }
 
   await browser.close();
 };
