@@ -6,23 +6,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500&display=swap" rel="stylesheet">
   <script src="https://kit.fontawesome.com/ec3f0c8487.js" crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/@popperjs/core@2"></script>
-  <script src="https://unpkg.com/tippy.js@6"></script>
   <script>
     let pfpErrorMessage = '<%= JSON.stringify(pfpError) %>'
     if (location.pathname == '/account/changePfp' && pfpErrorMessage == 'false' || location.pathname == '/account/changePfpGravatar' && pfpErrorMessage == 'false' || location.pathname == '/account/createInvite') {
       location.href = '/account';
     }
-  </script>
+    </script>
   <link rel="stylesheet" href="/assets/css/reallyGlobal.css?v=3">
   <link rel="stylesheet" href="/assets/css/secondary.css">
   <link rel="stylesheet" href="/assets/css/account.css?v=5">
   <link rel="stylesheet" href="https://unpkg.com/tippy.js@6.2.7/animations/shift-away.css" />
-  <script src="https://unpkg.com/tippy.js@6"></script>
   <link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon/favicon-96x96.png">
   <meta property="og:image" content="/assets/favicon/favicon-96x96.png">
   <meta name="description" content="View your account here!">
   <title>IMPERIAL | Account</title>
+  <script src="https://unpkg.com/@popperjs/core@2"></script>
+  <script src="https://unpkg.com/tippy.js@6"></script>
 </head>
 
 <body>
@@ -54,7 +53,7 @@
         </a>
       </li>
       <div class="logout">
-        <a href="/logout" class="logoutBtn">
+        <a href="/logout" class="logoutBtn tooltip" data-tippy-content="Logout">
           <i class="fas fa-sign-out-alt"></i>
         </a>
       </div>
