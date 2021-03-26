@@ -39,9 +39,10 @@ function editDocument() {
   const actualBtn = document.querySelector(".editBtnFunc");
   const editBtn = document.getElementById("editBtn");
   const editMsg = document.querySelector(".editMsg");
+
   editBtn.classList.replace("fa-pencil-alt", "fa-check");
   actualBtn.setAttribute("onClick", "actuallyEditDocument()");
-  window.editor.updateOptions({ readOnly: false });
+  editor.setReadOnly(false);
 
   if (editMsg) editMsg.remove();
 }
@@ -67,7 +68,7 @@ function actuallyEditDocument() {
       if (documentRes.success) {
         actualBtn.setAttribute("onClick", "editDocument()");
         editBtn.classList.replace("fa-minus", "fa-pencil-alt");
-        window.editor.updateOptions({ readOnly: true });
+        editor.setReadOnly(true);
 
         if (!document.querySelector(".editMsg"))
           messages.innerHTML += `<li class="message success editMsg"><i class="fas fa-check" style="padding-right: 9px;"></i> Edited!</li>`;
