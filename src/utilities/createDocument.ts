@@ -64,7 +64,7 @@ export const createDocument = async (
               expiresIn: new Date(document.deleteDate),
               instantDelete: document.instantDelete,
               encrypted: document.encrypted,
-              password: document.encrypted ? password : false,
+              password: document.encrypted ? password : null,
             });
           }
 
