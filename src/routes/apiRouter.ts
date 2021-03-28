@@ -118,7 +118,17 @@ routes.get("/document/:documentId", (req: Request, res: Response) => {
 
     return res.json({
       success: true,
-      document: code,
+      content: code,
+      documentInfo: {
+        documentId: document.URL,
+        imageEmbed: document.imageEmbed,
+        instantDelete: document.instantDelete,
+        dateCreated: document.dateCreated,
+        deleteDate: document.deleteDate,
+        allowedEditors: document.allowedEditors,
+        encrypted: document.encrypted,
+        views: document.views,
+      },
     });
   });
 });
