@@ -10,6 +10,10 @@
   <link rel="stylesheet" href="/assets/css/secondary.css">
   <title>IMPERIAL | Register</title>
   <meta name="description" content="Register for Imperial here!">
+  <link rel="stylesheet" href="https://unpkg.com/tippy.js@6.2.7/animations/shift-away.css" />
+
+  <script src="https://unpkg.com/@popperjs/core@2"></script>
+  <script src="https://unpkg.com/tippy.js@6"></script>
 </head>
 
 <body>
@@ -27,8 +31,8 @@
           <div>
             <div class="tile"><i class="fas fa-user"></i></div>
             <% if (user) { %>
-            <input type="text" id="name" name="name" placeholder="Username..." value="<%= user %>" autocomplete="off" autofocus
-              required>
+            <input type="text" id="name" name="name" placeholder="Username..." value="<%= user %>" autocomplete="off"
+              autofocus required>
             <% } else { %>
             <input type="text" id="name" name="name" placeholder="Username..." autocomplete="off" autofocus required>
             <% } %>
@@ -36,7 +40,8 @@
           <div>
             <div class="tile"><i class="far fa-envelope"></i></div>
             <% if (email) { %>
-            <input type="email" id="email" name="email" placeholder="Email..." value="<%= email %>" autocomplete="off" required>
+            <input type="email" id="email" name="email" placeholder="Email..." value="<%= email %>" autocomplete="off"
+              required>
             <% } else { %>
             <input type="email" id="email" name="email" placeholder="Email..." autocomplete="email" required>
             <% } %>
@@ -47,16 +52,19 @@
           </div>
           <div>
             <div class="tile"><i class="fas fa-lock"></i></div>
-            <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password..." autocomplete="off" required>
+            <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password..."
+              autocomplete="off" required>
           </div>
           <div>
             <div class="tile"><i class="fas fa-qrcode"></i></div>
             <input type="text" id="code" name="code" placeholder="Beta code..." autocomplete="off" required>
           </div>
+          Read our <a href="/terms">terms</a>
+          <br>
+          <button type="submit">Register</button>
           <a href="/login">
             <span id="subtext">Have an account?</span>
           </a>
-          <button type="submit">Register</button>
         </div>
       </form>
     </div>
@@ -64,10 +72,11 @@
       <img src="/assets/img/wave.svg" alt="IMPERIAL Wave svg" class="wave" draggable="false">
     </div>
   </main>
+  <br><br><br>
   <script src="https://kit.fontawesome.com/ec3f0c8487.js" crossorigin="anonymous"></script>
   <script>
     const urlParams = new URLSearchParams(window.location.search);
-    
+
     if (urlParams.get('inviteCode')) {
       localStorage.setItem('inviteCode', urlParams.get('inviteCode'));
       document.getElementById('code').value = urlParams.get('inviteCode');
