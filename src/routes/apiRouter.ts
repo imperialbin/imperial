@@ -47,7 +47,7 @@ routes.post("/document", (req: Request, res: Response) => {
         null,
         20,
         false,
-        false,
+        null,
         [],
         res
       );
@@ -60,7 +60,7 @@ routes.post("/document", (req: Request, res: Response) => {
       instantDelete: req.body.instantDelete || false,
       quality: !user.memberPlus ? 73 : 100,
       encrypted: req.body.encrypted || false,
-      password: req.body.password || false,
+      password: req.body.password || null,
       editorArray: req.body.editors || [],
     };
 

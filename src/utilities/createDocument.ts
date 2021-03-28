@@ -14,14 +14,13 @@ export const createDocument = async (
   creator: string | null,
   quality: number,
   encrypted: boolean,
-  password: string | boolean,
+  password: string | null,
   editors: Array<string | void>,
   res: any = null
 ): Promise<IDocument> => {
   return new Promise<IDocument>((resolve, reject) => {
     const date = new Date();
     let passwordToHash: string, initVector: any, hashedPassword: any;
-
     if (encrypted) {
       passwordToHash =
         typeof password === "string" ? password : generateString(12);
@@ -64,7 +63,7 @@ export const createDocument = async (
               expiresIn: new Date(document.deleteDate),
               instantDelete: document.instantDelete,
               encrypted: document.encrypted,
-              password: document.encrypted ? password : null,
+              password: document.encrypted ? passwordToHash : null,
             });
           }
 
