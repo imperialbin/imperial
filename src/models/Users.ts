@@ -53,7 +53,7 @@ export const Users = userDatabase.model<IUser & Document>(
     codes: Array,
     apiToken: String,
     documentsMade: Number,
-    activeUnlimitedDocuments: Number;
+    activeUnlimitedDocuments: Number,
     admin: Boolean,
     settings: {
       clipboard: Boolean,
