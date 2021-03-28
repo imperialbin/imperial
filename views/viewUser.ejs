@@ -17,7 +17,7 @@
 
 <body>
   <nav>
-    <ul>
+    <ul id="navythingy">
       <li>
         <a href="/admin" class="noOpacity">
           <img src="/assets/img/Logo.png" alt="IMPERIAL's logo" class="logo" draggable="false">
@@ -159,129 +159,131 @@
     <% } else { %>
     <span>User hasn't made any recent documents!</span>
     <% } %>
-    <div id="documentSettings">
-      <h2>Document settings</h2>
-      <div>
-        <div class="checkbox-container">
-          Clipboard
-          <div class="checkbox-description">Let IMPERIAL automatically paste your clipboard</div>
+    <div class="containAllMyShitPlease">
+      <div id="documentSettings">
+        <h2>Document settings</h2>
+        <div>
+          <div class="checkbox-container">
+            Clipboard
+            <div class="checkbox-description">Let IMPERIAL automatically paste your clipboard</div>
+          </div>
+          <div class="checkbox">
+            <label class="switch">
+              <input name="clipboard" type="checkbox" id="clipboard" <%= user.settings.clipboard ? 'checked' : null %>>
+              <span class="slider round"></span>
+            </label>
+          </div>
         </div>
-        <div class="checkbox">
-          <label class="switch">
-            <input name="clipboard" type="checkbox" id="clipboard" <%= user.settings.clipboard ? 'checked' : null %>>
-            <span class="slider round"></span>
-          </label>
+        <div class="space"></div>
+        <br>
+        <div class="dumbline"></div>
+        <div>
+          <div class="checkbox-container">
+            Longer URLs
+            <div class="checkbox-description">Create 26 character URLs instead of 8</div>
+          </div>
+          <div class="checkbox">
+            <label class="switch">
+              <input name="longerUrls" type="checkbox" id="longerUrls" <%= user.settings.longerUrls ? 'checked' : null %>>
+              <span class="slider round"></span>
+            </label>
+          </div>
         </div>
+        <div class="space"></div>
+        <br>
+        <div class="dumbline"></div>
+        <div>
+          <div class="checkbox-container">
+            Instant Delete
+            <div class="checkbox-description">Instantly delete the document after being viewed</div>
+          </div>
+          <div class="checkbox">
+            <label class="switch">
+              <input name="instantDelete" type="checkbox" id="instantDelete"
+                <%= user.settings.instantDelete ? 'checked' : null %>>
+              <span class="slider round"></span>
+            </label>
+          </div>
+        </div>
+        <div class="space"></div>
+        <br>
+        <div class="dumbline"></div>
+        <div>
+          <div class="checkbox-container">
+            Encrypted
+            <div class="checkbox-description">Encrypt your document with a password and aes256 encryption</div>
+          </div>
+          <div class="checkbox">
+            <label class="switch">
+              <input name="encrypted" type="checkbox" id="encrypted" <%= user.settings.encrypted ? 'checked' : null %>>
+              <span class="slider round"></span>
+            </label>
+          </div>
+        </div>
+        <br>
+        <div class="space"></div>
+        <div class="dumbline"></div>
+        <div>
+          <div class="checkbox-container">
+            Image embed
+            <div class="checkbox-description">Have a sneak peak with an image through Open Graph embeds</div>
+          </div>
+          <div class="checkbox">
+            <label class="switch">
+              <input name="imageEmbed" type="checkbox" id="imageEmbed" <%= user.settings.imageEmbed ? 'checked' : null %>>
+              <span class="slider round"></span>
+            </label>
+          </div>
+        </div>
+        <br>
+        <div class="dumbline"></div>
+        <div class="space"></div>
+        <div>
+          <div class="checkbox-container">
+            Expiration
+            <div class="checkbox-description">How long do you want your document to last?</div>
+          </div>
+          <div class="checkbox">
+            <select name="expiration" id="expiration">
+              <option value="<%= user.settings.expiration%>" selected><%= user.settings.expiration%></option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+              <option value="10">10</option>
+              <option value="11">11</option>
+              <option value="12">12</option>
+              <option value="13">13</option>
+              <option value="14">14</option>
+              <option value="15">15</option>
+              <option value="16">16</option>
+              <option value="17">17</option>
+              <option value="18">18</option>
+              <option value="19">19</option>
+              <option value="20">20</option>
+              <option value="21">21</option>
+              <option value="22">22</option>
+              <option value="23">23</option>
+              <option value="24">24</option>
+              <option value="25">25</option>
+              <option value="26">26</option>
+              <option value="27">27</option>
+              <option value="28">28</option>
+              <option value="29">29</option>
+              <option value="30">30</option>
+              <option value="31">31</option>
+            </select>
+          </div>
+        </div>
+        <br>
+        <br>
+        <button onclick="saveUserSettings()" id="userSaveBtn" class="alignedLeftBtn">Save</button>
       </div>
-      <div class="space"></div>
-      <br>
-      <div class="dumbline"></div>
-      <div>
-        <div class="checkbox-container">
-          Longer URLs
-          <div class="checkbox-description">Create 26 character URLs instead of 8</div>
-        </div>
-        <div class="checkbox">
-          <label class="switch">
-            <input name="longerUrls" type="checkbox" id="longerUrls" <%= user.settings.longerUrls ? 'checked' : null %>>
-            <span class="slider round"></span>
-          </label>
-        </div>
-      </div>
-      <div class="space"></div>
-      <br>
-      <div class="dumbline"></div>
-      <div>
-        <div class="checkbox-container">
-          Instant Delete
-          <div class="checkbox-description">Instantly delete the document after being viewed</div>
-        </div>
-        <div class="checkbox">
-          <label class="switch">
-            <input name="instantDelete" type="checkbox" id="instantDelete"
-              <%= user.settings.instantDelete ? 'checked' : null %>>
-            <span class="slider round"></span>
-          </label>
-        </div>
-      </div>
-      <div class="space"></div>
-      <br>
-      <div class="dumbline"></div>
-      <div>
-        <div class="checkbox-container">
-          Encrypted
-          <div class="checkbox-description">Encrypt your document with a password and aes256 encryption</div>
-        </div>
-        <div class="checkbox">
-          <label class="switch">
-            <input name="encrypted" type="checkbox" id="encrypted" <%= user.settings.encrypted ? 'checked' : null %>>
-            <span class="slider round"></span>
-          </label>
-        </div>
-      </div>
-      <br>
-      <div class="space"></div>
-      <div class="dumbline"></div>
-      <div>
-        <div class="checkbox-container">
-          Image embed
-          <div class="checkbox-description">Have a sneak peak with an image through Open Graph embeds</div>
-        </div>
-        <div class="checkbox">
-          <label class="switch">
-            <input name="imageEmbed" type="checkbox" id="imageEmbed" <%= user.settings.imageEmbed ? 'checked' : null %>>
-            <span class="slider round"></span>
-          </label>
-        </div>
-      </div>
-      <br>
-      <div class="dumbline"></div>
-      <div class="space"></div>
-      <div>
-        <div class="checkbox-container">
-          Expiration
-          <div class="checkbox-description">How long do you want your document to last?</div>
-        </div>
-        <div class="checkbox">
-          <select name="expiration" id="expiration">
-            <option value="<%= user.settings.expiration%>" selected><%= user.settings.expiration%></option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
-            <option value="10">10</option>
-            <option value="11">11</option>
-            <option value="12">12</option>
-            <option value="13">13</option>
-            <option value="14">14</option>
-            <option value="15">15</option>
-            <option value="16">16</option>
-            <option value="17">17</option>
-            <option value="18">18</option>
-            <option value="19">19</option>
-            <option value="20">20</option>
-            <option value="21">21</option>
-            <option value="22">22</option>
-            <option value="23">23</option>
-            <option value="24">24</option>
-            <option value="25">25</option>
-            <option value="26">26</option>
-            <option value="27">27</option>
-            <option value="28">28</option>
-            <option value="29">29</option>
-            <option value="30">30</option>
-            <option value="31">31</option>
-          </select>
-        </div>
-      </div>
-      <br>
-      <br>
-      <button onclick="saveUserSettings()" id="userSaveBtn" class="alignedLeftBtn">Save</button>
     </div>
     <!-- INVITE CODES -->
     <h2 id="codes">Their invite codes</h2>
