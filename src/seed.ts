@@ -16,6 +16,8 @@ const user: Omit<IUser, "_id"> = {
   codesLeft: 10,
   memberPlus: true,
   documentsMade: 10,
+  activeUnlimitedDocuments: 0,
+  admin: false,
   settings: {
     clipboard: false,
     longerUrls: true,
