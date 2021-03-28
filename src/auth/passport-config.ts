@@ -1,6 +1,7 @@
 import { Strategy as LocalStrategy } from "passport-local";
 import { IUser, Users } from "../models/Users";
 import bcrypt from "bcrypt";
+import { mail } from "../utilities/mailer";
 
 // uwu
 export const initialize = (passport: any) => {
@@ -27,6 +28,12 @@ export const initialize = (passport: any) => {
 
         try {
           if (await bcrypt.compare(password, user.password)) {
+            mail(
+              user.email,
+              "IMPERIAL | New login",
+              "Hey there!",
+              `Somebody has just logged into your IMPERIAL account! If this wasn't you, please change your password ASAP <a href="https://imperialb.in/forgot">here</a>`
+            );
             return done(null, user);
           } else {
             return done(null, false, { message: "Password incorrect" });
