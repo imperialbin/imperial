@@ -85,54 +85,57 @@ routes.get("/document/:documentId", (req: Request, res: Response) => {
   const documentId = req.params.documentId;
   const password: any = req.query.password || false;
 
-  Documents.findOne({ URL: documentId }, async (err: string, document: IDocument) => {
-    if (err)
-      return throwApiError(
-        res,
-        "An internal server error occurred! Please contact an admin!",
-        500
-      );
-    if (!document)
-      return throwApiError(res, "We couldn't find that document!", 404);
-    if (document.encrypted && !password)
-      return throwApiError(
-        res,
-        "You need to pass ?password=PASSWORD with your request, since this paste is encrypted!",
-        401
-      );
-
-    let code;
-    if (document.encrypted && password) {
-      try {
-        code = decrypt(password, document.code, document.encryptedIv!);
-      } catch {
+  Documents.findOne(
+    { URL: documentId },
+    async (err: string, document: IDocument) => {
+      if (err)
         return throwApiError(
           res,
-          "Incorrect password for encrypted document!",
+          "An internal server error occurred! Please contact an admin!",
+          500
+        );
+      if (!document)
+        return throwApiError(res, "We couldn't find that document!", 404);
+      if (document.encrypted && !password)
+        return throwApiError(
+          res,
+          "You need to pass ?password=PASSWORD with your request, since this paste is encrypted!",
           401
         );
+
+      let code;
+      if (document.encrypted && password) {
+        try {
+          code = decrypt(password, document.code, document.encryptedIv!);
+        } catch {
+          return throwApiError(
+            res,
+            "Incorrect password for encrypted document!",
+            401
+          );
+        }
+      } else {
+        code = document.code;
       }
-    } else {
-      code = document.code;
+
+      await Documents.updateOne({ URL: documentId }, { $inc: { views: 1 } });
+
+      return res.json({
+        success: true,
+        content: code,
+        documentInfo: {
+          documentId: document.URL,
+          imageEmbed: document.imageEmbed,
+          instantDelete: document.instantDelete,
+          dateCreated: document.dateCreated,
+          deleteDate: document.deleteDate,
+          allowedEditors: document.allowedEditors,
+          encrypted: document.encrypted,
+          views: document.views,
+        },
+      });
     }
-
-    await Documents.updateOne({ URL: documentId }, { $inc: { views: 1 } });
-
-    return res.json({
-      success: true,
-      content: code,
-      documentInfo: {
-        documentId: document.URL,
-        imageEmbed: document.imageEmbed,
-        instantDelete: document.instantDelete,
-        dateCreated: document.dateCreated,
-        deleteDate: document.deleteDate,
-        allowedEditors: document.allowedEditors,
-        encrypted: document.encrypted,
-        views: document.views,
-      },
-    });
-  });
+  );
 });
 
 // Edit document
