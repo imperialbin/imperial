@@ -92,9 +92,11 @@ span.stat {
 .stat-tiles {
   margin-top: 50px;
   display: inline-flex;
+  flex-wrap: wrap;
 }
 
 .stat-tile {
+  margin-top: 15px;
   margin-right: 50px;
   padding-bottom: 6px;
   height: auto;
@@ -201,4 +203,43 @@ a {
   margin: 8px 0;
   border-bottom: 1px solid var(--text-light);
   opacity: 0.2;
+}
+
+@media only screen and (max-width: 650px) {
+  nav {
+    z-index: 9999999;
+    width: 100vw;
+    height: 105px;
+  }
+  .logo {
+    top: 6px;
+  }
+  .logout {
+    bottom: 30px;
+    right: 50px;
+  }
+  ul {
+    height: unset;
+  }
+  ul#navythingy li:not(:first-child) {
+    display: none;
+  }
+  main {
+    padding-top: 115px;
+    margin: 0;
+    text-align: center;
+  }
+  #documentSettings div {
+    text-align: left;
+  }
+  .containAllMyShitPlease {
+    margin-left: 30px;
+  }
+  .stat-tiles {
+    align-items: center;
+    justify-content: center;
+  }
+  .stat-tile {
+    margin-right: 10px;
+  }
 }
