@@ -202,7 +202,7 @@ routes.patch("/document", (req: Request, res: Response) => {
           documentId: documentId,
           rawLink: `https://imperialb.in/r/${documentId}`,
           formattedLink: `https://imperialb.in/p/${documentId}`,
-          expiresIn: new Date(document.deleteDate),
+          expiration: new Date(document.deleteDate),
           instantDelete: document.instantDelete,
         });
       }
