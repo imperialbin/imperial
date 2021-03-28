@@ -85,7 +85,7 @@ routes.get("/document/:documentId", (req: Request, res: Response) => {
   const documentId = req.params.documentId;
   const password: any = req.query.password || false;
 
-  Documents.findOne({ URL: documentId }, (err: string, document: IDocument) => {
+  Documents.findOne({ URL: documentId }, async (err: string, document: IDocument) => {
     if (err)
       return throwApiError(
         res,
@@ -115,6 +115,8 @@ routes.get("/document/:documentId", (req: Request, res: Response) => {
     } else {
       code = document.code;
     }
+
+    await Documents.updateOne({ URL: documentId }, { $inc: { views: 1 } });
 
     return res.json({
       success: true,

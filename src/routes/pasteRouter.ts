@@ -59,6 +59,12 @@ routes.get(
         );
         if (req.isAuthenticated()) {
           const _id = req.user.toString();
+
+          await Documents.updateOne(
+            { URL: documentId },
+            { $inc: { views: 1 } }
+          );
+
           const user = await Users.findOne({ _id });
           if (!user)
             return res.render("pasted.ejs", {
