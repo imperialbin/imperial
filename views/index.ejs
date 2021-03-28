@@ -126,7 +126,7 @@
         localStorage.removeItem('duplicateDocument')
         return window.editor.session.setValue(duplicate)
       }
-  
+
       navigator.clipboard
         .readText()
         .then((copiedText) => {
@@ -160,16 +160,38 @@
       }
       fetch("/api/document", options)
         .then(res => res.json())
-        .then((document) => {
-          if (document.instantDelete || document.encrypted) {
-            return console.log('Encrypted or instant delete')
+        .then((documentRes) => {
+          if (documentRes.instantDelete || documentRes.encrypted) {
+            const messages = document.getElementById('messages');
+            let urlToCopy;
+            // Set the URL
+            if (documentRes.encrypted) {
+              console.log(documentRes)
+              urlToCopy = `/p/${documentRes.documentId}?password=${documentRes.password}`
+              window.history.pushState({}, null, urlToCopy);
+              messages.innerHTML += `<li class="message success"><i class="fas fa-check" style="padding-right: 9px;"></i> Copied password!</li>`
+            } else {
+              urlToCopy = `/p/${documentRes.documentId}`
+              window.history.pushState({}, null, urlToCopy);
+              messages.innerHTML += `<li class="message success"><i class="fas fa-check" style="padding-right: 9px;"></i> Copied URL!</li>`
+            }
+            return copy(`${location.href}${urlToCopy}`)
           }
 
           localStorage.removeItem('editors')
-          location.href = `/p/${document.documentId}?copy=true`
+          location.href = `/p/${documentRes.documentId}?copy=true`
         }).catch(err => {
           console.log(err);
         });
+    }
+
+    function copy(thingToCopy) {
+      const linkBox = document.createElement("textarea");
+      linkBox.value = thingToCopy
+      document.body.appendChild(linkBox);
+      linkBox.select();
+      document.execCommand("copy");
+      document.body.removeChild(linkBox);
     }
   </script>
 </body>
