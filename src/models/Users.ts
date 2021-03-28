@@ -31,6 +31,7 @@ export interface IUser {
   codes: Array<string>;
   apiToken: string;
   documentsMade: number;
+  activeUnlimitedDocuments: number;
   admin: boolean;
   settings: UserSettings;
 }
@@ -52,6 +53,7 @@ export const Users = userDatabase.model<IUser & Document>(
     codes: Array,
     apiToken: String,
     documentsMade: Number,
+    activeUnlimitedDocuments: Number;
     admin: Boolean,
     settings: {
       clipboard: Boolean,
