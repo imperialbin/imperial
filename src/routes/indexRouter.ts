@@ -1,20 +1,15 @@
 import { Router, Request, Response } from "express";
-
 import { IUser, Users } from "../models/Users";
-import Datastore from "nedb";
-import bcrypt from "bcrypt";
+import { hash } from "bcrypt";
 
 // Middleware
 import { checkAuthenticated } from "../middleware/checkAuthenticated";
 import { checkNotAuthenticated } from "../middleware/checkNotAuthenticated";
 
 // Utilities
-import { generateString } from "../utilities/generateString";
 import { mail } from "../utilities/mailer";
-
-const db = {
-  resetTokens: new Datastore({ filename: "./databases/resetTokens" }),
-};
+import { signToken } from "../utilities/signToken";
+import { verifyToken } from "../utilities/verifyToken";
 
 export const routes = Router();
 
@@ -43,12 +38,11 @@ routes.get("/forgot", (req: Request, res: Response) => {
 
 routes.get("/resetPassword/:resetToken", (req: Request, res: Response) => {
   const token = req.params.resetToken;
-  db.resetTokens.loadDatabase();
-  db.resetTokens.findOne({ token }, (err, tokenExists) => {
-    if (!tokenExists) res.render("error.ejs", { error: "Token is not valid!" });
+  const tokenExists = verifyToken(token);
+  if (!tokenExists)
+    return res.render("error.ejs", { error: "Token is not valid!" });
 
-    res.render("resetPassword.ejs", { token, error: false });
-  });
+  res.render("resetPassword.ejs", { token, error: false });
 });
 
 routes.get("/redeem", checkAuthenticated, (req: Request, res: Response) => {
@@ -103,8 +97,7 @@ routes.post(
           error: "We couldn't find a user with that email!",
         });
 
-      const token = generateString(30);
-      db.resetTokens.insert({ token, email, used: false });
+      const token = signToken(email);
       mail(
         email,
         "Reset password",
@@ -124,35 +117,30 @@ routes.post(
   }
 );
 
-routes.post("/resetPassword", (req: Request, res: Response) => {
+routes.post("/resetPassword", async (req: Request, res: Response) => {
   const token = req.body.token;
   const password = req.body.password;
   const confirmPassword = req.body.confirmPassword;
 
-  db.resetTokens.findOne({ token }, async (err, tokenInfo) => {
-    if (!tokenInfo)
-      return res.render("error.ejs", {
-        error: "That token has already been used!",
-      });
+  try {
+    const getEmail = verifyToken(token);
 
-    try {
-      if (password.length < 8) throw "Your password must be 8 characters long!";
-      if (password !== confirmPassword) throw "Passwords do not match!";
+    if (password.length < 8) throw "Your password must be 8 characters long!";
+    if (password !== confirmPassword) throw "Passwords do not match!";
 
-      const hashedPass = await bcrypt.hash(password, 13);
-      await Users.updateOne(
-        { email: tokenInfo.email },
-        { $set: { password: hashedPass } }
-      );
-      db.resetTokens.remove({ token });
-      res.render("success.ejs", {
-        successMessage: "Successfully resetted your password!",
-      });
-    } catch (error) {
-      return res.render("resetPassword.ejs", {
-        token,
-        error,
-      });
-    }
-  });
+    const hashedPass = await hash(password, 13);
+    await Users.updateOne(
+      { email: getEmail },
+      { $set: { password: hashedPass } }
+    );
+
+    res.render("success.ejs", {
+      successMessage: "Successfully resetted your password!",
+    });
+  } catch (error) {
+    return res.render("resetPassword.ejs", {
+      token,
+      error: "Invalid reset token or token has expired!",
+    });
+  }
 });
