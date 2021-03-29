@@ -3,7 +3,7 @@ import puppeteer from "puppeteer";
 export const screenshotDocument = async (
   documentId: string,
   quality: number
-) => {
+): Promise<void> => {
   const browser = await puppeteer.launch({
     headless: true,
     args: ["--no-sandbox", "--disable-setuid-sandbox"],
@@ -18,20 +18,11 @@ export const screenshotDocument = async (
   });
 
   const elementToScreenshot = await page.$(".ace_content");
-  const boundingBox = await elementToScreenshot?.boundingBox();
-  console.log(boundingBox);
 
-  if (elementToScreenshot && boundingBox) {
-    
+  if (elementToScreenshot) {
     await elementToScreenshot.screenshot({
       path: `./public/assets/img/${documentId}.jpg`,
       quality,
-      clip: {
-        x: boundingBox.x,
-        y: boundingBox.y,
-        width: boundingBox.width,
-        height: boundingBox.height,
-      },
     });
   }
 
