@@ -1,18 +1,13 @@
 import { Router, Request, Response } from "express";
-import { IUser, Users, UserSettings } from "../models/Users";
-import bcrypt from "bcrypt";
-import Datastore from "nedb";
+import { Users } from "../models/Users";
+import { hash } from "bcrypt";
 // @ts-ignore shhh
 import getIp from "ipware";
 
-const db = {
-  emailTokens: new Datastore({ filename: "./databases/emailTokens" }),
-};
-
 // Utilities
-import { generateString } from "../utilities/generateString";
 import { mail } from "../utilities/mailer";
 import { generateApiToken } from "../utilities/generateApiToken";
+import { signToken } from "../utilities/signToken";
 
 export const routes = Router();
 
@@ -75,8 +70,8 @@ routes.post("/", async (req: Request, res: Response) => {
     return throwInternalError("Invalid invite code!", email, username);
 
   try {
-    const emailToken = generateString(30);
-    const hashedPass = await bcrypt.hash(password, 13);
+    const hashedPass = await hash(password, 13);
+    const emailToken = signToken(email);
     const newUser = new Users({
       userId: (await Users.collection.count()) + 1,
       name: username,
@@ -92,6 +87,7 @@ routes.post("/", async (req: Request, res: Response) => {
       apiToken: generateApiToken(),
       codes: [],
       documentsMade: 0,
+      activeUnlimitedDocuments: 0,
       settings: {
         clipboard: false,
         longerUrls: false,
@@ -103,8 +99,6 @@ routes.post("/", async (req: Request, res: Response) => {
     });
     await newUser.save();
 
-    db.emailTokens.loadDatabase();
-    db.emailTokens.insert({ token: emailToken, email, used: false });
     mail(
       email,
       "Confirm your email",
