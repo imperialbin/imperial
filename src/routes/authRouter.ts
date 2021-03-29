@@ -1,13 +1,9 @@
 import { Router, Request, Response } from "express";
 import { Users } from "../models/Users";
-import Datastore from "nedb";
-import bcrypt from "bcrypt";
+import { hash } from "bcrypt";
 
 // Utilities
-const db = {
-  emailTokens: new Datastore({ filename: "./databases/emailTokens" }),
-  resetTokens: new Datastore({ filename: "./databases/resetTokens" }),
-};
+import { verifyToken } from "../utilities/verifyToken";
 
 export const routes = Router();
 
@@ -15,54 +11,43 @@ routes.get("/", (req: Request, res: Response) => {
   res.redirect("/");
 });
 
-routes.get("/:token", (req: Request, res: Response) => {
+routes.get("/:token", async (req: Request, res: Response) => {
   const token = req.params.token;
-  db.emailTokens.loadDatabase();
-  db.emailTokens.findOne({ token }, async (err, tokenInfo) => {
-    if (!tokenInfo)
-      return res.render("error.ejs", {
-        error: "That token has already been used or doesn't exists!",
-      });
+  try {
+    const getEmail = verifyToken(token);
 
-    await Users.updateOne(
-      { email: tokenInfo.email },
-      { $set: { confirmed: true } }
-    );
-
-    db.emailTokens.remove({ token });
+    await Users.updateOne({ email: getEmail }, { $set: { confirmed: true } });
     res.redirect("/login");
-  });
+  } catch (err) {
+    res.render("error.ejs", {
+      error: "Invalid token! Please contact an admin!",
+    });
+  }
 });
 
-routes.post("/resetPassword", (req: Request, res: Response) => {
+routes.post("/resetPassword", async (req: Request, res: Response) => {
   const token = req.body.token;
   const password = req.body.password;
   const confirmPassword = req.body.confirmPassword;
-  db.resetTokens.findOne({ token }, async (err, tokenInfo) => {
-    if (!tokenInfo)
-      return res.render("error.ejs", {
-        error: "That token has already been used!",
-      });
 
-    try {
-      if (password.length < 8) throw "Your password must be 8 characters long!";
-      if (confirmPassword === password) throw "Passwords do not match!";
+  try {
+    const tokenInfo = verifyToken(token);
+    if (password.length < 8) throw "Your password must be 8 characters long!";
+    if (confirmPassword === password) throw "Passwords do not match!";
 
-      const hashedPass = await bcrypt.hash(password, 13);
-      await Users.updateOne(
-        { email: tokenInfo.email },
-        { $set: { password: hashedPass } }
-      );
+    const hashedPass = await hash(password, 13);
+    await Users.updateOne(
+      { email: tokenInfo },
+      { $set: { password: hashedPass } }
+    );
 
-      res.render("success.ejs", {
-        successMessage: "Successfully reset your password!",
-      });
-      db.resetTokens.remove({ token });
-    } catch (error) {
-      res.render("resetPassword.ejs", {
-        token,
-        error,
-      });
-    }
-  });
+    res.render("success.ejs", {
+      successMessage: "Successfully reset your password!",
+    });
+  } catch (error) {
+    res.render("resetPassword.ejs", {
+      token,
+      error: "Invalid token or token has expired!!",
+    });
+  }
 });
