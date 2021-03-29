@@ -18,7 +18,9 @@
 
 <body>
   <main>
-    <img src="/assets/img/Logo.png" alt="IMPERIAL Logo" class="logo" draggable="false">
+    <a href="/">
+      <img src="/assets/img/Logo.png" alt="IMPERIAL Logo" class="logo" draggable="false">
+    </a>
     <div class="container">
       <form action="/register" method="POST">
         <h2>Welcome aboard!</h2>
@@ -59,7 +61,7 @@
             <div class="tile"><i class="fas fa-qrcode"></i></div>
             <input type="text" id="code" name="code" placeholder="Beta code..." autocomplete="off" required>
           </div>
-          Read our <a href="/terms">terms</a>
+          You agree to our <a href="/terms">terms</a>
           <br>
           <button type="submit">Register</button>
           <a href="/login">
@@ -72,7 +74,6 @@
       <img src="/assets/img/wave.svg" alt="IMPERIAL Wave svg" class="wave" draggable="false">
     </div>
   </main>
-  <br><br><br>
   <script src="https://kit.fontawesome.com/ec3f0c8487.js" crossorigin="anonymous"></script>
   <script>
     const urlParams = new URLSearchParams(window.location.search);
