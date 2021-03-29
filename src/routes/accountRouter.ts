@@ -1,9 +1,8 @@
 import { Router, Request, Response } from "express";
 import { IUser, Users } from "../models/Users";
-import bcrypt from "bcrypt";
-import gravatar from "gravatar";
+import { compare, hash } from "bcrypt";
+import { url } from "gravatar";
 import fetch from "node-fetch";
-import Datastore from "nedb";
 
 // ENV
 const DEVELOPER_USER = process.env.DEVELOPER_USER;
@@ -12,11 +11,8 @@ const DEVELOPER_USER = process.env.DEVELOPER_USER;
 import { generateString } from "../utilities/generateString";
 import { getDocuments } from "../utilities/getDocuments";
 import { generateApiToken as createToken } from "../utilities/generateApiToken";
-
-// uhhhhhhhhhhhhhhhhhhhhh
-const db = {
-  plusCodes: new Datastore({ filename: "./databases/plusCodes" }),
-};
+import { signToken } from "../utilities/signToken";
+import { verifyToken } from "../utilities/verifyToken";
 
 export const routes = Router();
 
@@ -45,7 +41,7 @@ routes.post("/me", (req: Request, res: Response) => {
     { _id: req.user?.toString() },
     async (err: string, user: IUser) => {
       if (user) {
-        if (await bcrypt.compare(password, user.password)) {
+        if (await compare(password, user.password)) {
           res.setHeader("Content-Type", "text/plain");
           res.write(user.toString());
           res.end();
@@ -65,20 +61,18 @@ routes.post("/me", (req: Request, res: Response) => {
 });
 
 // Redeeming Plus code
-routes.post("/redeem", (req: Request, res: Response) => {
+routes.post("/redeem", async (req: Request, res: Response) => {
   const code = req.body.code;
-  db.plusCodes.findOne({ code }, async (err, codeData) => {
-    if (codeData) {
-      if (!codeData.used) {
-        await Users.updateOne(
-          { _id: req.user?.toString() },
-          { $set: { memberPlus: true } }
-        );
-        db.plusCodes.remove({ _id: codeData[0]._id });
-        res.render("success.ejs", { successMessage: "You are now Member+!" });
-      }
-    }
-  });
+  try {
+    verifyToken(code); // Wont pass if its invalid
+    await Users.updateOne(
+      { _id: req.user?.toString() },
+      { $set: { memberPlus: true } }
+    );
+    res.render("success.ejs", { successMessage: "You are now Member+!" });
+  } catch (error) {
+    res.render("error.ejs", { error: "Member+ key is invalid!" });
+  }
 });
 
 // Resetting password stuff
@@ -90,13 +84,13 @@ routes.post("/resetPasswordForm", (req: Request, res: Response) => {
 
   Users.findOne({ _id }, async (err: string, user: IUser) => {
     try {
-      if (!(await bcrypt.compare(oldPassword, user.password)))
+      if (!(await compare(oldPassword, user.password)))
         throw "Incorrect old password!";
       if (newPassword.length < 8)
         throw "Please make your new password more than 8 characters long!";
       if (newPassword !== confirmPassword) throw "New passwords do not match!";
 
-      const hashedPass = await bcrypt.hash(newPassword, 13);
+      const hashedPass = await hash(newPassword, 13);
       await Users.updateOne({ _id }, { $set: { password: hashedPass } });
       res.render("account.ejs", {
         user,
@@ -170,7 +164,7 @@ routes.post("/changeDocumentSettings", (req: Request, res: Response) => {
 routes.post("/changePfpGravatar", async (req: Request, res: Response) => {
   const gravatarEmail = req.body.pfp;
   const _id = req.user?.toString();
-  const gravatarUrl = await gravatar.url(gravatarEmail);
+  const gravatarUrl = await url(gravatarEmail);
   const user = await Users.findOne({ _id });
   try {
     await Users.updateOne({ _id }, { $set: { icon: gravatarUrl } });
@@ -229,10 +223,8 @@ routes.post("/createInvite", (req: Request, res: Response) => {
 });
 
 routes.get("/createPlusInvite", (req: Request, res: Response) => {
-  db.plusCodes.loadDatabase();
   if (req.user?.toString() === DEVELOPER_USER) {
-    const code = generateString(33);
-    db.plusCodes.insert({ code, used: false });
+    const code = signToken(generateString(33));
     res.render("success.ejs", { successMessage: `Plus code: ${code}` });
   } else {
     res.redirect("/");
