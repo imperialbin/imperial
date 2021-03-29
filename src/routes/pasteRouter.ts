@@ -1,8 +1,8 @@
 import { Router, Request, Response } from "express";
-import { IUser, Users } from "../models/Users";
+import { Users } from "../models/Users";
 // @ts-ignore shhh
 import { Crawler } from "es6-crawler-detect";
-import fs from "fs";
+import { existsSync } from "fs";
 
 // Utilities
 import { decrypt } from "../utilities/decrypt";
@@ -55,7 +55,7 @@ routes.get(
 
         const enableImageEmbed = !!(
           document.imageEmbed &&
-          fs.existsSync(`./public/assets/img/${document?.URL}.jpg`)
+          existsSync(`./public/assets/img/${document?.URL}.jpg`)
         );
         if (req.isAuthenticated()) {
           const _id = req.user.toString();
@@ -150,7 +150,7 @@ routes.post("/getDocumentAccess/:documentId", (req: Request, res: Response) => {
         }
         const enableImageEmbed = !!(
           document.imageEmbed &&
-          fs.existsSync(`./public/assets/img/${document.URL}.jpg`)
+          existsSync(`./public/assets/img/${document.URL}.jpg`)
         );
 
         if (req.isAuthenticated()) {
