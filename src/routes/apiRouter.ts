@@ -1,7 +1,7 @@
-import { Router, Request, Response, response } from "express";
+import { Router, Request, Response } from "express";
 import { IUser, Users } from "../models/Users";
 import { Documents, IDocument } from "../models/Documents";
-import fs from "fs";
+import { existsSync, unlinkSync } from "fs";
 
 // Utilities
 import { generateString } from "../utilities/generateString";
@@ -247,9 +247,9 @@ routes.delete("/document/:documentId", async (req: Request, res: Response) => {
         await Documents.deleteOne({ URL: documentId });
         if (
           document.imageEmbed &&
-          fs.existsSync(`./public/assets/img/${documentId}.jpg`)
+          existsSync(`./public/assets/img/${documentId}.jpg`)
         )
-          fs.unlinkSync(`./public/assets/img/${documentId}.jpg`);
+          unlinkSync(`./public/assets/img/${documentId}.jpg`);
 
         return res.json({
           success: true,
@@ -294,9 +294,9 @@ routes.delete("/purgeDocuments", (req: Request, res: Response) => {
         for (const document of documents) {
           if (
             document.imageEmbed &&
-            fs.existsSync(`./public/assets/img/${document.URL}.jpg`)
+            existsSync(`./public/assets/img/${document.URL}.jpg`)
           )
-            fs.unlinkSync(`./public/assets/img/${document.URL}.jpg`);
+            unlinkSync(`./public/assets/img/${document.URL}.jpg`);
         }
 
         if (req.isAuthenticated()) return res.redirect("/account");
