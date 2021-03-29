@@ -18,6 +18,7 @@ export const connectDatabase = async (): Promise<void> => {
 
   if (await userDatabase) console.log("User database online");
   if (await documentDatabase) console.log("Document database online");
+  
   return;
 };
 
