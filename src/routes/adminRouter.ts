@@ -1,5 +1,7 @@
 import { Router, Request, Response } from "express";
 import { IUser, Users } from "../models/Users";
+
+// Utilities
 import { generateString } from "../utilities/generateString";
 import { getDocuments } from "../utilities/getDocuments";
 
