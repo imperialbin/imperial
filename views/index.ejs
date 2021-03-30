@@ -100,8 +100,10 @@
 
         if (language === autoLanguage.language) return; // Check if the language is the same as last time.
         if (autoLanguage.relevance < 5) return language = 'none'; // If language relevance is low, dont bother to set it.
+
         btn.textContent = autoLanguage.language;
         language = autoLanguage.language;
+        
         // Set language to editor
         window.editor.session.setMode(`ace/mode/${language.toLowerCase()}`)
       }
