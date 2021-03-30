@@ -100,10 +100,9 @@
 
         if (language === autoLanguage.language) return; // Check if the language is the same as last time.
         if (autoLanguage.relevance < 5) return language = 'none'; // If language relevance is low, dont bother to set it.
-
         btn.textContent = autoLanguage.language;
         language = autoLanguage.language;
-        
+
         // Set language to editor
         window.editor.session.setMode(`ace/mode/${language.toLowerCase()}`)
       }
@@ -141,7 +140,7 @@
       fontSize: '14.5px',
     })
     window.editor.session.setUseWrapMode(true)
-    window.editor.session.setMode("ace/mode/typescript");
+    window.editor.session.setMode("ace/mode/plain_text");
     /* You might be asking, looskie, what the fuck is this timeout doing, and my
     response is, ace is fucking stupid, and flashes white before the editor actually
     loads, and this is here so it prevents that and you dont your eyes, you're
