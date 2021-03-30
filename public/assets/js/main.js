@@ -17,8 +17,44 @@ window.addEventListener("keydown", (event) => {
           "_blank"
         );
       }
+      break;
+    case event.key === "Escape": {
+      const elements = document.querySelectorAll(".pasteSettings");
+      [].forEach.call(elements, function (el) {
+        el.classList.remove("active");
+      });
+    }
   }
 });
+
+function openLanguageSelector() {
+  const languageList = hljs.listLanguages();
+  const languageListElement = document.getElementById("languageList");
+  languageList.forEach((language) => {
+    const languageItem = document.createElement("li");
+    languageItem.className = "languageItem";
+    languageItem.id = language;
+    languageItem.innerHTML = `
+      <button class="languageBtn" onclick="changeLanguage('${language}')">${language}</button>
+    `;
+    languageListElement.append(languageItem);
+  });
+  document.getElementById("setLanguage").classList.add("active");
+}
+
+function closeLanguageSelector() {
+  const languageListElement = document.getElementById("languageList");
+  languageListElement.innerHTML = "";
+  document.getElementById("setLanguage").classList.remove("active");
+}
+
+function changeLanguage(language) {
+  const languageBtn = document.querySelector(".changeLanguageBtn");
+  languageBtn.textContent = language;
+  window.editor.session.setMode(`ace/mode/${language}`);
+
+  closeLanguageSelector();
+}
 
 function toggleAddUser() {
   const listCount = document

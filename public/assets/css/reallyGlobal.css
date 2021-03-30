@@ -107,13 +107,15 @@ body {
   width: 600px;
   height: auto;
   background: var(--secondary-background);
+  overflow-y: auto;
   border-radius: 10px;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   -ms-border-radius: 10px;
   -o-border-radius: 10px;
-  animation: 0.4s ease popInAnimation;
-  -webkit-animation: 0.4s ease popInAnimation;
+  animation: 0.28s ease popInAnimation;
+  -webkit-animation: 0.28s ease popInAnimation;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 16px 70px;
 }
 .pasteContainer p {
   padding: 0 15px;
@@ -133,6 +135,15 @@ body {
   opacity: 0;
   width: 0;
   height: 0;
+}
+#putMarginOnThisPlease {
+  margin: 25px 0;
+}
+.languageItem {
+  display: block;
+}
+.languageBtn {
+  font-size: 17px;
 }
 
 .slider {
@@ -604,11 +615,11 @@ input#token {
 @keyframes popInAnimation {
   0% {
     opacity: 0;
-    transform: scale(0.5);
-    -webkit-transform: scale(0.5);
-    -moz-transform: scale(0.5);
-    -ms-transform: scale(0.5);
-    -o-transform: scale(0.5);
+    transform: scale(0.9);
+    -webkit-transform: scale(0.9);
+    -moz-transform: scale(0.9);
+    -ms-transform: scale(0.9);
+    -o-transform: scale(0.9);
   }
 
   to {
@@ -624,10 +635,5 @@ input#token {
 @media screen and (max-width: 675px) {
   .pasteContainer {
     width: 90%;
-  }
-}
-@media screen and (max-height: 702px) {
-  .pasteContainer {
-    overflow-y: scroll;
   }
 }
