@@ -8,6 +8,7 @@ import { screenshotDocument } from "./screenshotDocument";
 export const createDocument = async (
   code: string,
   URL: string,
+  language: string | null,
   imageEmbed: boolean,
   instantDelete: boolean,
   expiration: number,
@@ -32,6 +33,7 @@ export const createDocument = async (
     try {
       new Documents({
         URL,
+        language,
         imageEmbed,
         instantDelete,
         creator,
@@ -60,7 +62,8 @@ export const createDocument = async (
               documentId: URL,
               rawLink: `https://imperialb.in/r/${URL}`,
               formattedLink: `https://imperialb.in/p/${URL}`,
-              expiresIn: new Date(document.deleteDate),
+              expiration: new Date(document.deleteDate),
+              language: document.language,
               instantDelete: document.instantDelete,
               encrypted: document.encrypted,
               password: document.encrypted ? passwordToHash : null,
