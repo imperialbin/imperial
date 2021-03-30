@@ -193,6 +193,7 @@
         },
         body: JSON.stringify({
           code: window.editor.getValue().toString(),
+          language: window.editor.session.$modeId.replace('ace/mode/', ''),
           longerUrls: settings.longerUrls,
           imageEmbed: settings.imageEmbed,
           expiration: settings.expiration,

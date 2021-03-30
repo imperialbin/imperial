@@ -8,6 +8,7 @@ LEVANTARTE !!!   ¡¡PORQUE DEBEMOS SER RICOS !! */
 
 export interface IDocument extends Document {
   URL: string;
+  language: string | null;
   imageEmbed: boolean;
   instantDelete: boolean;
   creator: string | null;
@@ -24,6 +25,7 @@ export const Documents = documentDatabase.model<IDocument>(
   "Documents",
   new Schema({
     URL: String,
+    language: String,
     imageEmbed: Boolean,
     instantDelete: Boolean,
     creator: String,

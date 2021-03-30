@@ -41,6 +41,7 @@ routes.post("/document", (req: Request, res: Response) => {
       return createDocument(
         code,
         generateString(8),
+        req.body.language || null,
         false,
         false,
         5,
@@ -55,6 +56,7 @@ routes.post("/document", (req: Request, res: Response) => {
     const creator = user._id.toString();
     const documentSettings: DocumentSettings = {
       longerUrls: req.body.longerUrls || false,
+      language: req.body.language || null,
       imageEmbed: req.body.imageEmbed || false,
       expiration: req.body.expiration || 5,
       instantDelete: req.body.instantDelete || false,
@@ -67,6 +69,7 @@ routes.post("/document", (req: Request, res: Response) => {
     return createDocument(
       code,
       documentSettings.longerUrls ? generateString(26) : generateString(8),
+      documentSettings.language,
       documentSettings.imageEmbed,
       documentSettings.instantDelete,
       documentSettings.expiration > 31 ? 31 : documentSettings.expiration,
@@ -125,6 +128,7 @@ routes.get("/document/:documentId", (req: Request, res: Response) => {
         content: code,
         documentInfo: {
           documentId: document.URL,
+          language: document.language,
           imageEmbed: document.imageEmbed,
           instantDelete: document.instantDelete,
           dateCreated: document.dateCreated,
