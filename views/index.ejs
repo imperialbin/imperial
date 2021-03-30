@@ -97,7 +97,7 @@
     <ul id="messages"></ul>
   </div>
   <% }%>
-  <div id="codeThing" class="editor"></div>
+  <div id="codeThing" class="editor" onkeydown="saveText()"></div>
   <script src="/assets/js/main.js?v=4"></script>
   <script src="/assets/js/highlight.js"></script>
   <script src="/assets/js/src-min-noconflict/ace.js"></script>
@@ -124,6 +124,14 @@
         }
       }
     }, 1500)
+
+    const saveText = () => localStorage.setItem('saveText', window.editor.getValue())
+
+    const restoreSession = () => {
+      window.editor.setValue(localStorage.getItem('saveText'))
+      localStorage.removeItem('saveText');
+      document.getElementById('restoreSes').remove()
+    }
 
     // Some consts we need
     const template = document.getElementById('accountDrop');
@@ -182,7 +190,14 @@
       navigator.clipboard
         .readText()
         .then((copiedText) => {
-          if (settings.clipboard) window.editor.session.setValue(copiedText);
+          if (settings.clipboard) {
+            const restore = localStorage.getItem('saveText');
+            window.editor.session.setValue(copiedText);
+            if (restore && restore.length > 0 && copiedText !== restore) {
+              const messages = document.getElementById('messages');
+              messages.innerHTML += '<li class="message info clickableMsg" onclick="restoreSession()" id="restoreSes"><i class="fas fa-question" style="padding-right: 9px;"></i> Restore last session?</li>'
+            }
+          }
         })
         .catch((err) => {
           console.log("denied paste capabilities");

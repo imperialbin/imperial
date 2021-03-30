@@ -160,6 +160,9 @@ body {
   font-size: 17px;
   margin-top: 10px;
 }
+.clickableMsg {
+  cursor: pointer;
+}
 .languageBtn:hover {
   background: unset;
 }
