@@ -229,6 +229,7 @@
       fetch("/api/document", options)
         .then(res => res.json())
         .then((documentRes) => {
+          localStorage.removeItem('saveText');
           if (documentRes.instantDelete || documentRes.encrypted) {
             const messages = document.getElementById('messages');
             let urlToCopy;
