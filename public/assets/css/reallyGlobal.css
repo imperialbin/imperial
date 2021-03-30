@@ -138,12 +138,53 @@ body {
 }
 #putMarginOnThisPlease {
   margin: 25px 0;
+  text-align: left;
+  padding-left: 10px;
+}
+.languageList {
+  margin: 0;
+  padding: 0;
 }
 .languageItem {
   display: block;
+  cursor: pointer;
+  padding-left: 10px;
+  border-top: 1px solid rgba(172, 172, 172, 0.1);
+}
+.languageItem:hover {
+  background: var(--scrollbar-track);
 }
 .languageBtn {
+  background: unset;
+  box-shadow: none;
   font-size: 17px;
+  margin-top: 10px;
+}
+.languageBtn:hover {
+  background: unset;
+}
+h1#selectLanguage {
+  text-align: center;
+  font-size: 28px;
+}
+.searchBar {
+  display: block;
+  margin: 0 0 15px 0;
+  background: unset;
+  font-size: 25px;
+  box-shadow: none;
+}
+.searchBar:focus {
+  background: transparent;
+}
+.searchBar::placeholder {
+  opacity: 0.5;
+}
+.searchBar:focus::placeholder {
+  opacity: 1;
+}
+.closeBtn {
+  margin-left: 20px;
 }
 
 .slider {
