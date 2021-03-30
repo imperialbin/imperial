@@ -97,14 +97,12 @@
       if (checkEditor.length > 0) {
         const autoLanguage = hljs.highlightAuto(window.editor.getValue())
         const btn = document.querySelector('.changeLanguageBtn');
-        if (language === autoLanguage.language) return; // Check if the language is the same as last time.
 
-        if (autoLanguage.relevance > 5) {
-          btn.textContent = autoLanguage.top.aliases[0];
-          language = autoLanguage.language;
-        } else {
-          language = 'none';
-        }
+        if (language === autoLanguage.language) return; // Check if the language is the same as last time.
+        if (autoLanguage.relevance < 5) return language = 'none';
+
+        btn.textContent = autoLanguage.top.aliases[0];
+        language = autoLanguage.language;
       }
     }, 1500)
 
