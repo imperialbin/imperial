@@ -27,36 +27,58 @@ window.addEventListener("keydown", (event) => {
   }
 });
 
-function openLanguageSelector() {
+const openLanguageSelector = () => {
   const languageList = hljs.listLanguages();
   const languageListElement = document.getElementById("languageList");
   languageList.forEach((language) => {
     const languageItem = document.createElement("li");
     languageItem.className = "languageItem";
     languageItem.id = language;
+    languageItem.setAttribute("onclick", `changeLanguage('${language}')`);
     languageItem.innerHTML = `
-      <button class="languageBtn" onclick="changeLanguage('${language}')">${language}</button>
+      <button class="languageBtn">${language}</button>
     `;
     languageListElement.append(languageItem);
   });
   document.getElementById("setLanguage").classList.add("active");
-}
+  document.querySelector(".searchBar").select();
+};
 
-function closeLanguageSelector() {
+const searchResults = async (string) => {
+  const languageList = hljs.listLanguages();
+  const languageListElement = document.getElementById("languageList");
+
+  languageListElement.innerHTML = "";
+  await languageList.forEach((language) => {
+    if (language.startsWith(string)) {
+      const languageItem = document.createElement("li");
+      languageItem.className = "languageItem";
+      languageItem.id = language;
+      languageItem.setAttribute("onclick", `changeLanguage('${language}')`);
+
+      languageItem.innerHTML = `
+      <button class="languageBtn">${language}</button>
+    `;
+      languageListElement.append(languageItem);
+    }
+  });
+};
+
+const closeLanguageSelector = () => {
   const languageListElement = document.getElementById("languageList");
   languageListElement.innerHTML = "";
   document.getElementById("setLanguage").classList.remove("active");
-}
+};
 
-function changeLanguage(language) {
+const changeLanguage = (language) => {
   const languageBtn = document.querySelector(".changeLanguageBtn");
   languageBtn.textContent = language;
   window.editor.session.setMode(`ace/mode/${language}`);
 
   closeLanguageSelector();
-}
+};
 
-function toggleAddUser() {
+const toggleAddUser = () => {
   const listCount = document
     .getElementById("editorArray")
     .getElementsByTagName("li").length;
@@ -80,19 +102,19 @@ function toggleAddUser() {
     });
   }
   document.getElementById("addUser").classList.add("active");
-}
+};
 
-function closeAddUser() {
+const closeAddUser = () => {
   document.getElementById("addUser").classList.remove("active");
-}
+};
 
-function clearUsers() {
+const clearUsers = () => {
   document.getElementById("addUser").classList.remove("active");
   document.getElementById("editorArray").innerHTML = "";
   localStorage.removeItem("editorArray");
-}
+};
 
-function addUser(userToAdd) {
+const addUser = (userToAdd) => {
   const errorSpan = document.getElementById("editor-error");
   const existingEditors = JSON.parse(localStorage.getItem("editorArray"));
   if (
@@ -158,10 +180,11 @@ function addUser(userToAdd) {
         }
       });
   }
-}
-function removeUser(userToRemove) {
+};
+
+const removeUser = (userToRemove) => {
   const editorArray = JSON.parse(localStorage.getItem("editorArray"));
   const newArray = editorArray.filter((cum) => cum.username !== userToRemove);
   document.getElementById(userToRemove).remove();
   localStorage.setItem("editorArray", JSON.stringify(newArray));
-}
+};

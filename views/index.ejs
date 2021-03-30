@@ -34,12 +34,12 @@
   </div>
   <div class="pasteSettings" id="setLanguage">
     <div class="pasteContainer" id="putMarginOnThisPlease">
-      <h1>Select a language</h1>
+      <h1 id="selectLanguage">Select a language</h1>
+      <input type="text" class="searchBar" id="searchBarTings" oninput="searchResults(document.getElementById('searchBarTings').value)" placeholder="Search" autofocus>
       <ul class="languageList" id="languageList">
       </ul>
       <br>
-      <br>
-      <button onclick="closeLanguageSelector()">Close</button>
+      <button class="closeBtn" onclick="closeLanguageSelector()">Close</button>
       <br><br>
     </div>
   </div>
