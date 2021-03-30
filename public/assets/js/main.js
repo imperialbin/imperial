@@ -36,6 +36,7 @@ window.addEventListener("keydown", (event) => {
 const openLanguageSelector = () => {
   const languageList = hljs.listLanguages();
   const languageListElement = document.getElementById("languageList");
+  languageListElement.innerHTML = `<li class="languageItem" id="auto" onclick="changeLanguage('auto')"> <button class="languageBtn">Auto detect</button> </li>`;
   languageList.forEach((language) => {
     const languageItem = document.createElement("li");
     languageItem.className = "languageItem";
@@ -78,9 +79,14 @@ const closeLanguageSelector = () => {
 
 const changeLanguage = (language) => {
   const languageBtn = document.querySelector(".changeLanguageBtn");
-  languageBtn.textContent = language;
-  window.editor.session.setMode(`ace/mode/${language}`);
+  if(language !== 'auto') {    
+    languageBtn.textContent = language;
+    window.editor.session.setMode(`ace/mode/${language}`);
+  } else {
+    languageBtn.innerHTML = '<i class="fas fa-minus"></i>';
+  }
 
+  localStorage.setItem("language", language);
   closeLanguageSelector();
 };
 
