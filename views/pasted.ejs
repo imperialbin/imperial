@@ -70,8 +70,13 @@
     })
     window.editor.session.setUseWrapMode(true)
     window.editor.session.setMode("ace/mode/typescript");
-
     window.editor.session.setValue(htmlDecode(code));
+    /* You might be asking, looskie, what the fuck is this timeout doing, and my
+    response is, ace is fucking stupid, and flashes white before the editor actually
+    loads, and this is here so it prevents that and you dont your eyes, you're
+    welcome. And to be honest, I only want it to show once its done loading anyways,
+     */
+    setTimeout(() => document.getElementById('codeThing').style.display = 'unset', 80)
   </script>
   <script src="/assets/js/global.js?v=5"></script>
 </body>
