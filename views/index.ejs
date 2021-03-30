@@ -27,8 +27,19 @@
       <input id="user" type="text" autocomplete="off" placeholder="Add a user here">
       <button class="addUserBtn" onclick="addUser(document.getElementById('user').value)">Add user</button>
       <ul id="editorArray" class="editorArray"></ul>
-      <br><br><button id="cancel-settings" class="cancelSettings" onclick="clearUsers()">Cancel and clear</button>
+      <br><button id="cancel-settings" class="cancelSettings" onclick="clearUsers()">Cancel and clear</button>
       <button onclick="closeAddUser()">Save</button>
+      <br><br>
+    </div>
+  </div>
+  <div class="pasteSettings" id="setLanguage">
+    <div class="pasteContainer" id="putMarginOnThisPlease">
+      <h1>Select a language</h1>
+      <ul class="languageList" id="languageList">
+      </ul>
+      <br>
+      <br>
+      <button onclick="closeLanguageSelector()">Close</button>
       <br><br>
     </div>
   </div>
@@ -49,7 +60,7 @@
       <h6>IMPERIAL</h6>
       <ul>
         <li id="changeLanguage" class="tooltip" data-tippy-content="Change language"><button id="icon"
-            class="changeLanguageBtn"><i class="fas fa-minus"></i></button>
+            class="changeLanguageBtn" onclick="openLanguageSelector()"><i class="fas fa-minus"></i></button>
         </li>
         <li id="users" class="addEditors tooltip" data-tippy-content="Add users"><button id="icon"
             onclick="toggleAddUser()"><i class="fas fa-user-friends"></i></button></li>
