@@ -365,6 +365,28 @@ routes.post("/checkUser", (req: Request, res: Response) => {
   });
 });
 
+/* routes.post("/report", (req: Request, res: Response) => {
+  const index = req.isAuthenticated()
+    ? { _id: req.user?.toString() }
+    : { apiToken: req.headers.authorization };
+  Users.findOne({ index }, (err: string, user: IUser) => {
+    if (err)
+      return throwApiError(
+        res,
+        "An error occurred whilst getting your user!",
+        500
+      );
+    if (!user)
+      return throwApiError(
+        res,
+        "You must be authorized to report something!",
+        401
+      );
+    
+    
+  });
+}); */
+
 routes.get("*", (req: Request, res: Response) => {
   throwApiError(
     res,
