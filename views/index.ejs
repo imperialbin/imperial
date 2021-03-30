@@ -48,6 +48,9 @@
     <div class="menu-content">
       <h6>IMPERIAL</h6>
       <ul>
+        <li id="changeLanguage" class="tooltip" data-tippy-content="Change language"><button id="icon"
+            class="changeLanguageBtn"><i class="fas fa-minus"></i></button>
+        </li>
         <li id="users" class="addEditors tooltip" data-tippy-content="Add users"><button id="icon"
             onclick="toggleAddUser()"><i class="fas fa-user-friends"></i></button></li>
         <li id="save" class="save tooltip" data-tippy-content="Create document"> <button id="icon"
@@ -84,8 +87,27 @@
   <% }%>
   <div id="codeThing" class="editor"></div>
   <script src="/assets/js/main.js?v=4"></script>
+  <script src="/assets/js/highlight.js"></script>
   <script src="/assets/js/src-min-noconflict/ace.js"></script>
   <script>
+    // Automatically detect the language
+    let language;
+    setInterval(() => {
+      const checkEditor = window.editor.getValue();
+      if (checkEditor.length > 0) {
+        const autoLanguage = hljs.highlightAuto(window.editor.getValue())
+        const btn = document.querySelector('.changeLanguageBtn');
+        if (language === autoLanguage.language) return; // Check if the language is the same as last time.
+
+        if (autoLanguage.relevance > 5) {
+          btn.textContent = autoLanguage.top.aliases[0];
+          language = autoLanguage.language;
+        } else {
+          language = 'none';
+        }
+      }
+    }, 1500)
+
     // Some consts we need
     const template = document.getElementById('accountDrop');
     tippy('#account', {
@@ -124,24 +146,28 @@
     loads, and this is here so it prevents that and you dont your eyes, you're
     welcome. And to be honest, I only want it to show once its done loading anyways,
      */
-    setTimeout(() => document.getElementById('codeThing').style.display = 'unset', 80)
+    setTimeout(() => {
+      document.getElementById('codeThing').style.display = 'unset'
+      window.editor.focus()
+      window.editor.navigateFileEnd();
+    }, 80);
 
-      (() => {
-        const duplicate = localStorage.getItem("duplicateDocument");
-        if (duplicate) {
-          localStorage.removeItem('duplicateDocument')
-          return window.editor.session.setValue(duplicate)
-        }
+    (() => {
+      const duplicate = localStorage.getItem("duplicateDocument");
+      if (duplicate) {
+        localStorage.removeItem('duplicateDocument')
+        return window.editor.session.setValue(duplicate)
+      }
 
-        navigator.clipboard
-          .readText()
-          .then((copiedText) => {
-            if (settings.clipboard) window.editor.session.setValue(copiedText);
-          })
-          .catch((err) => {
-            console.log("denied paste capabilities");
-          });
-      })()
+      navigator.clipboard
+        .readText()
+        .then((copiedText) => {
+          if (settings.clipboard) window.editor.session.setValue(copiedText);
+        })
+        .catch((err) => {
+          console.log("denied paste capabilities");
+        });
+    })()
 
     async function createDocument() {
       if (window.editor.getValue() == 0) return console.log("you gotta put sum in b");
