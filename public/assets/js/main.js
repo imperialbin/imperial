@@ -10,6 +10,12 @@ window.addEventListener("keydown", (event) => {
       event.preventDefault();
       newDocument();
       break;
+    case event.key === "a" && event.altKey:
+      toggleAddUser();
+      break;
+    case event.key === "c" && event.altKey:
+      openLanguageSelector();
+      break;
     case event.key === "t" && event.altKey:
       if (location.pathname === "/") {
         window.open(

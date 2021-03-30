@@ -149,7 +149,7 @@ body {
   display: block;
   cursor: pointer;
   padding-left: 10px;
-  border-top: 1px solid rgba(172, 172, 172, 0.1);
+  border-top: 1px solid rgba(172, 172, 172, 0.2);
 }
 .languageItem:hover {
   background: var(--scrollbar-track);
