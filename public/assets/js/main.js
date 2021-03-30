@@ -6,16 +6,22 @@ window.addEventListener("keydown", (event) => {
       event.preventDefault();
       createDocument();
       break;
+
     case event.key === "o" && event.ctrlKey:
       event.preventDefault();
       newDocument();
       break;
+
     case event.key === "a" && event.altKey:
+      closeEverythingPlease();
       toggleAddUser();
       break;
+
     case event.key === "c" && event.altKey:
+      closeEverythingPlease();
       openLanguageSelector();
       break;
+
     case event.key === "t" && event.altKey:
       if (location.pathname === "/") {
         window.open(
@@ -24,14 +30,17 @@ window.addEventListener("keydown", (event) => {
         );
       }
       break;
-    case event.key === "Escape": {
-      const elements = document.querySelectorAll(".pasteSettings");
-      [].forEach.call(elements, function (el) {
-        el.classList.remove("active");
-      });
-    }
+    case event.key === "Escape":
+      closeEverythingPlease();
   }
 });
+
+const closeEverythingPlease = () => {
+  const elements = document.querySelectorAll(".pasteSettings");
+  [].forEach.call(elements, function (el) {
+    el.classList.remove("active");
+  });
+};
 
 const openLanguageSelector = () => {
   const languageList = hljs.listLanguages();
@@ -79,7 +88,7 @@ const closeLanguageSelector = () => {
 
 const changeLanguage = (language) => {
   const languageBtn = document.querySelector(".changeLanguageBtn");
-  if(language !== 'auto') {    
+  if (language !== "auto") {
     languageBtn.textContent = language;
     window.editor.session.setMode(`ace/mode/${language}`);
   } else {
