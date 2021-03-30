@@ -119,23 +119,29 @@
     })
     window.editor.session.setUseWrapMode(true)
     window.editor.session.setMode("ace/mode/typescript");
+    /* You might be asking, looskie, what the fuck is this timeout doing, and my
+    response is, ace is fucking stupid, and flashes white before the editor actually
+    loads, and this is here so it prevents that and you dont your eyes, you're
+    welcome. And to be honest, I only want it to show once its done loading anyways,
+     */
+    setTimeout(() => document.getElementById('codeThing').style.display = 'unset', 80)
 
-    (() => {
-      const duplicate = localStorage.getItem("duplicateDocument");
-      if (duplicate) {
-        localStorage.removeItem('duplicateDocument')
-        return window.editor.session.setValue(duplicate)
-      }
+      (() => {
+        const duplicate = localStorage.getItem("duplicateDocument");
+        if (duplicate) {
+          localStorage.removeItem('duplicateDocument')
+          return window.editor.session.setValue(duplicate)
+        }
 
-      navigator.clipboard
-        .readText()
-        .then((copiedText) => {
-          if (settings.clipboard) window.editor.session.setValue(copiedText);
-        })
-        .catch((err) => {
-          console.log("denied paste capabilities");
-        });
-    })()
+        navigator.clipboard
+          .readText()
+          .then((copiedText) => {
+            if (settings.clipboard) window.editor.session.setValue(copiedText);
+          })
+          .catch((err) => {
+            console.log("denied paste capabilities");
+          });
+      })()
 
     async function createDocument() {
       if (window.editor.getValue() == 0) return console.log("you gotta put sum in b");
