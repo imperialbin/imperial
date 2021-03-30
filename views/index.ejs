@@ -35,7 +35,8 @@
   <div class="pasteSettings" id="setLanguage">
     <div class="pasteContainer" id="putMarginOnThisPlease">
       <h1 id="selectLanguage">Select a language</h1>
-      <input type="text" class="searchBar" id="searchBarTings" oninput="searchResults(document.getElementById('searchBarTings').value)" placeholder="Search" autofocus>
+      <input type="text" class="searchBar" id="searchBarTings"
+        oninput="searchResults(document.getElementById('searchBarTings').value)" placeholder="Search" autofocus>
       <ul class="languageList" id="languageList">
       </ul>
       <br>
@@ -102,20 +103,25 @@
   <script src="/assets/js/src-min-noconflict/ace.js"></script>
   <script>
     // Automatically detect the language
+    if (localStorage.getItem('language') !== 'auto')
+      document.querySelector('.changeLanguageBtn').textContent = localStorage.getItem('language');
+
     let language;
     setInterval(() => {
-      const checkEditor = window.editor.getValue();
-      if (checkEditor.length > 0) {
-        const autoLanguage = hljs.highlightAuto(window.editor.getValue())
-        const btn = document.querySelector('.changeLanguageBtn');
+      if (localStorage.getItem('language') === 'auto') {
+        const checkEditor = window.editor.getValue();
+        if (checkEditor.length > 0) {
+          const autoLanguage = hljs.highlightAuto(window.editor.getValue())
+          const btn = document.querySelector('.changeLanguageBtn');
 
-        if (language === autoLanguage.language) return; // Check if the language is the same as last time.
-        if (autoLanguage.relevance < 5) return language = 'none'; // If language relevance is low, dont bother to set it.
-        btn.textContent = autoLanguage.language;
-        language = autoLanguage.language;
+          if (language === autoLanguage.language) return; // Check if the language is the same as last time.
+          if (autoLanguage.relevance < 5) return language = 'none'; // If language relevance is low, dont bother to set it.
+          btn.textContent = autoLanguage.language;
+          language = autoLanguage.language;
 
-        // Set language to editor
-        window.editor.session.setMode(`ace/mode/${language.toLowerCase()}`)
+          // Set language to editor
+          window.editor.session.setMode(`ace/mode/${language.toLowerCase()}`)
+        }
       }
     }, 1500)
 
@@ -144,6 +150,8 @@
       imageEmbed: loggedIn ? JSON.parse('<%= settings.imageEmbed %>') : false,
     }
 
+    const languageStorage = localStorage.getItem('language');
+
     window.editor = ace.edit("codeThing");
     editor.setOptions({
       theme: 'ace/theme/custom',
@@ -151,7 +159,8 @@
       fontSize: '14.5px',
     })
     window.editor.session.setUseWrapMode(true)
-    window.editor.session.setMode("ace/mode/plain_text");
+    window.editor.session.setMode(languageStorage && languageStorage !== "auto" ? `ace/mode/${languageStorage}` : "ace/mode/plain_text");
+    console.log(window.editor.session.$modeId);
     /* You might be asking, looskie, what the fuck is this timeout doing, and my
     response is, ace is fucking stupid, and flashes white before the editor actually
     loads, and this is here so it prevents that and you dont your eyes, you're
