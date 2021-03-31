@@ -1,5 +1,3 @@
-/*  */
-
 window.addEventListener("keydown", (event) => {
   switch (true) {
     case event.key === "s" && event.ctrlKey:
