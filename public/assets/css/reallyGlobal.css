@@ -170,6 +170,9 @@ h1#selectLanguage {
   text-align: center;
   font-size: 28px;
 }
+.loginBtn {
+  margin-right: 5px;
+}
 .searchBar {
   display: block;
   margin: 0 0 15px 0;
