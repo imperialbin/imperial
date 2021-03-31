@@ -15,8 +15,13 @@ export const mail = (
 ): Promise<string> => {
   // Emailing settings
   const transporter = nodeMailer.createTransport({
-    service: "gmail",
-    auth: { user: USER, pass: PASS },
+    host: HOST,
+    port: PORT,
+    secure: true,
+    auth: {
+      user: USER,
+      pass: PASS,
+    },
     tls: {
       rejectUnauthorized: false,
     },
