@@ -107,7 +107,9 @@
     switch (true) {
       case event.key === "s" && event.ctrlKey:
         event.preventDefault();
-        createDocument();
+        if(document.querySelector('.editBtnFunc').getAttribute('onclick') === 'actuallyEditDocument()') {
+          actuallyEditDocument()
+        }
         break;
       case event.key === "t" && event.altKey:
         if (location.pathname === "/") {
