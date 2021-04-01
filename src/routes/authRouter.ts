@@ -163,7 +163,6 @@ routes.get(
       });
 
     const accessToken = getAuthToken.access_token;
-    console.log(accessToken);
 
     await Users.updateOne(
       { _id: req.user?.toString() },
