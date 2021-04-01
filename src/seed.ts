@@ -18,6 +18,7 @@ const user: Omit<IUser, "_id"> = {
   documentsMade: 10,
   activeUnlimitedDocuments: 0,
   discordId: null,
+  githubAccess: null,
   admin: false,
   settings: {
     clipboard: false,
