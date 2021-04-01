@@ -75,6 +75,12 @@ routes.post("/redeem", async (req: Request, res: Response) => {
   }
 });
 
+routes.post("/unlinkGithub", async (req: Request, res: Response) => {
+  const _id = req.user?.toString();
+  await Users.updateOne({ _id }, { $set: { githubAccess: null } });
+  res.redirect("/account");
+});
+
 // Resetting password stuff
 routes.post("/resetPasswordForm", (req: Request, res: Response) => {
   const _id = req.user?.toString();

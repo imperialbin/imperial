@@ -359,6 +359,9 @@
     <% if (user.githubAccess) { %>
     <span class="integration">You already linked your Github account! If you'd like to revoke it, please go to your account on Github.</span>
     <br><br>
+    <form action="/account/unlinkGithub" method="POST">
+      <button>Unlink Github</button>
+    </form>
     <% } else { %>
     <span class="integration">You have not yet linked your Github, if you'd like, click the button below!.</span> <br>
     <span class="integration">Linking your Github will let you have a backup of all your imperial documents!</span>
