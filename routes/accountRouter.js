@@ -5,7 +5,7 @@ const gravatar = require("gravatar");
 const fetch = require("node-fetch");
 const Datastore = require("nedb");
 
-// Utilities
+// Utilities uwu
 const generateString = require("../utilities/generateString");
 
 const db = {
