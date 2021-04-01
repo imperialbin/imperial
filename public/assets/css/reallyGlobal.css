@@ -296,14 +296,6 @@ li.deletePaste {
   color: var(--text-light);
 }
 
-#codeThing * {
-  transition: none;
-  -webkit-transition: none;
-  -moz-transition: none;
-  -ms-transition: none;
-  -o-transition: none;
-}
-
 #login,
 #signup {
   margin: 0 20px 14px 0;
