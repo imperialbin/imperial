@@ -108,7 +108,7 @@
     // Automatically detect the language
     const getThisStupidThing = localStorage.getItem('language');
 
-    if(!getThisStupidThing) localStorage.setItem('language', 'auto')
+    if (!getThisStupidThing) localStorage.setItem('language', 'auto')
     if (getThisStupidThing && getThisStupidThing !== 'auto')
       document.querySelector('.changeLanguageBtn').textContent = localStorage.getItem('language');
 
@@ -168,24 +168,14 @@
 
     window.editor = ace.edit("codeThing");
     editor.setOptions({
-      theme: 'ace/theme/custom',
       showPrintMargin: false,
       fontSize: '14.5px',
-    })
-    window.editor.session.setUseWrapMode(true)
-    window.editor.session.setMode(languageStorage && languageStorage !== "auto" ? `ace/mode/${languageStorage}` : "ace/mode/plain_text");
-    console.log(window.editor.session.$modeId);
-    /* You might be asking, looskie, what the fuck is this timeout doing, and my
-    response is, ace is fucking stupid, and flashes white before the editor actually
-    loads, and this is here so it prevents that and you dont your eyes, you're
-    welcome. And to be honest, I only want it to show once its done loading anyways,
-     */
-    setTimeout(() => {
-      document.getElementById('codeThing').style.display = 'unset'
-      window.editor.focus()
-      window.editor.navigateFileEnd();
-    }, 80);
-
+    });
+    editor.session.setUseWrapMode(true)
+    editor.session.setMode(languageStorage && languageStorage !== "auto" ? `ace/mode/${languageStorage}` : "ace/mode/plain_text");
+    editor.focus()
+    editor.navigateFileEnd();
+    
     (() => {
       const duplicate = localStorage.getItem("duplicateDocument");
       if (duplicate) {
