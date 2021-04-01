@@ -10,8 +10,6 @@ const fs = require("fs");
 const passport = require("passport");
 const initializePassport = require("./passport-config");
 const methodOverride = require("method-override");
-const http = require("http").createServer(app);
-const io = require("socket.io")(http);
 const MongoStore = require("connect-mongo").default;
 const CrawlerDetect = require("crawler-detect");
 
@@ -104,18 +102,6 @@ app.use(
 
 process.on("uncaughtException", (err, origin) => {
   fs.writeSync(process.stderr.fd, `Caught exception: ${err}\n` + `Exception origin: ${origin}`);
-});
-
-// SOCKET IO STUFF
-// this shit literally doesnt work, i think its my fault for the nginx config, but fuck men, like what the hell dude, just work :facepalm:
-http.listen(8080, () => {
-  console.log("SOCKETIO SERVER LISTENING!");
-});
-
-io.on("connection", (socket) => {
-  socket.on("editPasteEmit", (code) => {
-    io.emit("getEditPasteEmit", code);
-  });
 });
 
 app.get("*", (req, res) => {
