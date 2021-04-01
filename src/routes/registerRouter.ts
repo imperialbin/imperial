@@ -88,6 +88,7 @@ routes.post("/", async (req: Request, res: Response) => {
       codes: [],
       documentsMade: 0,
       activeUnlimitedDocuments: 0,
+      discordId: "",
       settings: {
         clipboard: false,
         longerUrls: false,
