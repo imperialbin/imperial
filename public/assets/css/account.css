@@ -63,11 +63,18 @@ main {
 h1 {
   font-weight: 400;
 }
-h2 {
+h2,
+h3 {
   font-weight: 300;
   font-size: 35px;
   margin-top: 60px;
   text-transform: uppercase;
+}
+h3 {
+  font-size: 26px;
+}
+.integration {
+  font-size: 18px;
 }
 #home {
   margin-top: 30px;

@@ -32,7 +32,7 @@ export interface IUser {
   apiToken: string;
   documentsMade: number;
   activeUnlimitedDocuments: number;
-  discordId: string;
+  discordId: string | null;
   admin: boolean;
   settings: UserSettings;
 }
@@ -56,7 +56,7 @@ export const Users = userDatabase.model<IUser & Document>(
     documentsMade: Number,
     activeUnlimitedDocuments: Number,
     admin: Boolean,
-    discordId: String,
+    discordId: String || null,
     settings: {
       clipboard: Boolean,
       longerUrls: Boolean,

@@ -17,7 +17,7 @@ const user: Omit<IUser, "_id"> = {
   memberPlus: true,
   documentsMade: 10,
   activeUnlimitedDocuments: 0,
-  discordId: '',
+  discordId: null,
   admin: false,
   settings: {
     clipboard: false,
