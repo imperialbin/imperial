@@ -336,7 +336,8 @@
     <div>
       <br>
       <% if (user.discordId) { %>
-      <span class="integration">You are already linked to Discord ID #<%= user.discordId %>! You can relink if you'd like.</span>
+      <span class="integration">You are already linked to Discord ID #<%= user.discordId %>! You can relink if you'd
+        like.</span>
       <br><br>
       <div>
         <a href="/auth/discord" class="noOpacity">
@@ -355,9 +356,19 @@
     </div>
     <h3>GitHub integration</h3>
     <br>
-    <div class="cum tooltip" data-tippy-content="Coming soon...">
-      <button type="submit" class="alignedLeftBtn" disabled>Link GitHub</button>
+    <% if (user.githubAccess) { %>
+    <span class="integration">You already linked your Github account! If you'd like to revoke it, please go to your account on Github.</span>
+    <br><br>
+    <% } else { %>
+    <span class="integration">You have not yet linked your Github, if you'd like, click the button below!.</span> <br>
+    <span class="integration">Linking your Github will let you have a backup of all your imperial documents!</span>
+    <br><br>
+    <div>
+      <a href="/auth/github" class="noOpacity">
+        <button>Link Github</button>
+      </a>
     </div>
+    <% } %>
 
     <!-- RESET PASSWORD STUFF -->
     <h2 id="reset">Reset your password</h2>

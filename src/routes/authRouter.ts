@@ -7,16 +7,19 @@ import fetch from "node-fetch";
 // Utilities
 import { verifyToken } from "../utilities/verifyToken";
 import { checkAuthenticated } from "../middleware/checkAuthenticated";
-import { generateString } from "../utilities/generateString";
 
 export const routes = Router();
 
 // env
-const CLIENT_ID = process.env.CLIENT_ID;
-const CLIENT_SECRET = process.env.CLIENT_SECRET;
+const CLIENT_ID = process.env.DISCORD_CLIENT_ID;
+const CLIENT_SECRET = process.env.DISCORD_CLIENT_SECRET;
 const DISCORD_GUILD = process.env.DISCORD_GUILD;
-const DSICORD_CALLBACK_URI = process.env.DSICORD_CALLBACK_URI;
+const DISCORD_CALLBACK_URI = process.env.DISCORD_CALLBACK_URI;
 const DISCORD_BOT_TOKEN = process.env.DISCORD_BOT_TOKEN;
+
+const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID;
+const GITHUB_REDIRECT_URI = process.env.GITHUB_REDIRECT_URI;
+const GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
 
 routes.get("/", (req: Request, res: Response) => {
   res.redirect("/");
@@ -25,7 +28,7 @@ routes.get("/", (req: Request, res: Response) => {
 // Discord integration
 routes.get("/discord", checkAuthenticated, (req: Request, res: Response) => {
   res.redirect(
-    `https://discord.com/api/oauth2/authorize?client_id=${CLIENT_ID}&redirect_uri=${DSICORD_CALLBACK_URI}&response_type=code&scope=identify%20guilds%20guilds.join`
+    `https://discord.com/api/oauth2/authorize?client_id=${CLIENT_ID}&redirect_uri=${DISCORD_CALLBACK_URI}&response_type=code&scope=identify%20guilds%20guilds.join`
   );
 });
 
@@ -57,8 +60,6 @@ routes.get(
       },
     });
     const token = await fetchToken.json();
-    console.log(token);
-
     if (!token.access_token)
       return res.render("error.ejs", { error: "Invalid OAuth2 token!" });
 
@@ -68,7 +69,6 @@ routes.get(
       },
     });
     const discordUser = await getDiscordUser.json();
-    console.log(discordUser);
     if (!discordUser.id)
       return res.render("error.ejs", {
         error:
@@ -124,6 +124,54 @@ routes.get(
 
     res.render("success.ejs", {
       successMessage: "Successfully linked your account with Discord!",
+    });
+  }
+);
+
+routes.get(
+  "/github",
+  checkAuthenticated,
+  async (req: Request, res: Response) => {
+    res.redirect(
+      `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&redirect_uri=${GITHUB_REDIRECT_URI}&client_secret=${GITHUB_CLIENT_SECRET}&scope=gist`
+    );
+  }
+);
+
+routes.get(
+  "/github/callback",
+  checkAuthenticated,
+  async (req: Request, res: Response) => {
+    const code = req.query.code;
+    if (!code)
+      return res.render("error.ejs", { error: "No code was provided!" });
+
+    const getToken = await fetch(
+      `https://github.com/login/oauth/access_token?client_id=${GITHUB_CLIENT_ID}&client_secret=${GITHUB_CLIENT_SECRET}&code=${code}`,
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+        },
+      }
+    );
+    const getAuthToken = await getToken.json();
+
+    if (getAuthToken.error)
+      return res.render("error.ejs", {
+        error: "Code expired! Please try authorizing again!",
+      });
+
+    const accessToken = getAuthToken.access_token;
+    console.log(accessToken);
+
+    await Users.updateOne(
+      { _id: req.user?.toString() },
+      { $set: { githubAccess: accessToken } }
+    );
+
+    res.render("success.ejs", {
+      successMessage: "Successfully linked your GitHub account!",
     });
   }
 );

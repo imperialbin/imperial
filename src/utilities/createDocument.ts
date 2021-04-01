@@ -4,6 +4,7 @@ import { Documents, IDocument } from "../models/Documents";
 import { encrypt } from "./encrypt";
 import { Users } from "../models/Users";
 import { screenshotDocument } from "./screenshotDocument";
+import { createGist } from "./createGists";
 
 export const createDocument = async (
   code: string,
@@ -47,11 +48,14 @@ export const createDocument = async (
       })
         .save()
         .then(async (document) => {
+          const user = await Users.findOne({ _id: creator });
           if (creator)
             await Users.updateOne(
               { _id: creator },
               { $inc: { documentsMade: 1 } }
             );
+
+          if (user?.githubAccess && !encrypted) createGist(user._id, code, URL);
 
           if (quality && !instantDelete && imageEmbed && !encrypted)
             screenshotDocument(URL, quality);
