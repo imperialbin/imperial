@@ -2,7 +2,7 @@ const routes = require("express").Router();
 const Users = require("../models/Users");
 const getIp = require("ipware")().get_ip;
 const mailer = require("nodemailer");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const Datastore = require("nedb");
 
 const db = {

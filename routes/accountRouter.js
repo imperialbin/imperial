@@ -1,6 +1,6 @@
 const routes = require("express").Router();
 const Users = require("../models/Users");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const gravatar = require("gravatar");
 const fetch = require("node-fetch");
 const Datastore = require("nedb");

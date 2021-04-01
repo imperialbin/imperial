@@ -1,7 +1,7 @@
 const routes = require("express").Router();
 const Users = require("../models/Users");
 const Datastore = require("nedb");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 
 const db = {
   emailTokens: new Datastore({ filename: "./databases/emailTokens" }),
