@@ -50,11 +50,10 @@
   </div>
   <%- include('partials/setMenu.ejs'); %>
   <div id="codeThing" class="editor"></div>
-  <textarea id="raw" style="display: none;"><%= code %></textarea>
   <script src="/assets/js/highlight.js"></script>
   <script src="/assets/js/src-min-noconflict/ace.js"></script>
   <script>
-    const code = document.getElementById('raw').innerHTML
+    const code = `<%= code %>`
     const language = '<%= language %>';
     function htmlDecode(input) {
       const doc = new DOMParser().parseFromString(input, "text/html");
@@ -67,9 +66,9 @@
       readOnly: true,
       fontSize: '14.5px',
     })
-    window.editor.session.setUseWrapMode(true)
-    window.editor.session.setMode(language ? `ace/mode/${language}` : "ace/mode/plain_text");
-    window.editor.session.setValue(htmlDecode(code));
+    editor.session.setUseWrapMode(true)
+    editor.session.setMode(language ? `ace/mode/${language}` : "ace/mode/plain_text");
+    editor.session.setValue(htmlDecode(code));
   </script>
   <script src="/assets/js/global.js?v=5"></script>
 </body>

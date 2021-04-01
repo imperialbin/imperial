@@ -5,7 +5,6 @@
       <li class="setting" onclick="location.href='/account#documentSettings'">Paste settings</li>
       <li class="setting" id="discord" onclick="window.open('https://imperialb.in/dsc', '_blank')">
         Discord</li>
-      <li class="setting" onclick="location.href=`http://${location.host}/r/<%= documentName %>`">View raw</li>
       <% if(originalCreator===incomingUser) { %>
       <form class="deleteDocument" method="POST" action="/api/document/<%= documentName %>?_method=DELETE">
         <a href="javascript:$('.deleteDocument').submit()">
@@ -26,8 +25,7 @@
       <li id="edit" class="tooltip" data-tippy-content="Edit document"> <button id="icon" class="editButton editBtnFunc" onclick="editDocument()"><i id="editBtn"
             class="fas fa-pencil-alt"></i></button></li>
       <% } %>
-      <li id="compare" class="tooltip" data-tippy-content="Compare document"><button id="icon" onclick="toggleCompareDocuments('<%= documentName %>')"><i
-            class="fas fa-clone"></i></button>
+      <li id="raw" class="tooltip" data-tippy-content="View raw"><button id="icon" onclick="location.href='/r/<%= documentName %>'"><i class="fas fa-align-left"></i></button>
       </li>
       <li id="save" class="tooltip" data-tippy-content="Duplicate document"> <button id="icon" onclick="duplicateDocument()"><i class="fas fa-file-import"></i></i></button>
       </li>

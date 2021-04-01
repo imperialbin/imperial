@@ -3,7 +3,6 @@
     <ul class="account">
       <li class="setting" onclick="location.href='/account'">User settings</li>
       <li class="setting" onclick="location.href='/account#documentSettings'">Paste settings</li>
-      <li class="setting" onclick="location.href=`http://${location.host}/r/<%= documentName %>`">View raw</li>
       <li class="setting" id="discord" onclick="window.open('https://imperialb.in/dsc', '_blank')">
         Discord</li>
       <div class="dumbLine"></div>
@@ -15,8 +14,8 @@
       <h6>IMPERIAL</h6>
     </a>
     <ul>
-      <li id="compare" class="tooltip" data-tippy-content="Compare documents"><button id="icon"
-          onclick="toggleCompareDocuments('<%= documentName %>')"><i class="fas fa-clone"></i></button>
+      <li id="raw" class="tooltip" data-tippy-content="View raw"><button id="icon"
+          onclick="location.href='/r/<%= documentName %>'"><i class="fas fa-align-left"></i></button>
       </li>
       <li id="save" class="tooltip" data-tippy-content="Duplicate document"> <button id="icon"
           onclick="duplicateDocument()"><i class="fas fa-file-import"></i></i></button>
