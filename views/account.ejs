@@ -11,7 +11,7 @@
     if (location.pathname == '/account/changePfp' && pfpErrorMessage == 'false' || location.pathname == '/account/changePfpGravatar' && pfpErrorMessage == 'false' || location.pathname == '/account/createInvite') {
       location.href = '/account';
     }
-    </script>
+  </script>
   <link rel="stylesheet" href="/assets/css/reallyGlobal.css?v=3">
   <link rel="stylesheet" href="/assets/css/secondary.css">
   <link rel="stylesheet" href="/assets/css/account.css?v=5">
@@ -146,7 +146,8 @@
           </div>
           <div class="checkbox">
             <label class="switch">
-              <input name="longerUrls" type="checkbox" id="longerUrls" <%= user.settings.longerUrls ? 'checked' : null %>>
+              <input name="longerUrls" type="checkbox" id="longerUrls"
+                <%= user.settings.longerUrls ? 'checked' : null %>>
               <span class="slider round"></span>
             </label>
           </div>
@@ -192,7 +193,8 @@
           </div>
           <div class="checkbox">
             <label class="switch">
-              <input name="imageEmbed" type="checkbox" id="imageEmbed" <%= user.settings.imageEmbed ? 'checked' : null %>>
+              <input name="imageEmbed" type="checkbox" id="imageEmbed"
+                <%= user.settings.imageEmbed ? 'checked' : null %>>
               <span class="slider round"></span>
             </label>
           </div>
@@ -294,7 +296,7 @@
         data-tippy-content="You have <%= user.codesLeft %> codes left">Create invite</button>
       <% } else { %>
       <div class="cum tooltip" data-tippy-content="You do not have any invite codes!">
-        <button type="submit" class=" alignedLeftBtn" disabled>Create invite</button>
+        <button type="submit" class="alignedLeftBtn" disabled>Create invite</button>
       </div>
       <% } %>
     </form>
@@ -327,6 +329,34 @@
       <a href="/api/getShareXConfig/<%= user.apiToken %>" class="noOpacity" download>
         <button>Download ShareX Config</button>
       </a>
+    </div>
+
+    <h2 id="integrations">Integrations</h2>
+    <h3>Discord integration</h3>
+    <div>
+      <br>
+      <% if (user.discordId) { %>
+      <span class="integration">You are already linked to Discord ID #<%= user.discordId %>! You can relink if you'd like.</span>
+      <br><br>
+      <div>
+        <a href="/auth/discord" class="noOpacity">
+          <button>Link discord</button>
+        </a>
+      </div>
+      <% } else { %>
+      <span class="integration">You have not yet linked your discord, if you'd like, click the button below!.</span>
+      <br><br>
+      <div>
+        <a href="/auth/discord" class="noOpacity">
+          <button>Link discord</button>
+        </a>
+      </div>
+      <% } %>
+    </div>
+    <h3>GitHub integration</h3>
+    <br>
+    <div class="cum tooltip" data-tippy-content="Coming soon...">
+      <button type="submit" class="alignedLeftBtn" disabled>Link GitHub</button>
     </div>
 
     <!-- RESET PASSWORD STUFF -->
