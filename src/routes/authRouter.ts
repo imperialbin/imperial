@@ -31,11 +31,11 @@ routes.get("/:token", async (req: Request, res: Response) => {
   }
 });
 
+// Discord integration
 routes.get('/discord', checkAuthenticated, async(req: Request, res: Response) => {
   // Need some logic that sets a state
 })
 
-// Discord integration
 routes.get(
   "/discord/callback",
   checkAuthenticated,
