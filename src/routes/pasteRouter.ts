@@ -69,6 +69,7 @@ routes.get(
           if (!user)
             return res.render("pasted.ejs", {
               documentName: documentId,
+              language: document.language,
               imageEmbed: enableImageEmbed,
               code: document.code,
               loggedIn: false,
@@ -85,6 +86,7 @@ routes.get(
           return res.render("pasted.ejs", {
             documentName: documentId,
             imageEmbed: enableImageEmbed,
+            language: document.language,
             code: document?.code,
             loggedIn: true,
             pfp: user.icon,
@@ -98,6 +100,7 @@ routes.get(
           return res.render("pasted.ejs", {
             documentName: documentId,
             imageEmbed: enableImageEmbed,
+            language: document.language,
             code: document.code,
             loggedIn: false,
             deleteDate: deleteDate,
@@ -153,12 +156,14 @@ routes.post("/getDocumentAccess/:documentId", (req: Request, res: Response) => {
           existsSync(`./public/assets/img/${document.URL}.jpg`)
         );
 
+        console.log(document.language);
         if (req.isAuthenticated()) {
           const _id = req.user.toString();
           const user = await Users.findOne({ _id });
           if (!user)
             return res.render("pasted.ejs", {
               documentName: documentId,
+              language: document.language,
               imageEmbed: enableImageEmbed,
               code: code,
               loggedIn: false,
@@ -174,6 +179,7 @@ routes.post("/getDocumentAccess/:documentId", (req: Request, res: Response) => {
           return res.render("pasted.ejs", {
             documentName: documentId,
             imageEmbed: enableImageEmbed,
+            language: document.language,
             code: code,
             loggedIn: true,
             pfp: user.icon,
@@ -187,6 +193,7 @@ routes.post("/getDocumentAccess/:documentId", (req: Request, res: Response) => {
           return res.render("pasted.ejs", {
             documentName: documentId,
             imageEmbed: enableImageEmbed,
+            language: document.language,
             code: code,
             loggedIn: false,
             deleteDate: deleteDate,
