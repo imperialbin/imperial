@@ -5,6 +5,7 @@ import { hash } from "bcrypt";
 // Utilities
 import { verifyToken } from "../utilities/verifyToken";
 import { checkAuthenticated } from "../middleware/checkAuthenticated";
+import { generateString } from "../utilities/generateString";
 
 export const routes = Router();
 
@@ -12,6 +13,7 @@ export const routes = Router();
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
 const DISCORD_GUILD = process.env.DISCORD_GUILD;
+const DSICORD_CALLBACK_URI = process.env.DSICORD_CALLBACK_URI;
 
 routes.get("/", (req: Request, res: Response) => {
   res.redirect("/");
@@ -32,9 +34,20 @@ routes.get("/:token", async (req: Request, res: Response) => {
 });
 
 // Discord integration
-routes.get('/discord', checkAuthenticated, async(req: Request, res: Response) => {
-  // Need some logic that sets a state
-})
+routes.get(
+  "/discord",
+  checkAuthenticated,
+  async (req: Request, res: Response) => {
+    if (req.isAuthenticated()) {
+      const _id = req.user.toString();
+      const state = generateString(20);
+      await Users.findOneAndUpdate({ _id }, { $set: { discordState: state } });
+      res.redirect(
+        `https://discord.com/api/oauth2/authorize?client_id=${CLIENT_ID}&redirect_uri=${DSICORD_CALLBACK_URI}&response_type=code&scope=guilds.join%20guilds%20identify&state=${state}`
+      );
+    }
+  }
+);
 
 routes.get(
   "/discord/callback",
@@ -48,7 +61,7 @@ routes.get(
         error: "An error occurred whilst linking your discord account!",
       });
 
-    // I need to check the state here later
+    /*     const user = await Users.findOne({ discordState: state }); */
 
     const fetchToken = await fetch("https://discord.com/api/oauth2/token", {
       method: "POST",
@@ -70,12 +83,12 @@ routes.get(
       },
     });
     const discordUser = getDiscordUser.json();
-    const roles = [process.env.DISCORD_ROLE_MEMBER]
+    const roles = [process.env.DISCORD_ROLE_MEMBER];
     console.log(discordUser);
 
     // Give them the role
     await fetch(
-      `https://discord.com/api/guilds/${DISCORD_GUILD}/members/${discordUser.id}`,
+      `https://discord.com/api/guilds/${DISCORD_GUILD}/members/${discordUser}`,
       {
         method: "PUT",
         body: JSON.stringify({
