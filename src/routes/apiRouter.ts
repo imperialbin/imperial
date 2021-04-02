@@ -170,12 +170,12 @@ routes.patch("/document", (req: Request, res: Response) => {
 
   const documentId = req.body.document;
   const code = req.body.newCode || req.body.code;
-  if (!documentId)
-    return throwApiError(res, "You must include a document id!", 400);
-  if (!code)
+  if (!documentId && typeof documentId !== "string")
+    return throwApiError(res, "You must include a valid document id!", 400);
+  if (!code && typeof code !== "string")
     return throwApiError(
       res,
-      "You must give code to replace the old code with!",
+      "You must give valid code to replace the old code with!",
       400
     );
 
@@ -247,6 +247,8 @@ routes.delete("/document/:documentId", async (req: Request, res: Response) => {
     : { apiToken: req.headers.authorization };
 
   const documentId = req.params.documentId;
+  if (!documentId && typeof documentId !== "string")
+    return throwApiError(res, "An invalid document ID was provided!", 400);
   Users.findOne(index, (err: string, user: IUser) => {
     if (err)
       return throwApiError(
