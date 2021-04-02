@@ -356,6 +356,7 @@ routes.get("/getShareXConfig/:apiToken", (req: Request, res: Response) => {
 
 routes.post("/checkUser", (req: Request, res: Response) => {
   const user = req.body.username;
+  if (!user) return throwApiError(res, "You must pass in username!", 400);
   Users.findOne({ name: user }, (err: string, user: IUser) => {
     if (err)
       return throwApiError(res, "An error occurred whilst getting user", 500);
