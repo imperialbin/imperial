@@ -50,10 +50,11 @@
   </div>
   <%- include('partials/setMenu.ejs'); %>
   <div id="codeThing" class="editor"></div>
+  <div id="rawCode" style="display: none;"><%= code %></div>
   <script src="/assets/js/highlight.js"></script>
   <script src="/assets/js/src-min-noconflict/ace.js"></script>
   <script>
-    const code = `<%= code %>`
+    const code = document.getElementById('rawCode').innerHTML
     const language = '<%= language %>';
     function htmlDecode(input) {
       const doc = new DOMParser().parseFromString(input, "text/html");
