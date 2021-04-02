@@ -72,7 +72,7 @@
         <span class="stat">#<%= user.userId %></span>
       </div>
       <div class="stat-tile">
-        <h6>Documents made</h6>
+        <h6>Total documents made</h6>
         <span class="stat"><%= user.documentsMade %></span>
       </div>
     </div>
@@ -357,7 +357,8 @@
     <h3>GitHub integration</h3>
     <br>
     <% if (user.githubAccess) { %>
-    <span class="integration">You already linked your Github account! If you'd like to revoke it, please go to your account on Github.</span>
+    <span class="integration">You already linked your Github account! If you'd like to revoke it, please go to your
+      account on Github.</span>
     <br><br>
     <form action="/account/unlinkGithub" method="POST">
       <button>Unlink Github</button>
@@ -393,7 +394,6 @@
       </div>
       <button type="submit" class="alignedLeftBtn" id="password">Reset Password</button>
     </form>
-    <br><br>
     <h2 id="viewUserData">View your user data</h2>
     <form action="/account/me" method="POST">
       <div>
@@ -402,6 +402,7 @@
       </div>
       <button class="alignedLeftBtn" type="submit">View data</button>
     </form>
+    <br><br>
   </main>
   <script src="https://kit.fontawesome.com/ec3f0c8487.js" crossorigin="anonymous"></script>
   <script>
