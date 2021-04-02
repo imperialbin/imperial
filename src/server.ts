@@ -1,4 +1,4 @@
-process.env.NODE_ENV = "production";
+import "dotenv/config";
 
 // Some random imports and consts we need
 import express, { Request, Response } from "express";
@@ -26,7 +26,6 @@ import { checkAuthenticated } from "./middleware/checkAuthenticated";
 import { checkNotAuthenticated } from "./middleware/checkNotAuthenticated";
 
 // Our ENV!!! hiii env!
-import "dotenv/config";
 const MONGOURI = process.env.MONGO_URI ?? "";
 const COOKIE_SECRET = process.env.COOKIE_SECRET ?? "";
 const SESSION_SECRET = process.env.SESSION_SECRET ?? "";
