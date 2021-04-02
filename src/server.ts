@@ -117,13 +117,13 @@ app.get("*", (req: Request, res: Response) => {
     error: "We couldn't find the page/document you're looking for :(",
   });
 });
-process.on("uncaughtException", (err: any, origin: string) => {
+/* process.on("uncaughtException", (err: any, origin: string) => {
   console.error(
     process.stderr.fd,
     `Caught exception: ${err}\n` +
       `Exception origin: ${origin}\n` +
       `Error stack: ${err.stack}`
   );
-});
+}); */
 
 app.listen(PORT, () => console.log("Server running"));
