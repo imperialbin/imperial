@@ -6,6 +6,9 @@ import fetch from "node-fetch";
 
 // ENV
 const DEVELOPER_USER = process.env.DEVELOPER_USER;
+const DISCORD_GUILD = process.env.DISCORD_GUILD;
+const DISCORD_BOT_TOKEN = process.env.DISCORD_BOT_TOKEN;
+const DISCORD_ROLE_MEMBER_PLUS = process.env.DISCORD_ROLE_MEMBER_PLUS;
 
 // Utilities
 import { generateString } from "../utilities/generateString";
@@ -65,9 +68,18 @@ routes.post("/redeem", async (req: Request, res: Response) => {
   const code = req.body.code;
   try {
     verifyToken(code); // Wont pass if its invalid
-    await Users.updateOne(
+    const user = await Users.findOneAndUpdate(
       { _id: req.user?.toString() },
       { $set: { memberPlus: true } }
+    );
+    await fetch(
+      `https://discord.com/api/guilds/${DISCORD_GUILD}/members/${user?.discordId}/roles/${DISCORD_ROLE_MEMBER_PLUS}`,
+      {
+        method: "PUT",
+        headers: {
+          authorization: `Bot ${DISCORD_BOT_TOKEN}`,
+        },
+      }
     );
     res.render("success.ejs", { successMessage: "You are now Member+!" });
   } catch (error) {
