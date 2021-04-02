@@ -100,6 +100,12 @@ routes.post("/document", (req: Request, res: Response) => {
 // Get document
 routes.get("/document/:documentId", (req: Request, res: Response) => {
   const documentId = req.params.documentId;
+  if (!documentId && typeof documentId !== "string")
+    return throwApiError(
+      res,
+      "Document ID was not provided or is invalid!",
+      400
+    );
   const password: any = req.query.password || false;
 
   Documents.findOne(
