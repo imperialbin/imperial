@@ -1,3 +1,5 @@
+process.env.NODE_ENV = "production";
+
 // Some random imports and consts we need
 import express, { Request, Response } from "express";
 const app = express();
