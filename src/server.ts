@@ -1,7 +1,6 @@
 // Some random imports and consts we need
 import express, { Request, Response } from "express";
 const app = express();
-import bodyParser from "body-parser";
 import flash from "express-flash";
 import session from "express-session";
 import cookieParser from "cookie-parser";
@@ -38,8 +37,8 @@ connectDatabase();
 // Some stupid express stuff
 app.set("views", "./views");
 app.set("view-engine", "ejs");
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json({ limit: "125.kb" }));
 app.use(express.static("./public"));
 app.use(flash());
 app.use(cookieParser(COOKIE_SECRET));
