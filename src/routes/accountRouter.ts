@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
 import { IUser, Users } from "../models/Users";
-import { compare, hash } from "bcrypt";
+import { compare, hash } from "bcryptjs";
 import { url } from "gravatar";
 import fetch from "node-fetch";
 

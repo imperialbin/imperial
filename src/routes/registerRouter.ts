@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
 import { Users } from "../models/Users";
-import { hash } from "bcrypt";
+import { hash } from "bcryptjs";
 // @ts-ignore shhh
 import getIp from "ipware";
 

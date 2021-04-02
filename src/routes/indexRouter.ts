@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
 import { IUser, Users } from "../models/Users";
-import { hash } from "bcrypt";
+import { hash } from "bcryptjs";
 
 // Middleware
 import { checkAuthenticated } from "../middleware/checkAuthenticated";
