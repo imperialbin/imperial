@@ -4,24 +4,20 @@ tippy(".tippy", {
   arrow: false,
 });
 
-function duplicateDocument() {
+const duplicateDocument = () => {
   localStorage.setItem("duplicateDocument", window.editor.getValue());
   location.href = "/";
-}
+};
 
-function newDocument() {
-  location.href = "/";
-}
+const newDocument = () => (location.href = "/");
 
-function toggleCompareDocuments() {
+const toggleCompareDocuments = () =>
   document.getElementById("compareDocuments").classList.add("active");
-}
 
-function cancelSettings() {
+const cancelSettings = () =>
   document.getElementById("compareDocuments").classList.remove("active");
-}
 
-function deleteDocument(documentId) {
+const deleteDocument = (documentId) => {
   fetch(`/api/document/${documentId}`, {
     method: "DELETE",
   })
@@ -33,9 +29,9 @@ function deleteDocument(documentId) {
         console.log(actualRes);
       }
     });
-}
+};
 
-function copyLink() {
+const copyLink = () => {
   const messages = document.getElementById("messages");
   navigator.clipboard
     .writeText(location.href)
@@ -47,21 +43,21 @@ function copyLink() {
       (err) =>
         (messages.innerHTML += `<li class="message error"><i class="fas fa-times" style="padding-right: 9px;"></i> Failed to copy link!</li>`)
     );
-}
+};
 
-function editDocument() {
+const editDocument = () => {
   const actualBtn = document.querySelector(".editBtnFunc");
   const editBtn = document.getElementById("editBtn");
   const editMsg = document.querySelector(".editMsg");
-
+  
   editBtn.classList.replace("fa-pencil-alt", "fa-check");
   actualBtn.setAttribute("onClick", "actuallyEditDocument()");
   editor.setReadOnly(false);
-
+  
   if (editMsg) editMsg.remove();
 }
 
-function actuallyEditDocument() {
+const actuallyEditDocument = () => {
   const actualBtn = document.querySelector(".editBtnFunc");
   const editBtn = document.getElementById("editBtn");
   const options = {
@@ -75,7 +71,7 @@ function actuallyEditDocument() {
     }),
   };
   editBtn.classList.replace("fa-check", "fa-minus");
-
+  
   fetch("/api/document", options)
     .then((res) => res.json())
     .then((documentRes) => {
@@ -83,19 +79,19 @@ function actuallyEditDocument() {
         actualBtn.setAttribute("onClick", "editDocument()");
         editBtn.classList.replace("fa-minus", "fa-pencil-alt");
         editor.setReadOnly(true);
-
+  
         if (!document.querySelector(".editMsg"))
           messages.innerHTML += `<li class="message success editMsg"><i class="fas fa-check" style="padding-right: 9px;"></i> Edited!</li>`;
       } else {
         editBtn.classList.replace("fa-minus", "fa-times");
-
+  
         if (!document.querySelector(".editMsg"))
           messages.innerHTML += `<li class="message error editMsg"><i class="fas fa-times" style="padding-right: 9px;"></i> Error editing!</li>`;
       }
     })
     .catch((err) => {
       editBtn.classList.replace("fa-minus", "fa-times");
-
+  
       if (!document.querySelector(".editMsg"))
         messages.innerHTML += `<li class="message error editMsg"><i class="fas fa-times" style="padding-right: 9px;"></i> Error editing!</li>`;
     });
