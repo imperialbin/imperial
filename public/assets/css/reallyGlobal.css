@@ -103,6 +103,7 @@ body {
 }
 
 .pasteContainer {
+  position: relative;
   text-align: center;
   width: 600px;
   height: auto;
@@ -294,6 +295,14 @@ li.deletePaste {
   height: 100%;
   margin-top: 10px;
   color: var(--text-light);
+}
+
+.customStupidXButton {
+  font-size: 20px;
+  position: absolute;
+  top: 25px;
+  right: 20px;
+  padding: 6px 15px;
 }
 
 #login,
