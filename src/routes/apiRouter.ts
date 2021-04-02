@@ -20,7 +20,7 @@ routes.get("/", (req: Request, res: Response) =>
 // Post document
 routes.post("/document", (req: Request, res: Response) => {
   const code = req.body.code;
-  if (!code)
+  if (!code && typeof code !== "string")
     return throwApiError(
       res,
       "You need to give text in the `code` parameter!",
@@ -67,6 +67,19 @@ routes.post("/document", (req: Request, res: Response) => {
       editorArray: req.body.editors || [],
     };
 
+    // Me checking types to make sure no one fucks me over fuck you fuycky ou fuck you fyuck you fuck yo u
+    if (
+      typeof documentSettings.longerUrls !== "boolean" ||
+      typeof documentSettings.imageEmbed !== "boolean" ||
+      typeof documentSettings.expiration !== "number" ||
+      typeof documentSettings.instantDelete !== "boolean" ||
+      typeof documentSettings.encrypted !== "boolean"
+    )
+      return throwApiError(
+        res,
+        "Some settings are not correct types! Please refer to our docs at https://docs.imperialb.in/",
+        400
+      );
     return createDocument(
       code,
       documentSettings.longerUrls ? generateString(26) : generateString(8),
