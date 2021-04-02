@@ -43,6 +43,7 @@ export const createDocument = async (
         deleteDate: date.setDate(date.getDate() + expiration),
         allowedEditors: editors,
         encrypted,
+        gist: null,
         encryptedIv: encrypted ? initVector?.toString("hex") : null,
         view: 0,
       })

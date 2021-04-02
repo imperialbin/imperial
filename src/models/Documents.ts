@@ -18,6 +18,7 @@ export interface IDocument extends Document {
   allowedEditors: Array<string>;
   encrypted: boolean;
   encryptedIv: string | null;
+  gist: string | null;
   views: number;
 }
 
@@ -35,6 +36,7 @@ export const Documents = documentDatabase.model<IDocument>(
     allowedEditors: Array,
     encrypted: Boolean,
     encryptedIv: String,
+    gist: String || null,
     views: Number,
   })
 );

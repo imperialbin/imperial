@@ -9,6 +9,7 @@ import { throwApiError } from "../utilities/throwApiError";
 import { DocumentSettings } from "../utilities/documentSettingsInterface";
 import { decrypt } from "../utilities/decrypt";
 import { createDocument } from "../utilities/createDocument";
+import { editGist } from "../utilities/editGist";
 
 export const routes = Router();
 
@@ -203,6 +204,9 @@ routes.patch("/document", (req: Request, res: Response) => {
           );
 
         await Documents.updateOne({ URL: documentId }, { $set: { code } });
+        if (document.gist) {
+          editGist(document.URL, code);
+        }
         return res.json({
           success: true,
           message: "Successfully edit the document!",
