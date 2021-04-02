@@ -10,6 +10,7 @@ import { checkNotAuthenticated } from "../middleware/checkNotAuthenticated";
 import { mail } from "../utilities/mailer";
 import { signToken } from "../utilities/signToken";
 import { verifyToken } from "../utilities/verifyToken";
+import { rateLimiter } from "../utilities/apiLimit";
 
 export const routes = Router();
 
@@ -84,6 +85,7 @@ routes.get(["/github", "/git", "/gh"], (req: Request, res: Response) =>
 routes.post(
   "/requestResetPassword",
   checkNotAuthenticated,
+  rateLimiter,
   (req: Request, res: Response) => {
     const email = req.body.email.toLowerCase();
     Users.findOne({ email }, (err: string, user: IUser) => {

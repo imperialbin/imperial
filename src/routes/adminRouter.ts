@@ -42,9 +42,22 @@ routes.get("/getUsers/:query", async (req: Request, res: Response) => {
   res.json({ users });
 });
 
-routes.post("/updateUser/", (req: Request, res: Response) => {
-  const body = req.body;
+routes.post("/updateUser/:_id", (req: Request, res: Response) => {
+  const settings = req.body;
+  const _id = req.params._id;
+  Users.updateOne({ _id }, { $set: { settings } }, {}, (err: string) => {
+    if (err)
+      return res.json({
+        success: false,
+        message: "An error occurred whilst saving your settings!",
+      });
+    res.json({
+      success: true,
+      message: "Successfully changed your user settings!",
+    });
+  });
 });
+
 
 routes.post("/changeConfirm", async (req: Request, res: Response) => {
   const status = JSON.parse(req.body.status.toLowerCase());
@@ -87,7 +100,6 @@ routes.post("/giveCode", async (req: Request, res: Response) => {
   res.redirect(`/admin/user/${_id}`);
 });
 
-routes.post('/changeUsersSetting', async (req: Request, res: Response) => {
+routes.post("/changeUsersSetting", async (req: Request, res: Response) => {
   const _id = req.body._id;
-  
-})
+});

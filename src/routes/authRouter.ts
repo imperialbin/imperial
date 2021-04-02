@@ -1,5 +1,5 @@
 import { Router, Request, Response } from "express";
-import { Users } from "../models/Users";
+import { IUser, Users } from "../models/Users";
 import { hash } from "bcrypt";
 import { stringify } from "querystring";
 import fetch from "node-fetch";
