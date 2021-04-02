@@ -52,7 +52,7 @@ routes.get(
         client_secret: CLIENT_SECRET,
         grant_type: "authorization_code",
         code: code as string,
-        redirect_uri: `${process.env.MAIN_URI}/auth/discord/callback`,
+        redirect_uri: `${DISCORD_CALLBACK_URI}`,
         scope: "identify guilds guilds.join",
       }),
       headers: {
