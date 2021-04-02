@@ -1,4 +1,4 @@
-import { hashSync } from "bcrypt";
+import { hashSync } from "bcryptjs";
 import { Users, IUser } from "./models/Users";
 
 const user: Omit<IUser, "_id"> = {

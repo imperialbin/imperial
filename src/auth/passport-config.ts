@@ -1,6 +1,6 @@
 import { Strategy as LocalStrategy } from "passport-local";
 import { IUser, Users } from "../models/Users";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import { mail } from "../utilities/mailer";
 
 // uwu
