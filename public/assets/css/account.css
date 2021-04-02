@@ -18,7 +18,7 @@ nav {
 .logo {
   width: 89px;
   position: absolute;
-  top: 0;
+  top: 6px;
   left: -19px;
 }
 .logout {
