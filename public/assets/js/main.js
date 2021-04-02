@@ -33,6 +33,10 @@ window.addEventListener("keydown", (event) => {
   }
 });
 
+const newDocument = () => {
+  location.href = "/";
+};
+
 const closeEverythingPlease = () => {
   const elements = document.querySelectorAll(".pasteSettings");
   [].forEach.call(elements, function (el) {

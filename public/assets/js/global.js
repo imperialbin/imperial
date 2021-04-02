@@ -21,6 +21,20 @@ function cancelSettings() {
   document.getElementById("compareDocuments").classList.remove("active");
 }
 
+function deleteDocument(documentId) {
+  fetch(`/api/document/${documentId}`, {
+    method: "DELETE",
+  })
+    .then((res) => res.json())
+    .then((actualRes) => {
+      if (actualRes.success) {
+        location.reload();
+      } else {
+        console.log(actualRes);
+      }
+    });
+}
+
 function copyLink() {
   const messages = document.getElementById("messages");
   navigator.clipboard

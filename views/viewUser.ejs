@@ -184,7 +184,8 @@
           </div>
           <div class="checkbox">
             <label class="switch">
-              <input name="longerUrls" type="checkbox" id="longerUrls" <%= user.settings.longerUrls ? 'checked' : null %>>
+              <input name="longerUrls" type="checkbox" id="longerUrls"
+                <%= user.settings.longerUrls ? 'checked' : null %>>
               <span class="slider round"></span>
             </label>
           </div>
@@ -230,7 +231,8 @@
           </div>
           <div class="checkbox">
             <label class="switch">
-              <input name="imageEmbed" type="checkbox" id="imageEmbed" <%= user.settings.imageEmbed ? 'checked' : null %>>
+              <input name="imageEmbed" type="checkbox" id="imageEmbed"
+                <%= user.settings.imageEmbed ? 'checked' : null %>>
               <span class="slider round"></span>
             </label>
           </div>
@@ -325,14 +327,57 @@
     </div>
 
   </main>
+  <script src="https://kit.fontawesome.com/ec3f0c8487.js" crossorigin="anonymous"></script>
   <script>
     tippy('.tooltip', {
       arrow: true,
       animation: 'shift-away',
       placement: 'right'
     })
+    tippy('.infoTip', {
+      animation: 'shift-away',
+      placement: 'top'
+    })
+    function saveUserSettings() {
+      const userSaveBtn = document.getElementById('userSaveBtn');
+      userSaveBtn.innerHTML = 'Saving...'
+      userSaveBtn.disabled = true;
+      // uwu
+      const body = {
+        clipboard: document.getElementById('clipboard').checked,
+        longerUrls: document.getElementById('longerUrls').checked,
+        instantDelete: document.getElementById('instantDelete').checked,
+        encrypted: document.getElementById('encrypted').checked,
+        expiration: Number(document.getElementById('expiration').value),
+        imageEmbed: document.getElementById('imageEmbed').checked
+      }
+      const options = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body)
+      }
+      fetch('/admin/updateUser/<%= user._id %>', options)
+        .then(parsePlease => parsePlease.json())
+        .then(res => {
+          if (res.success) {
+            userSaveBtn.innerHTML = 'Saved!'
+            setTimeout(() => {
+              userSaveBtn.innerHTML = 'Save'
+              userSaveBtn.disabled = false;
+            }, 1500)
+          } else {
+            console.error(res)
+            userSaveBtn.innerHTML = 'Failed!'
+          }
+        })
+        .catch(err => {
+          console.error(err)
+          userSaveBtn.innerHTML = 'Failed!'
+        })
+    }
   </script>
-  <script src="https://kit.fontawesome.com/ec3f0c8487.js" crossorigin="anonymous"></script>
 </body>
 
 </html>

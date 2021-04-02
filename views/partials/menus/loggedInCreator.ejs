@@ -6,11 +6,7 @@
       <li class="setting" id="discord" onclick="window.open('https://imperialb.in/dsc', '_blank')">
         Discord</li>
       <% if(originalCreator===incomingUser) { %>
-      <form class="deleteDocument" method="POST" action="/api/document/<%= documentName %>?_method=DELETE">
-        <a href="javascript:$('.deleteDocument').submit()">
-          <li class="deletePaste">Delete</li>
-        </a>
-      </form>
+          <li class="deletePaste" onclick="deleteDocument('<%= documentName %>')">Delete</li>
       <% } %>
       <div class="dumbLine"></div>
       <li class="setting" id="logoutBtn" onclick="location.href = '/logout?_method=DELETE'">Logout</li>
