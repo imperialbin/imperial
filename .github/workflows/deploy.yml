@@ -23,7 +23,7 @@ jobs:
         run: npm i
 
       - name: build the mother fucking thing
-        run: npm build
+        run: npm run build
 
       - name: Deploy production
         run: pm2 restart prod
