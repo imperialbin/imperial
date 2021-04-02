@@ -35,7 +35,8 @@
   <div class="pasteSettings" id="setLanguage">
     <div class="pasteContainer" id="putMarginOnThisPlease">
       <h1 id="selectLanguage">Select a language</h1>
-      <button class="customStupidXButton tooltip" data-tippy-content="Close window (esc)" onclick="closeLanguageSelector()"><i class="far fa-times-circle"></i></button>
+      <button class="customStupidXButton tooltip" data-tippy-content="Close window (esc)"
+        onclick="closeLanguageSelector()"><i class="far fa-times-circle"></i></button>
       <input type="text" class="searchBar" id="searchBarTings"
         oninput="searchResults(document.getElementById('searchBarTings').value)" placeholder="Search" autofocus>
       <ul class="languageList" id="languageList">
@@ -174,9 +175,7 @@
     });
     editor.session.setUseWrapMode(true)
     editor.session.setMode(languageStorage && languageStorage !== "auto" ? `ace/mode/${languageStorage}` : "ace/mode/plain_text");
-    editor.focus()
-    editor.navigateFileEnd();
-    
+
     (() => {
       const duplicate = localStorage.getItem("duplicateDocument");
       if (duplicate) {
@@ -194,6 +193,8 @@
               const messages = document.getElementById('messages');
               messages.innerHTML += '<li class="message info clickableMsg" onclick="restoreSession()" id="restoreSes"><i class="fas fa-question" style="padding-right: 9px;"></i> Restore last session?</li>'
             }
+            editor.focus()
+            editor.navigateFileEnd();
           }
         })
         .catch((err) => {
