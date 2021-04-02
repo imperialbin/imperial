@@ -153,8 +153,29 @@ routes.post("/changePfp", (req: Request, res: Response) => {
 
 routes.post("/changeDocumentSettings", (req: Request, res: Response) => {
   const settings = req.body;
+  if (
+    typeof settings.clipboard !== "boolean" ||
+    typeof settings.longerUrls !== "boolean" ||
+    typeof settings.instantDelete !== "boolean" ||
+    typeof settings.encrypted !== "boolean" ||
+    typeof settings.expiration !== "number" ||
+    typeof settings.imageEmbed !== "boolean"
+  )
+    return res.json({
+      success: false,
+      message:
+        "fuck you trying to give me something else other than booleans and numbers frfr",
+    });
+  const realSettings = {
+    clipboard: settings.clipboard || false,
+    longerUrls: settings.longerUrls || false,
+    instantDelete: settings.instantDelete || false,
+    encrypted: settings.encrypted || false,
+    expiration: Math.abs(settings.expiration) || 5,
+    imageEmbed: settings.imageEmbed || false,
+  };
   const _id = req.user?.toString();
-  Users.updateOne({ _id }, { $set: { settings } }, {}, (err: string) => {
+  Users.updateOne({ _id }, { $set: { realSettings } }, {}, (err: string) => {
     if (err)
       return res.json({
         success: false,
