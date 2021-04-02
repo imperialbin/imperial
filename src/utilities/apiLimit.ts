@@ -6,10 +6,10 @@ import { IUser, Users } from "../models/Users";
 export const rateLimiter = rateLimit({
   store: new RedisStore({
     client: redis,
-    expiry: 10,
+    expiry: 20,
   }),
-  max: 5,
-  handler: (req, res, next) => {
+  max: 30,
+/*   handler: (req, res, next) => {
     if (req.headers.authorization || req.isAuthenticated()) {
       if (req.isAuthenticated()) next();
 
@@ -32,5 +32,5 @@ export const rateLimiter = rateLimit({
           "You have reached the 15 requests every 15 minutes, please link an API key to raise that amount! (https://www.imperialb.in/account)",
       });
     }
-  },
+  }, */
 });
