@@ -38,7 +38,7 @@ connectDatabase();
 app.set("views", "./views");
 app.set("view-engine", "ejs");
 app.use(express.urlencoded({ extended: false }));
-app.use(express.json({ limit: "125.kb" }));
+app.use(express.json({ limit: "150kb" }));
 app.use(express.static("./public"));
 app.use(flash());
 app.use(cookieParser(COOKIE_SECRET));
@@ -53,7 +53,7 @@ app.use(
       dbName: "sessions",
       ttl: 5 * 24 * 60 * 60,
       autoRemove: "interval",
-      autoRemoveInterval: 15,
+      autoRemoveInterval: 5,
     }),
     unset: "destroy",
   })
