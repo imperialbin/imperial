@@ -22,5 +22,8 @@ jobs:
       - name: Install deps
         run: npm i
 
+      - name: build the mother fucking thing
+        run: npm build
+
       - name: Deploy production
         run: pm2 restart prod
