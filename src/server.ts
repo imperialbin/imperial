@@ -10,7 +10,6 @@ import passport from "passport";
 import methodOverride from "method-override";
 
 // @ts-ignore shut the fuck up pwetty pwease
-import { middleware as crawlerMiddleware } from "es6-crawler-detect";
 import MongoStore from "connect-mongo";
 
 // Passport
@@ -62,7 +61,6 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(methodOverride("_method"));
-app.use(crawlerMiddleware);
 app.disable("x-powered-by");
 
 // Some of our routes
