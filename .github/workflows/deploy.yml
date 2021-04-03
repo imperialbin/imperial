@@ -25,5 +25,8 @@ jobs:
       - name: build the mother fucking thing
         run: npm run build
 
+      - name: stupid puppeteer
+        run: node node_modules/puppeteer/install.js
+
       - name: Deploy production
         run: pm2 restart prod
