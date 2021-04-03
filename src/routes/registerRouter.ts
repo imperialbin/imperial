@@ -95,7 +95,7 @@ routes.post("/", async (req: Request, res: Response) => {
         longerUrls: false,
         instantDelete: false,
         encrypted: false,
-        time: 7,
+        expiration: 5,
         imageEmbed: false,
       },
     });
