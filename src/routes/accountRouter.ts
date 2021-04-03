@@ -178,6 +178,8 @@ routes.post("/changeDocumentSettings", (req: Request, res: Response) => {
       message:
         "fuck you trying to give me something else other than booleans and numbers frfr",
     });
+
+  console.log("cum slut");
   const realSettings = {
     clipboard: settings.clipboard || false,
     longerUrls: settings.longerUrls || false,
@@ -187,17 +189,22 @@ routes.post("/changeDocumentSettings", (req: Request, res: Response) => {
     imageEmbed: settings.imageEmbed || false,
   };
   const _id = req.user?.toString();
-  Users.updateOne({ _id }, { $set: { realSettings } }, {}, (err: string) => {
-    if (err)
-      return res.json({
-        success: false,
-        message: "An error occurred whilst saving your settings!",
+  Users.updateOne(
+    { _id },
+    { $set: { settings: realSettings } },
+    {},
+    (err: string) => {
+      if (err)
+        return res.json({
+          success: false,
+          message: "An error occurred whilst saving your settings!",
+        });
+      res.json({
+        success: true,
+        message: "Successfully changed your user settings!",
       });
-    res.json({
-      success: true,
-      message: "Successfully changed your user settings!",
-    });
-  });
+    }
+  );
 });
 
 routes.post("/changePfpGravatar", async (req: Request, res: Response) => {
