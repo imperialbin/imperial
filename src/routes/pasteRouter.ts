@@ -1,7 +1,6 @@
 import { Router, Request, Response } from "express";
 import { Users } from "../models/Users";
-// @ts-ignore shhh
-import { Crawler } from "es6-crawler-detect";
+import isBot from "isbot";
 import { existsSync } from "fs";
 
 // Utilities
@@ -19,7 +18,7 @@ routes.get(
   ],
   async (req: Request, res: Response) => {
     const documentId: string = req.params.documentId;
-    const CrawlerDetect = new Crawler(req);
+    const CrawlerDetect = isBot(req.get("user-agent") ?? "deez nuts");
 
     Documents.findOne(
       { URL: documentId },
@@ -37,7 +36,7 @@ routes.get(
 
         let deleteDate: string;
         if (document.instantDelete) {
-          if (!CrawlerDetect.isCrawler()) {
+          if (!CrawlerDetect) {
             setTimeout(async () => {
               await Documents.deleteOne({ URL: document.URL });
             }, 1000);
@@ -116,7 +115,7 @@ routes.get(
 routes.post("/getDocumentAccess/:documentId", (req: Request, res: Response) => {
   const password = req.body.password;
   const documentId = req.params.documentId;
-  const CrawlerDetect = new Crawler(req);
+  const CrawlerDetect = isBot(req.get("user-agent") ?? "deez nuts");
 
   let code: string;
   Documents.findOne(
@@ -136,7 +135,7 @@ routes.post("/getDocumentAccess/:documentId", (req: Request, res: Response) => {
         let deleteDate: string;
 
         if (document.instantDelete) {
-          if (!CrawlerDetect.isCrawler()) {
+          if (!CrawlerDetect) {
             setTimeout(async () => {
               await Documents.deleteOne({ URL: document.URL });
             }, 100);
