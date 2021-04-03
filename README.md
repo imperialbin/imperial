@@ -1,7 +1,7 @@
 
 # imperialb.in
 
-> A hastebin alternative but with user experience in mind with much more features!
+## A hastebin alternative but with user experience in mind and much more features!
 
 [![BUILT WITH SWAG](https://forthebadge.com/images/badges/built-with-swag.svg)](https://forthebadge.com) [![MADE WITH TYPESCRIPT](https://forthebadge.com/images/badges/made-with-typescript.svg)](https://forthebadge.com)
 
@@ -18,5 +18,4 @@ NOTE: Be sure to merge the latest from "upstream" before making a pull request!
 # License
 
 Licensed under the Mozilla Public License, Version 2.0 (the "License"); you may not use this code except in compliance with the License. \
-You may obtain a copy of the License [here](https://www.mozilla.org/en-US/MPL/2.0/) \
-A copy of the license is available in the repository's [LICENSE](./LICENSE) file.
+You may obtain a copy of the License [here](https://www.mozilla.org/en-US/MPL/2.0/). \
