@@ -127,7 +127,7 @@ routes.post("/resetPassword", async (req: Request, res: Response) => {
   try {
     const getEmail = verifyToken(token);
 
-    if (password.length < 8) throw "Your password must be 8 characters long!";
+    if (password.length < 8) throw "Your password must be over 8 characters long!";
     if (password !== confirmPassword) throw "Passwords do not match!";
 
     const hashedPass = await hash(password, 13);
