@@ -324,6 +324,9 @@
         onclick="copyThisPlease('<%= user.apiToken %>')">
         <i id="<%= user.apiToken %>-icon" class="fas fa-copy"></i>
       </div>
+      <form action="/account/updateApiToken" method="POST">
+        <button class="alignedLeftBtn" type="submit">Regenerate API Token</button>
+      </form>
     </div>
     <div>
       <a href="/api/getShareXConfig/<%= user.apiToken %>" class="noOpacity" download>
