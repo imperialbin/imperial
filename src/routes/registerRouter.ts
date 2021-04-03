@@ -38,7 +38,7 @@ routes.post("/", async (req: Request, res: Response) => {
 
   // Check if we already have an IP associated with existing user
   const ipCheck = await Users.findOne({ ip: usersIp.clientIp });
-  if (ipCheck)
+  if (ipCheck?.ip)
     return throwInternalError(
       "IP is already associated with an account!",
       email,
