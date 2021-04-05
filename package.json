@@ -61,7 +61,7 @@
     "express-rate-limit": "^5.2.6",
     "express-session": "^1.17.1",
     "gravatar": "^1.8.1",
-    "ioredis": "^4.24.2",
+    "ioredis": "^4.25.0",
     "ipware": "^2.0.0",
     "isbot": "^3.0.26",
     "jsonwebtoken": "^8.5.1",
