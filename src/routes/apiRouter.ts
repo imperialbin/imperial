@@ -316,8 +316,10 @@ routes.delete("/purgeDocuments", (req: Request, res: Response) => {
             500
           );
 
-        if (documents.length == 0)
+        if (documents.length == 0) {
+          if (req.isAuthenticated()) return res.redirect("/account");
           return throwApiError(res, "There was no documents to delete!", 400);
+        }
 
         await Documents.deleteMany({ creator });
         for (const document of documents) {
