@@ -366,7 +366,7 @@ routes.get("/getShareXConfig/:apiToken", (req: Request, res: Response) => {
     Version: "13.4.0",
     DestinationType: "TextUploader",
     RequestMethod: "POST",
-    RequestURL: "https://imperialb.in/api/postCode/",
+    RequestURL: "https://imperialb.in/api/document/",
     Headers: {
       Authorization: apiToken,
     },
