@@ -36,6 +36,7 @@ routes.get("/", async (req: Request, res: Response) => {
 routes.post("/me", async (req: Request, res: Response) => {
   const password = req.body.password;
   const user = req.user;
+  // TODO: Send an error message here
   if (!user || !(await compare(password, user.password)))
     return res.redirect("/account");
 
@@ -100,7 +101,7 @@ routes.post("/resetPasswordForm", async (req: Request, res: Response) => {
       success: "Successfully reset your password!",
       codeError: false,
       pfpError: false,
-      documents: await getDocuments(req.user?.toString(), 10),
+      documents: await getDocuments(req.user?._id.toString(), 10),
     });
   } catch (error) {
     res.render("account.ejs", {
@@ -109,7 +110,7 @@ routes.post("/resetPasswordForm", async (req: Request, res: Response) => {
       success: false,
       codeError: false,
       pfpError: false,
-      documents: await getDocuments(req.user?.toString(), 10),
+      documents: await getDocuments(req.user?._id.toString(), 10),
     });
   }
 });
@@ -210,7 +211,7 @@ routes.post("/createInvite", async (req: Request, res: Response) => {
       success: false,
       codeError: "You've exceeded your max invite count!",
       pfpError: false,
-      documents: await getDocuments(req.user?.toString(), 10),
+      documents: await getDocuments(req.user?._id.toString(), 10),
     });
 
   await Users.updateOne(

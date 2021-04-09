@@ -18,7 +18,6 @@ export const routes = Router();
 routes.get("/", (req: Request, res: Response) => {
   if (req.isAuthenticated()) {
     const user = req.user;
-    console.log(user);
     if (user && !user.banned) {
       res.render("index.ejs", {
         loggedIn: true,

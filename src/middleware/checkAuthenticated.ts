@@ -9,9 +9,7 @@ export const checkAuthenticated = async (
     return res.redirect("/login");
   }
 
-  if (req.user?.banned) {
-    return res.redirect("/logout");
-  }
+  if (req.user?.banned) return res.redirect("/logout");
 
   next();
 };

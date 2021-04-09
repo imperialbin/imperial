@@ -57,7 +57,7 @@ routes.get(
           existsSync(`./public/assets/img/${document?.URL}.jpg`)
         );
         if (req.isAuthenticated()) {
-          const _id = req.user.toString();
+          const _id = req.user?._id.toString();
 
           await Documents.updateOne(
             { URL: documentId },
@@ -157,7 +157,7 @@ routes.post("/getDocumentAccess/:documentId", (req: Request, res: Response) => {
 
         console.log(document.language);
         if (req.isAuthenticated()) {
-          const _id = req.user.toString();
+          const _id = req.user?._id.toString();
           const user = await Users.findOne({ _id });
           if (!user)
             return res.render("pasted.ejs", {

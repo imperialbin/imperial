@@ -28,8 +28,10 @@ routes.post("/document", (req: Request, res: Response) => {
     );
 
   const index = req.isAuthenticated()
-    ? { _id: req.user?.toString() }
+    ? { _id: req.user?._id.toString() }
     : { apiToken: req.headers.authorization };
+
+  if (req.user?.banned) return res.redirect("/logout");
 
   Users.findOne(index, (err: string, user: IUser) => {
     if (err)
@@ -53,6 +55,8 @@ routes.post("/document", (req: Request, res: Response) => {
         [],
         res
       );
+
+    if (user.banned) return throwApiError(res, "User is banned!", 401);
 
     const creator = user._id.toString();
     const documentSettings: DocumentSettings = {
@@ -165,8 +169,10 @@ routes.get("/document/:documentId", (req: Request, res: Response) => {
 // Edit document
 routes.patch("/document", (req: Request, res: Response) => {
   const index = req.isAuthenticated()
-    ? { _id: req.user?.toString() }
+    ? { _id: req.user?._id.toString() }
     : { apiToken: req.headers.authorization };
+
+  if (req.user?.banned) return res.redirect("/logout");
 
   const documentId = req.body.document;
   const code = req.body.newCode || req.body.code;
@@ -187,6 +193,7 @@ routes.patch("/document", (req: Request, res: Response) => {
         500
       );
     if (!user) return throwApiError(res, "Your authorization is invalid", 401);
+    if (user.banned) return throwApiError(res, "User is banned!", 401);
 
     const _id = user._id.toString();
 
@@ -251,8 +258,10 @@ routes.patch("/document", (req: Request, res: Response) => {
 // Delete document
 routes.delete("/document/:documentId", async (req: Request, res: Response) => {
   const index = req.isAuthenticated()
-    ? { _id: req.user?.toString() }
+    ? { _id: req.user?._id.toString() }
     : { apiToken: req.headers.authorization };
+
+  if (req.user?.banned) return res.redirect("/logout");
 
   const documentId = req.params.documentId;
   if (!documentId && typeof documentId !== "string")
@@ -266,6 +275,8 @@ routes.delete("/document/:documentId", async (req: Request, res: Response) => {
       );
     if (!user)
       return throwApiError(res, "Please put in a valid API token!", 401);
+
+    if (user.banned) return throwApiError(res, "User is banned!", 401);
 
     const _id = user._id.toString();
 
@@ -300,8 +311,10 @@ routes.delete("/document/:documentId", async (req: Request, res: Response) => {
 // Purging documents
 routes.delete("/purgeDocuments", (req: Request, res: Response) => {
   const index = req.isAuthenticated()
-    ? { _id: req.user?.toString() }
+    ? { _id: req.user?._id.toString() }
     : { apiToken: req.headers.authorization };
+
+  if (req.user?.banned) return res.redirect("/logout");
 
   Users.findOne(index, (err: string, user: IUser) => {
     if (err)
@@ -312,6 +325,8 @@ routes.delete("/purgeDocuments", (req: Request, res: Response) => {
       );
     if (!user)
       return throwApiError(res, "Please put in a valid API token!", 401);
+
+    if (user.banned) return throwApiError(res, "User is banned!", 401);
 
     const creator = user._id.toString();
     Documents.find(
@@ -361,7 +376,13 @@ routes.get("/checkApiToken/:apiToken", (req: Request, res: Response) => {
         500
       );
 
-    return res.json({
+    if (user.banned)
+      return res.json({
+        success: false,
+        message: "User is banned",
+      });
+
+    res.json({
       success: user ? true : false,
       message: user ? "API token is valid!" : "API token is invalid!",
     });
@@ -403,7 +424,7 @@ routes.post("/checkUser", (req: Request, res: Response) => {
 
 /* routes.post("/report", (req: Request, res: Response) => {
   const index = req.isAuthenticated()
-    ? { _id: req.user?.toString() }
+    ? { _id: req.user?._id.toString() }
     : { apiToken: req.headers.authorization };
   Users.findOne({ index }, (err: string, user: IUser) => {
     if (err)
