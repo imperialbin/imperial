@@ -10,6 +10,9 @@
   <link rel="stylesheet" href="/assets/css/reallyGlobal.css?v=1">
   <link rel="stylesheet" href="/assets/css/secondary.css">
   <link rel="stylesheet" href="/assets/css/admin.css">
+  <link rel="stylesheet" href="https://unpkg.com/tippy.js@6.2.7/animations/shift-away.css" />
+  <script src="https://unpkg.com/@popperjs/core@2"></script>
+  <script src="https://unpkg.com/tippy.js@6"></script>
 </head>
 
 <body>
@@ -28,12 +31,56 @@
         <ul class="user-selection" id="usersArea">
         </ul>
       </div>
+      <br>
+      <br><br>
+      <h2>Most recent documents made</h2>
+      <% recentDocuments.forEach(document => { %>
+      <div id="<%= document.URL %>">
+        <a href="/p/<%= document.URL %>" class="noOpacity">
+          <div class="tile"><i class="fas fa-file-alt"></i></div>
+          <input type="text" name="documentInfo"
+            class="<%- !document.encrypted ? 'document' : 'document longDocument' %>" value="<%= document.URL %>"
+            readonly>
+        </a>
+        <div class="secondaryTiles">
+          <% if (!document.instantDelete) { %>
+          <div class="secondaryTile infoTip"
+            data-tippy-content="Deleting <%= new Date(document.deleteDate).getMonth() + 1 %>/<%= new Date(document.deleteDate).getDate() %>/<%= new Date(document.deleteDate).getFullYear() %>">
+            <i class="fas fa-info"></i>
+          </div>
+          <% } else { %>
+          <div class="secondaryTile infoTip" data-tippy-content="Deletes after being viewed"><i class="fas fa-info"></i>
+          </div>
+          <% } %>
+
+          <% if (document.encrypted) { %>
+          <div class="secondaryTile infoTip key" data-tippy-content="Password protected"><i class="fas fa-key"></i>
+          </div>
+          <% } %>
+        </div>
+      </div>
+      <% }) %>
+      <br>
+      <h2>Most recent Users</h2>
+      <% recentUsers.forEach(user => { %>
+      <div id="<%= user.name %>">
+        <a class="noOpacity" href="/admin/user/<%= user._id %>">
+          <div class="tile"><i class="fas fa-user"></i></div>
+          <input type="text" class="document" value="<%= user.name %>" readonly>
+        </a>
+      </div>
+      <% }) %>
+      <br><br>
     </div>
     <div class="waves">
       <img src="/assets/img/wave.svg" alt="IMPERIAL Wave svg" class="wave" draggable="false">
     </div>
   </main>
   <script>
+    tippy('.infoTip', {
+      animation: 'shift-away',
+      placement: 'right'
+    })
     const input = document.getElementById('email');
     const iconIcon = document.getElementById('edit-icon');
     let timeout;
