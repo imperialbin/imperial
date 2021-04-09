@@ -52,6 +52,13 @@
           <i class="fas fa-code"></i>
         </a>
       </li>
+      <% if (user.admin) { %>
+       <li>
+         <a href="/admin" class="tooltip" data-tippy-content="Admin paenl">
+          <i class="fas fa-user-shield"></i>
+        </a>
+       </li>
+      <% } %>
       <div class="logout">
         <a href="/logout" class="logoutBtn tooltip" data-tippy-content="Logout">
           <i class="fas fa-sign-out-alt"></i>
