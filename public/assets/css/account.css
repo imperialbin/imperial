@@ -220,6 +220,12 @@ a {
   opacity: 0.2;
 }
 
+@media only screen and (max-height: 420px) {
+  ul#navythingy li:not(:first-child) {
+    display: none;
+  }
+}
+
 @media only screen and (max-width: 650px) {
   nav {
     z-index: 9999999;
