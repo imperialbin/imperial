@@ -171,6 +171,14 @@ input:disabled {
 
 .document {
   cursor: pointer;
+  padding-right: 85px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.longDocument {
+  padding-right: 134px;
 }
 
 .cum,

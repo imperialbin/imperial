@@ -39,6 +39,18 @@ li:before {
   -o-border-radius: 50%;
 }
 
+.document {
+  cursor: pointer;
+  padding-right: 85px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.longDocument {
+  padding-right: 134px;
+}
+
 div.email {
   margin-left: 5px;
   white-space: nowrap;
