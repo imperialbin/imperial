@@ -22,6 +22,7 @@ routes.get("/", (req: Request, res: Response) => {
       res.render("index.ejs", {
         loggedIn: true,
         pfp: user.icon,
+        isAdmin: user.admin || null,
         settings: user.settings,
       });
     }
