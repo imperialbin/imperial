@@ -17,13 +17,15 @@ export const routes = Router();
 // default pages
 routes.get("/", (req: Request, res: Response) => {
   if (req.isAuthenticated()) {
-    Users.findOne({ _id: req.user.toString() }, (err: string, user: IUser) => {
+    const user = req.user;
+    console.log(user);
+    if (user && !user.banned) {
       res.render("index.ejs", {
         loggedIn: true,
         pfp: user.icon,
         settings: user.settings,
       });
-    });
+    }
   } else {
     res.render("index.ejs", { loggedIn: false, settings: false });
   }

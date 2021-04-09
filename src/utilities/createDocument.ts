@@ -62,16 +62,21 @@ export const createDocument = async (
             screenshotDocument(URL, quality);
 
           if (res) {
-            return res?.json({
+            return res.json({
               success: true,
-              documentId: URL,
               rawLink: `https://imperialb.in/r/${URL}`,
               formattedLink: `https://imperialb.in/p/${URL}`,
-              expiration: new Date(document.deleteDate),
-              language: document.language,
-              instantDelete: document.instantDelete,
-              encrypted: document.encrypted,
-              password: document.encrypted ? passwordToHash : null,
+              document: {
+                documentId: document.URL,
+                language: document.language,
+                imageEmbed: document.imageEmbed,
+                instantDelete: document.instantDelete,
+                dateCreated: document.dateCreated,
+                expirationDate: document.deleteDate,
+                allowedEditors: document.allowedEditors,
+                encrypted: document.encrypted,
+                views: document.views,
+              },
             });
           }
 
@@ -79,7 +84,7 @@ export const createDocument = async (
         });
     } catch (error) {
       if (res) {
-        return res?.json({
+        return res.json({
           success: false,
           message:
             "An internal server error occurred, please contact an admin or developer",

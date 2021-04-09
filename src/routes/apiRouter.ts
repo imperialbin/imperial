@@ -146,13 +146,13 @@ routes.get("/document/:documentId", (req: Request, res: Response) => {
       return res.json({
         success: true,
         content: code,
-        documentInfo: {
+        document: {
           documentId: document.URL,
           language: document.language,
           imageEmbed: document.imageEmbed,
           instantDelete: document.instantDelete,
           dateCreated: document.dateCreated,
-          deleteDate: document.deleteDate,
+          expirationDate: document.deleteDate,
           allowedEditors: document.allowedEditors,
           encrypted: document.encrypted,
           views: document.views,
@@ -229,11 +229,19 @@ routes.patch("/document", (req: Request, res: Response) => {
         return res.json({
           success: true,
           message: "Successfully edit the document!",
-          documentId: documentId,
           rawLink: `https://imperialb.in/r/${documentId}`,
           formattedLink: `https://imperialb.in/p/${documentId}`,
-          expiration: new Date(document.deleteDate),
-          instantDelete: document.instantDelete,
+          document: {
+            documentId: document.URL,
+            language: document.language,
+            imageEmbed: document.imageEmbed,
+            instantDelete: document.instantDelete,
+            dateCreated: document.dateCreated,
+            expirationDate: document.deleteDate,
+            allowedEditors: document.allowedEditors,
+            encrypted: document.encrypted,
+            views: document.views,
+          },
         });
       }
     );
@@ -316,8 +324,10 @@ routes.delete("/purgeDocuments", (req: Request, res: Response) => {
             500
           );
 
-        if (documents.length == 0)
+        if (documents.length == 0) {
+          if (req.isAuthenticated()) return res.redirect("/account");
           return throwApiError(res, "There was no documents to delete!", 400);
+        }
 
         await Documents.deleteMany({ creator });
         for (const document of documents) {
