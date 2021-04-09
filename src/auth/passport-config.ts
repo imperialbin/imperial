@@ -47,8 +47,9 @@ export const initialize = (passport: typeof Passport): void => {
   };
 
   passport.use(new LocalStrategy({ usernameField: "email" }, authenticateUser));
-  passport.serializeUser((user, done) => done(null, user._id));
+  passport.serializeUser((user, done) => done(null, user));
   passport.deserializeUser((id, done) => {
-    Users.findById({ _id: id }).then((user) => done(null, user));
+    Users.findById({ _id: id })
+      .then((user) => done(null, user))
   });
 };
