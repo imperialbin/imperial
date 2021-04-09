@@ -2,9 +2,10 @@ import { Strategy as LocalStrategy } from "passport-local";
 import { IUser, Users } from "../models/Users";
 import bcrypt from "bcryptjs";
 import { mail } from "../utilities/mailer";
+import Passport from "passport";
 
 // uwu
-export const initialize = (passport: any) => {
+export const initialize = (passport: typeof Passport): void => {
   const authenticateUser = async (
     email: string,
     password: string,
@@ -46,10 +47,9 @@ export const initialize = (passport: any) => {
   };
 
   passport.use(new LocalStrategy({ usernameField: "email" }, authenticateUser));
-  passport.serializeUser((user: IUser, done: any) => done(null, user._id));
-  passport.deserializeUser(async (id: string, done: any) => {
-    Users.findById(id, (err: string, user: IUser) => {
-      done(err, user._id);
-    });
+  passport.serializeUser((user, done) => done(null, user));
+  passport.deserializeUser((id, done) => {
+    Users.findById({ _id: id })
+      .then((user) => done(null, user))
   });
 };
