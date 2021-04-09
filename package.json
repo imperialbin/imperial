@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node dist/_boot.js",
-    "devStart": "nodemon src/_boot.ts",
+    "devStart": "nodemon --files src/_boot.ts",
     "build": "tsc -p .",
     "lint": "eslint ."
   },
