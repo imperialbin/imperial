@@ -55,6 +55,9 @@
         <li class="setting" id="discord" onclick="window.open('https://imperialb.in/dsc', '_blank')">
           Discord</li>
         <div class="dumbLine"></div>
+        <% if (isAdmin) { %>
+          <li class="setting" onclick="location.href='/admin'">Admin panel</li>
+        <% } %>
         <li class="setting" id="logoutBtn" onclick="location.href = '/logout?_method=DELETE'">Logout
         </li>
       </ul>
