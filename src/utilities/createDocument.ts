@@ -18,7 +18,8 @@ export const createDocument = async (
   encrypted: boolean,
   password: string | null,
   editors: Array<string | void>,
-  res: any = null
+  res: any = null,
+  host: string | null = null
 ): Promise<IDocument> => {
   return new Promise<IDocument>((resolve, reject) => {
     const date = new Date();
@@ -62,10 +63,12 @@ export const createDocument = async (
             screenshotDocument(URL, quality);
 
           if (res) {
+            host = host ? host : "imperialb.in"
+            
             return res.json({
               success: true,
-              rawLink: `https://imperialb.in/r/${URL}`,
-              formattedLink: `https://imperialb.in/p/${URL}`,
+              rawLink: `https://${host}/r/${URL}`,
+              formattedLink: `https://${host}/p/${URL}`,
               document: {
                 documentId: document.URL,
                 language: document.language,
