@@ -53,7 +53,8 @@ routes.post("/document", (req: Request, res: Response) => {
         false,
         null,
         [],
-        res
+        res,
+        req.get("host")
       );
 
     if (user.banned) return throwApiError(res, "User is banned!", 401);
@@ -96,7 +97,8 @@ routes.post("/document", (req: Request, res: Response) => {
       documentSettings.encrypted,
       documentSettings.password,
       documentSettings.editorArray,
-      res
+      res,
+      req.get("host")
     );
   });
 });
