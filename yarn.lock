@@ -919,6 +919,11 @@ decompress-response@^3.3.0:
   dependencies:
     mimic-response "^1.0.0"
 
+decoration@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/decoration/-/decoration-1.0.1.tgz#72c47e250e6783de2d30fa49c6defcbcea4f9106"
+  integrity sha512-Uz+yKZMfEQHerHhs3f3mXKhYJuR341lTBbiKkSv8QNKskla6JbL5Uw9HaCVIlX7M87WlUCW6wBAF7zugWq3osw==
+
 deep-extend@^0.6.0:
   version "0.6.0"
   resolved "https://registry.yarnpkg.com/deep-extend/-/deep-extend-0.6.0.tgz#c4fa7c95404a17a9c3e8ca7e1537312b736330ac"
