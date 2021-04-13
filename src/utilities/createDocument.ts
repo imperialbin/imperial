@@ -5,11 +5,12 @@ import { encrypt } from "./encrypt";
 import { Users } from "../models/Users";
 import { screenshotDocument } from "./screenshotDocument";
 import { createGist } from "./createGists";
+import hljs from "imperial-highlight.js";
 
 export const createDocument = async (
   code: string,
   URL: string,
-  language: string | null,
+  language: string | null | undefined,
   imageEmbed: boolean,
   instantDelete: boolean,
   expiration: number,
@@ -17,7 +18,7 @@ export const createDocument = async (
   quality: number,
   encrypted: boolean,
   password: string | null,
-  editors: Array<string | void>,
+  editors: Array<string | null>,
   res: any = null,
   host: string | null = null
 ): Promise<IDocument> => {
@@ -30,6 +31,19 @@ export const createDocument = async (
 
       initVector = randomBytes(16);
       hashedPassword = createHash("sha256").update(passwordToHash).digest();
+    }
+
+    // Check if the language they passed is a valid language, if its not, set it to auto
+    language =
+      language && hljs.listLanguages().includes(language)
+        ? language
+        : (language = "auto");
+
+    if (language === "auto" || !language) {
+      const detectLanguage = hljs.highlightAuto(code);
+      if (detectLanguage.relevance >= 5) {
+        language = detectLanguage.language;
+      }
     }
 
     try {
@@ -63,8 +77,8 @@ export const createDocument = async (
             screenshotDocument(URL, quality);
 
           if (res) {
-            host = host ? host : "imperialb.in"
-            
+            host = host ? host : "imperialb.in";
+
             return res.json({
               success: true,
               rawLink: `https://${host}/r/${URL}`,
