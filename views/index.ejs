@@ -232,7 +232,7 @@
         .then(async res => {
           const messages = document.getElementById('messages');
 
-          if(req.status === 413) return messages.innerHTML += `<li class="message error"><i class="fas fa-times" style="padding-right: 9px;"></i> Text too large!</li>`
+          if(res.status === 413) return messages.innerHTML += `<li class="message error"><i class="fas fa-times" style="padding-right: 9px;"></i> Text too large!</li>`
           
           const documentRes = await res.json();
 
