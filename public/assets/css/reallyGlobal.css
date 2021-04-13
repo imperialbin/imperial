@@ -43,6 +43,7 @@ html {
   --text-success: rgba(158, 240, 135, 0.8);
   --text-info: rgba(233, 240, 135, 0.8);
   --text-dark: #40474e;
+  --text-tad-bit-darker: #909090;
   --text-light: #acacac;
   --text-lighter: #c8c7c7;
 }

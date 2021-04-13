@@ -20,12 +20,15 @@ routes.get("/", (req: Request, res: Response) =>
 // Post document
 routes.post("/document", (req: Request, res: Response) => {
   const code = req.body.code;
-  if (!code && typeof code !== "string")
+  if (!code)
     return throwApiError(
       res,
       "You need to give text in the `code` parameter!",
       400
     );
+
+  if (typeof code !== "string")
+    return throwApiError(res, "You need to pass correct type of code", 400);
 
   const index = req.isAuthenticated()
     ? { _id: req.user?._id.toString() }
