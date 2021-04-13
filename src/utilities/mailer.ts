@@ -10,7 +10,6 @@ const HOST = process.env.EMAIL_HOST,
 export const mail = (
   to: string,
   subject: string,
-  text: string,
   html: string
 ): Promise<string> => {
   // Emailing settings
@@ -31,7 +30,6 @@ export const mail = (
     from: `"IMPERIAL | Contact" <${USER}>`,
     to,
     subject,
-    text,
     html,
   };
 

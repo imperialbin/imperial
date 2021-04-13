@@ -5,11 +5,12 @@ import { encrypt } from "./encrypt";
 import { Users } from "../models/Users";
 import { screenshotDocument } from "./screenshotDocument";
 import { createGist } from "./createGists";
+import hljs from "imperial-highlight.js";
 
 export const createDocument = async (
   code: string,
   URL: string,
-  language: string | null,
+  language: string | null | undefined,
   imageEmbed: boolean,
   instantDelete: boolean,
   expiration: number,
@@ -17,8 +18,9 @@ export const createDocument = async (
   quality: number,
   encrypted: boolean,
   password: string | null,
-  editors: Array<string | void>,
-  res: any = null
+  editors: Array<string | null>,
+  res: any = null,
+  host: string | null = null
 ): Promise<IDocument> => {
   return new Promise<IDocument>((resolve, reject) => {
     const date = new Date();
@@ -29,6 +31,19 @@ export const createDocument = async (
 
       initVector = randomBytes(16);
       hashedPassword = createHash("sha256").update(passwordToHash).digest();
+    }
+
+    // Check if the language they passed is a valid language, if its not, set it to auto
+    language =
+      language && hljs.listLanguages().includes(language)
+        ? language
+        : (language = "auto");
+
+    if (language === "auto" || !language) {
+      const detectLanguage = hljs.highlightAuto(code);
+      if (detectLanguage.relevance >= 5) {
+        language = detectLanguage.language;
+      }
     }
 
     try {
@@ -62,16 +77,23 @@ export const createDocument = async (
             screenshotDocument(URL, quality);
 
           if (res) {
-            return res?.json({
+            host = host ? host : "imperialb.in";
+
+            return res.json({
               success: true,
-              documentId: URL,
-              rawLink: `https://imperialb.in/r/${URL}`,
-              formattedLink: `https://imperialb.in/p/${URL}`,
-              expiration: new Date(document.deleteDate),
-              language: document.language,
-              instantDelete: document.instantDelete,
-              encrypted: document.encrypted,
-              password: document.encrypted ? passwordToHash : null,
+              rawLink: `https://${host}/r/${URL}`,
+              formattedLink: `https://${host}/p/${URL}`,
+              document: {
+                documentId: document.URL,
+                language: document.language,
+                imageEmbed: document.imageEmbed,
+                instantDelete: document.instantDelete,
+                dateCreated: document.dateCreated,
+                expirationDate: document.deleteDate,
+                allowedEditors: document.allowedEditors,
+                encrypted: document.encrypted,
+                views: document.views,
+              },
             });
           }
 
@@ -79,7 +101,7 @@ export const createDocument = async (
         });
     } catch (error) {
       if (res) {
-        return res?.json({
+        return res.json({
           success: false,
           message:
             "An internal server error occurred, please contact an admin or developer",

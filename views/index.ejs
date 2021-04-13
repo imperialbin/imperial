@@ -38,7 +38,7 @@
       <button class="customStupidXButton tooltip" data-tippy-content="Close window (esc)"
         onclick="closeLanguageSelector()"><i class="far fa-times-circle"></i></button>
       <input type="text" class="searchBar" id="searchBarTings"
-        oninput="searchResults(document.getElementById('searchBarTings').value)" placeholder="Search" autofocus>
+        oninput="searchResults(document.getElementById('searchBarTings').value)" placeholder="Search" autocomplete="off" autofocus>
       <ul class="languageList" id="languageList">
       </ul>
       <br>
@@ -55,6 +55,9 @@
         <li class="setting" id="discord" onclick="window.open('https://imperialb.in/dsc', '_blank')">
           Discord</li>
         <div class="dumbLine"></div>
+        <% if (isAdmin) { %>
+          <li class="setting" onclick="location.href='/admin'">Admin panel</li>
+        <% } %>
         <li class="setting" id="logoutBtn" onclick="location.href = '/logout?_method=DELETE'">Logout
         </li>
       </ul>
@@ -226,20 +229,22 @@
         })
       }
       fetch("/api/document", options)
-        .then(res => res.json())
-        .then((documentRes) => {
+        .then(async res => {
+          const messages = document.getElementById('messages');
+
+          if(res.status === 413) return messages.innerHTML += `<li class="message error"><i class="fas fa-times" style="padding-right: 9px;"></i> Text too large!</li>`
+          
+          const documentRes = await res.json();
+
           localStorage.removeItem('saveText');
-          if (documentRes.instantDelete || documentRes.encrypted) {
-            const messages = document.getElementById('messages');
+          if (documentRes.document.instantDelete || documentRes.document.encrypted) {
             let urlToCopy;
-            // Set the URL
-            if (documentRes.encrypted) {
-              console.log(documentRes)
-              urlToCopy = `/p/${documentRes.documentId}?password=${documentRes.password}`
+            if (documentRes.document.encrypted) {
+              urlToCopy = `/p/${documentRes.document.documentId}?password=${documentRes.document.password}`
               window.history.pushState({}, null, urlToCopy);
               messages.innerHTML += `<li class="message success"><i class="fas fa-check" style="padding-right: 9px;"></i> Copied password!</li>`
             } else {
-              urlToCopy = `/p/${documentRes.documentId}`
+              urlToCopy = `/p/${documentRes.document.documentId}`
               window.history.pushState({}, null, urlToCopy);
               messages.innerHTML += `<li class="message success"><i class="fas fa-check" style="padding-right: 9px;"></i> Copied URL!</li>`
             }
@@ -247,8 +252,9 @@
           }
 
           localStorage.removeItem('editors')
-          location.href = `/p/${documentRes.documentId}?copy=true`
-        }).catch(err => {
+          location.href = `/p/${documentRes.document.documentId}?copy=true`
+        })
+        .catch(err => {
           console.log(err);
         });
     }

@@ -19,12 +19,12 @@ routes.get(
 
       if (await !documentOne)
         throw `We couldn't find the document ${documentOneId} to compare to ${documentTwoId}`;
-      if (await !documentOne?.encrypted)
+      if (await documentOne?.encrypted)
         throw `${documentOneId} is encrypted! You can not compare encrypted documents!`;
 
       if (await !documentTwo)
         throw `We couldn't find the document ${documentTwoId} to compare to ${documentOneId}`;
-      if (await !documentTwo?.encrypted)
+      if (await documentTwo?.encrypted)
         throw `${documentTwoId} is encrypted! You can not compare encrypted documents!`;
 
       res.render("compare.ejs", {
