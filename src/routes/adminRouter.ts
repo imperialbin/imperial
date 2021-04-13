@@ -1,4 +1,5 @@
 import { Router, Request, Response } from "express";
+import { Documents } from "../models/Documents";
 import { IUser, Users } from "../models/Users";
 
 // Utilities
@@ -7,8 +8,13 @@ import { getDocuments } from "../utilities/getDocuments";
 
 export const routes = Router();
 
-routes.get("/", (req: Request, res: Response) => {
-  res.render("admin.ejs");
+routes.get("/", async (req: Request, res: Response) => {
+  const recentDocuments = await Documents.find({})
+    .sort({ dateCreated: -1 })
+    .limit(15);
+  const recentUsers = await Users.find({}).sort({ _id: -1 }).limit(10);
+
+  res.render("admin.ejs", { recentUsers, recentDocuments });
 });
 
 routes.get("/user/:id", (req: Request, res: Response) => {
@@ -57,7 +63,6 @@ routes.post("/updateUser/:_id", (req: Request, res: Response) => {
     });
   });
 });
-
 
 routes.post("/changeConfirm", async (req: Request, res: Response) => {
   const status = JSON.parse(req.body.status.toLowerCase());

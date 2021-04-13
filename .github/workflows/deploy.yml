@@ -2,11 +2,11 @@ name: Deploy
 
 on:
   push:
-    branches: [main]
+    branches: [dev]
 
 jobs:
   deploy:
-    runs-on: self-hosted
+    runs-on: self-hosted-pi
 
     steps:
       - name: Checkout project
@@ -20,7 +20,7 @@ jobs:
           node-version: 14.x
 
       - name: Install deps
-        run: npm i
+        run: yarn
 
       - name: build the mother fucking thing
         run: npm run build
@@ -29,4 +29,4 @@ jobs:
         run: node node_modules/puppeteer/install.js
 
       - name: Deploy production
-        run: pm2 restart prod
+        run: pm2 restart dev

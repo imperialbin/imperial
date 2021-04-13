@@ -1,9 +1,6 @@
 import { createConnection } from "mongoose";
 
 // ENV stuff
-// I have nooooooooooooo fucking clue but if we don't import the dotenv in this
-// specific file it just doesnt work weirddd
-import "dotenv/config";
 const MONGO_URI = process.env.MONGO_URI ?? "";
 const DOCUMENT_URI = process.env.DOCUMENT_URI ?? "";
 

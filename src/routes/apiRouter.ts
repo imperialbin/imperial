@@ -20,16 +20,21 @@ routes.get("/", (req: Request, res: Response) =>
 // Post document
 routes.post("/document", (req: Request, res: Response) => {
   const code = req.body.code;
-  if (!code && typeof code !== "string")
+  if (!code)
     return throwApiError(
       res,
       "You need to give text in the `code` parameter!",
       400
     );
 
+  if (typeof code !== "string")
+    return throwApiError(res, "You need to pass correct type of code", 400);
+
   const index = req.isAuthenticated()
-    ? { _id: req.user?.toString() }
+    ? { _id: req.user?._id.toString() }
     : { apiToken: req.headers.authorization };
+
+  if (req.user?.banned) return res.redirect("/logout");
 
   Users.findOne(index, (err: string, user: IUser) => {
     if (err)
@@ -51,8 +56,11 @@ routes.post("/document", (req: Request, res: Response) => {
         false,
         null,
         [],
-        res
+        res,
+        req.get("host")
       );
+
+    if (user.banned) return throwApiError(res, "User is banned!", 401);
 
     const creator = user._id.toString();
     const documentSettings: DocumentSettings = {
@@ -92,7 +100,8 @@ routes.post("/document", (req: Request, res: Response) => {
       documentSettings.encrypted,
       documentSettings.password,
       documentSettings.editorArray,
-      res
+      res,
+      req.get("host")
     );
   });
 });
@@ -146,13 +155,13 @@ routes.get("/document/:documentId", (req: Request, res: Response) => {
       return res.json({
         success: true,
         content: code,
-        documentInfo: {
+        document: {
           documentId: document.URL,
           language: document.language,
           imageEmbed: document.imageEmbed,
           instantDelete: document.instantDelete,
           dateCreated: document.dateCreated,
-          deleteDate: document.deleteDate,
+          expirationDate: document.deleteDate,
           allowedEditors: document.allowedEditors,
           encrypted: document.encrypted,
           views: document.views,
@@ -165,8 +174,10 @@ routes.get("/document/:documentId", (req: Request, res: Response) => {
 // Edit document
 routes.patch("/document", (req: Request, res: Response) => {
   const index = req.isAuthenticated()
-    ? { _id: req.user?.toString() }
+    ? { _id: req.user?._id.toString() }
     : { apiToken: req.headers.authorization };
+
+  if (req.user?.banned) return res.redirect("/logout");
 
   const documentId = req.body.document;
   const code = req.body.newCode || req.body.code;
@@ -187,6 +198,7 @@ routes.patch("/document", (req: Request, res: Response) => {
         500
       );
     if (!user) return throwApiError(res, "Your authorization is invalid", 401);
+    if (user.banned) return throwApiError(res, "User is banned!", 401);
 
     const _id = user._id.toString();
 
@@ -229,11 +241,19 @@ routes.patch("/document", (req: Request, res: Response) => {
         return res.json({
           success: true,
           message: "Successfully edit the document!",
-          documentId: documentId,
           rawLink: `https://imperialb.in/r/${documentId}`,
           formattedLink: `https://imperialb.in/p/${documentId}`,
-          expiration: new Date(document.deleteDate),
-          instantDelete: document.instantDelete,
+          document: {
+            documentId: document.URL,
+            language: document.language,
+            imageEmbed: document.imageEmbed,
+            instantDelete: document.instantDelete,
+            dateCreated: document.dateCreated,
+            expirationDate: document.deleteDate,
+            allowedEditors: document.allowedEditors,
+            encrypted: document.encrypted,
+            views: document.views,
+          },
         });
       }
     );
@@ -243,8 +263,10 @@ routes.patch("/document", (req: Request, res: Response) => {
 // Delete document
 routes.delete("/document/:documentId", async (req: Request, res: Response) => {
   const index = req.isAuthenticated()
-    ? { _id: req.user?.toString() }
+    ? { _id: req.user?._id.toString() }
     : { apiToken: req.headers.authorization };
+
+  if (req.user?.banned) return res.redirect("/logout");
 
   const documentId = req.params.documentId;
   if (!documentId && typeof documentId !== "string")
@@ -258,6 +280,8 @@ routes.delete("/document/:documentId", async (req: Request, res: Response) => {
       );
     if (!user)
       return throwApiError(res, "Please put in a valid API token!", 401);
+
+    if (user.banned) return throwApiError(res, "User is banned!", 401);
 
     const _id = user._id.toString();
 
@@ -292,8 +316,10 @@ routes.delete("/document/:documentId", async (req: Request, res: Response) => {
 // Purging documents
 routes.delete("/purgeDocuments", (req: Request, res: Response) => {
   const index = req.isAuthenticated()
-    ? { _id: req.user?.toString() }
+    ? { _id: req.user?._id.toString() }
     : { apiToken: req.headers.authorization };
+
+  if (req.user?.banned) return res.redirect("/logout");
 
   Users.findOne(index, (err: string, user: IUser) => {
     if (err)
@@ -304,6 +330,8 @@ routes.delete("/purgeDocuments", (req: Request, res: Response) => {
       );
     if (!user)
       return throwApiError(res, "Please put in a valid API token!", 401);
+
+    if (user.banned) return throwApiError(res, "User is banned!", 401);
 
     const creator = user._id.toString();
     Documents.find(
@@ -316,8 +344,10 @@ routes.delete("/purgeDocuments", (req: Request, res: Response) => {
             500
           );
 
-        if (documents.length == 0)
+        if (documents.length == 0) {
+          if (req.isAuthenticated()) return res.redirect("/account");
           return throwApiError(res, "There was no documents to delete!", 400);
+        }
 
         await Documents.deleteMany({ creator });
         for (const document of documents) {
@@ -351,7 +381,13 @@ routes.get("/checkApiToken/:apiToken", (req: Request, res: Response) => {
         500
       );
 
-    return res.json({
+    if (user.banned)
+      return res.json({
+        success: false,
+        message: "User is banned",
+      });
+
+    res.json({
       success: user ? true : false,
       message: user ? "API token is valid!" : "API token is invalid!",
     });
@@ -393,7 +429,7 @@ routes.post("/checkUser", (req: Request, res: Response) => {
 
 /* routes.post("/report", (req: Request, res: Response) => {
   const index = req.isAuthenticated()
-    ? { _id: req.user?.toString() }
+    ? { _id: req.user?._id.toString() }
     : { apiToken: req.headers.authorization };
   Users.findOne({ index }, (err: string, user: IUser) => {
     if (err)

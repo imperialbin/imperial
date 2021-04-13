@@ -52,6 +52,13 @@
           <i class="fas fa-code"></i>
         </a>
       </li>
+      <% if (user.admin) { %>
+       <li>
+         <a href="/admin" class="tooltip" data-tippy-content="Admin paenl">
+          <i class="fas fa-user-shield"></i>
+        </a>
+       </li>
+      <% } %>
       <div class="logout">
         <a href="/logout" class="logoutBtn tooltip" data-tippy-content="Logout">
           <i class="fas fa-sign-out-alt"></i>
@@ -261,7 +268,8 @@
     <div id="<%= document.URL %>">
       <a href="/p/<%= document.URL %>" class="noOpacity">
         <div class="tile"><i class="fas fa-file-alt"></i></div>
-        <input type="text" name="documentInfo" class="document" value="<%= document.URL %>" readonly>
+        <input type="text" name="documentInfo" class="<%- !document.encrypted ? 'document' : 'document longDocument' %>"
+          value="<%= document.URL %>" readonly>
       </a>
       <div class="secondaryTiles">
         <% if (!document.instantDelete) { %>

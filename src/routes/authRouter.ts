@@ -38,7 +38,7 @@ routes.get(
   async (req: Request, res: Response) => {
     // Some of this code is based off of pxls code, but like its simple oauth, so its like what more/less could you do?
     const code = req.query.code;
-    const user = await Users.findOne({ _id: req.user?.toString() });
+    const user = await Users.findOne({ _id: req.user?._id.toString() });
 
     if (!code || !user)
       return res.render("error.ejs", {
@@ -166,7 +166,7 @@ routes.get(
     const accessToken = getAuthToken.access_token;
 
     await Users.updateOne(
-      { _id: req.user?.toString() },
+      { _id: req.user?._id.toString() },
       { $set: { githubAccess: accessToken } }
     );
 
