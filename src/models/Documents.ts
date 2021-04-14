@@ -13,7 +13,7 @@ export interface IDocument extends Document {
   instantDelete: boolean;
   creator: string | null;
   code: string;
-  creationDate: number;
+  dateCreated: number;
   deleteDate: number;
   allowedEditors: Array<string>;
   encrypted: boolean;
@@ -31,7 +31,7 @@ export const Documents = documentDatabase.model<IDocument>(
     instantDelete: Boolean,
     creator: String,
     code: String,
-    creationDate: Number,
+    dateCreated: Number,
     deleteDate: Number,
     allowedEditors: Array,
     encrypted: Boolean,

@@ -10,7 +10,7 @@ export const routes = Router();
 
 routes.get("/", async (req: Request, res: Response) => {
   const recentDocuments = await Documents.find({})
-    .sort({ creationDate: -1 })
+    .sort({ dateCreated: -1 })
     .limit(15);
   const recentUsers = await Users.find({}).sort({ _id: -1 }).limit(10);
 
