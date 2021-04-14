@@ -88,7 +88,7 @@ export const createDocument = async (
                 language: document.language,
                 imageEmbed: document.imageEmbed,
                 instantDelete: document.instantDelete,
-                dateCreated: document.dateCreated,
+                creationDate: document.dateCreated,
                 expirationDate: document.deleteDate,
                 allowedEditors: document.allowedEditors,
                 encrypted: document.encrypted,
