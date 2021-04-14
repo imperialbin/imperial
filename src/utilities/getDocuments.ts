@@ -11,6 +11,6 @@ export const getDocuments = async (
 ): Promise<Array<IDocument>> => {
   // Returns a promise to get a users documents
   return await Documents.find({ creator })
-    .sort({ creationDate: -1 })
+    .sort({ dateCreated: -1 })
     .limit(amount);
 };
