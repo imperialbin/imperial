@@ -2,11 +2,11 @@ name: Deploy
 
 on:
   push:
-    branches: [main]
+    branches: [dev]
 
 jobs:
   deploy:
-    runs-on: self-hosted
+    runs-on: self-hosted-pi
 
     steps:
       - name: Checkout project
