@@ -67,7 +67,9 @@
     </ul>
   </nav>
   <main>
-
+    <!-- Stupid back button that Squid wanted -->
+    <button class="backBtn tooltip" onclick="location.href = '/'" data-tippy-content="Go back home"><i class="arrowToDoThingsWithYea fas fa-arrow-left"></i>   Go back</button>
+    <br><br>
     <!-- GENERAL SHIT -->
     <h1>Welcome back, <%= user.name %></h1>
     <div class="stat-tiles">
