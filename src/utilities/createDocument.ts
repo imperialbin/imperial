@@ -92,6 +92,7 @@ export const createDocument = async (
                 expirationDate: document.deleteDate,
                 allowedEditors: document.allowedEditors,
                 encrypted: document.encrypted,
+                password: encrypted ? passwordToHash : null,
                 views: document.views,
               },
             });
