@@ -219,6 +219,12 @@ a {
   border-bottom: 1px solid var(--text-light);
   opacity: 0.2;
 }
+.arrowToDoThingsWithYea {
+  margin-right: 10px;
+}
+.backBtn {
+  padding: 10px 15px;
+}
 
 @media only screen and (max-height: 420px) {
   ul#navythingy li:not(:first-child) {
