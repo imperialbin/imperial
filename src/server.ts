@@ -38,7 +38,7 @@ connectDatabase();
 app.set("views", "./views");
 app.set("view-engine", "ejs");
 app.use(express.urlencoded({ extended: false }));
-app.use(express.json({ limit: "150kb" }));
+app.use(express.json({ limit: "180kb" }));
 app.use(express.static("./public"));
 app.use(flash());
 app.use(cookieParser(COOKIE_SECRET));
