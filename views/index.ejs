@@ -240,6 +240,7 @@
           if (documentRes.document.instantDelete || documentRes.document.encrypted) {
             let urlToCopy;
             if (documentRes.document.encrypted) {
+              console.log(documentRes.document);
               urlToCopy = `/p/${documentRes.document.documentId}?password=${documentRes.document.password}`
               window.history.pushState({}, null, urlToCopy);
               messages.innerHTML += `<li class="message success"><i class="fas fa-check" style="padding-right: 9px;"></i> Copied password!</li>`
@@ -248,7 +249,7 @@
               window.history.pushState({}, null, urlToCopy);
               messages.innerHTML += `<li class="message success"><i class="fas fa-check" style="padding-right: 9px;"></i> Copied URL!</li>`
             }
-            return copy(`${location.href}${urlToCopy}`)
+            return copy(`${location.href}`)
           }
 
           localStorage.removeItem('editors')
