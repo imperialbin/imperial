@@ -14,7 +14,7 @@
   </script>
   <link rel="stylesheet" href="/assets/css/reallyGlobal.css?v=3">
   <link rel="stylesheet" href="/assets/css/secondary.css">
-  <link rel="stylesheet" href="/assets/css/account.css?v=5">
+  <link rel="stylesheet" href="/assets/css/account.css?v=8">
   <link rel="stylesheet" href="https://unpkg.com/tippy.js@6.2.7/animations/shift-away.css" />
   <link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon/favicon-96x96.png">
   <meta property="og:image" content="/assets/favicon/favicon-96x96.png">
@@ -67,7 +67,9 @@
     </ul>
   </nav>
   <main>
-
+    <!-- Stupid back button that Squid wanted -->
+    <button class="backBtn tooltip" onclick="location.href = '/'"><i class="arrowToDoThingsWithYea fas fa-arrow-left"></i>   Go back</button>
+    <br><br>
     <!-- GENERAL SHIT -->
     <h1>Welcome back, <%= user.name %></h1>
     <div class="stat-tiles">
