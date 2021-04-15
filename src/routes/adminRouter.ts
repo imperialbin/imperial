@@ -1,12 +1,17 @@
 import { Router, Request, Response } from "express";
 import { Documents } from "../models/Documents";
 import { IUser, Users } from "../models/Users";
+import fetch from "node-fetch";
 
 // Utilities
 import { generateString } from "../utilities/generateString";
 import { getDocuments } from "../utilities/getDocuments";
 
 export const routes = Router();
+
+const DISCORD_BOT_TOKEN = process.env.DISCORD_BOT_TOKEN;
+const DISCORD_GUILD = process.env.DISCORD_GUILD;
+const DISCORD_ROLE_MEMBER_PLUS = process.env.DISCORD_ROLE_MEMBER_PLUS;
 
 routes.get("/", async (req: Request, res: Response) => {
   const recentDocuments = await Documents.find({})
@@ -86,7 +91,22 @@ routes.post("/changeMemberPlus", async (req: Request, res: Response) => {
   const status = JSON.parse(req.body.status.toLowerCase());
   const _id = req.body._id;
 
-  await Users.updateOne({ _id }, { $set: { memberPlus: !status } });
+  const user = await Users.findOneAndUpdate(
+    { _id },
+    { $set: { memberPlus: !status } }
+  );
+  
+  if (!status && user?.discordId) {
+    await fetch(
+      `https://discord.com/api/guilds/${DISCORD_GUILD}/members/${user?.discordId}/roles/${DISCORD_ROLE_MEMBER_PLUS}`,
+      {
+        method: "PUT",
+        headers: {
+          authorization: `Bot ${DISCORD_BOT_TOKEN}`,
+        },
+      }
+    );
+  }
 
   res.redirect(`/admin/user/${_id}`);
 });

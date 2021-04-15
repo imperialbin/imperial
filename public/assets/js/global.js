@@ -49,15 +49,16 @@ const editDocument = () => {
   const actualBtn = document.querySelector(".editBtnFunc");
   const editBtn = document.getElementById("editBtn");
   const editMsg = document.querySelector(".editMsg");
-  
+
   editBtn.classList.replace("fa-pencil-alt", "fa-check");
   actualBtn.setAttribute("onClick", "actuallyEditDocument()");
   editor.setReadOnly(false);
-  
+
   if (editMsg) editMsg.remove();
-}
+};
 
 const actuallyEditDocument = () => {
+  if (editor.getValue() === "" || !editor.getValue().trim()) return;
   const actualBtn = document.querySelector(".editBtnFunc");
   const editBtn = document.getElementById("editBtn");
   const options = {
@@ -71,7 +72,7 @@ const actuallyEditDocument = () => {
     }),
   };
   editBtn.classList.replace("fa-check", "fa-minus");
-  
+
   fetch("/api/document", options)
     .then((res) => res.json())
     .then((documentRes) => {
@@ -79,20 +80,20 @@ const actuallyEditDocument = () => {
         actualBtn.setAttribute("onClick", "editDocument()");
         editBtn.classList.replace("fa-minus", "fa-pencil-alt");
         editor.setReadOnly(true);
-  
+
         if (!document.querySelector(".editMsg"))
           messages.innerHTML += `<li class="message success editMsg"><i class="fas fa-check" style="padding-right: 9px;"></i> Edited!</li>`;
       } else {
         editBtn.classList.replace("fa-minus", "fa-times");
-  
+
         if (!document.querySelector(".editMsg"))
           messages.innerHTML += `<li class="message error editMsg"><i class="fas fa-times" style="padding-right: 9px;"></i> Error editing!</li>`;
       }
     })
     .catch((err) => {
       editBtn.classList.replace("fa-minus", "fa-times");
-  
+
       if (!document.querySelector(".editMsg"))
         messages.innerHTML += `<li class="message error editMsg"><i class="fas fa-times" style="padding-right: 9px;"></i> Error editing!</li>`;
     });
-}
+};
