@@ -183,7 +183,7 @@ routes.patch("/document", (req: Request, res: Response) => {
   const code = req.body.newCode || req.body.code;
   if (!documentId && typeof documentId !== "string")
     return throwApiError(res, "You must include a valid document id!", 400);
-  if (!code && typeof code !== "string")
+  if ((!code && typeof code !== "string") || code === "" || !code.trim())
     return throwApiError(
       res,
       "You must give valid code to replace the old code with!",
