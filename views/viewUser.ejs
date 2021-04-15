@@ -326,6 +326,28 @@
       </a>
     </div>
 
+    <h2 id="integrations">Integrations</h2>
+    <h3>Discord integration</h3>
+    <div>
+      <br>
+      <% if (user.discordId) { %>
+      <span class="integration">User is linked to Discord ID #<%= user.discordId %>!</span>
+      <br><br>
+      <% } else { %>
+      <span class="integration">User has not yet linked their discord!</span>
+      <br><br>
+      <% } %>
+    </div>
+    <h3>GitHub integration</h3>
+    <br>
+    <% if (user.githubAccess) { %>
+    <span class="integration">User has linked their Github account!</span>
+    <br><br>
+    <% } else { %>
+    <span class="integration">User has not yet linked their Github!</span> <br>
+    <br><br>
+    <% } %>
+    <br><br>
   </main>
   <script src="https://kit.fontawesome.com/ec3f0c8487.js" crossorigin="anonymous"></script>
   <script>
