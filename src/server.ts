@@ -113,7 +113,7 @@ app.use(["/r", "/raw", "/r/:documentId", "/raw/:documentId"], rawRouter);
 
 app.get("*", (req: Request, res: Response) => {
   res.render("error.ejs", {
-    error: "We couldn't find the page/document you're looking for :(",
+    error: "https://http.cat/404",
   });
 });
 /* process.on("uncaughtException", (err: any, origin: string) => {
