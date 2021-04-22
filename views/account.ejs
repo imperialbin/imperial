@@ -68,7 +68,7 @@
   </nav>
   <main>
     <!-- Stupid back button that Squid wanted -->
-    <button class="backBtn tooltip" onclick="location.href = '/'"><i class="arrowToDoThingsWithYea fas fa-arrow-left"></i>   Go back</button>
+    <button class="backBtn tooltip" onclick="location.href = '/'" data-tippy-content="Go back home"><i class="arrowToDoThingsWithYea fas fa-arrow-left"></i>   Go back</button>
     <br><br>
     <!-- GENERAL SHIT -->
     <h1>Welcome back, <%= user.name %></h1>
@@ -313,10 +313,10 @@
     <% user.codes.forEach(code => { %>
     <div>
       <div class="tile"><i class="fas fa-qrcode"></i></div>
-      <input type="text" name="code" value="<%= code.code %>" readonly>
+      <input type="text" name="code" value="<%= code %>" readonly>
       <div class="secondaryTiles">
         <div class="secondaryTile codeTile tooltip" data-tippy-content="Copy"
-          onclick="copyThisPlease('https://www.imperialb.in/register?inviteCode=<%= code.code %>')">
+          onclick="copyThisPlease('https://www.imperialb.in/register?inviteCode=<%= code %>')">
           <i id="https://www.imperialb.in/register?inviteCode=<%= code.code %>-icon" class="fas fa-copy"></i>
         </div>
       </div>

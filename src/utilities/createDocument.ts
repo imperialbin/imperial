@@ -60,7 +60,7 @@ export const createDocument = async (
         encrypted,
         gist: null,
         encryptedIv: encrypted ? initVector?.toString("hex") : null,
-        view: 0,
+        views: 0,
       })
         .save()
         .then(async (document) => {
