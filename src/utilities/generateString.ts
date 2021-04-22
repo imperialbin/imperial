@@ -6,11 +6,6 @@ import { randomBytes } from "crypto";
  * @returns Random string
  */
 
-export const generateString = (length: number): Promise<string> =>
-  new Promise((resolve, reject) => {
-    randomBytes(length, (err, buffer) => {
-      if (err) return reject(err);
-
-      resolve(buffer.toString("hex"));
-    });
-  });
+export const generateString = (length: number): string => {
+  return randomBytes(length).toString("hex");
+};
