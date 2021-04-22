@@ -218,7 +218,7 @@ routes.post("/createInvite", async (req: Request, res: Response) => {
     { _id: user._id },
     {
       $set: { codesLeft: user.codesLeft - 1 },
-      $push: { "codes.code": generateString(8) },
+      $push: { codes: generateString(8) },
     }
   );
 

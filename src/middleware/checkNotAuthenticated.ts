@@ -1,5 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 
+// chekc for th
+
 export const checkNotAuthenticated = (
   req: Request,
   res: Response,

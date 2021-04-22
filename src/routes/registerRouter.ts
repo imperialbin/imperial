@@ -65,7 +65,7 @@ routes.post("/", async (req: Request, res: Response) => {
 
   // Check the beta code
   //@ts-ignore This ignore is so that it doesnt complain that `code: inviteCode` isnt in the thingy
-  const checkCode = await Users.findOne({ codes: { code: inviteCode } });
+  const checkCode = await Users.findOne({ codes: inviteCode });
   if (!checkCode)
     return throwInternalError("Invalid invite code!", email, username);
 
