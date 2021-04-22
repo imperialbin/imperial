@@ -1,14 +1,16 @@
-/**
- * @param  {number} length
- * @returns string
- */
-export const generateString = (length: number): string => {
-  const characters =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  let str = "";
+import { randomBytes } from "crypto";
 
-  // ፎርኒት ማይክሮሶፍት ዊንዶውስ 10 ሙያዊ የቤት ውስጥ ቢሮ 365 የሃምበርገር ጥብስ እና ስፕሬተሮችን ጎን ለጎን እወዳለሁ
-  for (let i = 0; i < length; i++)
-    str += characters.charAt(Math.floor(Math.random() * characters.length));
-  return str;
-};
+/**
+ *
+ * @param length Length of the string
+ * @returns Random string
+ */
+
+export const generateString = (length: number): Promise<string> =>
+  new Promise((resolve, reject) => {
+    randomBytes(length, (err, buffer) => {
+      if (err) return reject(err);
+
+      resolve(buffer.toString("hex"));
+    });
+  });
