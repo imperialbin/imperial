@@ -1,5 +1,10 @@
 import puppeteer from "puppeteer";
 
+/**
+ * @param  {string} documentId
+ * @param  {number} quality
+ * @returns Promise
+ */
 export const screenshotDocument = async (
   documentId: string,
   quality: number

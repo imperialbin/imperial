@@ -8,6 +8,13 @@ import { createGist } from "./createGists";
 import hljs from "imperial-highlight.js";
 import { DocumentSettings } from "./documentSettingsInterface";
 
+/**
+ * @param  {string} code
+ * @param  {DocumentSettings} documentSettings
+ * @param  {Response|any=null} res
+ * @param  {string|null=null} host
+ * @returns Promise
+ */
 export const createDocument = async (
   code: string,
   documentSettings: DocumentSettings,

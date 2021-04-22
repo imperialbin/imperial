@@ -7,6 +7,12 @@ const HOST = process.env.EMAIL_HOST,
   USER = process.env.EMAIL_USER,
   PASS = process.env.EMAIL_PASS;
 
+/**
+ * @param  {string} to
+ * @param  {string} subject
+ * @param  {string} html
+ * @returns Promise
+ */
 export const mail = (
   to: string,
   subject: string,

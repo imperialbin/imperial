@@ -1,3 +1,7 @@
+/**
+ * @param  {number} length
+ * @returns string
+ */
 export const generateString = (length: number): string => {
   const characters =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
