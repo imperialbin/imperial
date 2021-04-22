@@ -1,3 +1,6 @@
+/**
+ * @returns string
+ */
 export const generateApiToken = (): string => {
   return "IMPERIAL-xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(
     /[xy]/g,

@@ -2,6 +2,12 @@ import { createHash, createDecipheriv } from "crypto";
 
 // Usage decrypt(hashedPassword, documentInfo.code, documentInfo.encryptedIv);
 
+/**
+ * @param  {string} password
+ * @param  {string} cipherText
+ * @param  {string} initVector
+ * @returns string
+ */
 export const decrypt = (
   password: string,
   cipherText: string,
