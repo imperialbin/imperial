@@ -1,11 +1,12 @@
 export interface DocumentSettings {
+  creator: null | string;
   longerUrls: boolean;
-  language: string | null;
+  language: string | null | undefined;
   imageEmbed: boolean;
   expiration: number;
   instantDelete: boolean;
   quality: number;
   encrypted: boolean;
   password: any;
-  editorArray: Array<string>;
+  editors: Array<string> | Array<void>;
 }
