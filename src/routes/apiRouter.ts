@@ -44,21 +44,7 @@ routes.post("/document", (req: Request, res: Response) => {
         500
       );
     if (!user)
-      return createDocument(
-        code,
-        generateString(8),
-        req.body.language || null,
-        false,
-        false,
-        5,
-        null,
-        20,
-        false,
-        null,
-        [],
-        res,
-        req.get("host")
-      );
+      return throwApiError(res, "Your authorization token is invalid!", 401);
 
     if (user.banned) return throwApiError(res, "User is banned!", 401);
 
@@ -66,13 +52,14 @@ routes.post("/document", (req: Request, res: Response) => {
     const documentSettings: DocumentSettings = {
       longerUrls: req.body.longerUrls || false,
       language: req.body.language || null,
+      creator,
       imageEmbed: req.body.imageEmbed || false,
       expiration: req.body.expiration || 5,
       instantDelete: req.body.instantDelete || false,
       quality: !user.memberPlus ? 73 : 100,
       encrypted: req.body.encrypted || false,
       password: req.body.password || null,
-      editorArray: req.body.editors || [],
+      editors: req.body.editors || [],
     };
 
     // Me checking types to make sure no one fucks me over fuck you fuycky ou fuck you fyuck you fuck yo u
@@ -88,21 +75,8 @@ routes.post("/document", (req: Request, res: Response) => {
         "Some settings are not correct types! Please refer to our docs at https://docs.imperialb.in/",
         400
       );
-    return createDocument(
-      code,
-      documentSettings.longerUrls ? generateString(26) : generateString(8),
-      documentSettings.language,
-      documentSettings.imageEmbed,
-      documentSettings.instantDelete,
-      documentSettings.expiration > 31 ? 31 : documentSettings.expiration,
-      creator,
-      documentSettings.quality,
-      documentSettings.encrypted,
-      documentSettings.password,
-      documentSettings.editorArray,
-      res,
-      req.get("host")
-    );
+
+    return createDocument(code, documentSettings, res, req.get("host"));
   });
 });
 

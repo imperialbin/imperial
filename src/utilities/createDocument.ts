@@ -6,75 +6,85 @@ import { Users } from "../models/Users";
 import { screenshotDocument } from "./screenshotDocument";
 import { createGist } from "./createGists";
 import hljs from "imperial-highlight.js";
+import { DocumentSettings } from "./documentSettingsInterface";
 
 export const createDocument = async (
   code: string,
-  URL: string,
-  language: string | null | undefined,
-  imageEmbed: boolean,
-  instantDelete: boolean,
-  expiration: number,
-  creator: string | null,
-  quality: number,
-  encrypted: boolean,
-  password: string | null,
-  editors: Array<string | null>,
-  res: any = null,
+  documentSettings: DocumentSettings,
+  res: Response | any = null,
   host: string | null = null
 ): Promise<IDocument> => {
   return new Promise<IDocument>((resolve, reject) => {
     const date = new Date();
     let passwordToHash: string, initVector: any, hashedPassword: any;
-    if (encrypted) {
+
+    if (documentSettings.encrypted) {
       passwordToHash =
-        typeof password === "string" ? password : generateString(12);
+        typeof documentSettings.password === "string"
+          ? documentSettings.password
+          : generateString(12);
 
       initVector = randomBytes(16);
       hashedPassword = createHash("sha256").update(passwordToHash).digest();
     }
 
-    // Check if the language they passed is a valid language, if its not, set it to auto
-    language =
-      language && hljs.listLanguages().includes(language)
-        ? language
-        : (language = "auto");
+    const URL = documentSettings.longerUrls
+      ? generateString(26)
+      : generateString(8);
 
-    if (language === "auto" || !language) {
+    // Check if the language they passed is a valid language, if its not, set it to auto
+    documentSettings.language =
+      documentSettings.language &&
+      hljs.listLanguages().includes(documentSettings.language)
+        ? documentSettings.language
+        : (documentSettings.language = "auto");
+
+    if (documentSettings.language === "auto" || !documentSettings.language) {
       const detectLanguage = hljs.highlightAuto(code);
       if (detectLanguage.relevance >= 5) {
-        language = detectLanguage.language;
+        documentSettings.language = detectLanguage.language;
       }
     }
 
     try {
       new Documents({
         URL,
-        language,
-        imageEmbed,
-        instantDelete,
-        creator,
-        code: encrypted ? encrypt(hashedPassword, code, initVector) : code,
+        language: documentSettings.language,
+        imageEmbed: documentSettings.imageEmbed,
+        instantDelete: documentSettings.instantDelete,
+        creator: documentSettings.creator,
+        code: documentSettings.encrypted
+          ? encrypt(hashedPassword, code, initVector)
+          : code,
         dateCreated: date.getTime(),
-        deleteDate: date.setDate(date.getDate() + expiration),
-        allowedEditors: editors,
-        encrypted,
+        deleteDate: date.setDate(date.getDate() + documentSettings.expiration),
+        allowedEditors: documentSettings.editors,
+        encrypted: documentSettings.encrypted,
         gist: null,
-        encryptedIv: encrypted ? initVector?.toString("hex") : null,
+        encryptedIv: documentSettings.encrypted
+          ? initVector?.toString("hex")
+          : null,
         views: 0,
       })
         .save()
         .then(async (document) => {
-          const user = await Users.findOne({ _id: creator });
-          if (creator)
+          const user = await Users.findOne({ _id: documentSettings.creator });
+          if (user)
             await Users.updateOne(
-              { _id: creator },
+              { _id: documentSettings.creator },
               { $inc: { documentsMade: 1 } }
             );
 
-          if (user?.githubAccess && !encrypted) createGist(user._id, code, URL);
+          if (user?.githubAccess && !documentSettings.encrypted)
+            createGist(user._id, code, URL);
 
-          if (quality && !instantDelete && imageEmbed && !encrypted)
-            screenshotDocument(URL, quality);
+          if (
+            documentSettings.quality &&
+            !documentSettings.instantDelete &&
+            documentSettings.imageEmbed &&
+            !documentSettings.encrypted
+          )
+            screenshotDocument(URL, documentSettings.quality);
 
           if (res) {
             host = host ? host : "imperialb.in";
@@ -92,7 +102,7 @@ export const createDocument = async (
                 expirationDate: document.deleteDate,
                 allowedEditors: document.allowedEditors,
                 encrypted: document.encrypted,
-                password: encrypted ? passwordToHash : null,
+                password: document.encrypted ? passwordToHash : null,
                 views: document.views,
               },
             });
