@@ -423,7 +423,7 @@ routes.post("/checkUser", (req: Request, res: Response) => {
   });
 }); */
 
-routes.get("*", (req: Request, res: Response) => {
+routes.use("*", (req: Request, res: Response) => {
   throwApiError(
     res,
     "That route does not exist or you have improper URL formatting!",
