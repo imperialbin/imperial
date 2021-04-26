@@ -35,6 +35,25 @@ routes.post("/document", (req: Request, res: Response) => {
 
   if (req.user?.banned) return res.redirect("/logout");
 
+  if (!req.headers.authorization)
+    return createDocument(
+      code,
+      {
+        creator: null,
+        editors: [],
+        encrypted: false,
+        expiration: 5,
+        imageEmbed: false,
+        instantDelete: false,
+        language: req.body.language || null,
+        longerUrls: false,
+        password: null,
+        quality: 20,
+      },
+      res,
+      req.get("host")
+    );
+
   Users.findOne(index, (err: string, user: IUser) => {
     if (err)
       return throwApiError(
