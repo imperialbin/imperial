@@ -4,7 +4,6 @@ import { Documents, IDocument } from "../models/Documents";
 import { existsSync, unlinkSync } from "fs";
 
 // Utilities
-import { generateString } from "../utilities/generateString";
 import { throwApiError } from "../utilities/throwApiError";
 import { DocumentSettings } from "../utilities/documentSettingsInterface";
 import { decrypt } from "../utilities/decrypt";
