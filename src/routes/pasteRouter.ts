@@ -93,6 +93,8 @@ routes.get(
             creator: isCreator,
             originalCreator: document.creator,
             incomingUser: _id,
+            isAdmin: user.admin,
+            isMemberPlus: user.memberPlus,
             encrypted: false,
           });
         } else {
@@ -186,6 +188,8 @@ routes.post("/getDocumentAccess/:documentId", (req: Request, res: Response) => {
             creator: isCreator,
             originalCreator: document.creator,
             incomingUser: _id,
+            isAdmin: user.admin,
+            isMemberPlus: user.memberPlus,
             encrypted: true,
           });
         } else {
