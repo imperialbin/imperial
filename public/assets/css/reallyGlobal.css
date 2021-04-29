@@ -268,6 +268,10 @@ select {
   margin-right: 20px;
 }
 
+.redColor {
+  color: var(--danger);
+}
+
 .badge {
   position: absolute;
   right: 33px;
