@@ -2,6 +2,13 @@ import fetch from "node-fetch";
 import { Documents } from "../models/Documents";
 import { Users } from "../models/Users";
 
+
+/**
+ * @param  {string} _id
+ * @param  {string} code
+ * @param  {string} URL
+ * @returns Promise
+ */
 export const createGist = async (
   _id: string,
   code: string,

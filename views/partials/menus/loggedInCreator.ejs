@@ -27,6 +27,11 @@
       </li>
       <li id="new" class="tooltip" data-tippy-content="New document"> <button id="icon" onclick="newDocument()"><i class="fas fa-file-alt fa-lg"></i></button> </li>
       <li id="account"> <img src="<%= pfp %>" alt="Profile picture" class="pfp" draggable="false"> </li>
+      <% if (isAdmin) { %>
+        <div class="tooltipUp badge adminBadge" data-tippy-content="Admin"></div>
+      <% } else if (isMemberPlus) { %>
+          <div class="tooltipUp badge memberPlusBadge" data-tippy-content="Member+"></div>
+      <% } %>
     </ul>
   </div>
   <ul id="messages">

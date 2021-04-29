@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node dist/_boot.js",
-    "devStart": "nodemon --files src/_boot.ts",
+    "devStart": "ts-node-dev --files src/_boot.ts",
     "build": "tsc -p .",
     "lint": "eslint ."
   },
@@ -43,9 +43,9 @@
     "@types/redis": "^2.8.28",
     "@typescript-eslint/eslint-plugin": "^4.16.1",
     "@typescript-eslint/parser": "^4.16.1",
-    "nodemon": "^2.0.7",
     "prettier": "^2.2.1",
     "ts-node": "^9.1.1",
+    "ts-node-dev": "^1.1.6",
     "typescript": "^4.2.2"
   },
   "dependencies": {

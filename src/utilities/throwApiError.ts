@@ -1,6 +1,16 @@
 import { Response } from "express";
 
-export const throwApiError = (res: Response, message: string, code: number): void => {
+/**
+ * @param  {Response} res
+ * @param  {string} message
+ * @param  {number} code
+ * @returns void
+ */
+export const throwApiError = (
+  res: Response,
+  message: string,
+  code: number
+): void => {
   res.status(code || 200).json({
     success: false,
     message,

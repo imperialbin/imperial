@@ -1,10 +1,12 @@
-export const generateString = (length: number): string => {
-  const characters =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  let str = "";
+import { randomBytes } from "crypto";
 
-  // ፎርኒት ማይክሮሶፍት ዊንዶውስ 10 ሙያዊ የቤት ውስጥ ቢሮ 365 የሃምበርገር ጥብስ እና ስፕሬተሮችን ጎን ለጎን እወዳለሁ
-  for (let i = 0; i < length; i++)
-    str += characters.charAt(Math.floor(Math.random() * characters.length));
-  return str;
+/**
+ *
+ * @param length Length of the string
+ * @returns Random string
+ */
+
+export const generateString = (length: number): string => {
+  // Dividing it by two because if we dont it'll be 16 characters for a length of 8, weirdo.
+  return randomBytes(length / 2).toString("hex");
 };

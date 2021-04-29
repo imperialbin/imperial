@@ -277,6 +277,11 @@ Ya tú sabes baby, Jake Paul
               class="fas fa-file-alt fa-lg"></i></button> </li>
         <li id="account"> <img src="<%= pfp %>" alt="Profile picture" class="pfp" draggable="false">
         </li>
+        <% if (isAdmin) { %>
+          <div class="tooltipUp badge adminBadge" data-tippy-content="Admin"></div>
+        <% } else if (isMemberPlus) { %>
+          <div class="tooltipUp badge memberPlusBadge" data-tippy-content="Member+"></div>
+        <% } %>
       </ul>
     </div>
     <ul id="messages"></ul>
@@ -359,6 +364,11 @@ Ya tú sabes baby, Jake Paul
       animation: 'shift-away',
       placement: 'bottom'
     })
+    tippy('.tooltipUp', {
+      arrow: false,
+      animation: 'shift-away',
+      placement: 'top'
+    })
     const loggedIn = JSON.parse('<%= loggedIn %>')
     const settings = {
       clipboard: loggedIn ? JSON.parse('<%= settings.clipboard %>') : false,
@@ -435,6 +445,7 @@ Ya tú sabes baby, Jake Paul
           if(res.status === 413) return messages.innerHTML += `<li class="message error"><i class="fas fa-times" style="padding-right: 9px;"></i> Text too large!</li>`
           
           const documentRes = await res.json();
+          localStorage.removeItem('editorArray')
 
           localStorage.removeItem('saveText');
           if (documentRes.document.instantDelete || documentRes.document.encrypted) {
@@ -452,7 +463,6 @@ Ya tú sabes baby, Jake Paul
             return copy(`${location.href}`)
           }
 
-          localStorage.removeItem('editors')
           location.href = `/p/${documentRes.document.documentId}?copy=true`
         })
         .catch(err => {

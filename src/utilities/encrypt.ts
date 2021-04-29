@@ -1,6 +1,11 @@
 import { createCipheriv } from "crypto";
 
-// Usage encrypt(hashedPassword, text, initVector);
+/**
+ * @param  {string} password
+ * @param  {string} code
+ * @param  {string} initVector
+ * @returns string
+ */
 export const encrypt = (
   password: string,
   code: string,

@@ -95,7 +95,7 @@ routes.post("/changeMemberPlus", async (req: Request, res: Response) => {
     { _id },
     { $set: { memberPlus: !status } }
   );
-  
+
   if (!status && user?.discordId) {
     await fetch(
       `https://discord.com/api/guilds/${DISCORD_GUILD}/members/${user?.discordId}/roles/${DISCORD_ROLE_MEMBER_PLUS}`,
@@ -117,8 +117,7 @@ routes.post("/giveCode", async (req: Request, res: Response) => {
   await Users.updateOne(
     { _id },
     {
-      // @ts-ignore fuck you typescript
-      $push: { codes: { code: generateString(8) } },
+      $push: { codes: generateString(8) },
     }
   );
 
