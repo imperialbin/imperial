@@ -298,11 +298,11 @@
     <% user.codes.forEach(code => { %>
     <div>
       <div class="tile"><i class="fas fa-qrcode"></i></div>
-      <input type="text" name="code" value="<%= code.code %>" readonly>
+      <input type="text" name="code" value="<%= code %>" readonly>
       <div class="secondaryTiles">
         <div class="secondaryTile codeTile tooltip" data-tippy-content="Copy"
-          onclick="copyThisPlease('https://www.imperialb.in/register?inviteCode=<%= code.code %>')">
-          <i id="https://www.imperialb.in/register?inviteCode=<%= code.code %>-icon" class="fas fa-copy"></i>
+          onclick="copyThisPlease('https://www.imperialb.in/register?inviteCode=<%= code %>')">
+          <i id="https://www.imperialb.in/register?inviteCode=<%= code %>-icon" class="fas fa-copy"></i>
         </div>
       </div>
     </div>
