@@ -35,7 +35,7 @@ routes.post("/document", (req: Request, res: Response) => {
 
   if (req.user?.banned) return res.redirect("/logout");
 
-  if (!req.headers.authorization)
+  if (!req.headers.authorization && !req.user)
     return createDocument(
       code,
       {
