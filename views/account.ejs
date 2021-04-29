@@ -12,7 +12,7 @@
       location.href = '/account';
     }
   </script>
-  <link rel="stylesheet" href="/assets/css/reallyGlobal.css?v=3">
+  <link rel="stylesheet" href="/assets/css/reallyGlobal.css?v=5">
   <link rel="stylesheet" href="/assets/css/secondary.css">
   <link rel="stylesheet" href="/assets/css/account.css?v=8">
   <link rel="stylesheet" href="https://unpkg.com/tippy.js@6.2.7/animations/shift-away.css" />
@@ -280,7 +280,7 @@
           <i class="fas fa-info"></i>
         </div>
         <% } else { %>
-        <div class="secondaryTile infoTip" data-tippy-content="Deletes after being viewed"><i class="fas fa-info"></i>
+        <div class="secondaryTile infoTip redColor" data-tippy-content="Deletes after being viewed"><i class="fas fa-info"></i>
         </div>
         <% } %>
         <div class="secondaryTile infoTip danger deleteDocument" onclick="deleteDocument('<%= document.URL %>')"
