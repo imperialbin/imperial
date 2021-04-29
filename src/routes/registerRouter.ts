@@ -208,7 +208,7 @@ routes.post("/", async (req: Request, res: Response) => {
       .then(async () => {
         await Users.findOneAndUpdate(
           { codes: inviteCode },
-          { $pop: { codes: inviteCode } }
+          { $pull: { codes: inviteCode } }
         );
         return res.render("success.ejs", {
           successMessage: `Please check your email to verify! (${email})`,
