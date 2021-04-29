@@ -180,8 +180,8 @@ routes.post("/changeDocumentSettings", async (req: Request, res: Response) => {
 
   res.json({
     success: true,
-    message: "Successfully edited user's settings."
-  })
+    message: "Successfully edited user's settings.",
+  });
 });
 
 routes.post("/changePfpGravatar", async (req: Request, res: Response) => {
@@ -216,18 +216,23 @@ routes.post("/createInvite", async (req: Request, res: Response) => {
       success: false,
       codeError: "You've exceeded your max invite count!",
       pfpError: false,
-      documents: await getDocuments(req.user?._id.toString(), 10),
+      documents: await getDocuments(user._id.toString(), 10),
     });
 
+  const code = generateString(8);
+  
   await Users.updateOne(
     { _id: user._id },
     {
       $set: { codesLeft: user.codesLeft - 1 },
-      $push: { codes: generateString(8) },
+      $push: { codes: code },
     }
   );
 
-  res.redirect("/account");
+  res.json({
+    success: true,
+    code,
+  });
 });
 
 routes.get("/createPlusInvite", (req: Request, res: Response) => {
