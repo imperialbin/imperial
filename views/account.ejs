@@ -12,7 +12,7 @@
       location.href = '/account';
     }
   </script>
-  <link rel="stylesheet" href="/assets/css/reallyGlobal.css?v=3">
+  <link rel="stylesheet" href="/assets/css/reallyGlobal.css?v=5">
   <link rel="stylesheet" href="/assets/css/secondary.css">
   <link rel="stylesheet" href="/assets/css/account.css?v=8">
   <link rel="stylesheet" href="https://unpkg.com/tippy.js@6.2.7/animations/shift-away.css" />
@@ -54,7 +54,7 @@
       </li>
       <% if (user.admin) { %>
        <li>
-         <a href="/admin" class="tooltip" data-tippy-content="Admin paenl">
+         <a href="/admin" class="tooltip" data-tippy-content="Admin panel">
           <i class="fas fa-user-shield"></i>
         </a>
        </li>
@@ -214,7 +214,7 @@
         <div>
           <div class="checkbox-container">
             Expiration
-            <div class="checkbox-description">How long do you want your document to last?</div>
+            <div class="checkbox-description">How long do you want your document to last? (in days)</div>
           </div>
           <div class="checkbox">
             <select name="expiration" id="expiration">
@@ -280,7 +280,7 @@
           <i class="fas fa-info"></i>
         </div>
         <% } else { %>
-        <div class="secondaryTile infoTip" data-tippy-content="Deletes after being viewed"><i class="fas fa-info"></i>
+        <div class="secondaryTile infoTip redColor" data-tippy-content="Deletes after being viewed"><i class="fas fa-info"></i>
         </div>
         <% } %>
         <div class="secondaryTile infoTip danger deleteDocument" onclick="deleteDocument('<%= document.URL %>')"
@@ -317,7 +317,7 @@
       <div class="secondaryTiles">
         <div class="secondaryTile codeTile tooltip" data-tippy-content="Copy"
           onclick="copyThisPlease('https://www.imperialb.in/register?inviteCode=<%= code %>')">
-          <i id="https://www.imperialb.in/register?inviteCode=<%= code.code %>-icon" class="fas fa-copy"></i>
+          <i id="https://www.imperialb.in/register?inviteCode=<%= code %>-icon" class="fas fa-copy"></i>
         </div>
       </div>
     </div>

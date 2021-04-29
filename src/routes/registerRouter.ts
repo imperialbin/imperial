@@ -64,7 +64,6 @@ routes.post("/", async (req: Request, res: Response) => {
     return throwInternalError("Passwords do not match!", email, username);
 
   // Check the beta code
-  //@ts-ignore This ignore is so that it doesnt complain that `code: inviteCode` isnt in the thingy
   const checkCode = await Users.findOne({ codes: inviteCode });
   if (!checkCode)
     return throwInternalError("Invalid invite code!", email, username);
@@ -208,9 +207,8 @@ routes.post("/", async (req: Request, res: Response) => {
     )
       .then(async () => {
         await Users.findOneAndUpdate(
-          // @ts-ignore shhh
-          { codes: { code: inviteCode } },
-          { $pull: { codes: { code: inviteCode } } }
+          { codes: inviteCode },
+          { $pull: { codes: inviteCode } }
         );
         return res.render("success.ejs", {
           successMessage: `Please check your email to verify! (${email})`,

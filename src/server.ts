@@ -111,6 +111,10 @@ app.use(
 );
 app.use(["/r", "/raw", "/r/:documentId", "/raw/:documentId"], rawRouter);
 
+app.get("/waifu", (req: Request, res: Response) => {
+  res.redirect("/assets/img/imperialchan.png");
+});
+
 app.get("*", (req: Request, res: Response) => {
   res.render("error.ejs", {
     error: "We couldn't find the page/document you're looking for :(",
