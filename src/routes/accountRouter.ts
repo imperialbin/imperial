@@ -177,6 +177,11 @@ routes.post("/changeDocumentSettings", async (req: Request, res: Response) => {
     { _id: req.user?._id.toString() },
     { $set: { settings: realSettings } }
   );
+
+  res.json({
+    success: true,
+    message: "Successfully edited user's settings."
+  })
 });
 
 routes.post("/changePfpGravatar", async (req: Request, res: Response) => {
