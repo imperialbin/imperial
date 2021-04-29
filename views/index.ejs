@@ -445,6 +445,7 @@ Ya tú sabes baby, Jake Paul
           if(res.status === 413) return messages.innerHTML += `<li class="message error"><i class="fas fa-times" style="padding-right: 9px;"></i> Text too large!</li>`
           
           const documentRes = await res.json();
+          localStorage.removeItem('editorArray')
 
           localStorage.removeItem('saveText');
           if (documentRes.document.instantDelete || documentRes.document.encrypted) {
@@ -462,7 +463,6 @@ Ya tú sabes baby, Jake Paul
             return copy(`${location.href}`)
           }
 
-          localStorage.removeItem('editors')
           location.href = `/p/${documentRes.document.documentId}?copy=true`
         })
         .catch(err => {
