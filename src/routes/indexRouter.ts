@@ -23,6 +23,7 @@ routes.get("/", (req: Request, res: Response) => {
         loggedIn: true,
         pfp: user.icon,
         isAdmin: user.admin || null,
+        isMemberPlus: user.memberPlus || false,
         settings: user.settings,
       });
     }

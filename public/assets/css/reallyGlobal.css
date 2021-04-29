@@ -268,6 +268,27 @@ select {
   margin-right: 20px;
 }
 
+.badge {
+  position: absolute;
+  right: 33px;
+  top: 60px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+}
+
+.adminBadge {
+  background: #d44ffc;
+}
+
+.memberPlusBadge {
+  background: #ad1457;
+}
+
 /* Some general things */
 
 h6 {
