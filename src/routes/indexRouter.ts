@@ -11,6 +11,7 @@ import { mail } from "../utilities/mailer";
 import { signToken } from "../utilities/signToken";
 import { verifyToken } from "../utilities/verifyToken";
 import { rateLimiter } from "../utilities/apiLimit";
+import { Documents } from "../models/Documents";
 
 export const routes = Router();
 
@@ -29,6 +30,29 @@ routes.get("/", (req: Request, res: Response) => {
     }
   } else {
     res.render("index.ejs", { loggedIn: false, settings: false });
+  }
+});
+
+routes.get("/public", async (req: Request, res: Response) => {
+  const documents = await Documents.find({ public: true })
+    .sort({
+      dateCreated: -1,
+    })
+    .limit(15);
+
+  if (req.isAuthenticated()) {
+    const user = req.user;
+    if (user && !user.banned) {
+      res.render("publicDocuments.ejs", {
+        loggedIn: true,
+        pfp: user.icon,
+        isAdmin: user.admin || null,
+        isMemberPlus: user.memberPlus || false,
+        documents,
+      });
+    }
+  } else {
+    res.render("index.ejs", { loggedIn: false, settings: false, documents });
   }
 });
 

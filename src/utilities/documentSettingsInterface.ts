@@ -7,6 +7,7 @@ export interface DocumentSettings {
   instantDelete: boolean;
   quality: number;
   encrypted: boolean;
+  public: boolean;
   password: any;
   editors: Array<string> | Array<void>;
 }
