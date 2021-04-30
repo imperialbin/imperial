@@ -713,6 +713,57 @@ input#token {
   }
 }
 
+/* PUBLIC DOCUMENTS */
+
+h1.publicDocuments {
+  font-weight: 500;
+  font-size: 34px;
+  margin-bottom: 20px;
+}
+
+.documents {
+  width: 90%;
+  margin: 20px auto;
+}
+.document {
+  width: 33%;
+  max-width: 500px;
+  height: 286px;
+  max-height: 290px;
+  display: inline-block;
+  vertical-align: top;
+  padding: 15px;
+  background: var(--button);
+  margin: 10px 0;
+  border-radius: 7px;
+  -webkit-border-radius: 7px;
+  -moz-border-radius: 7px;
+  -ms-border-radius: 7px;
+  -o-border-radius: 7px;
+  box-shadow: 0 4px 4px rgb(0 0 0 / 25%);
+}
+.documentBanner {
+  object-fit: cover;
+  max-width: 100%;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+}
+.documentTitle {
+  font-size: 21px;
+  font-weight: 400;
+}
+
+.documentReference {
+  text-decoration: none;
+  color: unset;
+}
+.documentReference:hover {
+  margin-bottom: 20px;
+}
+
 @media screen and (max-width: 675px) {
   .pasteContainer {
     width: 90%;

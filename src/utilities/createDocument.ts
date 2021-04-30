@@ -68,6 +68,7 @@ export const createDocument = async (
         allowedEditors: documentSettings.editors,
         encrypted: documentSettings.encrypted,
         gist: null,
+        public: documentSettings.public,
         encryptedIv: documentSettings.encrypted
           ? initVector?.toString("hex")
           : null,
@@ -86,6 +87,7 @@ export const createDocument = async (
             createGist(user._id, code, URL);
 
           if (
+            documentSettings.public ||
             documentSettings.quality &&
             !documentSettings.instantDelete &&
             documentSettings.imageEmbed &&

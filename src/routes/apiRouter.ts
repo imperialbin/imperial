@@ -46,6 +46,7 @@ routes.post("/document", (req: Request, res: Response) => {
         imageEmbed: false,
         instantDelete: false,
         language: req.body.language || null,
+        public: false,
         longerUrls: false,
         password: null,
         quality: 20,
@@ -76,6 +77,7 @@ routes.post("/document", (req: Request, res: Response) => {
       instantDelete: req.body.instantDelete || false,
       quality: !user.memberPlus ? 73 : 100,
       encrypted: req.body.encrypted || false,
+      public: req.body.public || false,
       password: req.body.password || null,
       editors: req.body.editors || [],
     };
@@ -86,7 +88,8 @@ routes.post("/document", (req: Request, res: Response) => {
       typeof documentSettings.imageEmbed !== "boolean" ||
       typeof documentSettings.expiration !== "number" ||
       typeof documentSettings.instantDelete !== "boolean" ||
-      typeof documentSettings.encrypted !== "boolean"
+      typeof documentSettings.encrypted !== "boolean" || 
+      typeof documentSettings.public !== "boolean"
     )
       return throwApiError(
         res,
