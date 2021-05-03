@@ -74,6 +74,7 @@ import { routes as pasteRouter } from "./routes/pasteRouter";
 import { routes as rawRouter } from "./routes/rawRouter";
 import { routes as registerRouter } from "./routes/registerRouter";
 import { routes as adminRouter } from "./routes/adminRouter";
+import { routes as waifuRouter } from "./routes/waifuRouter";
 import { checkAdmin } from "./middleware/checkAdmin";
 
 app.use("/", indexRouter);
@@ -83,6 +84,7 @@ app.use("/login", checkNotAuthenticated, loginRouter);
 app.use("/register", checkNotAuthenticated, registerRouter);
 app.use("/account", checkAuthenticated, accountRouter);
 app.use("/admin", checkAdmin, adminRouter);
+app.use("/waifu", waifuRouter);
 
 app.use(
   [
@@ -100,6 +102,7 @@ app.use(
   ],
   pasteRouter
 );
+
 app.use(
   [
     "/c",
@@ -110,10 +113,6 @@ app.use(
   compareRouter
 );
 app.use(["/r", "/raw", "/r/:documentId", "/raw/:documentId"], rawRouter);
-
-app.get("/waifu", (req: Request, res: Response) => {
-  res.redirect("/assets/img/imperialchan.png");
-});
 
 app.get("*", (req: Request, res: Response) => {
   res.render("error.ejs", {

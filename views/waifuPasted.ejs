@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IMPERIAL | Document <%= documentName %>
+    </title>
+
+    <link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon/favicon-96x96.png">
+    <meta content="IMPERIAL - Document <%= documentName %>" property="og:title">
+    <meta name="theme-color" content="#24292e">
+    <meta content="IMPERIAL | <%= deleteDate %>" property="og:site_name">
+    <% if(imageEmbed){ %>
+        <meta property="twitter:card" content="summary_large_image">
+        <meta property="og:image" content="/assets/img/<%= documentName %>.jpg" />
+        <meta property="og:image:url" content="/assets/img/<%= documentName %>.jpg" />
+        <meta property="twitter:image" content="/assets/img/<%= documentName %>.jpg" />
+    <% } else if (deleteDate !=='Deletes after being viewed.' ){ %>
+        <meta content="<%= code %> " property="description">
+        <meta content="<%= code %> " property="og:description">
+    <% } %>
+    <link rel="stylesheet" href="/assets/css/globalWaifu.css?v=44.1">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/tippy.js@6.2.7/animations/shift-away.css?cum=fgedswgwefr" />
+    <script src="https://unpkg.com/@popperjs/core@2?cum=fgedswgwefr"></script>
+    <script src="https://unpkg.com/tippy.js@6?cum=fgedswgwefr"></script>
+    <script src="https://kit.fontawesome.com/ec3f0c8487.js?cum=fgedswgwefr" crossorigin="anonymous"></script>
+</head>
+
+<body>
+<div id="documentId" style="display: none;"><%= documentName %></div>
+<div class="pasteSettings" id="compareDocuments">
+    <div class="pasteContainer">
+        <h1>Compare documents</h1>
+        <input id="compareDocumentText" type="text" autocomplete="off" placeholder="Put a document ID here"
+               oninput="document.getElementById('docBeingCompared').value = document.getElementById('compareDocumentText').value;">
+        <div class="documents">
+            <input id="initialDoc" type="text" class="readOnly" value="<%= documentName %> (Viewing now)" readonly>
+            <br>
+            <i class="fas fa-exchange-alt" style="margin-bottom:20px;"></i>
+            <br>
+            <input id="docBeingCompared" class="readOnly" type="text" value="No document" readonly>
+        </div>
+        <br><button id="cancel-settings" class="cancelSettings" onclick="cancelSettings()">Cancel</button>
+        <button
+                onclick="location.href = `/c/<%= documentName %>/${document.getElementById('docBeingCompared').value}?from=<%= documentName %>`">Go</button>
+        <br><br>
+    </div>
+</div>
+<%- include('partials/setMenu.ejs'); %>
+<div id="codeThing" class="editor"></div>
+<div id="rawCode" style="display: none;"><%= code %></div>
+<script src="/assets/js/highlight.js?cum=fgedswgwefr"></script>
+<script src="/assets/js/src-min-noconflict/ace.js?cum=fgedswgwefr"></script>
+<script>
+  const code = document.getElementById('rawCode').innerHTML
+  const language = '<%= language %>';
+  function htmlDecode(input) {
+    const doc = new DOMParser().parseFromString(input, "text/html");
+    return doc.documentElement.textContent;
+  }
+
+  window.editor = ace.edit("codeThing");
+  editor.setOptions({
+    showPrintMargin: false,
+    readOnly: true,
+    fontSize: '14.5px',
+  })
+  editor.session.setUseWrapMode(true)
+  editor.session.setMode(language ? `ace/mode/${language}` : "ace/mode/plain_text");
+  editor.session.setValue(htmlDecode(code));
+</script>
+<script src="/assets/js/global.js?v=5"></script>
+</body>
+<script>
+  const urlParams = new URLSearchParams(window.location.search)
+  if (urlParams.get('copy') === 'true') {
+    window.history.pushState({}, document.title, window.location.pathname)
+    copyLink()
+  }
+
+  // A tippy thing
+  const template = document.getElementById('accountDrop');
+  tippy('#account', {
+    content: template.innerHTML,
+    allowHTML: true,
+    trigger: 'click',
+    placement: 'bottom',
+    animation: 'shift-away',
+    interactive: true,
+  });
+  tippy('.tooltip', {
+    arrow: false,
+    animation: 'shift-away',
+    placement: 'bottom'
+  })
+  tippy('.tooltipUp', {
+    arrow: false,
+    animation: 'shift-away',
+    placement: 'top'
+  })
+
+  window.addEventListener("keydown", (event) => {
+    switch (true) {
+      case event.key === "s" && event.ctrlKey:
+        event.preventDefault();
+        if(document.querySelector('.editBtnFunc').getAttribute('onclick') === 'actuallyEditDocument()') {
+          actuallyEditDocument()
+        }
+        break;
+      case event.key === "t" && event.altKey:
+        if (location.pathname === "/") {
+          window.open(
+            `https://twitter.com/intent/tweet?text=IMPERIAL%20is%20a%20hastebin/pastebin%20alternative%20with%20user%20experience%20and%20UI%20design%20in%20mind.%20Try%20it%20out%20now%20at%20https://imperialb.in!`,
+            "_blank"
+          );
+        }
+    }
+  });
+</script>
+
+</html>

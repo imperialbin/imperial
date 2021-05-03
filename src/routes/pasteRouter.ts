@@ -11,18 +11,20 @@ export const routes = Router();
 
 routes.get(
   [
+    "/waifu/:documentId",
     "/:documentId",
     "/:slugOne/:documentId",
     "/:slugOne/:slugTwo/:documentId",
     "/:slugOne/:slugTwo/:slugThree/:documentId",
   ],
-  async (req: Request, res: Response) => {
-    const documentId: string = req.params.documentId;
+  async (req : Request, res : Response) => {
+    const waifu = req.path.indexOf("waifu") !== -1;
+    const toRender = waifu ? "waifuPasted" : "pasted";
+    const documentId : string = req.params.documentId;
     const CrawlerDetect = isBot(req.get("user-agent") ?? "deez nuts");
-
     Documents.findOne(
       { URL: documentId },
-      async (err: string, document: IDocument) => {
+      async (err : string, document : IDocument) => {
         if (err)
           return res.render("error.ejs", {
             error: "An error occurred whilst getting that document!",
@@ -34,7 +36,7 @@ routes.get(
         if (document.encrypted)
           return res.render("enterPassword.ejs", { error: false, documentId });
 
-        let deleteDate: string;
+        let deleteDate : string;
         if (document.instantDelete) {
           if (!CrawlerDetect) {
             setTimeout(async () => {
@@ -49,24 +51,26 @@ routes.get(
             month: documentDate.getMonth() + 1, // We have to have a +1 here because it starts at 0
             day: documentDate.getDate(),
           };
-          deleteDate = `Deletes on ${date.day}/${date.month}/${date.year}`;
+          deleteDate = `Deletes on ${ date.day }/${ date.month }/${ date.year }`;
         }
 
-        const enableImageEmbed = !!(
+        const enableImageEmbed = (
           document.imageEmbed &&
-          existsSync(`./public/assets/img/${document?.URL}.jpg`)
+          existsSync(`./public/assets/img/${ document?.URL }.jpg`)
         );
+
         if (req.isAuthenticated()) {
           const _id = req.user?._id.toString();
 
           await Documents.updateOne(
             { URL: documentId },
-            { $inc: { views: 1 } }
+            { $inc: { views: 1 } },
           );
 
           const user = await Users.findOne({ _id });
+
           if (!user)
-            return res.render("pasted.ejs", {
+            return res.render(`${toRender}.ejs`, {
               documentName: documentId,
               language: document.language,
               imageEmbed: enableImageEmbed,
@@ -82,7 +86,7 @@ routes.get(
           const isCreator =
             _id === document.creator || editorArray.includes(user.name);
 
-          return res.render("pasted.ejs", {
+          return res.render(`${toRender}.ejs`, {
             documentName: documentId,
             imageEmbed: enableImageEmbed,
             language: document.language,
@@ -98,7 +102,7 @@ routes.get(
             encrypted: false,
           });
         } else {
-          return res.render("pasted.ejs", {
+          return res.render(`${toRender}.ejs`, {
             documentName: documentId,
             imageEmbed: enableImageEmbed,
             language: document.language,
@@ -109,20 +113,20 @@ routes.get(
             encrypted: false,
           });
         }
-      }
+      },
     );
-  }
+  },
 );
 
-routes.post("/getDocumentAccess/:documentId", (req: Request, res: Response) => {
+routes.post("/getDocumentAccess/:documentId", (req : Request, res : Response) => {
   const password = req.body.password;
   const documentId = req.params.documentId;
   const CrawlerDetect = isBot(req.get("user-agent") ?? "deez nuts");
 
-  let code: string;
+  let code : string;
   Documents.findOne(
     { URL: documentId },
-    async (err: string, document: IDocument) => {
+    async (err : string, document : IDocument) => {
       if (err)
         return res.render("error.ejs", {
           error: "An internal error has occurred!",
@@ -134,7 +138,7 @@ routes.post("/getDocumentAccess/:documentId", (req: Request, res: Response) => {
 
       try {
         code = decrypt(password, document?.code, document.encryptedIv!);
-        let deleteDate: string;
+        let deleteDate : string;
 
         if (document.instantDelete) {
           if (!CrawlerDetect) {
@@ -150,11 +154,11 @@ routes.post("/getDocumentAccess/:documentId", (req: Request, res: Response) => {
             month: documentDate.getMonth() + 1,
             day: documentDate.getDate(),
           };
-          deleteDate = `Deletes on ${date.day}/${date.month}/${date.year}.`;
+          deleteDate = `Deletes on ${ date.day }/${ date.month }/${ date.year }.`;
         }
         const enableImageEmbed = !!(
           document.imageEmbed &&
-          existsSync(`./public/assets/img/${document.URL}.jpg`)
+          existsSync(`./public/assets/img/${ document.URL }.jpg`)
         );
 
         console.log(document.language);
@@ -210,6 +214,6 @@ routes.post("/getDocumentAccess/:documentId", (req: Request, res: Response) => {
           documentId,
         });
       }
-    }
+    },
   );
 });
