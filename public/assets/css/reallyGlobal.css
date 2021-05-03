@@ -66,7 +66,7 @@ html {
 body {
   background: var(--main-background);
   color: var(--text-light);
-  font-family: "Poppins", sans-serif;
+  font-family: "Karla", sans-serif;
   font-weight: 300;
   scroll-behavior: smooth;
   transition: none;
