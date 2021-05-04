@@ -19,7 +19,7 @@ routes.get(
   ],
   async (req : Request, res : Response) => {
     const waifu = req.path.indexOf("waifu") !== -1;
-    const toRender = waifu ? "waifuPasted" : "pasted";
+    const css = waifu ? "globalWaifu" : "reallyGlobal";
     const documentId : string = req.params.documentId;
     const CrawlerDetect = isBot(req.get("user-agent") ?? "deez nuts");
     Documents.findOne(
@@ -27,14 +27,16 @@ routes.get(
       async (err : string, document : IDocument) => {
         if (err)
           return res.render("error.ejs", {
+            css,
             error: "An error occurred whilst getting that document!",
           });
         if (!document)
           return res.render("error.ejs", {
+            css,
             error: "We couldn't find that document!",
           });
         if (document.encrypted)
-          return res.render("enterPassword.ejs", { error: false, documentId });
+          return res.render("enterPassword.ejs", { css, error: false, documentId });
 
         let deleteDate : string;
         if (document.instantDelete) {
@@ -70,7 +72,8 @@ routes.get(
           const user = await Users.findOne({ _id });
 
           if (!user)
-            return res.render(`${toRender}.ejs`, {
+            return res.render("pasted.ejs", {
+              css,
               documentName: documentId,
               language: document.language,
               imageEmbed: enableImageEmbed,
@@ -86,7 +89,8 @@ routes.get(
           const isCreator =
             _id === document.creator || editorArray.includes(user.name);
 
-          return res.render(`${toRender}.ejs`, {
+          return res.render("pasted.ejs", {
+            css,
             documentName: documentId,
             imageEmbed: enableImageEmbed,
             language: document.language,
@@ -102,7 +106,8 @@ routes.get(
             encrypted: false,
           });
         } else {
-          return res.render(`${toRender}.ejs`, {
+          return res.render("pasted.ejs", {
+            css,
             documentName: documentId,
             imageEmbed: enableImageEmbed,
             language: document.language,
@@ -167,6 +172,7 @@ routes.post("/getDocumentAccess/:documentId", (req : Request, res : Response) =>
           const user = await Users.findOne({ _id });
           if (!user)
             return res.render("pasted.ejs", {
+              css: "reallyGlobal",
               documentName: documentId,
               language: document.language,
               imageEmbed: enableImageEmbed,
@@ -182,6 +188,7 @@ routes.post("/getDocumentAccess/:documentId", (req : Request, res : Response) =>
             _id === document.creator || editorArray.includes(_id);
 
           return res.render("pasted.ejs", {
+            css: "reallyGlobal",
             documentName: documentId,
             imageEmbed: enableImageEmbed,
             language: document.language,
@@ -198,6 +205,7 @@ routes.post("/getDocumentAccess/:documentId", (req : Request, res : Response) =>
           });
         } else {
           return res.render("pasted.ejs", {
+            css: "reallyGlobal",
             documentName: documentId,
             imageEmbed: enableImageEmbed,
             language: document.language,
