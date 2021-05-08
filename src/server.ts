@@ -100,6 +100,7 @@ app.use(
   ],
   pasteRouter
 );
+
 app.use(
   [
     "/c",
@@ -110,10 +111,6 @@ app.use(
   compareRouter
 );
 app.use(["/r", "/raw", "/r/:documentId", "/raw/:documentId"], rawRouter);
-
-app.get("/waifu", (req: Request, res: Response) => {
-  res.redirect("/assets/img/imperialchan.png");
-});
 
 app.get("*", (req: Request, res: Response) => {
   res.render("error.ejs", {

@@ -2,7 +2,7 @@
 <html lang="en">
 <!--
 
-CUM 
+CUM
 
 [Intro: Jake Paul]
 Yah
@@ -199,25 +199,24 @@ I said is 10 with six zeros
 Always plug, merch link in bio
 And I will see you tomorrow 'cause it's everyday bro
 Peace
-Ya tú sabes baby, Jake Paul 
+Ya tú sabes baby, Jake Paul
 -->
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon/favicon-96x96.png">
-  <meta property="og:image" content="/assets/favicon/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="<%= waifuMode ? "/assets/img/imperialchan.png" : "/assets/favicon/favicon-96x96.png"%>">
+  <meta property="og:image" content="<%= waifuMode ? "/assets/img/imperialchan.png" : "/assets/favicon/favicon-96x96.png"%>">
   <title>IMPERIAL</title>
   <meta name="description" content="IMPERIAL is a code/text storing site where you can share, edit, or encrypt documents with integrations such as Discord and GitHub Gists. ">
   <meta name="keywords"
     content="Imperial, Imperialb, Imperialbin, imperialb.in, hastebin, bin, paste, instant delete pastes, document sharing, code sharing, visual studio code, vsce, vsc, vs, visual studio, code, developer, developers, dev, devlooskie, looskie, looskieee, IMPERIAL, paste your document, paste, your, document, editor, invite only, invite, api, restful api, json api, discord">
-  <link rel="stylesheet" href="/assets/css/reallyGlobal.css?cum=fgedswwergewrggwefr">
+  <link rel="stylesheet" href="/assets/css/<%= waifuMode ? "globalWaifu" : "reallyGlobal" %>.css?cum=fgedswwergewrggwefr">
   <link rel="stylesheet" href="https://unpkg.com/tippy.js@6.2.7/animations/shift-away.css?cum=fgedswgwefr" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500&display=swap" rel="stylesheet">
   <script src="https://kit.fontawesome.com/ec3f0c8487.js?cum=fgedswgwefrwerg" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/@popperjs/core@2?cum=fgedswergwgwefr"></script>
   <script src="https://unpkg.com/tippy.js@6?cum=fgedswgergwefr"></script>
 </head>
-
 
 <body>
   <div class="pasteSettings" id="addUser">
@@ -263,7 +262,11 @@ Ya tú sabes baby, Jake Paul
       </ul>
     </div>
     <div class="menu-content">
-      <h6>IMPERIAL</h6>
+      <% if (waifuMode) {%>
+        <h6>IMPERIAL <b>waifu edition</b></h6>
+      <%} else {%>
+        <h6>IMPERIAL</h6>
+      <%}%>
       <ul>
         <li id="changeLanguage" class="tooltip" data-tippy-content="Change language"><button id="icon"
             class="changeLanguageBtn" onclick="openLanguageSelector()"><i class="fas fa-minus"></i></button>
@@ -282,6 +285,9 @@ Ya tú sabes baby, Jake Paul
         <% } else if (isMemberPlus) { %>
           <div class="tooltipUp badge memberPlusBadge" data-tippy-content="Member+"></div>
         <% } %>
+        <% if (waifuMode) {%>
+          <li><figure id="waifu"> <img src="<%= waifu %>" alt="waifu" class="waifu-image"/></figure></li>
+        <%}%>
       </ul>
     </div>
     <ul id="messages"></ul>
@@ -290,7 +296,11 @@ Ya tú sabes baby, Jake Paul
   <div class="menu">
     <div class="settings" id="accountDrop" style="display: none;"></div>
     <div class="menu-content">
-      <h6>IMPERIAL</h6>
+      <% if (waifuMode) {%>
+        <h6>IMPERIAL <b>waifu edition</b></h6>
+      <%} else {%>
+        <h6>IMPERIAL</h6>
+      <%}%>
       <ul>
         <li id="changeLanguage" class="tooltip" data-tippy-content="Change language"><button id="icon"
             class="changeLanguageBtn" onclick="openLanguageSelector()"><i class="fas fa-minus"></i></button>
@@ -305,6 +315,9 @@ Ya tú sabes baby, Jake Paul
         <li> <button id="signup" onclick="location.href='/register'">Signup</button> </li>
         <li id="account"> <img src="/assets/img/pfp.png" alt="Profile picture" class="pfp" draggable="false"
             style="display: none"> </li>
+        <% if (waifuMode) {%>
+          <li><figure id="waifu"> <img src="<%= waifu %>" alt="waifu" class="waifu-image"/></figure></li>
+        <%}%>
       </ul>
     </div>
     <ul id="messages"></ul>
@@ -440,10 +453,11 @@ Ya tú sabes baby, Jake Paul
       }
       fetch("/api/document", options)
         .then(async res => {
+          const waifuMode = JSON.parse('<%= waifuMode %>');
           const messages = document.getElementById('messages');
 
           if(res.status === 413) return messages.innerHTML += `<li class="message error"><i class="fas fa-times" style="padding-right: 9px;"></i> Text too large!</li>`
-          
+
           const documentRes = await res.json();
           localStorage.removeItem('editorArray')
 
@@ -452,18 +466,18 @@ Ya tú sabes baby, Jake Paul
             let urlToCopy;
             if (documentRes.document.encrypted) {
               console.log(documentRes.document);
-              urlToCopy = `/p/${documentRes.document.documentId}?password=${documentRes.document.password}`
+              urlToCopy = `/p/${waifuMode ? "waifu/" : ""}${documentRes.document.documentId}?password=${documentRes.document.password}`
               window.history.pushState({}, null, urlToCopy);
               messages.innerHTML += `<li class="message success"><i class="fas fa-check" style="padding-right: 9px;"></i> Copied password!</li>`
             } else {
-              urlToCopy = `/p/${documentRes.document.documentId}`
+              urlToCopy = `/p/${waifuMode ? "waifu/" : ""}${documentRes.document.documentId}`
               window.history.pushState({}, null, urlToCopy);
               messages.innerHTML += `<li class="message success"><i class="fas fa-check" style="padding-right: 9px;"></i> Copied URL!</li>`
             }
             return copy(`${location.href}`)
           }
 
-          location.href = `/p/${documentRes.document.documentId}?copy=true`
+          location.href = `/p/${waifuMode ? "waifu/" : ""}${documentRes.document.documentId}?copy=true`
         })
         .catch(err => {
           console.log(err);

@@ -11,6 +11,7 @@ import { mail } from "../utilities/mailer";
 import { signToken } from "../utilities/signToken";
 import { verifyToken } from "../utilities/verifyToken";
 import { rateLimiter } from "../utilities/apiLimit";
+import { getWaifu } from "../utilities/getWaifu";
 
 export const routes = Router();
 
@@ -20,6 +21,7 @@ routes.get("/", (req: Request, res: Response) => {
     const user = req.user;
     if (user && !user.banned) {
       res.render("index.ejs", {
+        waifuMode: false,
         loggedIn: true,
         pfp: user.icon,
         isAdmin: user.admin || null,
@@ -28,7 +30,27 @@ routes.get("/", (req: Request, res: Response) => {
       });
     }
   } else {
-    res.render("index.ejs", { loggedIn: false, settings: false });
+    res.render("index.ejs", { waifuMode: false, loggedIn: false, settings: false });
+  }
+});
+
+// default pages
+routes.get("/waifu", async (req: Request, res: Response) => {
+  if (req.isAuthenticated()) {
+    const user = req.user;
+    if (user && !user.banned) {
+      res.render("index.ejs", {
+        waifuMode: true,
+        waifu: await getWaifu(),
+        loggedIn: true,
+        pfp: user.icon,
+        isAdmin: user.admin || null,
+        isMemberPlus: user.memberPlus || false,
+        settings: user.settings,
+      });
+    }
+  } else {
+    res.render("index.ejs", { waifu: await getWaifu(), waifuMode: true, loggedIn: false, settings: false });
   }
 });
 
