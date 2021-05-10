@@ -3,6 +3,7 @@ import { Documents } from "../models/Documents";
 import { existsSync, unlinkSync } from "fs";
 
 export default new CronJob("00 00 00 * * *", async () => {
+  console.log("Running deletion");
   const documentsReadyToBeDelete = await Documents.find({
     deleteDate: { $lte: Number(new Date().getTime()) },
   });
