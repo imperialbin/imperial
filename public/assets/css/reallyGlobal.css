@@ -729,7 +729,7 @@ h1.publicDocuments {
   width: 33%;
   max-width: 500px;
   height: 286px;
-  max-height: 290px;
+  max-height: 318px;
   display: inline-block;
   vertical-align: top;
   padding: 15px;
@@ -743,7 +743,9 @@ h1.publicDocuments {
   box-shadow: 0 4px 4px rgb(0 0 0 / 25%);
 }
 .documentBanner {
-  object-fit: cover;
+  object-fit: contain;
+  background: var(--main-background);
+  height: 196px;
   max-width: 100%;
   border-radius: 4px;
   -webkit-border-radius: 4px;
