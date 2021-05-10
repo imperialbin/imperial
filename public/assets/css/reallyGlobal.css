@@ -721,11 +721,11 @@ h1.publicDocuments {
   margin-bottom: 20px;
 }
 
-.documents {
+.publicDocumentsWrapper .documents {
   width: 90%;
   margin: 20px auto;
 }
-.document {
+.publicDocumentsWrapper .document {
   width: 33%;
   max-width: 500px;
   height: 286px;
@@ -742,7 +742,7 @@ h1.publicDocuments {
   -o-border-radius: 7px;
   box-shadow: 0 4px 4px rgb(0 0 0 / 25%);
 }
-.documentBanner {
+.publicDocumentsWrapper .documentBanner {
   object-fit: contain;
   background: var(--main-background);
   height: 196px;
@@ -753,16 +753,16 @@ h1.publicDocuments {
   -ms-border-radius: 4px;
   -o-border-radius: 4px;
 }
-.documentTitle {
+.publicDocumentsWrapper .documentTitle {
   font-size: 21px;
   font-weight: 400;
 }
 
-.documentReference {
+.publicDocumentsWrapper .documentReference {
   text-decoration: none;
   color: unset;
 }
-.documentReference:hover {
+.publicDocumentsWrapper .documentReference:hover {
   margin-bottom: 20px;
 }
 
