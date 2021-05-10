@@ -54,7 +54,7 @@
     "cookie-parser": "^1.4.5",
     "cron": "^1.8.2",
     "decoration": "^1.0.1",
-    "dotenv": "^8.2.0",
+    "dotenv": "^9.0.1",
     "ejs": "^3.1.6",
     "eslint": "^7.21.0",
     "express": "^4.17.1",
