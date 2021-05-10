@@ -1,540 +1,745 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      src="https://kit.fontawesome.com/ec3f0c8487.js"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      let pfpErrorMessage = "<%= JSON.stringify(pfpError) %>";
+      if (
+        (location.pathname == "/account/changePfp" &&
+          pfpErrorMessage == "false") ||
+        (location.pathname == "/account/changePfpGravatar" &&
+          pfpErrorMessage == "false") ||
+        location.pathname == "/account/createInvite"
+      ) {
+        location.href = "/account";
+      }
+    </script>
+    <link rel="stylesheet" href="/assets/css/reallyGlobal.css?v=5" />
+    <link rel="stylesheet" href="/assets/css/secondary.css" />
+    <link rel="stylesheet" href="/assets/css/account.css?v=8" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/tippy.js@6.2.7/animations/shift-away.css"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="96x96"
+      href="/assets/favicon/favicon-96x96.png"
+    />
+    <meta property="og:image" content="/assets/favicon/favicon-96x96.png" />
+    <meta name="description" content="View your account here!" />
+    <title>IMPERIAL | Account</title>
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500&display=swap" rel="stylesheet">
-  <script src="https://kit.fontawesome.com/ec3f0c8487.js" crossorigin="anonymous"></script>
-  <script>
-    let pfpErrorMessage = '<%= JSON.stringify(pfpError) %>'
-    if (location.pathname == '/account/changePfp' && pfpErrorMessage == 'false' || location.pathname == '/account/changePfpGravatar' && pfpErrorMessage == 'false' || location.pathname == '/account/createInvite') {
-      location.href = '/account';
-    }
-  </script>
-  <link rel="stylesheet" href="/assets/css/reallyGlobal.css?v=5">
-  <link rel="stylesheet" href="/assets/css/secondary.css">
-  <link rel="stylesheet" href="/assets/css/account.css?v=8">
-  <link rel="stylesheet" href="https://unpkg.com/tippy.js@6.2.7/animations/shift-away.css" />
-  <link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon/favicon-96x96.png">
-  <meta property="og:image" content="/assets/favicon/favicon-96x96.png">
-  <meta name="description" content="View your account here!">
-  <title>IMPERIAL | Account</title>
-  <script src="https://unpkg.com/@popperjs/core@2"></script>
-  <script src="https://unpkg.com/tippy.js@6"></script>
-</head>
-
-<body>
-  <nav>
-    <ul id="navythingy">
-      <li>
-        <a href="/" class="noOpacity">
-          <img src="/assets/img/Logo.png" alt="IMPERIAL's logo" class="logo" draggable="false">
-        </a>
-      </li>
-      <li>
-        <a href="#home" class="tooltip" data-tippy-content="General">
-          <i class="fas fa-house-user"></i>
-        </a>
-      </li>
-      <li>
-        <a href="#documents" class="tooltip" data-tippy-content="Documents">
-          <i class="fas fa-file-archive"></i>
-        </a>
-      </li>
-      <li>
-        <a href="#codes" class="tooltip" data-tippy-content="Invite codes">
-          <i class="fas fa-qrcode"></i>
-        </a>
-      </li>
-      <li>
-        <a href="#api" class="tooltip" data-tippy-content="API">
-          <i class="fas fa-code"></i>
-        </a>
-      </li>
-      <% if (user.admin) { %>
-       <li>
-         <a href="/admin" class="tooltip" data-tippy-content="Admin panel">
-          <i class="fas fa-user-shield"></i>
-        </a>
-       </li>
-      <% } %>
-      <div class="logout">
-        <a href="/logout" class="logoutBtn tooltip" data-tippy-content="Logout">
-          <i class="fas fa-sign-out-alt"></i>
-        </a>
-      </div>
-    </ul>
-  </nav>
-  <main>
-    <!-- Stupid back button that Squid wanted -->
-    <button class="backBtn tooltip" onclick="location.href = '/'" data-tippy-content="Go back home"><i class="arrowToDoThingsWithYea fas fa-arrow-left"></i>   Go back</button>
-    <br><br>
-    <!-- GENERAL SHIT -->
-    <h1>Welcome back, <%= user.name %></h1>
-    <div class="stat-tiles">
-      <div class="stat-tile stat-pfp">
-        <img src="<%= user.icon %>" alt="<%= user.name %>'s pfp" draggable="false">
-      </div>
-      <div class="stat-tile">
-        <h6>User ID</h6>
-        <span class="stat">#<%= user.userId %></span>
-      </div>
-      <div class="stat-tile">
-        <h6>Total documents made</h6>
-        <span class="stat"><%= user.documentsMade %></span>
-      </div>
-    </div>
-    <% if (error) { %>
-    <br><br>
-    <i class="error"><%= error %></i>
-    <% } %>
-    <% if (success) { %>
-    <br><br>
-    <i class="success"><%= success %></i>
-    <% } %>
-    <h2 id="home">general</h2>
-    <div>
-      <label for="email">Email:</label>
-      <div class="space"></div>
-      <div class="tile"><i class="far fa-envelope"></i></div>
-      <input type="text" id="email" name="email" value="<%= user.email %>" readonly>
-    </div>
-    <div>
-      <label for="memberPlus">Account status:</label>
-      <div class="space"></div>
-      <div class="tile"><i class="fas fa-plus"></i></div>
-      <input type="text" id="memberPlus" name="memberPlus" value="<%= user.memberPlus ? "Member+" : "Member" %>"
-        readonly disabled>
-      <% if (!user.memberPlus) { %>
-      <br>
-      <a href="/redeem">
-        <span>Have a Member+ code?</span>
-      </a>
-      <br><br>
-      <% } %>
-    </div>
-    <div>
-      <label for="inviteCode">Your invite code:</label>
-      <div class="space"></div>
-      <div class="tile"><i class="fas fa-qrcode"></i></div>
-      <input type="text" id="inviteCode" name="inviteCode" value="<%= user.betaCode %>" readonly disabled>
-    </div>
-    <div>
-      <form action="/account/changePfp" id="pfpForm" method="POST">
-        <label for="pfp">Profile picture:</label>
-        <div class="space"></div>
-        <div class="tile"><i class="fas fa-user"></i></div>
-        <input type="text" id="pfp" class="withBtn" name="pfp" placeholder="Enter your Github name" required>
-        <button type="submit" class="inlineBtn">Change</button>
-      </form>
-      <span class="clickable" id="platformBtn" onclick="togglePfpType('gravatar')">Or use gravatar</span>
-    </div>
-    <div id="documentSettings">
-      <h2>Document settings</h2>
-      <div class="containAllMyShitPlease">
-        <div>
-          <div class="checkbox-container">
-            Clipboard
-            <div class="checkbox-description">Let IMPERIAL automatically paste your clipboard</div>
-          </div>
-          <div class="checkbox">
-            <label class="switch">
-              <input name="clipboard" type="checkbox" id="clipboard" <%= user.settings.clipboard ? 'checked' : null %>>
-              <span class="slider round"></span>
-            </label>
-          </div>
+  <body>
+    <nav>
+      <ul id="navythingy">
+        <li>
+          <a href="/" class="noOpacity">
+            <img
+              src="/assets/img/Logo.png"
+              alt="IMPERIAL's logo"
+              class="logo"
+              draggable="false"
+            />
+          </a>
+        </li>
+        <li>
+          <a href="#home" class="tooltip" data-tippy-content="General">
+            <i class="fas fa-house-user"></i>
+          </a>
+        </li>
+        <li>
+          <a href="#documents" class="tooltip" data-tippy-content="Documents">
+            <i class="fas fa-file-archive"></i>
+          </a>
+        </li>
+        <li>
+          <a href="#codes" class="tooltip" data-tippy-content="Invite codes">
+            <i class="fas fa-qrcode"></i>
+          </a>
+        </li>
+        <li>
+          <a href="#api" class="tooltip" data-tippy-content="API">
+            <i class="fas fa-code"></i>
+          </a>
+        </li>
+        <% if (user.admin) { %>
+        <li>
+          <a href="/admin" class="tooltip" data-tippy-content="Admin panel">
+            <i class="fas fa-user-shield"></i>
+          </a>
+        </li>
+        <% } %>
+        <div class="logout">
+          <a
+            href="/logout"
+            class="logoutBtn tooltip"
+            data-tippy-content="Logout"
+          >
+            <i class="fas fa-sign-out-alt"></i>
+          </a>
         </div>
-        <div class="space"></div>
-        <br>
-        <div class="dumbline"></div>
-        <div>
-          <div class="checkbox-container">
-            Longer URLs
-            <div class="checkbox-description">Create 26 character URLs instead of 8</div>
-          </div>
-          <div class="checkbox">
-            <label class="switch">
-              <input name="longerUrls" type="checkbox" id="longerUrls"
-                <%= user.settings.longerUrls ? 'checked' : null %>>
-              <span class="slider round"></span>
-            </label>
-          </div>
+      </ul>
+    </nav>
+    <main>
+      <!-- Stupid back button that Squid wanted -->
+      <button
+        class="backBtn tooltip"
+        onclick="location.href = '/'"
+        data-tippy-content="Go back home"
+      >
+        <i class="arrowToDoThingsWithYea fas fa-arrow-left"></i> Go back
+      </button>
+      <br /><br />
+      <!-- GENERAL SHIT -->
+      <h1>Welcome back, <%= user.name %></h1>
+      <div class="stat-tiles">
+        <div class="stat-tile stat-pfp">
+          <img
+            src="<%= user.icon %>"
+            alt="<%= user.name %>'s pfp"
+            draggable="false"
+          />
         </div>
+        <div class="stat-tile">
+          <h6>User ID</h6>
+          <span class="stat">#<%= user.userId %></span>
+        </div>
+        <div class="stat-tile">
+          <h6>Total documents made</h6>
+          <span class="stat"><%= user.documentsMade %></span>
+        </div>
+      </div>
+      <% if (error) { %>
+      <br /><br />
+      <i class="error"><%= error %></i>
+      <% } %> <% if (success) { %>
+      <br /><br />
+      <i class="success"><%= success %></i>
+      <% } %>
+      <h2 id="home">general</h2>
+      <div>
+        <label for="email">Email:</label>
         <div class="space"></div>
-        <br>
-        <div class="dumbline"></div>
-        <div>
-          <div class="checkbox-container">
-            Instant Delete
-            <div class="checkbox-description">Instantly delete the document after being viewed</div>
+        <div class="tile"><i class="far fa-envelope"></i></div>
+        <input
+          type="text"
+          id="email"
+          name="email"
+          value="<%= user.email %>"
+          readonly
+        />
+      </div>
+      <div>
+        <label for="memberPlus">Account status:</label>
+        <div class="space"></div>
+        <div class="tile"><i class="fas fa-plus"></i></div>
+        <input type="text" id="memberPlus" name="memberPlus" value="<%=
+        user.memberPlus ? "Member+" : "Member" %>" readonly disabled> <% if
+        (!user.memberPlus) { %>
+        <br />
+        <a href="/redeem">
+          <span>Have a Member+ code?</span>
+        </a>
+        <br /><br />
+        <% } %>
+      </div>
+      <div>
+        <label for="inviteCode">Your invite code:</label>
+        <div class="space"></div>
+        <div class="tile"><i class="fas fa-qrcode"></i></div>
+        <input
+          type="text"
+          id="inviteCode"
+          name="inviteCode"
+          value="<%= user.betaCode %>"
+          readonly
+          disabled
+        />
+      </div>
+      <div>
+        <form action="/account/changePfp" id="pfpForm" method="POST">
+          <label for="pfp">Profile picture:</label>
+          <div class="space"></div>
+          <div class="tile"><i class="fas fa-user"></i></div>
+          <input
+            type="text"
+            id="pfp"
+            class="withBtn"
+            name="pfp"
+            placeholder="Enter your Github name"
+            required
+          />
+          <button type="submit" class="inlineBtn">Change</button>
+        </form>
+        <span
+          class="clickable"
+          id="platformBtn"
+          onclick="togglePfpType('gravatar')"
+          >Or use gravatar</span
+        >
+      </div>
+      <div id="documentSettings">
+        <h2>Document settings</h2>
+        <div class="containAllMyShitPlease">
+          <div>
+            <div class="checkbox-container">
+              Clipboard
+              <div class="checkbox-description">
+                Let IMPERIAL automatically paste your clipboard
+              </div>
+            </div>
+            <div class="checkbox">
+              <label class="switch">
+                <input name="clipboard" type="checkbox" id="clipboard" <%=
+                user.settings.clipboard ? 'checked' : null %>>
+                <span class="slider round"></span>
+              </label>
+            </div>
           </div>
-          <div class="checkbox">
-            <label class="switch">
-              <input name="instantDelete" type="checkbox" id="instantDelete"
+          <div class="space"></div>
+          <br />
+          <div class="dumbline"></div>
+          <div>
+            <div class="checkbox-container">
+              Longer URLs
+              <div class="checkbox-description">
+                Create 26 character URLs instead of 8
+              </div>
+            </div>
+            <div class="checkbox">
+              <label class="switch">
+                <input name="longerUrls" type="checkbox" id="longerUrls" <%=
+                user.settings.longerUrls ? 'checked' : null %>>
+                <span class="slider round"></span>
+              </label>
+            </div>
+          </div>
+          <div class="space"></div>
+          <br />
+          <div class="dumbline"></div>
+          <div>
+            <div class="checkbox-container">
+              Instant Delete
+              <div class="checkbox-description">
+                Instantly delete the document after being viewed
+              </div>
+            </div>
+            <div class="checkbox">
+              <label class="switch">
+                <input name="instantDelete" type="checkbox" id="instantDelete"
                 <%= user.settings.instantDelete ? 'checked' : null %>>
-              <span class="slider round"></span>
-            </label>
+                <span class="slider round"></span>
+              </label>
+            </div>
+          </div>
+          <div class="space"></div>
+          <br />
+          <div class="dumbline"></div>
+          <div>
+            <div class="checkbox-container">
+              Encrypted
+              <div class="checkbox-description">
+                Encrypt your document with a password and aes256 encryption
+              </div>
+            </div>
+            <div class="checkbox">
+              <label class="switch">
+                <input name="encrypted" type="checkbox" id="encrypted" <%=
+                user.settings.encrypted ? 'checked' : null %>>
+                <span class="slider round"></span>
+              </label>
+            </div>
+          </div>
+          <br />
+          <div class="space"></div>
+          <div class="dumbline"></div>
+          <div>
+            <div class="checkbox-container">
+              Image embed
+              <div class="checkbox-description">
+                Have a sneak peak with an image through Open Graph embeds
+              </div>
+            </div>
+            <div class="checkbox">
+              <label class="switch">
+                <input name="imageEmbed" type="checkbox" id="imageEmbed" <%=
+                user.settings.imageEmbed ? 'checked' : null %>>
+                <span class="slider round"></span>
+              </label>
+            </div>
+          </div>
+          <br />
+          <div class="dumbline"></div>
+          <div class="space"></div>
+          <div>
+            <div class="checkbox-container">
+              Expiration
+              <div class="checkbox-description">
+                How long do you want your document to last? (in days)
+              </div>
+            </div>
+            <div class="checkbox">
+              <select name="expiration" id="expiration">
+                <option value="<%= user.settings.expiration%>" selected>
+                  <%= user.settings.expiration%>
+                </option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+                <option value="19">19</option>
+                <option value="20">20</option>
+                <option value="21">21</option>
+                <option value="22">22</option>
+                <option value="23">23</option>
+                <option value="24">24</option>
+                <option value="25">25</option>
+                <option value="26">26</option>
+                <option value="27">27</option>
+                <option value="28">28</option>
+                <option value="29">29</option>
+                <option value="30">30</option>
+                <option value="31">31</option>
+              </select>
+            </div>
           </div>
         </div>
-        <div class="space"></div>
-        <br>
-        <div class="dumbline"></div>
-        <div>
-          <div class="checkbox-container">
-            Encrypted
-            <div class="checkbox-description">Encrypt your document with a password and aes256 encryption</div>
+        <br />
+        <br />
+        <button
+          onclick="saveUserSettings()"
+          id="userSaveBtn"
+          class="alignedLeftBtn"
+        >
+          Save
+        </button>
+      </div>
+
+      <!-- DOCUMENTS  -->
+      <h2 id="documents">Documents</h2>
+      <% if (documents[0]) { %>
+      <form action="/api/purgeDocuments?_method=DELETE" method="POST">
+        <button
+          type="submit"
+          class="tooltip alignedLeftBtn"
+          data-tippy-content="Purge all of your documents"
+        >
+          Purge Documents
+        </button>
+      </form>
+      <% documents.forEach(document => { %>
+      <div id="<%= document.URL %>">
+        <a href="/p/<%= document.URL %>" class="noOpacity">
+          <div class="tile"><i class="fas fa-file-alt"></i></div>
+          <input
+            type="text"
+            name="documentInfo"
+            class="<%- !document.encrypted ? 'document' : 'document longDocument' %>"
+            value="<%= document.URL %>"
+            readonly
+          />
+        </a>
+        <div class="secondaryTiles">
+          <% if (!document.instantDelete) { %>
+          <div
+            class="secondaryTile infoTip"
+            data-tippy-content="Deleting <%= new Date(document.deleteDate).getMonth() + 1 %>/<%= new Date(document.deleteDate).getDate() %>/<%= new Date(document.deleteDate).getFullYear() %>"
+          >
+            <i class="fas fa-info"></i>
           </div>
-          <div class="checkbox">
-            <label class="switch">
-              <input name="encrypted" type="checkbox" id="encrypted" <%= user.settings.encrypted ? 'checked' : null %>>
-              <span class="slider round"></span>
-            </label>
+          <% } else { %>
+          <div
+            class="secondaryTile infoTip redColor"
+            data-tippy-content="Deletes after being viewed"
+          >
+            <i class="fas fa-info"></i>
           </div>
-        </div>
-        <br>
-        <div class="space"></div>
-        <div class="dumbline"></div>
-        <div>
-          <div class="checkbox-container">
-            Image embed
-            <div class="checkbox-description">Have a sneak peak with an image through Open Graph embeds</div>
+          <% } %>
+          <div
+            class="secondaryTile infoTip danger deleteDocument"
+            onclick="deleteDocument('<%= document.URL %>')"
+            data-tippy-content="Delete document"
+          >
+            <i id="<%= document.URL %>-icon" class="fas fa-trash"></i>
           </div>
-          <div class="checkbox">
-            <label class="switch">
-              <input name="imageEmbed" type="checkbox" id="imageEmbed"
-                <%= user.settings.imageEmbed ? 'checked' : null %>>
-              <span class="slider round"></span>
-            </label>
+
+          <% if (document.encrypted) { %>
+          <div
+            class="secondaryTile infoTip key"
+            data-tippy-content="Password protected"
+          >
+            <i class="fas fa-key"></i>
           </div>
-        </div>
-        <br>
-        <div class="dumbline"></div>
-        <div class="space"></div>
-        <div>
-          <div class="checkbox-container">
-            Expiration
-            <div class="checkbox-description">How long do you want your document to last? (in days)</div>
-          </div>
-          <div class="checkbox">
-            <select name="expiration" id="expiration">
-              <option value="<%= user.settings.expiration%>" selected><%= user.settings.expiration%></option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-              <option value="6">6</option>
-              <option value="7">7</option>
-              <option value="8">8</option>
-              <option value="9">9</option>
-              <option value="10">10</option>
-              <option value="11">11</option>
-              <option value="12">12</option>
-              <option value="13">13</option>
-              <option value="14">14</option>
-              <option value="15">15</option>
-              <option value="16">16</option>
-              <option value="17">17</option>
-              <option value="18">18</option>
-              <option value="19">19</option>
-              <option value="20">20</option>
-              <option value="21">21</option>
-              <option value="22">22</option>
-              <option value="23">23</option>
-              <option value="24">24</option>
-              <option value="25">25</option>
-              <option value="26">26</option>
-              <option value="27">27</option>
-              <option value="28">28</option>
-              <option value="29">29</option>
-              <option value="30">30</option>
-              <option value="31">31</option>
-            </select>
-          </div>
+          <% } %>
         </div>
       </div>
-      <br>
-      <br>
-      <button onclick="saveUserSettings()" id="userSaveBtn" class="alignedLeftBtn">Save</button>
-    </div>
+      <% }) %> <% } else { %>
+      <span>You have not made any recent documents!</span>
+      <% } %>
 
-    <!-- DOCUMENTS  -->
-    <h2 id="documents">Documents</h2>
-    <% if (documents[0]) { %>
-    <form action="/api/purgeDocuments?_method=DELETE" method="POST">
-      <button type="submit" class="tooltip alignedLeftBtn" data-tippy-content="Purge all of your documents">Purge
-        Documents</button>
-    </form>
-    <% documents.forEach(document => { %>
-    <div id="<%= document.URL %>">
-      <a href="/p/<%= document.URL %>" class="noOpacity">
-        <div class="tile"><i class="fas fa-file-alt"></i></div>
-        <input type="text" name="documentInfo" class="<%- !document.encrypted ? 'document' : 'document longDocument' %>"
-          value="<%= document.URL %>" readonly>
-      </a>
-      <div class="secondaryTiles">
-        <% if (!document.instantDelete) { %>
-        <div class="secondaryTile infoTip"
-          data-tippy-content="Deleting <%= new Date(document.deleteDate).getMonth() + 1 %>/<%= new Date(document.deleteDate).getDate() %>/<%= new Date(document.deleteDate).getFullYear() %>">
-          <i class="fas fa-info"></i>
+      <!-- INVITE CODES -->
+      <h2 id="codes">Your invite codes</h2>
+      <% if (user.codesLeft > 0) { %>
+      <button
+        onclick="createInvite()"
+        type="submit"
+        id="createInviteBtn"
+        class="tooltip alignedLeftBtn"
+        data-tippy-content="You have <%= user.codesLeft %> codes left"
+      >
+        Create invite
+      </button>
+      <% } else { %>
+      <div
+        class="cum tooltip"
+        data-tippy-content="You do not have any invite codes!"
+      >
+        <button type="submit" class="alignedLeftBtn" disabled>
+          Create invite
+        </button>
+      </div>
+      <% } %>
+
+      <div class="invites">
+        <% user.codes.forEach(code => { %>
+        <div>
+          <div class="tile"><i class="fas fa-qrcode"></i></div>
+          <input type="text" name="code" value="<%= code %>" readonly />
+          <div class="secondaryTiles">
+            <div
+              class="secondaryTile codeTile tooltip"
+              data-tippy-content="Copy"
+              onclick="copyThisPlease('https://www.imperialb.in/register?inviteCode=<%= code %>')"
+            >
+              <i
+                id="https://www.imperialb.in/register?inviteCode=<%= code %>-icon"
+                class="fas fa-copy"
+              ></i>
+            </div>
+          </div>
+        </div>
+        <% }) %>
+      </div>
+
+      <!-- API STUFF -->
+      <h2 id="api">API</h2>
+      <div>
+        <label for="apiToken">API Token:</label>
+        <div class="space"></div>
+        <div class="tile"><i class="fas fa-fingerprint"></i></div>
+        <input
+          type="text"
+          id="apiToken"
+          class="sensitive token"
+          name="apiToken"
+          value="<%= user.apiToken %>"
+          readonly
+        />
+        <div
+          class="secondaryTile codeTile tooltip"
+          data-tippy-content="Copy"
+          onclick="copyThisPlease('<%= user.apiToken %>')"
+        >
+          <i id="<%= user.apiToken %>-icon" class="fas fa-copy"></i>
+        </div>
+        <form action="/account/updateApiToken" method="POST">
+          <button class="alignedLeftBtn" type="submit">
+            Regenerate API Token
+          </button>
+        </form>
+      </div>
+      <div>
+        <a
+          href="/api/getShareXConfig/<%= user.apiToken %>"
+          class="noOpacity"
+          download
+        >
+          <button>Download ShareX Config</button>
+        </a>
+      </div>
+
+      <h2 id="integrations">Integrations</h2>
+      <h3>Discord integration</h3>
+      <div>
+        <br />
+        <% if (user.discordId) { %>
+        <span class="integration"
+          >You are already linked to Discord ID #<%= user.discordId %>! You can
+          relink if you'd like.</span
+        >
+        <br /><br />
+        <div>
+          <a href="/auth/discord" class="noOpacity">
+            <button>Relink Discord</button>
+          </a>
         </div>
         <% } else { %>
-        <div class="secondaryTile infoTip redColor" data-tippy-content="Deletes after being viewed"><i class="fas fa-info"></i>
+        <span class="integration"
+          >You have not yet linked your discord, if you'd like, click the button
+          below!.</span
+        >
+        <br /><br />
+        <div>
+          <a href="/auth/discord" class="noOpacity">
+            <button>Link Discord</button>
+          </a>
         </div>
         <% } %>
-        <div class="secondaryTile infoTip danger deleteDocument" onclick="deleteDocument('<%= document.URL %>')"
-          data-tippy-content="Delete document"><i id="<%= document.URL %>-icon" class="fas fa-trash"></i>
-        </div>
-
-        <% if (document.encrypted) { %>
-        <div class="secondaryTile infoTip key" data-tippy-content="Password protected"><i class="fas fa-key"></i>
-        </div>
-        <% } %>
       </div>
-    </div>
-    <% }) %>
-    <% } else { %>
-    <span>You have not made any recent documents!</span>
-    <% } %>
-
-    <!-- INVITE CODES -->
-    <h2 id="codes">Your invite codes</h2>
-      <% if (user.codesLeft > 0) { %>
-      <button onclick="createInvite()" type="submit" id="createInviteBtn" class="tooltip alignedLeftBtn"
-        data-tippy-content="You have <%= user.codesLeft %> codes left">Create invite</button>
-      <% } else { %>
-      <div class="cum tooltip" data-tippy-content="You do not have any invite codes!">
-        <button type="submit" class="alignedLeftBtn" disabled>Create invite</button>
-      </div>
-      <% } %>
-      
-    <div class="invites">
-      <% user.codes.forEach(code => { %>
-      <div>
-        <div class="tile"><i class="fas fa-qrcode"></i></div>
-        <input type="text" name="code" value="<%= code %>" readonly>
-        <div class="secondaryTiles">
-          <div class="secondaryTile codeTile tooltip" data-tippy-content="Copy"
-            onclick="copyThisPlease('https://www.imperialb.in/register?inviteCode=<%= code %>')">
-            <i id="https://www.imperialb.in/register?inviteCode=<%= code %>-icon" class="fas fa-copy"></i>
-          </div>
-        </div>
-      </div>
-      <% }) %>
-    </div>
-
-    <!-- API STUFF -->
-    <h2 id="api">API</h2>
-    <div>
-      <label for="apiToken">API Token:</label>
-      <div class="space"></div>
-      <div class="tile"><i class="fas fa-fingerprint"></i></div>
-      <input type="text" id="apiToken" class="sensitive token" name="apiToken" value="<%= user.apiToken %>" readonly>
-      <div class="secondaryTile codeTile tooltip" data-tippy-content="Copy"
-        onclick="copyThisPlease('<%= user.apiToken %>')">
-        <i id="<%= user.apiToken %>-icon" class="fas fa-copy"></i>
-      </div>
-      <form action="/account/updateApiToken" method="POST">
-        <button class="alignedLeftBtn" type="submit">Regenerate API Token</button>
+      <h3>GitHub integration</h3>
+      <br />
+      <% if (user.githubAccess) { %>
+      <span class="integration"
+        >You already linked your Github account! If you'd like to revoke it,
+        please go to your account on Github.</span
+      >
+      <br /><br />
+      <form action="/account/unlinkGithub" method="POST">
+        <button>Unlink Github</button>
       </form>
-    </div>
-    <div>
-      <a href="/api/getShareXConfig/<%= user.apiToken %>" class="noOpacity" download>
-        <button>Download ShareX Config</button>
-      </a>
-    </div>
-
-    <h2 id="integrations">Integrations</h2>
-    <h3>Discord integration</h3>
-    <div>
-      <br>
-      <% if (user.discordId) { %>
-      <span class="integration">You are already linked to Discord ID #<%= user.discordId %>! You can relink if you'd
-        like.</span>
-      <br><br>
-      <div>
-        <a href="/auth/discord" class="noOpacity">
-          <button>Relink Discord</button>
-        </a>
-      </div>
       <% } else { %>
-      <span class="integration">You have not yet linked your discord, if you'd like, click the button below!.</span>
-      <br><br>
+      <span class="integration"
+        >You have not yet linked your Github, if you'd like, click the button
+        below!.</span
+      >
+      <br />
+      <span class="integration"
+        >Linking your Github will let you have a backup of all your imperial
+        documents!</span
+      >
+      <br /><br />
       <div>
-        <a href="/auth/discord" class="noOpacity">
-          <button>Link Discord</button>
+        <a href="/auth/github" class="noOpacity">
+          <button>Link Github</button>
         </a>
       </div>
       <% } %>
-    </div>
-    <h3>GitHub integration</h3>
-    <br>
-    <% if (user.githubAccess) { %>
-    <span class="integration">You already linked your Github account! If you'd like to revoke it, please go to your
-      account on Github.</span>
-    <br><br>
-    <form action="/account/unlinkGithub" method="POST">
-      <button>Unlink Github</button>
-    </form>
-    <% } else { %>
-    <span class="integration">You have not yet linked your Github, if you'd like, click the button below!.</span> <br>
-    <span class="integration">Linking your Github will let you have a backup of all your imperial documents!</span>
-    <br><br>
-    <div>
-      <a href="/auth/github" class="noOpacity">
-        <button>Link Github</button>
-      </a>
-    </div>
-    <% } %>
 
-    <!-- RESET PASSWORD STUFF -->
-    <h2 id="reset">Reset your password</h2>
-    <form action="/account/resetPasswordForm" method="POST">
-      <div>
-        <div class="tile"><i class="fas fa-unlock"></i></div>
-        <input type="password" id="oldPassword" name="oldPassword" placeholder="Old password" autocomplete="off"
-          required>
-      </div>
-      <div>
-        <div class="tile"><i class="fas fa-lock"></i></div>
-        <input type="password" id="newPassword" name="newPassword" placeholder="New password" autocomplete="off"
-          required>
-      </div>
-      <div>
-        <div class="tile"><i class="fas fa-lock"></i></div>
-        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm password"
-          autocomplete="off" required>
-      </div>
-      <button type="submit" class="alignedLeftBtn" id="password">Reset Password</button>
-    </form>
-    <h2 id="viewUserData">View your user data</h2>
-    <form action="/account/me" method="POST">
-      <div>
-        <div class="tile"><i class="fas fa-lock"></i></div>
-        <input type="password" name="password" placeholder="Enter your password..."><br>
-      </div>
-      <button class="alignedLeftBtn" type="submit">View data</button>
-    </form>
-    <br><br>
-  </main>
-  <script src="https://kit.fontawesome.com/ec3f0c8487.js" crossorigin="anonymous"></script>
-  <script>
-    tippy('.tooltip', {
-      arrow: true,
-      animation: 'shift-away',
-      placement: 'right'
-    })
-    tippy('.infoTip', {
-      animation: 'shift-away',
-      placement: 'top'
-    })
+      <!-- 2FA -->
+      <h2 id="2fa">2 Factor Authentication</h2>
+      <br />
 
-    function copyThisPlease(thingToCopy) {
-      const stupidBox = document.createElement('textarea');
-      stupidBox.value = thingToCopy;
-      document.body.appendChild(stupidBox)
-      stupidBox.select()
-      document.execCommand('copy');
-      document.body.removeChild(stupidBox)
-      document.getElementById(`${thingToCopy}-icon`).classList.replace('fa-copy', 'fa-check')
-      setTimeout(() => document.getElementById(`${thingToCopy}-icon`).classList.replace('fa-check', 'fa-copy'), 1000)
-    }
+      <!-- RESET PASSWORD STUFF -->
+      <h2 id="reset">Reset your password</h2>
+      <form action="/account/resetPasswordForm" method="POST">
+        <div>
+          <div class="tile"><i class="fas fa-unlock"></i></div>
+          <input
+            type="password"
+            id="oldPassword"
+            name="oldPassword"
+            placeholder="Old password"
+            autocomplete="off"
+            required
+          />
+        </div>
+        <div>
+          <div class="tile"><i class="fas fa-lock"></i></div>
+          <input
+            type="password"
+            id="newPassword"
+            name="newPassword"
+            placeholder="New password"
+            autocomplete="off"
+            required
+          />
+        </div>
+        <div>
+          <div class="tile"><i class="fas fa-lock"></i></div>
+          <input
+            type="password"
+            id="confirmPassword"
+            name="confirmPassword"
+            placeholder="Confirm password"
+            autocomplete="off"
+            required
+          />
+        </div>
+        <button type="submit" class="alignedLeftBtn" id="password">
+          Reset Password
+        </button>
+      </form>
+      <h2 id="viewUserData">View your user data</h2>
+      <form action="/account/me" method="POST">
+        <div>
+          <div class="tile"><i class="fas fa-lock"></i></div>
+          <input
+            type="password"
+            name="password"
+            placeholder="Enter your password..."
+          /><br />
+        </div>
+        <button class="alignedLeftBtn" type="submit">View data</button>
+      </form>
+      <br /><br />
+    </main>
+    <script
+      src="https://kit.fontawesome.com/ec3f0c8487.js"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      tippy(".tooltip", {
+        arrow: true,
+        animation: "shift-away",
+        placement: "right",
+      });
+      tippy(".infoTip", {
+        animation: "shift-away",
+        placement: "top",
+      });
 
-    function deleteDocument(documentId) {
-      // Set the icon to a minus sign
-      document.getElementById(`${documentId}-icon`).classList.replace('fa-trash', 'fa-minus')
-      fetch(`/api/document/${documentId}`, {
-        method: 'DELETE'
-      })
-        .then(res => res.json())
-        .then(documentRes => {
-          console.log(documentRes);
-          if (documentRes.success) {
-            document.getElementById(`${documentId}-icon`).classList.replace('fa-minus', 'fa-check');
-            setTimeout(() => document.getElementById(documentId).remove(), 1500)
-          } else {
-            document.getElementById(`${documentId}-icon`).classList.replace('fa-minus', 'fa-times');
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        })
-    }
-
-    function togglePfpType(platform) {
-      const placeholderElement = document.getElementById('pfp');
-      const form = document.getElementById('pfpForm');
-      const changePlatformBtn = document.getElementById('platformBtn');
-      if (platform === 'gravatar') {
-        placeholderElement.placeholder = 'Enter your gravatar email'
-        form.action = '/account/changePfpGravatar'
-        changePlatformBtn.innerHTML = 'Or use Github'
-        changePlatformBtn.setAttribute("onclick", "togglePfpType('github')")
-      } else {
-        placeholderElement.placeholder = 'Enter your Github name'
-        form.action = '/account/changePfp'
-        changePlatformBtn.innerHTML = 'Or use Gravatar'
-        changePlatformBtn.setAttribute("onclick", "togglePfpType('gravatar')")
+      function copyThisPlease(thingToCopy) {
+        const stupidBox = document.createElement("textarea");
+        stupidBox.value = thingToCopy;
+        document.body.appendChild(stupidBox);
+        stupidBox.select();
+        document.execCommand("copy");
+        document.body.removeChild(stupidBox);
+        document
+          .getElementById(`${thingToCopy}-icon`)
+          .classList.replace("fa-copy", "fa-check");
+        setTimeout(
+          () =>
+            document
+              .getElementById(`${thingToCopy}-icon`)
+              .classList.replace("fa-check", "fa-copy"),
+          1000
+        );
       }
-    }
 
-    function saveUserSettings() {
-      const userSaveBtn = document.getElementById('userSaveBtn');
-      userSaveBtn.innerHTML = 'Saving...'
-      userSaveBtn.disabled = true;
-      // uwu
-      const body = {
-        clipboard: document.getElementById('clipboard').checked,
-        longerUrls: document.getElementById('longerUrls').checked,
-        instantDelete: document.getElementById('instantDelete').checked,
-        encrypted: document.getElementById('encrypted').checked,
-        expiration: Number(document.getElementById('expiration').value),
-        imageEmbed: document.getElementById('imageEmbed').checked
-      }
-      const options = {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(body)
-      }
-      fetch('/account/changeDocumentSettings', options)
-        .then(parsePlease => parsePlease.json())
-        .then(res => {
-          if (res.success) {
-            userSaveBtn.innerHTML = 'Saved!'
-            setTimeout(() => {
-              userSaveBtn.innerHTML = 'Save'
-              userSaveBtn.disabled = false;
-            }, 1500)
-          } else {
-            console.error(res)
-            userSaveBtn.innerHTML = 'Failed!'
-          }
+      function deleteDocument(documentId) {
+        // Set the icon to a minus sign
+        document
+          .getElementById(`${documentId}-icon`)
+          .classList.replace("fa-trash", "fa-minus");
+        fetch(`/api/document/${documentId}`, {
+          method: "DELETE",
         })
-        .catch(err => {
-          console.error(err)
-          userSaveBtn.innerHTML = 'Failed!'
+          .then((res) => res.json())
+          .then((documentRes) => {
+            console.log(documentRes);
+            if (documentRes.success) {
+              document
+                .getElementById(`${documentId}-icon`)
+                .classList.replace("fa-minus", "fa-check");
+              setTimeout(
+                () => document.getElementById(documentId).remove(),
+                1500
+              );
+            } else {
+              document
+                .getElementById(`${documentId}-icon`)
+                .classList.replace("fa-minus", "fa-times");
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+
+      function togglePfpType(platform) {
+        const placeholderElement = document.getElementById("pfp");
+        const form = document.getElementById("pfpForm");
+        const changePlatformBtn = document.getElementById("platformBtn");
+        if (platform === "gravatar") {
+          placeholderElement.placeholder = "Enter your gravatar email";
+          form.action = "/account/changePfpGravatar";
+          changePlatformBtn.innerHTML = "Or use Github";
+          changePlatformBtn.setAttribute("onclick", "togglePfpType('github')");
+        } else {
+          placeholderElement.placeholder = "Enter your Github name";
+          form.action = "/account/changePfp";
+          changePlatformBtn.innerHTML = "Or use Gravatar";
+          changePlatformBtn.setAttribute(
+            "onclick",
+            "togglePfpType('gravatar')"
+          );
+        }
+      }
+
+      function saveUserSettings() {
+        const userSaveBtn = document.getElementById("userSaveBtn");
+        userSaveBtn.innerHTML = "Saving...";
+        userSaveBtn.disabled = true;
+        // uwu
+        const body = {
+          clipboard: document.getElementById("clipboard").checked,
+          longerUrls: document.getElementById("longerUrls").checked,
+          instantDelete: document.getElementById("instantDelete").checked,
+          encrypted: document.getElementById("encrypted").checked,
+          expiration: Number(document.getElementById("expiration").value),
+          imageEmbed: document.getElementById("imageEmbed").checked,
+        };
+        const options = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(body),
+        };
+        fetch("/account/changeDocumentSettings", options)
+          .then((parsePlease) => parsePlease.json())
+          .then((res) => {
+            if (res.success) {
+              userSaveBtn.innerHTML = "Saved!";
+              setTimeout(() => {
+                userSaveBtn.innerHTML = "Save";
+                userSaveBtn.disabled = false;
+              }, 1500);
+            } else {
+              console.error(res);
+              userSaveBtn.innerHTML = "Failed!";
+            }
+          })
+          .catch((err) => {
+            console.error(err);
+            userSaveBtn.innerHTML = "Failed!";
+          });
+      }
+
+      const createInvite = () => {
+        const createInviteBtn = document.getElementById("createInviteBtn");
+        createInviteBtn.innerHTML = "Creating...";
+        createInviteBtn.disabled = true;
+
+        fetch("/account/createInvite", {
+          method: "POST",
         })
-    }
+          .then((parseRes) => parseRes.json())
+          .then((res) => {
+            if (!res.success) return (createInviteBtn.innerHTML = "Failed!");
 
-    const createInvite = () => {
-      const createInviteBtn = document.getElementById("createInviteBtn");
-      createInviteBtn.innerHTML = "Creating..."
-      createInviteBtn.disabled = true;
-      
-      fetch("/account/createInvite", {
-        method: "POST",
-      })
-        .then((parseRes => parseRes.json()))
-        .then(res => {
-          if(!res.success) 
-            return createInviteBtn.innerHTML = "Failed!"
-          
-          const inviteList = document.querySelector(".invites");
+            const inviteList = document.querySelector(".invites");
 
-          inviteList.innerHTML += `
+            inviteList.innerHTML += `
               <div>
                 <div class="tile"><i class="fas fa-qrcode"></i></div>
                 <input type="text" name="code" value="${res.code}" readonly>
@@ -545,16 +750,15 @@
                   </div>
                 </div>
               </div>
-          `
+          `;
 
-          createInviteBtn.innerHTML = "Created!"
-          setTimeout(() => {
-            createInviteBtn.innerHTML = "Create invite"
-            createInviteBtn.disabled = false;
-          }, 2000);
-        })
-    }
-  </script>
-</body>
-
+            createInviteBtn.innerHTML = "Created!";
+            setTimeout(() => {
+              createInviteBtn.innerHTML = "Create invite";
+              createInviteBtn.disabled = false;
+            }, 2000);
+          });
+      };
+    </script>
+  </body>
 </html>
