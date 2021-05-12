@@ -9,6 +9,7 @@ LEVANTARTE !!!   ¡¡PORQUE DEBEMOS SER RICOS !! */
 export interface UserSettings {
   clipboard: boolean;
   longerUrls: boolean;
+  shortUrls: boolean;
   instantDelete: boolean;
   encrypted: boolean;
   expiration: number;
@@ -62,6 +63,7 @@ export const Users = userDatabase.model<IUser & Document>(
     settings: {
       clipboard: Boolean,
       longerUrls: Boolean,
+      shortUrls: Boolean,
       instantDelete: Boolean,
       encrypted: Boolean,
       expiration: Number,
