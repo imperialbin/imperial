@@ -167,6 +167,7 @@ routes.post("/changeDocumentSettings", async (req: Request, res: Response) => {
   const realSettings = {
     clipboard: settings.clipboard || false,
     longerUrls: settings.longerUrls || false,
+    shortUrls: settings.shortUrls || false,
     instantDelete: settings.instantDelete || false,
     encrypted: settings.encrypted || false,
     expiration: Math.abs(settings.expiration) || 5,
