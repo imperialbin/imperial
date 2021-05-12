@@ -233,6 +233,24 @@
           <div class="dumbline"></div>
           <div>
             <div class="checkbox-container">
+              Short URLs
+              <div class="checkbox-description">
+                Create 4 character URLs instead of 8
+              </div>
+            </div>
+            <div class="checkbox">
+              <label class="switch">
+                <input name="shortUrls" type="checkbox" id="shortUrls" <%=
+                user.settings.shortUrls ? 'checked' : null %>>
+                <span class="slider round"></span>
+              </label>
+            </div>
+          </div>
+          <div class="space"></div>
+          <br />
+          <div class="dumbline"></div>
+          <div>
+            <div class="checkbox-container">
               Instant Delete
               <div class="checkbox-description">
                 Instantly delete the document after being viewed
@@ -693,6 +711,7 @@
         const body = {
           clipboard: document.getElementById("clipboard").checked,
           longerUrls: document.getElementById("longerUrls").checked,
+          shortUrls: document.getElementById("shortUrls").checked,
           instantDelete: document.getElementById("instantDelete").checked,
           encrypted: document.getElementById("encrypted").checked,
           expiration: Number(document.getElementById("expiration").value),
