@@ -69,6 +69,7 @@ routes.post("/document", (req: Request, res: Response) => {
     if (user.banned) return throwApiError(res, "User is banned!", 401);
 
     const creator = user._id.toString();
+
     const documentSettings: DocumentSettings = {
       longerUrls: req.body.longerUrls || false,
       shortUrls: req.body.shortUrls || false,

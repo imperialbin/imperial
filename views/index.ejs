@@ -321,6 +321,7 @@
       const settings = {
         clipboard: loggedIn ? JSON.parse("<%= settings.clipboard %>") : false,
         longerUrls: loggedIn ? JSON.parse("<%= settings.longerUrls %>") : false,
+        shortUrls: loggedIn ? JSON.parse("<%= settings.shortUrls %>") : false,
         instantDelete: loggedIn
           ? JSON.parse("<%= settings.instantDelete %>")
           : false,
@@ -388,6 +389,7 @@
             code: window.editor.getValue().toString(),
             language: window.editor.session.$modeId.replace("ace/mode/", ""),
             longerUrls: settings.longerUrls,
+            shortUrls: settings.shortUrls,
             imageEmbed: settings.imageEmbed,
             expiration: settings.expiration,
             instantDelete: settings.instantDelete,
