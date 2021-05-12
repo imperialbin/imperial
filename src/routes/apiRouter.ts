@@ -48,6 +48,7 @@ routes.post("/document", (req: Request, res: Response) => {
         language: req.body.language || null,
         public: false,
         longerUrls: false,
+        shortUrls: false,
         password: null,
         quality: 20,
       },
@@ -70,6 +71,7 @@ routes.post("/document", (req: Request, res: Response) => {
     const creator = user._id.toString();
     const documentSettings: DocumentSettings = {
       longerUrls: req.body.longerUrls || false,
+      shortUrls: req.body.shortUrls || false,
       language: req.body.language || null,
       creator,
       imageEmbed: req.body.imageEmbed || false,
@@ -85,10 +87,11 @@ routes.post("/document", (req: Request, res: Response) => {
     // Me checking types to make sure no one fucks me over fuck you fuycky ou fuck you fyuck you fuck yo u
     if (
       typeof documentSettings.longerUrls !== "boolean" ||
+      typeof documentSettings.shortUrls !== "boolean" ||
       typeof documentSettings.imageEmbed !== "boolean" ||
       typeof documentSettings.expiration !== "number" ||
       typeof documentSettings.instantDelete !== "boolean" ||
-      typeof documentSettings.encrypted !== "boolean" || 
+      typeof documentSettings.encrypted !== "boolean" ||
       typeof documentSettings.public !== "boolean"
     )
       return throwApiError(
@@ -97,7 +100,12 @@ routes.post("/document", (req: Request, res: Response) => {
         400
       );
 
-    return createDocument(code, documentSettings, res, req.get("host"));
+    return createDocument(
+      code,
+      documentSettings,
+      res,
+      documentSettings.shortUrls ? "impb.in" : req.get("host")
+    );
   });
 });
 

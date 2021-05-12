@@ -1,11 +1,6 @@
 import { Document, Schema } from "mongoose";
 import { userDatabase } from "../utilities/connectDatabases";
 
-/* ¡¿ESTÁS LEVANTADO?!  ¡¿ESTÁS BUSCANDO ESA BOLSA ?!  ¡¿ESTÁS CORRIENDO  HACIA
-ESA BOLSA ?! ¡¿ESTÁS VOLANDO  A ESA BOLSA ?! ¡¿ESTÁS CONDUCIENDO A ESA BOLSA ?!
-¡¿ESTÁS NADANDO  A ESA BOLSA ?! ¡¿ESTÁS ESPERANDO A ESA BOLSA ?! DEBES
-LEVANTARTE !!!   ¡¡PORQUE DEBEMOS SER RICOS !! */
-
 export interface UserSettings {
   clipboard: boolean;
   longerUrls: boolean;
