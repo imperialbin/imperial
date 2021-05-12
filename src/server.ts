@@ -75,6 +75,7 @@ import { routes as rawRouter } from "./routes/rawRouter";
 import { routes as registerRouter } from "./routes/registerRouter";
 import { routes as adminRouter } from "./routes/adminRouter";
 import { checkAdmin } from "./middleware/checkAdmin";
+import { mail } from "./utilities/mailer";
 
 app.use("/", indexRouter);
 app.use("/api", rateLimiter, apiRouter);
