@@ -1,6 +1,7 @@
 export interface DocumentSettings {
   creator: null | string;
   longerUrls: boolean;
+  shortUrls: boolean;
   language: string | null | undefined;
   imageEmbed: boolean;
   expiration: number;
