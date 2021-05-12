@@ -60,11 +60,11 @@ routes.post("/updateUser/:_id", (req: Request, res: Response) => {
     if (err)
       return res.json({
         success: false,
-        message: "An error occurred whilst saving your settings!",
+        message: "An error occurred whilst saving their settings!",
       });
     res.json({
       success: true,
-      message: "Successfully changed your user settings!",
+      message: "Successfully changed users settings!",
     });
   });
 });
