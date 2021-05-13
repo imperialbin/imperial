@@ -133,7 +133,7 @@
     <div id="<%= document.URL %>">
       <a href="/p/<%= document.URL %>" class="noOpacity">
         <div class="tile"><i class="fas fa-file-alt"></i></div>
-        <input type="text" name="documentInfo" class="document" value="<%= document.URL %>" readonly>
+        <input type="text" name="documentInfo" class="<%- !document.encrypted ? 'document' : 'document longDocument' %>" value="<%= document.URL %>" readonly>
       </a>
       <div class="secondaryTiles">
         <% if (!document.instantDelete) { %>
