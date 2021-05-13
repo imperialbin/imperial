@@ -54,7 +54,7 @@
     "connect-mongo": "^4.2.2",
     "cookie-parser": "^1.4.5",
     "cron": "^1.8.2",
-    "crypto-random-string": "^4.0.0",
+    "crypto-random-string": "3.3.1",
     "decoration": "^1.0.1",
     "dotenv": "^8.2.0",
     "ejs": "^3.1.6",
