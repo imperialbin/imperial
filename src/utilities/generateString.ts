@@ -1,4 +1,4 @@
-import { randomBytes } from "crypto";
+import cryptoRandomString from "crypto-random-string";
 
 /**
  *
@@ -7,6 +7,5 @@ import { randomBytes } from "crypto";
  */
 
 export const generateString = (length: number): string => {
-  // Dividing it by two because if we dont it'll be 16 characters for a length of 8, weirdo.
-  return randomBytes(length / 2).toString("hex");
+  return cryptoRandomString({ length, type: "url-safe" });
 };
