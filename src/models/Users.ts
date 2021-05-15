@@ -31,6 +31,7 @@ export interface IUser {
   discordId: string | null;
   githubAccess: string | null;
   admin: boolean;
+  opt: string | null;
   settings: UserSettings;
 }
 
@@ -55,6 +56,7 @@ export const Users = userDatabase.model<IUser & Document>(
     admin: Boolean,
     discordId: String || null,
     githubAccess: String || null,
+    opt: String || null,
     settings: {
       clipboard: Boolean,
       longerUrls: Boolean,

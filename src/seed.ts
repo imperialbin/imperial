@@ -20,9 +20,11 @@ const user: Omit<IUser, "_id"> = {
   discordId: null,
   githubAccess: null,
   admin: false,
+  opt: null,
   settings: {
     clipboard: false,
     longerUrls: true,
+    shortUrls: false,
     instantDelete: false,
     encrypted: false,
     expiration: 10,
