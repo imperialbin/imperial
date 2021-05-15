@@ -3,6 +3,8 @@ import { IUser, Users } from "../models/Users";
 import { compare, hash } from "bcryptjs";
 import { url } from "gravatar";
 import fetch from "node-fetch";
+import { generateSecret } from "speakeasy";
+import { toDataURL } from "qrcode";
 
 // ENV
 const DISCORD_GUILD = process.env.DISCORD_GUILD;
@@ -43,6 +45,31 @@ routes.post("/me", async (req: Request, res: Response) => {
   res.setHeader("Content-Type", "text/plain");
   res.write(user.toString());
   res.end();
+});
+
+// 2FA
+routes.get("/enable2fa", async (req: Request, res: Response) => {
+  try {
+    const user = req.user;
+    const { base32: secret, otpauth_url: otpUrl } = generateSecret({
+      name: "IMPERIAL",
+      issuer: "IMPERIAL",
+    });
+
+    // @ts-ignore Man
+    const qrCode = await toDataURL(otpUrl);
+
+    await Users.updateOne({ _id: user!._id }, { $set: { opt: secret } });
+
+    res.json({ success: true, qrCode });
+  } catch (err) {
+    console.log(err);
+    res.json({
+      success: false,
+      message:
+        "An internal server error occurred whilst enabling 2fa on your account! Please contact and admin!",
+    });
+  }
 });
 
 // Redeeming Plus code
@@ -221,7 +248,7 @@ routes.post("/createInvite", async (req: Request, res: Response) => {
     });
 
   const code = generateString(8);
-  
+
   await Users.updateOne(
     { _id: user._id },
     {

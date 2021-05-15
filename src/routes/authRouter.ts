@@ -3,6 +3,7 @@ import { IUser, Users } from "../models/Users";
 import { hash } from "bcryptjs";
 import { stringify } from "querystring";
 import fetch from "node-fetch";
+import { generateSecret } from "speakeasy";
 
 // Utilities
 import { verifyToken } from "../utilities/verifyToken";
