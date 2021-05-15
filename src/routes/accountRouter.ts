@@ -49,9 +49,16 @@ routes.post("/me", async (req: Request, res: Response) => {
 
 // 2FA
 routes.get("/enable2fa", async (req: Request, res: Response) => {
+  const user = req.user;
+  if (!user)
+    return res.json({
+      success: false,
+      message:
+        "No idea how, but you some how made it here without a user account! Congrats!",
+    });
+
   try {
-    const user = req.user;
-    if (!user.opt)
+    if (user.opt)
       return res.json({
         success: false,
         message: "You already have 2fa enabled!",
@@ -65,7 +72,7 @@ routes.get("/enable2fa", async (req: Request, res: Response) => {
     // @ts-ignore Man
     const qrCode = await toDataURL(otpUrl);
 
-    await Users.updateOne({ _id: user!._id }, { $set: { opt: secret } });
+    await Users.updateOne({ _id: user._id }, { $set: { opt: secret } });
 
     res.json({ success: true, qrCode });
   } catch (err) {
