@@ -89,6 +89,7 @@ routes.post("/", async (req: Request, res: Response) => {
       activeUnlimitedDocuments: 0,
       discordId: null,
       githubAccess: null,
+      opt: null,
       settings: {
         clipboard: false,
         longerUrls: false,
