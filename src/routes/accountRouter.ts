@@ -51,6 +51,12 @@ routes.post("/me", async (req: Request, res: Response) => {
 routes.get("/enable2fa", async (req: Request, res: Response) => {
   try {
     const user = req.user;
+    if (!user.opt)
+      return res.json({
+        success: false,
+        message: "You already have 2fa enabled!",
+      });
+
     const { base32: secret, otpauth_url: otpUrl } = generateSecret({
       name: "IMPERIAL",
       issuer: "IMPERIAL",
