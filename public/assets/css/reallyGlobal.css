@@ -746,7 +746,7 @@ h1.publicDocuments {
   object-fit: contain;
   background: var(--main-background);
   height: 196px;
-  max-width: 100%;
+  width: 100%;
   border-radius: 4px;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
