@@ -568,8 +568,8 @@
         2fa is enabled! You can remove it if you'd like!
       </span>
       <br /><br />
-      <form action="/account/remove2fa" method="DELETE">
-        <button>Remove 2fa</button>
+      <form action="/account/disable2fa" method="DELETE">
+        <button>Disable 2fa</button>
       </form>
       <% } else { %>
       <span class="integration">
@@ -578,7 +578,7 @@
       </span>
       <br /><br />
       <form action="/account/enable2fa" method="POST">
-        <button>Unlink Github</button>
+        <button>Enable 2fa</button>
       </form>
       <% } %>
       <!-- RESET PASSWORD STUFF -->
