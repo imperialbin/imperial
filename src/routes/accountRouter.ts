@@ -48,7 +48,7 @@ routes.post("/me", async (req: Request, res: Response) => {
 });
 
 // 2FA
-routes.get("/enable2fa", async (req: Request, res: Response) => {
+routes.post("/enable2fa", async (req: Request, res: Response) => {
   const user = req.user;
   if (!user)
     return res.json({
@@ -83,6 +83,23 @@ routes.get("/enable2fa", async (req: Request, res: Response) => {
         "An internal server error occurred whilst enabling 2fa on your account! Please contact and admin!",
     });
   }
+});
+
+routes.delete("/remove2fa", async (req: Request, res: Response) => {
+  const user = req.user;
+  if (!user)
+    return res.json({
+      success: false,
+      message:
+        "No idea how, but you some how made it here without a user account! Congrats!",
+    });
+
+  await Users.updateOne({ _id: user._id }, { $set: { opt: null } });
+
+  res.json({
+    success: true,
+    message: "Successfully removed 2fa on your account!",
+  });
 });
 
 // Redeeming Plus code
