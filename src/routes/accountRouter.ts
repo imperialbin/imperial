@@ -85,7 +85,7 @@ routes.post("/enable2fa", async (req: Request, res: Response) => {
   }
 });
 
-routes.delete("/remove2fa", async (req: Request, res: Response) => {
+routes.delete("/disable2fa", async (req: Request, res: Response) => {
   const user = req.user;
   if (!user)
     return res.json({
