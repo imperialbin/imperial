@@ -12,7 +12,7 @@ export class Consts {
   /* URIs for like response sending */
   static MAIN_URI = process.env.MAIN_URI ?? "";
   static DISCORD_CALLBACK_URI = process.env.DISCORD_CALLBACK_URI ?? "";
-  static GITHUB_CALLBACK_URI = process.env.GITHUB_CALLBACK_URI ?? "";
+  static GITHUB_REDIRECT_URI = process.env.GITHUB_REDIRECT_URI ?? "";
 
   /* DISCORD ID FOR THE DEVELOPER */
   static DEVELOPER_USER = process.env.DEVELOPER_USER ?? "";
