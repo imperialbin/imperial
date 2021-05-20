@@ -3,15 +3,16 @@ import { IUser, Users } from "../models/Users";
 import { compare, hash } from "bcryptjs";
 import { url } from "gravatar";
 import fetch from "node-fetch";
+import { Consts } from "../utilities/consts";
 
 // Adding this in the nextjs version
 /* import { generateSecret, totp } from "speakeasy";
 import { toDataURL } from "qrcode"; */
 
 // ENV
-const DISCORD_GUILD = process.env.DISCORD_GUILD;
-const DISCORD_BOT_TOKEN = process.env.DISCORD_BOT_TOKEN;
-const DISCORD_ROLE_MEMBER_PLUS = process.env.DISCORD_ROLE_MEMBER_PLUS;
+const DISCORD_GUILD = Consts.DISCORD_GUILD;
+const DISCORD_BOT_TOKEN = Consts.DISCORD_BOT_TOKEN;
+const DISCORD_ROLE_MEMBER_PLUS = Consts.DISCORD_ROLE_MEMBER_PLUS;
 
 // Utilities
 import { generateString } from "../utilities/generateString";

@@ -1,4 +1,5 @@
 import puppeteer from "puppeteer";
+import { Consts } from "./consts";
 
 /**
  * @param  {string} documentId
@@ -15,7 +16,7 @@ export const screenshotDocument = async (
   });
   const page = await browser.newPage();
 
-  await page.goto(`${process.env.MAIN_URI}/p/${documentId}`);
+  await page.goto(`${Consts.MAIN_URI}/p/${documentId}`);
   await page.waitForSelector(".ace_content");
   await page.addStyleTag({
     content:
