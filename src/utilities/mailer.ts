@@ -1,9 +1,10 @@
 import aws from "aws-sdk";
+import { Consts } from "./consts";
 
 // ENV stuff
-const region = process.env.SES_REGION,
-  accessKeyId = process.env.SES_ACCESS,
-  secretAccessKey = process.env.SES_SECRET;
+const region = Consts.SES_REGION,
+  accessKeyId = Consts.SES_ACCESS,
+  secretAccessKey = Consts.SES_SECRET;
 
 export const ses = new aws.SES({
   region,
