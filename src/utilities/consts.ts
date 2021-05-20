@@ -1,5 +1,8 @@
 // Pretty much every env thing
 export class Consts {
+  /* PORT */
+  static PORT = process.env.PORT ?? 3000;
+
   /* SES */
   static SES_REGION = process.env.SES_REGION ?? "";
   static SES_ACCESS = process.env.SES_ACCESS ?? "";
@@ -30,11 +33,12 @@ export class Consts {
   static GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET ?? "";
 
   /* REDIS */
-  static REDIS_HOST = process.env.REDIS_HOST ?? "";
+  static REDIS_HOST = process.env.REDIS_HOST ?? "redis://localhost:56379";
 
   /* SOME SECRETS FOR AUTHORIZATION */
   static COOKIE_SECRET = process.env.COOKIE_SECRET ?? "";
   static SESSION_SECRET = process.env.SESSION_SECRET ?? "";
   static ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET ?? "";
   static REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET ?? "";
+  static JWT_SECRET = process.env.JWT_SECRET ?? "kdjg32894hg4t";
 }

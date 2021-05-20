@@ -3,6 +3,7 @@ import { IUser, Users } from "../models/Users";
 import { hash } from "bcryptjs";
 import { stringify } from "querystring";
 import fetch from "node-fetch";
+import { Consts } from "../utilities/consts";
 import { generateSecret } from "speakeasy";
 
 // Utilities
@@ -12,15 +13,15 @@ import { checkAuthenticated } from "../middleware/checkAuthenticated";
 export const routes = Router();
 
 // env
-const CLIENT_ID = process.env.DISCORD_CLIENT_ID;
-const CLIENT_SECRET = process.env.DISCORD_CLIENT_SECRET;
-const DISCORD_GUILD = process.env.DISCORD_GUILD;
-const DISCORD_CALLBACK_URI = process.env.DISCORD_CALLBACK_URI;
-const DISCORD_BOT_TOKEN = process.env.DISCORD_BOT_TOKEN;
+const CLIENT_ID = Consts.DISCORD_CLIENT_ID;
+const CLIENT_SECRET = Consts.DISCORD_CLIENT_SECRET;
+const DISCORD_GUILD = Consts.DISCORD_GUILD;
+const DISCORD_CALLBACK_URI = Consts.DISCORD_CALLBACK_URI;
+const DISCORD_BOT_TOKEN = Consts.DISCORD_BOT_TOKEN;
 
-const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID;
-const GITHUB_REDIRECT_URI = process.env.GITHUB_REDIRECT_URI;
-const GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
+const GITHUB_CLIENT_ID = Consts.GITHUB_CLIENT_ID;
+const GITHUB_REDIRECT_URI = Consts.GITHUB_REDIRECT_URI;
+const GITHUB_CLIENT_SECRET = Consts.GITHUB_CLIENT_SECRET;
 
 routes.get("/", (req: Request, res: Response) => {
   res.redirect("/");
@@ -108,7 +109,7 @@ routes.get(
 
     // give that mf a role
     await fetch(
-      `https://discord.com/api/guilds/${DISCORD_GUILD}/members/${discordUser.id}/roles/${process.env.DISCORD_ROLE_MEMBER}`,
+      `https://discord.com/api/guilds/${DISCORD_GUILD}/members/${discordUser.id}/roles/${Consts.DISCORD_ROLE_MEMBER}`,
       {
         method: "PUT",
         headers: {
@@ -139,7 +140,6 @@ routes.get(
   }
 );
 
-// cum
 routes.get(
   "/github/callback",
   checkAuthenticated,

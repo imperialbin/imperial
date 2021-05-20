@@ -1,6 +1,7 @@
 import { sign } from "jsonwebtoken";
+import { Consts } from "./consts";
 
-const JWT_SECRET = process.env.JWT_SECRET ?? "uwu";
+const JWT_SECRET = Consts.JWT_SECRET;
 
 /**
  * @param  {string} email

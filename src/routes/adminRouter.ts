@@ -1,6 +1,7 @@
 import { Router, Request, Response } from "express";
 import { Documents } from "../models/Documents";
 import { IUser, Users } from "../models/Users";
+import { Consts } from "../utilities/consts";
 import fetch from "node-fetch";
 
 // Utilities
@@ -9,9 +10,9 @@ import { getDocuments } from "../utilities/getDocuments";
 
 export const routes = Router();
 
-const DISCORD_BOT_TOKEN = process.env.DISCORD_BOT_TOKEN;
-const DISCORD_GUILD = process.env.DISCORD_GUILD;
-const DISCORD_ROLE_MEMBER_PLUS = process.env.DISCORD_ROLE_MEMBER_PLUS;
+const DISCORD_BOT_TOKEN = Consts.DISCORD_BOT_TOKEN;
+const DISCORD_GUILD = Consts.DISCORD_GUILD;
+const DISCORD_ROLE_MEMBER_PLUS = Consts.DISCORD_ROLE_MEMBER_PLUS;
 
 routes.get("/", async (req: Request, res: Response) => {
   const recentDocuments = await Documents.find({})

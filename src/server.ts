@@ -24,11 +24,13 @@ import "./utilities/autoDelete";
 import { checkAuthenticated } from "./middleware/checkAuthenticated";
 import { checkNotAuthenticated } from "./middleware/checkNotAuthenticated";
 
-// Our ENV!!! hiii env!
-const MONGOURI = process.env.MONGO_URI ?? "";
-const COOKIE_SECRET = process.env.COOKIE_SECRET ?? "";
-const SESSION_SECRET = process.env.SESSION_SECRET ?? "";
-const PORT = process.env.PORT ?? 3000;
+import { Consts } from "./utilities/consts";
+
+// ENV
+const MONGOURI = Consts.MONGO_URI;
+const COOKIE_SECRET = Consts.COOKIE_SECRET;
+const SESSION_SECRET = Consts.SESSION_SECRET;
+const PORT = Consts.PORT;
 
 // Database
 import { connectDatabase } from "./utilities/connectDatabases";
