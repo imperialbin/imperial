@@ -3,8 +3,10 @@ import { IUser, Users } from "../models/Users";
 import { compare, hash } from "bcryptjs";
 import { url } from "gravatar";
 import fetch from "node-fetch";
-import { generateSecret } from "speakeasy";
-import { toDataURL } from "qrcode";
+
+// Adding this in the nextjs version
+/* import { generateSecret, totp } from "speakeasy";
+import { toDataURL } from "qrcode"; */
 
 // ENV
 const DISCORD_GUILD = process.env.DISCORD_GUILD;
@@ -49,7 +51,8 @@ routes.post("/me", async (req: Request, res: Response) => {
 
 // 2FA
 routes.post("/enable2fa", async (req: Request, res: Response) => {
-  const user = req.user;
+  // Implementing this in the nextJS version
+  /*   const user = req.user;
   if (!user)
     return res.json({
       success: false,
@@ -82,11 +85,12 @@ routes.post("/enable2fa", async (req: Request, res: Response) => {
       message:
         "An internal server error occurred whilst enabling 2fa on your account! Please contact and admin!",
     });
-  }
+  } */
 });
 
-routes.delete("/disable2fa", async (req: Request, res: Response) => {
-  const user = req.user;
+routes.post("/disable2fa", async (req: Request, res: Response) => {
+  // Implementing this in the nextjs version
+  /*   const user = req.user;
   if (!user)
     return res.json({
       success: false,
@@ -94,12 +98,32 @@ routes.delete("/disable2fa", async (req: Request, res: Response) => {
         "No idea how, but you some how made it here without a user account! Congrats!",
     });
 
+  if (!user.opt)
+    return res.json({
+      success: false,
+      message: "You do not have 2 factor authentication enabled!",
+    });
+
+  const { token } = req.body;
+
+  const checkToken = totp.verify({
+    secret: user.opt,
+    encoding: "base32",
+    token,
+  });
+
+  if (!checkToken)
+    return res.json({
+      success: false,
+      message: "Incorrect authentication token!",
+    });
+
   await Users.updateOne({ _id: user._id }, { $set: { opt: null } });
 
   res.json({
     success: true,
     message: "Successfully removed 2fa on your account!",
-  });
+  }); */
 });
 
 // Redeeming Plus code

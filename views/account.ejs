@@ -561,26 +561,6 @@
       </div>
       <% } %>
 
-      <!-- 2FA -->
-      <h2 id="2fa">2 Factor Authentication</h2>
-      <% if (user.opt) { %>
-      <span class="integration">
-        2fa is enabled! You can remove it if you'd like!
-      </span>
-      <br /><br />
-      <form action="/account/disable2fa" method="DELETE">
-        <button>Disable 2fa</button>
-      </form>
-      <% } else { %>
-      <span class="integration">
-        2fa is not enabled, if you'd like to have a 2nd layer of security,
-        please enable it!
-      </span>
-      <br /><br />
-      <form action="/account/enable2fa" method="POST">
-        <button>Enable 2fa</button>
-      </form>
-      <% } %>
       <!-- RESET PASSWORD STUFF -->
       <h2 id="reset">Reset your password</h2>
       <form action="/account/resetPasswordForm" method="POST">
