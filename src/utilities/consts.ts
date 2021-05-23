@@ -4,13 +4,17 @@ export class Consts {
   static PORT = process.env.PORT ?? 3000;
 
   /* SES */
-  static SES_REGION = process.env.SES_REGION ?? "";
-  static SES_ACCESS = process.env.SES_ACCESS ?? "";
-  static SES_SECRET = process.env.SES_SECRET ?? "";
+  static AWS_REGION = process.env.AWS_REGION ?? "";
+  static AWS_ACCESS = process.env.AWS_ACCESS ?? "";
+  static AWS_SECRET = process.env.AWS_SECRET ?? "";
 
   /* DATABASES */
   static DOCUMENT_URI = process.env.DOCUMENT_URI ?? "";
   static MONGO_URI = process.env.MONGO_URI ?? "";
+  static IMAGE_BUCKET_URI = process.env.IMAGE_BUCKET_URI ?? "";
+  static IMAGE_BUCKET_API_KEY = process.env.IMAGE_BUCKET_API_KEY ?? "";
+  static IMAGE_BUCKET_API_SECRET = process.env.IMAGE_BUCKET_API_SECRET ?? "";
+  static IMAGE_BUCKET_CLOUD_NAME = process.env.IMAGE_BUCKET_CLOUD_NAME ?? "";
 
   /* URIs for like response sending */
   static MAIN_URI = process.env.MAIN_URI ?? "";
