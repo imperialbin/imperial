@@ -13,9 +13,9 @@
   <meta content="IMPERIAL | <%= deleteDate %>" property="og:site_name">
   <% if(imageEmbed){ %>
   <meta property="twitter:card" content="summary_large_image">
-  <meta property="og:image" content="/assets/img/<%= documentName %>.jpg" />
-  <meta property="og:image:url" content="/assets/img/<%= documentName %>.jpg" />
-  <meta property="twitter:image" content="/assets/img/<%= documentName %>.jpg" />
+  <meta property="og:image" content="https://imperial.s3.amazonaws.com/<%= documentName %>.jpg" />
+  <meta property="og:image:url" content="https://imperial.s3.amazonaws.com/<%= documentName %>.jpg" />
+  <meta property="twitter:image" content="https://imperial.s3.amazonaws.com/<%= documentName %>.jpg" />
   <% } else if (deleteDate !=='Deletes after being viewed.' ){ %>
   <meta content="<%= code %> " property="description">
   <meta content="<%= code %> " property="og:description">
