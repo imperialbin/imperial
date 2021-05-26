@@ -58,3 +58,17 @@ div.email {
   overflow: hidden;
   font-size: 13px;
 }
+
+.alignedBtnLeft {
+  float: unset !important;
+  padding: 8px 20px;
+}
+
+#memberPlusInvite,
+#normalInvite {
+  padding-top: 10px;
+  position: relative;
+  display: block;
+  max-width: 600px;
+  overflow-wrap: anywhere;
+}

@@ -2,6 +2,7 @@ import { Router, Request, Response } from "express";
 import { Documents } from "../models/Documents";
 import { IUser, Users } from "../models/Users";
 import { Consts } from "../utilities/consts";
+import { signToken } from "../utilities/signToken";
 import fetch from "node-fetch";
 
 // Utilities
@@ -123,4 +124,44 @@ routes.post("/giveCode", async (req: Request, res: Response) => {
   );
 
   res.redirect(`/admin/user/${_id}`);
+});
+
+routes.post("/createInvite", async (req: Request, res: Response) => {
+  const user = req.user;
+
+  if (!user) return;
+
+  try {
+    const code = generateString(8);
+    await Users.updateOne(
+      { _id: user._id },
+      {
+        $push: { codes: code },
+      }
+    );
+    res.json({
+      success: true,
+      code,
+    });
+  } catch (err) {
+    res.json({
+      success: false,
+      message: "An error has occurred!",
+    });
+  }
+});
+
+routes.post("/createMemberPlusInvite", (req: Request, res: Response) => {
+  try {
+    const code = signToken(generateString(33));
+    res.json({
+      success: true,
+      code,
+    });
+  } catch (err) {
+    res.json({
+      success: false,
+      message: "An error has occurred!",
+    });
+  }
 });
