@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node dist/_boot.js",
     "devStart": "ts-node-dev --files src/_boot.ts",
-    "build": "tsc --max_old_space_size=256 -p .",
+    "build": "tsc -p .",
     "lint": "eslint ."
   },
   "repository": {
