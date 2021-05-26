@@ -93,6 +93,7 @@ routes.post("/", async (req: Request, res: Response) => {
       settings: {
         clipboard: false,
         longerUrls: false,
+        shortUrls: false,
         instantDelete: false,
         encrypted: false,
         expiration: 5,
