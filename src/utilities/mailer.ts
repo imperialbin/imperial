@@ -1,5 +1,4 @@
 import { ses } from "./aws";
-import { Consts } from "./consts";
 
 /**
  * @param  {string} to
