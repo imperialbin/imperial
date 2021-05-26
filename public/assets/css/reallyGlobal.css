@@ -737,6 +737,7 @@ input#token {
 .publicDocuments .document {
   position: relative;
   display: inline-block;
+  min-width: 310px;
   max-width: 450px;
   min-height: 268px;
   background: var(--button-hover);
@@ -765,13 +766,14 @@ input#token {
 }
 .publicDocuments .bottomOfDocument {
   position: absolute;
+  width: 100%;
   bottom: 12px;
   padding-left: 5px;
 }
 .publicDocuments .documentTitle {
   font-weight: 400;
   font-size: 24px;
-  max-width: 400px;
+  max-width: 95%;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
