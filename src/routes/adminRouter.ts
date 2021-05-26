@@ -124,7 +124,3 @@ routes.post("/giveCode", async (req: Request, res: Response) => {
 
   res.redirect(`/admin/user/${_id}`);
 });
-
-routes.post("/changeUsersSetting", async (req: Request, res: Response) => {
-  const _id = req.body._id;
-});
