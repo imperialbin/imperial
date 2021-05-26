@@ -53,19 +53,21 @@ export const screenshotDocument = async (
       clip: {
         x: boundingBox?.x,
         y: boundingBox?.y,
-        width: Math.min(boundingBox!.width),
-        height: Math.min(boundingBox!.height),
+        width: Math.min(boundingBox!.width, Math.floor(widthOfDocument)),
+        height: Math.min(boundingBox!.height, Math.floor(heightOfDocument)),
       },
     });
 
-    await s3.upload({
-      Bucket: "imperial",
-      Key: `${documentId}.jpg`,
-      // @ts-ignore
-      Body: screenshot,
-      ContentEncoding: "base64",
-      ContentType: "image/jpg",
-    }).promise();
+    await s3
+      .upload({
+        Bucket: "imperial",
+        Key: `${documentId}.jpg`,
+        // @ts-ignore
+        Body: screenshot,
+        ContentEncoding: "base64",
+        ContentType: "image/jpg",
+      })
+      .promise();
   }
 
   await browser.close();
