@@ -1,7 +1,5 @@
 import { createHash, createDecipheriv } from "crypto";
 
-// Usage decrypt(hashedPassword, documentInfo.code, documentInfo.encryptedIv);
-
 /**
  * @param  {string} password
  * @param  {string} cipherText
