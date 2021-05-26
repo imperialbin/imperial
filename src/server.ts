@@ -24,11 +24,13 @@ import "./utilities/autoDelete";
 import { checkAuthenticated } from "./middleware/checkAuthenticated";
 import { checkNotAuthenticated } from "./middleware/checkNotAuthenticated";
 
-// Our ENV!!! hiii env!
-const MONGOURI = process.env.MONGO_URI ?? "";
-const COOKIE_SECRET = process.env.COOKIE_SECRET ?? "";
-const SESSION_SECRET = process.env.SESSION_SECRET ?? "";
-const PORT = process.env.PORT ?? 3000;
+import { Consts } from "./utilities/consts";
+
+// ENV
+const MONGOURI = Consts.MONGO_URI;
+const COOKIE_SECRET = Consts.COOKIE_SECRET;
+const SESSION_SECRET = Consts.SESSION_SECRET;
+const PORT = Consts.PORT;
 
 // Database
 import { connectDatabase } from "./utilities/connectDatabases";
@@ -75,6 +77,7 @@ import { routes as rawRouter } from "./routes/rawRouter";
 import { routes as registerRouter } from "./routes/registerRouter";
 import { routes as adminRouter } from "./routes/adminRouter";
 import { checkAdmin } from "./middleware/checkAdmin";
+import { mail } from "./utilities/mailer";
 
 app.use("/", indexRouter);
 app.use("/api", rateLimiter, apiRouter);

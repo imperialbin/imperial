@@ -1,8 +1,9 @@
 import { createConnection } from "mongoose";
+import { Consts } from "./consts";
 
 // ENV stuff
-const MONGO_URI = process.env.MONGO_URI ?? "";
-const DOCUMENT_URI = process.env.DOCUMENT_URI ?? "";
+const MONGO_URI = Consts.MONGO_URI;
+const DOCUMENT_URI = Consts.DOCUMENT_URI;
 
 const connectionOptions = {
   useNewUrlParser: true,
@@ -15,7 +16,7 @@ export const connectDatabase = async (): Promise<void> => {
 
   if (await userDatabase) console.log("User database online");
   if (await documentDatabase) console.log("Document database online");
-  
+
   return;
 };
 

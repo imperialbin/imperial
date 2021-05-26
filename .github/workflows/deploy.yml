@@ -22,10 +22,10 @@ jobs:
       - name: Install deps
         run: yarn
 
-      - name: build the mother fucking thing
+      - name: Build
         run: npm run build
 
-      - name: stupid puppeteer
+      - name: Puppeteer fix
         run: node node_modules/puppeteer/install.js
 
       - name: Deploy production

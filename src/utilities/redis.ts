@@ -1,7 +1,8 @@
 import IORedis from "ioredis";
+import { Consts } from "./consts";
 
 // ENV
-const URL = process.env.REDIS_HOST ?? "redis://localhost:56379";
+const URL = Consts.REDIS_HOST;
 export const redis = new IORedis(URL);
 
 /**

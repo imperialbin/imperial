@@ -133,7 +133,7 @@
     <div id="<%= document.URL %>">
       <a href="/p/<%= document.URL %>" class="noOpacity">
         <div class="tile"><i class="fas fa-file-alt"></i></div>
-        <input type="text" name="documentInfo" class="document" value="<%= document.URL %>" readonly>
+        <input type="text" name="documentInfo" class="<%- !document.encrypted ? 'document' : 'document longDocument' %>" value="<%= document.URL %>" readonly>
       </a>
       <div class="secondaryTiles">
         <% if (!document.instantDelete) { %>
@@ -292,21 +292,24 @@
     <form action="/admin/giveCode" method="POST">
       <input type="text" id="_id" name="_id" style="display: none;" value="<%= user._id %>">
 
-      <button type="submit" class="tooltip alignedLeftBtn" data-tippy-content="Create user an invite code">Create
+      <button onclick="createInvite()" id="createInviteBtn" type="submit" class="tooltip alignedLeftBtn" data-tippy-content="Create user an invite code">Create
         invite</button>
     </form>
-    <% user.codes.forEach(code => { %>
-    <div>
-      <div class="tile"><i class="fas fa-qrcode"></i></div>
-      <input type="text" name="code" value="<%= code %>" readonly>
-      <div class="secondaryTiles">
-        <div class="secondaryTile codeTile tooltip" data-tippy-content="Copy"
-          onclick="copyThisPlease('https://www.imperialb.in/register?inviteCode=<%= code %>')">
-          <i id="https://www.imperialb.in/register?inviteCode=<%= code %>-icon" class="fas fa-copy"></i>
+
+    <div class="invites">
+      <% user.codes.forEach(code => { %>
+      <div>
+        <div class="tile"><i class="fas fa-qrcode"></i></div>
+        <input type="text" name="code" value="<%= code %>" readonly>
+        <div class="secondaryTiles">
+          <div class="secondaryTile codeTile tooltip" data-tippy-content="Copy"
+            onclick="copyThisPlease('https://www.imperialb.in/register?inviteCode=<%= code %>')">
+            <i id="https://www.imperialb.in/register?inviteCode=<%= code %>-icon" class="fas fa-copy"></i>
+          </div>
         </div>
       </div>
+      <% }) %>
     </div>
-    <% }) %>
 
     <!-- API STUFF -->
     <h2 id="api">API</h2>
@@ -360,6 +363,18 @@
       animation: 'shift-away',
       placement: 'top'
     })
+    
+    function copyThisPlease(thingToCopy) {
+      const stupidBox = document.createElement('textarea');
+      stupidBox.value = thingToCopy;
+      document.body.appendChild(stupidBox)
+      stupidBox.select()
+      document.execCommand('copy');
+      document.body.removeChild(stupidBox)
+      document.getElementById(`${thingToCopy}-icon`).classList.replace('fa-copy', 'fa-check')
+      setTimeout(() => document.getElementById(`${thingToCopy}-icon`).classList.replace('fa-check', 'fa-copy'), 1000)
+    }
+
     function saveUserSettings() {
       const userSaveBtn = document.getElementById('userSaveBtn');
       userSaveBtn.innerHTML = 'Saving...'
@@ -397,6 +412,42 @@
         .catch(err => {
           console.error(err)
           userSaveBtn.innerHTML = 'Failed!'
+        })
+    }
+    
+    const createInvite = () => {
+      const createInviteBtn = document.getElementById("createInviteBtn");
+      createInviteBtn.innerHTML = "Creating..."
+      createInviteBtn.disabled = true;
+
+      fetch("/account/createInvite", {
+        method: "POST",
+      })
+        .then((parseRes => parseRes.json()))
+        .then(res => {
+          if (!res.success)
+            return createInviteBtn.innerHTML = "Failed!"
+
+          const inviteList = document.querySelector(".invites");
+
+          inviteList.innerHTML += `
+            <div>
+              <div class="tile"><i class="fas fa-qrcode"></i></div>
+              <input type="text" name="code" value="${res.code}" readonly>
+              <div class="secondaryTiles">
+                <div class="secondaryTile codeTile tooltip" data-tippy-content="Copy"
+                  onclick="copyThisPlease('https://www.imperialb.in/register?inviteCode=${res.code}')">
+                  <i id="https://www.imperialb.in/register?inviteCode=${res.code}-icon" class="fas fa-copy"></i>
+                </div>
+              </div>
+            </div>
+        `
+
+          createInviteBtn.innerHTML = "Created!"
+          setTimeout(() => {
+            createInviteBtn.innerHTML = "Create invite"
+            createInviteBtn.disabled = false;
+          }, 2000);
         })
     }
   </script>

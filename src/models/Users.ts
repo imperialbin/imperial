@@ -1,14 +1,10 @@
 import { Document, Schema } from "mongoose";
 import { userDatabase } from "../utilities/connectDatabases";
 
-/* ¡¿ESTÁS LEVANTADO?!  ¡¿ESTÁS BUSCANDO ESA BOLSA ?!  ¡¿ESTÁS CORRIENDO  HACIA
-ESA BOLSA ?! ¡¿ESTÁS VOLANDO  A ESA BOLSA ?! ¡¿ESTÁS CONDUCIENDO A ESA BOLSA ?!
-¡¿ESTÁS NADANDO  A ESA BOLSA ?! ¡¿ESTÁS ESPERANDO A ESA BOLSA ?! DEBES
-LEVANTARTE !!!   ¡¡PORQUE DEBEMOS SER RICOS !! */
-
 export interface UserSettings {
   clipboard: boolean;
   longerUrls: boolean;
+  shortUrls: boolean;
   instantDelete: boolean;
   encrypted: boolean;
   expiration: number;
@@ -35,6 +31,7 @@ export interface IUser {
   discordId: string | null;
   githubAccess: string | null;
   admin: boolean;
+  opt: string | null;
   settings: UserSettings;
 }
 
@@ -59,9 +56,11 @@ export const Users = userDatabase.model<IUser & Document>(
     admin: Boolean,
     discordId: String || null,
     githubAccess: String || null,
+    opt: String || null,
     settings: {
       clipboard: Boolean,
       longerUrls: Boolean,
+      shortUrls: Boolean,
       instantDelete: Boolean,
       encrypted: Boolean,
       expiration: Number,

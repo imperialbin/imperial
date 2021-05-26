@@ -37,6 +37,8 @@ export const createDocument = async (
 
     const URL = documentSettings.longerUrls
       ? generateString(26)
+      : documentSettings.shortUrls
+      ? generateString(4) // If they want short URLs
       : generateString(8);
 
     // Check if the language they passed is a valid language, if its not, set it to auto
@@ -48,9 +50,8 @@ export const createDocument = async (
 
     if (documentSettings.language === "auto" || !documentSettings.language) {
       const detectLanguage = hljs.highlightAuto(code);
-      if (detectLanguage.relevance >= 5) {
+      if (detectLanguage.relevance >= 5)
         documentSettings.language = detectLanguage.language;
-      }
     }
 
     try {
@@ -68,6 +69,7 @@ export const createDocument = async (
         allowedEditors: documentSettings.editors,
         encrypted: documentSettings.encrypted,
         gist: null,
+        public: documentSettings.public,
         encryptedIv: documentSettings.encrypted
           ? initVector?.toString("hex")
           : null,
@@ -86,10 +88,11 @@ export const createDocument = async (
             createGist(user._id, code, URL);
 
           if (
-            documentSettings.quality &&
-            !documentSettings.instantDelete &&
-            documentSettings.imageEmbed &&
-            !documentSettings.encrypted
+            documentSettings.public ||
+            (documentSettings.quality &&
+              !documentSettings.instantDelete &&
+              documentSettings.imageEmbed &&
+              !documentSettings.encrypted)
           )
             screenshotDocument(URL, documentSettings.quality);
 

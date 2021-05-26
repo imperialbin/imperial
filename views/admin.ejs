@@ -1,125 +1,215 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <title>IMPERIAL | Admin panel</title>
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="96x96"
+      href="/assets/favicon/favicon-96x96.png"
+    />
+    <link rel="stylesheet" href="/assets/css/reallyGlobal.css?v=2" />
+    <link rel="stylesheet" href="/assets/css/secondary.css" />
+    <link rel="stylesheet" href="/assets/css/admin.css" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/tippy.js@6.2.7/animations/shift-away.css"
+    />
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500&display=swap" rel="stylesheet">
-  <title>IMPERIAL | Admin panel</title>
-  <link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon/favicon-96x96.png">
-  <link rel="stylesheet" href="/assets/css/reallyGlobal.css?v=2">
-  <link rel="stylesheet" href="/assets/css/secondary.css">
-  <link rel="stylesheet" href="/assets/css/admin.css">
-  <link rel="stylesheet" href="https://unpkg.com/tippy.js@6.2.7/animations/shift-away.css" />
-  <script src="https://unpkg.com/@popperjs/core@2"></script>
-  <script src="https://unpkg.com/tippy.js@6"></script>
-</head>
-
-<body>
-  <main>
-    <a href="/">
-      <img src="/assets/img/Logo.png" alt="IMPERIAL Logo" class="logo" draggable="false">
-    </a>
-    <div class="container">
-      <h2>Admin panel</h2>
-      <div class="actualStuff">
-        <div>
-          <div class="tile"><i class="fas fa-user" id="edit-icon"></i></div>
-          <input type="text" id="email" name="email" placeholder="Email or username..." autocomplete="off" autofocus
-            required>
+  <body>
+    <main>
+      <a href="/">
+        <img
+          src="/assets/img/Logo.png"
+          alt="IMPERIAL Logo"
+          class="logo"
+          draggable="false"
+        />
+      </a>
+      <div class="container">
+        <h2>Admin panel</h2>
+        <div class="actualStuff">
+          <div>
+            <div class="tile"><i class="fas fa-user" id="edit-icon"></i></div>
+            <input
+              type="text"
+              id="email"
+              name="email"
+              placeholder="Email or username..."
+              autocomplete="off"
+              autofocus
+              required
+            />
+          </div>
+          <ul class="user-selection" id="usersArea"></ul>
         </div>
-        <ul class="user-selection" id="usersArea">
-        </ul>
-      </div>
-      <br>
-      <br><br>
-      <h2>Most recent documents made</h2>
-      <% recentDocuments.forEach(document => { %>
-      <div id="<%= document.URL %>">
-        <a href="/p/<%= document.URL %>" class="noOpacity">
-          <div class="tile"><i class="fas fa-file-alt"></i></div>
-          <input type="text" name="documentInfo"
-            class="<%- !document.encrypted ? 'document' : 'document longDocument' %>" value="<%= document.URL %>"
-            readonly>
-        </a>
-        <div class="secondaryTiles">
-          <% if (!document.instantDelete) { %>
-          <div class="secondaryTile infoTip"
-            data-tippy-content="Deleting <%= new Date(document.deleteDate).getMonth() + 1 %>/<%= new Date(document.deleteDate).getDate() %>/<%= new Date(document.deleteDate).getFullYear() %>">
-            <i class="fas fa-info"></i>
+        <br />
+        <br /><br />
+        <h2>Create an invite</h2>
+        <br />
+        <button class="alignedBtnLeft" onclick="createInvite()">
+          Create Normal Invite
+        </button>
+        <br />
+        <span id="normalInvite"></span>
+        <br />
+        <button class="alignedBtnLeft" onclick="createMemberPlusInvite()">
+          Create Member+ Invite
+        </button>
+        <br />
+        <span id="memberPlusInvite"></span>
+        <br /><br />
+        <h2>Most recent documents made</h2>
+        <% recentDocuments.forEach(document => { %>
+        <div id="<%= document.URL %>">
+          <a href="/p/<%= document.URL %>" class="noOpacity">
+            <div class="tile"><i class="fas fa-file-alt"></i></div>
+            <input
+              type="text"
+              name="documentInfo"
+              class="<%- !document.encrypted ? 'document' : 'document longDocument' %>"
+              value="<%= document.URL %>"
+              readonly
+            />
+          </a>
+          <div class="secondaryTiles">
+            <% if (!document.instantDelete) { %>
+            <div
+              class="secondaryTile infoTip"
+              data-tippy-content="Deleting <%= new Date(document.deleteDate).getMonth() + 1 %>/<%= new Date(document.deleteDate).getDate() %>/<%= new Date(document.deleteDate).getFullYear() %>"
+            >
+              <i class="fas fa-info"></i>
+            </div>
+            <% } else { %>
+            <div
+              class="secondaryTile infoTip redColor"
+              data-tippy-content="Deletes after being viewed"
+            >
+              <i class="fas fa-info"></i>
+            </div>
+            <% } %> <% if (document.encrypted) { %>
+            <div
+              class="secondaryTile infoTip key"
+              data-tippy-content="Password protected"
+            >
+              <i class="fas fa-key"></i>
+            </div>
+            <% } %>
           </div>
-          <% } else { %>
-          <div class="secondaryTile infoTip redColor" data-tippy-content="Deletes after being viewed"><i class="fas fa-info"></i>
-          </div>
-          <% } %>
-
-          <% if (document.encrypted) { %>
-          <div class="secondaryTile infoTip key" data-tippy-content="Password protected"><i class="fas fa-key"></i>
-          </div>
-          <% } %>
         </div>
+        <% }) %>
+        <br />
+        <h2>Most recent Users</h2>
+        <% recentUsers.forEach(user => { %>
+        <div id="<%= user.name %>">
+          <a class="noOpacity" href="/admin/user/<%= user._id %>">
+            <div class="tile"><i class="fas fa-user"></i></div>
+            <input
+              type="text"
+              class="document"
+              value="<%= user.name %>"
+              readonly
+            />
+          </a>
+        </div>
+        <% }) %>
+        <br /><br />
       </div>
-      <% }) %>
-      <br>
-      <h2>Most recent Users</h2>
-      <% recentUsers.forEach(user => { %>
-      <div id="<%= user.name %>">
-        <a class="noOpacity" href="/admin/user/<%= user._id %>">
-          <div class="tile"><i class="fas fa-user"></i></div>
-          <input type="text" class="document" value="<%= user.name %>" readonly>
-        </a>
+      <div class="waves">
+        <img
+          src="/assets/img/wave.svg"
+          alt="IMPERIAL Wave svg"
+          class="wave"
+          draggable="false"
+        />
       </div>
-      <% }) %>
-      <br><br>
-    </div>
-    <div class="waves">
-      <img src="/assets/img/wave.svg" alt="IMPERIAL Wave svg" class="wave" draggable="false">
-    </div>
-  </main>
-  <script>
-    tippy('.infoTip', {
-      animation: 'shift-away',
-      placement: 'right'
-    })
-    const input = document.getElementById('email');
-    const iconIcon = document.getElementById('edit-icon');
-    let timeout;
+    </main>
+    <script>
+      tippy(".infoTip", {
+        animation: "shift-away",
+        placement: "right",
+      });
+      const input = document.getElementById("email");
+      const iconIcon = document.getElementById("edit-icon");
+      let timeout;
 
-    input.addEventListener('keyup', () => {
-      const userList = document.getElementById('usersArea');
-      userList.classList.add('active');
-      iconIcon.classList.replace('fa-user', 'fa-minus');
-      iconIcon.classList.replace('fa-check', 'fa-minus');
-      clearTimeout(timeout);
+      input.addEventListener("keyup", () => {
+        const userList = document.getElementById("usersArea");
+        userList.classList.add("active");
+        iconIcon.classList.replace("fa-user", "fa-minus");
+        iconIcon.classList.replace("fa-check", "fa-minus");
+        clearTimeout(timeout);
 
-      timeout = setTimeout(() => {
-        fetch(`/admin/getUsers/${input.value}`)
-          .then(res => res.json())
-          .then(actualRes => {
-            const users = actualRes.users
-            userList.innerHTML = ''
-            iconIcon.classList.replace('fa-minus', 'fa-check');
+        timeout = setTimeout(() => {
+          fetch(`/admin/getUsers/${input.value}`)
+            .then((res) => res.json())
+            .then((actualRes) => {
+              const users = actualRes.users;
+              userList.innerHTML = "";
+              iconIcon.classList.replace("fa-minus", "fa-check");
 
-            if (users.length <= 0) return userList.innerHTML = '<li class="user-select">Couldn\'t find that user!</li>'
+              if (users.length <= 0)
+                return (userList.innerHTML =
+                  '<li class="user-select">Couldn\'t find that user!</li>');
 
-            users.forEach(user => {
-              const userItem = document.createElement('li');
-              userItem.className = 'user-select';
-              userItem.innerHTML = `
+              users.forEach((user) => {
+                const userItem = document.createElement("li");
+                userItem.className = "user-select";
+                userItem.innerHTML = `
               <a class="whatTheFuck" href="/admin/user/${user._id}">
                 <img src="${user.icon}" class="icon">
                 ${user.name} <div class="email"> (${user.email})</div>
               </a>
-              `
-              userList.append(userItem)
+              `;
+                userList.append(userItem);
+              });
             })
-          }).catch(err => {
-            console.log(err)
-          })
-      }, 800)
-    })
-  </script>
-  <script src="https://kit.fontawesome.com/ec3f0c8487.js" crossorigin="anonymous"></script>
-</body>
+            .catch((err) => {
+              console.log(err);
+            });
+        }, 800);
+      });
 
+      const createInvite = () => {
+        fetch("/admin/createInvite", { method: "POST" })
+          .then((parseRes) => parseRes.json())
+          .then((res) => {
+            const span = document.getElementById("normalInvite");
+
+            if (!res.success)
+              return (span.innerHTML =
+                "An error occurred whilst creating the code!");
+
+            span.innerHTML = res.code;
+          });
+      };
+
+      const createMemberPlusInvite = () => {
+        fetch("/admin/createMemberPlusInvite", { method: "POST" })
+          .then((parseRes) => parseRes.json())
+          .then((res) => {
+            const span = document.getElementById("memberPlusInvite");
+
+            if (!res.success)
+              return (span.innerHTML =
+                "An error occurred whilst creating the code!");
+
+            span.innerHTML = res.code;
+          });
+      };
+    </script>
+    <script
+      src="https://kit.fontawesome.com/ec3f0c8487.js"
+      crossorigin="anonymous"
+    ></script>
+  </body>
 </html>
