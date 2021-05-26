@@ -1,7 +1,6 @@
 import { Router, Request, Response } from "express";
 import { Users } from "../models/Users";
 import isBot from "isbot";
-import { existsSync } from "fs";
 
 // Utilities
 import { decrypt } from "../utilities/decrypt";

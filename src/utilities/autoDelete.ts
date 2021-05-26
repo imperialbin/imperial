@@ -1,6 +1,6 @@
 import { CronJob } from "cron";
 import { Documents } from "../models/Documents";
-import { existsSync, unlinkSync } from "fs";
+import { s3 } from "./aws";
 
 export default new CronJob("00 00 00 * * *", async () => {
   console.log("Running deletion");
@@ -11,12 +11,11 @@ export default new CronJob("00 00 00 * * *", async () => {
   for (const document of documentsReadyToBeDelete) {
     await Documents.deleteOne({ _id: document._id });
     try {
-      if (
-        document.imageEmbed &&
-        existsSync(`../public/assets/img/${document.URL}.jpg`)
-      ) {
-        unlinkSync(`../public/assets/img/${document.URL}.jpg`);
-      }
+      if (document.imageEmbed)
+        await s3.deleteObject({
+          Bucket: "imperial",
+          Key: `${document.URL}.jpg`,
+        });
     } catch (err) {
       console.log(err);
     }

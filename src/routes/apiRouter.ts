@@ -1,7 +1,6 @@
 import { Router, Request, Response } from "express";
 import { IUser, Users } from "../models/Users";
 import { Documents, IDocument } from "../models/Documents";
-import { existsSync, unlinkSync } from "fs";
 
 // Utilities
 import { throwApiError } from "../utilities/throwApiError";
@@ -9,6 +8,7 @@ import { DocumentSettings } from "../utilities/documentSettingsInterface";
 import { decrypt } from "../utilities/decrypt";
 import { createDocument } from "../utilities/createDocument";
 import { editGist } from "../utilities/editGist";
+import { s3 } from "../utilities/aws";
 
 export const routes = Router();
 
@@ -302,11 +302,11 @@ routes.delete("/document/:documentId", async (req: Request, res: Response) => {
           );
 
         await Documents.deleteOne({ URL: documentId });
-        if (
-          document.imageEmbed &&
-          existsSync(`./public/assets/img/${documentId}.jpg`)
-        )
-          unlinkSync(`./public/assets/img/${documentId}.jpg`);
+        if (document.imageEmbed)
+          await s3.deleteObject({
+            Bucket: "imperial",
+            Key: `${documentId}.jpg`,
+          });
 
         return res.json({
           success: true,
@@ -355,11 +355,11 @@ routes.delete("/purgeDocuments", (req: Request, res: Response) => {
 
         await Documents.deleteMany({ creator });
         for (const document of documents) {
-          if (
-            document.imageEmbed &&
-            existsSync(`./public/assets/img/${document.URL}.jpg`)
-          )
-            unlinkSync(`./public/assets/img/${document.URL}.jpg`);
+          if (document.imageEmbed)
+            await s3.deleteObject({
+              Bucket: "imperial",
+              Key: `${document.URL}.jpg`,
+            });
         }
 
         if (req.isAuthenticated()) return res.redirect("/account");

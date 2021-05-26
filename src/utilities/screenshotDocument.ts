@@ -1,12 +1,6 @@
 import puppeteer from "puppeteer";
-import { S3 } from "aws-sdk";
 import { Consts } from "./consts";
-
-const s3 = new S3({
-  region: Consts.AWS_REGION,
-  accessKeyId: Consts.AWS_ACCESS,
-  secretAccessKey: Consts.AWS_SECRET,
-});
+import { s3 } from "./aws";
 
 /**
  * @param  {string} documentId
