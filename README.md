@@ -1,5 +1,7 @@
 
 # imperialb.in
+
+[![Deploy](https://github.com/imperialbin/imperial/actions/workflows/deploy.yml/badge.svg)](https://github.com/imperialbin/imperial/actions/workflows/deploy.yml)
 #### Imperial is a code/text sharing site with the user experience in mind, it has feautures such as editing, encryption and integration with github gists and discord.
 [![BUILT WITH SWAG](https://forthebadge.com/images/badges/built-with-swag.svg)](https://forthebadge.com) [![MADE WITH TYPESCRIPT](https://forthebadge.com/images/badges/made-with-typescript.svg)](https://forthebadge.com)
 
