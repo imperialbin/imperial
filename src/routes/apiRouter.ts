@@ -303,10 +303,12 @@ routes.delete("/document/:documentId", async (req: Request, res: Response) => {
 
         await Documents.deleteOne({ URL: documentId });
         if (document.imageEmbed)
-          await s3.deleteObject({
-            Bucket: "imperial",
-            Key: `${documentId}.jpg`,
-          });
+          await s3
+            .deleteObject({
+              Bucket: "imperial",
+              Key: `${documentId}.jpg`,
+            })
+            .promise();
 
         return res.json({
           success: true,
@@ -356,10 +358,12 @@ routes.delete("/purgeDocuments", (req: Request, res: Response) => {
         await Documents.deleteMany({ creator });
         for (const document of documents) {
           if (document.imageEmbed)
-            await s3.deleteObject({
-              Bucket: "imperial",
-              Key: `${document.URL}.jpg`,
-            });
+            await s3
+              .deleteObject({
+                Bucket: "imperial",
+                Key: `${document.URL}.jpg`,
+              })
+              .promise();
         }
 
         if (req.isAuthenticated()) return res.redirect("/account");
