@@ -12,10 +12,12 @@ export default new CronJob("00 00 00 * * *", async () => {
     await Documents.deleteOne({ _id: document._id });
     try {
       if (document.imageEmbed)
-        await s3.deleteObject({
-          Bucket: "imperial",
-          Key: `${document.URL}.jpg`,
-        });
+        await s3
+          .deleteObject({
+            Bucket: "imperial",
+            Key: `${document.URL}.jpg`,
+          })
+          .promise();
     } catch (err) {
       console.log(err);
     }
