@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="96x96"
+      href="/assets/favicon/favicon-96x96.png"
+    />
+    <meta property="og:image" content="/assets/favicon/favicon-96x96.png" />
+    <title>IMPERIAL - Public Documents</title>
+    <meta
+      name="description"
+      content="Take a look at the communities public documents!"
+    />
+    <meta
+      name="keywords"
+      content="public, public documents, Imperial, Imperialb, Imperialbin, imperialb.in, hastebin, bin, paste, instant delete pastes, document sharing, code sharing, visual studio code, vsce, vsc, vs, visual studio, code, developer, developers, dev, devlooskie, looskie, looskieee, IMPERIAL, paste your document, paste, your, document, editor, invite only, invite, api, restful api, json api, discord"
+    />
+    <link
+      rel="stylesheet"
+      href="/assets/css/reallyGlobal.css?cum=fgedswwergewrggwefr"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/tippy.js@6.2.7/animations/shift-away.css?cum=fgedswgwefr"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      src="https://kit.fontawesome.com/ec3f0c8487.js?cum=fgedswgwefrwerg"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://unpkg.com/@popperjs/core@2?cum=fgedswergwgwefr"></script>
+    <script src="https://unpkg.com/tippy.js@6?cum=fgedswgergwefr"></script>
+  </head>
+
+  <body>
+    <a href="/">
+      <img src="/assets/img/logo.png" alt="IMPERIAL logo" class="logo" />
+    </a>
+    <h1 id="publicDocuments">Public Documents</h1>
+    <br /><br />
+    <br /><br />
+    <div class="publicDocuments">
+      <% documents.forEach(document => { %>
+      <a class="linkToDocument" href="/p/<%= document.URL %>">
+        <div class="document" id="<%= document.URL %>">
+          <img
+            src="https://imperial.s3.amazonaws.com/<%= document.URL %>.jpg"
+            alt="<%= document.URL%> Preview"
+            class="documentImage"
+            draggable="false"
+          />
+          <div class="bottomOfDocument">
+            <h1 class="documentTitle">Document <%= document.URL %></h1>
+            <span class="documentDate"
+              >Created <%= new Date(document.dateCreated).getMonth() + 1 %>/<%=
+              new Date(document.dateCreated).getDate() %>/<%= new
+              Date(document.dateCreated).getFullYear() %></span
+            >
+          </div>
+        </div>
+      </a>
+      <% }) %>
+    </div>
+  </body>
+</html>

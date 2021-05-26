@@ -1,11 +1,16 @@
-// @ts-ignore uwu
-import nodeMailer from "nodemailer";
+import aws from "aws-sdk";
+import { Consts } from "./consts";
 
 // ENV stuff
-const HOST = process.env.EMAIL_HOST,
-  PORT = process.env.EMAIL_PORT,
-  USER = process.env.EMAIL_USER,
-  PASS = process.env.EMAIL_PASS;
+const region = Consts.AWS_REGION,
+  accessKeyId = Consts.AWS_ACCESS,
+  secretAccessKey = Consts.AWS_SECRET;
+
+export const ses = new aws.SES({
+  region,
+  accessKeyId,
+  secretAccessKey,
+});
 
 /**
  * @param  {string} to
@@ -18,35 +23,25 @@ export const mail = (
   subject: string,
   html: string
 ): Promise<string> => {
-  // Emailing settings
-  const transporter = nodeMailer.createTransport({
-    host: HOST,
-    port: PORT,
-    secure: true,
-    auth: {
-      user: USER,
-      pass: PASS,
-    },
-    tls: {
-      rejectUnauthorized: false,
-    },
-  });
-
-  const mailOptions = {
-    from: `"IMPERIAL | Contact" <${USER}>`,
-    to,
-    subject,
-    html,
-  };
-
-  // Return a promise to email the user
   return new Promise<string>((resolve, reject) => {
-    transporter.sendMail(mailOptions, async (err: string) => {
-      if (err) {
-        console.log(err);
-        return reject("An error has occurred whilst emailing");
-      }
-      resolve("Successfully emailed user!");
-    });
+    try {
+      ses
+        .sendEmail({
+          Destination: {
+            ToAddresses: [to],
+          },
+          Message: {
+            Body: {
+              Html: { Charset: "UTF-8", Data: html },
+            },
+            Subject: { Charset: "UTF-8", Data: subject },
+          },
+          Source: "IMPERIAL | Contact <noreply@imperialb.in>",
+        })
+        .promise();
+      return resolve("Successfully emailed user!");
+    } catch (err) {
+      return reject("An error occurred while emailing user!");
+    }
   });
 };

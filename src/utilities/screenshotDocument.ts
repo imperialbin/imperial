@@ -1,4 +1,12 @@
 import puppeteer from "puppeteer";
+import { S3 } from "aws-sdk";
+import { Consts } from "./consts";
+
+const s3 = new S3({
+  region: Consts.AWS_REGION,
+  accessKeyId: Consts.AWS_ACCESS,
+  secretAccessKey: Consts.AWS_SECRET,
+});
 
 /**
  * @param  {string} documentId
@@ -15,7 +23,7 @@ export const screenshotDocument = async (
   });
   const page = await browser.newPage();
 
-  await page.goto(`${process.env.MAIN_URI}/p/${documentId}`);
+  await page.goto(`${Consts.MAIN_URI}/p/${documentId}`);
   await page.waitForSelector(".ace_content");
   await page.addStyleTag({
     content:
@@ -45,16 +53,25 @@ export const screenshotDocument = async (
   if (elementToScreenshot) {
     const boundingBox = await elementToScreenshot.boundingBox();
 
-    await elementToScreenshot.screenshot({
-      path: `./public/assets/img/${documentId}.jpg`,
+    const screenshot = await elementToScreenshot.screenshot({
+      type: "jpeg",
       quality,
       clip: {
         x: boundingBox?.x,
         y: boundingBox?.y,
-        width: Math.min(boundingBox!.width, Math.floor(widthOfDocument)),
-        height: Math.min(boundingBox!.height, Math.floor(heightOfDocument)),
+        width: Math.min(boundingBox!.width),
+        height: Math.min(boundingBox!.height),
       },
     });
+
+    await s3.upload({
+      Bucket: "imperial",
+      Key: `${documentId}.jpg`,
+      // @ts-ignore
+      Body: screenshot,
+      ContentEncoding: "base64",
+      ContentType: "image/jpg",
+    }).promise();
   }
 
   await browser.close();

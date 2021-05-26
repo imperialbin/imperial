@@ -52,10 +52,6 @@ routes.get(
           deleteDate = `Deletes on ${date.day}/${date.month}/${date.year}`;
         }
 
-        const enableImageEmbed = !!(
-          document.imageEmbed &&
-          existsSync(`./public/assets/img/${document?.URL}.jpg`)
-        );
         if (req.isAuthenticated()) {
           const _id = req.user?._id.toString();
 
@@ -69,7 +65,7 @@ routes.get(
             return res.render("pasted.ejs", {
               documentName: documentId,
               language: document.language,
-              imageEmbed: enableImageEmbed,
+              imageEmbed: document.imageEmbed,
               code: document.code,
               loggedIn: false,
               deleteDate: deleteDate,
@@ -84,7 +80,7 @@ routes.get(
 
           return res.render("pasted.ejs", {
             documentName: documentId,
-            imageEmbed: enableImageEmbed,
+            imageEmbed: document.imageEmbed,
             language: document.language,
             code: document?.code,
             loggedIn: true,
@@ -100,7 +96,7 @@ routes.get(
         } else {
           return res.render("pasted.ejs", {
             documentName: documentId,
-            imageEmbed: enableImageEmbed,
+            imageEmbed: document.imageEmbed,
             language: document.language,
             code: document.code,
             loggedIn: false,
@@ -152,12 +148,7 @@ routes.post("/getDocumentAccess/:documentId", (req: Request, res: Response) => {
           };
           deleteDate = `Deletes on ${date.day}/${date.month}/${date.year}.`;
         }
-        const enableImageEmbed = !!(
-          document.imageEmbed &&
-          existsSync(`./public/assets/img/${document.URL}.jpg`)
-        );
 
-        console.log(document.language);
         if (req.isAuthenticated()) {
           const _id = req.user?._id.toString();
           const user = await Users.findOne({ _id });
@@ -165,7 +156,7 @@ routes.post("/getDocumentAccess/:documentId", (req: Request, res: Response) => {
             return res.render("pasted.ejs", {
               documentName: documentId,
               language: document.language,
-              imageEmbed: enableImageEmbed,
+              imageEmbed: document.imageEmbed,
               code: code,
               loggedIn: false,
               deleteDate: deleteDate,
@@ -179,7 +170,7 @@ routes.post("/getDocumentAccess/:documentId", (req: Request, res: Response) => {
 
           return res.render("pasted.ejs", {
             documentName: documentId,
-            imageEmbed: enableImageEmbed,
+            imageEmbed: document.imageEmbed,
             language: document.language,
             code: code,
             loggedIn: true,
@@ -195,7 +186,7 @@ routes.post("/getDocumentAccess/:documentId", (req: Request, res: Response) => {
         } else {
           return res.render("pasted.ejs", {
             documentName: documentId,
-            imageEmbed: enableImageEmbed,
+            imageEmbed: document.imageEmbed,
             language: document.language,
             code: code,
             loggedIn: false,

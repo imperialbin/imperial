@@ -1,6 +1,8 @@
 import { Router, Request, Response } from "express";
 import { Documents } from "../models/Documents";
 import { IUser, Users } from "../models/Users";
+import { Consts } from "../utilities/consts";
+import { signToken } from "../utilities/signToken";
 import fetch from "node-fetch";
 
 // Utilities
@@ -9,9 +11,9 @@ import { getDocuments } from "../utilities/getDocuments";
 
 export const routes = Router();
 
-const DISCORD_BOT_TOKEN = process.env.DISCORD_BOT_TOKEN;
-const DISCORD_GUILD = process.env.DISCORD_GUILD;
-const DISCORD_ROLE_MEMBER_PLUS = process.env.DISCORD_ROLE_MEMBER_PLUS;
+const DISCORD_BOT_TOKEN = Consts.DISCORD_BOT_TOKEN;
+const DISCORD_GUILD = Consts.DISCORD_GUILD;
+const DISCORD_ROLE_MEMBER_PLUS = Consts.DISCORD_ROLE_MEMBER_PLUS;
 
 routes.get("/", async (req: Request, res: Response) => {
   const recentDocuments = await Documents.find({})
@@ -60,11 +62,11 @@ routes.post("/updateUser/:_id", (req: Request, res: Response) => {
     if (err)
       return res.json({
         success: false,
-        message: "An error occurred whilst saving your settings!",
+        message: "An error occurred whilst saving their settings!",
       });
     res.json({
       success: true,
-      message: "Successfully changed your user settings!",
+      message: "Successfully changed users settings!",
     });
   });
 });
@@ -124,6 +126,42 @@ routes.post("/giveCode", async (req: Request, res: Response) => {
   res.redirect(`/admin/user/${_id}`);
 });
 
-routes.post("/changeUsersSetting", async (req: Request, res: Response) => {
-  const _id = req.body._id;
+routes.post("/createInvite", async (req: Request, res: Response) => {
+  const user = req.user;
+
+  if (!user) return;
+
+  try {
+    const code = generateString(8);
+    await Users.updateOne(
+      { _id: user._id },
+      {
+        $push: { codes: code },
+      }
+    );
+    res.json({
+      success: true,
+      code,
+    });
+  } catch (err) {
+    res.json({
+      success: false,
+      message: "An error has occurred!",
+    });
+  }
+});
+
+routes.post("/createMemberPlusInvite", (req: Request, res: Response) => {
+  try {
+    const code = signToken(generateString(33));
+    res.json({
+      success: true,
+      code,
+    });
+  } catch (err) {
+    res.json({
+      success: false,
+      message: "An error has occurred!",
+    });
+  }
 });
