@@ -161,6 +161,7 @@ routes.get("/document/:documentId", (req: Request, res: Response) => {
         content: code,
         document: {
           documentId: document.URL,
+          public: document.public || false,
           language: document.language,
           imageEmbed: document.imageEmbed,
           instantDelete: document.instantDelete,
@@ -249,6 +250,7 @@ routes.patch("/document", (req: Request, res: Response) => {
           formattedLink: `https://imperialb.in/p/${documentId}`,
           document: {
             documentId: document.URL,
+            public: document.public || false,
             language: document.language,
             imageEmbed: document.imageEmbed,
             instantDelete: document.instantDelete,

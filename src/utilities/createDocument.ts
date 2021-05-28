@@ -105,6 +105,7 @@ export const createDocument = async (
               formattedLink: `https://${host}/p/${URL}`,
               document: {
                 documentId: document.URL,
+                public: document.public || false,
                 language: document.language,
                 imageEmbed: document.imageEmbed,
                 instantDelete: document.instantDelete,
