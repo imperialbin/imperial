@@ -322,6 +322,13 @@ li.deletePaste {
   height: 100%;
   color: var(--text-light);
 }
+#codeThing * {
+  transition: transform 0s;
+  -webkit-transition: transform 0s;
+  -moz-transition: transform 0s;
+  -ms-transition: transform 0s;
+  -o-transition: transform 0s;
+}
 
 .customStupidXButton {
   font-size: 20px;
