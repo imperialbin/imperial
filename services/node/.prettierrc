@@ -1,0 +1,8 @@
+{
+	"quoteProps": "consistent",
+	"printWidth": 120,
+	"bracketSpacing": false,
+	"singleQuote": true,
+	"useTabs": true,
+	"arrowParens": "avoid"
+}

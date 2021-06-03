@@ -1,0 +1,26 @@
+{
+	"name": "@imperial/app",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"dev": "../../node_modules/.bin/next dev",
+		"build": "../../node_modules/.bin/next build",
+		"start": "../../node_modules/.bin/next start"
+	},
+	"dependencies": {
+		"@chakra-ui/react": "^1.6.1",
+		"@emotion/react": "^11",
+		"@emotion/styled": "^11",
+		"@typescript-eslint/eslint-plugin": "^4.25.0",
+		"@typescript-eslint/parser": "^4.25.0",
+		"eslint-plugin-react": "^7.23.2",
+		"framer-motion": "^4",
+		"next": "10.2.0",
+		"react": "17.0.2",
+		"react-dom": "17.0.2"
+	},
+	"devDependencies": {
+		"@types/react": "^17.0.5",
+		"typescript": "^4.2.4"
+	}
+}
