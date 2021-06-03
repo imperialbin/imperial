@@ -1,0 +1,5 @@
+{
+  "scripts": {
+    "services-up": "docker compose up -d"
+  }
+}
