@@ -18,6 +18,7 @@ module.exports = {
 		'react/jsx-tag-spacing': 0,
 		'@typescript-eslint/comma-dangle': 0,
 		'react/function-component-definition': [2, {namedComponents: 'function-declaration'}],
+		'radix': 0,
 	},
 	ignorePatterns: ['**/*.js'],
 };

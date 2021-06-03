@@ -3,7 +3,7 @@ import React, {useEffect, useState} from 'react';
 
 // Ambient TypeScript import only
 import type {HelloResponseType} from './api/hello';
-import {APIErrorResponse, APIResponse} from '../util/api';
+import type {APIErrorResponse, APIResponse} from '../util/api';
 
 import * as imperial from '@imperial/components';
 
