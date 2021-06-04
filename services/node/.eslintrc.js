@@ -15,8 +15,8 @@ module.exports = {
 	},
 	plugins: ['react', '@typescript-eslint'],
 	rules: {
-		'react/jsx-tag-spacing': 0,
-		'@typescript-eslint/comma-dangle': 0,
+		'react/jsx-tag-spacing': 1,
+		'@typescript-eslint/comma-dangle': 1,
 		'react/function-component-definition': [2, {namedComponents: 'function-declaration'}],
 		'radix': 0,
 	},

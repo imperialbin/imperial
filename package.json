@@ -1,4 +1,6 @@
 {
+  "author": "devlooskie",
+  "license": "MPL-2.0",
   "scripts": {
     "services-up": "docker compose up -d"
   }
