@@ -40,9 +40,7 @@ async function main() {
   console.log(`${logPrefix} – preparing next.js`);
   await app.prepare();
 
-  console.log(
-    `${logPrefix} – next.js prepared! ready to start accepting connections`
-  );
+  console.log(`${logPrefix} – next.js prepared! ready to start accepting connections`);
 
   createServer(async (req, res) => {
     const start = Date.now();
@@ -56,8 +54,7 @@ async function main() {
 
     if (req.url.includes("/api/")) {
       const ip = (
-        (typeof req.headers["x-forwarded-for"] === "string" &&
-          req.headers["x-forwarded-for"].split(",").shift()) ||
+        (typeof req.headers["x-forwarded-for"] === "string" && req.headers["x-forwarded-for"].split(",").shift()) ||
         req.connection?.remoteAddress ||
         req.socket?.remoteAddress
       )?.toString() as string;
