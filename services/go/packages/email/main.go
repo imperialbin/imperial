@@ -9,6 +9,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/ses"
 	"github.com/joho/godotenv"
+	"github.com/streadway/amqp"
 )
 
 const (
@@ -26,8 +27,6 @@ func SESSession() (*session.Session, error) {
 /* Send Email */
 
 func sendEmail(template string, to string, data string) {
-	godotenv.Load()
-
 	config := &aws.Config{
 		Region:      aws.String(sesRegion),
 		Credentials: credentials.NewStaticCredentials(os.Getenv("AWS_ACCESS"), os.Getenv("AWS_SECRET"), ""),
@@ -75,5 +74,44 @@ func testAll() {
 }
 
 func main() {
-	testAll()
+	godotenv.Load()
+
+	fmt.Println("Connecting to RabbitMQ")
+	conn, err := amqp.Dial(os.Getenv("RABBITMQ_URI"))
+
+	if err != nil {
+		fmt.Println("error", err)
+		panic(err)
+	}
+
+	defer conn.Close()
+
+	fmt.Println("Connected to RabbitMQ")
+
+	channel, err := conn.Channel()
+	if err != nil {
+		fmt.Println("error", err)
+		panic(err)
+	}
+	defer channel.Close()
+
+	messages, err := channel.Consume(
+		"emails",
+		"",
+		true,
+		false,
+		false,
+		false,
+		nil,
+	)
+
+	forever := make(chan bool)
+	go func() {
+		for d := range messages {
+			fmt.Printf("Received message: %s\n", d.Body)
+		}
+	}()
+
+	fmt.Println("[*] - RabbitMQ idling for messages")
+	<-forever
 }
