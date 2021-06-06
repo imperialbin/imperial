@@ -4,5 +4,8 @@
   "scripts": {
     "dev-start-all": "docker compose up -d && yarn --cwd services/node/packages/app/ run dev",
     "services-up": "docker compose up -d"
+  },
+  "dependencies": {
+    "@types/amqp": "^0.2.4"
   }
 }
