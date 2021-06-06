@@ -1,6 +1,9 @@
 package main
 
 import (
+	"fmt"
+	"os"
+
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
@@ -27,10 +30,10 @@ func sendEmail(template string, to string, data string) {
 
 	config := &aws.Config{
 		Region:      aws.String(sesRegion),
-		Credentials: credentials.NewEnvCredentials(),
+		Credentials: credentials.NewStaticCredentials(os.Getenv("AWS_ACCESS"), os.Getenv("AWS_SECRET"), ""),
 	}
-	session := session.Must(session.NewSession((config)))
 
+	session := session.Must(session.NewSession((config)))
 	svc := ses.New(session)
 	from := "no-reply@imperialb.in"
 
@@ -43,12 +46,16 @@ func sendEmail(template string, to string, data string) {
 		TemplateData: &data,
 	}
 
-	svc.SendTemplatedEmail((email))
+	_, err := svc.SendTemplatedEmail((email))
+
+	if err != nil {
+		fmt.Println("error", err)
+	}
 }
 
 func testEmail() {
-	data := "{ \"token\":\"" + "test1234" + "\" }"
-	sendEmail("resetPassword", "hello@looskie.com", data)
+	data := "{ \"token\":\"TestToken\"  }"
+	sendEmail("ResetPassword", "hello@looskie.com", data)
 }
 
 func main() {
