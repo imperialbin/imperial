@@ -53,11 +53,27 @@ func sendEmail(template string, to string, data string) {
 	}
 }
 
-func testEmail() {
+func testResetPasswordEmail() {
 	data := "{ \"token\":\"TestToken\"  }"
 	sendEmail("ResetPassword", "hello@looskie.com", data)
 }
 
+func testNewLoginEmail() {
+	data := "{ }"
+	sendEmail("NewLogin", "hello@looskie.com", data)
+}
+
+func testConfirmEmail() {
+	data := "{ \"emailToken\":\"TestToken\"  }"
+	sendEmail("ConfirmEmail", "hello@looskie.com", data)
+}
+
+func testAll() {
+	testResetPasswordEmail()
+	testNewLoginEmail()
+	testConfirmEmail()
+}
+
 func main() {
-	testEmail()
+	testAll()
 }
