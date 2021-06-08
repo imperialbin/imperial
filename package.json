@@ -2,7 +2,7 @@
   "author": "devlooskie",
   "license": "MPL-2.0",
   "scripts": {
-    "dev-start-all": "docker compose up -d && yarn --cwd services/node/packages/app/ run dev",
+    "dev-start-node-docker": "docker compose up -d && yarn --cwd services/node/packages/app/ run dev",
     "services-up": "docker compose up -d"
   },
   "dependencies": {
