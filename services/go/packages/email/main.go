@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -105,13 +106,15 @@ func main() {
 		nil,
 	)
 
+	fmt.Println("[*] - RabbitMQ idling for messages")
+
 	forever := make(chan bool)
+
 	go func() {
-		for d := range messages {
-			fmt.Printf("Received message: %s\n", d.Body)
+		for message := range messages {
+			log.Printf(" > Received message: %s\n", message.Body)
 		}
 	}()
 
-	fmt.Println("[*] - RabbitMQ idling for messages")
 	<-forever
 }
