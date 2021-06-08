@@ -20,8 +20,10 @@
 		"ioredis": "^4.27.3",
 		"next": "10.2.0",
 		"prettier": "^2.3.0",
+		"rabbitode": "^3.0.4",
 		"react": "17.0.2",
-		"react-dom": "17.0.2"
+		"react-dom": "17.0.2",
+		"ts-node": "^10.0.0"
 	},
 	"devDependencies": {
 		"@types/ioredis": "^4.26.4",
