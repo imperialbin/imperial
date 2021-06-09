@@ -15,30 +15,34 @@ import (
 
 const (
 	sesRegion = "us-east-1"
+	from      = "no-reply@imperialb.in"
 )
+
+/* Structs */
+
+type rabbitMQRequest struct {
+	Template string
+	To       string
+	Data     string
+}
 
 /* SES Session */
 
 func SESSession() (*session.Session, error) {
 	return session.NewSession(&aws.Config{
-		Region: aws.String(sesRegion),
+		Region:      aws.String(sesRegion),
+		Credentials: credentials.NewStaticCredentials(os.Getenv("AWS_ACCESS"), os.Getenv("AWS_SECRET"), ""),
 	})
 }
 
 /* Send Email */
 
 func sendEmail(template string, to string, data string) {
-	config := &aws.Config{
-		Region:      aws.String(sesRegion),
-		Credentials: credentials.NewStaticCredentials(os.Getenv("AWS_ACCESS"), os.Getenv("AWS_SECRET"), ""),
-	}
-
-	session := session.Must(session.NewSession((config)))
+	session := session.Must(SESSession())
 	svc := ses.New(session)
-	from := "no-reply@imperialb.in"
 
 	email := &ses.SendTemplatedEmailInput{
-		Source:   &from,
+		Source:   aws.String(from),
 		Template: &template,
 		Destination: &ses.Destination{
 			ToAddresses: []*string{&to},
@@ -51,33 +55,6 @@ func sendEmail(template string, to string, data string) {
 	if err != nil {
 		fmt.Println("error", err)
 	}
-}
-
-func testResetPasswordEmail() {
-	data := "{ \"token\":\"TestToken\"  }"
-	sendEmail("ResetPassword", "hello@looskie.com", data)
-}
-
-func testNewLoginEmail() {
-	data := "{ }"
-	sendEmail("NewLogin", "hello@looskie.com", data)
-}
-
-func testConfirmEmail() {
-	data := "{ \"emailToken\":\"TestToken\"  }"
-	sendEmail("ConfirmEmail", "hello@looskie.com", data)
-}
-
-func testAll() {
-	testResetPasswordEmail()
-	testNewLoginEmail()
-	testConfirmEmail()
-}
-
-type rabbitMQRequest struct {
-	Template string
-	To       string
-	Data     string
 }
 
 func main() {
@@ -122,6 +99,8 @@ func main() {
 	go func() {
 		for message := range messages {
 			var req rabbitMQRequest
+			
+			/* We're parsing the request here */
 			json.Unmarshal([]byte(message.Body), &req)
 
 			sendEmail(req.Template, req.To, req.Data)
