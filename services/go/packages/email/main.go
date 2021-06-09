@@ -14,7 +14,7 @@ import (
 )
 
 const (
-	sesRegion = "us-east-1"
+	AWS_REGION = "us-east-1"
 	from      = "no-reply@imperialb.in"
 )
 
@@ -30,7 +30,7 @@ type rabbitMQRequest struct {
 
 func SESSession() (*session.Session, error) {
 	return session.NewSession(&aws.Config{
-		Region:      aws.String(sesRegion),
+		Region:      aws.String(AWS_REGION),
 		Credentials: credentials.NewStaticCredentials(os.Getenv("AWS_ACCESS"), os.Getenv("AWS_SECRET"), ""),
 	})
 }
