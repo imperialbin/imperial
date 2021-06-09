@@ -7,8 +7,8 @@ interface messageConfig {
   routingKey: string;
 }
 
-export const sendMessage = (config: messageConfig, message: any) => {
-  rabbit.sendMessage({
+export const sendMessage = async (config: messageConfig, message: any) =>
+  await rabbit.sendMessage({
     messageConfig: {
       exchangeName: config.exchangeName,
       routingKey: config.routingKey,
@@ -16,8 +16,5 @@ export const sendMessage = (config: messageConfig, message: any) => {
     },
     exchangeType: TOPIC,
     connectionUrl: RABBITMQ_URI,
-    publishCallback: e => {
-      console.log(e);
-    },
+    publishCallback: () => {},
   });
-};

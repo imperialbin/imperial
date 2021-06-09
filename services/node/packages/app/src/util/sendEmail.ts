@@ -15,5 +15,4 @@ export const sendEmail = (template: string, to: string, data: string) => {
     body
   );
 
-  console.log(body);
 };
