@@ -96,6 +96,9 @@ func main() {
 	}
 	defer channel.Close()
 
+	/* Bind the queue to the exchange so we can receive the messages */
+	channel.QueueBind("emails", "emails", "emails", false, nil)
+
 	messages, err := channel.Consume(
 		"emails",
 		"",
