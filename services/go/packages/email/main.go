@@ -1,8 +1,8 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
-	"log"
 	"os"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -74,6 +74,12 @@ func testAll() {
 	testConfirmEmail()
 }
 
+type rabbitMQRequest struct {
+	Template string
+	To       string
+	Data     string
+}
+
 func main() {
 	godotenv.Load()
 
@@ -115,7 +121,10 @@ func main() {
 
 	go func() {
 		for message := range messages {
-			log.Printf(" > Received message: %s\n", message.Body)
+			var req rabbitMQRequest
+			json.Unmarshal([]byte(message.Body), &req)
+
+			sendEmail(req.Template, req.To, req.Data)
 		}
 	}()
 
