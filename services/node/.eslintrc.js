@@ -20,6 +20,7 @@ module.exports = {
     "@typescript-eslint/comma-dangle": 1,
     "react/function-component-definition": [2, { namedComponents: "function-declaration" }],
     "radix": 0,
+    "comma-dangle": "always-multiline",
   },
   ignorePatterns: ["**/*.js"],
 };
