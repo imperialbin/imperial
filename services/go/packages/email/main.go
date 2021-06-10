@@ -99,7 +99,7 @@ func main() {
 	go func() {
 		for message := range messages {
 			var req rabbitMQRequest
-			
+
 			/* We're parsing the request here */
 			json.Unmarshal([]byte(message.Body), &req)
 

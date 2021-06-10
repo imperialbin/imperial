@@ -10,7 +10,7 @@ export default api(async (req, res) => {
     throw new HttpException(400, "This was intentionally thrown!");
   }
 
-  sendEmail("ResetPassword", "hello@looskie.com", "");
+  sendEmail("NewLogin", "hello@looskie.com", "{ }");
 
   res.json({
     email: "Sent an email to hello@looskie.com!",
