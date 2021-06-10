@@ -15,7 +15,7 @@ import (
 
 const (
 	AWS_REGION = "us-east-1"
-	from      = "no-reply@imperialb.in"
+	from       = "no-reply@imperialb.in"
 )
 
 /* Structs */
