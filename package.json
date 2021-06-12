@@ -3,6 +3,7 @@
   "license": "MPL-2.0",
   "scripts": {
     "dev-start-node-docker": "docker compose up -d && yarn --cwd services/node/packages/app/ run dev",
+    "lint": "eslint ./services/node/",
     "services-up": "docker compose up -d"
   },
   "dependencies": {

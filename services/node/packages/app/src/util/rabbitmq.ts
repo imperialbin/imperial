@@ -1,14 +1,14 @@
-import rabbit from "rabbitode";
-import { TOPIC } from "rabbitode/lib/exchangeTypes";
-import { RABBITMQ_URI } from "./constants";
+import rabbit from 'rabbitode';
+import {TOPIC} from 'rabbitode/lib/exchangeTypes';
+import {RABBITMQ_URI} from './constants';
 
 interface messageConfig {
   exchangeName: string;
   routingKey: string;
 }
 
-export const sendMessage = async (config: messageConfig, message: any) =>
-  await rabbit.sendMessage({
+export const sendMessage = async (config: messageConfig, message: string | Buffer) => {
+  return rabbit.sendMessage({
     messageConfig: {
       exchangeName: config.exchangeName,
       routingKey: config.routingKey,
@@ -16,5 +16,8 @@ export const sendMessage = async (config: messageConfig, message: any) =>
     },
     exchangeType: TOPIC,
     connectionUrl: RABBITMQ_URI,
-    publishCallback: () => {},
+    publishCallback: () => {
+      //
+    },
   });
+};
