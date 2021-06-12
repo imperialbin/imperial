@@ -1,13 +1,13 @@
-import {api} from 'nextkit';
+import { api } from "nextkit";
 
 export default api({
   async GET() {
     return {
-      message: 'Index of IMPERIAL API.',
+      message: "Index of IMPERIAL API.",
       apiVersions: [
         {
-          version: 'v1',
-          url: '/api/v1',
+          version: "v1",
+          url: "/api/v1",
         },
       ],
     };

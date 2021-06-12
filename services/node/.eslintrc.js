@@ -14,6 +14,7 @@ module.exports = {
   },
   plugins: ['react', '@typescript-eslint'],
   rules: {
+    'object-curly-spacing': 'always',
     'react/jsx-tag-spacing': 1,
     'react/function-component-definition': [2, {namedComponents: 'function-declaration'}],
     'radix': 0,
