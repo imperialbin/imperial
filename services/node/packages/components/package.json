@@ -1,15 +1,23 @@
 {
-	"name": "@imperial/components",
-	"version": "1.0.0",
-	"main": "dist/index.js",
-	"types": "dist/index.d.ts",
-	"author": "Alistair Smith",
-	"license": "MIT",
-	"scripts": {
-		"build": "tsup src/index.ts --dts --minify",
-		"dev": "tsup src/index.ts --dts --watch"
-	},
-	"devDependencies": {
-		"tsup": "^4.11.2"
-	}
+  "name": "@imperial/components",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "author": "Alistair Smith",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsup-node src/index.ts --dts --minify",
+    "dev": "tsup-node src/index.ts --dts --watch"
+  },
+  "devDependencies": {
+    "tsup": "^4.11.2"
+  },
+  "peerDependencies": {
+    "@chakra-ui/react": "^1.6.1",
+    "@monaco-editor/react": "^4.2.0",
+    "react-ace": "^9.4.1"
+  },
+  "dependencies": {
+    "react-ace": "^9.4.1"
+  }
 }
