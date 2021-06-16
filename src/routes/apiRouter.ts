@@ -227,7 +227,7 @@ routes.patch("/document", (req: Request, res: Response) => {
           return throwApiError(
             res,
             "You cannot edit encrypted documents right now, please try again later",
-            401
+            501
           );
 
         const editors = document.allowedEditors;
