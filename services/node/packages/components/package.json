@@ -13,11 +13,6 @@
     "tsup": "^4.11.2"
   },
   "peerDependencies": {
-    "@chakra-ui/react": "^1.6.1",
-    "@monaco-editor/react": "^4.2.0",
-    "react-ace": "^9.4.1"
-  },
-  "dependencies": {
-    "react-ace": "^9.4.1"
+    "@chakra-ui/react": "^1.6.1"
   }
 }
