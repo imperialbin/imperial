@@ -10,6 +10,7 @@
 	],
 	"scripts": {
 		"dev": "lerna run dev --parallel",
+    "lint": "eslint .",
 		"migrate": "prisma migrate dev"
 	},
 	"devDependencies": {
