@@ -16,7 +16,6 @@ module.exports = {
   rules: {
     "object-curly-spacing": 0,
     "react/jsx-tag-spacing": 0,
-    "react/function-component-definition": [2, { namedComponents: "function-declaration" }],
     "radix": 0,
     "@typescript-eslint/triple-slash-reference": 0,
     "@typescript-eslint/comma-dangle": 0,
