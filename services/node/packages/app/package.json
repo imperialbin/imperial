@@ -15,7 +15,6 @@
     "@prisma/client": "^2.24.1",
     "@typescript-eslint/eslint-plugin": "^4.25.0",
     "@typescript-eslint/parser": "^4.25.0",
-    "ace-builds": "https://github.com/imperialbin/imperial-ace-builds",
     "colorette": "^1.2.2",
     "eslint": "^7.27.0",
     "eslint-plugin-react": "^7.23.2",
@@ -27,7 +26,6 @@
     "prisma": "^2.24.1",
     "rabbitode": "^3.0.4",
     "react": "17.0.2",
-    "react-ace": "https://github.com/imperialbin/react-ace",
     "react-dom": "17.0.2"
   },
   "devDependencies": {
