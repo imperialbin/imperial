@@ -14,5 +14,8 @@
   },
   "peerDependencies": {
     "@chakra-ui/react": "^1.6.1"
+  },
+  "dependencies": {
+    "imperial-editor": "https://github.com/imperialbin/imperial-editor"
   }
 }
