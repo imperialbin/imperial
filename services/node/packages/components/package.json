@@ -16,6 +16,6 @@
     "@chakra-ui/react": "^1.6.1"
   },
   "dependencies": {
-    "imperial-editor": "https://github.com/imperialbin/imperial-editor"
+    "imperial-editor": "http://github.com/imperialbin/imperial-editor"
   }
 }

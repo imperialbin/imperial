@@ -22,6 +22,8 @@ module.exports = {
     "@typescript-eslint/indent": 0,
     "@typescript-eslint/quotes": 0,
     "@typescript-eslint/object-curly-spacing": 0,
+    "@typescript-eslint/no-confusing-void-expression": "off",
+    "curly": "off",
   },
   ignorePatterns: ["**/*.js"],
 };

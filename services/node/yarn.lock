@@ -4176,11 +4176,11 @@ ignore@^5.1.4:
 
 "imperial-ace-builds@https://github.com/imperialbin/imperial-ace-builds":
   version "1.4.13"
-  resolved "https://github.com/imperialbin/imperial-ace-builds#a11707f44e2b8e56c07c55d953d2709c5dacfbb5"
+  resolved "https://github.com/imperialbin/imperial-ace-builds#4b20b1a81ceb2b747a49d026b7cac3c53725b581"
 
-"imperial-editor@https://github.com/imperialbin/imperial-editor":
+"imperial-editor@http://github.com/imperialbin/imperial-editor":
   version "0.0.5"
-  resolved "https://github.com/imperialbin/imperial-editor#2be830111c07f5a11fd36b1be7ba8c078e1aa703"
+  resolved "http://github.com/imperialbin/imperial-editor#2be830111c07f5a11fd36b1be7ba8c078e1aa703"
   dependencies:
     imperial-ace-builds "https://github.com/imperialbin/imperial-ace-builds"
     prop-types "^15.6.2"
