@@ -7,6 +7,10 @@ import (
 )
 
 func setupRoutes(app *fiber.App) {
+
+	/* VERSION 1 API */
+
+	app.Get("/v1", v1.Introduction)
 	app.Get("/v1/document/:documentId", v1.GetDocument)
 	app.Post("/v1/document", v1.CreateDocument)
 	app.Patch("/v1/document", v1.EditDocument)
