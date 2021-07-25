@@ -1,6 +1,8 @@
 package main
 
 import (
+	"api/prisma/db"
+	"api/utils"
 	v1 "api/v1"
 
 	"github.com/gofiber/fiber/v2"
@@ -21,6 +23,15 @@ func main() {
 	app := fiber.New()
 
 	setupRoutes(app)
+
+	client := db.NewClient()
+	utils.SetGlobalDb(client)
+
+	defer func() {
+		if err := client.Prisma.Disconnect(); err != nil {
+			panic(err)
+		}
+	}()
 
 	app.Listen(":3000")
 }
