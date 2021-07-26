@@ -10,6 +10,15 @@ import (
 
 func setupRoutes(app *fiber.App) {
 
+	app.Get("/", func(c *fiber.Ctx) error {
+		return c.JSON(&fiber.Map{
+			"success":           true,
+			"message":           "You have reached IMPERIAL's API!",
+			"availableVersions": [1]string{"/v1"},
+			"documentation": "https://docs.imperialb.in/",
+		})
+	})
+
 	/* VERSION 1 API */
 
 	app.Get("/v1", v1.Introduction)
@@ -29,7 +38,7 @@ func main() {
 
 	defer func() {
 		if err := client.Prisma.Disconnect(); err != nil {
-			panic(err)
+			println("deez error", err)
 		}
 	}()
 
