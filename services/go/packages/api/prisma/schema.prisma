@@ -54,12 +54,12 @@ model Document {
   documentId         String
   content            String
   creator            String?
-  creationDate       Int
-  expirationDate     Int
+  creationDate       DateTime         @default(now())
+  expirationDate     DateTime
   documentSettings   DocumentSettings @relation(fields: [documentSettingsId], references: [id])
   documentSettingsId String
   gist               String?
-  views              Int
+  views              Int              @default(0)
   encryptedIv        String?
 }
 

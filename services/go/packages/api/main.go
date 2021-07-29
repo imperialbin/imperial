@@ -6,6 +6,7 @@ import (
 	v1 "api/v1"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/joho/godotenv"
 )
 
 func setupRoutes(app *fiber.App) {
@@ -15,7 +16,7 @@ func setupRoutes(app *fiber.App) {
 			"success":           true,
 			"message":           "You have reached IMPERIAL's API!",
 			"availableVersions": [1]string{"/v1"},
-			"documentation": "https://docs.imperialb.in/",
+			"documentation":     "https://docs.imperialb.in/",
 		})
 	})
 
@@ -29,18 +30,14 @@ func setupRoutes(app *fiber.App) {
 }
 
 func main() {
+	godotenv.Load()
+
 	app := fiber.New()
 
 	setupRoutes(app)
 
 	client := db.NewClient()
 	utils.SetGlobalDb(client)
-
-	defer func() {
-		if err := client.Prisma.Disconnect(); err != nil {
-			println("deez error", err)
-		}
-	}()
 
 	app.Listen(":3000")
 }

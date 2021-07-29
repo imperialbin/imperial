@@ -19,4 +19,4 @@ yarn-error.log*
 .vercel
 .idea
 .vscode
-services/go/packages/api/tmp/*
+services/go/packages/api/tmp
