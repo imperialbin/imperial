@@ -100,11 +100,13 @@ func CreateDocument(c *fiber.Ctx) error {
 	return c.JSON(&fiber.Map{
 		"success": true,
 		"data": {
-			"id":     createdDocument.DocumentID,
-			"content":        createdDocument.Content,
-			"creationDate":   createdDocument.CreationDate,
-			"expirationDate": createdDocument.ExpirationDate,
-			"documentSettings": {
+			"id":      createdDocument.DocumentID,
+			"content": createdDocument.Content,
+			"timestamps": {
+				"creation":   createdDocument.CreationDate,
+				"expiration": createdDocument.ExpirationDate,
+			},
+			"settings": {
 				"language":      createdDocumentSettings.Language,
 				"imageEmbed":    createdDocumentSettings.ImageEmbed,
 				"instantDelete": createdDocumentSettings.InstantDelete,
