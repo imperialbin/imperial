@@ -14,12 +14,3 @@ services:
     image: redis
     ports:
       - "6379:6379"
-
-  rabbit:
-    image: bitnami/rabbitmq
-    environment:
-      RABBITMQ_USERNAME: imperial
-      RABBITMQ_PASSWORD: imperial
-    ports:
-      - "5672:5672"
-      - "15672:15672"
