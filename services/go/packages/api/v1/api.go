@@ -4,10 +4,32 @@ import (
 	"api/prisma/db"
 	"api/utils"
 	"context"
-	"fmt"
+	"time"
 
 	"github.com/gofiber/fiber/v2"
 )
+
+type DocumentSettingsStruct struct {
+	Language      *string   `json:"language"`
+	Expiration    *int      `json:"expiration"`
+	ImageEmbed    *bool     `json:"imageEmbed"`
+	InstantDelete *bool     `json:"instantDelete"`
+	Encrypted     *bool     `json:"encrypted"`
+	Public        *bool     `json:"public"`
+	Editors       *[]string `json:"editors"`
+}
+
+type DocumentInfoStruct struct {
+	content          string
+	creationDate     time.Time
+	expirationDate   time.Time
+	documentSettings DocumentSettingsStruct
+}
+
+type DocumentStruct struct {
+	Content          string                 `json:"content"`
+	DocumentSettings DocumentSettingsStruct `json:"documentSettings"`
+}
 
 func Introduction(c *fiber.Ctx) error {
 	return c.JSON(&fiber.Map{
@@ -22,8 +44,10 @@ func GetDocument(c *fiber.Ctx) error {
 	client := utils.GetPrisma()
 	ctx := context.Background()
 
+	/* Document stuff */
+
 	document, err := client.Document.FindFirst(
-		db.Document.DocumentID.Equals("deez"),
+		db.Document.DocumentID.Equals("what"),
 	).Exec(ctx)
 
 	if err != nil {
@@ -33,14 +57,22 @@ func GetDocument(c *fiber.Ctx) error {
 		})
 	}
 
-	println(document)
-
-	return c.SendString("Getting deez nuts")
+	return c.SendString(document.Content)
 }
 
 func CreateDocument(c *fiber.Ctx) error {
 	client := utils.GetPrisma()
 	ctx := context.Background()
+
+	/* Document stuff */
+	documentRequest := new(DocumentStruct)
+
+	if err := c.BodyParser(documentRequest); err != nil {
+		return c.JSON(&fiber.Map{
+			"success": false,
+			"message": "You have a type error in your request!",
+		})
+	}
 
 	createdDocumentSettings, err := client.DocumentSettings.CreateOne(
 		db.DocumentSettings.ImageEmbed.Set(false),
@@ -51,41 +83,36 @@ func CreateDocument(c *fiber.Ctx) error {
 		db.DocumentSettings.Editors.Set([]string{""}),
 	).Exec(ctx)
 
+	createdDocument, err := client.Document.CreateOne(
+		db.Document.DocumentID.Set("what"),
+		db.Document.Content.Set("deez nuts"),
+		db.Document.ExpirationDate.Set(time.Now().UTC().AddDate(0, 0, 5)),
+		db.Document.DocumentSettings.Link(
+			db.DocumentSettings.ID.Equals(createdDocumentSettings.ID),
+		),
+		db.Document.Views.Set(0),
+	).Exec(ctx)
+
 	if err != nil {
 		println(err)
 	}
 
-	fmt.Print("Not deez nut!", createdDocumentSettings)
-
-	/* 	createdDocument, err := client.Document.CreateOne(
-	   		db.Document.DocumentID.Set("deez"),
-	   		db.Document.Content.Set("deez"),
-	   		db.Document.ExpirationDate.Set(int(time.Now().UTC().UnixNano())),
-	   		db.DocumentSettings.language.Set("typescript"),
-	   		db.Document.DocumentSettings.Link(
-	   			db.DocumentSettings.language.
-	   		)
-
-	   	 		db.Document.Content.Set("Deez"),
-	   	   		db.Document.DocumentID.Set("deeze"),
-	   	   		db.Document.ExpirationDate.Set(1627285015440),
-	   	   		db.DocumentSettings.Language.Set("typeshit"),
-	   	   		db.DocumentSettings.ImageEmbed.Set(false),
-	   	   		db.DocumentSettings.InstantDelete.Set(false),
-	   	   		db.DocumentSettings.Encrypted.Set(false),
-	   	   		db.DocumentSettings.Editors.Set([0]string),
-	   	   		db.DocumentSettings.Public.Set(false),
-	   	).Exec(ctx)
-
-	*/
-
-	if err != nil {
-		println("deez nut!", err)
-	}
-
-	return c.SendString("balls")
-
-	/* 	println(createdDocument) */
+	return c.JSON(&fiber.Map{
+		"success": true,
+		"documentInfo": {
+			"content":        createdDocument.Content,
+			"creationDate":   createdDocument.CreationDate,
+			"expirationDate": createdDocument.ExpirationDate,
+			"documentSettings": {
+				"language":      createdDocumentSettings.Language,
+				"imageEmbed":    createdDocumentSettings.ImageEmbed,
+				"instantDelete": createdDocumentSettings.InstantDelete,
+				"encrypted":     createdDocumentSettings.Encrypted,
+				"public":        createdDocumentSettings.Public,
+				"editors":       createdDocumentSettings.Editors,
+			},
+		},
+	})
 }
 
 func EditDocument(c *fiber.Ctx) error {

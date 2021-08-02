@@ -1,6 +1,6 @@
-import rabbit from 'rabbitode';
-import {TOPIC} from 'rabbitode/lib/exchangeTypes';
-import {RABBITMQ_URI} from './constants';
+import rabbit from "rabbitode";
+import { TOPIC } from "rabbitode/lib/exchangeTypes";
+import { RABBITMQ_URI } from "./constants";
 
 interface messageConfig {
   exchangeName: string;
@@ -17,7 +17,7 @@ export const sendMessage = async (config: messageConfig, message: string | Buffe
     exchangeType: TOPIC,
     connectionUrl: RABBITMQ_URI,
     publishCallback: () => {
-      //
+      // mate what the fuck
     },
   });
 };

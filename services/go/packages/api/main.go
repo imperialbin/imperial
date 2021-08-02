@@ -32,12 +32,29 @@ func setupRoutes(app *fiber.App) {
 func main() {
 	godotenv.Load()
 
-	app := fiber.New()
+	app := fiber.New(fiber.Config{
+		CaseSensitive: false,
+		StrictRouting: true,
+		ServerHeader:  "IMPERIAL API",
+		AppName:       "IMPERIAL API v1.0",
+		BodyLimit:     0.5 * 1024 * 1024,
+	})
 
 	setupRoutes(app)
 
-	client := db.NewClient()
-	utils.SetGlobalDb(client)
+	if utils.GetPrisma() == nil {
+		utils.SetGlobalDb(db.NewClient())
+	}
+
+	if err := utils.GetPrisma().Connect(); err != nil {
+		panic(err)
+	}
+
+	defer func() {
+		if err := utils.GetPrisma().Disconnect(); err != nil {
+			panic(err)
+		}
+	}()
 
 	app.Listen(":3000")
 }
