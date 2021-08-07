@@ -65,7 +65,7 @@ model Document {
 
 model DocumentSettings {
   id            String   @id @default(uuid())
-  language      String?
+  language      String
   imageEmbed    Boolean
   instantDelete Boolean
   encrypted     Boolean
