@@ -29,8 +29,8 @@ type Links struct {
 }
 
 type Timestamps struct {
-	Creation   time.Time `json:"creation"`
-	Expiration time.Time `json:"expiration"`
+	Creation   int64 `json:"creation"`
+	Expiration int64 `json:"expiration"`
 }
 type CreatedDocumentSettingsStruct struct {
 	Language      string   `json:"language"`
@@ -134,8 +134,8 @@ func CreateDocument(c *fiber.Ctx) error {
 	}
 
 	timestamps := Timestamps{
-		Creation:   createdDocument.CreationDate,
-		Expiration: createdDocument.ExpirationDate,
+		Creation:   createdDocument.CreationDate.Unix(),
+		Expiration: createdDocument.ExpirationDate.Unix(),
 	}
 
 	links := Links{
