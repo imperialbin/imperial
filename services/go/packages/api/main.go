@@ -24,7 +24,7 @@ func setupRoutes(app *fiber.App) {
 
 	app.Get("/v1", v1.Introduction)
 	app.Get("/v1/document/:documentId", v1.GetDocument)
-	app.Post("/v1/document", v1.CreateDocument)
+	app.Post("/v1/document", v1.PostDocument)
 	app.Patch("/v1/document", v1.EditDocument)
 	app.Delete("/v1/document/:documentId", v1.DeleteDocument)
 }
