@@ -3,6 +3,7 @@ package document
 import (
 	"api/prisma/db"
 	"api/utils"
+	. "api/utils"
 	. "api/v1/commons"
 	"context"
 	"time"
@@ -41,7 +42,7 @@ func Post(c *fiber.Ctx) error {
 	).Exec(ctx)
 
 	createdDocument, err := client.Document.CreateOne(
-		db.Document.DocumentID.Set("what"),
+		db.Document.DocumentID.Set(GenerateString(8)),
 		db.Document.Content.Set(documentRequest.Content),
 		db.Document.ExpirationDate.Set(time.Now().UTC().AddDate(0, 0, int(documentRequest.Settings.Expiration.Int64))),
 		db.Document.DocumentSettings.Link(
