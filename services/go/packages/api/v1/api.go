@@ -24,9 +24,9 @@ func PostDocument(c *fiber.Ctx) error {
 }
 
 func EditDocument(c *fiber.Ctx) error {
-	return c.SendString("Editing deez nuts")
+	return Edit(c)
 }
 
 func DeleteDocument(c *fiber.Ctx) error {
-	return c.SendString("Deleting deez nuts")
+	return Delete(c)
 }
