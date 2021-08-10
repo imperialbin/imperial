@@ -10,7 +10,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-func CreateDocument(c *fiber.Ctx) error {
+func Post(c *fiber.Ctx) error {
 	client := utils.GetPrisma()
 	ctx := context.Background()
 

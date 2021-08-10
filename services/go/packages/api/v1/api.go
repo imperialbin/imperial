@@ -1,10 +1,8 @@
 package v1
 
 import (
-	"api/prisma/db"
-	"api/utils"
+	. "api/v1/get"
 	. "api/v1/post"
-	"context"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -19,27 +17,11 @@ func Introduction(c *fiber.Ctx) error {
 }
 
 func GetDocument(c *fiber.Ctx) error {
-	client := utils.GetPrisma()
-	ctx := context.Background()
-
-	/* Document stuff */
-
-	document, err := client.Document.FindFirst(
-		db.Document.DocumentID.Equals("what"),
-	).Exec(ctx)
-
-	if err != nil {
-		return c.JSON(&fiber.Map{
-			"success": false,
-			"message": "We couldn't find that document!",
-		})
-	}
-
-	return c.SendString(document.Content)
+	return Get(c)
 }
 
 func PostDocument(c *fiber.Ctx) error {
-	return CreateDocument(c)
+	return Post(c)
 }
 
 func EditDocument(c *fiber.Ctx) error {
