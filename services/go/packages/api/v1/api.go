@@ -1,8 +1,7 @@
 package v1
 
 import (
-	. "api/v1/get"
-	. "api/v1/post"
+	. "api/v1/document"
 
 	"github.com/gofiber/fiber/v2"
 )

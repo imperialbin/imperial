@@ -1,4 +1,4 @@
-package get
+package document
 
 import (
 	"api/prisma/db"
