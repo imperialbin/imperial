@@ -11,16 +11,16 @@ import (
 )
 
 type DocumentSettingsStruct struct {
-	Language      null.String   `json:"language"`
-	Expiration    null.Int      `json:"expiration"`
-	ShortURLs     null.Bool     `json:"shortUrls"`
-	LongURLs      null.Bool     `json:"longUrls"`
-	ImageEmbed    null.Bool     `json:"imageEmbed"`
-	InstantDelete null.Bool     `json:"instantDelete"`
-	Encrypted     null.Bool     `json:"encrypted"`
-	Password      null.String   `json:"password"`
-	Public        null.Bool     `json:"public"`
-	Editors       []null.String `json:"editors"`
+	Language      null.String `json:"language"`
+	Expiration    null.Int    `json:"expiration"`
+	ShortURLs     null.Bool   `json:"shortUrls"`
+	LongURLs      null.Bool   `json:"longUrls"`
+	ImageEmbed    null.Bool   `json:"imageEmbed"`
+	InstantDelete null.Bool   `json:"instantDelete"`
+	Encrypted     null.Bool   `json:"encrypted"`
+	Password      null.String `json:"password"`
+	Public        null.Bool   `json:"public"`
+	Editors       []string    `json:"editors"`
 }
 
 type Links struct {
@@ -121,8 +121,8 @@ func CreateDocument(c *fiber.Ctx) error {
 
 	createdDocument, err := client.Document.CreateOne(
 		db.Document.DocumentID.Set("what"),
-		db.Document.Content.Set("deez nuts"),
-		db.Document.ExpirationDate.Set(time.Now().UTC().AddDate(0, 0, 5)),
+		db.Document.Content.Set(documentRequest.Content),
+		db.Document.ExpirationDate.Set(time.Now().UTC().AddDate(0, 0, int(documentRequest.Settings.Expiration.Int64))),
 		db.Document.DocumentSettings.Link(
 			db.DocumentSettings.ID.Equals(createdDocumentSettings.ID),
 		),
@@ -132,8 +132,6 @@ func CreateDocument(c *fiber.Ctx) error {
 	if err != nil {
 		println(err)
 	}
-
-	println(createdDocument)
 
 	timestamps := Timestamps{
 		Creation:   createdDocument.CreationDate,
@@ -154,8 +152,6 @@ func CreateDocument(c *fiber.Ctx) error {
 		Public:        createdDocumentSettings.Public,
 		Editors:       createdDocumentSettings.Editors,
 	}
-
-	println(createdDocument.DocumentID)
 
 	return c.JSON(&fiber.Map{
 		"success": true,
