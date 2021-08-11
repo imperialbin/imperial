@@ -51,7 +51,7 @@ model UserSettings {
 
 model Document {
   id                 String           @id @default(uuid())
-  documentId         String
+  documentId         String           @unique
   content            String
   creator            String?
   creationDate       DateTime         @default(now())
