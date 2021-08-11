@@ -42,7 +42,6 @@ func Get(c *fiber.Ctx) error {
 		ImageEmbed:    document.DocumentSettings().ImageEmbed,
 		InstantDelete: document.DocumentSettings().InstantDelete,
 		Encrypted:     document.DocumentSettings().Encrypted,
-		Password:      "Non",
 		Public:        document.DocumentSettings().Public,
 		Editors:       document.DocumentSettings().Editors,
 	}
