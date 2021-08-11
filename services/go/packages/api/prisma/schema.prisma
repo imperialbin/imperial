@@ -9,7 +9,8 @@ datasource db {
 }
 
 generator client {
-  provider = "go run github.com/prisma/prisma-client-go"
+  provider        = "go run github.com/prisma/prisma-client-go"
+  previewFeatures = ["referentialActions"]
 }
 
 model User {
@@ -56,7 +57,7 @@ model Document {
   creator            String?
   creationDate       DateTime         @default(now())
   expirationDate     DateTime
-  documentSettings   DocumentSettings @relation(fields: [documentSettingsId], references: [id])
+  documentSettings   DocumentSettings @relation(fields: [documentSettingsId], references: [id], onDelete: Cascade)
   documentSettingsId String
   gist               String?
   views              Int              @default(0)

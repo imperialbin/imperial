@@ -23,9 +23,15 @@ func setupRoutes(app *fiber.App) {
 	/* VERSION 1 API */
 
 	app.Get("/v1", v1.Introduction)
+
+	/* Authentication */
+	app.Post("/v1/auth/login", v1.PostLogin)
+	app.Post("/v1/auth/signup", v1.PostLogin)
+
+	/* Documents */
 	app.Get("/v1/document/:id", v1.GetDocument)
 	app.Post("/v1/document", v1.PostDocument)
-	app.Patch("/v1/document", v1.EditDocument)
+	app.Patch("/v1/document", v1.PatchDocument)
 	app.Delete("/v1/document/:id", v1.DeleteDocument)
 }
 

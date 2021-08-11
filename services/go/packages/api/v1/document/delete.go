@@ -13,23 +13,16 @@ func Delete(c *fiber.Ctx) error {
 	client := utils.GetPrisma()
 	ctx := context.Background()
 
-	deleted, err := client.Document.FindMany(
+	_, err := client.Document.FindUnique(
 		db.Document.DocumentID.Equals(id),
 	).With(
 		db.Document.DocumentSettings.Fetch(),
 	).Delete().Exec(ctx)
 
 	if err != nil {
-		return c.Status(500).JSON(&fiber.Map{
-			"success": false,
-			"message": "An internal server error occurred whilst creating that document!",
-		})
-	}
-
-	if deleted.Count == 0 {
 		return c.Status(404).JSON(&fiber.Map{
 			"success": false,
-			"message": "Document does not exist!",
+			"message": "Couldn't find document",
 		})
 	}
 
