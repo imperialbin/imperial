@@ -21,7 +21,7 @@ func Get(c *fiber.Ctx) error {
 	).Exec(ctx)
 
 	if err != nil {
-		return c.JSON(&fiber.Map{
+		return c.Status(404).JSON(&fiber.Map{
 			"success": false,
 			"message": "We couldn't find that document!",
 		})
