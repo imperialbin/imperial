@@ -2,6 +2,18 @@ package commons
 
 import "github.com/guregu/null"
 
+type SignupRequest struct {
+	Username        string `json:"username" validate:"required,min=3,max=24"`
+	Email           string `json:"email" validate:"required,min=3"`
+	Password        string `json:"password" validate:"required,min=8"`
+	ConfirmPassword string `json:"confirmPassword" validate:"required,min=8"`
+}
+
+type ErrorResponse struct {
+	FailedField string `json:"failedField"`
+	Tag         string
+	Value       string
+}
 type DocumentSettingsStruct struct {
 	Language      null.String `json:"language"`
 	Expiration    null.Int    `json:"expiration"`
