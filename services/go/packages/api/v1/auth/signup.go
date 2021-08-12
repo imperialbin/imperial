@@ -34,6 +34,8 @@ func Signup(c *fiber.Ctx) error {
 		})
 	}
 
+	
+
 	return c.JSON(&fiber.Map{
 		"success": true,
 		"message": "Successfully created your account!",
