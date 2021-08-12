@@ -18,15 +18,11 @@ model User {
   userId                   Int          @default(autoincrement())
   username                 String
   email                    String
-  betaCode                 String
   banned                   Boolean      @default(false)
   confirmed                Boolean      @default(false)
-  ip                       String
-  codesLeft                Int
   icon                     String       @default("/assets/img/pfp.png")
   password                 String
   memberPlus               Boolean      @default(false)
-  codes                    String[]
   documentsMade            Int
   activeUnlimitedDocuments Int
   discordId                String?
