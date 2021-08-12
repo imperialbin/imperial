@@ -3,6 +3,7 @@ package auth
 import (
 	. "api/utils"
 	. "api/v1/commons"
+	"fmt"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -34,7 +35,16 @@ func Signup(c *fiber.Ctx) error {
 		})
 	}
 
-	
+	hashedPassword, err := HashPassword(req.Password)
+
+	if err != nil {
+		return c.Status(500).JSON(&fiber.Map{
+			"success": false,
+			"message": "There was an internal server error while fulfilling your request",
+		})
+	}
+
+	fmt.Printf(hashedPassword)
 
 	return c.JSON(&fiber.Map{
 		"success": true,
