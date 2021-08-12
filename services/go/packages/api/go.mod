@@ -3,10 +3,13 @@ module api
 go 1.16
 
 require (
+	github.com/go-playground/universal-translator v0.18.0 // indirect
+	github.com/go-playground/validator v9.31.0+incompatible // indirect
 	github.com/gofiber/fiber/v2 v2.15.0
 	github.com/guregu/null v4.0.0+incompatible // indirect
 	github.com/iancoleman/strcase v0.0.0-20190422225806-e506e3ef7365
 	github.com/joho/godotenv v1.3.0
+	github.com/leodido/go-urn v1.2.1 // indirect
 	github.com/prisma/prisma-client-go v0.10.0
 	github.com/shopspring/decimal v1.2.0
 	github.com/takuoki/gocase v1.0.0
