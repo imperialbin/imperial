@@ -1,15 +1,19 @@
 package auth
 
 import (
+	"api/prisma/db"
+	"api/utils"
 	. "api/utils"
 	. "api/v1/commons"
-	"fmt"
+	"context"
 
 	"github.com/gofiber/fiber/v2"
 )
 
 func Signup(c *fiber.Ctx) error {
 	req := new(SignupRequest)
+	client := utils.GetPrisma()
+	ctx := context.Background()
 
 	if err := c.BodyParser(req); err != nil {
 		return c.JSON(&fiber.Map{
@@ -23,7 +27,7 @@ func Signup(c *fiber.Ctx) error {
 	if errors != nil {
 		return c.Status(400).JSON(&fiber.Map{
 			"success": false,
-			"message": "You have a validation error in your request",
+			"message": "You have a validation error in your request.",
 			"errors":  errors,
 		})
 	}
@@ -40,11 +44,34 @@ func Signup(c *fiber.Ctx) error {
 	if err != nil {
 		return c.Status(500).JSON(&fiber.Map{
 			"success": false,
-			"message": "There was an internal server error while fulfilling your request",
+			"message": "There was an internal server error while fulfilling your request.",
 		})
 	}
 
-	fmt.Printf(hashedPassword)
+	createdUserSettings, err := client.UserSettings.CreateOne().Exec(ctx)
+
+	if err != nil {
+		return c.Status(500).JSON(&fiber.Map{
+			"success": false,
+			"message": "An error occurred whilst creating user's settings.",
+		})
+	}
+
+	_, err = client.User.CreateOne(
+		db.User.Username.Set(req.Username),
+		db.User.Email.Set(req.Email),
+		db.User.Password.Set(hashedPassword),
+		db.User.Settings.Link(
+			db.UserSettings.ID.Equals(createdUserSettings.ID),
+		),
+	).Exec(ctx)
+
+	if err != nil {
+		return c.Status(500).JSON(&fiber.Map{
+			"success": false,
+			"message": "An error occurred whilst creating user.",
+		})
+	}
 
 	return c.JSON(&fiber.Map{
 		"success": true,
