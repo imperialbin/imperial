@@ -24,8 +24,8 @@ func GetRedisDB() *redis.Client {
 	return rdb
 }
 
-func RedisGet(key string) (value string, ok bool) {
-	value, err := rdb.Get(ctx, key).Result()
+func RedisGet(set, key string) (value string, ok bool) {
+	value, err := rdb.HGet(ctx, set, key).Result()
 
 	if err != nil {
 		return "", false
@@ -34,8 +34,9 @@ func RedisGet(key string) (value string, ok bool) {
 	return value, true
 }
 
-func RedisSet(key, value string, expiration int) bool {
-	err := rdb.Set(ctx, key, value, time.Duration(expiration*1000000000*60)).Err()
+func RedisSet(set, key, value string, expiration int) bool {
+	err := rdb.HSet(ctx, set, key, value).Err()
+	rdb.Expire(ctx, key, time.Duration(expiration*1000000000*60))
 
 	if err != nil {
 		println(err)
