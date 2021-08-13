@@ -16,15 +16,15 @@ generator client {
 model User {
   id                       String       @id @default(uuid())
   userId                   Int          @default(autoincrement())
-  username                 String
-  email                    String
+  username                 String       @unique
+  email                    String       @unique
   banned                   Boolean      @default(false)
   confirmed                Boolean      @default(false)
   icon                     String       @default("/assets/img/pfp.png")
   password                 String
   memberPlus               Boolean      @default(false)
-  documentsMade            Int
-  activeUnlimitedDocuments Int
+  documentsMade            Int          @default(0)
+  activeUnlimitedDocuments Int          @default(0)
   discordId                String?
   githubAccess             String?
   opt                      String?
