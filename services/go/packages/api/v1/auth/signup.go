@@ -57,7 +57,7 @@ func Signup(c *fiber.Ctx) error {
 		})
 	}
 
-	_, err = client.User.CreateOne(
+	createdUser, err := client.User.CreateOne(
 		db.User.Username.Set(req.Username),
 		db.User.Email.Set(req.Email),
 		db.User.Password.Set(hashedPassword),
@@ -73,8 +73,15 @@ func Signup(c *fiber.Ctx) error {
 		})
 	}
 
+	/* Generate session */
+	token := GenerateJWT(createdUser.ID, 7)
+	RedisSet("sessions", createdUser.ID, token, 7)
+
+	println(RedisGet("sessions", createdUser.ID))
+
 	return c.JSON(&fiber.Map{
-		"success": true,
-		"message": "Successfully created your account!",
+		"success":   true,
+		"message":   "Successfully created your account!",
+		"authToken": token,
 	})
 }
