@@ -48,7 +48,6 @@ func Post(c *fiber.Ctx) error {
 		db.Document.DocumentSettings.Link(
 			db.DocumentSettings.ID.Equals(createdDocumentSettings.ID),
 		),
-		db.Document.Views.Set(0),
 	).Exec(ctx)
 
 	if err != nil {
