@@ -35,10 +35,10 @@ func RedisGet(key string) (value string, ok bool) {
 }
 
 func RedisSet(key, value string, expiration int) bool {
-	err := rdb.Set(ctx, key, value, time.Duration(expiration)).Err()
+	err := rdb.Set(ctx, key, value, time.Duration(expiration*1000000000*60)).Err()
 
 	if err != nil {
-		println("err!!!", err)
+		println(err)
 		return false
 	}
 
