@@ -52,6 +52,10 @@ func main() {
 		utils.SetGlobalDb(db.NewClient())
 	}
 
+	if utils.GetRedisDB() == nil {
+		utils.SetRedisDB()
+	}
+
 	if err := utils.GetPrisma().Connect(); err != nil {
 		panic(err)
 	}
