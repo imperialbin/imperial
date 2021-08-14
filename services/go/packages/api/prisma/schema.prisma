@@ -35,8 +35,8 @@ model User {
 model UserSettings {
   id            String  @id @default(uuid())
   clipboard     Boolean @default(false)
-  longerUrls    Boolean @default(false)
-  shorterUrls   Boolean @default(false)
+  longUrls      Boolean @default(false)
+  shortUrls     Boolean @default(false)
   instantDelete Boolean @default(false)
   encrypted     Boolean @default(false)
   imageEmbed    Boolean @default(false)
