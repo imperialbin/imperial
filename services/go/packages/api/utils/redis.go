@@ -24,23 +24,33 @@ func GetRedisDB() *redis.Client {
 	return rdb
 }
 
-func RedisGet(key string) (value string, ok bool) {
+func RedisGet(key string) (string, error) {
 	value, err := rdb.Get(ctx, key).Result()
 
 	if err != nil {
-		return "", false
+		return "", err
 	}
 
-	return value, true
+	return value, nil
 }
 
-func RedisSet(key, value string, days int) bool {
+func RedisSet(key, value string, days int) (bool, error) {
 	/* This long number basically converts the nanoseconds to days, you're welcome */
 	err := rdb.Set(ctx, key, value, time.Duration(days*86400000000000)).Err()
 
 	if err != nil {
-		return false
+		return false, err
 	}
 
-	return true
+	return true, nil
+}
+
+func RedisDel(key string) (bool, error) {
+	err := rdb.Del(ctx, key).Err()
+
+	if err != nil {
+		return false, err
+	}
+
+	return true, nil
 }
