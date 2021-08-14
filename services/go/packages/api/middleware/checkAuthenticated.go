@@ -1,12 +1,21 @@
-package middlware
+package middleware
 
-import . "api/utils"
+import (
+	. "api/utils"
 
-func checkAuthenticated(session string) bool {
-	_, ok := RedisGet(session)
+	"github.com/gofiber/fiber/v2"
+)
+
+func CheckAuthenticated(c *fiber.Ctx) error {
+	authToken := string(c.Request().Header.Peek("Authentication"))
+	_, ok := RedisGet(authToken)
+
 	if !ok {
-		return false
+		return c.Status(403).JSON(&fiber.Map{
+			"success": false,
+			"message": "You are not authenticated or authenticated correctly!",
+		})
 	}
 
-	return true
+	return c.Next()
 }
