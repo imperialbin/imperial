@@ -20,6 +20,6 @@ func Logout(c *fiber.Ctx) error {
 
 	return c.JSON(fiber.Map{
 		"success": true,
-		"message": "nut sack",
+		"message": "Successfully deleted your session!",
 	})
 }
