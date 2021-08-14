@@ -32,8 +32,11 @@ func Login(c *fiber.Ctx) error {
 		})
 	}
 
-	user, err := client.User.FindUnique(
-		db.User.Username.Equals(req.Username),
+	user, err := client.User.FindFirst(
+		db.User.Or(
+			db.User.Username.Equals(req.Username),
+			db.User.Email.Equals(req.Username),
+		),
 	).Exec(ctx)
 
 	if err != nil || !CheckHashedPassword(user.Password, req.Password) {
