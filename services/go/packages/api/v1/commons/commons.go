@@ -9,6 +9,11 @@ type SignupRequest struct {
 	ConfirmPassword string `json:"confirmPassword" validate:"required,min=8"`
 }
 
+type LoginRequest struct {
+	Username string `json:"username" validate:"required"`
+	Password string `json:"password" validate:"required"`
+}
+
 type ErrorResponse struct {
 	FailedField string `json:"failedField"`
 	Tag         string
