@@ -39,6 +39,28 @@ func Signup(c *fiber.Ctx) error {
 		})
 	}
 
+	_, emailErr := client.User.FindUnique(
+		db.User.Email.Equals(req.Email),
+	).Exec(ctx)
+
+	if emailErr == nil {
+		return c.Status(400).JSON(&fiber.Map{
+			"success": false,
+			"message": "That email already has an account",
+		})
+	}
+
+	_, usernameErr := client.User.FindUnique(
+		db.User.Username.Equals(req.Username),
+	).Exec(ctx)
+
+	if usernameErr == nil {
+		return c.Status(400).JSON(&fiber.Map{
+			"success": false,
+			"message": "That username is taken!",
+		})
+	}
+
 	hashedPassword, err := HashPassword(req.Password)
 
 	if err != nil {
@@ -74,10 +96,8 @@ func Signup(c *fiber.Ctx) error {
 	}
 
 	/* Generate session */
-	token := GenerateJWT(createdUser.ID, 7)
-	RedisSet("sessions", createdUser.ID, token, 7)
-
-	println(RedisGet("sessions", createdUser.ID))
+	token, _ := GenerateSessionToken()
+	RedisSet(token, createdUser.ID, 7)
 
 	return c.JSON(&fiber.Map{
 		"success":   true,
