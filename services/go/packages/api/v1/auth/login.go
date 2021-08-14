@@ -2,7 +2,6 @@ package auth
 
 import (
 	"api/prisma/db"
-	"api/utils"
 	. "api/utils"
 	. "api/v1/commons"
 	"context"
@@ -12,7 +11,7 @@ import (
 
 func Login(c *fiber.Ctx) error {
 	req := new(LoginRequest)
-	client := utils.GetPrisma()
+	client := GetPrisma()
 	ctx := context.Background()
 
 	if err := c.BodyParser(req); err != nil {

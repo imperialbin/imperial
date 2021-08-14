@@ -2,7 +2,7 @@ package document
 
 import (
 	"api/prisma/db"
-	"api/utils"
+	. "api/utils"
 	"context"
 
 	"github.com/gofiber/fiber/v2"
@@ -10,7 +10,7 @@ import (
 
 func Delete(c *fiber.Ctx) error {
 	var id = c.Params("id")
-	client := utils.GetPrisma()
+	client := GetPrisma()
 	ctx := context.Background()
 
 	_, err := client.Document.FindUnique(
