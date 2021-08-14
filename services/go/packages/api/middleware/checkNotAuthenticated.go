@@ -14,7 +14,7 @@ func CheckNotAuthenticated(c *fiber.Ctx) error {
 		return c.Next()
 	}
 
-	return c.Status(403).JSON(&fiber.Map{
+	return c.Status(401).JSON(&fiber.Map{
 		"success": false,
 		"message": "You can not be authenticated in this route!",
 	})

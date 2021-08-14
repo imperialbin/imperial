@@ -11,7 +11,7 @@ func CheckAuthenticated(c *fiber.Ctx) error {
 	_, err := RedisGet(authToken)
 
 	if err != nil {
-		return c.Status(403).JSON(&fiber.Map{
+		return c.Status(401).JSON(&fiber.Map{
 			"success": false,
 			"message": "You are not authenticated or authenticated correctly!",
 		})
