@@ -8,6 +8,12 @@ import (
 
 func CheckNotAuthenticated(c *fiber.Ctx) error {
 	authToken := string(c.Request().Header.Peek("Authentication"))
+
+	/* If request doesn't have header Authentication */
+	if len(authToken) < 1 {
+		return c.Next()
+	}
+
 	_, err := RedisGet(authToken)
 
 	if err != nil {
