@@ -28,6 +28,9 @@ func setupRoutes(app *fiber.App) {
 	app.Post("/v1/auth/login", v1.PostLogin)
 	app.Post("/v1/auth/signup", v1.PostSignup)
 
+	/* @me */
+	app.Get("/v1/@me", v1.GetMe)
+
 	/* Documents */
 	app.Get("/v1/document/:id", v1.GetDocument)
 	app.Post("/v1/document", v1.PostDocument)
