@@ -32,6 +32,35 @@ type DocumentSettingsStruct struct {
 	Editors       []string    `json:"editors"`
 }
 
+type User struct {
+	ID                       string       `json:"id"`
+	UserID                   int          `json:"userId"`
+	Username                 string       `json:"username"`
+	Email                    string       `json:"email"`
+	Banned                   bool         `json:"banned"`
+	Confirmed                bool         `json:"confirmed"`
+	Icon                     string       `json:"icon"`
+	Password                 string       `json:"-"`
+	MemberPlus               bool         `json:"memberPlus"`
+	DocumentsMade            int          `json:"documentsMade"`
+	ActiveUnlimitedDocuments int          `json:"activeUnlimitedDocuments"`
+	DiscordID                *string      `json:"discordId"`
+	GithubAccess             *string      `json:"githubAccess"`
+	Opt                      *string      `json:"opt"`
+	UserSettingsID           string       `json:"-"`
+	Settings                 UserSettings `json:"settings"`
+}
+
+type UserSettings struct {
+	Clipboard     bool `json:"clipboard"`
+	LongURLs      bool `json:longUrls`
+	ShortURLs     bool `json:shortUrls`
+	InstantDelete bool `json:"instantDelete"`
+	Encrypted     bool `json:"encrypted"`
+	ImageEmbed    bool `json:"imageEmbed"`
+	Expiration    int  `json:"expiration"`
+}
+
 type Links struct {
 	Raw       string `json:"raw"`
 	Formatted string `json:"formatted"`
