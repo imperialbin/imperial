@@ -11,11 +11,12 @@ import (
 
 func GetUser(c *fiber.Ctx) (*User, error) {
 	authToken := string(c.Request().Header.Peek("Authentication"))
-	userId, ok := RedisGet(authToken)
+	userId, err := RedisGet(authToken)
 
-	if !ok {
+	if err != nil {
 		return nil, errors.New("ErrNotFound")
 	}
+
 	client := GetPrisma()
 	ctx := context.Background()
 
