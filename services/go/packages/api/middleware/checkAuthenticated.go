@@ -8,9 +8,9 @@ import (
 
 func CheckAuthenticated(c *fiber.Ctx) error {
 	authToken := string(c.Request().Header.Peek("Authentication"))
-	_, ok := RedisGet(authToken)
+	_, err := RedisGet(authToken)
 
-	if !ok {
+	if err != nil {
 		return c.Status(403).JSON(&fiber.Map{
 			"success": false,
 			"message": "You are not authenticated or authenticated correctly!",
