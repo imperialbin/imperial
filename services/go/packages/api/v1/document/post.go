@@ -32,6 +32,25 @@ func Post(c *fiber.Ctx) error {
 	public := documentRequest.Settings.Public.Bool
 	editors := documentRequest.Settings.Editors
 
+	/* Check if longer/shorter URLs are enabled */
+	var randomString, err = GenerateRandomString(8)
+
+	longURLs := documentRequest.Settings.LongURLs.Bool
+	shortURLs := documentRequest.Settings.ShortURLs.Bool
+
+	if longURLs {
+		randomString, err = GenerateRandomString(32)
+	} else if shortURLs {
+		randomString, err = GenerateRandomString(4)
+	}
+
+	if err != nil {
+		return c.Status(500).JSON(&fiber.Map{
+			"success": false,
+			"message": "An error occurred whilst creating random string.",
+		})
+	}
+
 	createdDocumentSettings, err := client.DocumentSettings.CreateOne(
 		db.DocumentSettings.Language.Set(language),
 		db.DocumentSettings.ImageEmbed.Set(imageEmbed),
@@ -42,7 +61,7 @@ func Post(c *fiber.Ctx) error {
 	).Exec(ctx)
 
 	createdDocument, err := client.Document.CreateOne(
-		db.Document.DocumentID.Set(GenerateString(8)),
+		db.Document.DocumentID.Set(randomString),
 		db.Document.Content.Set(documentRequest.Content),
 		db.Document.ExpirationDate.Set(time.Now().UTC().AddDate(0, 0, int(documentRequest.Settings.Expiration.Int64))),
 		db.Document.DocumentSettings.Link(
