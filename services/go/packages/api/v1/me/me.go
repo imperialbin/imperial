@@ -9,7 +9,7 @@ import (
 func Me(c *fiber.Ctx) error {
 	user, err := GetUser(c)
 	if err != nil {
-		return c.Status(403).JSON(&fiber.Map{
+		return c.Status(401).JSON(&fiber.Map{
 			"success": false,
 			"message": "You are not authorized!",
 		})
