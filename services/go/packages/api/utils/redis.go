@@ -24,8 +24,8 @@ func GetRedisDB() *redis.Client {
 	return rdb
 }
 
-func RedisGet(set, key string) (value string, ok bool) {
-	value, err := rdb.HGet(ctx, set, key).Result()
+func RedisGet(key string) (value string, ok bool) {
+	value, err := rdb.Get(ctx, key).Result()
 
 	if err != nil {
 		return "", false
@@ -34,12 +34,11 @@ func RedisGet(set, key string) (value string, ok bool) {
 	return value, true
 }
 
-func RedisSet(set, key, value string, expiration int) bool {
-	err := rdb.HSet(ctx, set, key, value).Err()
-	rdb.Expire(ctx, key, time.Duration(expiration*1000000000*60))
+func RedisSet(key, value string, days int) bool {
+	/* This long number basically converts the nanoseconds to days, you're welcome */
+	err := rdb.Set(ctx, key, value, time.Duration(days*86400000000000)).Err()
 
 	if err != nil {
-		println(err)
 		return false
 	}
 
