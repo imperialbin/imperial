@@ -3,6 +3,7 @@ package v1
 import (
 	. "api/v1/auth"
 	. "api/v1/document"
+	. "api/v1/me"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -38,4 +39,8 @@ func PostLogin(c *fiber.Ctx) error {
 
 func PostSignup(c *fiber.Ctx) error {
 	return Signup(c)
+}
+
+func GetMe(c *fiber.Ctx) error {
+	return Me(c)
 }
