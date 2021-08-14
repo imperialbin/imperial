@@ -1,21 +1,39 @@
 package utils
 
 import (
-	"math/rand"
+	"crypto/rand"
+	"encoding/base64"
+	"math/big"
 	"os"
 	"time"
 
 	"github.com/golang-jwt/jwt"
 )
 
-const letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-
-func GenerateString(n int) string {
+func GenerateRandomBytes(n int) ([]byte, error) {
 	b := make([]byte, n)
-	for i := range b {
-		b[i] = letterBytes[rand.Intn(len(letterBytes))]
+	_, err := rand.Read(b)
+	// Note that err == nil only if we read len(b) bytes.
+	if err != nil {
+		return nil, err
 	}
-	return string(b)
+
+	return b, nil
+}
+
+const letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-"
+
+func GenerateRandomString(n int) (string, error) {
+	ret := make([]byte, n)
+	for i := 0; i < n; i++ {
+		num, err := rand.Int(rand.Reader, big.NewInt(int64(len(letterBytes))))
+		if err != nil {
+			return "", err
+		}
+		ret[i] = letterBytes[num.Int64()]
+	}
+
+	return string(ret), nil
 }
 
 func GenerateJWT(userId string, expiration int) string {
@@ -31,4 +49,9 @@ func GenerateJWT(userId string, expiration int) string {
 	}
 
 	return token
+}
+
+func GenerateSessionToken() (string, error) {
+	token, err := GenerateRandomBytes(128)
+	return base64.URLEncoding.EncodeToString(token), err
 }
