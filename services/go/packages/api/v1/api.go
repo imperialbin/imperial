@@ -41,6 +41,10 @@ func PostSignup(c *fiber.Ctx) error {
 	return Signup(c)
 }
 
+func DeleteLogout(c *fiber.Ctx) error {
+	return Logout(c)
+}
+
 func GetMe(c *fiber.Ctx) error {
 	return Me(c)
 }
