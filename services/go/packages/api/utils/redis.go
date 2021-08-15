@@ -36,7 +36,7 @@ func RedisGet(key string) (string, error) {
 
 func RedisSet(key, value string, days int) (bool, error) {
 	/* This long number basically converts the nanoseconds to days, you're welcome */
-	err := rdb.Set(ctx, key, value, time.Duration(days*86400000000000)).Err()
+	err := rdb.Set(ctx, key, value, time.Duration(days)*time.Hour*24).Err()
 
 	if err != nil {
 		return false, err
