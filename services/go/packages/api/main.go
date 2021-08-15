@@ -7,6 +7,7 @@ import (
 	v1 "api/v1"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/joho/godotenv"
 )
 
@@ -50,6 +51,8 @@ func main() {
 		AppName:       "IMPERIAL API v1.0",
 		BodyLimit:     0.5 * 1024 * 1024,
 	})
+
+	app.Use(logger.New())
 
 	setupRoutes(app)
 
