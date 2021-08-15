@@ -8,6 +8,7 @@ import (
 	"context"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/google/uuid"
 )
 
 func Signup(c *fiber.Ctx) error {
@@ -83,6 +84,7 @@ func Signup(c *fiber.Ctx) error {
 		db.User.Username.Set(req.Username),
 		db.User.Email.Set(req.Email),
 		db.User.Password.Set(hashedPassword),
+		db.User.APIToken.Set("IMPERIAL-"+uuid.NewString()),
 		db.User.Settings.Link(
 			db.UserSettings.ID.Equals(createdUserSettings.ID),
 		),
@@ -98,6 +100,7 @@ func Signup(c *fiber.Ctx) error {
 	/* Generate session */
 	token, _ := GenerateSessionToken()
 	RedisSet(token, createdUser.ID, 7)
+	RedisSet(createdUser.APIToken, createdUser.ID, 0)
 
 	return c.JSON(&fiber.Map{
 		"success":   true,
