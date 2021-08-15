@@ -7,7 +7,7 @@ import (
 )
 
 func Logout(c *fiber.Ctx) error {
-	authToken := string(c.Request().Header.Peek("Authentication"))
+	authToken := GetAuthToken(c)
 
 	_, err := RedisDel(authToken)
 

@@ -7,7 +7,7 @@ import (
 )
 
 func CheckAuthenticated(c *fiber.Ctx) error {
-	authToken := string(c.Request().Header.Peek("Authentication"))
+	authToken := GetAuthToken(c)
 
 	/* If request doesn't have header Authentication */
 	if len(authToken) < 1 {

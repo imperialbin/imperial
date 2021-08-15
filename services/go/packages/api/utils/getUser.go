@@ -10,7 +10,7 @@ import (
 )
 
 func GetUser(c *fiber.Ctx) (*User, error) {
-	authToken := string(c.Request().Header.Peek("Authentication"))
+	authToken := GetAuthToken(c)
 	userId, err := RedisGet(authToken)
 
 	if err != nil {
