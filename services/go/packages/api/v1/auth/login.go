@@ -48,6 +48,7 @@ func Login(c *fiber.Ctx) error {
 	/* Generate session */
 	token, _ := GenerateSessionToken()
 	RedisSet(token, user.ID, 7)
+	RedisSet(user.APIToken, user.ID, 0)
 
 	return c.JSON(&fiber.Map{
 		"success": true,
