@@ -25,6 +25,7 @@ model User {
   memberPlus               Boolean      @default(false)
   documentsMade            Int          @default(0)
   activeUnlimitedDocuments Int          @default(0)
+  apiToken                 String       @unique
   discordId                String?
   githubAccess             String?
   opt                      String?
