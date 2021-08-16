@@ -75,7 +75,7 @@ type CreatedDocumentSettingsStruct struct {
 	ImageEmbed    bool     `json:"imageEmbed"`
 	InstantDelete bool     `json:"instantDelete"`
 	Encrypted     bool     `json:"encrypted"`
-	Password      string   `json:"password"`
+	Password      *string  `json:"password"`
 	Public        bool     `json:"public"`
 	Editors       []string `json:"editors"`
 }
