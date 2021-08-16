@@ -19,10 +19,20 @@ func Post(c *fiber.Ctx) error {
 	documentRequest := new(DocumentStruct)
 
 	if err := c.BodyParser(documentRequest); err != nil {
-		return c.JSON(&fiber.Map{
+		return c.Status(400).JSON(&fiber.Map{
 			"success": false,
 			"message": "You have a type error in your request!",
 		})
+	}
+
+	user, err := GetUser(c)
+
+	var creator string
+
+	if err != nil {
+		creator = ""
+	} else {
+		creator = user.Username
 	}
 
 	content := documentRequest.Content
@@ -35,7 +45,7 @@ func Post(c *fiber.Ctx) error {
 	password := documentRequest.Settings.Password.String
 
 	/* Check if longer/shorter URLs are enabled */
-	var randomString, err = GenerateRandomString(8)
+	randomString, err := GenerateRandomString(8)
 
 	longURLs := documentRequest.Settings.LongURLs.Bool
 	shortURLs := documentRequest.Settings.ShortURLs.Bool
@@ -91,6 +101,7 @@ func Post(c *fiber.Ctx) error {
 			db.DocumentSettings.ID.Equals(createdDocumentSettings.ID),
 		),
 		db.Document.EncryptedIv.SetIfPresent(&encryptedIv),
+		db.Document.Creator.Set(creator),
 	).Exec(ctx)
 
 	if err != nil {
