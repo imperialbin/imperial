@@ -4,9 +4,11 @@ import (
 	"crypto/aes"
 	"crypto/cipher"
 	"encoding/hex"
+	"errors"
+	"strings"
 )
 
-func Decrypt(password, encryptedText, initVector string) string {
+func Decrypt(password, encryptedText, initVector string) (string, error) {
 	cipherText, _ := hex.DecodeString(encryptedText)
 	hashedPassword := NewSHA256([]byte(password)) // We're making a new hash here to meet the 32 character limit, also because it wouldnt match the previously set password lol
 
@@ -21,5 +23,9 @@ func Decrypt(password, encryptedText, initVector string) string {
 	decrypt := cipher.NewCFBDecrypter(block, iv)
 	decrypt.XORKeyStream(cipherText, cipherText)
 
-	return string(cipherText)
+	if strings.ContainsAny(string(cipherText), "�") {
+		return "", errors.New("There was an error.")
+	}
+
+	return string(cipherText), nil
 }
