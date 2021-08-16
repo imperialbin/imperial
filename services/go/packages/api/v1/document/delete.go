@@ -13,10 +13,12 @@ func Delete(c *fiber.Ctx) error {
 	client := GetPrisma()
 	ctx := context.Background()
 
-	_, err := client.Document.FindUnique(
+	deletedDocument, err := client.Document.FindUnique(
 		db.Document.DocumentID.Equals(id),
-	).With(
-		db.Document.DocumentSettings.Fetch(),
+	).Delete().Exec(ctx)
+
+	client.DocumentSettings.FindUnique(
+		db.DocumentSettings.ID.Equals(deletedDocument.DocumentID),
 	).Delete().Exec(ctx)
 
 	if err != nil {
