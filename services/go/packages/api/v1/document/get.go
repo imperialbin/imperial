@@ -67,6 +67,16 @@ func Get(c *fiber.Ctx) error {
 		Editors:       document.DocumentSettings().Editors,
 	}
 
+	if document.DocumentSettings().InstantDelete {
+		deletedDocument, _ := client.Document.FindUnique(
+			db.Document.DocumentID.Equals(id),
+		).Delete().Exec(ctx)
+
+		client.DocumentSettings.FindUnique(
+			db.DocumentSettings.ID.Equals(deletedDocument.DocumentID),
+		).Delete().Exec(ctx)
+	}
+
 	return c.JSON(&fiber.Map{
 		"success": true,
 		"data": &CreateDocumentData{
