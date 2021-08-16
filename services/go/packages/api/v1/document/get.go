@@ -11,6 +11,7 @@ import (
 
 func Get(c *fiber.Ctx) error {
 	var id = c.Params("id")
+	var password = c.Query("password")
 	client := utils.GetPrisma()
 	ctx := context.Background()
 
@@ -25,6 +26,26 @@ func Get(c *fiber.Ctx) error {
 			"success": false,
 			"message": "We couldn't find that document!",
 		})
+	}
+
+	/* When the psychopath decides that he would like to decrypt his document */
+	var content string
+	if document.DocumentSettings().Encrypted {
+		if len(password) < 1 {
+			return c.Status(400).JSON(&fiber.Map{
+				"success": false,
+				"message": "password query (?password=documentPassword), was not provided!",
+			})
+		}
+		encryptedIv, _ := document.EncryptedIv()
+		content, err = utils.Decrypt(password, document.Content, encryptedIv)
+
+		if err != nil {
+			return c.Status(401).JSON(&fiber.Map{
+				"success": false,
+				"message": "You've provided the wrong password for this encrypted document!",
+			})
+		}
 	}
 
 	timestamps := Timestamps{
@@ -49,7 +70,7 @@ func Get(c *fiber.Ctx) error {
 	return c.JSON(&fiber.Map{
 		"success": true,
 		"data": &CreateDocumentData{
-			document.DocumentID,
+			content,
 			document.Content,
 			document.Views,
 			links,
