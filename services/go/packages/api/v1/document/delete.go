@@ -37,7 +37,6 @@ func Delete(c *fiber.Ctx) error {
 
 	documentCreator, _ := document.Creator()
 
-	println(string(documentCreator))
 	if string(documentCreator) != user.Username {
 		return c.Status(401).JSON(&fiber.Map{
 			"success": false,
