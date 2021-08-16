@@ -73,7 +73,7 @@ func Get(c *fiber.Ctx) error {
 		).Delete().Exec(ctx)
 
 		client.DocumentSettings.FindUnique(
-			db.DocumentSettings.ID.Equals(deletedDocument.DocumentID),
+			db.DocumentSettings.ID.Equals(deletedDocument.DocumentSettingsID),
 		).Delete().Exec(ctx)
 	}
 
