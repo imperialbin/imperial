@@ -67,8 +67,6 @@ func Get(c *fiber.Ctx) error {
 		Editors:       document.DocumentSettings().Editors,
 	}
 
-	println(content)
-
 	return c.JSON(&fiber.Map{
 		"success": true,
 		"data": &CreateDocumentData{

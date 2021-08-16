@@ -92,7 +92,6 @@ func Post(c *fiber.Ctx) error {
 	).Exec(ctx)
 
 	if err != nil {
-		println(err)
 		return c.Status(500).JSON(&fiber.Map{
 			"success": false,
 			"message": "An internal server error occurred whilst creating that document!",
