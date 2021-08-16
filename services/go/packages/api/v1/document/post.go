@@ -116,7 +116,7 @@ func Post(c *fiber.Ctx) error {
 		ImageEmbed:    createdDocumentSettings.ImageEmbed,
 		InstantDelete: createdDocumentSettings.InstantDelete,
 		Encrypted:     createdDocumentSettings.Encrypted,
-		Password:      &password,
+		Password:      password,
 		Public:        createdDocumentSettings.Public,
 		Editors:       createdDocumentSettings.Editors,
 	}
