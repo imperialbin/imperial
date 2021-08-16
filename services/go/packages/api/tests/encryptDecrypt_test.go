@@ -10,9 +10,9 @@ func TestEncryptDecrypt(t *testing.T) {
 	text := "super secret text i need to store securely."
 
 	encryptedText, iv := utils.Encrypt(text, password)
-	decryptedText := utils.Decrypt(password, encryptedText, iv)
+	decryptedText, err := utils.Decrypt(password, encryptedText, iv)
 
-	if decryptedText != text {
+	if err != nil {
 		t.Errorf("Text was incorrect! I really wanted %s, but ended up getting %s", text, decryptedText)
 	}
 }
