@@ -37,8 +37,8 @@ func setupRoutes(app *fiber.App) {
 	/* Documents */
 	app.Get("/v1/document/:id", v1.GetDocument)
 	app.Post("/v1/document", v1.PostDocument)
-	app.Patch("/v1/document", v1.PatchDocument)
-	app.Delete("/v1/document/:id", v1.DeleteDocument)
+	app.Patch("/v1/document", middleware.CheckAuthenticated, v1.PatchDocument)
+	app.Delete("/v1/document/:id", middleware.CheckAuthenticated, v1.DeleteDocument)
 }
 
 func main() {
