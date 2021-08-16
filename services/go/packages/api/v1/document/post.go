@@ -63,6 +63,8 @@ func Post(c *fiber.Ctx) error {
 		}
 
 		content, encryptedIv = Encrypt(content, password)
+	} else {
+		password = ""
 	}
 
 	if err != nil {
@@ -114,7 +116,7 @@ func Post(c *fiber.Ctx) error {
 		ImageEmbed:    createdDocumentSettings.ImageEmbed,
 		InstantDelete: createdDocumentSettings.InstantDelete,
 		Encrypted:     createdDocumentSettings.Encrypted,
-		Password:      password,
+		Password:      &password,
 		Public:        createdDocumentSettings.Public,
 		Editors:       createdDocumentSettings.Editors,
 	}
