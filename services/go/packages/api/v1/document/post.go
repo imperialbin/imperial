@@ -25,12 +25,14 @@ func Post(c *fiber.Ctx) error {
 		})
 	}
 
+	content := documentRequest.Content
 	language := documentRequest.Settings.Language.String
 	imageEmbed := documentRequest.Settings.ImageEmbed.Bool
 	instantDelete := documentRequest.Settings.InstantDelete.Bool
 	encrypted := documentRequest.Settings.Encrypted.Bool
 	public := documentRequest.Settings.Public.Bool
 	editors := documentRequest.Settings.Editors
+	password := documentRequest.Settings.Password.String
 
 	/* Check if longer/shorter URLs are enabled */
 	var randomString, err = GenerateRandomString(8)
@@ -42,6 +44,25 @@ func Post(c *fiber.Ctx) error {
 		randomString, err = GenerateRandomString(32)
 	} else if shortURLs {
 		randomString, err = GenerateRandomString(4)
+	}
+
+	/* If the user wants encryption */
+	var encryptedIv string
+	if encrypted {
+		if len(password) < 1 {
+			randomString, err := GenerateRandomString(8)
+
+			if err != nil {
+				c.Status(500).JSON(&fiber.Map{
+					"success": false,
+					"message": "An error occurred whilst generating a password for your encrypted document!",
+				})
+			}
+
+			password = randomString
+		}
+
+		content, encryptedIv = Encrypt(content, password)
 	}
 
 	if err != nil {
@@ -62,11 +83,12 @@ func Post(c *fiber.Ctx) error {
 
 	createdDocument, err := client.Document.CreateOne(
 		db.Document.DocumentID.Set(randomString),
-		db.Document.Content.Set(documentRequest.Content),
+		db.Document.Content.Set(content),
 		db.Document.ExpirationDate.Set(time.Now().UTC().AddDate(0, 0, int(documentRequest.Settings.Expiration.Int64))),
 		db.Document.DocumentSettings.Link(
 			db.DocumentSettings.ID.Equals(createdDocumentSettings.ID),
 		),
+		db.Document.EncryptedIv.SetIfPresent(&encryptedIv),
 	).Exec(ctx)
 
 	if err != nil {
@@ -93,7 +115,7 @@ func Post(c *fiber.Ctx) error {
 		ImageEmbed:    createdDocumentSettings.ImageEmbed,
 		InstantDelete: createdDocumentSettings.InstantDelete,
 		Encrypted:     createdDocumentSettings.Encrypted,
-		Password:      "Non",
+		Password:      password,
 		Public:        createdDocumentSettings.Public,
 		Editors:       createdDocumentSettings.Editors,
 	}
