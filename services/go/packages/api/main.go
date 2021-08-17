@@ -1,7 +1,7 @@
 package main
 
 import (
-	middleware "api/middleware"
+	"api/middleware"
 	"api/prisma/db"
 	"api/utils"
 	v1 "api/v1"
