@@ -2,16 +2,16 @@ package user
 
 import (
 	"api/prisma/db"
-	"api/utils"
+	. "api/utils"
 	. "api/v1/commons"
 	"context"
 
 	"github.com/gofiber/fiber/v2"
 )
 
-func GetUser(c *fiber.Ctx) error {
+func FindUser(c *fiber.Ctx) error {
 	var username = c.Params("username")
-	client := utils.GetPrisma()
+	client := GetPrisma()
 	ctx := context.Background()
 
 	user, err := client.User.FindUnique(

@@ -2,7 +2,7 @@ package document
 
 import (
 	"api/prisma/db"
-	"api/utils"
+	. "api/utils"
 	. "api/v1/commons"
 	"context"
 
@@ -14,7 +14,7 @@ func Get(c *fiber.Ctx) error {
 
 	var id = c.Params("id")
 	var password = c.Query("password")
-	client := utils.GetPrisma()
+	client := GetPrisma()
 	ctx := context.Background()
 
 	document, err := client.Document.FindFirst(
@@ -40,7 +40,7 @@ func Get(c *fiber.Ctx) error {
 			})
 		}
 		encryptedIv, _ := document.EncryptedIv()
-		content, err = utils.Decrypt(password, document.Content, encryptedIv)
+		content, err = Decrypt(password, document.Content, encryptedIv)
 
 		if err != nil {
 			return c.Status(401).JSON(Response{

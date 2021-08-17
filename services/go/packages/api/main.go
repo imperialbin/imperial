@@ -3,7 +3,7 @@ package main
 import (
 	"api/middleware"
 	"api/prisma/db"
-	"api/utils"
+	. "api/utils"
 	v1 "api/v1"
 	. "api/v1/commons"
 	"log"
@@ -62,20 +62,20 @@ func main() {
 
 	setupRoutes(app)
 
-	if utils.GetPrisma() == nil {
-		utils.SetGlobalDb(db.NewClient())
+	if GetPrisma() == nil {
+		SetGlobalDb(db.NewClient())
 	}
 
-	if utils.GetRedisDB() == nil {
-		utils.SetRedisDB()
+	if GetRedisDB() == nil {
+		SetRedisDB()
 	}
 
-	if err := utils.GetPrisma().Prisma.Connect(); err != nil {
+	if err := GetPrisma().Prisma.Connect(); err != nil {
 		panic(err)
 	}
 
 	defer func() {
-		if err := utils.GetPrisma().Prisma.Disconnect(); err != nil {
+		if err := GetPrisma().Prisma.Disconnect(); err != nil {
 			panic(err)
 		}
 	}()

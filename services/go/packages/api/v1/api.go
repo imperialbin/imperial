@@ -51,5 +51,5 @@ func GetMe(c *fiber.Ctx) error {
 }
 
 func GetUser(c *fiber.Ctx) error {
-	return user.GetUser(c)
+	return user.FindUser(c)
 }
