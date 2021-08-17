@@ -5,6 +5,7 @@ import (
 	"api/prisma/db"
 	"api/utils"
 	v1 "api/v1"
+	"log"
 	"os"
 
 	"github.com/gofiber/fiber/v2"
@@ -78,5 +79,5 @@ func main() {
 		}
 	}()
 
-	app.Listen(":" + os.Getenv("PORT"))
+	log.Fatal(app.Listen(":" + os.Getenv("PORT")))
 }
