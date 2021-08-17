@@ -15,9 +15,22 @@ type LoginRequest struct {
 }
 
 type EditDocument struct {
-	Id               string                 `json:"id" validate:"required"`
-	Content          string                 `json:"content"`
-	DocumentSettings DocumentSettingsStruct `json:"settings"`
+	Id       string                     `json:"id" validate:"required"`
+	Content  *string                    `json:"content"`
+	Settings EditDocumentSettingsStruct `json:"settings"`
+}
+
+type EditDocumentSettingsStruct struct {
+	Language      *string  `json:"language"`
+	Expiration    *int     `json:"expiration"`
+	ShortURLs     *bool    `json:"shortUrls"`
+	LongURLs      *bool    `json:"longUrls"`
+	ImageEmbed    *bool    `json:"imageEmbed"`
+	InstantDelete *bool    `json:"instantDelete"`
+	Encrypted     *bool    `json:"encrypted"`
+	Password      *string  `json:"password"`
+	Public        *bool    `json:"public"`
+	Editors       *[]string `json:"editors"`
 }
 
 type ErrorResponse struct {
