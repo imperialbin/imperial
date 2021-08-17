@@ -77,15 +77,22 @@ func Get(c *fiber.Ctx) error {
 		).Delete().Exec(ctx)
 	}
 
+	/* Increase view count by one */
+	client.Document.FindUnique(
+		db.Document.DocumentID.Equals(id),
+	).Update(
+		db.Document.Views.Increment(1),
+	).Exec(ctx)
+
 	return c.JSON(&fiber.Map{
 		"success": true,
 		"data": &CreateDocumentData{
-			document.DocumentID,
-			content,
-			document.Views,
-			links,
-			timestamps,
-			settings,
+			Id:         document.DocumentID,
+			Content:    content,
+			Views:      document.Views + 1, /* We're + 1ing here because we incremented the value before we got the document */
+			Links:      links,
+			Timestamps: timestamps,
+			Settings:   settings,
 		},
 	})
 }
