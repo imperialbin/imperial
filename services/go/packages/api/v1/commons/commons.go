@@ -14,6 +14,12 @@ type LoginRequest struct {
 	Password string `json:"password" validate:"required"`
 }
 
+type EditDocument struct {
+	Id               string                 `json:"id" validate:"required"`
+	Content          string                 `json:"content"`
+	DocumentSettings DocumentSettingsStruct `json:"settings"`
+}
+
 type ErrorResponse struct {
 	FailedField string `json:"failedField"`
 	Tag         string
