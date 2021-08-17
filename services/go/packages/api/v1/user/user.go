@@ -31,6 +31,7 @@ func User(c *fiber.Ctx) error {
 			Username:   user.Username,
 			Icon:       user.Icon,
 			MemberPlus: user.MemberPlus,
+			
 		},
 	})
 }

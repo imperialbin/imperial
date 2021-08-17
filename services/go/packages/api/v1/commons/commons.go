@@ -70,8 +70,9 @@ type User struct {
 
 type PublicUser struct {
 	Username   string `json:"username"`
-	Icon        string `json:"icon"`
+	Icon       string `json:"icon"`
 	MemberPlus bool   `json:"memberPlus"`
+	Banned     bool   `json:"banned"`
 }
 
 type UserSettings struct {
