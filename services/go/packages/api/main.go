@@ -34,7 +34,7 @@ func setupRoutes(app *fiber.App) {
 
 	/* Users */
 	app.Get("/v1/user/@me", middleware.CheckAuthenticated, v1.GetMe)
-	app.Get("/v1/user/:userId", middleware.CheckAuthenticated, v1.GetUser)
+	app.Get("/v1/user/:username", middleware.CheckAuthenticated, v1.GetUser)
 
 	/* Documents */
 	app.Get("/v1/document/:id", v1.GetDocument)
