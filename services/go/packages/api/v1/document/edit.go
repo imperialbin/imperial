@@ -70,7 +70,7 @@ func Edit(c *fiber.Ctx) error {
 		})
 	}
 
-	updatedDocument, err := client.Document.FindUnique(
+	updatedDocument, _ := client.Document.FindUnique(
 		db.Document.DocumentID.Equals(req.Id),
 	).Update(
 		db.Document.Content.SetIfPresent(req.Content),
@@ -110,12 +110,12 @@ func Edit(c *fiber.Ctx) error {
 	return c.JSON(&fiber.Map{
 		"success": true,
 		"data": &CreateDocumentData{
-			updatedDocument.DocumentID,
-			updatedDocument.Content,
-			updatedDocument.Views,
-			links,
-			timestamps,
-			settings,
+			Id:         updatedDocument.DocumentID,
+			Content:    updatedDocument.Content,
+			Views:      updatedDocument.Views,
+			Links:      links,
+			Timestamps: timestamps,
+			Settings:   settings,
 		},
 	})
 }

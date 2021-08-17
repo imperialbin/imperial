@@ -29,7 +29,7 @@ func Get(c *fiber.Ctx) error {
 	}
 
 	/* When the psychopath decides that he would like to decrypt his document */
-	var content string = document.Content
+	var content = document.Content
 	if document.DocumentSettings().Encrypted {
 		if len(password) < 1 {
 			return c.Status(400).JSON(&fiber.Map{

@@ -2,7 +2,6 @@ package document
 
 import (
 	"api/prisma/db"
-	"api/utils"
 	. "api/utils"
 	. "api/v1/commons"
 	"context"
@@ -12,7 +11,7 @@ import (
 )
 
 func Post(c *fiber.Ctx) error {
-	client := utils.GetPrisma()
+	client := GetPrisma()
 	ctx := context.Background()
 
 	/* Document stuff */
@@ -84,7 +83,7 @@ func Post(c *fiber.Ctx) error {
 		})
 	}
 
-	createdDocumentSettings, err := client.DocumentSettings.CreateOne(
+	createdDocumentSettings, _ := client.DocumentSettings.CreateOne(
 		db.DocumentSettings.Language.Set(language),
 		db.DocumentSettings.ImageEmbed.Set(imageEmbed),
 		db.DocumentSettings.InstantDelete.Set(instantDelete),
@@ -135,12 +134,12 @@ func Post(c *fiber.Ctx) error {
 	return c.JSON(&fiber.Map{
 		"success": true,
 		"data": &CreateDocumentData{
-			createdDocument.DocumentID,
-			createdDocument.Content,
-			createdDocument.Views,
-			links,
-			timestamps,
-			settings,
+			Id:         createdDocument.DocumentID,
+			Content:    createdDocument.Content,
+			Views:      createdDocument.Views,
+			Links:      links,
+			Timestamps: timestamps,
+			Settings:   settings,
 		},
 	})
 
