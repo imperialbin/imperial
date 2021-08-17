@@ -1,7 +1,23 @@
 {
-  "name": "app",
-  "version": "0.1.0",
-  "private": true,
+  "name": "IMPERIAL Frontend",
+  "version": "1.0.0",
+  "private": false,
+  "license": "MPL-2.0",
+  "description": "IMPERIAL's mono-repo including the API and frontend",
+  "author": {
+    "email": "hello@looskie.com",
+    "name": "Cody Miller",
+    "url": "https://looskie.com"
+  },
+  "contributors": [
+    "DebitCardz",
+    "alii",
+    "bfu4",
+    "pxseu",
+    "hexiro",
+    "boon-cpu",
+    "SynergyBest"
+  ],
   "scripts": {
     "dev": "next dev",
     "build": "next build",
