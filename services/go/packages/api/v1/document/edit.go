@@ -94,8 +94,8 @@ func Edit(c *fiber.Ctx) error {
 	}
 
 	links := Links{
-		Raw:       "https://imperialb.in/r/" + updatedDocument.DocumentID,
-		Formatted: "https://imperialb.in/p/" + updatedDocument.DocumentID,
+		Raw:       c.BaseURL() + "/r/" + updatedDocument.DocumentID,
+		Formatted: c.BaseURL() + "/p/" + updatedDocument.DocumentID,
 	}
 
 	settings := CreatedDocumentSettingsStruct{

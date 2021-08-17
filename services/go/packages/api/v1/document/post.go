@@ -117,8 +117,8 @@ func Post(c *fiber.Ctx) error {
 	}
 
 	links := Links{
-		Raw:       "https://imperialb.in/r/" + createdDocument.DocumentID,
-		Formatted: "https://imperialb.in/p/" + createdDocument.DocumentID,
+		Raw:       c.BaseURL() + "/r/" + createdDocument.DocumentID,
+		Formatted: c.BaseURL() + "/p/" + createdDocument.DocumentID,
 	}
 
 	settings := CreatedDocumentSettingsStruct{

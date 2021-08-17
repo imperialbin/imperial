@@ -10,6 +10,8 @@ import (
 )
 
 func Get(c *fiber.Ctx) error {
+	/* Todo: Make editors an array of objects with username and Icon */
+
 	var id = c.Params("id")
 	var password = c.Query("password")
 	client := utils.GetPrisma()
@@ -54,8 +56,8 @@ func Get(c *fiber.Ctx) error {
 	}
 
 	links := Links{
-		Raw:       "https://imperialb.in/r/" + document.DocumentID,
-		Formatted: "https://imperialb.in/p/" + document.DocumentID,
+		Raw:       c.BaseURL() + "/r/" + document.DocumentID,
+		Formatted: c.BaseURL() + "/p/" + document.DocumentID,
 	}
 
 	settings := CreatedDocumentSettingsStruct{
