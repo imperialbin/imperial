@@ -121,3 +121,10 @@ type DocumentStruct struct {
 	Content  string                 `json:"content"`
 	Settings DocumentSettingsStruct `json:"settings"`
 }
+
+type Response struct {
+	Success bool             `json:"success"`
+	Message string           `json:"message,omitempty"`
+	Data    interface{}      `json:"data,omitempty"`
+	Errors  []*ErrorResponse `json:"errors,omitempty"`
+}
