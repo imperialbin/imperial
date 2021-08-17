@@ -118,6 +118,4 @@ func Edit(c *fiber.Ctx) error {
 			settings,
 		},
 	})
-
-	return c.SendString("Editing deez nuts")
 }
