@@ -32,8 +32,9 @@ func setupRoutes(app *fiber.App) {
 	app.Post("/v1/auth/signup", middleware.CheckNotAuthenticated, v1.PostSignup)
 	app.Delete("/v1/auth/logout", middleware.CheckAuthenticated, v1.DeleteLogout)
 
-	/* @me */
-	app.Get("/v1/@me", middleware.CheckAuthenticated, v1.GetMe)
+	/* Users */
+	app.Get("/v1/user/@me", middleware.CheckAuthenticated, v1.GetMe)
+	app.Get("/v1/user/:userId", middleware.CheckAuthenticated, v1.GetUser)
 
 	/* Documents */
 	app.Get("/v1/document/:id", v1.GetDocument)
