@@ -54,7 +54,9 @@ func main() {
 		BodyLimit:     0.5 * 1024 * 1024,
 	})
 
-	app.Use(logger.New())
+	app.Use(logger.New(logger.Config{
+		Format: "${time} |   ${cyan}${status} ${reset}|   ${latency} | ${ip} on ${cyan}${ua} ${reset}| ${cyan}${method} ${reset}${path} \n",
+	}))
 
 	setupRoutes(app)
 
