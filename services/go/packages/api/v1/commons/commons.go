@@ -21,13 +21,13 @@ type EditDocument struct {
 }
 
 type EditDocumentSettingsStruct struct {
-	Language      *string  `json:"language"`
-	Expiration    *int     `json:"expiration"`
-	ImageEmbed    *bool    `json:"imageEmbed"`
-	InstantDelete *bool    `json:"instantDelete"`
-	Encrypted     *bool    `json:"encrypted"`
-	Password      *string  `json:"password"`
-	Public        *bool    `json:"public"`
+	Language      *string   `json:"language"`
+	Expiration    *int      `json:"expiration"`
+	ImageEmbed    *bool     `json:"imageEmbed"`
+	InstantDelete *bool     `json:"instantDelete"`
+	Encrypted     *bool     `json:"encrypted"`
+	Password      *string   `json:"password"`
+	Public        *bool     `json:"public"`
 	Editors       *[]string `json:"editors"`
 }
 
@@ -66,6 +66,12 @@ type User struct {
 	Opt                      *string      `json:"opt"`
 	UserSettingsID           string       `json:"-"`
 	Settings                 UserSettings `json:"settings"`
+}
+
+type PublicUser struct {
+	Username   string `json:"username"`
+	Icon        string `json:"icon"`
+	MemberPlus bool   `json:"memberPlus"`
 }
 
 type UserSettings struct {
