@@ -3,7 +3,7 @@ package v1
 import (
 	. "api/v1/auth"
 	. "api/v1/document"
-	. "api/v1/me"
+	. "api/v1/user"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -47,4 +47,8 @@ func DeleteLogout(c *fiber.Ctx) error {
 
 func GetMe(c *fiber.Ctx) error {
 	return Me(c)
+}
+
+func GetUser(c *fiber.Ctx) error {
+	return User(c)
 }
