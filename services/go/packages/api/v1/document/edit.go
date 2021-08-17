@@ -15,19 +15,19 @@ func Edit(c *fiber.Ctx) error {
 	ctx := context.Background()
 
 	if err := c.BodyParser(req); err != nil {
-		return c.JSON(&fiber.Map{
-			"success": false,
-			"message": "You have a type error in your request!",
+		return c.JSON(Response{
+			Success: false,
+			Message: "You have a type error in your request!",
 		})
 	}
 
 	errors := ValidateRequest(*req)
 
 	if errors != nil {
-		return c.Status(400).JSON(&fiber.Map{
-			"success": false,
-			"message": "You have a validation error in your request.",
-			"errors":  errors,
+		return c.Status(400).JSON(Response{
+			Success: false,
+			Message: "You have a validation error in your request.",
+			Errors:  errors,
 		})
 	}
 
@@ -38,18 +38,18 @@ func Edit(c *fiber.Ctx) error {
 	).Exec(ctx)
 
 	if err != nil {
-		return c.Status(404).JSON(&fiber.Map{
-			"success": false,
-			"message": "We couldn't find that document!",
+		return c.Status(404).JSON(Response{
+			Success: false,
+			Message: "We couldn't find that document!",
 		})
 	}
 
 	user, err := GetUser(c)
 
 	if err != nil {
-		return c.Status(404).JSON(&fiber.Map{
-			"success": false,
-			"message": "There was an error trying to find your user.",
+		return c.Status(404).JSON(Response{
+			Success: false,
+			Message: "There was an error trying to find your user.",
 		})
 	}
 
@@ -57,16 +57,16 @@ func Edit(c *fiber.Ctx) error {
 	documentCreator, _ := document.Creator()
 
 	if user.Username != documentCreator && !ArrayContains(document.DocumentSettings().Editors, user.Username) {
-		return c.Status(401).JSON(&fiber.Map{
-			"success": false,
-			"message": "You are not authorized to edit this document!",
+		return c.Status(401).JSON(Response{
+			Success: false,
+			Message: "You are not authorized to edit this document!",
 		})
 	}
 
 	if req.Settings.Encrypted != nil {
-		return c.Status(400).JSON(&fiber.Map{
-			"success": false,
-			"message": "You can not set 'encrypted' after it has been made!",
+		return c.Status(400).JSON(Response{
+			Success: false,
+			Message: "You can not set 'encrypted' after it has been made!",
 		})
 	}
 
@@ -107,9 +107,9 @@ func Edit(c *fiber.Ctx) error {
 		Editors:       updatedDocumentSettings.Editors,
 	}
 
-	return c.JSON(&fiber.Map{
-		"success": true,
-		"data": &CreateDocumentData{
+	return c.JSON(Response{
+		Success: true,
+		Data: &CreateDocumentData{
 			ID:         updatedDocument.DocumentID,
 			Content:    updatedDocument.Content,
 			Views:      updatedDocument.Views,

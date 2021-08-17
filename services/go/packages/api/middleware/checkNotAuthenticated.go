@@ -2,7 +2,7 @@ package middleware
 
 import (
 	. "api/utils"
-
+	. "api/v1/commons"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -20,8 +20,8 @@ func CheckNotAuthenticated(c *fiber.Ctx) error {
 		return c.Next()
 	}
 
-	return c.Status(401).JSON(&fiber.Map{
-		"success": false,
-		"message": "You can not be authenticated in this route!",
+	return c.Status(401).JSON(Response{
+		Success: false,
+		Message: "You can not be authenticated in this route!",
 	})
 }

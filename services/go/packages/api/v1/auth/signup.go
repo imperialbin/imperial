@@ -2,7 +2,6 @@ package auth
 
 import (
 	"api/prisma/db"
-	"api/utils"
 	. "api/utils"
 	. "api/v1/commons"
 	"context"
@@ -13,30 +12,30 @@ import (
 
 func Signup(c *fiber.Ctx) error {
 	req := new(SignupRequest)
-	client := utils.GetPrisma()
+	client := GetPrisma()
 	ctx := context.Background()
 
 	if err := c.BodyParser(req); err != nil {
-		return c.JSON(&fiber.Map{
-			"success": false,
-			"message": "You have a type error in your request!",
+		return c.JSON(Response{
+			Success: false,
+			Message: "You have a type error in your request!",
 		})
 	}
 
 	errors := ValidateRequest(*req)
 
 	if errors != nil {
-		return c.Status(400).JSON(&fiber.Map{
-			"success": false,
-			"message": "You have a validation error in your request.",
-			"errors":  errors,
+		return c.Status(400).JSON(Response{
+			Success: false,
+			Message: "You have a validation error in your request.",
+			Errors:  errors,
 		})
 	}
 
 	if req.Password != req.ConfirmPassword {
-		return c.Status(400).JSON(&fiber.Map{
-			"success": false,
-			"message": "Password does not match confirm password!",
+		return c.Status(400).JSON(Response{
+			Success: false,
+			Message: "Password does not match confirm password!",
 		})
 	}
 
@@ -45,9 +44,9 @@ func Signup(c *fiber.Ctx) error {
 	).Exec(ctx)
 
 	if emailErr == nil {
-		return c.Status(400).JSON(&fiber.Map{
-			"success": false,
-			"message": "That email already has an account",
+		return c.Status(400).JSON(Response{
+			Success: false,
+			Message: "That email already has an account",
 		})
 	}
 
@@ -56,27 +55,27 @@ func Signup(c *fiber.Ctx) error {
 	).Exec(ctx)
 
 	if usernameErr == nil {
-		return c.Status(400).JSON(&fiber.Map{
-			"success": false,
-			"message": "That username is taken!",
+		return c.Status(400).JSON(Response{
+			Success: false,
+			Message: "That username is taken!",
 		})
 	}
 
 	hashedPassword, err := HashPassword(req.Password)
 
 	if err != nil {
-		return c.Status(500).JSON(&fiber.Map{
-			"success": false,
-			"message": "There was an internal server error while fulfilling your request.",
+		return c.Status(500).JSON(Response{
+			Success: false,
+			Message: "There was an internal server error while fulfilling your request.",
 		})
 	}
 
 	createdUserSettings, err := client.UserSettings.CreateOne().Exec(ctx)
 
 	if err != nil {
-		return c.Status(500).JSON(&fiber.Map{
-			"success": false,
-			"message": "An error occurred whilst creating user's settings.",
+		return c.Status(500).JSON(Response{
+			Success: false,
+			Message: "An error occurred whilst creating user's settings.",
 		})
 	}
 
@@ -91,9 +90,9 @@ func Signup(c *fiber.Ctx) error {
 	).Exec(ctx)
 
 	if err != nil {
-		return c.Status(500).JSON(&fiber.Map{
-			"success": false,
-			"message": "An error occurred whilst creating user.",
+		return c.Status(500).JSON(Response{
+			Success: false,
+			Message: "An error occurred whilst creating user.",
 		})
 	}
 
@@ -102,9 +101,12 @@ func Signup(c *fiber.Ctx) error {
 	RedisSet(token, createdUser.ID, 7)
 	RedisSet(createdUser.APIToken, createdUser.ID, 0)
 
-	return c.JSON(&fiber.Map{
-		"success":   true,
-		"message":   "Successfully created your account!",
-		"authToken": token,
+	return c.JSON(Response{
+		Success:   true,
+		Message:   "Successfully created your account!",
+		Data: fiber.Map{
+			"authToken": token,
+		},
+
 	})
 }
