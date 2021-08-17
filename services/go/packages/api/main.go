@@ -68,12 +68,12 @@ func main() {
 		utils.SetRedisDB()
 	}
 
-	if err := utils.GetPrisma().Connect(); err != nil {
+	if err := utils.GetPrisma().Prisma.Connect(); err != nil {
 		panic(err)
 	}
 
 	defer func() {
-		if err := utils.GetPrisma().Disconnect(); err != nil {
+		if err := utils.GetPrisma().Prisma.Disconnect(); err != nil {
 			panic(err)
 		}
 	}()
