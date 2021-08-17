@@ -5,6 +5,7 @@ import (
 	"api/prisma/db"
 	"api/utils"
 	v1 "api/v1"
+	"os"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
@@ -74,5 +75,5 @@ func main() {
 		}
 	}()
 
-	app.Listen(":3000")
+	app.Listen(":" + os.Getenv("PORT"))
 }
