@@ -1,9 +1,9 @@
 package v1
 
 import (
-	. "api/v1/auth"
-	. "api/v1/document"
-	. "api/v1/user"
+	"api/v1/auth"
+	"api/v1/document"
+	"api/v1/user"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -18,37 +18,37 @@ func Introduction(c *fiber.Ctx) error {
 }
 
 func GetDocument(c *fiber.Ctx) error {
-	return Get(c)
+	return document.Get(c)
 }
 
 func PostDocument(c *fiber.Ctx) error {
-	return Post(c)
+	return document.Post(c)
 }
 
 func PatchDocument(c *fiber.Ctx) error {
-	return Edit(c)
+	return document.Edit(c)
 }
 
 func DeleteDocument(c *fiber.Ctx) error {
-	return Delete(c)
+	return document.Delete(c)
 }
 
 func PostLogin(c *fiber.Ctx) error {
-	return Login(c)
+	return auth.Login(c)
 }
 
 func PostSignup(c *fiber.Ctx) error {
-	return Signup(c)
+	return auth.Signup(c)
 }
 
 func DeleteLogout(c *fiber.Ctx) error {
-	return Logout(c)
+	return auth.Logout(c)
 }
 
 func GetMe(c *fiber.Ctx) error {
-	return Me(c)
+	return user.Me(c)
 }
 
 func GetUser(c *fiber.Ctx) error {
-	return User(c)
+	return user.GetUser(c)
 }

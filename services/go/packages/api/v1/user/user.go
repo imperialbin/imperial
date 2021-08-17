@@ -9,7 +9,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-func User(c *fiber.Ctx) error {
+func GetUser(c *fiber.Ctx) error {
 	var username = c.Params("username")
 	client := utils.GetPrisma()
 	ctx := context.Background()
