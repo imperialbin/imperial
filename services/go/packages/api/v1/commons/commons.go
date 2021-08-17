@@ -23,8 +23,6 @@ type EditDocument struct {
 type EditDocumentSettingsStruct struct {
 	Language      *string  `json:"language"`
 	Expiration    *int     `json:"expiration"`
-	ShortURLs     *bool    `json:"shortUrls"`
-	LongURLs      *bool    `json:"longUrls"`
 	ImageEmbed    *bool    `json:"imageEmbed"`
 	InstantDelete *bool    `json:"instantDelete"`
 	Encrypted     *bool    `json:"encrypted"`
