@@ -89,7 +89,7 @@ func Get(c *fiber.Ctx) error {
 	return c.JSON(&fiber.Map{
 		"success": true,
 		"data": &CreateDocumentData{
-			Id:         document.DocumentID,
+			ID:         document.DocumentID,
 			Content:    content,
 			Views:      document.Views + 1, /* We're + 1ing here because we incremented the value before we got the document */
 			Links:      links,

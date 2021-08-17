@@ -15,7 +15,7 @@ type LoginRequest struct {
 }
 
 type EditDocument struct {
-	Id       string                     `json:"id" validate:"required"`
+	ID       string                     `json:"id" validate:"required"`
 	Content  *string                    `json:"content"`
 	Settings EditDocumentSettingsStruct `json:"settings"`
 }
@@ -77,8 +77,8 @@ type PublicUser struct {
 
 type UserSettings struct {
 	Clipboard     bool `json:"clipboard"`
-	LongURLs      bool `json:longUrls`
-	ShortURLs     bool `json:shortUrls`
+	LongURLs      bool `json:"longUrls"`
+	ShortURLs     bool `json:"shortUrls"`
 	InstantDelete bool `json:"instantDelete"`
 	Encrypted     bool `json:"encrypted"`
 	ImageEmbed    bool `json:"imageEmbed"`
@@ -104,7 +104,7 @@ type CreatedDocumentSettingsStruct struct {
 	Editors       []string `json:"editors"`
 }
 type CreateDocumentData struct {
-	Id         string                        `json:"id"`
+	ID         string                        `json:"id"`
 	Content    string                        `json:"content"`
 	Views      int                           `json:"views"`
 	Links      Links                         `json:"links"`

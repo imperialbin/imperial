@@ -32,7 +32,7 @@ func Edit(c *fiber.Ctx) error {
 	}
 
 	document, err := client.Document.FindFirst(
-		db.Document.DocumentID.Equals(req.Id),
+		db.Document.DocumentID.Equals(req.ID),
 	).With(
 		db.Document.DocumentSettings.Fetch(),
 	).Exec(ctx)
@@ -71,7 +71,7 @@ func Edit(c *fiber.Ctx) error {
 	}
 
 	updatedDocument, _ := client.Document.FindUnique(
-		db.Document.DocumentID.Equals(req.Id),
+		db.Document.DocumentID.Equals(req.ID),
 	).Update(
 		db.Document.Content.SetIfPresent(req.Content),
 	).Exec(ctx)
@@ -110,7 +110,7 @@ func Edit(c *fiber.Ctx) error {
 	return c.JSON(&fiber.Map{
 		"success": true,
 		"data": &CreateDocumentData{
-			Id:         updatedDocument.DocumentID,
+			ID:         updatedDocument.DocumentID,
 			Content:    updatedDocument.Content,
 			Views:      updatedDocument.Views,
 			Links:      links,

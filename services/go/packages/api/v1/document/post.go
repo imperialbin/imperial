@@ -134,7 +134,7 @@ func Post(c *fiber.Ctx) error {
 	return c.JSON(&fiber.Map{
 		"success": true,
 		"data": &CreateDocumentData{
-			Id:         createdDocument.DocumentID,
+			ID:         createdDocument.DocumentID,
 			Content:    createdDocument.Content,
 			Views:      createdDocument.Views,
 			Links:      links,
