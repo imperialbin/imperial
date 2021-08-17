@@ -18,9 +18,9 @@ func Post(c *fiber.Ctx) error {
 	documentRequest := new(DocumentStruct)
 
 	if err := c.BodyParser(documentRequest); err != nil {
-		return c.Status(400).JSON(&fiber.Map{
-			"success": false,
-			"message": "You have a type error in your request!",
+		return c.Status(400).JSON(Response{
+			Success: false,
+			Message: "You have a type error in your request!",
 		})
 	}
 
@@ -62,9 +62,9 @@ func Post(c *fiber.Ctx) error {
 			randomString, err := GenerateRandomString(8)
 
 			if err != nil {
-				c.Status(500).JSON(&fiber.Map{
-					"success": false,
-					"message": "An error occurred whilst generating a password for your encrypted document!",
+				c.Status(500).JSON(Response{
+					Success: false,
+					Message: "An error occurred whilst generating a password for your encrypted document!",
 				})
 			}
 
@@ -77,9 +77,9 @@ func Post(c *fiber.Ctx) error {
 	}
 
 	if err != nil {
-		return c.Status(500).JSON(&fiber.Map{
-			"success": false,
-			"message": "An error occurred whilst creating random string.",
+		return c.Status(500).JSON(Response{
+			Success: false,
+			Message: "An error occurred whilst creating random string.",
 		})
 	}
 
@@ -104,9 +104,9 @@ func Post(c *fiber.Ctx) error {
 	).Exec(ctx)
 
 	if err != nil {
-		return c.Status(500).JSON(&fiber.Map{
-			"success": false,
-			"message": "An internal server error occurred whilst creating that document!",
+		return c.Status(500).JSON(Response{
+			Success: false,
+			Message: "An internal server error occurred whilst creating that document!",
 		},
 		)
 	}
@@ -128,12 +128,10 @@ func Post(c *fiber.Ctx) error {
 		Encrypted:     createdDocumentSettings.Encrypted,
 		Password:      &password,
 		Public:        createdDocumentSettings.Public,
-		Editors:       createdDocumentSettings.Editors,
-	}
-
-	return c.JSON(&fiber.Map{
-		"success": true,
-		"data": &CreateDocumentData{
+		Editors:       createdDocumentSettings.Editors,}
+	return c.JSON(Response{
+		Success: true,
+		Data: &CreateDocumentData{
 			ID:         createdDocument.DocumentID,
 			Content:    createdDocument.Content,
 			Views:      createdDocument.Views,

@@ -15,19 +15,19 @@ func Login(c *fiber.Ctx) error {
 	ctx := context.Background()
 
 	if err := c.BodyParser(req); err != nil {
-		return c.JSON(&fiber.Map{
-			"success": false,
-			"message": "You have a type error in your request!",
+		return c.JSON(Response{
+			Success: false,
+			Message: "You have a type error in your request!",
 		})
 	}
 
 	errors := ValidateRequest(*req)
 
 	if errors != nil {
-		return c.Status(400).JSON(&fiber.Map{
-			"success": false,
-			"message": "You have a validation error in your request.",
-			"errors":  errors,
+		return c.Status(400).JSON(Response{
+			Success: false,
+			Message: "You have a validation error in your request.",
+			Errors:  errors,
 		})
 	}
 
@@ -39,9 +39,9 @@ func Login(c *fiber.Ctx) error {
 	).Exec(ctx)
 
 	if err != nil || !CheckHashedPassword(user.Password, req.Password) {
-		return c.Status(400).JSON(&fiber.Map{
-			"success": false,
-			"message": "Username or password is incorrect!",
+		return c.Status(400).JSON(Response{
+			Success: false,
+			Message: "Username or password is incorrect!",
 		})
 	}
 
@@ -50,9 +50,11 @@ func Login(c *fiber.Ctx) error {
 	RedisSet(token, user.ID, 7)
 	RedisSet(user.APIToken, user.ID, 0)
 
-	return c.JSON(&fiber.Map{
-		"success": true,
-		"message": "Created session",
-		"token":   token,
+	return c.JSON(Response{
+		Success: true,
+		Message: "Created session",
+		Data: fiber.Map{
+			"token": token,
+		},
 	})
 }

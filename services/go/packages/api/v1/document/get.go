@@ -24,9 +24,9 @@ func Get(c *fiber.Ctx) error {
 	).Exec(ctx)
 
 	if err != nil {
-		return c.Status(404).JSON(&fiber.Map{
-			"success": false,
-			"message": "We couldn't find that document!",
+		return c.Status(404).JSON(Response{
+			Success: false,
+			Message: "We couldn't find that document!",
 		})
 	}
 
@@ -34,18 +34,18 @@ func Get(c *fiber.Ctx) error {
 	var content = document.Content
 	if document.DocumentSettings().Encrypted {
 		if len(password) < 1 {
-			return c.Status(400).JSON(&fiber.Map{
-				"success": false,
-				"message": "password query (?password=documentPassword), was not provided!",
+			return c.Status(400).JSON(Response{
+				Success: false,
+				Message: "password query (?password=documentPassword), was not provided!",
 			})
 		}
 		encryptedIv, _ := document.EncryptedIv()
 		content, err = utils.Decrypt(password, document.Content, encryptedIv)
 
 		if err != nil {
-			return c.Status(401).JSON(&fiber.Map{
-				"success": false,
-				"message": "You've provided the wrong password for this encrypted document!",
+			return c.Status(401).JSON(Response{
+				Success: false,
+				Message: "You've provided the wrong password for this encrypted document!",
 			})
 		}
 	}
@@ -86,9 +86,9 @@ func Get(c *fiber.Ctx) error {
 		db.Document.Views.Increment(1),
 	).Exec(ctx)
 
-	return c.JSON(&fiber.Map{
-		"success": true,
-		"data": &CreateDocumentData{
+	return c.JSON(Response{
+		Success: true,
+		Data: &CreateDocumentData{
 			ID:         document.DocumentID,
 			Content:    content,
 			Views:      document.Views + 1, /* We're + 1ing here because we incremented the value before we got the document */

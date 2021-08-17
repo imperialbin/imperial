@@ -19,15 +19,15 @@ func GetUser(c *fiber.Ctx) error {
 	).Exec(ctx)
 
 	if err != nil {
-		return c.Status(404).JSON(&fiber.Map{
-			"success": false,
-			"message": "We could not find that user!",
+		return c.Status(404).JSON(Response{
+			Success: false,
+			Message: "We could not find that user!",
 		})
 	}
 
-	return c.JSON(&fiber.Map{
-		"success": true,
-		"data": &PublicUser{
+	return c.JSON(Response{
+		Success: true,
+		Data: &PublicUser{
 			Username:   user.Username,
 			Icon:       user.Icon,
 			MemberPlus: user.MemberPlus,

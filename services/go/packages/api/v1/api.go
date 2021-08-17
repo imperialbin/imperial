@@ -2,6 +2,7 @@ package v1
 
 import (
 	"api/v1/auth"
+	. "api/v1/commons"
 	"api/v1/document"
 	"api/v1/user"
 
@@ -9,11 +10,11 @@ import (
 )
 
 func Introduction(c *fiber.Ctx) error {
-	return c.JSON(&fiber.Map{
-		"success":       true,
-		"message":       "Welcome to IMPERIAL's API!",
-		"version":       1,
-		"documentation": "https://docs.imperialb.in/",
+	return c.JSON(VersionResponse{
+		Success:       true,
+		Message:       "Welcome to IMPERIAL's API!",
+		Version:       1,
+		Documentation: "https://docs.imperialb.in/",
 	})
 }
 

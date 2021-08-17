@@ -2,6 +2,7 @@ package user
 
 import (
 	. "api/utils"
+	. "api/v1/commons"
 	"strings"
 
 	"github.com/gofiber/fiber/v2"
@@ -10,14 +11,14 @@ import (
 func Me(c *fiber.Ctx) error {
 	user, err := GetUser(c)
 	if err != nil || strings.HasPrefix("IMPERIAL-", GetAuthToken(c)) {
-		return c.Status(401).JSON(&fiber.Map{
-			"success": false,
-			"message": "You are not authorized!",
+		return c.Status(401).JSON(Response{
+			Success: false,
+			Message: "You are not authorized!",
 		})
 	}
 
-	return c.JSON(&fiber.Map{
-		"success": true,
-		"data":    user,
+	return c.JSON(Response{
+		Success: true,
+		Data:    user,
 	})
 }

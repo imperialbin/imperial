@@ -5,6 +5,7 @@ import (
 	"api/prisma/db"
 	"api/utils"
 	v1 "api/v1"
+	. "api/v1/commons"
 	"log"
 	"os"
 
@@ -16,11 +17,11 @@ import (
 func setupRoutes(app *fiber.App) {
 
 	app.Get("/", func(c *fiber.Ctx) error {
-		return c.JSON(&fiber.Map{
-			"success":           true,
-			"message":           "You have reached IMPERIAL's API!",
-			"availableVersions": [1]string{"/v1"},
-			"documentation":     "https://docs.imperialb.in/",
+		return c.JSON(BaseResponse{
+			Success:           true,
+			Message:           "You have reached IMPERIAL's API!",
+			AvailableVersions: []string{"/v1"},
+			Documentation:     "https://docs.imperialb.in/",
 		})
 	})
 

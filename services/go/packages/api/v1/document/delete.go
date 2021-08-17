@@ -3,6 +3,7 @@ package document
 import (
 	"api/prisma/db"
 	. "api/utils"
+	. "api/v1/commons"
 	"context"
 
 	"github.com/gofiber/fiber/v2"
@@ -16,9 +17,9 @@ func Delete(c *fiber.Ctx) error {
 	user, err := GetUser(c)
 
 	if err != nil {
-		return c.Status(404).JSON(&fiber.Map{
-			"success": false,
-			"message": "There was an error trying to find your user.",
+		return c.Status(404).JSON(Response{
+			Success: false,
+			Message: "There was an error trying to find your user.",
 		})
 	}
 
@@ -29,18 +30,18 @@ func Delete(c *fiber.Ctx) error {
 	).Exec(ctx)
 
 	if err != nil {
-		return c.Status(404).JSON(&fiber.Map{
-			"success": false,
-			"message": "Couldn't find document",
+		return c.Status(404).JSON(Response{
+			Success: false,
+			Message: "Couldn't find document",
 		})
 	}
 
 	documentCreator, _ := document.Creator()
 
 	if string(documentCreator) != user.Username {
-		return c.Status(401).JSON(&fiber.Map{
-			"success": false,
-			"message": "You do not have access to delete this document!",
+		return c.Status(401).JSON(Response{
+			Success: false,
+			Message: "You do not have access to delete this document!",
 		})
 	}
 
@@ -52,8 +53,8 @@ func Delete(c *fiber.Ctx) error {
 		db.DocumentSettings.ID.Equals(deletedDocument.DocumentID),
 	).Delete().Exec(ctx)
 
-	return c.JSON(&fiber.Map{
-		"success": true,
-		"message": "Document has successfully been deleted!",
+	return c.JSON(Response{
+		Success: true,
+		Message: "Document has successfully been deleted!",
 	})
 }
