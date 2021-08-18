@@ -10,6 +10,7 @@ import (
 	"os"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/joho/godotenv"
 )
@@ -56,6 +57,9 @@ func main() {
 		BodyLimit:     0.5 * 1024 * 1024,
 	})
 
+	app.Use(cors.New(cors.Config{
+		AllowCredentials: true,
+	}))
 	app.Use(logger.New(logger.Config{
 		Format: "${time} |   ${cyan}${status} ${reset}|   ${latency} | ${ip} on ${cyan}${ua} ${reset}| ${cyan}${method} ${reset}${path} \n",
 	}))

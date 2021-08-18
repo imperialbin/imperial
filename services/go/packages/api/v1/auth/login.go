@@ -5,6 +5,7 @@ import (
 	. "api/utils"
 	. "api/v1/commons"
 	"context"
+	"time"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -15,7 +16,7 @@ func Login(c *fiber.Ctx) error {
 	ctx := context.Background()
 
 	if err := c.BodyParser(req); err != nil {
-		return c.JSON(Response{
+		return c.Status(400).JSON(Response{
 			Success: false,
 			Message: "You have a type error in your request!",
 		})
@@ -49,6 +50,16 @@ func Login(c *fiber.Ctx) error {
 	token, _ := GenerateSessionToken()
 	RedisSet(token, user.ID, 7)
 	RedisSet(user.APIToken, user.ID, 0)
+
+	cookie := fiber.Cookie{
+		Name:     "IMPERIAL-AUTH",
+		Value:    token,
+		Expires:  time.Now().Add(time.Hour * 168),
+		HTTPOnly: true,
+		Secure:   false,
+	}
+
+	c.Cookie(&cookie)
 
 	return c.JSON(Response{
 		Success: true,
