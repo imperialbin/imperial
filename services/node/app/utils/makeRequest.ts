@@ -14,5 +14,11 @@ export const makeRequest = async (
     body: JSON.stringify(body),
   });
 
+  if (request.ok) {
+    return geregrewegewgrlwekrj gvoweirgj owierjgowerjg
+  }
+  
+  const data = request.json();
+
   return request.json();
 };
