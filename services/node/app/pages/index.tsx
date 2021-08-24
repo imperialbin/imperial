@@ -1,13 +1,18 @@
 import type { NextPage } from "next";
-import Head from "next/head";
-import Image from "next/image";
-import { useContext } from "react";
-import { UserContext } from "../utils/userContext";
+import { useUser } from "../hooks/useUser";
 
 const Home: NextPage = () => {
-  const { user, setUser } = useContext(UserContext);
+  const { user, isError, isLoading } = useUser();
 
-  return <h1>yo dude! {JSON.stringify(user, null, 2)}</h1>;
+  return (
+    <div>
+      {user ? (
+        <h1>hey what the fuck is going on {user.username}</h1>
+      ) : (
+        <h1>login wtf</h1>
+      )}
+    </div>
+  );
 };
 
 export default Home;
