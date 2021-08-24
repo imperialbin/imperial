@@ -1,8 +1,6 @@
 import type { NextPage } from "next";
-import Router from "next/router";
-import { FormEventHandler, useState } from "react";
-import { loginRequest } from "../utils/core";
-import { makeRequest } from "../utils/makeRequest";
+import { useState } from "react";
+import { request } from "../utils/requestWrapper";
 
 const Login: NextPage = () => {
   const [username, setUsername] = useState<null | string>(null);
@@ -11,22 +9,31 @@ const Login: NextPage = () => {
 
   const submit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(username, password);
 
-    const data = await loginRequest({
-      username: username!,
-      password: password!,
-    });
-
-    if (!data.success) {
-      setError(data.message);
+    if (!username) {
+      setError("You need to have a username");
+    }
+    if (!password) {
+      setError("You need to have a password");
     }
 
-    Router.push("/");
+    const { data, error } = await request("/auth/login", "POST", {
+      username,
+      password,
+    });
+
+    if (!data.success && error) {
+      return setError(data.message);
+    }
+
+    setError(null);
+    console.log(data);
   };
 
   return (
     <>
+      {error && <h1>bitch ass has an error {error}</h1>}
+
       <form onSubmit={submit}>
         <input
           type="username"
