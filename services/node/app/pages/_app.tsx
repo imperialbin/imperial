@@ -1,19 +1,18 @@
 import type { AppProps } from "next/app";
-import { useEffect, useState } from "react";
-import { getSessionCookie } from "../utils/getSessionCookie";
-import { UserContext } from "../utils/userContext";
+import { SWRConfig } from "swr";
+import { fetcher } from "../utils/fetcher";
 
 function MyApp({ Component, pageProps }: AppProps): JSX.Element {
-  const [user, setUser] = useState(getSessionCookie());
-
-  useEffect(() => {
-    setUser(getSessionCookie());
-  }, [user]);
-
   return (
-    <UserContext.Provider value={{ user, setUser }}>
+    <SWRConfig
+      value={{
+        fetcher: fetcher,
+        refreshInterval: 120000,
+        revalidateOnFocus: false,
+      }}
+    >
       <Component {...pageProps} />
-    </UserContext.Provider>
+    </SWRConfig>
   );
 }
 
