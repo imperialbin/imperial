@@ -3,13 +3,14 @@ package middleware
 import (
 	. "api/utils"
 	. "api/v1/commons"
+
 	"github.com/gofiber/fiber/v2"
 )
 
 func CheckNotAuthenticated(c *fiber.Ctx) error {
 	authToken := GetAuthToken(c)
 
-	/* If request doesn't have header Authentication */
+	/* If request doesn't have Authentication */
 	if len(authToken) < 1 {
 		return c.Next()
 	}
