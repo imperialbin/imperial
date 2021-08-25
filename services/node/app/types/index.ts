@@ -3,6 +3,10 @@ export interface LoginRequest {
   password: string;
 }
 
+export interface NavProps {
+  user: User;
+}
+
 export interface RequestError {
   success: boolean;
   statusCode: number;

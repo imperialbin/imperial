@@ -13,7 +13,7 @@ import { languageState } from "../state/editor";
 export const Editor = (props: EditorProps): JSX.Element => {
   const [language] = useAtom(languageState);
 
-  return <Monaco height={"10vh"} language={language} />;
+  return <Monaco {...props} language={language} />;
 };
 
 export const DiffEditor = (props: DiffEditorProps): JSX.Element => {
