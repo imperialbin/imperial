@@ -20,7 +20,7 @@ model User {
   email                    String       @unique
   banned                   Boolean      @default(false)
   confirmed                Boolean      @default(false)
-  icon                     String       @default("/assets/img/pfp.png")
+  icon                     String       @default("/img/pfp.png")
   password                 String
   memberPlus               Boolean      @default(false)
   documentsMade            Int          @default(0)

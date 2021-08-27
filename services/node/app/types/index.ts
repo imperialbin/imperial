@@ -7,6 +7,10 @@ export interface NavProps {
   user: User;
 }
 
+export interface UserIconProps {
+  URL: string;
+}
+
 export interface RequestError {
   success: boolean;
   statusCode: number;
