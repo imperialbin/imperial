@@ -12,14 +12,8 @@ import { languageState } from "../state/editor";
 
 export const Editor = (props: EditorProps): JSX.Element => {
   const [language] = useAtom(languageState);
-  const monaco = useRef();
-
   return (
-    <Monaco
-      ref={monaco}
-      {...props}
-      language={props.language ? props.language : language}
-    />
+    <Monaco {...props} language={props.language ? props.language : language} />
   );
 };
 
