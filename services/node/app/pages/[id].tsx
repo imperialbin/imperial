@@ -7,8 +7,7 @@ import { Nav } from "../layout/nav";
 import { languageState } from "../state/editor";
 
 const Home: NextPage = () => {
-  const router = useRouter();
-  const { id } = router.query;
+  const { id } = useRouter().query;
   const { user, isError: userError, isLoading: userLoading } = useUser();
   const {
     document,
