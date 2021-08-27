@@ -12,14 +12,7 @@ const Home: NextPage = () => {
   return (
     <div>
       <Nav user={user} />
-      <button onClick={() => setLanguage("javascript")}>javashit</button>
       <Editor height={"80vh"} />
-
-      {user ? (
-        <h1>hey what the fuck is going on {user.username}</h1>
-      ) : (
-        <h1>login wtf</h1>
-      )}
     </div>
   );
 };

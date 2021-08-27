@@ -11,6 +11,7 @@ const Container = styled.div`
   right: 0;
   z-index: 9999;
   background: tomato;
+  border-bottom-left-radius: 15px;
 `;
 
 const Brand = styled.h1`

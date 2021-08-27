@@ -5,7 +5,15 @@ export const fetcher = async (url: string) => {
   });
 
   if (!res.ok) {
-    const error: any = new Error("An error occurred whilst fetching data!");
+    let error: any = new Error("An error occurred whilst fetching data!");
+
+    if (res.status === 404)
+      error = new Error("We couldn't find that resource!");
+    if (res.status === 400)
+      error = new Error("You did not provide the correct fields!");
+
+    if (res.status >= 500)
+      error = new Error("An internal server error occurred!");
 
     error.info = await res.json();
     error.status = res.status;

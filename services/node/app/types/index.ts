@@ -40,6 +40,35 @@ export interface User {
   settings: UserSettings;
 }
 
+export interface Document {
+  id: string;
+  content: string;
+  views: number;
+  links: DocumentLinks;
+  timestamps: DocumentTimestamps;
+  settings: DocumentSettings;
+}
+
+export interface DocumentLinks {
+  raw: string;
+  formatted: string;
+}
+
+export interface DocumentTimestamps {
+  creation: number;
+  expiration: number;
+}
+
+export interface DocumentSettings {
+  language: string;
+  imageEmbed: boolean;
+  instantDelete: boolean;
+  encrypted: boolean;
+  password: null | string;
+  public: boolean;
+  editors: string[];
+}
+
 export interface UserSettings {
   clipboard: boolean;
   longUrls: boolean;
