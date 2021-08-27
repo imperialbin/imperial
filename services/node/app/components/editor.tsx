@@ -13,10 +13,15 @@ import { languageState } from "../state/editor";
 export const Editor = (props: EditorProps): JSX.Element => {
   const [language] = useAtom(languageState);
   return (
-    <Monaco {...props} language={props.language ? props.language : language} />
+    <Monaco
+      {...props}
+      height={"100vh"}
+      theme={"vs-dark"}
+      language={props.language ? props.language : language}
+    />
   );
 };
 
 export const DiffEditor = (props: DiffEditorProps): JSX.Element => {
-  return <MonacoDiff {...props} />;
+  return <MonacoDiff theme={"vs-dark"} {...props} />;
 };

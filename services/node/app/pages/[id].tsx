@@ -23,7 +23,6 @@ const Home: NextPage = () => {
         <Editor
           language={document.settings.language}
           value={document && document.content}
-          height={"80vh"}
         />
       ) : documentLoading ? (
         <h1>loading</h1>

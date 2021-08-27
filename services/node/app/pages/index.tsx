@@ -12,7 +12,7 @@ const Home: NextPage = () => {
   return (
     <div>
       <Nav user={user} />
-      <Editor height={"80vh"} />
+      <Editor language="go" />
     </div>
   );
 };
