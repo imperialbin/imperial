@@ -5,7 +5,7 @@ import Monaco, {
   EditorProps,
   DiffEditorProps,
 } from "@monaco-editor/react";
-import React, { createRef, useRef } from "react";
+import React from "react";
 
 import { useAtom } from "jotai";
 import { languageState } from "../state/editor";
@@ -13,7 +13,7 @@ import { User } from "../types";
 
 export const Editor = (props: EditorProps & { user?: User }): JSX.Element => {
   const [language] = useAtom(languageState);
-  console.log(props.user);
+
   return (
     <Monaco
       {...props}
