@@ -16,7 +16,7 @@ func Encrypt(text, password string) (encryptedText, initVector string) {
 	block, err := aes.NewCipher(hashedPassword)
 
 	if err != nil {
-		println("mate")
+		println("wtf???")
 	}
 
 	cipherText := make([]byte, aes.BlockSize+len(text))
