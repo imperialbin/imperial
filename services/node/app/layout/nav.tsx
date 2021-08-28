@@ -1,12 +1,13 @@
-import { NavProps } from "../types";
+import { useAtom } from "jotai";
 import Link from "next/link";
-import styled from "styled-components";
-import { UserIcon, Tooltip } from "../components";
-import { request } from "../utils/requestWrapper";
 import Router from "next/router";
 import { useEffect } from "react";
-import { useAtom } from "jotai";
+import styled from "styled-components";
+
+import { Tooltip, UserIcon } from "../components";
 import { editingState, languageState } from "../state/editor";
+import { NavProps } from "../types";
+import { request } from "../utils/requestWrapper";
 
 const Container = styled.div`
   position: absolute;

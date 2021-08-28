@@ -1,4 +1,5 @@
 import useSWR from "swr";
+
 import { User } from "../types";
 import { FULL_URI_V1 } from "../utils/consts";
 

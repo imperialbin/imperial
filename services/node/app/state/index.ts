@@ -1,4 +1,4 @@
-import { languageState, editingState } from "./editor";
+import { editingState, languageState } from "./editor";
 
 export default {
   editor: {
