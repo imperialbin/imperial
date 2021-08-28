@@ -1,7 +1,7 @@
 import { NavProps } from "../types";
 import Link from "next/link";
 import styled from "styled-components";
-import { UserIcon } from "../components/userIcon";
+import { UserIcon, Tooltip } from "../components";
 import { request } from "../utils/requestWrapper";
 import Router from "next/router";
 
@@ -18,6 +18,7 @@ const Container = styled.div`
 
 const Brand = styled.h1`
   text-align: center;
+  margin-top: 15px;
   font-size: 1em;
 `;
 
@@ -25,11 +26,14 @@ const Buttons = styled.div`
   display: flex;
   align-items: center;
   flex-direction: row;
-  margin: 0 20px 10px;
+  margin: 5px 20px 10px;
 `;
 
 const Btn = styled.button`
   margin: 0 10px;
+  padding: 6px 10px;
+  border-radius: 5px;
+  border: none;
 `;
 
 export const Nav = ({ user }: NavProps): JSX.Element => {
@@ -61,12 +65,26 @@ export const Nav = ({ user }: NavProps): JSX.Element => {
         <Brand>IMPERIAL</Brand>
       </Link>
       <Buttons>
-        <Btn onClick={createDocument}>p</Btn>
-        <Btn>l</Btn>
-        <Btn>e</Btn>
-        <Btn>s</Btn>
-        <Btn>n</Btn>
-        {user ? <UserIcon URL={user.icon} /> : <UserIcon URL="/img/pfp.png" />}
+        <Tooltip title="Change language">
+          <Btn>l</Btn>
+        </Tooltip>
+        <Tooltip title="Change editors">
+          <Btn>e</Btn>
+        </Tooltip>
+        <Tooltip title="Save document">
+          <Btn onClick={createDocument}>s</Btn>
+        </Tooltip>
+        <Tooltip title="New document">
+          <Btn>n</Btn>
+        </Tooltip>
+        <Tooltip title="test">
+          <UserIcon
+            width={45}
+            height={45}
+            style={{ marginLeft: 10 }}
+            URL={user ? user.icon : "/img/pfp.png"}
+          />
+        </Tooltip>
       </Buttons>
     </Container>
   );
