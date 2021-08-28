@@ -110,6 +110,7 @@ type CreatedDocumentSettingsStruct struct {
 type CreateDocumentData struct {
 	ID         string                        `json:"id"`
 	Content    string                        `json:"content"`
+	Creator    string                        `json:"creator"`
 	Views      int                           `json:"views"`
 	Links      Links                         `json:"links"`
 	Timestamps Timestamps                    `json:"timestamps"`
