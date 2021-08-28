@@ -5,7 +5,8 @@ import { UserIcon, Tooltip } from "../components";
 import { request } from "../utils/requestWrapper";
 import Router from "next/router";
 import { useEffect } from "react";
-import router from "next/router";
+import { useAtom } from "jotai";
+import { editingState, languageState } from "../state/editor";
 
 const Container = styled.div`
   position: absolute;
@@ -43,6 +44,9 @@ export const Nav = ({
   creatingDocument = false,
   editor = false,
 }: NavProps): JSX.Element => {
+  const [language, setLanguage] = useAtom(languageState);
+  const [editing, setEditing] = useAtom(editingState);
+
   const createDocument = async () => {
     if (typeof window === "undefined") return;
     if (!window.monaco) return;
@@ -63,14 +67,21 @@ export const Nav = ({
     if (error) console.log(error);
 
     Router.push(`/${data.data.id}`);
+    creatingDocument = false;
   };
   const newDocument = () => Router.push("/");
+  const changeLanguage = (language: string) => setLanguage(language);
+  const allowEdit = () => setEditing(!editing);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
 
+    setEditing(creatingDocument ? true : false);
     window.addEventListener("keydown", (e) => {
-      if ((e.key === "s" && e.metaKey) || (e.key === "s" && e.ctrlKey)) {
+      if (
+        (e.key === "s" && e.metaKey && creatingDocument) ||
+        (e.key === "s" && e.ctrlKey && creatingDocument)
+      ) {
         e.preventDefault();
         createDocument();
       }
@@ -90,13 +101,13 @@ export const Nav = ({
       <Buttons>
         {editor && (
           <Tooltip title="Edit Document">
-            <Btn>e</Btn>
+            <Btn onClick={allowEdit}>e</Btn>
           </Tooltip>
         )}
         {creatingDocument ? (
           <>
             <Tooltip title="Change language">
-              <Btn>l</Btn>
+              <Btn onClick={() => changeLanguage("javascript")}>l</Btn>
             </Tooltip>
             <Tooltip title="Change editors">
               <Btn>e</Btn>
