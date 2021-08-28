@@ -1,5 +1,8 @@
-import { languageState } from "./editor";
+import { languageState, editingState } from "./editor";
 
 export default {
-  languageState,
+  editor: {
+    languageState,
+    editingState,
+  },
 };
