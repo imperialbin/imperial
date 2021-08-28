@@ -16,14 +16,23 @@ const Home: NextPage = () => {
   } = useDocument(id as string);
   const [language, setLanguage] = useAtom(languageState);
 
+  console.log(document);
   return (
     <div>
-      <Nav user={user} />
       {document ? (
-        <Editor
-          language={document.settings.language}
-          value={document && document.content}
-        />
+        <>
+          <Nav
+            user={user}
+            editor={
+              document.creator === user.username ||
+              document.settings.editors.includes(user.username)
+            }
+          />
+          <Editor
+            language={document.settings.language}
+            value={document && document.content}
+          />
+        </>
       ) : documentLoading ? (
         <h1>loading</h1>
       ) : (

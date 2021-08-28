@@ -11,7 +11,7 @@ const Home: NextPage = () => {
 
   return (
     <div>
-      <Nav user={user} />
+      <Nav user={user} creatingDocument />
       <Editor user={user} language="javascript" />
     </div>
   );

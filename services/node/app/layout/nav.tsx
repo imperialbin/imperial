@@ -38,7 +38,11 @@ const Btn = styled.button`
   border: none;
 `;
 
-export const Nav = ({ user }: NavProps): JSX.Element => {
+export const Nav = ({
+  user,
+  creatingDocument = false,
+  editor = false,
+}: NavProps): JSX.Element => {
   const createDocument = async () => {
     if (typeof window === "undefined") return;
     if (!window.monaco) return;
@@ -84,15 +88,33 @@ export const Nav = ({ user }: NavProps): JSX.Element => {
         <Brand>IMPERIAL</Brand>
       </Link>
       <Buttons>
-        <Tooltip title="Change language">
-          <Btn>l</Btn>
-        </Tooltip>
-        <Tooltip title="Change editors">
-          <Btn>e</Btn>
-        </Tooltip>
-        <Tooltip title="Save document">
-          <Btn onClick={createDocument}>s</Btn>
-        </Tooltip>
+        {editor && (
+          <Tooltip title="Edit Document">
+            <Btn>e</Btn>
+          </Tooltip>
+        )}
+        {creatingDocument ? (
+          <>
+            <Tooltip title="Change language">
+              <Btn>l</Btn>
+            </Tooltip>
+            <Tooltip title="Change editors">
+              <Btn>e</Btn>
+            </Tooltip>
+            <Tooltip title="Save document">
+              <Btn onClick={createDocument}>s</Btn>
+            </Tooltip>
+          </>
+        ) : (
+          <>
+            <Tooltip title="View Raw">
+              <Btn onClick={createDocument}>r</Btn>
+            </Tooltip>
+            <Tooltip title="Duplicate document">
+              <Btn onClick={createDocument}>d</Btn>
+            </Tooltip>
+          </>
+        )}
         <Tooltip title="New document">
           <Btn onClick={newDocument}>n</Btn>
         </Tooltip>
