@@ -4,6 +4,8 @@ import styled from "styled-components";
 import { UserIcon, Tooltip } from "../components";
 import { request } from "../utils/requestWrapper";
 import Router from "next/router";
+import { useEffect } from "react";
+import router from "next/router";
 
 const Container = styled.div`
   position: absolute;
@@ -56,9 +58,26 @@ export const Nav = ({ user }: NavProps): JSX.Element => {
 
     if (error) console.log(error);
 
-    console.log(data.data);
     Router.push(`/${data.data.id}`);
   };
+  const newDocument = () => Router.push("/");
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    window.addEventListener("keydown", (e) => {
+      if ((e.key === "s" && e.metaKey) || (e.key === "s" && e.ctrlKey)) {
+        e.preventDefault();
+        createDocument();
+      }
+
+      if (e.key === "n" && e.altKey) {
+        e.preventDefault();
+        newDocument();
+      }
+    });
+  }, []);
+
   return (
     <Container>
       <Link href="/">
@@ -75,9 +94,9 @@ export const Nav = ({ user }: NavProps): JSX.Element => {
           <Btn onClick={createDocument}>s</Btn>
         </Tooltip>
         <Tooltip title="New document">
-          <Btn>n</Btn>
+          <Btn onClick={newDocument}>n</Btn>
         </Tooltip>
-        <Tooltip title="test">
+        <Tooltip arrow={true} position="bottom-start" title="test">
           <UserIcon
             width={45}
             height={45}
