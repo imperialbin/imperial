@@ -57,7 +57,7 @@ func Get(c *fiber.Ctx) error {
 
 	links := Links{
 		Raw:       c.BaseURL() + "/r/" + document.DocumentID,
-		Formatted: c.BaseURL() + "/p/" + document.DocumentID,
+		Formatted: c.BaseURL() + document.DocumentID,
 	}
 
 	settings := CreatedDocumentSettingsStruct{
@@ -86,11 +86,14 @@ func Get(c *fiber.Ctx) error {
 		db.Document.Views.Increment(1),
 	).Exec(ctx)
 
+	var Creator, _ = document.Creator()
+
 	return c.JSON(Response{
 		Success: true,
 		Data: &CreateDocumentData{
 			ID:         document.DocumentID,
 			Content:    content,
+			Creator:    Creator,
 			Views:      document.Views + 1, /* We're + 1ing here because we incremented the value before we got the document */
 			Links:      links,
 			Timestamps: timestamps,
