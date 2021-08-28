@@ -6,7 +6,6 @@ import Monaco, {
   DiffEditorProps,
 } from "@monaco-editor/react";
 import React from "react";
-
 import { useAtom } from "jotai";
 import { languageState } from "../state/editor";
 import { User } from "../types";
