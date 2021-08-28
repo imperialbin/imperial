@@ -38,6 +38,10 @@ func GetUser(c *fiber.Ctx) (*User, error) {
 		user.Settings().Encrypted,
 		user.Settings().ImageEmbed,
 		user.Settings().Expiration,
+		user.Settings().FontLignatures,
+		user.Settings().FontSize,
+		user.Settings().RenderWhitespace,
+		user.Settings().WordWrap,
 	}
 
 	var discordId, _ = user.DiscordID()
