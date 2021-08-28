@@ -1,3 +1,5 @@
+import { CSSProperties } from "styled-components";
+
 export interface LoginRequest {
   username: string;
   password: string;
@@ -9,6 +11,9 @@ export interface NavProps {
 
 export interface UserIconProps {
   URL: string;
+  width?: number;
+  height?: number;
+  style?: CSSProperties;
 }
 
 export interface RequestError {
