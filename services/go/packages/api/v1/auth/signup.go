@@ -5,6 +5,7 @@ import (
 	. "api/utils"
 	. "api/v1/commons"
 	"context"
+	"time"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
@@ -101,12 +102,21 @@ func Signup(c *fiber.Ctx) error {
 	RedisSet(token, createdUser.ID, 7)
 	RedisSet(createdUser.APIToken, createdUser.ID, 0)
 
+	cookie := fiber.Cookie{
+		Name:     "IMPERIAL-AUTH",
+		Value:    token,
+		Expires:  time.Now().Add(time.Hour * 168),
+		HTTPOnly: true,
+		Secure:   false,
+	}
+
+	c.Cookie(&cookie)
+
 	return c.JSON(Response{
-		Success:   true,
-		Message:   "Successfully created your account!",
+		Success: true,
+		Message: "Successfully created your account!",
 		Data: fiber.Map{
 			"authToken": token,
 		},
-
 	})
 }
