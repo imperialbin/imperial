@@ -2,6 +2,8 @@ import { NavProps } from "../types";
 import Link from "next/link";
 import styled from "styled-components";
 import { UserIcon } from "../components/userIcon";
+import { request } from "../utils/requestWrapper";
+import Router from "next/router";
 
 const Container = styled.div`
   position: absolute;
@@ -31,13 +33,35 @@ const Btn = styled.button`
 `;
 
 export const Nav = ({ user }: NavProps): JSX.Element => {
+  const createDocument = async () => {
+    if (typeof window === "undefined") return;
+    if (!window.monaco) return;
+
+    const content = window.monaco.editor.getModels()[0].getValue();
+    const language =
+      window.monaco.editor.getModels()[0]._languageIdentifier.language;
+
+    if (content < 1) return;
+
+    const { data, error } = await request("/document", "POST", {
+      content,
+      settings: {
+        language,
+      },
+    });
+
+    if (error) console.log(error);
+
+    console.log(data.data);
+    Router.push(`/${data.data.id}`);
+  };
   return (
     <Container>
       <Link href="/">
         <Brand>IMPERIAL</Brand>
       </Link>
       <Buttons>
-        <Btn>p</Btn>
+        <Btn onClick={createDocument}>p</Btn>
         <Btn>l</Btn>
         <Btn>e</Btn>
         <Btn>s</Btn>
