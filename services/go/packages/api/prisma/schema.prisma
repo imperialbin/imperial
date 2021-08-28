@@ -43,6 +43,11 @@ model UserSettings {
   imageEmbed    Boolean @default(false)
   expiration    Int     @default(5)
 
+  fontLignatures   Boolean @default(false)
+  fontSize         Int     @default(14)
+  renderWhitespace Boolean @default(false)
+  wordWrap         Boolean @default(false)
+
   User User[]
   @@map("user_settings")
 }

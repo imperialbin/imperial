@@ -77,4 +77,9 @@ export interface UserSettings {
   encrypted: boolean;
   imageEmbed: boolean;
   expiration: number;
+
+  fontLignatures: boolean;
+  fontSize: number;
+  renderWhitespace: boolean;
+  wordWrap: boolean;
 }

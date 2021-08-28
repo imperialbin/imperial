@@ -12,7 +12,7 @@ const Home: NextPage = () => {
   return (
     <div>
       <Nav user={user} />
-      <Editor language="go" />
+      <Editor user={user} language="javascript" />
     </div>
   );
 };
