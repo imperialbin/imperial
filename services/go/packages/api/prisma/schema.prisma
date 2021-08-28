@@ -34,15 +34,14 @@ model User {
 }
 
 model UserSettings {
-  id            String  @id @default(uuid())
-  clipboard     Boolean @default(false)
-  longUrls      Boolean @default(false)
-  shortUrls     Boolean @default(false)
-  instantDelete Boolean @default(false)
-  encrypted     Boolean @default(false)
-  imageEmbed    Boolean @default(false)
-  expiration    Int     @default(5)
-
+  id               String  @id @default(uuid())
+  clipboard        Boolean @default(false)
+  longUrls         Boolean @default(false)
+  shortUrls        Boolean @default(false)
+  instantDelete    Boolean @default(false)
+  encrypted        Boolean @default(false)
+  imageEmbed       Boolean @default(false)
+  expiration       Int     @default(5)
   fontLignatures   Boolean @default(false)
   fontSize         Int     @default(14)
   renderWhitespace Boolean @default(false)
