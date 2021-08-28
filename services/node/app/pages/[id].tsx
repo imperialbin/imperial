@@ -16,7 +16,6 @@ const Home: NextPage = () => {
   } = useDocument(id as string);
   const [language, setLanguage] = useAtom(languageState);
 
-  console.log(document);
   return (
     <div>
       {document ? (
