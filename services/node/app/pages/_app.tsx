@@ -1,4 +1,5 @@
 import "../styles/global.css";
+import "react-tippy/dist/tippy.css";
 import type { AppProps } from "next/app";
 import { SWRConfig } from "swr";
 import { fetcher } from "../utils/fetcher";
