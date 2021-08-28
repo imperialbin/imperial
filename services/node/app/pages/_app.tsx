@@ -9,9 +9,7 @@ import store from "../state";
 function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   const { initialState } = pageProps;
   return (
-    <Provider
-      initialValues={initialState && [[store.languageState, initialState]]}
-    >
+    <Provider initialValues={initialState && [[store.editor, initialState]]}>
       <SWRConfig
         value={{
           fetcher: fetcher,
