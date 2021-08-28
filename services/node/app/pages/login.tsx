@@ -1,4 +1,5 @@
 import type { NextPage } from "next";
+import Router from "next/router";
 import { useState } from "react";
 import { request } from "../utils/requestWrapper";
 
@@ -27,7 +28,7 @@ const Login: NextPage = () => {
     }
 
     setError(null);
-    console.log(data);
+    Router.push("/");
   };
 
   return (
