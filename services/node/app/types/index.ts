@@ -7,6 +7,8 @@ export interface LoginRequest {
 
 export interface NavProps {
   user: User;
+  creatingDocument?: boolean;
+  editor?: boolean;
 }
 
 export interface UserIconProps {
@@ -48,6 +50,7 @@ export interface User {
 export interface Document {
   id: string;
   content: string;
+  creator: string | null;
   views: number;
   links: DocumentLinks;
   timestamps: DocumentTimestamps;
