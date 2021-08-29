@@ -3,12 +3,12 @@ import { useRouter } from "next/dist/client/router";
 import { useDocument } from "../../hooks";
 
 const Raw: NextPage = () => {
-  const { id } = useRouter().query;
-  const { document } = useDocument(id as string);
+  const { id, password } = useRouter().query;
+  const { document, isError } = useDocument(id as string, password as string);
 
   return (
     <span style={{ whiteSpace: "pre-wrap" }}>
-      {document && document.content}
+      {isError ? isError.info : document && document.content}
     </span>
   );
 };
