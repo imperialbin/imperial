@@ -131,11 +131,13 @@ export const Nav = ({
           <Btn onClick={newDocument}>n</Btn>
         </Tooltip>
         {user ? (
-          <Tooltip position="bottom-start" title="test" arrow>
-            <UserIcon
-              style={{ marginLeft: 10 }}
-              URL={user ? user.icon : "/img/pfp.png"}
-            />
+          <Tooltip
+            style={{ margin: "0 10px" }}
+            position="bottom-end"
+            title="test"
+            arrow
+          >
+            <UserIcon URL={user ? user.icon : "/img/pfp.png"} />
           </Tooltip>
         ) : (
           <UserIconSkeleton style={{ marginLeft: 10 }} />
