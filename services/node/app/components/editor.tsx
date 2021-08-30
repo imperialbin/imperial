@@ -7,6 +7,7 @@ import { useAtom } from "jotai";
 import React from "react";
 import { editingState, languageState } from "../state/editor";
 import { User } from "../types";
+import { EditorSkeleton } from "./skeletons";
 
 export const Editor = (props: EditorProps & { user?: User }): JSX.Element => {
   const [language] = useAtom(languageState);
@@ -16,7 +17,7 @@ export const Editor = (props: EditorProps & { user?: User }): JSX.Element => {
     <Monaco
       {...props}
       height={"100vh"}
-      loading={false}
+      loading={<EditorSkeleton />}
       options={
         props.user
           ? {
