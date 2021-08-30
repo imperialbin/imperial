@@ -9,7 +9,6 @@ const Home: NextPage = () => {
   const { user, isError, isLoading } = useUser();
   const [language, setLanguage] = useAtom(languageState);
 
-
   return (
     <div>
       <Nav user={user} creatingDocument />

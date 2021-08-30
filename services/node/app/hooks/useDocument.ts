@@ -2,9 +2,9 @@ import useSWR from "swr";
 import { Document } from "../types";
 import { FULL_URI_V1 } from "../utils/consts";
 
-export const useDocument = (URL: string, password: string) => {
+export const useDocument = (URL: string, password?: string) => {
   const { data, error } = useSWR(
-    URL ? FULL_URI_V1 + `/document/${URL}?password=${password}` : null
+    URL && FULL_URI_V1 + `/document/${URL}?password=${password}`
   );
   const document: Document = data?.data;
 
