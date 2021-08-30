@@ -8,8 +8,8 @@ const Icon = styled.img`
 
 export const UserIcon = ({
   URL,
-  width = 50,
-  height = 50,
+  width = 45,
+  height = 45,
   style,
 }: UserIconProps): JSX.Element => (
   <Icon width={width} style={style} height={height} src={URL} />
