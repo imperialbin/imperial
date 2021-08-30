@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import styled from "styled-components";
 
 import { Tooltip, UserIcon } from "../components";
+import { UserIconSkeleton } from "../components/skeletons";
 import { editingState, languageState } from "../state/editor";
 import { NavProps } from "../types";
 import { request } from "../utils/requestWrapper";
@@ -130,14 +131,16 @@ export const Nav = ({
         <Tooltip title="New document">
           <Btn onClick={newDocument}>n</Btn>
         </Tooltip>
-        <Tooltip arrow={true} position="bottom-start" title="test">
-          <UserIcon
-            width={45}
-            height={45}
-            style={{ marginLeft: 10 }}
-            URL={user ? user.icon : "/img/pfp.png"}
-          />
-        </Tooltip>
+        {user ? (
+          <Tooltip arrow={true} position="bottom-start" title="test">
+            <UserIcon
+              style={{ marginLeft: 10 }}
+              URL={user ? user.icon : "/img/pfp.png"}
+            />
+          </Tooltip>
+        ) : (
+          <UserIconSkeleton style={{ marginLeft: 10 }} />
+        )}
       </Buttons>
     </Container>
   );
