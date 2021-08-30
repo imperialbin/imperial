@@ -16,6 +16,7 @@ export const Editor = (props: EditorProps & { user?: User }): JSX.Element => {
     <Monaco
       {...props}
       height={"100vh"}
+      loading={false}
       options={
         props.user
           ? {
