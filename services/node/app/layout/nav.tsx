@@ -35,7 +35,6 @@ const Buttons = styled.div`
 `;
 
 const Btn = styled.button`
-  margin: 0 10px;
   padding: 6px 10px;
   border-radius: 5px;
   border: none;
@@ -102,37 +101,37 @@ export const Nav = ({
       </Link>
       <Buttons>
         {editor && (
-          <Tooltip title="Edit Document">
+          <Tooltip style={{ margin: "0 10px" }} title="Edit Document">
             <Btn onClick={allowEdit}>e</Btn>
           </Tooltip>
         )}
         {creatingDocument ? (
           <>
-            <Tooltip title="Change language">
+            <Tooltip style={{ margin: "0 10px" }} title="Change language">
               <Btn onClick={() => changeLanguage("javascript")}>l</Btn>
             </Tooltip>
-            <Tooltip title="Change editors">
+            <Tooltip style={{ margin: "0 10px" }} title="Change editors">
               <Btn>e</Btn>
             </Tooltip>
-            <Tooltip title="Save document">
+            <Tooltip style={{ margin: "0 10px" }} title="Save document">
               <Btn onClick={createDocument}>s</Btn>
             </Tooltip>
           </>
         ) : (
           <>
-            <Tooltip title="View Raw">
+            <Tooltip style={{ margin: "0 10px" }} title="View Raw">
               <Btn onClick={createDocument}>r</Btn>
             </Tooltip>
-            <Tooltip title="Duplicate document">
+            <Tooltip style={{ margin: "0 10px" }} title="Duplicate document">
               <Btn onClick={createDocument}>d</Btn>
             </Tooltip>
           </>
         )}
-        <Tooltip title="New document">
+        <Tooltip style={{ margin: "0 10px" }} title="New document">
           <Btn onClick={newDocument}>n</Btn>
         </Tooltip>
         {user ? (
-          <Tooltip arrow={true} position="bottom-start" title="test">
+          <Tooltip position="bottom-start" title="test" arrow>
             <UserIcon
               style={{ marginLeft: 10 }}
               URL={user ? user.icon : "/img/pfp.png"}
