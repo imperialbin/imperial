@@ -91,3 +91,15 @@ export interface UserSettings {
   renderWhitespace: boolean;
   wordWrap: boolean;
 }
+
+export interface ThemeForStupidProps {
+  theme: Theme;
+}
+export interface Theme {
+  layoutDarkest: string;
+  layoutDark: string;
+  layoutLittleLessDark: string;
+
+  textLightest: string;
+  textLight: string;
+}

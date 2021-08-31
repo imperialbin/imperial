@@ -1,11 +1,4 @@
-interface Theme {
-  layoutDarkest: string;
-  layoutDark: string;
-  layoutLittleLessDark: string;
-
-  textLightest: string;
-  textLight: string;
-}
+import { Theme } from "../types";
 
 export const darkTheme: Theme = {
   layoutDarkest: "#111416",
