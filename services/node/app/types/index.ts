@@ -99,7 +99,7 @@ export interface Theme {
   layoutDarkest: string;
   layoutDark: string;
   layoutLittleLessDark: string;
-  lightestOfTheBunch: string;
+  layoutLightestOfTheBunch: string;
 
   textLightest: string;
   textLight: string;
