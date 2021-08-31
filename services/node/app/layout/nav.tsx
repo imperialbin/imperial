@@ -7,7 +7,7 @@ import styled from "styled-components";
 import { Tooltip, UserIcon } from "../components";
 import { UserIconSkeleton } from "../components/skeletons";
 import { editingState, languageState } from "../state/editor";
-import { NavProps } from "../types";
+import { NavProps, Theme, ThemeForStupidProps } from "../types";
 import { request } from "../utils/requestWrapper";
 
 const Container = styled.div`
@@ -17,7 +17,7 @@ const Container = styled.div`
   top: 0;
   right: 0;
   z-index: 9999;
-  background: tomato;
+  background: ${({ theme }: ThemeForStupidProps) => theme.layoutDarkest};
   border-bottom-left-radius: 15px;
 `;
 
@@ -25,6 +25,7 @@ const Brand = styled.h1`
   text-align: center;
   margin-top: 15px;
   font-size: 1em;
+  color: ${({ theme }: ThemeForStupidProps) => theme.textLight};
 `;
 
 const Buttons = styled.div`
