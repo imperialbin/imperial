@@ -18,6 +18,7 @@ const Container = styled.div`
   right: 0;
   z-index: 9999;
   background: ${({ theme }: ThemeForStupidProps) => theme.layoutDarkest};
+  color: ${({ theme }: ThemeForStupidProps) => theme.textLight};
   border-bottom-left-radius: 15px;
 `;
 
@@ -25,7 +26,6 @@ const Brand = styled.h1`
   text-align: center;
   margin-top: 15px;
   font-size: 1em;
-  color: ${({ theme }: ThemeForStupidProps) => theme.textLight};
 `;
 
 const Buttons = styled.div`
@@ -39,6 +39,7 @@ const Btn = styled.button`
   padding: 6px 10px;
   border-radius: 5px;
   border: none;
+  background: ${({ theme }: ThemeForStupidProps) => theme.layoutLittleLessDark};
 `;
 
 export const Nav = ({
