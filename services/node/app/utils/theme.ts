@@ -1,7 +1,7 @@
 import { Theme } from "../types";
 
 export const darkTheme: Theme = {
-  layoutDarkest: "#111416",
+  layoutDarkest: "#111213",
   layoutDark: "#161A1E",
   layoutLittleLessDark: "#1B1F23",
   layoutLightestOfTheBunch: "#2A2C2E",

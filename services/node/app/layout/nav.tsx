@@ -39,7 +39,9 @@ const Btn = styled.button`
   padding: 6px 10px;
   border-radius: 5px;
   border: none;
-  background: ${({ theme }: ThemeForStupidProps) => theme.layoutLittleLessDark};
+  background: ${({ theme }: ThemeForStupidProps) =>
+    theme.layoutLightestOfTheBunch};
+  color: ${({ theme }: ThemeForStupidProps) => theme.textLightest};
 `;
 
 export const Nav = ({
