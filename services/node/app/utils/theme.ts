@@ -1,0 +1,27 @@
+interface Theme {
+  layoutDarkest: string;
+  layoutDark: string;
+  layoutLittleLessDark: string;
+
+  textLightest: string;
+  textLight: string;
+}
+
+export const darkTheme: Theme = {
+  layoutDarkest: "#111416",
+  layoutDark: "#161A1E",
+  layoutLittleLessDark: "#1B1F23",
+
+  textLightest: "#ACACAC",
+  textLight: "#9F9F9F",
+};
+
+/* Note to self, finish this lmfao */
+export const lightTheme: Theme = {
+  layoutDarkest: "#111416",
+  layoutDark: "#161A1E",
+  layoutLittleLessDark: "#1B1F23",
+
+  textLightest: "#ACACAC",
+  textLight: "#9F9F9F",
+};
