@@ -2,7 +2,7 @@ import Monaco, {
   DiffEditor as MonacoDiff,
   DiffEditorProps,
   EditorProps,
-} from "@monaco-editor/react";
+} from "imperial-editor";
 import { useAtom } from "jotai";
 import React from "react";
 import { editingState, languageState } from "../state/editor";
@@ -29,10 +29,9 @@ export const Editor = (props: EditorProps & { user?: User }): JSX.Element => {
             }
           : {
               readOnly: !editing,
-              fontSize: 14,
             }
       }
-      theme={"vs-dark"}
+      theme="IMPERIAL"
       language={props.language ? props.language : language}
     />
   );
