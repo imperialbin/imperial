@@ -20,9 +20,15 @@ const GlobalStyle = createGlobalStyle`
 
 function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   const { initialState } = pageProps;
+
+  /* You might be thinking, whats the point of this?!?!?! why are we putting
+  this in a different variable just for it to be used once!?!?!? that is because
+  we are going to have a ternary here in the future that determines custom
+  themes, you're welcome */
+  const theme = darkTheme;
   return (
     <Provider initialValues={initialState && [[store.editor, initialState]]}>
-      <ThemeProvider theme={darkTheme}>
+      <ThemeProvider theme={theme}>
         <GlobalStyle />
         <SWRConfig
           value={{
@@ -31,7 +37,10 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
             revalidateOnFocus: false,
           }}
         >
-          <SkeletonTheme color={"#acacac"} highlightColor={"black"}>
+          <SkeletonTheme
+            color={theme.layoutLightestOfTheBunch}
+            highlightColor={theme.layoutDark}
+          >
             <Component {...pageProps} />
           </SkeletonTheme>
         </SWRConfig>
