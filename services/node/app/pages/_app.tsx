@@ -14,7 +14,9 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    background: ${({ theme }: ThemeForStupidProps) => theme.layoutDark}
+    background: ${({ theme }: ThemeForStupidProps) => theme.layoutDark};
+    font-family: 'Manrope', sans-serif;
+    font-weight: 500;
   }
 `;
 

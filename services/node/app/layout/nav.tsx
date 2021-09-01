@@ -38,15 +38,15 @@ const Container = styled.div`
 
 const Brand = styled.h1`
   text-align: center;
-  margin-top: 24px;
-  font-size: 1em;
+  margin-top: 20px;
+  font-size: 1.1em;
 `;
 
 const Buttons = styled.div`
   display: flex;
   align-items: center;
   flex-direction: row;
-  margin: 5px 20px 10px;
+  margin: 0px 20px 10px;
 `;
 
 const Btn = styled.button`
@@ -166,7 +166,7 @@ export const Nav = ({
               </Btn>
             </Tooltip>
             <Tooltip style={{ margin: "0 10px" }} title="Change language">
-              <Btn onClick={() => changeLanguage("typescript")}>
+              <Btn onClick={() => changeLanguage("javascript")}>
                 <FaMinus size={18} />
               </Btn>
             </Tooltip>
