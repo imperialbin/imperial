@@ -13,6 +13,8 @@ import {
   FaCopy,
   FaEye,
   FaEyeSlash,
+  FaPencilAlt,
+  FaCheck,
 } from "react-icons/fa";
 
 import { Tooltip, UserIcon } from "../components";
@@ -102,6 +104,12 @@ export const Nav = ({
   const changeLanguage = (language: string) => setLanguage(language);
   const allowEdit = () => setEditing(!editing);
 
+  const editDocument = () => {
+    console.log("test");
+
+    setEditing(false);
+  };
+
   useEffect(() => {
     if (typeof window === "undefined") return;
 
@@ -129,9 +137,12 @@ export const Nav = ({
       </Link>
       <Buttons>
         {editor && (
-          <Tooltip style={{ margin: "0 10px" }} title="Edit Document">
-            <Btn onClick={allowEdit}>
-              <FaEdit size={18} />
+          <Tooltip
+            style={{ margin: "0 10px" }}
+            title={!editing ? "Edit document" : "Save document"}
+          >
+            <Btn onClick={!editing ? allowEdit : editDocument}>
+              {editing ? <FaCheck size={18} /> : <FaEdit size={18} />}
             </Btn>
           </Tooltip>
         )}
@@ -143,7 +154,7 @@ export const Nav = ({
               </Btn>
             </Tooltip>
             <Tooltip style={{ margin: "0 10px" }} title="Change language">
-              <Btn onClick={() => changeLanguage("javascript")}>
+              <Btn onClick={() => changeLanguage("go")}>
                 <FaMinus size={18} />
               </Btn>
             </Tooltip>
