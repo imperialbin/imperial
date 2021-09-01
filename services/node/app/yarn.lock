@@ -1892,7 +1892,7 @@ image-size@1.0.0:
 
 "imperial-editor@https://github.com/imperialbin/imperial-editor":
   version "4.2.2"
-  resolved "https://github.com/imperialbin/imperial-editor#c6d5a4f84407cedabfb2d2aa2c198b7a76c2c996"
+  resolved "https://github.com/imperialbin/imperial-editor#063c633e903c1c71472240a42d839c3f2202db68"
   dependencies:
     "@monaco-editor/loader" "^1.1.1"
     prop-types "^15.7.2"
