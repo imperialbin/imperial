@@ -1,5 +1,6 @@
 import Skeleton from "react-loading-skeleton";
 import styled from "styled-components";
+import { ThemeForStupidProps } from "../../types";
 
 const Container = styled.div`
   display: flex;
@@ -23,7 +24,8 @@ const Lines = styled.div`
 
 const Line = styled.span`
   display: block;
-  margin-top: 3.3px;
+  margin-top: 1.8px;
+  color: ${({ theme }: ThemeForStupidProps) => theme.textLightest};
 `;
 
 export const EditorSkeleton = (): JSX.Element => {
@@ -63,6 +65,7 @@ export const EditorSkeleton = (): JSX.Element => {
         {[...Array(4)].map((_, i) => {
           return (
             <Skeleton
+              duration={0.5}
               style={{ display: "inline-block", marginTop: 3 }}
               key={i}
               width={Math.floor(Math.random() * 200) + 100}
@@ -75,6 +78,7 @@ export const EditorSkeleton = (): JSX.Element => {
           const randomChance = Math.floor(Math.random() * 200);
           return (
             <Skeleton
+              duration={0.5}
               style={{
                 display: "block",
                 margin: `${randomChance > 20 ? "3px" : "16px"} 25px`,
@@ -85,8 +89,18 @@ export const EditorSkeleton = (): JSX.Element => {
             />
           );
         })}
-        <Skeleton style={{ marginTop: 3 }} width={30} height={16} />
-        <Skeleton style={{ marginTop: 48 }} width={280} height={16} />
+        <Skeleton
+          duration={0.5}
+          style={{ marginTop: 3 }}
+          width={30}
+          height={16}
+        />
+        <Skeleton
+          duration={0.5}
+          style={{ marginTop: 48 }}
+          width={280}
+          height={16}
+        />
       </CodeContainer>
     </Container>
   );
