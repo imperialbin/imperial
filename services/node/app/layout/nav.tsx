@@ -44,7 +44,7 @@ const Buttons = styled.div`
   display: flex;
   align-items: center;
   flex-direction: row;
-  margin: 10px 20px 10px;
+  margin: 5px 20px 10px;
 `;
 
 const Btn = styled.button`
