@@ -1,13 +1,13 @@
 import { Theme } from "../types";
 
 export const darkTheme: Theme = {
-  layoutDarkest: "#141517",
-  layoutDark: "#1d1f21",
-  layoutLittleLessDark: "#1B1F23",
-  layoutLightestOfTheBunch: "#2A2C2E",
+  layoutDarkest: "#121212",
+  layoutDark: "#191919",
+  layoutLittleLessDark: "#1e1e1e",
+  layoutLightestOfTheBunch: "#242424",
 
-  textLightest: "#ACACAC",
-  textLight: "#9F9F9F",
+  textLightest: "#ffffff",
+  textLight: "#dedede",
 };
 
 /* Note to self, finish this lmfao */

@@ -166,7 +166,7 @@ export const Nav = ({
               </Btn>
             </Tooltip>
             <Tooltip style={{ margin: "0 10px" }} title="Change language">
-              <Btn onClick={() => changeLanguage("go")}>
+              <Btn onClick={() => changeLanguage("typescript")}>
                 <FaMinus size={18} />
               </Btn>
             </Tooltip>
