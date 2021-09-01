@@ -184,7 +184,9 @@ export const Nav = ({
         ) : (
           <>
             <Tooltip style={{ margin: "0 10px" }} title="View Raw">
-              <Btn onClick={createDocument}>
+              <Btn
+                onClick={() => Router.push(`/r/${location.pathname.substr(1)}`)}
+              >
                 <FaAlignLeft size={18} />
               </Btn>
             </Tooltip>
