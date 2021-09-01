@@ -16,8 +16,9 @@ import {
 import { Tooltip, UserIcon } from "../components";
 import { UserIconSkeleton } from "../components/skeletons";
 import { editingState, languageState } from "../state/editor";
-import { NavProps, Theme, ThemeForStupidProps } from "../types";
+import { NavProps, ThemeForStupidProps, DocumentSettings } from "../types";
 import { request } from "../utils/requestWrapper";
+import { useState } from "react";
 
 const Container = styled.div`
   position: absolute;
@@ -61,6 +62,8 @@ export const Nav = ({
 }: NavProps): JSX.Element => {
   const [language, setLanguage] = useAtom(languageState);
   const [editing, setEditing] = useAtom(editingState);
+  // Apparently "status" is reserved in "strict mode" so thats dumb
+  const [publicStatus, setPublic] = useState<boolean>(false);
 
   const createDocument = async () => {
     if (typeof window === "undefined") return;
@@ -72,9 +75,24 @@ export const Nav = ({
 
     if (content < 1) return;
 
+    /*   clipboard: boolean;
+  longUrls: boolean;
+  shortUrls: boolean;
+  instantDelete: boolean;
+  encrypted: boolean;
+  imageEmbed: boolean;
+  expiration: number; */
     const { data, error } = await request("/document", "POST", {
       content,
       settings: {
+        longUrls: user ? user.settings.longUrls : false,
+        shortUrls: user ? user.settings.shortUrls : false,
+        instantDelete: user ? user.settings.instantDelete : false,
+        encrypted: user ? user.settings.encrypted : false,
+        imageEmbed: user ? user.settings.imageEmbed : false,
+        expiration: user ? user.settings.expiration : 14,
+        public: publicStatus,
+        editors: user ? ["cody2"] : null,
         language,
       },
     });
