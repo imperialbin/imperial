@@ -3,7 +3,15 @@ import Link from "next/link";
 import Router from "next/router";
 import { useEffect } from "react";
 import styled from "styled-components";
-import { File, AlignLeft, FileText, Save } from "react-feather";
+import {
+  FaUserFriends,
+  FaMinus,
+  FaEdit,
+  FaSave,
+  FaAlignLeft,
+  FaFileAlt,
+  FaCopy,
+} from "react-icons/fa";
 
 import { Tooltip, UserIcon } from "../components";
 import { UserIconSkeleton } from "../components/skeletons";
@@ -25,7 +33,7 @@ const Container = styled.div`
 
 const Brand = styled.h1`
   text-align: center;
-  margin-top: 15px;
+  margin-top: 17px;
   font-size: 1em;
 `;
 
@@ -33,16 +41,17 @@ const Buttons = styled.div`
   display: flex;
   align-items: center;
   flex-direction: row;
-  margin: 5px 20px 10px;
+  margin: 17px 20px 10px;
 `;
 
 const Btn = styled.button`
-  padding: 6px 10px;
-  border-radius: 5px;
+  padding: 8px 11px;
+  border-radius: 6px;
   border: none;
   background: ${({ theme }: ThemeForStupidProps) =>
     theme.layoutLightestOfTheBunch};
   color: ${({ theme }: ThemeForStupidProps) => theme.textLightest};
+  cursor: pointer;
 `;
 
 export const Nav = ({
@@ -107,33 +116,47 @@ export const Nav = ({
       <Buttons>
         {editor && (
           <Tooltip style={{ margin: "0 10px" }} title="Edit Document">
-            <Btn onClick={allowEdit}>e</Btn>
+            <Btn onClick={allowEdit}>
+              <FaEdit size={17.5} />
+            </Btn>
           </Tooltip>
         )}
         {creatingDocument ? (
           <>
             <Tooltip style={{ margin: "0 10px" }} title="Change language">
-              <Btn onClick={() => changeLanguage("javascript")}>l</Btn>
+              <Btn onClick={() => changeLanguage("javascript")}>
+                <FaMinus size={17.5} />
+              </Btn>
             </Tooltip>
             <Tooltip style={{ margin: "0 10px" }} title="Change editors">
-              <Btn>e</Btn>
+              <Btn>
+                <FaUserFriends size={17.5} />
+              </Btn>
             </Tooltip>
             <Tooltip style={{ margin: "0 10px" }} title="Save document">
-              <Btn onClick={createDocument}>s</Btn>
+              <Btn onClick={createDocument}>
+                <FaSave size={17.5} />
+              </Btn>
             </Tooltip>
           </>
         ) : (
           <>
             <Tooltip style={{ margin: "0 10px" }} title="View Raw">
-              <Btn onClick={createDocument}>r</Btn>
+              <Btn onClick={createDocument}>
+                <FaAlignLeft size={17.5} />
+              </Btn>
             </Tooltip>
             <Tooltip style={{ margin: "0 10px" }} title="Duplicate document">
-              <Btn onClick={createDocument}>d</Btn>
+              <Btn onClick={createDocument}>
+                <FaCopy size={17.5} />
+              </Btn>
             </Tooltip>
           </>
         )}
         <Tooltip style={{ margin: "0 10px" }} title="New document">
-          <Btn onClick={newDocument}>n</Btn>
+          <Btn onClick={newDocument}>
+            <FaFileAlt size={17.5} />
+          </Btn>
         </Tooltip>
         {user ? (
           <Tooltip
