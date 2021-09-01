@@ -131,7 +131,7 @@ export const Nav = ({
         {editor && (
           <Tooltip style={{ margin: "0 10px" }} title="Edit Document">
             <Btn onClick={allowEdit}>
-              <FaEdit size={17.5} />
+              <FaEdit size={18} />
             </Btn>
           </Tooltip>
         )}
@@ -139,26 +139,22 @@ export const Nav = ({
           <>
             <Tooltip style={{ margin: "0 10px" }} title="Public status">
               <Btn onClick={() => setPublic(!publicStatus)}>
-                {publicStatus ? (
-                  <FaEye size={17.5} />
-                ) : (
-                  <FaEyeSlash size={17.5} />
-                )}
+                {publicStatus ? <FaEye size={18} /> : <FaEyeSlash size={18} />}
               </Btn>
             </Tooltip>
             <Tooltip style={{ margin: "0 10px" }} title="Change language">
               <Btn onClick={() => changeLanguage("javascript")}>
-                <FaMinus size={17.5} />
+                <FaMinus size={18} />
               </Btn>
             </Tooltip>
             <Tooltip style={{ margin: "0 10px" }} title="Change editors">
               <Btn>
-                <FaUserFriends size={17.5} />
+                <FaUserFriends size={18} />
               </Btn>
             </Tooltip>
             <Tooltip style={{ margin: "0 10px" }} title="Save document">
               <Btn onClick={createDocument}>
-                <FaSave size={17.5} />
+                <FaSave size={18} />
               </Btn>
             </Tooltip>
           </>
@@ -166,19 +162,19 @@ export const Nav = ({
           <>
             <Tooltip style={{ margin: "0 10px" }} title="View Raw">
               <Btn onClick={createDocument}>
-                <FaAlignLeft size={17.5} />
+                <FaAlignLeft size={18} />
               </Btn>
             </Tooltip>
             <Tooltip style={{ margin: "0 10px" }} title="Duplicate document">
               <Btn onClick={createDocument}>
-                <FaCopy size={17.5} />
+                <FaCopy size={18} />
               </Btn>
             </Tooltip>
           </>
         )}
         <Tooltip style={{ margin: "0 10px" }} title="New document">
           <Btn onClick={newDocument}>
-            <FaFileAlt size={17.5} />
+            <FaFileAlt size={18} />
           </Btn>
         </Tooltip>
         {user ? (
