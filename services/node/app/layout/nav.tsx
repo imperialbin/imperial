@@ -3,6 +3,7 @@ import Link from "next/link";
 import Router from "next/router";
 import { useEffect } from "react";
 import styled from "styled-components";
+import { File, AlignLeft, FileText, Save } from "react-feather";
 
 import { Tooltip, UserIcon } from "../components";
 import { UserIconSkeleton } from "../components/skeletons";
