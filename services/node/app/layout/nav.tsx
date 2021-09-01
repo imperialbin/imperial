@@ -11,6 +11,8 @@ import {
   FaAlignLeft,
   FaFileAlt,
   FaCopy,
+  FaEye,
+  FaEyeSlash,
 } from "react-icons/fa";
 
 import { Tooltip, UserIcon } from "../components";
@@ -141,6 +143,15 @@ export const Nav = ({
         )}
         {creatingDocument ? (
           <>
+            <Tooltip style={{ margin: "0 10px" }} title="Public status">
+              <Btn onClick={() => setPublic(!publicStatus)}>
+                {publicStatus ? (
+                  <FaEye size={17.5} />
+                ) : (
+                  <FaEyeSlash size={17.5} />
+                )}
+              </Btn>
+            </Tooltip>
             <Tooltip style={{ margin: "0 10px" }} title="Change language">
               <Btn onClick={() => changeLanguage("javascript")}>
                 <FaMinus size={17.5} />
