@@ -5,6 +5,7 @@ import Monaco, {
 } from "imperial-editor";
 import { useAtom } from "jotai";
 import React from "react";
+import { useEffect } from "react";
 import { editingState, languageState } from "../state/editor";
 import { User } from "../types";
 import { EditorSkeleton } from "./skeletons";
@@ -13,11 +14,25 @@ export const Editor = (props: EditorProps & { user?: User }): JSX.Element => {
   const [language] = useAtom(languageState);
   const [editing] = useAtom(editingState);
 
+  const mounted = () => {
+    if (typeof window === "undefined") return;
+    if (!window.monaco) return;
+
+    window.monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions(
+      {
+        noSemanticValidation: true,
+        noSyntaxValidation: false,
+      }
+    );
+    console.log(window.monaco.languages);
+  };
+
   return (
     <Monaco
       {...props}
       height={"100vh"}
       loading={<EditorSkeleton />}
+      onMount={mounted}
       options={
         props.user
           ? {
