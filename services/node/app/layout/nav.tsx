@@ -104,9 +104,21 @@ export const Nav = ({
   const changeLanguage = (language: string) => setLanguage(language);
   const allowEdit = () => setEditing(!editing);
 
-  const editDocument = () => {
-    console.log("test");
+  const editDocument = async () => {
+    if (typeof window === "undefined") return;
+    if (!window.monaco) return;
 
+    const content = window.monaco.editor.getModels()[0].getValue();
+    if (content < 1) return;
+
+    const { data, error } = await request("/document", "PATCH", {
+      id: location.pathname.substr(1),
+      content,
+    });
+
+    if (error) return console.error(error);
+
+    console.log(data);
     setEditing(false);
   };
 

@@ -23,8 +23,10 @@ const Home: NextPage = () => {
           <Nav
             user={user}
             editor={
-              document.creator === user.username ||
-              document.settings.editors.includes(user.username)
+              user
+                ? document.creator === user.username ||
+                  document.settings.editors.includes(user.username)
+                : false
             }
           />
           <Editor
