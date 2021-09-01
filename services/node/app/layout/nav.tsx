@@ -36,7 +36,7 @@ const Container = styled.div`
 
 const Brand = styled.h1`
   text-align: center;
-  margin-top: 17px;
+  margin-top: 24px;
   font-size: 1em;
 `;
 
@@ -44,7 +44,7 @@ const Buttons = styled.div`
   display: flex;
   align-items: center;
   flex-direction: row;
-  margin: 17px 20px 10px;
+  margin: 10px 20px 10px;
 `;
 
 const Btn = styled.button`
@@ -64,6 +64,7 @@ export const Nav = ({
 }: NavProps): JSX.Element => {
   const [language, setLanguage] = useAtom(languageState);
   const [editing, setEditing] = useAtom(editingState);
+
   // Apparently "status" is reserved in "strict mode" so thats dumb
   const [publicStatus, setPublic] = useState<boolean>(false);
 
@@ -77,13 +78,6 @@ export const Nav = ({
 
     if (content < 1) return;
 
-    /*   clipboard: boolean;
-  longUrls: boolean;
-  shortUrls: boolean;
-  instantDelete: boolean;
-  encrypted: boolean;
-  imageEmbed: boolean;
-  expiration: number; */
     const { data, error } = await request("/document", "POST", {
       content,
       settings: {
