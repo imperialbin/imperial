@@ -24,7 +24,6 @@ export const Editor = (props: EditorProps & { user?: User }): JSX.Element => {
         noSyntaxValidation: false,
       }
     );
-    console.log(window.monaco.languages);
   };
 
   return (
