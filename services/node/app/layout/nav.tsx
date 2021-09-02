@@ -13,7 +13,6 @@ import {
   FaCopy,
   FaEye,
   FaEyeSlash,
-  FaPencilAlt,
   FaCheck,
 } from "react-icons/fa";
 
@@ -119,7 +118,6 @@ export const Nav = ({
 
     if (error) return console.error(error);
 
-    console.log(data);
     setEditing(false);
   };
 
@@ -167,7 +165,7 @@ export const Nav = ({
               </Btn>
             </Tooltip>
             <Tooltip style={{ margin: "0 10px" }} title="Change language">
-              <Btn onClick={() => changeLanguage("typescript")}>
+              <Btn onClick={() => changeLanguage("go")}>
                 <FaMinus size={18} />
               </Btn>
             </Tooltip>
@@ -213,7 +211,7 @@ export const Nav = ({
             <UserIcon URL={user ? user.icon : "/img/pfp.png"} />
           </Tooltip>
         ) : (
-          <UserIconSkeleton style={{ marginLeft: 10 }} />
+          <UserIconSkeleton style={{ margin: "0 10px", display: "block" }} />
         )}
       </Buttons>
     </Container>
