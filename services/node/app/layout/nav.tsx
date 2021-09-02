@@ -126,11 +126,9 @@ export const Nav = ({
 
     setEditing(creatingDocument ? true : false);
     window.addEventListener("keydown", (e) => {
-      if (
-        (e.key === "s" && e.metaKey && creatingDocument) ||
-        (e.key === "s" && e.ctrlKey && creatingDocument)
-      ) {
+      if (e.key === "s" && creatingDocument && (e.ctrlKey || e.metaKey)) {
         e.preventDefault();
+
         createDocument();
       }
 
