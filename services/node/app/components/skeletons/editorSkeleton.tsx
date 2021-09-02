@@ -14,7 +14,7 @@ const Container = styled.div`
 const CodeContainer = styled.div`
   display: flex;
   flex-direction: column;
-  margin-left: 30px;
+  margin-left: 25px;
 `;
 
 const Lines = styled.div`

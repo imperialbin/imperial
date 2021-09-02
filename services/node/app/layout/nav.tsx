@@ -34,6 +34,7 @@ const Container = styled.div`
   background: ${({ theme }: ThemeForStupidProps) => theme.layoutDarkest};
   color: ${({ theme }: ThemeForStupidProps) => theme.textLight};
   border-bottom-left-radius: 15px;
+  box-shadow: 0px 0px 6px 3px rgb(0 0 0 / 25%);
 `;
 
 const Brand = styled.h1`
