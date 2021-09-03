@@ -72,7 +72,6 @@ const modalAnimation = {
 
 export const Modal = ({ title }: ModalProps): JSX.Element => {
   const [open, setOpen] = useAtom(modalOpen);
-  console.log(open);
 
   return (
     <AnimatePresence>
