@@ -89,8 +89,7 @@ export const Modal = ({ title }: ModalProps): JSX.Element => {
           variants={modalContainerAnimation}
         >
           <ModalBody
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore mate
+            // @ts-expect-error mate
             ref={modalRef}
             transition={{ duration: 0.15 }}
             variants={modalAnimation}
