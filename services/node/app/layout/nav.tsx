@@ -67,7 +67,7 @@ export const Nav = ({
 }: NavProps): JSX.Element => {
   const [language, setLanguage] = useAtom(languageState);
   const [editing, setEditing] = useAtom(editingState);
-  const [modal, setModal] = useAtom(modalOpen);
+  const [, setModal] = useAtom(modalOpen);
 
   // Apparently "status" is reserved in "strict mode" so thats dumb
   const [publicStatus, setPublic] = useState<boolean>(false);
@@ -171,7 +171,12 @@ export const Nav = ({
               </Btn>
             </Tooltip>
             <Tooltip style={{ margin: "0 10px" }} title="Change language">
-              <Btn onClick={() => changeLanguage("go")}>
+              <Btn
+                onClick={() => {
+                  setModal(true);
+                  changeLanguage("go");
+                }}
+              >
                 <FaMinus size={18} />
               </Btn>
             </Tooltip>
