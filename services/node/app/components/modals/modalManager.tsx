@@ -97,7 +97,10 @@ export const Modal = ({ title }: ModalProps): JSX.Element => {
           >
             <Header>
               <Title>{title}</Title>
-              <Tooltip style={{ display: "inline-flex" }} title="Close (esc)">
+              <Tooltip
+                style={{ display: "inline-flex", marginRight: 13 }}
+                title="Close (esc)"
+              >
                 <IoMdClose
                   size={23}
                   style={{ cursor: "pointer" }}
