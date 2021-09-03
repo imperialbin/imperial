@@ -16,12 +16,13 @@ import {
   FaCheck,
 } from "react-icons/fa";
 
-import { Tooltip, UserIcon } from "../components";
+import { Modal, Tooltip, UserIcon } from "../components";
 import { UserIconSkeleton } from "../components/skeletons";
 import { editingState, languageState } from "../state/editor";
-import { NavProps, ThemeForStupidProps, DocumentSettings } from "../types";
+import { NavProps, ThemeForStupidProps } from "../types";
 import { request } from "../utils/requestWrapper";
 import { useState } from "react";
+import { modalOpen } from "../state/modal";
 
 const Container = styled.div`
   position: absolute;
@@ -29,7 +30,7 @@ const Container = styled.div`
   flex-direction: column;
   top: 0;
   right: 0;
-  z-index: 9999;
+  z-index: 500;
   background: ${({ theme }: ThemeForStupidProps) => theme.layoutDarkest};
   color: ${({ theme }: ThemeForStupidProps) => theme.textLight};
   border-bottom-left-radius: 15px;
@@ -66,6 +67,7 @@ export const Nav = ({
 }: NavProps): JSX.Element => {
   const [language, setLanguage] = useAtom(languageState);
   const [editing, setEditing] = useAtom(editingState);
+  const [modal, setModal] = useAtom(modalOpen);
 
   // Apparently "status" is reserved in "strict mode" so thats dumb
   const [publicStatus, setPublic] = useState<boolean>(false);
@@ -126,8 +128,14 @@ export const Nav = ({
 
     setEditing(creatingDocument ? true : false);
     window.addEventListener("keydown", (e) => {
-      if (e.key === "s" && creatingDocument && (e.ctrlKey || e.metaKey)) {
+      if (
+        e.key === "s" &&
+        (creatingDocument || editing) &&
+        (e.ctrlKey || e.metaKey)
+      ) {
         e.preventDefault();
+
+        if (editor && editing) return editDocument();
 
         createDocument();
       }
@@ -168,7 +176,7 @@ export const Nav = ({
               </Btn>
             </Tooltip>
             <Tooltip style={{ margin: "0 10px" }} title="Change editors">
-              <Btn>
+              <Btn onClick={() => setModal(true)}>
                 <FaUserFriends size={18} />
               </Btn>
             </Tooltip>

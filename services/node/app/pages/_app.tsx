@@ -29,7 +29,7 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   themes, you're welcome */
   const theme = darkTheme;
   return (
-    <Provider initialValues={initialState && [[store.editor, initialState]]}>
+    <Provider>
       <ThemeProvider theme={theme}>
         <GlobalStyle />
         <SWRConfig

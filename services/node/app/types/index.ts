@@ -5,6 +5,9 @@ export interface LoginRequest {
   password: string;
 }
 
+export interface ModalProps {
+  title: string;
+}
 export interface NavProps {
   user: User;
   creatingDocument?: boolean;

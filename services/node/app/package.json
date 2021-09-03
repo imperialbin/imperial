@@ -25,6 +25,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "framer-motion": "^4.1.17",
     "imperial-editor": "https://github.com/imperialbin/imperial-editor",
     "jotai": "^1.3.1",
     "next": "11.1.0",
