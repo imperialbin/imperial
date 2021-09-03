@@ -21,6 +21,7 @@ const Home: NextPage = () => {
         <>
           <Nav
             user={user}
+            userLoading={userLoading}
             editor={
               user
                 ? document.creator === user.username ||
@@ -32,6 +33,7 @@ const Home: NextPage = () => {
           <Editor
             language={document.settings.language}
             value={document && document.content}
+            user={user}
           />
         </>
       ) : (

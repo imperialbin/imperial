@@ -62,6 +62,7 @@ const Btn = styled.button`
 
 export const Nav = ({
   user,
+  userLoading = true,
   creatingDocument = false,
   editor = false,
   encryptedDocument = false,
@@ -222,7 +223,9 @@ export const Nav = ({
             <FaFileAlt size={18} />
           </Btn>
         </Tooltip>
-        {user ? (
+        {userLoading ? (
+          <UserIconSkeleton style={{ margin: "0 10px", display: "block" }} />
+        ) : (
           <Tooltip
             style={{ margin: "0 10px" }}
             position="bottom-end"
@@ -231,8 +234,6 @@ export const Nav = ({
           >
             <UserIcon URL={user ? user.icon : "/img/pfp.png"} />
           </Tooltip>
-        ) : (
-          <UserIconSkeleton style={{ margin: "0 10px", display: "block" }} />
         )}
       </Buttons>
     </Container>

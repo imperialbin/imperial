@@ -10,6 +10,7 @@ export interface ModalProps {
 }
 export interface NavProps {
   user: User;
+  userLoading?: any;
   creatingDocument?: boolean;
   editor?: boolean;
   encryptedDocument?: boolean;
