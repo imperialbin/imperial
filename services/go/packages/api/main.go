@@ -12,6 +12,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/joho/godotenv"
 )
 
@@ -62,6 +63,10 @@ func main() {
 	}))
 	app.Use(logger.New(logger.Config{
 		Format: "${time} |   ${cyan}${status} ${reset}|   ${latency} | ${ip} on ${cyan}${ua} ${reset}| ${cyan}${method} ${reset}${path} \n",
+	}))
+	app.Use(recover.New(recover.Config{
+		Next:             nil,
+		EnableStackTrace: true,
 	}))
 
 	setupRoutes(app)
