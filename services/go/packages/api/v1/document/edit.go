@@ -63,6 +63,13 @@ func Edit(c *fiber.Ctx) error {
 		})
 	}
 
+	if document.DocumentSettings().Encrypted {
+		return c.Status(400).JSON(Response{
+			Success: false,
+			Message: "You can not edit an encrypted document yet!",
+		})
+	}
+
 	if req.Settings.Encrypted != nil {
 		return c.Status(400).JSON(Response{
 			Success: false,

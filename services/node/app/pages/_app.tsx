@@ -15,14 +15,13 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     box-sizing: border-box;
     background: ${({ theme }: ThemeForStupidProps) => theme.layoutDark};
+    color: ${({ theme }: ThemeForStupidProps) => theme.textLight};
     font-family: 'Manrope', sans-serif;
     font-weight: 500;
   }
 `;
 
 function MyApp({ Component, pageProps }: AppProps): JSX.Element {
-  const { initialState } = pageProps;
-
   /* You might be thinking, whats the point of this?!?!?! why are we putting
   this in a different variable just for it to be used once!?!?!? that is because
   we are going to have a ternary here in the future that determines custom

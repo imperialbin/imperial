@@ -29,9 +29,9 @@ func Get(c *fiber.Ctx) error {
 			Message: "We couldn't find that document!",
 		})
 	}
-
 	/* When the psychopath decides that he would like to decrypt his document */
 	var content = document.Content
+
 	if document.DocumentSettings().Encrypted {
 		if len(password) < 1 {
 			return c.Status(400).JSON(Response{
@@ -39,6 +39,7 @@ func Get(c *fiber.Ctx) error {
 				Message: "password query (?password=documentPassword), was not provided!",
 			})
 		}
+
 		encryptedIv, _ := document.EncryptedIv()
 		content, err = Decrypt(password, document.Content, encryptedIv)
 

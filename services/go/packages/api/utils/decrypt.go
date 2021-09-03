@@ -14,7 +14,7 @@ func Decrypt(password, encryptedText, initVector string) (string, error) {
 
 	block, err := aes.NewCipher([]byte(hashedPassword))
 	if err != nil {
-		panic(err)
+		return "", errors.New("There was an error.")
 	}
 
 	iv := cipherText[:aes.BlockSize]
