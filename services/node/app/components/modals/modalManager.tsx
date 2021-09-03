@@ -83,7 +83,7 @@ export const Modal = ({ title }: ModalProps): JSX.Element => {
           transition={{ duration: 0.2 }}
           variants={modalContainerAnimation}
         >
-          <ModalBody variants={modalAnimation}>
+          <ModalBody transition={{ duration: 0.15 }} variants={modalAnimation}>
             <Header>
               <Title>{title}</Title>
               <Tooltip style={{ display: "inline-flex" }} title="Close (esc)">
