@@ -24,6 +24,7 @@ const Lines = styled.div`
 
 const Line = styled.span`
   display: block;
+  font-size: 12px;
   margin-top: 1.8px;
   color: ${({ theme }: ThemeForStupidProps) => theme.textLightest};
 `;
