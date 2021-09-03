@@ -10,6 +10,7 @@ const Raw: NextPage = () => {
   const GlobalStyles = createGlobalStyle`
     body {
       background: #fff;
+      color: #000;
     }
   `;
 
