@@ -5,6 +5,8 @@ import { useAtom } from "jotai";
 import { modalOpen } from "../../state/modal";
 import { Tooltip } from "../tooltip";
 import { IoMdClose } from "react-icons/io";
+import { useRef } from "react";
+import { useModalHook } from "../../hooks/modalHook";
 
 const ModalContainer = styled(motion.div)`
   display: flex;
@@ -72,6 +74,9 @@ const modalAnimation = {
 
 export const Modal = ({ title }: ModalProps): JSX.Element => {
   const [open, setOpen] = useAtom(modalOpen);
+  const modalRef = useRef();
+
+  useModalHook(modalRef, () => setOpen(false));
 
   return (
     <AnimatePresence>
@@ -83,7 +88,13 @@ export const Modal = ({ title }: ModalProps): JSX.Element => {
           transition={{ duration: 0.2 }}
           variants={modalContainerAnimation}
         >
-          <ModalBody transition={{ duration: 0.15 }} variants={modalAnimation}>
+          <ModalBody
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore mate
+            ref={modalRef}
+            transition={{ duration: 0.15 }}
+            variants={modalAnimation}
+          >
             <Header>
               <Title>{title}</Title>
               <Tooltip style={{ display: "inline-flex" }} title="Close (esc)">
