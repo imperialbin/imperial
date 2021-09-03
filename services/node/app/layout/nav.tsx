@@ -74,8 +74,13 @@ export const Nav = ({
   const [publicStatus, setPublic] = useState<boolean>(false);
 
   const createDocument = async () => {
-    if (typeof window === "undefined") return;
-    if (!window.monaco) return;
+    if (
+      typeof window === "undefined" ||
+      !window.monaco ||
+      !creatingDocument ||
+      (!editor && !editing)
+    )
+      return;
 
     const content = window.monaco.editor.getModels()[0].getValue();
     const language =
@@ -100,8 +105,9 @@ export const Nav = ({
 
     if (error) console.log(error);
 
-    Router.push(`/${data.data.id}`);
     creatingDocument = false;
+    setEditing(false);
+    Router.push(`/${data.data.id}`);
   };
   const newDocument = () => Router.push("/");
   const changeLanguage = (language: string) => setLanguage(language);
@@ -127,7 +133,6 @@ export const Nav = ({
   useEffect(() => {
     if (typeof window === "undefined") return;
 
-    setEditing(creatingDocument ? true : false);
     window.addEventListener("keydown", (e) => {
       if (
         e.key === "s" &&
@@ -146,7 +151,7 @@ export const Nav = ({
         newDocument();
       }
     });
-  }, []);
+  }, [editing]);
 
   return (
     <Container>
