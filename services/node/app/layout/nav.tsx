@@ -64,6 +64,7 @@ export const Nav = ({
   user,
   creatingDocument = false,
   editor = false,
+  encryptedDocument = false,
 }: NavProps): JSX.Element => {
   const [language, setLanguage] = useAtom(languageState);
   const [editing, setEditing] = useAtom(editingState);
@@ -153,7 +154,7 @@ export const Nav = ({
         <Brand>IMPERIAL</Brand>
       </Link>
       <Buttons>
-        {editor && (
+        {editor && !encryptedDocument && (
           <Tooltip
             style={{ margin: "0 10px" }}
             title={!editing ? "Edit document" : "Save document"}
@@ -195,7 +196,11 @@ export const Nav = ({
           <>
             <Tooltip style={{ margin: "0 10px" }} title="View Raw">
               <Btn
-                onClick={() => Router.push(`/r/${location.pathname.substr(1)}`)}
+                onClick={() =>
+                  Router.push(
+                    `/r/${location.pathname.substr(1)}${location.search}`
+                  )
+                }
               >
                 <FaAlignLeft size={18} />
               </Btn>

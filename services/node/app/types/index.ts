@@ -12,6 +12,7 @@ export interface NavProps {
   user: User;
   creatingDocument?: boolean;
   editor?: boolean;
+  encryptedDocument?: boolean;
 }
 
 export interface UserIconProps {

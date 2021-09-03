@@ -27,6 +27,7 @@ const Home: NextPage = () => {
                   document.settings.editors.includes(user.username)
                 : false
             }
+            encryptedDocument={document.settings.encrypted}
           />
           <Editor
             language={document.settings.language}
