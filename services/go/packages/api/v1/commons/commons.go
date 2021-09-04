@@ -31,6 +31,20 @@ type EditDocumentSettingsStruct struct {
 	Editors       *[]string `json:"editors"`
 }
 
+type EditUserSettings struct {
+	Clipboard        *bool `json:"clipboard"`
+	LongURLs         *bool `json:"longUrls"`
+	ShortURLs        *bool `json:"shortUrls"`
+	InstantDelete    *bool `json:"instantDelete"`
+	Encrypted        *bool `json:"encrypted"`
+	ImageEmbed       *bool `json:"imageEmbed"`
+	Expiration       *int  `json:"expiration"`
+	FontLignatures   *bool `json:"fontLignatures"`
+	FontSize         *int  `json:"fontSize"`
+	RenderWhitespace *bool `json:"renderWhiteSpace"`
+	WordWrap         *bool `json:"wordWrap"`
+}
+
 type ErrorResponse struct {
 	FailedField string `json:"failedField"`
 	Tag         string

@@ -51,6 +51,14 @@ func GetMe(c *fiber.Ctx) error {
 	return user.Me(c)
 }
 
+func PatchMe(c *fiber.Ctx) error {
+	return user.EditMe(c)
+}
+
+func DeleteMe(c *fiber.Ctx) error {
+	return user.DeleteMe(c)
+}
+
 func GetUser(c *fiber.Ctx) error {
 	return user.FindUser(c)
 }
@@ -59,9 +67,9 @@ func GetUser(c *fiber.Ctx) error {
 
 func GetAdmin(c *fiber.Ctx) error {
 	return c.JSON(VersionResponse{
-		Success:       true,
-		Message:       "Welcome to IMPERIAL's Admin API!",
-		Version:       1,
+		Success: true,
+		Message: "Welcome to IMPERIAL's Admin API!",
+		Version: 1,
 	})
 }
 
