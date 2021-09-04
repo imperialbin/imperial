@@ -19,9 +19,14 @@ type RequestResetPasswordStruct struct {
 }
 
 type ResetPasswordStruct struct {
-	Token            string `json:"token" validate:"required"`
-	Password         string `json:"password" validate:"required"`
+	Token           string `json:"token" validate:"required"`
+	Password        string `json:"password" validate:"required"`
 	ConfirmPassword string `json:"confirmPassword" validate:"required"`
+}
+
+type DeleteAccount struct {
+	Password        string `json:"password", validate:"required"`
+	ConfirmPassword string `json:"confirmPassword", validate:"required"`
 }
 
 type EditDocument struct {
