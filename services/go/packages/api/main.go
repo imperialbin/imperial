@@ -28,7 +28,6 @@ func setupRoutes(app *fiber.App) {
 	})
 
 	/* VERSION 1 API */
-
 	app.Get("/v1", v1.Introduction)
 
 	/* Authentication */
@@ -36,7 +35,7 @@ func setupRoutes(app *fiber.App) {
 	app.Post("/v1/auth/signup", middleware.CheckNotAuthenticated, v1.PostSignup)
 	app.Delete("/v1/auth/logout", middleware.CheckAuthenticated, v1.DeleteLogout)
 
-	/* Users */
+	/* User(s) */
 	app.Get("/v1/user/@me", middleware.CheckAuthenticated, v1.GetMe)
 	app.Get("/v1/user/:username", middleware.CheckAuthenticated, v1.GetUser)
 
@@ -45,6 +44,10 @@ func setupRoutes(app *fiber.App) {
 	app.Post("/v1/document", v1.PostDocument)
 	app.Patch("/v1/document", middleware.CheckAuthenticated, v1.PatchDocument)
 	app.Delete("/v1/document/:id", middleware.CheckAuthenticated, v1.DeleteDocument)
+
+	/* Admin */
+	app.Get("/v1/admin", middleware.CheckAdmin, v1.GetAdmin)
+	app.Post("/v1/admin/user", middleware.CheckAdmin, v1.PostBanUser)
 }
 
 func main() {

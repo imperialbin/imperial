@@ -62,6 +62,7 @@ type User struct {
 	DocumentsMade            int          `json:"documentsMade"`
 	ActiveUnlimitedDocuments int          `json:"activeUnlimitedDocuments"`
 	DiscordID                *string      `json:"discordId"`
+	Admin                    bool         `json:"admin"`
 	GithubAccess             *string      `json:"githubAccess"`
 	Opt                      *string      `json:"opt"`
 	UserSettingsID           string       `json:"-"`

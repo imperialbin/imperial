@@ -27,6 +27,7 @@ model User {
   activeUnlimitedDocuments Int          @default(0)
   apiToken                 String       @unique
   discordId                String?
+  admin                    Boolean      @default(false)
   githubAccess             String?
   opt                      String?
   settings                 UserSettings @relation(fields: [userSettingsId], references: [id])
