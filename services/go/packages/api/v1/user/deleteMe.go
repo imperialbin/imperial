@@ -40,10 +40,24 @@ func DeleteMe(c *fiber.Ctx) error {
 		})
 	}
 
+	if len(req.Password) < 8 {
+		return c.Status(400).JSON(Response{
+			Success: false,
+			Message: "Password must be 8 characters long!",
+		})
+	}
+
 	if req.ConfirmPassword != req.Password {
 		return c.Status(400).JSON(Response{
 			Success: false,
 			Message: "Password does not match confirm password!",
+		})
+	}
+
+	if !CheckHashedPassword(user.Password, req.Password) {
+		return c.Status(400).JSON(Response{
+			Success: false,
+			Message: "Incorrect password!",
 		})
 	}
 
@@ -68,6 +82,8 @@ func DeleteMe(c *fiber.Ctx) error {
 			Message: "There was an error trying to delete your user settings!",
 		})
 	}
+
+	SendEmail("DeletedAccount", user.Email, "{ }")
 
 	return c.JSON(Response{
 		Success: true,

@@ -40,7 +40,7 @@ func setupRoutes(app *fiber.App) {
 	/* User(s) */
 	app.Get("/v1/user/@me", middleware.CheckAuthenticated, v1.GetMe)
 	app.Patch("/v1/user/@me", middleware.CheckAuthenticated, v1.PatchMe)
-	app.Delete("/v1/user/@me", middleware.CheckAuthenticated, v1.DeleteMe)
+	app.Post("/v1/user/@me", middleware.CheckAuthenticated, v1.DeleteMe) // We're making this a post because we need a body
 	app.Get("/v1/user/:username", middleware.CheckAuthenticated, v1.GetUser)
 
 	/* Documents */
