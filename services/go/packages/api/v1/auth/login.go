@@ -51,6 +51,9 @@ func Login(c *fiber.Ctx) error {
 	RedisSet(token, user.ID, 7)
 	RedisSet(user.APIToken, user.ID, 0)
 
+	/* Send login email */
+	SendEmail("NewLogin", user.Email, "{ }")
+
 	cookie := fiber.Cookie{
 		Name:     "IMPERIAL-AUTH",
 		Value:    token,
