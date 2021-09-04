@@ -3,6 +3,7 @@ module api
 go 1.16
 
 require (
+	github.com/aws/aws-sdk-go v1.40.37 // indirect
 	github.com/go-playground/universal-translator v0.18.0 // indirect
 	github.com/go-playground/validator v9.31.0+incompatible
 	github.com/go-redis/redis/v8 v8.11.3
