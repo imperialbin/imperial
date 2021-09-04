@@ -72,7 +72,7 @@ export const Nav = ({
   const [editing, setEditing] = useAtom(editingState);
   const [, setModal] = useAtom(modalOpen);
 
-  // Apparently "status" is reserved in "strict mode" so thats dumb
+  // I forgot that public is a reserved name in javashit
   const [publicStatus, setPublic] = useState<boolean>(false);
 
   const createDocument = async () => {
