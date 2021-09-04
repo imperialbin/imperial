@@ -23,6 +23,7 @@ import { NavProps, ThemeForStupidProps } from "../types";
 import { request } from "../utils/requestWrapper";
 import { useState } from "react";
 import { modalOpen } from "../state/modal";
+import { LoggedInTooltip } from "../components/tooltips/loggedIn";
 
 const Container = styled.div`
   position: absolute;
@@ -227,12 +228,17 @@ export const Nav = ({
           <UserIconSkeleton style={{ margin: "0 10px", display: "block" }} />
         ) : (
           <Tooltip
-            style={{ margin: "0 10px" }}
+            style={{ margin: "0 10px", zIndex: 999999999999999 }}
+            trigger="click"
             position="bottom-end"
-            title="test"
+            interactive={true}
+            html={<LoggedInTooltip />}
             arrow
           >
-            <UserIcon URL={user ? user.icon : "/img/pfp.png"} />
+            <UserIcon
+              style={{ cursor: "pointer" }}
+              URL={user ? user.icon : "/img/pfp.png"}
+            />
           </Tooltip>
         )}
       </Buttons>

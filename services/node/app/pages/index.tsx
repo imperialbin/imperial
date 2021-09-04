@@ -14,7 +14,7 @@ const Home: NextPage = () => {
 
   return (
     <div>
-      <Modal title="hey" />
+      <Modal title="Add editors" />
       <Nav user={user} userLoading={isLoading} creatingDocument />
       <Editor user={user} />
     </div>
