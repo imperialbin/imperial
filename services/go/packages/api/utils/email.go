@@ -12,7 +12,7 @@ import (
 func SESSession() (*session.Session, error) {
 	return session.NewSession(&aws.Config{
 		Region:      aws.String(os.Getenv("AWS_REGION")),
-		Credentials: credentials.NewStaticCredentials(os.Getenv("AWS_ACCESS"), os.Getenv("AWS_SECRET"), ""),
+		Credentials: credentials.NewSharedCredentials("", *aws.String((os.Getenv("AWS_PROFILE")))),
 	})
 }
 func SendEmail(template string, to string, data string) {
@@ -23,14 +23,14 @@ func SendEmail(template string, to string, data string) {
 		Source:   aws.String(os.Getenv("AWS_SES_FROM")),
 		Template: &template,
 		Destination: &ses.Destination{
-			ToAddresses: []*string{&to},
+			ToAddresses: []*string{aws.String(to)},
 		},
 		TemplateData: &data,
 	}
 
-	_, err := svc.SendTemplatedEmail(email)
+	_, err := svc.SendTemplatedEmail((email))
 
 	if err != nil {
-		println("[EMAIL ERROR]", err)
+		println("[EMAIL ERROR]", err.Error())
 	}
 }
