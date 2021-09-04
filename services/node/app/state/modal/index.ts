@@ -1,3 +1,4 @@
 import { atom } from "jotai";
+import { modals } from "./modals";
 
-export const modalOpen = atom(false);
+export const atomActiveModal = atom<keyof typeof modals | null>(null);

@@ -2,11 +2,12 @@ import styled from "styled-components";
 import { motion, AnimatePresence } from "framer-motion";
 import { ModalProps, ThemeForStupidProps } from "../../types";
 import { useAtom } from "jotai";
-import { modalOpen } from "../../state/modal";
+import { atomActiveModal } from "../../state/modal";
 import { Tooltip } from "../tooltip";
 import { IoMdClose } from "react-icons/io";
 import { useRef } from "react";
 import { useModalHook } from "../../hooks/modalHook";
+import { modals } from "../../state/modal/modals";
 
 const ModalContainer = styled(motion.div)`
   display: flex;
@@ -72,15 +73,17 @@ const modalAnimation = {
   },
 };
 
-export const Modal = ({ title }: ModalProps): JSX.Element => {
-  const [open, setOpen] = useAtom(modalOpen);
+export const ModalManager = (): JSX.Element => {
+  const [activeModal, setActiveModal] = useAtom(atomActiveModal);
   const modalRef = useRef();
 
-  useModalHook(modalRef, () => setOpen(false));
+  const modal = modals[activeModal];
+
+  useModalHook(modalRef, () => setActiveModal(null));
 
   return (
     <AnimatePresence>
-      {open && (
+      {activeModal && (
         <ModalContainer
           initial={"initial"}
           animate={"isOpen"}
@@ -95,7 +98,7 @@ export const Modal = ({ title }: ModalProps): JSX.Element => {
             variants={modalAnimation}
           >
             <Header>
-              <Title>{title}</Title>
+              <Title>{modal.title}</Title>
               <Tooltip
                 style={{ display: "inline-flex", marginRight: 13 }}
                 title="Close (esc)"
@@ -103,7 +106,7 @@ export const Modal = ({ title }: ModalProps): JSX.Element => {
                 <IoMdClose
                   size={23}
                   style={{ cursor: "pointer" }}
-                  onClick={() => setOpen(false)}
+                  onClick={() => setActiveModal(null)}
                 />
               </Tooltip>
             </Header>

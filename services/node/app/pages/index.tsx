@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useAtom } from "jotai";
 import type { NextPage } from "next";
-import { Editor, Modal } from "../components";
+import { Editor } from "../components";
 import { useUser } from "../hooks/useUser";
 import { Nav } from "../layout/nav";
 import { editingState } from "../state/editor";
@@ -14,7 +14,6 @@ const Home: NextPage = () => {
 
   return (
     <div>
-      <Modal title="Add editors" />
       <Nav user={user} userLoading={isLoading} creatingDocument />
       <Editor user={user} />
     </div>

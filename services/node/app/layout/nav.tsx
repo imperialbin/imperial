@@ -16,14 +16,14 @@ import {
   FaCheck,
 } from "react-icons/fa";
 
-import { Modal, Tooltip, UserIcon } from "../components";
+import { Tooltip, UserIcon } from "../components";
 import { UserIconSkeleton } from "../components/skeletons";
 import { editingState, languageState } from "../state/editor";
 import { NavProps, ThemeForStupidProps } from "../types";
 import { request } from "../utils/requestWrapper";
 import { useState } from "react";
-import { modalOpen } from "../state/modal";
 import { LoggedInTooltip } from "../components/tooltips/loggedIn";
+import { atomActiveModal } from "../state/modal";
 
 const Container = styled.div`
   position: absolute;
@@ -70,7 +70,7 @@ export const Nav = ({
 }: NavProps): JSX.Element => {
   const [language, setLanguage] = useAtom(languageState);
   const [editing, setEditing] = useAtom(editingState);
-  const [, setModal] = useAtom(modalOpen);
+  const [, setActiveModal] = useAtom(atomActiveModal);
 
   // I forgot that public is a reserved name in javashit
   const [publicStatus, setPublic] = useState<boolean>(false);
@@ -181,7 +181,7 @@ export const Nav = ({
             <Tooltip style={{ margin: "0 10px" }} title="Change language">
               <Btn
                 onClick={() => {
-                  setModal(true);
+                  setActiveModal("language");
                   changeLanguage("go");
                 }}
               >
@@ -189,7 +189,7 @@ export const Nav = ({
               </Btn>
             </Tooltip>
             <Tooltip style={{ margin: "0 10px" }} title="Change editors">
-              <Btn onClick={() => setModal(true)}>
+              <Btn onClick={() => setActiveModal("addUsers")}>
                 <FaUserFriends size={18} />
               </Btn>
             </Tooltip>

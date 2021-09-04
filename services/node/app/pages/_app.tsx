@@ -8,6 +8,7 @@ import { SkeletonTheme } from "react-loading-skeleton";
 import { createGlobalStyle, ThemeProvider } from "styled-components";
 import { darkTheme } from "../utils/theme";
 import { ThemeForStupidProps } from "../types";
+import { ModalManager } from "../components";
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -38,6 +39,7 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
             revalidateOnFocus: false,
           }}
         >
+          <ModalManager />
           <SkeletonTheme
             color={theme.layoutLightestOfTheBunch}
             highlightColor={theme.layoutDark}
