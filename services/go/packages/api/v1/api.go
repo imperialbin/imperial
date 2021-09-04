@@ -19,6 +19,8 @@ func Introduction(c *fiber.Ctx) error {
 	})
 }
 
+/* Document things */
+
 func GetDocument(c *fiber.Ctx) error {
 	return document.Get(c)
 }
@@ -35,6 +37,8 @@ func DeleteDocument(c *fiber.Ctx) error {
 	return document.Delete(c)
 }
 
+/* Auth things */
+
 func PostLogin(c *fiber.Ctx) error {
 	return auth.Login(c)
 }
@@ -43,9 +47,19 @@ func PostSignup(c *fiber.Ctx) error {
 	return auth.Signup(c)
 }
 
+func PostRequestResetPassowrd(c *fiber.Ctx) error {
+	return auth.RequestResetPassword(c)
+}
+
+func PostResetPassword(c *fiber.Ctx) error {
+	return auth.ResetPassword(c)
+}
+
 func DeleteLogout(c *fiber.Ctx) error {
 	return auth.Logout(c)
 }
+
+/* User things */
 
 func GetMe(c *fiber.Ctx) error {
 	return user.Me(c)

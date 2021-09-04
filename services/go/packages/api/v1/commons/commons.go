@@ -14,6 +14,16 @@ type LoginRequest struct {
 	Password string `json:"password" validate:"required"`
 }
 
+type RequestResetPasswordStruct struct {
+	Email string `json:"email" validate:"required"`
+}
+
+type ResetPasswordStruct struct {
+	Token            string `json:"token" validate:"required"`
+	Password         string `json:"password" validate:"required"`
+	ConfirmPassword string `json:"confirmPassword" validate:"required"`
+}
+
 type EditDocument struct {
 	ID       string                     `json:"id" validate:"required"`
 	Content  *string                    `json:"content"`

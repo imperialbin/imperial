@@ -15,7 +15,7 @@ func SESSession() (*session.Session, error) {
 		Credentials: credentials.NewSharedCredentials("", *aws.String((os.Getenv("AWS_PROFILE")))),
 	})
 }
-func SendEmail(template string, to string, data string) {
+func SendEmail(template string, to string, data string) (ok bool, err error) {
 	session := session.Must(SESSession())
 	svc := ses.New(session)
 
@@ -28,9 +28,13 @@ func SendEmail(template string, to string, data string) {
 		TemplateData: &data,
 	}
 
-	_, err := svc.SendTemplatedEmail((email))
+	_, emailErr := svc.SendTemplatedEmail((email))
 
-	if err != nil {
-		println("[EMAIL ERROR]", err.Error())
+	if emailErr != nil {
+		println("[EMAIL ERROR]", emailErr.Error())
+
+		return false, emailErr
 	}
+
+	return true, nil
 }
