@@ -20,5 +20,4 @@ yarn-error.log*
 .idea
 .vscode
 tmp
-api
 bin
