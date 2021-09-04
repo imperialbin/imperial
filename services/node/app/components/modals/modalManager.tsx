@@ -75,15 +75,15 @@ const modalAnimation = {
 
 export const ModalManager = (): JSX.Element => {
   const [activeModal, setActiveModal] = useAtom(atomActiveModal);
-  const modalRef = useRef();
+  const modalRef = useRef<HTMLDivElement | null>(null);
 
-  const modal = modals[activeModal];
+  const modal = activeModal && modals[activeModal];
 
   useModalHook(modalRef, () => setActiveModal(null));
 
   return (
     <AnimatePresence>
-      {activeModal && (
+      {modal && (
         <ModalContainer
           initial={"initial"}
           animate={"isOpen"}
@@ -92,7 +92,6 @@ export const ModalManager = (): JSX.Element => {
           variants={modalContainerAnimation}
         >
           <ModalBody
-            // @ts-expect-error mate
             ref={modalRef}
             transition={{ duration: 0.15 }}
             variants={modalAnimation}
