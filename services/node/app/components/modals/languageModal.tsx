@@ -43,7 +43,7 @@ const LanguageBtn = styled(motion.button)`
   border: none;
   border-top: 1px solid ${({ theme }: ThemeForStupidProps) => theme.textDarkest};
   color: ${({ theme }: ThemeForStupidProps) => theme.textLight};
-  transition: color 0.12s ease-in-out;
+  transition: background-color 0.12s ease-in-out;
 
   &:hover {
     background: ${({ theme }: ThemeForStupidProps) =>
