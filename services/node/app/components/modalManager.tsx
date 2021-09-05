@@ -78,7 +78,7 @@ const modalAnimation = {
 };
 
 export const ModalManager = (): JSX.Element => {
-  const [[currentModal, otherShit], setActiveModal] = useAtom(activeModal);
+  const [[currentModal], setActiveModal] = useAtom(activeModal);
   const modalRef = useRef<HTMLDivElement | null>(null);
 
   const modal = currentModal && modals[currentModal];
