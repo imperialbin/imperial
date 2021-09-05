@@ -28,7 +28,7 @@ const Search = styled.input`
   }
 `;
 
-const SelectedLanguage = styled.span`
+const HeaderSecondary = styled.span`
   color: ${({ theme }: ThemeForStupidProps) => theme.textDarker};
 `;
 
@@ -43,6 +43,7 @@ const LanguageBtn = styled(motion.button)`
   border: none;
   border-top: 1px solid ${({ theme }: ThemeForStupidProps) => theme.textDarkest};
   color: ${({ theme }: ThemeForStupidProps) => theme.textLight};
+  transition: color 0.12s ease-in-out;
 
   &:hover {
     background: ${({ theme }: ThemeForStupidProps) =>
@@ -132,7 +133,7 @@ export const LanguageModal = (): JSX.Element => {
 
   return (
     <>
-      <SelectedLanguage>Selected language: {language}</SelectedLanguage>
+      <HeaderSecondary>Selected language: {language}</HeaderSecondary>
       <Search
         placeholder="Search languages"
         onChange={(e) => setSearchInput(e.target.value)}
