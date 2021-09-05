@@ -183,7 +183,6 @@ export const Nav = ({
               <Btn
                 onClick={() => {
                   setActiveModal(["language", supportedLanguages]);
-                  changeLanguage("go");
                 }}
               >
                 <FaMinus size={18} />

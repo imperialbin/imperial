@@ -26,6 +26,8 @@ const ModalContainer = styled(motion.div)`
 const ModalBody = styled(motion.div)`
   width: 80%;
   max-width: 600px;
+  max-height: 80%;
+  overflow: scroll;
   border-radius: 8px;
   padding: 8px;
   box-shadow: rgba(0, 0, 0, 0.5) 0px 16px 70px;

@@ -12,16 +12,19 @@ export const LanguageModal = (): JSX.Element => {
       Selected language: {language}
       <ul>
         {supportedLanguages.map((language, key) => {
-          <button
-            onClick={() => {
-              setLanguage(language.name);
-              setActiveModal([null, null]);
-            }}
-            key={key}
-            value={language.name}
-          >
-            {language.name}
-          </button>;
+          return (
+            <button
+              style={{ display: "block" }}
+              onClick={() => {
+                setLanguage(language.name);
+                setActiveModal([null, null]);
+              }}
+              key={key}
+              value={language.name}
+            >
+              {language.name}
+            </button>
+          );
         })}
       </ul>
     </>
