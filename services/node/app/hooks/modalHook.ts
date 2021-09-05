@@ -11,16 +11,18 @@ export const useModalHook = (
       handler(e);
     };
 
-    window.addEventListener("keydown", (e) => {
+    const keyDownHandler = (e: KeyboardEvent) => {
       if (e.key === "Escape") handler(e);
-    });
+    };
 
+    document.addEventListener("keydown", keyDownHandler);
     document.addEventListener("mousedown", listener);
     document.addEventListener("touchstart", listener);
 
     return () => {
       document.removeEventListener("mousedown", listener);
       document.removeEventListener("touchstart", listener);
+      document.removeEventListener("keydown", keyDownHandler);
     };
   }, [ref, handler]);
 };
