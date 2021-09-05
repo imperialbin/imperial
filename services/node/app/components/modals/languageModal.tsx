@@ -56,6 +56,7 @@ const UnsupportedLanguage = styled(motion.div)`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  margin-top: 20px;
   color: ${({ theme }: ThemeForStupidProps) => theme.textDarker};
 `;
 
