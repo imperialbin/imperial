@@ -103,7 +103,7 @@ export const ModalManager = (): JSX.Element => {
             <Header>
               <Title>{modal.title}</Title>
               <Tooltip
-                style={{ display: "inline-flex", marginRight: 13 }}
+                style={{ display: "inline-flex", marginRight: 8 }}
                 title="Close (esc)"
               >
                 <IoMdClose
