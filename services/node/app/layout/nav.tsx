@@ -23,7 +23,8 @@ import { NavProps, ThemeForStupidProps } from "../types";
 import { request } from "../utils/requestWrapper";
 import { useState } from "react";
 import { LoggedInTooltip } from "../components/tooltips/loggedIn";
-import { atomActiveModal } from "../state/modal";
+import { activeModal } from "../state/modal";
+import { supportedLanguages } from "../utils/consts";
 
 const Container = styled.div`
   position: absolute;
@@ -70,7 +71,7 @@ export const Nav = ({
 }: NavProps): JSX.Element => {
   const [language, setLanguage] = useAtom(languageState);
   const [editing, setEditing] = useAtom(editingState);
-  const [, setActiveModal] = useAtom(atomActiveModal);
+  const [, setActiveModal] = useAtom(activeModal);
 
   // I forgot that public is a reserved name in javashit
   const [publicStatus, setPublic] = useState<boolean>(false);
@@ -181,7 +182,7 @@ export const Nav = ({
             <Tooltip style={{ margin: "0 10px" }} title="Change language">
               <Btn
                 onClick={() => {
-                  setActiveModal("language");
+                  setActiveModal(["language", supportedLanguages]);
                   changeLanguage("go");
                 }}
               >
@@ -189,7 +190,7 @@ export const Nav = ({
               </Btn>
             </Tooltip>
             <Tooltip style={{ margin: "0 10px" }} title="Change editors">
-              <Btn onClick={() => setActiveModal("addUsers")}>
+              <Btn onClick={() => setActiveModal(["addUsers", "balls"])}>
                 <FaUserFriends size={18} />
               </Btn>
             </Tooltip>

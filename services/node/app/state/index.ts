@@ -1,5 +1,5 @@
 import { editingState, languageState } from "./editor";
-import { atomActiveModal } from "./modal";
+import { activeModal } from "./modal";
 
 export default {
   editor: {
@@ -7,6 +7,6 @@ export default {
     editingState,
   },
   modal: {
-    atomActiveModal,
+    activeModal,
   },
 };

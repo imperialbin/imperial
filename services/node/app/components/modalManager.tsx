@@ -1,13 +1,14 @@
 import styled from "styled-components";
 import { motion, AnimatePresence } from "framer-motion";
-import { ModalProps, ThemeForStupidProps } from "../../types";
+import { ThemeForStupidProps } from "../types";
 import { useAtom } from "jotai";
-import { atomActiveModal } from "../../state/modal";
-import { Tooltip } from "../tooltip";
+import { activeModal } from "../state/modal";
+import { Tooltip } from "./";
 import { IoMdClose } from "react-icons/io";
 import { useRef } from "react";
-import { useModalHook } from "../../hooks/modalHook";
-import { modals } from "../../state/modal/modals";
+import { useModalHook } from "../hooks/modalHook";
+import { modals } from "../state/modal/modals";
+import { LanguageModal, AddUsersModal } from "./modals";
 
 const ModalContainer = styled(motion.div)`
   display: flex;
@@ -48,16 +49,16 @@ const Title = styled.h1`
 
 const modalContainerAnimation = {
   initial: {
-    "opacity": 0,
-    "backdrop-filter": "blur(0px)",
+    opacity: 0,
+    backdropFilter: "blur(0px)",
   },
   isOpen: {
-    "opacity": 1,
-    "backdrop-filter": "blur(1.3px)",
+    opacity: 1,
+    backdropFilter: "blur(1.3px)",
   },
   exit: {
-    "opacity": 0,
-    "backdrop-filter": "blur(0px)",
+    opacity: 0,
+    backdropFilter: "blur(0px)",
   },
 };
 
@@ -74,12 +75,12 @@ const modalAnimation = {
 };
 
 export const ModalManager = (): JSX.Element => {
-  const [activeModal, setActiveModal] = useAtom(atomActiveModal);
+  const [[currentModal, otherShit], setActiveModal] = useAtom(activeModal);
   const modalRef = useRef<HTMLDivElement | null>(null);
 
-  const modal = activeModal && modals[activeModal];
+  const modal = currentModal && modals[currentModal];
 
-  useModalHook(modalRef, () => setActiveModal(null));
+  useModalHook(modalRef, () => setActiveModal([null, null]));
 
   return (
     <AnimatePresence>
@@ -105,10 +106,12 @@ export const ModalManager = (): JSX.Element => {
                 <IoMdClose
                   size={23}
                   style={{ cursor: "pointer" }}
-                  onClick={() => setActiveModal(null)}
+                  onClick={() => setActiveModal([null, null])}
                 />
               </Tooltip>
             </Header>
+            {currentModal === "language" && <LanguageModal />}
+            {currentModal === "addUsers" && <AddUsersModal />}
             <br />
           </ModalBody>
         </ModalContainer>
