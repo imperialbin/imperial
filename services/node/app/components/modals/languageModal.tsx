@@ -50,7 +50,7 @@ const LanguageBtn = styled(motion.button)`
   }
 `;
 
-const UnsupportedLanguage = styled.div`
+const UnsupportedLanguage = styled(motion.div)`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -82,6 +82,21 @@ const LanguageBtnAnimation = {
   },
   exit: {
     opacity: 0,
+  },
+};
+
+const UnsupportedLanguageAnimation = {
+  initial: {
+    opacity: 0,
+    transform: "translateY(10px)",
+  },
+  isOpen: {
+    opacity: 1,
+    transform: "translateY(0px)",
+  },
+  exit: {
+    opacity: 0,
+    transform: "translateY(10px)",
   },
 };
 
@@ -124,7 +139,10 @@ export const LanguageModal = (): JSX.Element => {
         autoFocus
       />
       {languageFilter.length === 0 && (
-        <UnsupportedLanguage>
+        <UnsupportedLanguage
+          transition={{ duration: 0.3 }}
+          variants={UnsupportedLanguageAnimation}
+        >
           <MdFindInPage size={50} />
           <p>We don&apos;t support that language</p>
         </UnsupportedLanguage>
