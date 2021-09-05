@@ -108,4 +108,10 @@ export interface Theme {
 
   textLightest: string;
   textLight: string;
+  textDarker: string;
+  textDarkest: string;
+
+  success: string;
+  error: string;
+  info: string;
 }

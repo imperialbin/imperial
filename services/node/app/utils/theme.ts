@@ -8,6 +8,12 @@ export const darkTheme: Theme = {
 
   textLightest: "#ffffff",
   textLight: "#dedede",
+  textDarker: "#acacac",
+  textDarkest: "#3a3a3a",
+
+  success: "#2fd671",
+  error: "#ff4f4f",
+  info: "#f1fa8c",
 };
 
 /* Note to self, finish this lmfao */
@@ -19,4 +25,10 @@ export const lightTheme: Theme = {
 
   textLightest: "#ACACAC",
   textLight: "#9F9F9F",
+  textDarker: "#acacac",
+  textDarkest: "#646464",
+
+  success: "",
+  error: "",
+  info: "",
 };
