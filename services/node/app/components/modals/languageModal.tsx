@@ -56,7 +56,7 @@ const UnsupportedLanguage = styled.div`
 
 const Tip = styled.span`
   position: absolute;
-  left: 10px;
+  left: 15px;
   bottom: 10px;
   font-size: 0.9em;
   opacity: 0.8;
