@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAtom } from "jotai";
 import { languageState } from "../../state/editor";
 import { activeModal } from "../../state/modal";
@@ -9,13 +9,34 @@ export const LanguageModal = (): JSX.Element => {
   const [searchInput, setSearchInput] = useState<string>("");
   const [, setActiveModal] = useAtom(activeModal);
 
-  console.log(searchInput);
+  const changeLanguage = (language: string) => {
+    setActiveModal([null, null]);
+    setLanguage(language);
+  };
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    window.addEventListener("keydown", ({ key }) => {
+      if (key === "Enter" && searchInput.length > 0) {
+        const language = supportedLanguages.find((language) =>
+          language.name.startsWith(searchInput)
+        )?.name;
+
+        if (!language) return;
+
+        changeLanguage(language);
+      }
+    });
+  });
+
   return (
     <>
       Selected language: {language}
       <input
         placeholder="Search languages"
         onChange={(e) => setSearchInput(e.target.value)}
+        autoFocus
       />
       <ul>
         {supportedLanguages
@@ -24,10 +45,7 @@ export const LanguageModal = (): JSX.Element => {
             return (
               <button
                 style={{ display: "block" }}
-                onClick={() => {
-                  setLanguage(language.name);
-                  setActiveModal([null, null]);
-                }}
+                onClick={() => changeLanguage(language.name)}
                 key={key}
                 value={language.name}
               >
