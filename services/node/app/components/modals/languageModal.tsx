@@ -23,8 +23,9 @@ const Search = styled.input`
     outline: none;
   }
 
-  &:focus::placeholder {
-    color: ${({ theme }: ThemeForStupidProps) => theme.textLight};
+  &::placeholder {
+    opacity: 0.4;
+    color: ${({ theme }: ThemeForStupidProps) => theme.textDarker};
   }
 `;
 
