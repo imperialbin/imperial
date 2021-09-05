@@ -28,6 +28,10 @@ const Search = styled.input`
   }
 `;
 
+const SelectedLanguage = styled.span`
+  color: ${({ theme }: ThemeForStupidProps) => theme.textDarker};
+`;
+
 const LanguageBtn = styled(motion.button)`
   display: block;
   width: 100%;
@@ -113,7 +117,7 @@ export const LanguageModal = (): JSX.Element => {
 
   return (
     <>
-      Selected language: {language}
+      <SelectedLanguage>Selected language: {language}</SelectedLanguage>
       <Search
         placeholder="Search languages"
         onChange={(e) => setSearchInput(e.target.value)}
@@ -128,7 +132,7 @@ export const LanguageModal = (): JSX.Element => {
       {languageFilter.map((language, key) => {
         return (
           <LanguageBtn
-            transition={{ duration: 0.2 }}
+            transition={{ duration: 0.3 }}
             variants={LanguageBtnAnimation}
             onClick={() => changeLanguage(language.name)}
             key={key}
