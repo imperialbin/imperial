@@ -10,7 +10,7 @@ import { motion } from "framer-motion";
 
 const Search = styled.input`
   display: block;
-  margin: 15px 0;
+  margin: 15px 0 0;
   padding: 10px 0px;
   border: none;
   border-radius: 8px;
