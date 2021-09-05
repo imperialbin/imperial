@@ -29,7 +29,7 @@ const ModalBody = styled(motion.div)`
   max-height: 80%;
   overflow: scroll;
   border-radius: 8px;
-  padding: 8px;
+  padding: 18px;
   box-shadow: rgba(0, 0, 0, 0.5) 0px 16px 70px;
   background: ${({ theme }: ThemeForStupidProps) =>
     theme.layoutLightestOfTheBunch};
@@ -43,7 +43,7 @@ const Header = styled.div`
 `;
 
 const Title = styled.h1`
-  margin: 0 10px;
+  margin: 0;
   font-size: 1.85em;
   font-weight: 600;
   flex-grow: 1;
