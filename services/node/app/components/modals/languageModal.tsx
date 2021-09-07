@@ -122,20 +122,23 @@ export const LanguageModal = (): JSX.Element => {
     setLanguage(language);
   };
 
+  const enterHandler = ({ key }: KeyboardEvent) => {
+    if (key === "Enter" && searchInput.length > 0) {
+      const language = supportedLanguages.find((language) =>
+        language.name.startsWith(searchInput)
+      )?.name;
+
+      if (!language) return;
+
+      changeLanguage(language);
+      window.removeEventListener("keydown", enterHandler);
+    }
+  };
+
   useEffect(() => {
     if (typeof window === "undefined") return;
 
-    window.addEventListener("keydown", ({ key }) => {
-      if (key === "Enter" && searchInput.length > 0) {
-        const language = supportedLanguages.find((language) =>
-          language.name.startsWith(searchInput)
-        )?.name;
-
-        if (!language) return;
-
-        changeLanguage(language);
-      }
-    });
+    window.addEventListener("keydown", enterHandler);
   });
 
   return (
