@@ -18,12 +18,12 @@ import {
 
 import { Tooltip, UserIcon } from "../components";
 import { UserIconSkeleton } from "../components/skeletons";
-import { editingState, languageState } from "../state/editor";
+import { editingState } from "../state/editor";
 import { NavProps, ThemeForStupidProps } from "../types";
 import { request } from "../utils/requestWrapper";
 import { useState } from "react";
 import { LoggedInTooltip, LoggedOutTooltip } from "../components/tooltips";
-import { activeModal } from "../state/modal";
+import { activeModal, documentEditors } from "../state/modal";
 import { supportedLanguages } from "../utils/consts";
 
 const Container = styled.div`
@@ -69,12 +69,12 @@ export const Nav = ({
   editor = false,
   encryptedDocument = false,
 }: NavProps): JSX.Element => {
-  const [language, setLanguage] = useAtom(languageState);
   const [editing, setEditing] = useAtom(editingState);
+  const [editors] = useAtom(documentEditors);
   const [, setActiveModal] = useAtom(activeModal);
 
-  // I forgot that public is a reserved name in javashit
-  const [publicStatus, setPublic] = useState<boolean>(false);
+  // I forgot that public is a reserved name in javacrip 
+  const [publicStatus, setPublic] = useState(false);
 
   const createDocument = async () => {
     if (
@@ -101,7 +101,7 @@ export const Nav = ({
         imageEmbed: user ? user.settings.imageEmbed : false,
         expiration: user ? user.settings.expiration : 14,
         public: publicStatus,
-        editors: user ? ["cody2"] : null,
+        editors: user ? editors.map((user) => user.username) : [],
         language,
       },
     });
@@ -113,7 +113,6 @@ export const Nav = ({
     Router.push(`/${data.data.id}`);
   };
   const newDocument = () => Router.push("/");
-  const changeLanguage = (language: string) => setLanguage(language);
   const allowEdit = () => setEditing(!editing);
 
   const editDocument = async () => {
@@ -154,7 +153,7 @@ export const Nav = ({
         newDocument();
       }
     });
-  }, [editing]);
+  }, [editing, editors]);
 
   return (
     <Container>
