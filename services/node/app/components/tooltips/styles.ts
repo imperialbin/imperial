@@ -8,6 +8,7 @@ export const ListContainer = styled.ul`
 
 export const ListItem = styled.li`
   cursor: pointer;
+  margin: 4px 0;
 `;
 
 export const Seperator = styled.span`

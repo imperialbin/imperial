@@ -1,11 +1,22 @@
 import Link from "next/link";
-import { ListContainer, ListItem } from "./styles";
+import { DiscordURL, GitHubURL } from "../../utils/consts";
+import { ListContainer, ListItem, Seperator } from "./styles";
 
 export const LoggedInTooltip = (): JSX.Element => {
   return (
     <ListContainer>
-      <Link href="/account">
+      <Link href="/login">
         <ListItem>Login</ListItem>
+      </Link>
+      <Link href="/signup">
+        <ListItem>Signup</ListItem>
+      </Link>
+      <Seperator />
+      <Link href={DiscordURL}>
+        <ListItem>Discord</ListItem>
+      </Link>
+      <Link href={GitHubURL}>
+        <ListItem>GitHub</ListItem>
       </Link>
     </ListContainer>
   );
