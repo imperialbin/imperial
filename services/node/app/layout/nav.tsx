@@ -250,6 +250,7 @@ export const Nav = ({
             trigger="click"
             position="bottom-end"
             interactive={true}
+            useContext={true}
             html={user ? <LoggedInTooltip /> : <LoggedOutTooltip />}
             arrow
           >

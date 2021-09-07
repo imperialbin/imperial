@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { DiscordURL, GitHubURL } from "../../utils/consts";
-import { ListContainer, ListItem, Seperator } from "./styles";
+import { Anchor, ListContainer, ListItem, Seperator } from "./styles";
 
 export const LoggedOutTooltip = (): JSX.Element => {
   return (
@@ -12,12 +12,12 @@ export const LoggedOutTooltip = (): JSX.Element => {
         <ListItem>Signup</ListItem>
       </Link>
       <Seperator />
-      <Link href={DiscordURL}>
-        <ListItem>Discord</ListItem>
-      </Link>
-      <Link href={GitHubURL}>
-        <ListItem>GitHub</ListItem>
-      </Link>
+      <Anchor href={DiscordURL} target="_blank" rel="noreferrer">
+        Discord
+      </Anchor>
+      <Anchor href={GitHubURL} target="_blank" rel="noreferrer">
+        GitHub
+      </Anchor>
     </ListContainer>
   );
 };
