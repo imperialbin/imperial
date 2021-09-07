@@ -115,3 +115,10 @@ export interface Theme {
   error: string;
   info: string;
 }
+
+export interface DocumentEditor {
+  username: string;
+  icon: string;
+  memberPlus: boolean;
+  banned: boolean;
+}

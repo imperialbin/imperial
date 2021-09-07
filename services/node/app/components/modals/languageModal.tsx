@@ -8,33 +8,14 @@ import { supportedLanguages } from "../../utils/consts";
 import { MdFindInPage } from "react-icons/md";
 import { motion } from "framer-motion";
 import { FaSearch } from "react-icons/fa";
+import {
+  FadeAnimation,
+  FadeSlideUpAnimation,
+  HeaderSecondary,
+  Search,
+} from "./styles";
 
 const SearchContainer = styled.div`
-  color: ${({ theme }: ThemeForStupidProps) => theme.textDarker};
-`;
-
-const Search = styled.input`
-  display: inline-block;
-  margin: 15px 15px 0;
-  padding: 10px 0px;
-  border: none;
-  border-radius: 8px;
-  font-size: 1.4em;
-  background: ${({ theme }: ThemeForStupidProps) =>
-    theme.layoutLightestOfTheBunch};
-  color: ${({ theme }: ThemeForStupidProps) => theme.textDarker};
-
-  &:focus {
-    outline: none;
-  }
-
-  &::placeholder {
-    opacity: 0.4;
-    color: ${({ theme }: ThemeForStupidProps) => theme.textDarker};
-  }
-`;
-
-const HeaderSecondary = styled.span`
   color: ${({ theme }: ThemeForStupidProps) => theme.textDarker};
 `;
 
@@ -80,33 +61,6 @@ const TipAccent = styled.span`
   padding-right: 8px;
   color: ${({ theme }: ThemeForStupidProps) => theme.success};
 `;
-
-const LanguageBtnAnimation = {
-  initial: {
-    opacity: 0,
-  },
-  isOpen: {
-    opacity: 1,
-  },
-  exit: {
-    opacity: 0,
-  },
-};
-
-const UnsupportedLanguageAnimation = {
-  initial: {
-    opacity: 0,
-    transform: "translateY(10px)",
-  },
-  isOpen: {
-    opacity: 1,
-    transform: "translateY(0px)",
-  },
-  exit: {
-    opacity: 0,
-    transform: "translateY(10px)",
-  },
-};
 
 export const LanguageModal = (): JSX.Element => {
   const [language, setLanguage] = useAtom(languageState);
@@ -155,7 +109,7 @@ export const LanguageModal = (): JSX.Element => {
       {languageFilter.length === 0 && (
         <UnsupportedLanguage
           transition={{ duration: 0.3 }}
-          variants={UnsupportedLanguageAnimation}
+          variants={FadeSlideUpAnimation}
         >
           <MdFindInPage size={50} />
           <p>We don&apos;t support that language</p>
@@ -165,7 +119,7 @@ export const LanguageModal = (): JSX.Element => {
         return (
           <LanguageBtn
             transition={{ duration: 0.3 }}
-            variants={LanguageBtnAnimation}
+            variants={FadeAnimation}
             onClick={() => changeLanguage(language.name)}
             key={key}
             value={language.name}

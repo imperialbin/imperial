@@ -11,7 +11,7 @@ export const request = async (
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(body),
+    body: body && JSON.stringify(body),
   });
 
   const data = await request.json();

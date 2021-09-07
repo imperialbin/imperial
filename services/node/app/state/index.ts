@@ -1,5 +1,5 @@
 import { editingState, languageState } from "./editor";
-import { activeModal } from "./modal";
+import { activeModal, documentEditors } from "./modal";
 
 export default {
   editor: {
@@ -8,5 +8,6 @@ export default {
   },
   modal: {
     activeModal,
+    documentEditors,
   },
 };
