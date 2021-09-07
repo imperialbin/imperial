@@ -5,10 +5,7 @@ export const LoggedInTooltip = (): JSX.Element => {
   return (
     <ListContainer>
       <Link href="/account">
-        <ListItem>User settings</ListItem>
-      </Link>
-      <Link href="/logout">
-        <ListItem>Logout</ListItem>
+        <ListItem>Login</ListItem>
       </Link>
     </ListContainer>
   );
