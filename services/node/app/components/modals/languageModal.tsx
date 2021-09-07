@@ -7,10 +7,15 @@ import { activeModal } from "../../state/modal";
 import { supportedLanguages } from "../../utils/consts";
 import { MdFindInPage } from "react-icons/md";
 import { motion } from "framer-motion";
+import { FaSearch } from "react-icons/fa";
+
+const SearchContainer = styled.div`
+  color: ${({ theme }: ThemeForStupidProps) => theme.textDarker};
+`;
 
 const Search = styled.input`
-  display: block;
-  margin: 15px 0 0;
+  display: inline-block;
+  margin: 15px 15px 0;
   padding: 10px 0px;
   border: none;
   border-radius: 8px;
@@ -136,11 +141,14 @@ export const LanguageModal = (): JSX.Element => {
   return (
     <>
       <HeaderSecondary>Selected language: {language}</HeaderSecondary>
-      <Search
-        placeholder="Search languages"
-        onChange={(e) => setSearchInput(e.target.value)}
-        autoFocus
-      />
+      <SearchContainer>
+        <FaSearch />
+        <Search
+          placeholder="Search languages"
+          onChange={(e) => setSearchInput(e.target.value)}
+          autoFocus
+        />
+      </SearchContainer>
       {languageFilter.length === 0 && (
         <UnsupportedLanguage
           transition={{ duration: 0.3 }}
