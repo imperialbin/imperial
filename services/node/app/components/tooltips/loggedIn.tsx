@@ -11,12 +11,12 @@ export const LoggedInTooltip = (): JSX.Element => {
       <Anchor href={DiscordURL} target="_blank" rel="noreferrer">
         Discord
       </Anchor>
-      <Seperator />
       <Anchor href={GitHubURL} target="_blank" rel="noreferrer">
         GitHub
       </Anchor>
+      <Seperator />
       <Link href="/logout">
-        <ListItem>Logout</ListItem>
+        <ListItem danger>Logout</ListItem>
       </Link>
     </ListContainer>
   );
