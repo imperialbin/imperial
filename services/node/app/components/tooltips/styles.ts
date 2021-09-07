@@ -19,8 +19,8 @@ export const ListItem = styled.li`
 
 export const Seperator = styled.span`
   display: flex;
-  width: 100%;
-  margin: 8px 0;
+  width: 80%;
+  margin: 8px auto;
   opacity: 0.3;
   border-bottom: 1px solid;
 `;
