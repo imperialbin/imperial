@@ -2,7 +2,7 @@ import Link from "next/link";
 import { DiscordURL, GitHubURL } from "../../utils/consts";
 import { ListContainer, ListItem, Seperator } from "./styles";
 
-export const LoggedInTooltip = (): JSX.Element => {
+export const LoggedOutTooltip = (): JSX.Element => {
   return (
     <ListContainer>
       <Link href="/login">

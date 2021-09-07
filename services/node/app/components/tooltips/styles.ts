@@ -3,7 +3,7 @@ import { ThemeForStupidProps } from "../../types";
 
 export const ListContainer = styled.ul`
   list-style: none;
-  padding: 0 5px;
+  padding: 0 15px;
 `;
 
 export const ListItem = styled.li`

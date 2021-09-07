@@ -22,7 +22,7 @@ import { editingState, languageState } from "../state/editor";
 import { NavProps, ThemeForStupidProps } from "../types";
 import { request } from "../utils/requestWrapper";
 import { useState } from "react";
-import { LoggedInTooltip } from "../components/tooltips/loggedIn";
+import { LoggedInTooltip, LoggedOutTooltip } from "../components/tooltips";
 import { activeModal } from "../state/modal";
 import { supportedLanguages } from "../utils/consts";
 
@@ -174,25 +174,43 @@ export const Nav = ({
         )}
         {creatingDocument ? (
           <>
-            <Tooltip style={{ margin: "0 10px" }} title="Public status">
-              <Btn onClick={() => setPublic(!publicStatus)}>
-                {publicStatus ? <FaEye size={18} /> : <FaEyeSlash size={18} />}
-              </Btn>
-            </Tooltip>
-            <Tooltip style={{ margin: "0 10px" }} title="Change language">
-              <Btn
-                onClick={() => {
-                  setActiveModal(["language", supportedLanguages]);
-                }}
-              >
-                <FaMinus size={18} />
-              </Btn>
-            </Tooltip>
-            <Tooltip style={{ margin: "0 10px" }} title="Change editors">
-              <Btn onClick={() => setActiveModal(["addUsers", "balls"])}>
-                <FaUserFriends size={18} />
-              </Btn>
-            </Tooltip>
+            {user ? (
+              <>
+                <Tooltip style={{ margin: "0 10px" }} title="Public status">
+                  <Btn onClick={() => setPublic(!publicStatus)}>
+                    {publicStatus ? (
+                      <FaEye size={18} />
+                    ) : (
+                      <FaEyeSlash size={18} />
+                    )}
+                  </Btn>
+                </Tooltip>
+                <Tooltip style={{ margin: "0 10px" }} title="Change language">
+                  <Btn
+                    onClick={() => {
+                      setActiveModal(["language", supportedLanguages]);
+                    }}
+                  >
+                    <FaMinus size={18} />
+                  </Btn>
+                </Tooltip>
+                <Tooltip style={{ margin: "0 10px" }} title="Change editors">
+                  <Btn onClick={() => setActiveModal(["addUsers", "balls"])}>
+                    <FaUserFriends size={18} />
+                  </Btn>
+                </Tooltip>
+              </>
+            ) : (
+              <Tooltip style={{ margin: "0 10px" }} title="Change language">
+                <Btn
+                  onClick={() => {
+                    setActiveModal(["language", supportedLanguages]);
+                  }}
+                >
+                  <FaMinus size={18} />
+                </Btn>
+              </Tooltip>
+            )}
             <Tooltip style={{ margin: "0 10px" }} title="Save document">
               <Btn onClick={createDocument}>
                 <FaSave size={18} />
@@ -232,7 +250,7 @@ export const Nav = ({
             trigger="click"
             position="bottom-end"
             interactive={true}
-            html={<LoggedInTooltip />}
+            html={user ? <LoggedInTooltip /> : <LoggedOutTooltip />}
             arrow
           >
             <UserIcon
