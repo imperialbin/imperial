@@ -9,6 +9,7 @@ import { useRef } from "react";
 import { useModalHook } from "../hooks/modalHook";
 import { modals } from "../state/modal/modals";
 import { LanguageModal, AddUsersModal } from "./modals";
+import { UserSettings } from "./modals/userSettings";
 
 const ModalContainer = styled(motion.div)`
   display: flex;
@@ -45,7 +46,7 @@ const Header = styled.div`
 
 const Title = styled.h1`
   margin: 0;
-  font-size: 1.85em;
+  font-size: 1.55em;
   font-weight: 600;
   flex-grow: 1;
 `;
@@ -115,6 +116,7 @@ export const ModalManager = (): JSX.Element => {
             </Header>
             {currentModal === "language" && <LanguageModal />}
             {currentModal === "addUsers" && <AddUsersModal />}
+            {currentModal === "userSettings" && <UserSettings />}
             <br />
           </ModalBody>
         </ModalContainer>

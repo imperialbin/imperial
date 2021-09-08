@@ -67,13 +67,13 @@ export const Nav = ({
   userLoading = true,
   creatingDocument = false,
   editor = false,
-  encryptedDocument = false,
+  document = null,
 }: NavProps): JSX.Element => {
   const [editing, setEditing] = useAtom(editingState);
   const [editors] = useAtom(documentEditors);
   const [, setActiveModal] = useAtom(activeModal);
 
-  // I forgot that public is a reserved name in javacrip 
+  // I forgot that public is a reserved name in javacrip
   const [publicStatus, setPublic] = useState(false);
 
   const createDocument = async () => {
@@ -161,7 +161,7 @@ export const Nav = ({
         <Brand>IMPERIAL</Brand>
       </Link>
       <Buttons>
-        {editor && !encryptedDocument && (
+        {editor && !document?.settings.encrypted && (
           <Tooltip
             style={{ margin: "0 10px" }}
             title={!editing ? "Edit document" : "Save document"}
@@ -241,9 +241,7 @@ export const Nav = ({
             <FaFileAlt size={18} />
           </Btn>
         </Tooltip>
-        {userLoading ? (
-          <UserIconSkeleton style={{ margin: "0 10px", display: "block" }} />
-        ) : (
+        {!userLoading ? (
           <Tooltip
             style={{ margin: "0 10px", zIndex: 999999999999999 }}
             trigger="click"
@@ -258,6 +256,8 @@ export const Nav = ({
               URL={user ? user.icon : "/img/pfp.png"}
             />
           </Tooltip>
+        ) : (
+          <UserIconSkeleton style={{ margin: "0 10px", display: "block" }} />
         )}
       </Buttons>
     </Container>

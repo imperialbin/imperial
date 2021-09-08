@@ -13,7 +13,7 @@ export interface NavProps {
   userLoading?: any;
   creatingDocument?: boolean;
   editor?: boolean;
-  encryptedDocument?: boolean;
+  document?: Document | null;
 }
 
 export interface UserIconProps {
