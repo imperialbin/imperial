@@ -1,4 +1,4 @@
-import { Switch } from ".";
+import { Switch, Dropdown } from ".";
 import styled from "styled-components";
 import { SettingProps, ThemeForStupidProps } from "../types";
 
@@ -36,6 +36,8 @@ export const Setting = ({
   description,
   toggled,
   toggleable = true,
+  checkbox = true,
+  type = "languages",
   onToggle,
 }: SettingProps): JSX.Element => {
   return (
@@ -44,7 +46,11 @@ export const Setting = ({
         <Title>{title}</Title>
         <Description>{description}</Description>
       </InfoContainer>
-      <Switch toggled={toggled} onToggle={onToggle} toggleable={toggleable} />
+      {checkbox ? (
+        <Switch toggled={toggled} onToggle={onToggle} toggleable={toggleable} />
+      ) : (
+        <Dropdown type={type} />
+      )}
     </SettingContainer>
   );
 };

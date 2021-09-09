@@ -97,12 +97,17 @@ export interface UserSettings {
   wordWrap: boolean;
 }
 
-export interface SettingProps extends SwitchProps {
+export interface SettingProps extends SwitchProps, DropdownProps {
   title: string;
+  checkbox?: boolean;
   description: string;
 }
+
+export interface DropdownProps {
+  type: "languages" | "expiration";
+}
 export interface SwitchProps {
-  toggled: boolean;
+  toggled?: boolean;
   toggleable?: boolean;
   onToggle: () => unknown;
 }

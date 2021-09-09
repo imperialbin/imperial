@@ -8,18 +8,24 @@ interface Setting {
   public?: boolean;
 }
 
+/* Ill type data later */
+interface Response {
+  data: any | boolean;
+  error: number | false;
+}
+
 export const updateDocumentSettings = async (
   document: Document,
   setting: Setting
-): Promise<any> => {
-  const { data, error } = await request(`/document`, "POST", {
+): Promise<Response> => {
+  const { data, error } = await request(`/document`, "PATCH", {
     id: document.id,
     settings: setting,
   });
 
   if (error) {
-    return error;
+    return { data: false, error };
   }
 
-  return data;
+  return { data, error: false };
 };
