@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Document } from "../../types";
 import { HeaderSecondary } from "./styles";
 import { Setting } from "../";
+import { updateDocumentSettings } from "../../utils";
 
 export const DocumentSettings = ({
   document,
@@ -20,15 +21,22 @@ export const DocumentSettings = ({
       <br />
       <Setting
         title="Encrypted"
-        description="Toggle encryption on the document. This will make any viewer require a password!"
+        description="You can not edit the encryption after the document has been made."
         toggled={document.settings.encrypted}
-        onToggle={() => console.log("Toggled encrypted")}
+        onToggle={() => console.error("You may not edit encrypted settings!")}
+        toggleable={false}
       />
       <Setting
         title="Image embed"
         description="Toggle image embed on the document. This will generate an image of the document and will support rich embeds."
         toggled={document.settings.imageEmbed}
-        onToggle={() => console.log("Toggled image embed")}
+        onToggle={async () => {
+          const update = await updateDocumentSettings(document, {
+            imageEmbed: !document.settings.imageEmbed,
+          });
+
+          console.log(update);
+        }}
       />
       <Setting
         title="Instant delete"
