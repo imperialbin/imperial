@@ -4,6 +4,8 @@ import { HeaderSecondary } from "./styles";
 import { Setting } from "../";
 import { updateDocumentSettings } from "../../utils";
 import { ChangeEvent } from "react";
+import { useAtom } from "jotai";
+import { languageState } from "../../state/editor";
 
 export const DocumentSettings = ({
   document,
@@ -11,6 +13,7 @@ export const DocumentSettings = ({
   document: Document;
 }): JSX.Element => {
   const [error, setError] = useState<string | null>(null);
+  const [, setLanguage] = useAtom(languageState);
 
   return (
     <>
@@ -36,6 +39,8 @@ export const DocumentSettings = ({
               "There was an error whilst editing document settings!"
             );
           }
+
+          setLanguage(e.target.value);
         }}
       />
       <Setting

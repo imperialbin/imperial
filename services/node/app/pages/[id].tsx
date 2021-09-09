@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useAtom } from "jotai";
 import type { NextPage } from "next";
 import { useRouter } from "next/dist/client/router";
@@ -13,7 +14,13 @@ const Home: NextPage = () => {
     id as string,
     password as string
   );
-  const [language, setLanguage] = useAtom(languageState);
+  const [, setLanguage] = useAtom(languageState);
+
+  useEffect(() => {
+    if (document) {
+      setLanguage(lang ? (lang as string) : document.settings.language);
+    }
+  }, [document]);
 
   return (
     <div>
@@ -30,11 +37,7 @@ const Home: NextPage = () => {
             }
             document={document}
           />
-          <Editor
-            language={lang ? lang as string : document.settings.language}
-            value={document && document.content}
-            user={user}
-          />
+          <Editor value={document && document.content} user={user} />
         </>
       ) : (
         documentError && (

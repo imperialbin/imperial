@@ -15,9 +15,6 @@ export const Editor = (props: EditorProps & { user?: User }): JSX.Element => {
   const [editing] = useAtom(editingState);
 
   const mounted = () => {
-    if (typeof window === "undefined") return;
-    if (!window.monaco) return;
-
     window.monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions(
       {
         noSemanticValidation: true,
