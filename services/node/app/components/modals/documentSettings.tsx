@@ -27,6 +27,13 @@ export const DocumentSettings = ({
         onToggle={() => console.log("what")}
       />
       <Setting
+        title="Expiration"
+        description="Change the date when the document expires."
+        checkbox={false}
+        type="expiration"
+        onToggle={() => console.log("what")}
+      />
+      <Setting
         title="Encrypted"
         description="You can not edit the encryption after the document has been made."
         toggled={document.settings.encrypted}

@@ -104,7 +104,7 @@ export interface SettingProps extends SwitchProps, DropdownProps {
 }
 
 export interface DropdownProps {
-  type: "languages" | "expiration";
+  type?: "languages" | "expiration";
 }
 export interface SwitchProps {
   toggled?: boolean;

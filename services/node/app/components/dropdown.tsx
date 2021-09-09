@@ -15,7 +15,17 @@ const Option = styled.option``;
 export const Dropdown = ({ type }: DropdownProps): JSX.Element => {
   return (
     <Select>
-      {type === "expiration" && <Option value={"test"}>test</Option>}
+      {type === "expiration" && (
+        <>
+          {[...Array(60)].map((day: number, key: number) => {
+            return (
+              <Option value={key} key={key}>
+                {key}
+              </Option>
+            );
+          })}
+        </>
+      )}
       {type === "languages" && (
         <>
           {supportedLanguages.map((language, key) => {
