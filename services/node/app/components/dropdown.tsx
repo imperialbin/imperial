@@ -23,8 +23,8 @@ export const Dropdown = ({
         <>
           {[...Array(60)].map((day: number, key: number) => {
             return (
-              <Option value={key} key={key}>
-                {key}
+              <Option value={key + 1} key={key}>
+                {key + 1}
               </Option>
             );
           })}
