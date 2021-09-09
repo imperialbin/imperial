@@ -99,12 +99,13 @@ export interface UserSettings {
 
 export interface SettingProps extends SwitchProps, DropdownProps {
   title: string;
-  checkbox?: boolean;
   description: string;
+  type?: "switch" | "dropdown";
 }
 
-export interface DropdownProps extends SwitchProps {
-  type?: "languages" | "expiration";
+export interface DropdownProps {
+  mode?: "languages" | "expiration";
+  onToggle: () => unknown;
   initialValue?: string | number;
 }
 export interface SwitchProps {

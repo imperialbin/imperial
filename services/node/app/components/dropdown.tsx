@@ -13,13 +13,13 @@ const Select = styled.select`
 const Option = styled.option``;
 
 export const Dropdown = ({
-  type,
+  mode,
   onToggle,
   initialValue,
 }: DropdownProps): JSX.Element => {
   return (
     <Select defaultValue={initialValue} onChange={onToggle}>
-      {type === "expiration" && (
+      {mode === "expiration" && (
         <>
           {[...Array(60)].map((day: number, key: number) => {
             return (
@@ -30,7 +30,7 @@ export const Dropdown = ({
           })}
         </>
       )}
-      {type === "languages" && (
+      {mode === "languages" && (
         <>
           {supportedLanguages.map((language, key) => {
             return (

@@ -32,13 +32,22 @@ const Description = styled.p`
 `;
 
 export const Setting = ({
+  /* For the actual setting its self */
   title,
   description,
+
+  /* Type */
+  type = "switch",
+
+  /* For switches */
   toggled,
   toggleable = true,
-  checkbox = true,
-  type = "languages",
+
+  /* Drop down settings */
   initialValue = "",
+  mode,
+
+  /* onToggle method for all to do something */
   onToggle,
 }: SettingProps): JSX.Element => {
   return (
@@ -47,10 +56,15 @@ export const Setting = ({
         <Title>{title}</Title>
         <Description>{description}</Description>
       </InfoContainer>
-      {checkbox ? (
+
+      {/* Switches */}
+      {type === "switch" && (
         <Switch toggled={toggled} onToggle={onToggle} toggleable={toggleable} />
-      ) : (
-        <Dropdown type={type} onToggle={onToggle} initialValue={initialValue} />
+      )}
+
+      {/* Dropdowns */}
+      {type === "dropdown" && (
+        <Dropdown mode={mode} onToggle={onToggle} initialValue={initialValue} />
       )}
     </SettingContainer>
   );
