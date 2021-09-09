@@ -35,6 +35,7 @@ export const Setting = ({
   title,
   description,
   toggled,
+  toggleable = true,
   onToggle,
 }: SettingProps): JSX.Element => {
   return (
@@ -43,7 +44,7 @@ export const Setting = ({
         <Title>{title}</Title>
         <Description>{description}</Description>
       </InfoContainer>
-      <Switch toggled={toggled} onToggle={onToggle} />
+      <Switch toggled={toggled} onToggle={onToggle} toggleable={toggleable} />
     </SettingContainer>
   );
 };
