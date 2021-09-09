@@ -17,7 +17,6 @@ export const Dropdown = ({
   onToggle,
   initialValue,
 }: DropdownProps): JSX.Element => {
-  console.log(initialValue);
   return (
     <Select defaultValue={initialValue} onChange={onToggle}>
       {type === "expiration" && (
