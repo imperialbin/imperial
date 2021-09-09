@@ -7,7 +7,7 @@ import { Nav } from "../layout/nav";
 import { languageState } from "../state/editor";
 
 const Home: NextPage = () => {
-  const { id, password } = useRouter().query;
+  const { id, password, lang } = useRouter().query;
   const { user, isError: userError, isLoading: userLoading } = useUser();
   const { document, isError: documentError } = useDocument(
     id as string,
@@ -31,7 +31,7 @@ const Home: NextPage = () => {
             document={document}
           />
           <Editor
-            language={document.settings.language}
+            language={lang ? lang as string : document.settings.language}
             value={document && document.content}
             user={user}
           />

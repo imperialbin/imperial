@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { motion, AnimatePresence } from "framer-motion";
-import { ThemeForStupidProps } from "../types";
+import { Document, ThemeForStupidProps } from "../types";
 import { useAtom } from "jotai";
 import { activeModal } from "../state/modal";
 import { Tooltip } from "./";
@@ -8,8 +8,12 @@ import { IoMdClose } from "react-icons/io";
 import { useRef } from "react";
 import { useModalHook } from "../hooks/modalHook";
 import { modals } from "../state/modal/modals";
-import { LanguageModal, AddUsersModal } from "./modals";
-import { UserSettings } from "./modals/userSettings";
+import {
+  LanguageModal,
+  AddUsersModal,
+  DocumentSettings,
+  UserSettings,
+} from "./modals";
 
 const ModalContainer = styled(motion.div)`
   display: flex;
@@ -79,7 +83,7 @@ const modalAnimation = {
 };
 
 export const ModalManager = (): JSX.Element => {
-  const [[currentModal], setActiveModal] = useAtom(activeModal);
+  const [[currentModal, data], setActiveModal] = useAtom(activeModal);
   const modalRef = useRef<HTMLDivElement | null>(null);
 
   const modal = currentModal && modals[currentModal];
@@ -117,6 +121,9 @@ export const ModalManager = (): JSX.Element => {
             {currentModal === "language" && <LanguageModal />}
             {currentModal === "addUsers" && <AddUsersModal />}
             {currentModal === "userSettings" && <UserSettings />}
+            {currentModal === "documentSettings" && (
+              <DocumentSettings document={data as Document} />
+            )}
             <br />
           </ModalBody>
         </ModalContainer>

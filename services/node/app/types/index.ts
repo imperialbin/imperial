@@ -97,6 +97,10 @@ export interface UserSettings {
   wordWrap: boolean;
 }
 
+export interface SwitchProps {
+  toggled: boolean;
+  onToggle: () => unknown;
+}
 export interface ThemeForStupidProps {
   theme: Theme;
 }

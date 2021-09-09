@@ -8,4 +8,7 @@ export const modals = {
   userSettings: {
     title: "User settings",
   },
+  documentSettings: {
+    title: "Document settings",
+  },
 };

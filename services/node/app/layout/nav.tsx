@@ -14,12 +14,13 @@ import {
   FaEye,
   FaEyeSlash,
   FaCheck,
+  FaCog,
 } from "react-icons/fa";
 
 import { Tooltip, UserIcon } from "../components";
 import { UserIconSkeleton } from "../components/skeletons";
 import { editingState } from "../state/editor";
-import { NavProps, ThemeForStupidProps } from "../types";
+import { Document, NavProps, ThemeForStupidProps } from "../types";
 import { request } from "../utils/requestWrapper";
 import { useState } from "react";
 import { LoggedInTooltip, LoggedOutTooltip } from "../components/tooltips";
@@ -162,14 +163,28 @@ export const Nav = ({
       </Link>
       <Buttons>
         {editor && !document?.settings.encrypted && (
-          <Tooltip
-            style={{ margin: "0 10px" }}
-            title={!editing ? "Edit document" : "Save document"}
-          >
-            <Btn onClick={!editing ? allowEdit : editDocument}>
-              {editing ? <FaCheck size={18} /> : <FaEdit size={18} />}
-            </Btn>
-          </Tooltip>
+          <>
+            <Tooltip
+              style={{ margin: "0 10px" }}
+              title={!editing ? "Edit document" : "Save document"}
+            >
+              <Btn onClick={!editing ? allowEdit : editDocument}>
+                {editing ? <FaCheck size={18} /> : <FaEdit size={18} />}
+              </Btn>
+            </Tooltip>
+            {user.username === document?.creator && (
+              <Tooltip
+                style={{ margin: "0 10px" }}
+                title="Edit document settings"
+              >
+                <Btn
+                  onClick={() => setActiveModal(["documentSettings", document as Document])}
+                >
+                  <FaCog size={18} />
+                </Btn>
+              </Tooltip>
+            )}
+          </>
         )}
         {creatingDocument ? (
           <>
