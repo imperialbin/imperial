@@ -1,11 +1,39 @@
 import { useState } from "react";
-import { Document } from "../../types";
+import { Document, ThemeForStupidProps } from "../../types";
 import { HeaderSecondary } from "./styles";
 import { Setting } from "../";
-import { updateDocumentSettings } from "../../utils";
+import { request, updateDocumentSettings } from "../../utils";
 import { ChangeEvent } from "react";
 import { useAtom } from "jotai";
 import { languageState } from "../../state/editor";
+import styled from "styled-components";
+import Router from "next/router";
+import { activeModal } from "../../state/modal";
+
+const DangerArea = styled.h1`
+  margin-top: 30px;
+  color: ${({ theme }: ThemeForStupidProps) => theme.error};
+  font-size: 1.3em;
+  font-weight: 500;
+  margin-bottom: 0;
+`;
+
+const Btn = styled.button`
+  display: block;
+  margin-top: 25px;
+  padding: 10px 15px;
+  background: ${({ theme }: ThemeForStupidProps) => theme.layoutDark};
+  color: ${({ theme }: ThemeForStupidProps) => theme.textLight};
+  font-size: 1em;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    color: ${({ theme }: ThemeForStupidProps) => theme.error};
+    box-shadow: 0px 0px 6px 3px rgb(0 0 0 / 15%);
+  }
+`;
 
 export const DocumentSettings = ({
   document,
@@ -14,6 +42,7 @@ export const DocumentSettings = ({
 }): JSX.Element => {
   const [error, setError] = useState<string | null>(null);
   const [, setLanguage] = useAtom(languageState);
+  const [, setActiveModal] = useAtom(activeModal);
 
   return (
     <>
@@ -131,6 +160,31 @@ export const DocumentSettings = ({
           document.settings.public = !document.settings.public;
         }}
       />
+
+      <DangerArea>Danger Zone</DangerArea>
+      <HeaderSecondary>
+        Initiating any &quot;Danger Zone&quot; action will be permanent!
+      </HeaderSecondary>
+      <Btn
+        onClick={async () => {
+          const { data, error } = await request(
+            `/document/${document.id}`,
+            "DELETE"
+          );
+
+          if (error) {
+            return console.error(
+              "an error occurred whilst deleting the document",
+              error
+            );
+          }
+
+          setActiveModal([null, null]);
+          Router.push("/");
+        }}
+      >
+        Delete document
+      </Btn>
     </>
   );
 };
