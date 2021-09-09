@@ -6,6 +6,8 @@ interface Setting {
   imageEmbed?: boolean;
   instantDelete?: boolean;
   public?: boolean;
+  language?: string;
+  expiration?: number;
 }
 
 /* Ill type data later */

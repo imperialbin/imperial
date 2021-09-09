@@ -36,7 +36,7 @@ export const Setting = ({
   title,
   description,
 
-  /* Type */
+  /* Type default switch */
   type = "switch",
 
   /* For switches */

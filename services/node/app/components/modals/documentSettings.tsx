@@ -3,6 +3,7 @@ import { Document } from "../../types";
 import { HeaderSecondary } from "./styles";
 import { Setting } from "../";
 import { updateDocumentSettings } from "../../utils";
+import { ChangeEvent } from "react";
 
 export const DocumentSettings = ({
   document,
@@ -25,15 +26,40 @@ export const DocumentSettings = ({
         type="dropdown"
         mode="languages"
         initialValue={document.settings.language}
-        onToggle={() => console.log("what")}
+        onToggle={async (e: ChangeEvent<HTMLSelectElement>) => {
+          const { data, error } = await updateDocumentSettings(document, {
+            language: e.target.value,
+          });
+
+          if (error && !data) {
+            return setError(
+              "There was an error whilst editing document settings!"
+            );
+          }
+        }}
       />
       <Setting
         title="Expiration"
         description="Change the date when the document expires."
         type="dropdown"
         mode="expiration"
-        initialValue={3}
-        onToggle={() => console.log("what")}
+        initialValue={
+          new Date(document.timestamps.expiration * 1000).getDate() -
+          new Date().getDate()
+        }
+        onToggle={async (e: ChangeEvent<HTMLSelectElement>) => {
+          const { data, error } = await updateDocumentSettings(document, {
+            expiration: Number(e.target.value),
+          });
+
+          if (error && !data) {
+            return setError(
+              "There was an error whilst editing document settings!"
+            );
+          }
+
+          console.log(data);
+        }}
       />
       <Setting
         title="Encrypted"

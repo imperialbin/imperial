@@ -5,6 +5,7 @@ import (
 	. "api/utils"
 	. "api/v1/commons"
 	"context"
+	"time"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -77,10 +78,16 @@ func Edit(c *fiber.Ctx) error {
 		})
 	}
 
+	var expiration time.Time
+	if req.Settings.Expiration != nil {
+		expiration = time.Now().UTC().AddDate(0, 0, int(*req.Settings.Expiration))
+	}
+
 	updatedDocument, _ := client.Document.FindUnique(
 		db.Document.DocumentID.Equals(req.ID),
 	).Update(
 		db.Document.Content.SetIfPresent(req.Content),
+		db.Document.ExpirationDate.SetIfPresent(&expiration),
 	).Exec(ctx)
 
 	updatedDocumentSettings, _ := client.DocumentSettings.FindUnique(

@@ -105,13 +105,13 @@ export interface SettingProps extends SwitchProps, DropdownProps {
 
 export interface DropdownProps {
   mode?: "languages" | "expiration";
-  onToggle: () => unknown;
+  onToggle?: (e: any) => unknown;
   initialValue?: string | number;
 }
 export interface SwitchProps {
   toggled?: boolean;
   toggleable?: boolean;
-  onToggle: () => unknown;
+  onToggle?: (e: any) => unknown;
 }
 export interface ThemeForStupidProps {
   theme: Theme;
