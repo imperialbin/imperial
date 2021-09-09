@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Document } from "../../types";
 import { HeaderSecondary } from "./styles";
-import { Switch } from "../";
+import { Setting } from "../";
 
 export const DocumentSettings = ({
   document,
@@ -17,13 +17,30 @@ export const DocumentSettings = ({
       </HeaderSecondary>
       {error && error}
       <br />
-      <Switch
+      <br />
+      <Setting
+        title="Encrypted"
+        description="Toggle encryption on the document. This will make any viewer require a password!"
         toggled={document.settings.encrypted}
-        onToggle={() => console.log("test")}
+        onToggle={() => console.log("Toggled encrypted")}
       />
-      <Switch
+      <Setting
+        title="Image embed"
+        description="Toggle image embed on the document. This will generate an image of the document and will support rich embeds."
         toggled={document.settings.imageEmbed}
-        onToggle={() => console.log("test")}
+        onToggle={() => console.log("Toggled image embed")}
+      />
+      <Setting
+        title="Instant delete"
+        description="Toggle instant delete on the document. After someone viewing the document, it will instantly delete."
+        toggled={document.settings.instantDelete}
+        onToggle={() => console.log("Toggled Instant delete")}
+      />
+      <Setting
+        title="Toggle public"
+        description="Toggle public status on the document. After enabled, the document will be public on our discovery page."
+        toggled={document.settings.public}
+        onToggle={() => console.log("Toggled Public")}
       />
     </>
   );

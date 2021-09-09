@@ -97,6 +97,10 @@ export interface UserSettings {
   wordWrap: boolean;
 }
 
+export interface SettingProps extends SwitchProps {
+  title: string;
+  description: string;
+}
 export interface SwitchProps {
   toggled: boolean;
   onToggle: () => unknown;

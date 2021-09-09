@@ -8,10 +8,11 @@ const SwitchElement = styled.label`
 `;
 
 const Slider = styled.span`
+  position: relative;
   cursor: pointer;
   text-indent: -9999px;
-  width: 200px;
-  height: 100px;
+  width: 55px;
+  height: 25px;
   display: block;
   border-radius: 100px;
   position: relative;
@@ -22,8 +23,8 @@ const Slider = styled.span`
     position: absolute;
     top: 5px;
     left: 5px;
-    width: 90px;
-    height: 90px;
+    width: 15px;
+    height: 15px;
     background: #fff;
     border-radius: 90px;
     transition: 0.3s;
@@ -37,9 +38,9 @@ const CheckBox = styled.input.attrs({ type: "checkbox" })`
   visibility: hidden;
 
   &:checked + ${Slider}:after {
-    position: absolute;
+    width: 8px;
     background: ${({ theme }: ThemeForStupidProps) => theme.success};
-    transform: translateX(110%);
+    transform: translateX(35px);
   }
 `;
 
