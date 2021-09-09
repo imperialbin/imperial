@@ -96,7 +96,6 @@ func Edit(c *fiber.Ctx) error {
 		db.DocumentSettings.Language.SetIfPresent(req.Settings.Language),
 		db.DocumentSettings.ImageEmbed.SetIfPresent(req.Settings.ImageEmbed),
 		db.DocumentSettings.InstantDelete.SetIfPresent(req.Settings.InstantDelete),
-		db.DocumentSettings.Encrypted.SetIfPresent(req.Settings.Encrypted),
 		db.DocumentSettings.Public.SetIfPresent(req.Settings.Public),
 		db.DocumentSettings.Editors.SetIfPresent(req.Settings.Editors),
 	).Exec(ctx)

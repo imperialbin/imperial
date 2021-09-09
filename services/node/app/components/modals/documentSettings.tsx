@@ -40,7 +40,9 @@ export const DocumentSettings = ({
             );
           }
 
+          document.settings.language = e.target.value;
           setLanguage(e.target.value);
+          console.log(data.data.settings.language);
         }}
       />
       <Setting
@@ -63,7 +65,7 @@ export const DocumentSettings = ({
             );
           }
 
-          console.log(data);
+          document.timestamps.expiration = data.data.timestamps.expiration;
         }}
       />
       <Setting
@@ -87,6 +89,8 @@ export const DocumentSettings = ({
               "There was an error whilst editing document settings!"
             );
           }
+
+          document.settings.imageEmbed = !document.settings.imageEmbed;
         }}
       />
       <Setting
@@ -103,6 +107,8 @@ export const DocumentSettings = ({
               "There was an error whilst editing document settings!"
             );
           }
+
+          document.settings.instantDelete = !document.settings.instantDelete;
         }}
         /* This will literally never happen unless some how a state error happens */
         toggleable={document.settings.instantDelete ? false : true}
@@ -121,6 +127,8 @@ export const DocumentSettings = ({
               "There was an error whilst editing document settings!"
             );
           }
+
+          document.settings.public = !document.settings.public;
         }}
       />
     </>
