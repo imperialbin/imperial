@@ -92,6 +92,7 @@ type User struct {
 	ActiveUnlimitedDocuments int          `json:"activeUnlimitedDocuments"`
 	DiscordID                *string      `json:"discordId"`
 	Admin                    bool         `json:"admin"`
+	APIToken                 string       `json:"apiToken"`
 	GithubAccess             *string      `json:"githubAccess"`
 	Opt                      *string      `json:"opt"`
 	UserSettingsID           string       `json:"-"`

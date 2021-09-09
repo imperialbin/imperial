@@ -62,6 +62,7 @@ func GetUser(c *fiber.Ctx) (*User, error) {
 		user.ActiveUnlimitedDocuments,
 		&discordId,
 		user.Admin,
+		user.APIToken,
 		&gitHubAccess,
 		&opt,
 		user.UserSettingsID,
