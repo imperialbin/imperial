@@ -16,9 +16,10 @@ export const Dropdown = ({
   mode,
   onToggle,
   initialValue,
+  disabled = false,
 }: DropdownProps): JSX.Element => {
   return (
-    <Select defaultValue={initialValue} onChange={onToggle}>
+    <Select defaultValue={initialValue} onChange={onToggle} disabled={disabled}>
       {mode === "expiration" && (
         <>
           {[...Array(60)].map((day: number, key: number) => {
