@@ -38,6 +38,7 @@ export const Setting = ({
   toggleable = true,
   checkbox = true,
   type = "languages",
+  initialValue = "",
   onToggle,
 }: SettingProps): JSX.Element => {
   return (
@@ -49,7 +50,7 @@ export const Setting = ({
       {checkbox ? (
         <Switch toggled={toggled} onToggle={onToggle} toggleable={toggleable} />
       ) : (
-        <Dropdown type={type} />
+        <Dropdown type={type} onToggle={onToggle} initialValue={initialValue} />
       )}
     </SettingContainer>
   );

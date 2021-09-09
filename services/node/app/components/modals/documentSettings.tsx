@@ -24,6 +24,7 @@ export const DocumentSettings = ({
         description="Change the language of the document."
         checkbox={false}
         type="languages"
+        initialValue={document.settings.language}
         onToggle={() => console.log("what")}
       />
       <Setting
@@ -31,6 +32,7 @@ export const DocumentSettings = ({
         description="Change the date when the document expires."
         checkbox={false}
         type="expiration"
+        initialValue={3}
         onToggle={() => console.log("what")}
       />
       <Setting

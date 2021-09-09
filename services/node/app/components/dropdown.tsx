@@ -12,9 +12,14 @@ const Select = styled.select`
 
 const Option = styled.option``;
 
-export const Dropdown = ({ type }: DropdownProps): JSX.Element => {
+export const Dropdown = ({
+  type,
+  onToggle,
+  initialValue,
+}: DropdownProps): JSX.Element => {
+  console.log(initialValue);
   return (
-    <Select>
+    <Select defaultValue={initialValue} onChange={onToggle}>
       {type === "expiration" && (
         <>
           {[...Array(60)].map((day: number, key: number) => {
