@@ -107,10 +107,11 @@ export interface DropdownProps {
   mode?: "languages" | "expiration";
   onToggle?: (e: any) => unknown;
   initialValue?: string | number;
+  disabled?: boolean;
 }
 export interface SwitchProps {
   toggled?: boolean;
-  toggleable?: boolean;
+  disabled?: boolean;
   onToggle?: (e: any) => unknown;
 }
 export interface ThemeForStupidProps {

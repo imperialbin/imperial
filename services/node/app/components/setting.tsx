@@ -41,7 +41,8 @@ export const Setting = ({
 
   /* For switches */
   toggled,
-  toggleable = true,
+
+  disabled = true,
 
   /* Drop down settings */
   initialValue = "",
@@ -59,12 +60,17 @@ export const Setting = ({
 
       {/* Switches */}
       {type === "switch" && (
-        <Switch toggled={toggled} onToggle={onToggle} toggleable={toggleable} />
+        <Switch toggled={toggled} onToggle={onToggle} disabled={disabled} />
       )}
 
       {/* Dropdowns */}
       {type === "dropdown" && (
-        <Dropdown mode={mode} onToggle={onToggle} initialValue={initialValue} />
+        <Dropdown
+          mode={mode}
+          onToggle={onToggle}
+          initialValue={initialValue}
+          disabled={disabled}
+        />
       )}
     </SettingContainer>
   );

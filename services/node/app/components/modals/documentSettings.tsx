@@ -29,9 +29,14 @@ const Btn = styled.button`
   cursor: pointer;
   transition: all 0.2s ease-in-out;
 
-  &:hover {
+  &:hover:not(:disabled) {
     color: ${({ theme }: ThemeForStupidProps) => theme.error};
     box-shadow: 0px 0px 6px 3px rgb(0 0 0 / 15%);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
   }
 `;
 
@@ -58,6 +63,7 @@ export const DocumentSettings = ({
         type="dropdown"
         mode="languages"
         initialValue={document.settings.language}
+        disabled={!document.settings.instantDelete}
         onToggle={async (e: ChangeEvent<HTMLSelectElement>) => {
           const { data, error } = await updateDocumentSettings(document, {
             language: e.target.value,
@@ -71,7 +77,6 @@ export const DocumentSettings = ({
 
           document.settings.language = e.target.value;
           setLanguage(e.target.value);
-          console.log(data.data.settings.language);
         }}
       />
       <Setting
@@ -96,13 +101,14 @@ export const DocumentSettings = ({
 
           document.timestamps.expiration = data.data.timestamps.expiration;
         }}
+        disabled={!document.settings.instantDelete}
       />
       <Setting
         title="Encrypted"
         description="You can not edit the encryption after the document has been made."
         toggled={document.settings.encrypted}
         onToggle={() => console.error("You may not edit encrypted settings!")}
-        toggleable={false}
+        disabled={false}
       />
       <Setting
         title="Image embed"
@@ -121,6 +127,7 @@ export const DocumentSettings = ({
 
           document.settings.imageEmbed = !document.settings.imageEmbed;
         }}
+        disabled={!document.settings.instantDelete}
       />
       <Setting
         title="Instant delete"
@@ -139,8 +146,7 @@ export const DocumentSettings = ({
 
           document.settings.instantDelete = !document.settings.instantDelete;
         }}
-        /* This will literally never happen unless some how a state error happens */
-        toggleable={document.settings.instantDelete ? false : true}
+        disabled={!document.settings.instantDelete}
       />
       <Setting
         title="Toggle public"
@@ -159,6 +165,7 @@ export const DocumentSettings = ({
 
           document.settings.public = !document.settings.public;
         }}
+        disabled={!document.settings.instantDelete}
       />
 
       <DangerArea>Danger Zone</DangerArea>
@@ -166,6 +173,7 @@ export const DocumentSettings = ({
         Initiating any &quot;Danger Zone&quot; action will be permanent!
       </HeaderSecondary>
       <Btn
+        disabled={document.settings.instantDelete}
         onClick={async () => {
           const { data, error } = await request(
             `/document/${document.id}`,

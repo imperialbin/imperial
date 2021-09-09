@@ -172,18 +172,20 @@ export const Nav = ({
                 {editing ? <FaCheck size={18} /> : <FaEdit size={18} />}
               </Btn>
             </Tooltip>
-            {user.username === document?.creator && (
-              <Tooltip
-                style={{ margin: "0 10px" }}
-                title="Edit document settings"
-              >
-                <Btn
-                  onClick={() => setActiveModal(["documentSettings", document as Document])}
+            {user.username === document?.creator &&(
+                <Tooltip
+                  style={{ margin: "0 10px" }}
+                  title="Edit document settings"
                 >
-                  <FaCog size={18} />
-                </Btn>
-              </Tooltip>
-            )}
+                  <Btn
+                    onClick={() =>
+                      setActiveModal(["documentSettings", document as Document])
+                    }
+                  >
+                    <FaCog size={18} />
+                  </Btn>
+                </Tooltip>
+              )}
           </>
         )}
         {creatingDocument ? (
