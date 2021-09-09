@@ -54,7 +54,6 @@ export const DocumentSettings = ({
               "There was an error whilst editing document settings!"
             );
           }
-          console.log("success!", data);
         }}
       />
       <Setting
@@ -71,8 +70,6 @@ export const DocumentSettings = ({
               "There was an error whilst editing document settings!"
             );
           }
-
-          console.log("success!", data);
         }}
         /* This will literally never happen unless some how a state error happens */
         toggleable={document.settings.instantDelete ? false : true}
@@ -91,8 +88,6 @@ export const DocumentSettings = ({
               "There was an error whilst editing document settings!"
             );
           }
-
-          console.log("success!", data);
         }}
       />
     </>
