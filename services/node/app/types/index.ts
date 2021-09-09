@@ -103,6 +103,7 @@ export interface SettingProps extends SwitchProps {
 }
 export interface SwitchProps {
   toggled: boolean;
+  toggleable?: boolean;
   onToggle: () => unknown;
 }
 export interface ThemeForStupidProps {

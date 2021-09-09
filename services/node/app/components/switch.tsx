@@ -42,9 +42,18 @@ const CheckBox = styled.input.attrs({ type: "checkbox" })`
     background: ${({ theme }: ThemeForStupidProps) => theme.success};
     transform: translateX(35px);
   }
+
+  &:disabled + ${Slider} {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
 `;
 
-export const Switch = ({ toggled, onToggle }: SwitchProps): JSX.Element => {
+export const Switch = ({
+  toggled,
+  onToggle,
+  toggleable,
+}: SwitchProps): JSX.Element => {
   const [checked, setChecked] = useState(toggled);
   return (
     <SwitchElement>
@@ -54,6 +63,7 @@ export const Switch = ({ toggled, onToggle }: SwitchProps): JSX.Element => {
           setChecked(!checked);
           onToggle();
         }}
+        disabled={!toggleable}
       />
       <Slider />
     </SwitchElement>
