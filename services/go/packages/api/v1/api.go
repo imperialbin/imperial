@@ -69,6 +69,10 @@ func PatchMe(c *fiber.Ctx) error {
 	return user.EditMe(c)
 }
 
+func PatchRegenAPIToken(c *fiber.Ctx) error {
+	return user.RegenApiToken(c)
+}
+
 func DeleteMe(c *fiber.Ctx) error {
 	return user.DeleteMe(c)
 }
