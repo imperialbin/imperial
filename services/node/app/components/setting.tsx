@@ -42,7 +42,7 @@ export const Setting = ({
   /* For switches */
   toggled,
 
-  disabled = true,
+  disabled = false,
 
   /* Drop down settings */
   initialValue = "",

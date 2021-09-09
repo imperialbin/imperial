@@ -8,6 +8,11 @@ const Select = styled.select`
   padding: 5px 10px;
   color: ${({ theme }: ThemeForStupidProps) => theme.textLight};
   margin-top: 10px;
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
 `;
 
 const Option = styled.option``;

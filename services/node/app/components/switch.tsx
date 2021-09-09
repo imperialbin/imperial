@@ -52,7 +52,7 @@ const CheckBox = styled.input.attrs({ type: "checkbox" })`
 export const Switch = ({
   toggled,
   onToggle,
-  toggleable,
+  disabled,
 }: SwitchProps): JSX.Element => {
   const [checked, setChecked] = useState(toggled);
   return (
@@ -63,7 +63,7 @@ export const Switch = ({
           setChecked(!checked);
           onToggle();
         }}
-        disabled={!toggleable}
+        disabled={disabled}
       />
       <Slider />
     </SwitchElement>
