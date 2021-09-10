@@ -62,7 +62,6 @@ export const DocumentSettings = ({
         type="dropdown"
         mode="languages"
         initialValue={document.settings.language}
-        disabled={document.settings.instantDelete}
         onToggle={async (e) => {
           const newLanguage = e?.target.value as string;
           const { data, error } = await updateDocumentSettings(document, {
@@ -101,7 +100,6 @@ export const DocumentSettings = ({
 
           document.timestamps.expiration = data.data.timestamps.expiration;
         }}
-        disabled={document.settings.instantDelete}
       />
       <Setting
         title="Encrypted"
@@ -127,7 +125,6 @@ export const DocumentSettings = ({
 
           document.settings.imageEmbed = !document.settings.imageEmbed;
         }}
-        disabled={document.settings.instantDelete}
       />
       <Setting
         title="Instant delete"
@@ -146,7 +143,6 @@ export const DocumentSettings = ({
 
           document.settings.instantDelete = !document.settings.instantDelete;
         }}
-        disabled={document.settings.instantDelete}
       />
       <Setting
         title="Toggle public"
@@ -165,7 +161,6 @@ export const DocumentSettings = ({
 
           document.settings.public = !document.settings.public;
         }}
-        disabled={document.settings.instantDelete}
       />
 
       <DangerArea>Danger Zone</DangerArea>

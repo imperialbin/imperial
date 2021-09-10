@@ -74,7 +74,12 @@ export const EditorSkeleton = (): JSX.Element => {
             />
           );
         })}
-        <Skeleton style={{ marginTop: 48 }} width={300} height={16} />
+        <Skeleton
+          duration={0.5}
+          style={{ marginTop: 48 }}
+          width={300}
+          height={16}
+        />
         {[...Array(10)].map((_, i) => {
           const randomChance = Math.floor(Math.random() * 200);
           return (

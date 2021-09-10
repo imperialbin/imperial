@@ -163,32 +163,34 @@ export const Nav = ({
         <Brand>IMPERIAL</Brand>
       </Link>
       <Buttons>
-        {editor && !document?.settings.encrypted && (
-          <>
-            <Tooltip
-              style={{ margin: "0 10px" }}
-              title={!editing ? "Edit document" : "Save document"}
-            >
-              <Btn onClick={!editing ? allowEdit : editDocument}>
-                {editing ? <FaCheck size={18} /> : <FaEdit size={18} />}
-              </Btn>
-            </Tooltip>
-            {user.username === document?.creator && (
+        {editor &&
+          !document?.settings.encrypted &&
+          !document?.settings.instantDelete && (
+            <>
               <Tooltip
                 style={{ margin: "0 10px" }}
-                title="Edit document settings"
+                title={!editing ? "Edit document" : "Save document"}
               >
-                <Btn
-                  onClick={() =>
-                    setActiveModal(["documentSettings", document as Document])
-                  }
-                >
-                  <FaCog size={18} />
+                <Btn onClick={!editing ? allowEdit : editDocument}>
+                  {editing ? <FaCheck size={18} /> : <FaEdit size={18} />}
                 </Btn>
               </Tooltip>
-            )}
-          </>
-        )}
+              {user.username === document?.creator && (
+                <Tooltip
+                  style={{ margin: "0 10px" }}
+                  title="Edit document settings"
+                >
+                  <Btn
+                    onClick={() =>
+                      setActiveModal(["documentSettings", document as Document])
+                    }
+                  >
+                    <FaCog size={18} />
+                  </Btn>
+                </Tooltip>
+              )}
+            </>
+          )}
         {creatingDocument ? (
           <>
             {user ? (
