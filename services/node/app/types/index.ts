@@ -1,3 +1,4 @@
+import { ChangeEvent } from "react";
 import { CSSProperties } from "styled-components";
 
 export interface LoginRequest {
@@ -10,7 +11,7 @@ export interface ModalProps {
 }
 export interface NavProps {
   user: User;
-  userLoading?: any;
+  userLoading?: boolean;
   creatingDocument?: boolean;
   editor?: boolean;
   document?: Document | null;
@@ -105,13 +106,13 @@ export interface SettingProps extends SwitchProps, DropdownProps {
 
 export interface DropdownProps {
   mode?: "languages" | "expiration";
-  onToggle: (e?: any) => unknown;
+  onToggle: (e?: ChangeEvent<HTMLSelectElement>) => unknown;
   initialValue?: string | number;
   disabled?: boolean;
 }
 export interface SwitchProps {
   toggled?: boolean;
-  onToggle: (e?: any) => unknown;
+  onToggle: (e?: ChangeEvent<HTMLSelectElement>) => unknown;
   disabled?: boolean;
 }
 export interface ThemeForStupidProps {

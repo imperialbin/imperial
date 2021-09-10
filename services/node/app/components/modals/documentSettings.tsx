@@ -3,7 +3,6 @@ import { Document, ThemeForStupidProps } from "../../types";
 import { HeaderSecondary } from "./styles";
 import { Setting } from "../";
 import { request, updateDocumentSettings } from "../../utils";
-import { ChangeEvent } from "react";
 import { useAtom } from "jotai";
 import { languageState } from "../../state/editor";
 import styled from "styled-components";
@@ -64,9 +63,10 @@ export const DocumentSettings = ({
         mode="languages"
         initialValue={document.settings.language}
         disabled={document.settings.instantDelete}
-        onToggle={async (e: ChangeEvent<HTMLSelectElement>) => {
+        onToggle={async (e) => {
+          const newLanguage = e?.target.value as string;
           const { data, error } = await updateDocumentSettings(document, {
-            language: e.target.value,
+            language: newLanguage,
           });
 
           if (error && !data) {
@@ -75,8 +75,8 @@ export const DocumentSettings = ({
             );
           }
 
-          document.settings.language = e.target.value;
-          setLanguage(e.target.value);
+          document.settings.language = newLanguage;
+          setLanguage(newLanguage);
         }}
       />
       <Setting
@@ -88,9 +88,9 @@ export const DocumentSettings = ({
           new Date(document.timestamps.expiration * 1000).getDate() -
           new Date().getDate()
         }
-        onToggle={async (e: ChangeEvent<HTMLSelectElement>) => {
+        onToggle={async (e) => {
           const { data, error } = await updateDocumentSettings(document, {
-            expiration: Number(e.target.value),
+            expiration: Number(e?.target.value),
           });
 
           if (error && !data) {
@@ -189,6 +189,7 @@ export const DocumentSettings = ({
 
           setActiveModal([null, null]);
           Router.push("/");
+          return data;
         }}
       >
         Delete document

@@ -131,6 +131,7 @@ export const Nav = ({
     if (error) return console.error(error);
 
     setEditing(false);
+    return data;
   };
 
   useEffect(() => {
@@ -172,20 +173,20 @@ export const Nav = ({
                 {editing ? <FaCheck size={18} /> : <FaEdit size={18} />}
               </Btn>
             </Tooltip>
-            {user.username === document?.creator &&(
-                <Tooltip
-                  style={{ margin: "0 10px" }}
-                  title="Edit document settings"
+            {user.username === document?.creator && (
+              <Tooltip
+                style={{ margin: "0 10px" }}
+                title="Edit document settings"
+              >
+                <Btn
+                  onClick={() =>
+                    setActiveModal(["documentSettings", document as Document])
+                  }
                 >
-                  <Btn
-                    onClick={() =>
-                      setActiveModal(["documentSettings", document as Document])
-                    }
-                  >
-                    <FaCog size={18} />
-                  </Btn>
-                </Tooltip>
-              )}
+                  <FaCog size={18} />
+                </Btn>
+              </Tooltip>
+            )}
           </>
         )}
         {creatingDocument ? (
