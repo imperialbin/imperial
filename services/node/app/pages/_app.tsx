@@ -3,7 +3,6 @@ import type { AppProps } from "next/app";
 import { SWRConfig } from "swr";
 import { fetcher } from "../utils/fetcher";
 import { Provider } from "jotai";
-import store from "../state";
 import { SkeletonTheme } from "react-loading-skeleton";
 import { createGlobalStyle, ThemeProvider } from "styled-components";
 import { darkTheme } from "../utils/theme";
