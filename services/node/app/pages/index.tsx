@@ -1,11 +1,10 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAtom } from "jotai";
 import type { NextPage } from "next";
 import { Editor } from "../components";
-import { useUser } from "../hooks/useUser";
+import { useUser } from "../hooks";
 import { Nav } from "../layout/nav";
 import { editingState } from "../state/editor";
-import { useState } from "react";
 
 const Home: NextPage = () => {
   const { user, isLoading } = useUser();
