@@ -5,7 +5,7 @@ import { useUser } from "../hooks/useUser";
 import { request } from "../utils/requestWrapper";
 
 const Logout: NextPage = () => {
-  const { user, isError, isLoading } = useUser();
+  const { user, isLoading } = useUser();
 
   useEffect(() => {
     if (!user && !isLoading) Router.replace("/login");

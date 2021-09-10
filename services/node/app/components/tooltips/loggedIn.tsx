@@ -5,7 +5,7 @@ import { DiscordURL, GitHubURL } from "../../utils/consts";
 import { Anchor, ListContainer, ListItem, Seperator } from "./styles";
 
 export const LoggedInTooltip = (): JSX.Element => {
-  const [[currentModal], setActiveModal] = useAtom(activeModal);
+  const [, setActiveModal] = useAtom(activeModal);
 
   return (
     <ListContainer>
@@ -19,7 +19,7 @@ export const LoggedInTooltip = (): JSX.Element => {
         GitHub
       </Anchor>
       <Seperator />
-      <Link href="/logout">
+      <Link href="/logout" passHref={true}>
         <ListItem danger>Logout</ListItem>
       </Link>
     </ListContainer>

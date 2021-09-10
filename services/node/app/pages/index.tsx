@@ -7,7 +7,7 @@ import { Nav } from "../layout/nav";
 import { editingState } from "../state/editor";
 
 const Home: NextPage = () => {
-  const { user, isError, isLoading } = useUser();
+  const { user, isLoading } = useUser();
   const [, setEditing] = useAtom(editingState);
 
   useEffect(() => setEditing(true), []);

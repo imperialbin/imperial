@@ -9,7 +9,7 @@ import { languageState } from "../state/editor";
 
 const Home: NextPage = () => {
   const { id, password, lang } = useRouter().query;
-  const { user, isError: userError, isLoading: userLoading } = useUser();
+  const { user, isLoading: userLoading } = useUser();
   const { document, isError: documentError } = useDocument(
     id as string,
     password as string

@@ -5,7 +5,6 @@ import Monaco, {
 } from "imperial-editor";
 import { useAtom } from "jotai";
 import React from "react";
-import { useEffect } from "react";
 import { editingState, languageState } from "../state/editor";
 import { User } from "../types";
 import { EditorSkeleton } from "./skeletons";

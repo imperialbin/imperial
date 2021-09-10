@@ -5,10 +5,10 @@ import { Anchor, ListContainer, ListItem, Seperator } from "./styles";
 export const LoggedOutTooltip = (): JSX.Element => {
   return (
     <ListContainer>
-      <Link href="/login">
+      <Link href="/login" passHref={true}>
         <ListItem>Login</ListItem>
       </Link>
-      <Link href="/signup">
+      <Link href="/signup" passHref={true}>
         <ListItem>Signup</ListItem>
       </Link>
       <Seperator />
