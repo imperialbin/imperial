@@ -15,7 +15,7 @@ jobs:
           clean: false
 
       - name: CD into directory
-        run: cd ./services/go/packages/api
+        run: cd ./imperial/imperial/services/go/packages/api
 
       - name: GO Build
         run: go build
