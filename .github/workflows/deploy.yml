@@ -13,9 +13,6 @@ jobs:
         uses: actions/checkout@v2
         with:
           clean: false
-
-      - name: CD into directory
-        run: cd ./services/go/packages/api
         
       - name: mate
         run: ls
