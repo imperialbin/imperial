@@ -2,11 +2,11 @@ name: Deploy
 
 on:
   push:
-    branches: [main]
+    branches: [next]
 
 jobs:
   deploy:
-    runs-on: self-hosted
+    runs-on: ARM64
 
     steps:
       - name: Checkout project
@@ -14,19 +14,9 @@ jobs:
         with:
           clean: false
 
-      - name: Use Node.js 14
-        uses: actions/setup-node@v1
-        with:
-          node-version: 14.x
+      - name: Go Build
+        working-directory: ./services/go/packages/api
+        run: go build -o main.go
 
-      - name: Install deps
-        run: yarn
-
-      - name: Build
-        run: yarn build
-
-      - name: Puppeteer fix
-        run: node node_modules/puppeteer/install.js
-
-      - name: Deploy production
-        run: pm2 restart default
+      - name: Restart PMGO
+        run: pmgo restart IMPERIAL-DEV
