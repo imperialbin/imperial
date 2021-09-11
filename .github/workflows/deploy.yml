@@ -2,7 +2,7 @@ name: Deploy
 
 on:
   push:
-    branches: [main]
+    branches: [next]
 
 jobs:
   deploy:
@@ -14,19 +14,11 @@ jobs:
         with:
           clean: false
 
-      - name: Use Node.js 14
-        uses: actions/setup-node@v1
-        with:
-          node-version: 14.x
+      - name: CD into directory
+        run: cd ./services/go/packages/api
 
-      - name: Install deps
-        run: yarn
+      - name: GO Build
+        run: go build
 
-      - name: Build
-        run: yarn build
-
-      - name: Puppeteer fix
-        run: node node_modules/puppeteer/install.js
-
-      - name: Deploy production
-        run: pm2 restart default
+      - name: Restart PMGO
+        run: pmgo restart IMPERIAL-DEV
