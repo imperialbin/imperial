@@ -14,7 +14,7 @@ jobs:
         with:
           clean: false
 
-      - name: GO Build
+      - name: Go Build
         working-directory: ./services/go/packages/api
         run: go build -o main.go
 
