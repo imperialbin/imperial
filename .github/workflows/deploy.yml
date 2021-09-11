@@ -16,6 +16,9 @@ jobs:
 
       - name: CD into directory
         run: cd ./services/go/packages/api
+        
+      - name: mate
+        run: ls
 
       - name: GO Build
         run: go build main.go
