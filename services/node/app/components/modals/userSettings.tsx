@@ -137,6 +137,7 @@ export const UserSettings = (): JSX.Element => {
               icon={<FaRedo size={18} />}
               secretValue={true}
               iconClick={() => console.log("Regenerate API Token")}
+              inputDisabled={true}
             />
             <br />
             <Subtitle>Editor settings</Subtitle>
