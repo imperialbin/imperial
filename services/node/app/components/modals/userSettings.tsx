@@ -5,7 +5,7 @@ import { useUser } from "../../hooks";
 import { ThemeForStupidProps } from "../../types";
 
 const Container = styled.div`
-  display: flex;
+  display: inline-flex;
   height: 100%;
 `;
 

@@ -29,7 +29,7 @@ export const Editor = (props: EditorProps & { user?: User }): JSX.Element => {
   return (
     <Monaco
       {...props}
-      height={"100vh"}
+      height={"97vh"}
       loading={<EditorSkeleton />}
       onMount={mounted}
       options={

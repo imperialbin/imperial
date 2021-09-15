@@ -10,7 +10,11 @@ import { ThemeForStupidProps } from "../types";
 import { ModalManager } from "../components";
 
 const GlobalStyle = createGlobalStyle`
+  html {
+    max-height: 100vh;
+  }
   body {
+    width: 100vw;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -18,7 +22,9 @@ const GlobalStyle = createGlobalStyle`
     color: ${({ theme }: ThemeForStupidProps) => theme.textLight};
     font-family: 'Manrope', sans-serif;
     font-weight: 500;
+    overflow-x: hidden;
   }
+
 `;
 
 function MyApp({ Component, pageProps }: AppProps): JSX.Element {
