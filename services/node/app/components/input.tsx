@@ -4,9 +4,11 @@ import { InputProps, ThemeForStupidProps } from "../types";
 const Container = styled.div`
   position: relative;
 `;
+
 const Label = styled.label`
   color: ${({ theme }: ThemeForStupidProps) => theme.textDarker};
 `;
+
 const InputElement = styled.input<{ secretValue: boolean }>`
   display: block;
   width: 80%;
@@ -44,6 +46,7 @@ const Icon = styled.div`
   position: absolute;
   bottom: 10px;
   margin-left: 249px;
+  cursor: pointer;
   color: ${({ theme }: ThemeForStupidProps) => theme.textDarker};
 `;
 
