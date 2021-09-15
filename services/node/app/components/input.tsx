@@ -1,3 +1,4 @@
+import { useState } from "react";
 import styled from "styled-components";
 import { InputProps, ThemeForStupidProps } from "../types";
 
@@ -60,11 +61,14 @@ export const Input = ({
   iconDisabled = false,
   inputDisabled = false,
 }: InputProps): JSX.Element => {
+  const [inputValue, setInputValue] = useState(value);
+
   return (
     <Container>
       <Label>{label}</Label>
       <InputElement
-        value={value}
+        value={inputValue}
+        onChange={(e) => setInputValue(e.target.value)}
         placeholder={placeholder}
         disabled={inputDisabled}
         secretValue={secretValue}
