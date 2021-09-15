@@ -28,7 +28,8 @@ const InputElement = styled.input<{ secretValue: boolean }>`
   color: ${({ theme }: ThemeForStupidProps) => theme.textLight}5d;
   transition: all 0.1s ease-in-out;
 
-  &:focus {
+  &:focus,
+  &:focus::placeholder {
     color: ${({ theme }: ThemeForStupidProps) => theme.textLight}9d;
   }
 
@@ -40,6 +41,7 @@ const InputElement = styled.input<{ secretValue: boolean }>`
 
   &::placeholder {
     color: ${({ theme }: ThemeForStupidProps) => theme.textDarker}7d;
+    transition: all 0.1s ease-in-out;
   }
 `;
 
