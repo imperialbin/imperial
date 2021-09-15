@@ -12,5 +12,11 @@ export const UserIcon = ({
   height = 52,
   style,
 }: UserIconProps): JSX.Element => (
-  <Icon width={width} style={style} height={height} src={URL} />
+  <Icon
+    width={width}
+    style={style}
+    height={height}
+    src={URL}
+    draggable={false}
+  />
 );
