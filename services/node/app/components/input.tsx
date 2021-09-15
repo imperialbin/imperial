@@ -67,6 +67,7 @@ export const Input = ({
   secretValue = false,
   iconDisabled = false,
   inputDisabled = false,
+  animateIcon = false,
 }: InputProps): JSX.Element => {
   const [inputValue, setInputValue] = useState(value);
 

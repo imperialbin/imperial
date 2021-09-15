@@ -121,6 +121,7 @@ export interface InputProps {
   iconClick: () => unknown;
   iconDisabled?: boolean;
   inputDisabled?: boolean;
+  animateIcon?: boolean;
 }
 export interface SwitchProps {
   toggled?: boolean;

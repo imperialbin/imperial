@@ -58,8 +58,11 @@ const Tiles = styled.div`
 `;
 
 const Tile = styled.div`
+  display: flex;
+  align-items: center;
   padding: 10px;
   margin: 10px;
+  min-height: 47px;
   border-radius: 8px;
   font-size: 1.2em;
   color: ${({ theme }: ThemeForStupidProps) => theme.textLight};
@@ -68,14 +71,16 @@ const Tile = styled.div`
 `;
 
 const TileIcon = styled.img`
-  width: 20%;
+  width: 30px;
   height: auto;
+  margin-right: 13px;
 `;
 
 const TitleInfo = styled.p`
   font-size: 0.8em;
   opacity: 0.6;
   margin: 0;
+  padding-right: 10px;
   color: ${({ theme }: ThemeForStupidProps) => theme.textDarker};
 `;
 
@@ -100,17 +105,21 @@ export const UserSettings = (): JSX.Element => {
               </UserInfo>
             </UserOverview>
             <Tiles>
-              <Tile>
+              <Tile style={{ display: "unset" }}>
                 {user.documentsMade}
                 <TitleInfo>Documents made</TitleInfo>
               </Tile>
               <Tile>
                 <TileIcon src="/img/discord.svg" />
-                {user.discordId ? user.discordId : "Connect"}
+                <TitleInfo style={{ fontSize: "1em" }}>
+                  {user.discordId ? user.discordId : "Connect"}
+                </TitleInfo>
               </Tile>
               <Tile>
                 <TileIcon src="/img/github.svg" />
-                {user.githubAccess ? user.githubAccess : "Connect"}
+                <TitleInfo style={{ fontSize: "1em" }}>
+                  {user.githubAccess ? user.githubAccess : "Connect"}
+                </TitleInfo>
               </Tile>
             </Tiles>
           </Overview>
