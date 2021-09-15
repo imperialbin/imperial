@@ -25,7 +25,7 @@ const InputElement = styled.input<{ secretValue: boolean }>`
   box-shadow: 0px 0px 18px rgba(0, 0, 0, 0.25);
   outline: none;
   color: ${({ theme }: ThemeForStupidProps) => theme.textLight}5d;
-  transition: color 0.1s ease-in-out;
+  transition: all 0.1s ease-in-out;
 
   &:focus {
     color: ${({ theme }: ThemeForStupidProps) => theme.textLight}9d;
