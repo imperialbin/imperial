@@ -2,6 +2,7 @@ import Monaco, {
   DiffEditor as MonacoDiff,
   DiffEditorProps,
   EditorProps,
+  Monaco as MonacoType,
 } from "imperial-editor";
 import { useAtom } from "jotai";
 import React from "react";
@@ -13,13 +14,16 @@ export const Editor = (props: EditorProps & { user?: User }): JSX.Element => {
   const [language] = useAtom(languageState);
   const [editing] = useAtom(editingState);
 
-  const mounted = () => {
+  const mounted = (editor: MonacoType) => {
     window.monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions(
       {
         noSemanticValidation: true,
         noSyntaxValidation: false,
       }
     );
+
+    editor.focus();
+    editor.setPosition(editor.getPosition());
   };
 
   return (
