@@ -3,7 +3,8 @@ import { ThemeForStupidProps } from "../../types";
 
 export const ListContainer = styled.ul`
   list-style: none;
-  padding: 0 15px;
+  margin: 10px 0;
+  padding: 0 15px 0 5px;
 `;
 
 export const ListItem = styled.li<{ danger?: boolean }>`
@@ -11,6 +12,7 @@ export const ListItem = styled.li<{ danger?: boolean }>`
   margin: 4px 0;
   color: ${({ theme }: ThemeForStupidProps) => theme.textDarker};
   transition: color 0.2s ease-in-out;
+  text-align: left;
 
   &:hover {
     color: ${({ danger, theme }) => (danger ? theme.error : theme.textLight)};
@@ -20,14 +22,15 @@ export const ListItem = styled.li<{ danger?: boolean }>`
 export const Seperator = styled.span`
   display: flex;
   width: 100%;
-  margin: 8px auto;
+  margin: 14px auto;
   opacity: 0.3;
   border-bottom: 1px solid;
 `;
 
 export const Anchor = styled.a`
   display: block;
-  margin: 4px 0;
+  text-align: left;
+  margin: 8px 0;
   text-decoration: none !important;
   color: ${({ theme }: ThemeForStupidProps) => theme.textDarker};
   transition: color 0.2s ease-in-out;

@@ -26,6 +26,7 @@ import { useState } from "react";
 import { LoggedInTooltip, LoggedOutTooltip } from "../components/tooltips";
 import { activeModal, documentEditors } from "../state/modal";
 import { supportedLanguages } from "../utils/consts";
+import { modals } from "../state/modal/modals";
 
 const Container = styled.div`
   position: absolute;
@@ -72,7 +73,7 @@ export const Nav = ({
 }: NavProps): JSX.Element => {
   const [editing, setEditing] = useAtom(editingState);
   const [editors] = useAtom(documentEditors);
-  const [, setActiveModal] = useAtom(activeModal);
+  const [[currentModal], setActiveModal] = useAtom(activeModal);
 
   // I forgot that public is a reserved name in javacrip
   const [publicStatus, setPublic] = useState(false);
@@ -263,7 +264,7 @@ export const Nav = ({
         </Tooltip>
         {!userLoading ? (
           <Tooltip
-            style={{ margin: "0 10px", zIndex: 999999999999999 }}
+            style={{ margin: "0 10px" }}
             trigger="click"
             position="bottom-end"
             interactive={true}
