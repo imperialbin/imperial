@@ -73,7 +73,7 @@ export const Nav = ({
 }: NavProps): JSX.Element => {
   const [editing, setEditing] = useAtom(editingState);
   const [editors] = useAtom(documentEditors);
-  const [[currentModal], setActiveModal] = useAtom(activeModal);
+  const [, setActiveModal] = useAtom(activeModal);
 
   // I forgot that public is a reserved name in javacrip
   const [publicStatus, setPublic] = useState(false);
