@@ -22,27 +22,36 @@ const ModalContainer = styled(motion.div)`
   position: absolute;
   width: 100vw;
   height: 100vh;
-  z-index: 10000; 
+  z-index: 9999;
   color: white;
   backdrop-filter: blur(1.5px);
   background: rgba(0, 0, 0, 0.3);
 `;
 
-const ModalBody = styled(motion.div)`
+const ModalBody = styled(motion.div)<{
+  modal: string;
+}>`
   width: 80%;
-  max-width: 600px;
-  min-height: 300px;
+  max-width: 800px;
+  min-height: 200px;
+  ${({ modal }) => modal === "userSettings" && "height: 50%;"}
   max-height: 80%;
   overflow: scroll;
   border-radius: 8px;
-  padding: 18px;
+  padding: ${({ modal }) => (modal !== "userSettings" ? "18px" : "0")};
   box-shadow: rgba(0, 0, 0, 0.5) 0px 16px 70px;
   background: ${({ theme }: ThemeForStupidProps) =>
     theme.layoutLightestOfTheBunch};
 `;
 
-const Header = styled.div`
+const Header = styled.div<{
+  modal: string;
+}>`
   display: flex;
+  position: ${({ modal }) =>
+    modal === "userSettings" ? "absolute" : "relative"};
+  right: ${({ modal }) => modal === "userSettings" && "10px"};
+  top: ${({ modal }) => modal === "userSettings" && "15px"};
   flex-direction: row;
   align-items: center;
   color: white;
@@ -104,11 +113,16 @@ export const ModalManager = (): JSX.Element => {
             ref={modalRef}
             transition={{ duration: 0.15 }}
             variants={modalAnimation}
+            modal={currentModal}
           >
-            <Header>
-              <Title>{modal.title}</Title>
+            <Header modal={currentModal}>
+              {/* Remove title for user settings */}
+              {currentModal !== "userSettings" && <Title>{modal.title}</Title>}
               <Tooltip
-                style={{ display: "inline-flex", marginRight: 8 }}
+                style={{
+                  display: "inline-flex",
+                  marginRight: 8,
+                }}
                 title="Close (esc)"
               >
                 <IoMdClose
