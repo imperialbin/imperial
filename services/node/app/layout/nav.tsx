@@ -26,7 +26,6 @@ import { useState } from "react";
 import { LoggedInTooltip, LoggedOutTooltip } from "../components/tooltips";
 import { activeModal, documentEditors } from "../state/modal";
 import { supportedLanguages } from "../utils/consts";
-import { modals } from "../state/modal/modals";
 import { motion } from "framer-motion";
 
 const Container = styled.div`
