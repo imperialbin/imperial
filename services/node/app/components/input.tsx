@@ -4,10 +4,15 @@ import { InputProps, ThemeForStupidProps } from "../types";
 
 const Container = styled.div`
   position: relative;
+  max-width: 288px;
 `;
 
 const Label = styled.label`
   color: ${({ theme }: ThemeForStupidProps) => theme.textDarker};
+`;
+
+const InputContainer = styled.div`
+  display: flex;
 `;
 
 const InputElement = styled.input<{ secretValue: boolean }>`
@@ -47,8 +52,8 @@ const InputElement = styled.input<{ secretValue: boolean }>`
 
 const Icon = styled.div`
   position: absolute;
-  bottom: 10px;
-  margin-left: 249px;
+  bottom: 18px;
+  right: 16px;
   cursor: pointer;
   color: ${({ theme }: ThemeForStupidProps) => theme.textDarker};
 `;
@@ -68,14 +73,16 @@ export const Input = ({
   return (
     <Container>
       <Label>{label}</Label>
-      <InputElement
-        value={inputValue}
-        onChange={(e) => setInputValue(e.target.value)}
-        placeholder={placeholder}
-        disabled={inputDisabled}
-        secretValue={secretValue}
-      />
-      {icon && <Icon onClick={iconClick}>{icon}</Icon>}
+      <InputContainer>
+        <InputElement
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+          placeholder={placeholder}
+          disabled={inputDisabled}
+          secretValue={secretValue}
+        />
+        {icon && <Icon onClick={iconClick}>{icon}</Icon>}
+      </InputContainer>
     </Container>
   );
 };
