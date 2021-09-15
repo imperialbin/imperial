@@ -1,6 +1,6 @@
 import { FaCheck, FaEdit, FaRedo } from "react-icons/fa";
 import styled from "styled-components";
-import { Input, UserIcon } from "..";
+import { Input, UserIcon, Setting } from "..";
 import { useUser } from "../../hooks";
 import { ThemeForStupidProps } from "../../types";
 
@@ -19,6 +19,7 @@ const Overview = styled.div`
 `;
 
 const UserOverview = styled.div`
+  overflow-y: scroll;
   display: flex;
   align-items: center;
   margin: 15px 0 15px 15px;
@@ -48,6 +49,7 @@ const UserID = styled.span`
 const Settings = styled.div`
   flex: 1;
   padding: 10px 15px;
+  overflow-y: scroll;
 `;
 
 const Tiles = styled.div`
@@ -117,7 +119,7 @@ export const UserSettings = (): JSX.Element => {
             <Subtitle>Information</Subtitle>
             <Input
               label="User Icon"
-              placeholder="GitHub username or Gravatar email"
+              placeholder="GitHub username"
               icon={<FaCheck size={18} />}
               iconClick={() => console.log("Edit Icon")}
             />
@@ -135,6 +137,99 @@ export const UserSettings = (): JSX.Element => {
               icon={<FaRedo size={18} />}
               secretValue={true}
               iconClick={() => console.log("Regenerate API Token")}
+            />
+            <br />
+            <Subtitle>Editor settings</Subtitle>
+            <Setting
+              title="Clipboard"
+              type="switch"
+              onToggle={() => {
+                console.log("changing clipboard");
+              }}
+              toggled={user.settings.clipboard}
+              description="Let IMPERIAL automatically paste your clipboard."
+            />
+            <Setting
+              title="Longer URLs"
+              type="switch"
+              onToggle={() => {
+                console.log("changing Longer URLS");
+              }}
+              toggled={user.settings.longUrls}
+              description="Create 32 character URLs."
+            />
+            <Setting
+              title="Short URLs"
+              type="switch"
+              onToggle={() => {
+                console.log("changing Short URLs");
+              }}
+              toggled={user.settings.shortUrls}
+              description="Create 4 character URLs."
+            />
+            <Setting
+              title="Instant Delete"
+              type="switch"
+              onToggle={() => {
+                console.log("changing instant delete");
+              }}
+              toggled={user.settings.instantDelete}
+              description="Instantly delete the document after being viewed."
+            />
+            <Setting
+              title="Encrypted"
+              type="switch"
+              onToggle={() => {
+                console.log("changing Encrypted");
+              }}
+              toggled={user.settings.encrypted}
+              description="Encrypt documents with AES256 encryption."
+            />
+            <Setting
+              title="Image Embed"
+              type="switch"
+              onToggle={() => {
+                console.log("changing Image Embed");
+              }}
+              toggled={user.settings.imageEmbed}
+              description="Have a sneak peak at a document's content with Open Graph embeds"
+            />
+            <Setting
+              title="Font Lignatures"
+              type="switch"
+              onToggle={() => {
+                console.log("changing Font lignatures");
+              }}
+              toggled={user.settings.fontLignatures}
+              description="When enabled, the editor will have font lignatures"
+            />
+            <Setting
+              title="White Space"
+              type="switch"
+              onToggle={() => {
+                console.log("changing White space");
+              }}
+              toggled={user.settings.renderWhitespace}
+              description="When enabled, the editor will render white space."
+            />
+            <Setting
+              title="Word Wrapping"
+              type="switch"
+              onToggle={() => {
+                console.log("changing Word wrapping");
+              }}
+              toggled={user.settings.wordWrap}
+              description="When enabled, the editor will wrap instead of enabling overflow."
+            />
+            <Setting
+              title="Expiration"
+              type="dropdown"
+              initialValue={user.settings.expiration}
+              mode="expiration"
+              onToggle={() => {
+                console.log("changing Expiration");
+              }}
+              description="How long (in days) a document takes to delete."
             />
           </Settings>
         </Container>
