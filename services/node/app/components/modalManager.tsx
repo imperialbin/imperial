@@ -55,6 +55,7 @@ const Header = styled.div<{
   flex-direction: row;
   align-items: center;
   color: white;
+  z-index: 1;
 `;
 
 const Title = styled.h1`
