@@ -48,7 +48,7 @@ const UserID = styled.span`
 
 const Settings = styled.div`
   flex: 1;
-  padding: 10px 15px;
+  padding: 10px 30px;
   overflow-y: scroll;
 `;
 
