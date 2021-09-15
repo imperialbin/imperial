@@ -18,7 +18,7 @@ const InfoContainer = styled.div`
 `;
 
 const Title = styled.h1`
-  font-size: 1.3em;
+  font-size: 1.15em;
   font-weight: 500;
   margin: 0;
 `;
