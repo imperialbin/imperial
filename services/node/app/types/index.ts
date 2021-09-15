@@ -45,6 +45,7 @@ export interface User {
   confirmed: boolean;
   icon: string;
   memberPlus: boolean;
+  apiToken: string;
   documentsMade: number;
   activeUnlimitedDocuments: number;
   discordId: string;
@@ -109,6 +110,17 @@ export interface DropdownProps {
   onToggle: (e?: ChangeEvent<HTMLSelectElement>) => unknown;
   initialValue?: string | number;
   disabled?: boolean;
+}
+
+export interface InputProps {
+  placeholder: string;
+  label: string;
+  value?: string;
+  icon: JSX.Element;
+  secretValue?: boolean;
+  iconClick: () => unknown;
+  iconDisabled?: boolean;
+  inputDisabled?: boolean;
 }
 export interface SwitchProps {
   toggled?: boolean;
