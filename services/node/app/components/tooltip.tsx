@@ -7,6 +7,7 @@ export const Tooltip = (
   <Tippy
     animation="shift"
     animateFill={false}
+    duration={300}
     position={props.position ? props.position : "bottom"}
     {...props}
   >
