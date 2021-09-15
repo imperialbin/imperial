@@ -27,6 +27,7 @@ import { LoggedInTooltip, LoggedOutTooltip } from "../components/tooltips";
 import { activeModal, documentEditors } from "../state/modal";
 import { supportedLanguages } from "../utils/consts";
 import { modals } from "../state/modal/modals";
+import { motion } from "framer-motion";
 
 const Container = styled.div`
   position: absolute;
@@ -41,10 +42,24 @@ const Container = styled.div`
   box-shadow: 0px 0px 6px 3px rgb(0 0 0 / 25%);
 `;
 
+const BrandContainer = styled(motion.div)`
+  display: inline-flex;
+  justify-content: center;
+`;
+
 const Brand = styled.h1`
   text-align: center;
   margin-top: 20px;
   font-size: 1.1em;
+`;
+
+const DocumentID = styled(motion.h1)`
+  text-align: center;
+  margin-top: 20px;
+  font-size: 1.1em;
+  white-space: nowrap;
+  overflow: hidden;
+  color: ${({ theme }: ThemeForStupidProps) => theme.textDarker};
 `;
 
 const Buttons = styled.div`
@@ -158,10 +173,33 @@ export const Nav = ({
     });
   }, [editing, editors]);
 
+  const brandAnimation = {
+    initial: {
+      opacity: 0,
+      width: 0,
+      marginLeft: 0,
+    },
+    hover: {
+      opacity: 1,
+      width: "unset",
+      marginLeft: 10,
+    },
+  };
+
   return (
     <Container>
       <Link href="/">
-        <Brand>IMPERIAL</Brand>
+        <BrandContainer initial={"initial"} whileHover={"hover"}>
+          <Brand>IMPERIAL</Brand>
+          {document && (
+            <DocumentID
+              transition={{ duration: 0.3 }}
+              variants={brandAnimation}
+            >
+              {document.id}
+            </DocumentID>
+          )}
+        </BrandContainer>
       </Link>
       <Buttons>
         {editor &&
