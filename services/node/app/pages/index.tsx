@@ -12,14 +12,14 @@ const Home: NextPage = () => {
   const [, setEditing] = useAtom(editingState);
 
   useEffect(() => {
-    setEditing(true), [];
+    setEditing(true);
 
     if (user && user.settings.clipboard) {
       navigator.clipboard.readText().then((text) => {
         setClipboardText(text);
       });
     }
-  });
+  }, []);
 
   return (
     <div>

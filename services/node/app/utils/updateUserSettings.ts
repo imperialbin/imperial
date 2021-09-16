@@ -10,7 +10,7 @@ interface Settings {
   expiration?: number;
   fontLignatures?: boolean;
   fontSize?: number;
-  renderWhiteSpace?: boolean;
+  renderWhitespace?: boolean;
   wordWrap?: boolean;
   tabSize?: number;
 }

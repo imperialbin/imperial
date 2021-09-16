@@ -295,7 +295,7 @@ export const UserSettings = (): JSX.Element => {
               type="switch"
               onToggle={async () => {
                 const { data, error } = await updateUserSettings({
-                  renderWhiteSpace: !user.settings.renderWhiteSpace,
+                  renderWhitespace: !user.settings.renderWhitespace,
                 });
 
                 if (error && !data) {
@@ -306,7 +306,7 @@ export const UserSettings = (): JSX.Element => {
 
                 mutate({ ...data }, false);
               }}
-              toggled={user.settings.renderWhiteSpace}
+              toggled={user.settings.renderWhitespace}
               description="When enabled, the editor will render white space."
             />
             <Setting

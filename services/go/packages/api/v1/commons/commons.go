@@ -56,7 +56,7 @@ type EditUserSettings struct {
 	Expiration       *int  `json:"expiration"`
 	FontLignatures   *bool `json:"fontLignatures"`
 	FontSize         *int  `json:"fontSize"`
-	RenderWhitespace *bool `json:"renderWhiteSpace"`
+	RenderWhitespace *bool `json:"renderWhitespace"`
 	WordWrap         *bool `json:"wordWrap"`
 	TabSize          *int  `json:"tabSize"`
 }
@@ -117,7 +117,7 @@ type UserSettings struct {
 	Expiration       int  `json:"expiration"`
 	FontLignatures   bool `json:"fontLignatures"`
 	FontSize         int  `json:"fontSize"`
-	RenderWhitespace bool `json:"renderWhiteSpace"`
+	RenderWhitespace bool `json:"renderWhitespace"`
 	WordWrap         bool `json:"wordWrap"`
 	TabSize          int  `json:"tabSize"`
 }

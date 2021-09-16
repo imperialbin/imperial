@@ -26,7 +26,6 @@ export const Editor = (props: EditorProps & { user?: User }): JSX.Element => {
     editor.setPosition(editor.getPosition());
   };
 
-  console.log(props.user?.settings.tabSize);
   return (
     <Monaco
       {...props}
@@ -39,7 +38,7 @@ export const Editor = (props: EditorProps & { user?: User }): JSX.Element => {
               readOnly: !editing,
               fontLignatures: props.user.settings.fontLignatures,
               fontSize: props.user.settings.fontSize,
-              renderWhiteSpace: props.user.settings.renderWhiteSpace,
+              renderWhitespace: props.user.settings.renderWhitespace,
               wordWrap: props.user.settings.wordWrap,
               tabSize: props.user.settings.tabSize,
             }

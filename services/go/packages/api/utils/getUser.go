@@ -31,18 +31,18 @@ func GetUser(c *fiber.Ctx) (*User, error) {
 	}
 
 	var formattedUserSettings = UserSettings{
-		user.Settings().Clipboard,
-		user.Settings().LongURLs,
-		user.Settings().ShortURLs,
-		user.Settings().InstantDelete,
-		user.Settings().Encrypted,
-		user.Settings().ImageEmbed,
-		user.Settings().Expiration,
-		user.Settings().FontLignatures,
-		user.Settings().FontSize,
-		user.Settings().RenderWhitespace,
-		user.Settings().WordWrap,
-		user.Settings().TabSize,
+		Clipboard:        user.Settings().Clipboard,
+		LongURLs:         user.Settings().LongURLs,
+		ShortURLs:        user.Settings().ShortURLs,
+		InstantDelete:    user.Settings().InstantDelete,
+		Encrypted:        user.Settings().Encrypted,
+		ImageEmbed:       user.Settings().ImageEmbed,
+		Expiration:       user.Settings().Expiration,
+		FontLignatures:   user.Settings().FontLignatures,
+		FontSize:         user.Settings().FontSize,
+		RenderWhitespace: user.Settings().RenderWhitespace,
+		WordWrap:         user.Settings().WordWrap,
+		TabSize:          user.Settings().TabSize,
 	}
 
 	var discordId, _ = user.DiscordID()
@@ -50,24 +50,24 @@ func GetUser(c *fiber.Ctx) (*User, error) {
 	var opt, _ = user.Opt()
 
 	var formattedUser = User{
-		user.ID,
-		user.UserID,
-		user.Username,
-		user.Email,
-		user.Banned,
-		user.Confirmed,
-		user.Icon,
-		user.Password,
-		user.MemberPlus,
-		user.DocumentsMade,
-		user.ActiveUnlimitedDocuments,
-		&discordId,
-		user.Admin,
-		user.APIToken,
-		&gitHubAccess,
-		&opt,
-		user.UserSettingsID,
-		formattedUserSettings,
+		ID:                       user.ID,
+		UserID:                   user.UserID,
+		Username:                 user.Username,
+		Email:                    user.Email,
+		Banned:                   user.Banned,
+		Confirmed:                user.Confirmed,
+		Icon:                     user.Icon,
+		Password:                 user.Password,
+		MemberPlus:               user.MemberPlus,
+		DocumentsMade:            user.DocumentsMade,
+		ActiveUnlimitedDocuments: user.ActiveUnlimitedDocuments,
+		DiscordID:                &discordId,
+		Admin:                    user.Admin,
+		APIToken:                 user.APIToken,
+		GithubAccess:             &gitHubAccess,
+		Opt:                      &opt,
+		UserSettingsID:           user.UserSettingsID,
+		Settings:                 formattedUserSettings,
 	}
 
 	return &formattedUser, nil
