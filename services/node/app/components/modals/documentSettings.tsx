@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Document, ThemeForStupidProps } from "../../types";
+import { Document } from "../../types";
 import { HeaderSecondary } from "./styles";
 import { Setting } from "../";
 import { request, updateDocumentSettings } from "../../utils";
@@ -11,7 +11,7 @@ import { activeModal } from "../../state/modal";
 
 const DangerArea = styled.h1`
   margin-top: 30px;
-  color: ${({ theme }: ThemeForStupidProps) => theme.error};
+  color: ${({ theme }) => theme.error};
   font-size: 1.3em;
   font-weight: 500;
   margin-bottom: 0;
@@ -21,15 +21,15 @@ const Btn = styled.button`
   display: block;
   margin-top: 25px;
   padding: 10px 15px;
-  background: ${({ theme }: ThemeForStupidProps) => theme.layoutDark};
-  color: ${({ theme }: ThemeForStupidProps) => theme.textLight};
+  background: ${({ theme }) => theme.layoutDark};
+  color: ${({ theme }) => theme.textLight};
   font-size: 1em;
   border: none;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
 
   &:hover:not(:disabled) {
-    color: ${({ theme }: ThemeForStupidProps) => theme.error};
+    color: ${({ theme }) => theme.error};
     box-shadow: 0px 0px 6px 3px rgb(0 0 0 / 15%);
   }
 

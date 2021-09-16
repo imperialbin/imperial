@@ -22,7 +22,7 @@ import {
 import { Tooltip, UserIcon } from "../components";
 import { UserIconSkeleton } from "../components/skeletons";
 import { editingState } from "../state/editor";
-import { Document, NavProps, ThemeForStupidProps } from "../types";
+import { Document, NavProps } from "../types";
 import { request } from "../utils/requestWrapper";
 import { useState } from "react";
 import { LoggedInTooltip, LoggedOutTooltip } from "../components/tooltips";
@@ -37,8 +37,8 @@ const Wrapper = styled(motion.div)`
   top: 0;
   right: 0;
   z-index: 500;
-  background: ${({ theme }: ThemeForStupidProps) => theme.layoutDarkest};
-  color: ${({ theme }: ThemeForStupidProps) => theme.textLight};
+  background: ${({ theme }) => theme.layoutDarkest};
+  color: ${({ theme }) => theme.textLight};
   border-bottom-left-radius: 15px;
   box-shadow: 0px 0px 6px 3px rgb(0 0 0 / 25%);
 `;
@@ -62,8 +62,7 @@ const HideNavContainer = styled(motion.div)`
   cursor: pointer;
 
   &:hover {
-    background: ${({ theme }: ThemeForStupidProps) =>
-      theme.layoutLightestOfTheBunch};
+    background: ${({ theme }) => theme.layoutLightestOfTheBunch};
     opacity: 1;
   }
 `;
@@ -85,7 +84,7 @@ const DocumentID = styled(motion.h1)`
   font-size: 1.1em;
   white-space: nowrap;
   overflow: hidden;
-  color: ${({ theme }: ThemeForStupidProps) => theme.textDarker};
+  color: ${({ theme }) => theme.textDarker};
 `;
 
 const Buttons = styled.div`
@@ -99,9 +98,8 @@ const Btn = styled.button`
   padding: 8px 11px;
   border-radius: 6px;
   border: none;
-  background: ${({ theme }: ThemeForStupidProps) =>
-    theme.layoutLightestOfTheBunch};
-  color: ${({ theme }: ThemeForStupidProps) => theme.textLightest};
+  background: ${({ theme }) => theme.layoutLightestOfTheBunch};
+  color: ${({ theme }) => theme.textLightest};
   cursor: pointer;
 `;
 

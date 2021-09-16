@@ -9,13 +9,13 @@ import {
   Search,
 } from "./styles";
 import { request } from "../../utils/requestWrapper";
-import { DocumentEditor, ThemeForStupidProps } from "../../types";
+import { DocumentEditor } from "../../types";
 import { Tooltip, UserIcon } from "..";
 import { FaUserMinus, FaUserPlus, FaUserSlash } from "react-icons/fa";
 import { motion } from "framer-motion";
 
 const UserSearch = styled.div`
-  color: ${({ theme }: ThemeForStupidProps) => theme.textDarker};
+  color: ${({ theme }) => theme.textDarker};
 `;
 
 const AddInput = styled(Search)`
@@ -44,7 +44,7 @@ const NoEditors = styled(motion.div)`
   justify-content: center;
   margin-top: 20px;
   user-select: none;
-  color: ${({ theme }: ThemeForStupidProps) => theme.textDarker};
+  color: ${({ theme }) => theme.textDarker};
 `;
 
 export const AddUsersModal = (): JSX.Element => {

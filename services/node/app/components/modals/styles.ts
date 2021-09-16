@@ -1,8 +1,7 @@
 import styled from "styled-components";
-import { ThemeForStupidProps } from "../../types";
 
 export const HeaderSecondary = styled.span`
-  color: ${({ theme }: ThemeForStupidProps) => theme.textDarker};
+  color: ${({ theme }) => theme.textDarker};
 `;
 
 export const Search = styled.input`
@@ -12,9 +11,8 @@ export const Search = styled.input`
   border: none;
   border-radius: 8px;
   font-size: 1.4em;
-  background: ${({ theme }: ThemeForStupidProps) =>
-    theme.layoutLightestOfTheBunch};
-  color: ${({ theme }: ThemeForStupidProps) => theme.textDarker};
+  background: ${({ theme }) => theme.layoutLightestOfTheBunch};
+  color: ${({ theme }) => theme.textDarker};
 
   &:focus {
     outline: none;
@@ -22,7 +20,7 @@ export const Search = styled.input`
 
   &::placeholder {
     opacity: 0.4;
-    color: ${({ theme }: ThemeForStupidProps) => theme.textDarker};
+    color: ${({ theme }) => theme.textDarker};
   }
 `;
 

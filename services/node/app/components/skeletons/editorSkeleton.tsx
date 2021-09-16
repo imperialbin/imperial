@@ -1,6 +1,6 @@
 import Skeleton from "react-loading-skeleton";
 import styled from "styled-components";
-import { ThemeForStupidProps } from "../../types";
+import {  } from "../../types";
 
 const Container = styled.div`
   display: flex;
@@ -26,7 +26,7 @@ const Line = styled.span`
   display: block;
   font-size: 12px;
   margin-top: 1.8px;
-  color: ${({ theme }: ThemeForStupidProps) => theme.textLightest};
+  color: ${({ theme }) => theme.textLightest};
 `;
 
 export const EditorSkeleton = (): JSX.Element => {

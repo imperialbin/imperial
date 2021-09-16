@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import styled from "styled-components";
 import { Tooltip } from ".";
-import { InputProps, ThemeForStupidProps } from "../types";
+import { InputProps } from "../types";
 
 const Container = styled.div`
   position: relative;
@@ -10,7 +10,7 @@ const Container = styled.div`
 `;
 
 const Label = styled.label`
-  color: ${({ theme }: ThemeForStupidProps) => theme.textDarker};
+  color: ${({ theme }) => theme.textDarker};
 `;
 
 const InputContainer = styled.div`
@@ -29,15 +29,15 @@ const InputElement = styled.input<{ secretValue: boolean }>`
   border: none;
   font-size: 1em;
   padding: 13px 40px 13px 12px;
-  background: ${({ theme }: ThemeForStupidProps) => theme.layoutDark};
+  background: ${({ theme }) => theme.layoutDark};
   box-shadow: 0px 0px 18px rgba(0, 0, 0, 0.25);
   outline: none;
-  color: ${({ theme }: ThemeForStupidProps) => theme.textLight}5d;
+  color: ${({ theme }) => theme.textLight}5d;
   transition: all 0.1s ease-in-out;
 
   &:focus,
   &:focus::placeholder {
-    color: ${({ theme }: ThemeForStupidProps) => theme.textLight}9d;
+    color: ${({ theme }) => theme.textLight}9d;
   }
 
   &:not(:hover) {
@@ -47,7 +47,7 @@ const InputElement = styled.input<{ secretValue: boolean }>`
   }
 
   &::placeholder {
-    color: ${({ theme }: ThemeForStupidProps) => theme.textDarker}7d;
+    color: ${({ theme }) => theme.textDarker}7d;
     transition: all 0.1s ease-in-out;
   }
 `;
@@ -58,7 +58,7 @@ const Icon = styled(motion.div)<{ iconHoverColor: string | null }>`
   right: 16px;
   cursor: pointer;
   overflow: hidden;
-  color: ${({ theme }: ThemeForStupidProps) => theme.textDarker};
+  color: ${({ theme }) => theme.textDarker};
   transition: color 0.2s ease-in-out;
 
   &:hover {

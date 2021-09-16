@@ -1,6 +1,23 @@
-import { Theme } from "../types";
+import { DefaultTheme } from "styled-components";
+declare module "styled-components" {
+  export interface DefaultTheme {
+    layoutDarkest: string;
+    layoutDark: string;
+    layoutLittleLessDark: string;
+    layoutLightestOfTheBunch: string;
 
-export const darkTheme: Theme = {
+    textLightest: string;
+    textLight: string;
+    textDarker: string;
+    textDarkest: string;
+
+    success: string;
+    error: string;
+    info: string;
+  }
+}
+
+export const darkTheme: DefaultTheme = {
   layoutDarkest: "#121212",
   layoutDark: "#191919",
   layoutLittleLessDark: "#1e1e1e",
@@ -17,7 +34,7 @@ export const darkTheme: Theme = {
 };
 
 /* Note to self, finish this lmfao */
-export const lightTheme: Theme = {
+export const lightTheme: DefaultTheme = {
   layoutDarkest: "#111416",
   layoutDark: "#161A1E",
   layoutLittleLessDark: "#1B1F23",

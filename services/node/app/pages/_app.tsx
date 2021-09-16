@@ -6,7 +6,6 @@ import { Provider } from "jotai";
 import { SkeletonTheme } from "react-loading-skeleton";
 import { createGlobalStyle, ThemeProvider } from "styled-components";
 import { darkTheme } from "../utils/theme";
-import { ThemeForStupidProps } from "../types";
 import { ModalManager } from "../components";
 
 const GlobalStyle = createGlobalStyle`
@@ -18,8 +17,8 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    background: ${({ theme }: ThemeForStupidProps) => theme.layoutDark};
-    color: ${({ theme }: ThemeForStupidProps) => theme.textLight};
+    background: ${({ theme }) => theme.layoutDark};
+    color: ${({ theme }) => theme.textLight};
     font-family: 'Manrope', sans-serif;
     font-weight: 500;
     overflow-x: hidden;

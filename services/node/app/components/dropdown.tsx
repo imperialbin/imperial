@@ -1,13 +1,13 @@
 import styled from "styled-components";
-import { DropdownProps, ThemeForStupidProps } from "../types";
+import { DropdownProps } from "../types";
 import { supportedLanguages } from "../utils";
 
 const Select = styled.select`
-  background: ${({ theme }: ThemeForStupidProps) => theme.layoutLittleLessDark};
+  background: ${({ theme }) => theme.layoutLittleLessDark};
   border: none;
   border-radius: 4px;
   padding: 5px 10px;
-  color: ${({ theme }: ThemeForStupidProps) => theme.textLight};
+  color: ${({ theme }) => theme.textLight};
   margin-top: 10px;
   font-size: 0.95em;
 

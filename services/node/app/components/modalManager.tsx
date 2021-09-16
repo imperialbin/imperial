@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { motion, AnimatePresence } from "framer-motion";
-import { Document, ThemeForStupidProps } from "../types";
+import { Document } from "../types";
 import { useAtom } from "jotai";
 import { activeModal } from "../state/modal";
 import { Tooltip } from "./";
@@ -40,8 +40,7 @@ const ModalBody = styled(motion.div)<{
   border-radius: 8px;
   padding: ${({ modal }) => (modal !== "userSettings" ? "18px" : "0")};
   box-shadow: rgba(0, 0, 0, 0.5) 0px 16px 70px;
-  background: ${({ theme }: ThemeForStupidProps) =>
-    theme.layoutLightestOfTheBunch};
+  background: ${({ theme }) => theme.layoutLightestOfTheBunch};
 `;
 
 const Header = styled.div<{

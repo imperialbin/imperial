@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { ThemeForStupidProps } from "../../types";
 import { useAtom } from "jotai";
 import styled from "styled-components";
 import { languageState } from "../../state/editor";
@@ -16,7 +15,7 @@ import {
 } from "./styles";
 
 const SearchContainer = styled.div`
-  color: ${({ theme }: ThemeForStupidProps) => theme.textDarker};
+  color: ${({ theme }) => theme.textDarker};
 `;
 
 const LanguageBtn = styled(motion.button)`
@@ -28,13 +27,12 @@ const LanguageBtn = styled(motion.button)`
   background: transparent;
   cursor: pointer;
   border: none;
-  border-top: 1px solid ${({ theme }: ThemeForStupidProps) => theme.textDarkest};
-  color: ${({ theme }: ThemeForStupidProps) => theme.textLight};
+  border-top: 1px solid ${({ theme }) => theme.textDarkest};
+  color: ${({ theme }) => theme.textLight};
   transition: background-color 0.12s ease-in-out;
 
   &:hover {
-    background: ${({ theme }: ThemeForStupidProps) =>
-      theme.layoutLittleLessDark};
+    background: ${({ theme }) => theme.layoutLittleLessDark};
   }
 `;
 
@@ -44,7 +42,7 @@ const UnsupportedLanguage = styled(motion.div)`
   align-items: center;
   justify-content: center;
   margin-top: 20px;
-  color: ${({ theme }: ThemeForStupidProps) => theme.textDarker};
+  color: ${({ theme }) => theme.textDarker};
 `;
 
 const Tip = styled.span`
@@ -59,7 +57,7 @@ const TipAccent = styled.span`
   font-size: 0.9em;
   font-weight: 700;
   padding-right: 8px;
-  color: ${({ theme }: ThemeForStupidProps) => theme.success};
+  color: ${({ theme }) => theme.success};
 `;
 
 export const LanguageModal = (): JSX.Element => {

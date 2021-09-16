@@ -1,13 +1,12 @@
 import { Switch, Dropdown } from ".";
 import styled from "styled-components";
-import { SettingProps, ThemeForStupidProps } from "../types";
+import { SettingProps } from "../types";
 
 const SettingContainer = styled.div`
   display: flex;
   align-items: center;
   margin: 15px 0;
-  border-top: 1px solid
-    ${({ theme }: ThemeForStupidProps) => theme.textDarker}1d;
+  border-top: 1px solid ${({ theme }) => theme.textDarker}1d;
 `;
 
 const InfoContainer = styled.div`
@@ -27,7 +26,7 @@ const Description = styled.p`
   font-size: 1em;
   max-width: 50ch;
   padding-right: 15px;
-  color: ${({ theme }: ThemeForStupidProps) => theme.textDarker};
+  color: ${({ theme }) => theme.textDarker};
   margin: 0;
 `;
 

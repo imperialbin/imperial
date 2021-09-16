@@ -131,24 +131,6 @@ export interface SwitchProps {
   onToggle: (e?: ChangeEvent<HTMLSelectElement>) => unknown;
   disabled?: boolean;
 }
-export interface ThemeForStupidProps {
-  theme: Theme;
-}
-export interface Theme {
-  layoutDarkest: string;
-  layoutDark: string;
-  layoutLittleLessDark: string;
-  layoutLightestOfTheBunch: string;
-
-  textLightest: string;
-  textLight: string;
-  textDarker: string;
-  textDarkest: string;
-
-  success: string;
-  error: string;
-  info: string;
-}
 
 export interface DocumentEditor {
   username: string;

@@ -1,4 +1,4 @@
-import { SwitchProps, ThemeForStupidProps } from "../types";
+import { SwitchProps } from "../types";
 import styled from "styled-components";
 import { useState } from "react";
 
@@ -16,7 +16,7 @@ const Slider = styled.span`
   display: block;
   border-radius: 100px;
   position: relative;
-  background: ${({ theme }: ThemeForStupidProps) => theme.layoutDark};
+  background: ${({ theme }) => theme.layoutDark};
 
   &:after {
     content: "";
@@ -28,7 +28,7 @@ const Slider = styled.span`
     background: #fff;
     border-radius: 90px;
     transition: 0.3s;
-    background: ${({ theme }: ThemeForStupidProps) => theme.error};
+    background: ${({ theme }) => theme.error};
   }
 `;
 
@@ -39,7 +39,7 @@ const CheckBox = styled.input.attrs({ type: "checkbox" })`
 
   &:checked + ${Slider}:after {
     width: 8px;
-    background: ${({ theme }: ThemeForStupidProps) => theme.success};
+    background: ${({ theme }) => theme.success};
     transform: translateX(35px);
   }
 

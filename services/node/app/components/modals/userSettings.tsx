@@ -3,7 +3,6 @@ import { FaCheck, FaEdit, FaRedo } from "react-icons/fa";
 import styled, { ThemeContext } from "styled-components";
 import { Input, UserIcon, Setting } from "..";
 import { useUser } from "../../hooks";
-import { ThemeForStupidProps } from "../../types";
 
 const Container = styled.div`
   display: inline-flex;
@@ -12,7 +11,7 @@ const Container = styled.div`
 
 const Overview = styled.div`
   flex: 1;
-  background: ${({ theme }: ThemeForStupidProps) => theme.layoutDark};
+  background: ${({ theme }) => theme.layoutDark};
   box-shadow: -1.7168px 6.86722px 36.0529px 8.58402px rgba(0, 0, 0, 0.25);
   padding: 10px;
   border-bottom-right-radius: 12px;
@@ -28,7 +27,7 @@ const UserOverview = styled.div`
 
 const Subtitle = styled.h1`
   font-size: 1.2em;
-  color: ${({ theme }: ThemeForStupidProps) => theme.textLight};
+  color: ${({ theme }) => theme.textLight};
 `;
 
 const UserInfo = styled.div`
@@ -38,13 +37,13 @@ const UserInfo = styled.div`
 
 const Username = styled.span`
   font-size: 1.55em;
-  color: ${({ theme }: ThemeForStupidProps) => theme.textLight};
+  color: ${({ theme }) => theme.textLight};
 `;
 
 const UserID = styled.span`
   font-size: 1em;
   opacity: 0.6;
-  color: ${({ theme }: ThemeForStupidProps) => theme.textDarker};
+  color: ${({ theme }) => theme.textDarker};
 `;
 
 const Settings = styled.div`
@@ -66,9 +65,8 @@ const Tile = styled.div`
   min-height: 47px;
   border-radius: 8px;
   font-size: 1.2em;
-  color: ${({ theme }: ThemeForStupidProps) => theme.textLight};
-  background: ${({ theme }: ThemeForStupidProps) =>
-    theme.layoutLightestOfTheBunch};
+  color: ${({ theme }) => theme.textLight};
+  background: ${({ theme }) => theme.layoutLightestOfTheBunch};
 `;
 
 const TileIcon = styled.img`
@@ -82,7 +80,7 @@ const TitleInfo = styled.p`
   opacity: 0.6;
   margin: 0;
   padding-right: 10px;
-  color: ${({ theme }: ThemeForStupidProps) => theme.textDarker};
+  color: ${({ theme }) => theme.textDarker};
 `;
 
 export const UserSettings = (): JSX.Element => {
