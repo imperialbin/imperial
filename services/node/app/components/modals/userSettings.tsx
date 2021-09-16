@@ -3,6 +3,7 @@ import { FaCheck, FaEdit, FaRedo } from "react-icons/fa";
 import styled, { ThemeContext } from "styled-components";
 import { Input, UserIcon, Setting } from "..";
 import { useUser } from "../../hooks";
+import { request } from "../../utils";
 import { updateUserSettings } from "../../utils/updateUserSettings";
 
 const Container = styled.div`
@@ -152,7 +153,20 @@ export const UserSettings = (): JSX.Element => {
               value={user.apiToken}
               icon={<FaRedo size={18} />}
               secretValue={true}
-              iconClick={() => console.log("Regenerate API Token")}
+              iconClick={async () => {
+                const { data, error } = await request(
+                  "/user/@me/regenAPIToken",
+                  "POST"
+                );
+
+                if (error && !data) {
+                  return console.log(
+                    "There was an error whilst editing document settings!"
+                  );
+                }
+
+                mutate({ ...data }, false);
+              }}
               inputDisabled={true}
             />
             <br />

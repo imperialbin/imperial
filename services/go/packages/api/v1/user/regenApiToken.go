@@ -41,11 +41,12 @@ func RegenApiToken(c *fiber.Ctx) error {
 
 	RedisSet(updatedUser.APIToken, user.ID, 0)
 
+	/* In the future dont make another request and instead just replace the old with the new */
+	newUser, _ := GetUser(c)
+
 	return c.JSON(Response{
 		Success: true,
 		Message: "Successfully regenerated your API token!",
-		Data: fiber.Map{
-			"apiToken": token,
-		},
+		Data:    newUser,
 	})
 }
