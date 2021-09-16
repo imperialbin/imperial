@@ -12,6 +12,7 @@ interface Settings {
   fontSize?: number;
   renderWhiteSpace?: boolean;
   wordWrap?: boolean;
+  tabSize?: number;
 }
 
 /* Ill type data later */

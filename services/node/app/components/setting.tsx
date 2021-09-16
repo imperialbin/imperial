@@ -45,6 +45,7 @@ export const Setting = ({
 
   /* Drop down settings */
   initialValue = "",
+  numberLimit = 60,
   mode,
 
   /* onToggle method for all to do something */
@@ -69,6 +70,7 @@ export const Setting = ({
           onToggle={onToggle}
           initialValue={initialValue}
           disabled={disabled}
+          numberLimit={numberLimit}
         />
       )}
     </SettingContainer>

@@ -329,6 +329,27 @@ export const UserSettings = (): JSX.Element => {
               description="When enabled, the editor will wrap instead of enabling overflow."
             />
             <Setting
+              title="Tab size"
+              type="dropdown"
+              initialValue={user.settings.tabSize}
+              mode="expiration"
+              numberLimit={8}
+              onToggle={async (e) => {
+                const { data, error } = await updateUserSettings({
+                  tabSize: Number(e?.target.value),
+                });
+
+                if (error && !data) {
+                  return console.log(
+                    "There was an error whilst editing document settings!"
+                  );
+                }
+
+                mutate({ ...data }, false);
+              }}
+              description="How big do you want your tabs?"
+            />
+            <Setting
               title="Expiration"
               type="dropdown"
               initialValue={user.settings.expiration}

@@ -97,6 +97,7 @@ export interface UserSettings {
   fontSize: number;
   renderWhiteSpace: boolean;
   wordWrap: boolean;
+  tabSize: number;
 }
 
 export interface SettingProps extends SwitchProps, DropdownProps {
@@ -109,6 +110,7 @@ export interface DropdownProps {
   mode?: "languages" | "expiration";
   onToggle: (e?: ChangeEvent<HTMLSelectElement>) => unknown;
   initialValue?: string | number;
+  numberLimit?: number;
   disabled?: boolean;
 }
 

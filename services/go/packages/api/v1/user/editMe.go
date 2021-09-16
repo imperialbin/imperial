@@ -54,6 +54,7 @@ func EditMe(c *fiber.Ctx) error {
 		db.UserSettings.FontSize.SetIfPresent(req.FontSize),
 		db.UserSettings.RenderWhitespace.SetIfPresent(req.RenderWhitespace),
 		db.UserSettings.WordWrap.SetIfPresent(req.WordWrap),
+		db.UserSettings.TabSize.SetIfPresent(req.TabSize),
 	).Exec(ctx)
 
 	if updateUserError != nil {

@@ -58,6 +58,7 @@ type EditUserSettings struct {
 	FontSize         *int  `json:"fontSize"`
 	RenderWhitespace *bool `json:"renderWhiteSpace"`
 	WordWrap         *bool `json:"wordWrap"`
+	TabSize          *int  `json:"tabSize"`
 }
 
 type ErrorResponse struct {
@@ -118,6 +119,7 @@ type UserSettings struct {
 	FontSize         int  `json:"fontSize"`
 	RenderWhitespace bool `json:"renderWhiteSpace"`
 	WordWrap         bool `json:"wordWrap"`
+	TabSize          int  `json:"tabSize"`
 }
 
 type Links struct {

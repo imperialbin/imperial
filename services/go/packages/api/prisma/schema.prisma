@@ -47,6 +47,7 @@ model UserSettings {
   fontSize         Int     @default(14)
   renderWhitespace Boolean @default(false)
   wordWrap         Boolean @default(false)
+  tabSize          Int     @default(4)
 
   User User[]
   @@map("user_settings")
