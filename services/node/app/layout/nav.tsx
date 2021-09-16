@@ -15,7 +15,6 @@ import {
   FaEyeSlash,
   FaCheck,
   FaCog,
-  FaArrowLeft,
   FaArrowRight,
 } from "react-icons/fa";
 
@@ -160,8 +159,7 @@ export const Nav = ({
   const allowEdit = () => setEditing(!editing);
 
   const editDocument = async () => {
-    if (typeof window === "undefined") return;
-    if (!window.monaco) return;
+    if (typeof window === "undefined" || !window.monaco) return;
 
     const content = window.monaco.editor.getModels()[0].getValue();
     if (content < 1) return;
