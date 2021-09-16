@@ -95,7 +95,7 @@ export interface UserSettings {
 
   fontLignatures: boolean;
   fontSize: number;
-  renderWhitespace: boolean;
+  renderWhiteSpace: boolean;
   wordWrap: boolean;
 }
 

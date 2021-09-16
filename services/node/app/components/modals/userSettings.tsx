@@ -3,6 +3,7 @@ import { FaCheck, FaEdit, FaRedo } from "react-icons/fa";
 import styled, { ThemeContext } from "styled-components";
 import { Input, UserIcon, Setting } from "..";
 import { useUser } from "../../hooks";
+import { updateUserSettings } from "../../utils/updateUserSettings";
 
 const Container = styled.div`
   display: inline-flex;
@@ -85,7 +86,7 @@ const TitleInfo = styled.p`
 
 export const UserSettings = (): JSX.Element => {
   const theme = useContext(ThemeContext);
-  const { user, isError, isLoading } = useUser();
+  const { user, isError, isLoading, mutate } = useUser();
 
   return (
     <>
@@ -159,8 +160,18 @@ export const UserSettings = (): JSX.Element => {
             <Setting
               title="Clipboard"
               type="switch"
-              onToggle={() => {
-                console.log("changing clipboard");
+              onToggle={async () => {
+                const { data, error } = await updateUserSettings({
+                  clipboard: !user.settings.clipboard,
+                });
+
+                if (error && !data) {
+                  return console.log(
+                    "There was an error whilst editing document settings!"
+                  );
+                }
+
+                mutate({ ...data }, false);
               }}
               toggled={user.settings.clipboard}
               description="Let IMPERIAL automatically paste your clipboard."
@@ -168,8 +179,18 @@ export const UserSettings = (): JSX.Element => {
             <Setting
               title="Longer URLs"
               type="switch"
-              onToggle={() => {
-                console.log("changing Longer URLS");
+              onToggle={async () => {
+                const { data, error } = await updateUserSettings({
+                  longUrls: !user.settings.longUrls,
+                });
+
+                if (error && !data) {
+                  return console.log(
+                    "There was an error whilst editing document settings!"
+                  );
+                }
+
+                mutate({ ...data }, false);
               }}
               toggled={user.settings.longUrls}
               description="Create 32 character URLs."
@@ -177,8 +198,18 @@ export const UserSettings = (): JSX.Element => {
             <Setting
               title="Short URLs"
               type="switch"
-              onToggle={() => {
-                console.log("changing Short URLs");
+              onToggle={async () => {
+                const { data, error } = await updateUserSettings({
+                  shortUrls: !user.settings.shortUrls,
+                });
+
+                if (error && !data) {
+                  return console.log(
+                    "There was an error whilst editing document settings!"
+                  );
+                }
+
+                mutate({ ...data }, false);
               }}
               toggled={user.settings.shortUrls}
               description="Create 4 character URLs."
@@ -186,8 +217,18 @@ export const UserSettings = (): JSX.Element => {
             <Setting
               title="Instant Delete"
               type="switch"
-              onToggle={() => {
-                console.log("changing instant delete");
+              onToggle={async () => {
+                const { data, error } = await updateUserSettings({
+                  instantDelete: !user.settings.instantDelete,
+                });
+
+                if (error && !data) {
+                  return console.log(
+                    "There was an error whilst editing document settings!"
+                  );
+                }
+
+                mutate({ ...data }, false);
               }}
               toggled={user.settings.instantDelete}
               description="Instantly delete the document after being viewed."
@@ -195,8 +236,18 @@ export const UserSettings = (): JSX.Element => {
             <Setting
               title="Encrypted"
               type="switch"
-              onToggle={() => {
-                console.log("changing Encrypted");
+              onToggle={async () => {
+                const { data, error } = await updateUserSettings({
+                  encrypted: !user.settings.encrypted,
+                });
+
+                if (error && !data) {
+                  return console.log(
+                    "There was an error whilst editing document settings!"
+                  );
+                }
+
+                mutate({ ...data }, false);
               }}
               toggled={user.settings.encrypted}
               description="Encrypt documents with AES256 encryption."
@@ -204,8 +255,18 @@ export const UserSettings = (): JSX.Element => {
             <Setting
               title="Image Embed"
               type="switch"
-              onToggle={() => {
-                console.log("changing Image Embed");
+              onToggle={async () => {
+                const { data, error } = await updateUserSettings({
+                  imageEmbed: !user.settings.imageEmbed,
+                });
+
+                if (error && !data) {
+                  return console.log(
+                    "There was an error whilst editing document settings!"
+                  );
+                }
+
+                mutate({ ...data }, false);
               }}
               toggled={user.settings.imageEmbed}
               description="Have a sneak peak at a document's content with Open Graph embeds"
@@ -213,8 +274,18 @@ export const UserSettings = (): JSX.Element => {
             <Setting
               title="Font Lignatures"
               type="switch"
-              onToggle={() => {
-                console.log("changing Font lignatures");
+              onToggle={async () => {
+                const { data, error } = await updateUserSettings({
+                  fontLignatures: !user.settings.fontLignatures,
+                });
+
+                if (error && !data) {
+                  return console.log(
+                    "There was an error whilst editing document settings!"
+                  );
+                }
+
+                mutate({ ...data }, false);
               }}
               toggled={user.settings.fontLignatures}
               description="When enabled, the editor will have font lignatures"
@@ -222,17 +293,37 @@ export const UserSettings = (): JSX.Element => {
             <Setting
               title="White Space"
               type="switch"
-              onToggle={() => {
-                console.log("changing White space");
+              onToggle={async () => {
+                const { data, error } = await updateUserSettings({
+                  renderWhiteSpace: !user.settings.renderWhiteSpace,
+                });
+
+                if (error && !data) {
+                  return console.log(
+                    "There was an error whilst editing document settings!"
+                  );
+                }
+
+                mutate({ ...data }, false);
               }}
-              toggled={user.settings.renderWhitespace}
+              toggled={user.settings.renderWhiteSpace}
               description="When enabled, the editor will render white space."
             />
             <Setting
               title="Word Wrapping"
               type="switch"
-              onToggle={() => {
-                console.log("changing Word wrapping");
+              onToggle={async () => {
+                const { data, error } = await updateUserSettings({
+                  wordWrap: !user.settings.wordWrap,
+                });
+
+                if (error && !data) {
+                  return console.log(
+                    "There was an error whilst editing document settings!"
+                  );
+                }
+
+                mutate({ ...data }, false);
               }}
               toggled={user.settings.wordWrap}
               description="When enabled, the editor will wrap instead of enabling overflow."
@@ -242,15 +333,28 @@ export const UserSettings = (): JSX.Element => {
               type="dropdown"
               initialValue={user.settings.expiration}
               mode="expiration"
-              onToggle={() => {
-                console.log("changing Expiration");
+              onToggle={async (e) => {
+                const { data, error } = await updateUserSettings({
+                  expiration: Number(e?.target.value),
+                });
+
+                if (error && !data) {
+                  return console.log(
+                    "There was an error whilst editing document settings!"
+                  );
+                }
+
+                mutate({ ...data }, false);
               }}
               description="How long (in days) a document takes to delete."
             />
           </Settings>
         </Container>
       ) : (
-        "Loading"
+        <>
+          {isLoading && "Loading"}
+          {isError && "Error" + isError}
+        </>
       )}
     </>
   );
