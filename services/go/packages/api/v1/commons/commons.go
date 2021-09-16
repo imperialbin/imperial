@@ -2,6 +2,10 @@ package commons
 
 import "github.com/guregu/null"
 
+type ChangeIconStruct struct {
+	Method string `json:"method" validate:"required"`
+	URL    string `json:"url" validate:"required"`
+}
 type SignupRequest struct {
 	Username        string `json:"username" validate:"required,min=3,max=24"`
 	Email           string `json:"email" validate:"required,min=3"`

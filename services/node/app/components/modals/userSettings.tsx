@@ -1,5 +1,13 @@
+import { useState } from "react";
 import { useContext } from "react";
-import { FaCheck, FaEdit, FaRedo } from "react-icons/fa";
+import {
+  FaCheck,
+  FaCode,
+  FaEdit,
+  FaLock,
+  FaRedo,
+  FaUnlock,
+} from "react-icons/fa";
 import styled, { ThemeContext } from "styled-components";
 import { Input, UserIcon, Setting } from "..";
 import { useUser } from "../../hooks";
@@ -85,9 +93,31 @@ const TitleInfo = styled.p`
   color: ${({ theme }) => theme.textDarker};
 `;
 
+const Btn = styled.button`
+  border: none;
+  border-radius: 5px;
+  margin-top: 8px;
+  padding: 10px 15px;
+  font-size: 0.9em;
+  cursor: pointer;
+  opacity: 0.8;
+  color: ${({ theme }) => theme.textLight};
+  background: ${({ theme }) => theme.layoutDark};
+  box-shadow: 0px 0px 13px rgba(0, 0, 0, 0.25);
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    opacity: 1;
+  }
+`;
+
 export const UserSettings = (): JSX.Element => {
   const theme = useContext(ThemeContext);
   const { user, isError, isLoading, mutate } = useUser();
+  const [iconValue, setIconValue] = useState("");
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   return (
     <>
@@ -135,7 +165,25 @@ export const UserSettings = (): JSX.Element => {
               iconHoverColor={theme.success}
               hideIconUntilDifferent={true}
               tooltipTitle="Update icon"
-              iconClick={() => console.log("Edit Icon")}
+              onChange={(e) => setIconValue(e.target.value)}
+              iconClick={async () => {
+                const { data, error } = await request(
+                  "/user/@me/icon",
+                  "PATCH",
+                  {
+                    method: "github",
+                    url: `https://github.com/${iconValue}.png`,
+                  }
+                );
+
+                if (error && !data) {
+                  return console.log(
+                    "There was an error whilst editing document settings!"
+                  );
+                }
+
+                mutate({ ...data }, false);
+              }}
             />
             <Input
               label="Email"
@@ -149,7 +197,7 @@ export const UserSettings = (): JSX.Element => {
             />
             <Input
               label="API Token"
-              placeholder="Your email"
+              placeholder="API Token"
               value={user.apiToken}
               icon={<FaRedo size={18} />}
               secretValue={true}
@@ -383,6 +431,39 @@ export const UserSettings = (): JSX.Element => {
               }}
               description="How long (in days) a document takes to delete."
             />
+            <br />
+            <Subtitle>Reset password</Subtitle>
+            <Input
+              label="Current password"
+              placeholder="Enter your current password"
+              onChange={(e) => setCurrentPassword(e.target.value)}
+              icon={<FaUnlock size={18} />}
+              iconClick={() => null}
+            />
+            <Input
+              label="New password"
+              placeholder="Enter your new password"
+              icon={<FaLock size={18} />}
+              onChange={(e) => setNewPassword(e.target.value)}
+              iconClick={() => null}
+            />
+            <Input
+              label="Confirm password"
+              placeholder="Re-enter new password."
+              icon={<FaLock size={18} />}
+              onChange={(e) => setCurrentPassword(e.target.value)}
+              iconClick={() => null}
+            />
+            <Btn
+              onClick={() => {
+                if (newPassword !== confirmPassword) return;
+                console.log("bruh");
+              }}
+            >
+              Reset password
+            </Btn>
+            <br />
+            <br />
           </Settings>
         </Container>
       ) : (

@@ -95,7 +95,7 @@ export const Input = ({
   iconHoverColor = null,
   hideIconUntilDifferent = false,
   inputDisabled = false,
-  animateIcon = false,
+  onChange,
   tooltipTitle = undefined,
 }: InputProps): JSX.Element => {
   const [inputValue, setInputValue] = useState(value);
@@ -108,7 +108,10 @@ export const Input = ({
       <InputContainer>
         <InputElement
           value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
+          onChange={(e) => {
+            setInputValue(e.target.value);
+            onChange!(e);
+          }}
           placeholder={placeholder}
           disabled={inputDisabled}
           secretValue={secretValue}

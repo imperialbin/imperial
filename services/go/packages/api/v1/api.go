@@ -81,6 +81,10 @@ func GetUser(c *fiber.Ctx) error {
 	return user.FindUser(c)
 }
 
+func PatchIcon(c *fiber.Ctx) error {
+	return user.ChangeIcon(c)
+}
+
 /* Admin stuff */
 
 func GetAdmin(c *fiber.Ctx) error {

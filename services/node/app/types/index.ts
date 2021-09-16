@@ -1,3 +1,4 @@
+import { ChangeEventHandler } from "hoist-non-react-statics/node_modules/@types/react";
 import { ChangeEvent } from "react";
 import { CSSProperties } from "styled-components";
 
@@ -124,9 +125,9 @@ export interface InputProps {
   iconDisabled?: boolean;
   iconHoverColor?: string | null;
   hideIconUntilDifferent?: boolean;
+  onChange?: ChangeEventHandler<HTMLInputElement> | undefined;
   inputDisabled?: boolean;
   tooltipTitle?: string | undefined;
-  animateIcon?: boolean;
 }
 export interface SwitchProps {
   toggled?: boolean;
