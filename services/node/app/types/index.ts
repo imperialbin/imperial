@@ -120,7 +120,10 @@ export interface InputProps {
   secretValue?: boolean;
   iconClick: () => unknown;
   iconDisabled?: boolean;
+  iconHoverColor?: string | null;
+  hideIconUntilDifferent?: boolean;
   inputDisabled?: boolean;
+  tooltipTitle?: string | undefined;
   animateIcon?: boolean;
 }
 export interface SwitchProps {

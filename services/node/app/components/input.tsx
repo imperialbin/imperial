@@ -1,5 +1,7 @@
+import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import styled from "styled-components";
+import { Tooltip } from ".";
 import { InputProps, ThemeForStupidProps } from "../types";
 
 const Container = styled.div`
@@ -50,13 +52,37 @@ const InputElement = styled.input<{ secretValue: boolean }>`
   }
 `;
 
-const Icon = styled.div`
+const Icon = styled(motion.div)<{ iconHoverColor: string | null }>`
   position: absolute;
   bottom: 18px;
   right: 16px;
   cursor: pointer;
+  overflow: hidden;
   color: ${({ theme }: ThemeForStupidProps) => theme.textDarker};
+  transition: color 0.2s ease-in-out;
+
+  &:hover {
+    color: ${({ iconHoverColor }) => iconHoverColor};
+  }
 `;
+
+const iconAnimation = {
+  initial: {
+    opacity: 0,
+    x: 10,
+    width: 0,
+  },
+  changed: {
+    opacity: 1,
+    x: 0,
+    width: "unset",
+  },
+  exit: {
+    opacity: 0,
+    x: 10,
+    width: 0,
+  },
+};
 
 export const Input = ({
   placeholder,
@@ -66,10 +92,15 @@ export const Input = ({
   iconClick,
   secretValue = false,
   iconDisabled = false,
+  iconHoverColor = null,
+  hideIconUntilDifferent = false,
   inputDisabled = false,
   animateIcon = false,
+  tooltipTitle = undefined,
 }: InputProps): JSX.Element => {
   const [inputValue, setInputValue] = useState(value);
+
+  if (inputValue !== value) hideIconUntilDifferent = false;
 
   return (
     <Container>
@@ -82,7 +113,20 @@ export const Input = ({
           disabled={inputDisabled}
           secretValue={secretValue}
         />
-        {icon && <Icon onClick={iconClick}>{icon}</Icon>}
+        <AnimatePresence>
+          {icon && !hideIconUntilDifferent && (
+            <Icon
+              initial={"initial"}
+              animate={"changed"}
+              exit={"exit"}
+              variants={iconAnimation}
+              onClick={iconClick}
+              iconHoverColor={iconHoverColor}
+            >
+              {icon}
+            </Icon>
+          )}
+        </AnimatePresence>
       </InputContainer>
     </Container>
   );

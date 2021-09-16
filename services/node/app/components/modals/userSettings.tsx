@@ -1,5 +1,6 @@
+import { useContext } from "react";
 import { FaCheck, FaEdit, FaRedo } from "react-icons/fa";
-import styled from "styled-components";
+import styled, { ThemeContext } from "styled-components";
 import { Input, UserIcon, Setting } from "..";
 import { useUser } from "../../hooks";
 import { ThemeForStupidProps } from "../../types";
@@ -85,6 +86,7 @@ const TitleInfo = styled.p`
 `;
 
 export const UserSettings = (): JSX.Element => {
+  const theme = useContext(ThemeContext);
   const { user, isError, isLoading } = useUser();
 
   return (
@@ -130,6 +132,9 @@ export const UserSettings = (): JSX.Element => {
               label="User Icon"
               placeholder="GitHub username"
               icon={<FaCheck size={18} />}
+              iconHoverColor={theme.success}
+              hideIconUntilDifferent={true}
+              tooltipTitle="Update icon"
               iconClick={() => console.log("Edit Icon")}
             />
             <Input
@@ -137,6 +142,9 @@ export const UserSettings = (): JSX.Element => {
               placeholder="Your email"
               value={user.email}
               icon={<FaEdit size={18} />}
+              hideIconUntilDifferent={true}
+              iconHoverColor={theme.success}
+              tooltipTitle="Update email"
               iconClick={() => console.log("Edit email")}
             />
             <Input
