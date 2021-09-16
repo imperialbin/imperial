@@ -15,6 +15,8 @@ import {
   FaEyeSlash,
   FaCheck,
   FaCog,
+  FaArrowLeft,
+  FaArrowRight,
 } from "react-icons/fa";
 
 import { Tooltip, UserIcon } from "../components";
@@ -28,10 +30,10 @@ import { activeModal, documentEditors } from "../state/modal";
 import { supportedLanguages } from "../utils/consts";
 import { motion } from "framer-motion";
 
-const Container = styled.div`
+const Wrapper = styled(motion.div)`
   position: absolute;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   top: 0;
   right: 0;
   z-index: 500;
@@ -39,6 +41,31 @@ const Container = styled.div`
   color: ${({ theme }: ThemeForStupidProps) => theme.textLight};
   border-bottom-left-radius: 15px;
   box-shadow: 0px 0px 6px 3px rgb(0 0 0 / 25%);
+`;
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const HideNavContainer = styled(motion.div)`
+  position: absolute;
+  display: flex;
+  align-items: center;
+  padding: 0 5px;
+  width: 15px;
+  height: 100%;
+  overflow: hidden;
+  border-bottom-left-radius: 15px;
+  opacity: 0;
+  transition: all 0.15s ease-in-out;
+  cursor: pointer;
+
+  &:hover {
+    background: ${({ theme }: ThemeForStupidProps) =>
+      theme.layoutLightestOfTheBunch};
+    opacity: 1;
+  }
 `;
 
 const BrandContainer = styled(motion.div)`
@@ -78,6 +105,8 @@ const Btn = styled.button`
   cursor: pointer;
 `;
 
+const ArrowContainer = styled(motion.div)``;
+
 export const Nav = ({
   user,
   userLoading = true,
@@ -88,6 +117,7 @@ export const Nav = ({
   const [editing, setEditing] = useAtom(editingState);
   const [editors] = useAtom(documentEditors);
   const [, setActiveModal] = useAtom(activeModal);
+  const [collapsed, setCollapsed] = useState(false);
 
   // I forgot that public is a reserved name in javacrip
   const [publicStatus, setPublic] = useState(false);
@@ -185,63 +215,105 @@ export const Nav = ({
     },
   };
 
+  const navAnimation = {
+    initial: {
+      x: 0,
+    },
+    collapsed: {
+      x: "93.5%",
+    },
+  };
+
   return (
-    <Container>
-      <Link href="/">
-        <BrandContainer initial={"initial"} whileHover={"hover"}>
-          <Brand>IMPERIAL</Brand>
-          {document && (
-            <DocumentID
-              transition={{ duration: 0.3 }}
-              variants={brandAnimation}
-            >
-              {document.id}
-            </DocumentID>
-          )}
-        </BrandContainer>
-      </Link>
-      <Buttons>
-        {editor &&
-          !document?.settings.encrypted &&
-          !document?.settings.instantDelete && (
-            <>
-              <Tooltip
-                style={{ margin: "0 10px" }}
-                title={!editing ? "Edit document" : "Save document"}
+    <Wrapper
+      initial={"initial"}
+      transition={{ type: "spring", duration: 0.5, bounce: 0.2 }}
+      animate={collapsed ? "collapsed" : "initial"}
+      variants={navAnimation}
+    >
+      <HideNavContainer onClick={() => setCollapsed(!collapsed)}>
+        <ArrowContainer
+          transition={{ duration: 0.3 }}
+          animate={collapsed ? { rotate: 180 } : { rotate: 0 }}
+        >
+          <FaArrowRight />
+        </ArrowContainer>
+      </HideNavContainer>
+      <Container>
+        <Link href="/">
+          <BrandContainer initial={"initial"} whileHover={"hover"}>
+            <Brand>IMPERIAL</Brand>
+            {document && (
+              <DocumentID
+                transition={{ duration: 0.3 }}
+                variants={brandAnimation}
               >
-                <Btn onClick={!editing ? allowEdit : editDocument}>
-                  {editing ? <FaCheck size={18} /> : <FaEdit size={18} />}
-                </Btn>
-              </Tooltip>
-              {user.username === document?.creator && (
+                {document.id}
+              </DocumentID>
+            )}
+          </BrandContainer>
+        </Link>
+        <Buttons>
+          {editor &&
+            !document?.settings.encrypted &&
+            !document?.settings.instantDelete && (
+              <>
                 <Tooltip
                   style={{ margin: "0 10px" }}
-                  title="Edit document settings"
+                  title={!editing ? "Edit document" : "Save document"}
                 >
-                  <Btn
-                    onClick={() =>
-                      setActiveModal(["documentSettings", document as Document])
-                    }
+                  <Btn onClick={!editing ? allowEdit : editDocument}>
+                    {editing ? <FaCheck size={18} /> : <FaEdit size={18} />}
+                  </Btn>
+                </Tooltip>
+                {user.username === document?.creator && (
+                  <Tooltip
+                    style={{ margin: "0 10px" }}
+                    title="Edit document settings"
                   >
-                    <FaCog size={18} />
-                  </Btn>
-                </Tooltip>
-              )}
-            </>
-          )}
-        {creatingDocument ? (
-          <>
-            {user ? (
-              <>
-                <Tooltip style={{ margin: "0 10px" }} title="Public status">
-                  <Btn onClick={() => setPublic(!publicStatus)}>
-                    {publicStatus ? (
-                      <FaEye size={18} />
-                    ) : (
-                      <FaEyeSlash size={18} />
-                    )}
-                  </Btn>
-                </Tooltip>
+                    <Btn
+                      onClick={() =>
+                        setActiveModal([
+                          "documentSettings",
+                          document as Document,
+                        ])
+                      }
+                    >
+                      <FaCog size={18} />
+                    </Btn>
+                  </Tooltip>
+                )}
+              </>
+            )}
+          {creatingDocument ? (
+            <>
+              {user ? (
+                <>
+                  <Tooltip style={{ margin: "0 10px" }} title="Public status">
+                    <Btn onClick={() => setPublic(!publicStatus)}>
+                      {publicStatus ? (
+                        <FaEye size={18} />
+                      ) : (
+                        <FaEyeSlash size={18} />
+                      )}
+                    </Btn>
+                  </Tooltip>
+                  <Tooltip style={{ margin: "0 10px" }} title="Change language">
+                    <Btn
+                      onClick={() => {
+                        setActiveModal(["language", supportedLanguages]);
+                      }}
+                    >
+                      <FaMinus size={18} />
+                    </Btn>
+                  </Tooltip>
+                  <Tooltip style={{ margin: "0 10px" }} title="Change editors">
+                    <Btn onClick={() => setActiveModal(["addUsers", "balls"])}>
+                      <FaUserFriends size={18} />
+                    </Btn>
+                  </Tooltip>
+                </>
+              ) : (
                 <Tooltip style={{ margin: "0 10px" }} title="Change language">
                   <Btn
                     onClick={() => {
@@ -251,73 +323,58 @@ export const Nav = ({
                     <FaMinus size={18} />
                   </Btn>
                 </Tooltip>
-                <Tooltip style={{ margin: "0 10px" }} title="Change editors">
-                  <Btn onClick={() => setActiveModal(["addUsers", "balls"])}>
-                    <FaUserFriends size={18} />
-                  </Btn>
-                </Tooltip>
-              </>
-            ) : (
-              <Tooltip style={{ margin: "0 10px" }} title="Change language">
-                <Btn
-                  onClick={() => {
-                    setActiveModal(["language", supportedLanguages]);
-                  }}
-                >
-                  <FaMinus size={18} />
+              )}
+              <Tooltip style={{ margin: "0 10px" }} title="Save document">
+                <Btn onClick={createDocument}>
+                  <FaSave size={18} />
                 </Btn>
               </Tooltip>
-            )}
-            <Tooltip style={{ margin: "0 10px" }} title="Save document">
-              <Btn onClick={createDocument}>
-                <FaSave size={18} />
-              </Btn>
-            </Tooltip>
-          </>
-        ) : (
-          <>
-            <Tooltip style={{ margin: "0 10px" }} title="View Raw">
-              <Btn
-                onClick={() =>
-                  Router.push(
-                    `/r/${location.pathname.substr(1)}${location.search}`
-                  )
-                }
-              >
-                <FaAlignLeft size={18} />
-              </Btn>
-            </Tooltip>
-            <Tooltip style={{ margin: "0 10px" }} title="Duplicate document">
-              <Btn onClick={createDocument}>
-                <FaCopy size={18} />
-              </Btn>
-            </Tooltip>
-          </>
-        )}
-        <Tooltip style={{ margin: "0 10px" }} title="New document">
-          <Btn onClick={newDocument}>
-            <FaFileAlt size={18} />
-          </Btn>
-        </Tooltip>
-        {!userLoading ? (
-          <Tooltip
-            style={{ margin: "0 10px" }}
-            trigger="click"
-            position="bottom-end"
-            interactive={true}
-            useContext={true}
-            html={user ? <LoggedInTooltip /> : <LoggedOutTooltip />}
-            arrow
-          >
-            <UserIcon
-              style={{ cursor: "pointer" }}
-              URL={user ? user.icon : "/img/pfp.png"}
-            />
+            </>
+          ) : (
+            <>
+              <Tooltip style={{ margin: "0 10px" }} title="View Raw">
+                <Btn
+                  onClick={() =>
+                    Router.push(
+                      `/r/${location.pathname.substr(1)}${location.search}`
+                    )
+                  }
+                >
+                  <FaAlignLeft size={18} />
+                </Btn>
+              </Tooltip>
+              <Tooltip style={{ margin: "0 10px" }} title="Duplicate document">
+                <Btn onClick={createDocument}>
+                  <FaCopy size={18} />
+                </Btn>
+              </Tooltip>
+            </>
+          )}
+          <Tooltip style={{ margin: "0 10px" }} title="New document">
+            <Btn onClick={newDocument}>
+              <FaFileAlt size={18} />
+            </Btn>
           </Tooltip>
-        ) : (
-          <UserIconSkeleton style={{ margin: "0 10px", display: "block" }} />
-        )}
-      </Buttons>
-    </Container>
+          {!userLoading ? (
+            <Tooltip
+              style={{ margin: "0 10px" }}
+              trigger="click"
+              position="bottom-end"
+              interactive={true}
+              useContext={true}
+              html={user ? <LoggedInTooltip /> : <LoggedOutTooltip />}
+              arrow
+            >
+              <UserIcon
+                style={{ cursor: "pointer" }}
+                URL={user ? user.icon : "/img/pfp.png"}
+              />
+            </Tooltip>
+          ) : (
+            <UserIconSkeleton style={{ margin: "0 10px", display: "block" }} />
+          )}
+        </Buttons>
+      </Container>
+    </Wrapper>
   );
 };
