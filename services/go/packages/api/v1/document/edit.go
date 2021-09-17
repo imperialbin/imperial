@@ -120,6 +120,20 @@ func Edit(c *fiber.Ctx) error {
 		Editors:       updatedDocumentSettings.Editors,
 	}
 
+	gist, _ := document.Gist()
+
+	print(gist)
+
+	if len(gist) > 0 {
+		if len(*req.Content) > 0 {
+			_, err := EditGist(user, gist, *req.Content)
+
+			if err != nil {
+				println(err)
+			}
+		}
+	}
+
 	return c.JSON(Response{
 		Success: true,
 		Data: &CreateDocumentData{
