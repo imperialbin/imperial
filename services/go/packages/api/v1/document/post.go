@@ -49,10 +49,23 @@ func Post(c *fiber.Ctx) error {
 	longURLs := documentRequest.Settings.LongURLs.Bool
 	shortURLs := documentRequest.Settings.ShortURLs.Bool
 
+	gist := documentRequest.Settings.CreateGist.Bool
+
 	if longURLs {
 		randomString, err = GenerateRandomString(32)
 	} else if shortURLs {
 		randomString, err = GenerateRandomString(4)
+	}
+
+	var gistURL string
+	if gist {
+		if len(*user.GithubAccess) > 0 {
+			reqGist, err := CreateGist(user, randomString, content)
+
+			if err == nil {
+				gistURL = reqGist
+			}
+		}
 	}
 
 	/* If the user wants encryption */
@@ -101,6 +114,7 @@ func Post(c *fiber.Ctx) error {
 		),
 		db.Document.EncryptedIv.SetIfPresent(&encryptedIv),
 		db.Document.Creator.Set(creator),
+		db.Document.Gist.SetIfPresent(&gistURL),
 	).Exec(ctx)
 
 	if err != nil {
@@ -128,15 +142,18 @@ func Post(c *fiber.Ctx) error {
 		Encrypted:     createdDocumentSettings.Encrypted,
 		Password:      &password,
 		Public:        createdDocumentSettings.Public,
-		Editors:       createdDocumentSettings.Editors,}
+		Editors:       createdDocumentSettings.Editors}
+
 	return c.JSON(Response{
 		Success: true,
 		Data: &CreateDocumentData{
 			ID:         createdDocument.DocumentID,
+			Creator:    creator,
 			Content:    createdDocument.Content,
 			Views:      createdDocument.Views,
 			Links:      links,
 			Timestamps: timestamps,
+			Gist:       gistURL,
 			Settings:   settings,
 		},
 	})

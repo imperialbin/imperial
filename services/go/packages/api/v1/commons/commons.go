@@ -81,6 +81,7 @@ type DocumentSettingsStruct struct {
 	Password      null.String `json:"password"`
 	Public        null.Bool   `json:"public"`
 	Editors       []string    `json:"editors"`
+	CreateGist    null.Bool   `json:"createGist"`
 }
 
 type User struct {
@@ -124,6 +125,7 @@ type UserSettings struct {
 	RenderWhitespace bool `json:"renderWhitespace"`
 	WordWrap         bool `json:"wordWrap"`
 	TabSize          int  `json:"tabSize"`
+	CreateGist       bool `json:"createGist"`
 }
 
 type Links struct {
@@ -151,6 +153,7 @@ type CreateDocumentData struct {
 	Views      int                           `json:"views"`
 	Links      Links                         `json:"links"`
 	Timestamps Timestamps                    `json:"timestamps"`
+	Gist       string                        `json:"gistURL"`
 	Settings   CreatedDocumentSettingsStruct `json:"settings"`
 }
 

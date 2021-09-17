@@ -48,6 +48,7 @@ model UserSettings {
   renderWhitespace Boolean @default(false)
   wordWrap         Boolean @default(false)
   tabSize          Int     @default(4)
+  createGist       Boolean @default(false)
 
   User User[]
   @@map("user_settings")

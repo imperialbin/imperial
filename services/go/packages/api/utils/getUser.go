@@ -43,6 +43,7 @@ func GetUser(c *fiber.Ctx) (*User, error) {
 		RenderWhitespace: user.Settings().RenderWhitespace,
 		WordWrap:         user.Settings().WordWrap,
 		TabSize:          user.Settings().TabSize,
+		CreateGist:       user.Settings().CreateGist,
 	}
 
 	var discordId, _ = user.DiscordID()
