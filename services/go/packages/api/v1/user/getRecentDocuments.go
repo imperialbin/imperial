@@ -44,8 +44,38 @@ func GetRecentDocuments(c *fiber.Ctx) error {
 		})
 	}
 
+	var documentArray []DocumentData
+
+	for _, document := range getDocuments {
+		creator, _ := document.Creator()
+		gist, _ := document.Gist()
+
+		documentArray = append(documentArray, DocumentData{
+			ID:      document.ID,
+			Creator: creator,
+			Views:   document.Views,
+			Links: Links{
+				Raw:       c.BaseURL() + "/r/" + document.ID,
+				Formatted: c.BaseURL() + "/p/" + document.ID,
+			},
+			Timestamps: Timestamps{
+				Creation:   document.CreationDate.Unix(),
+				Expiration: document.ExpirationDate.Unix(),
+			},
+			Gist: gist,
+			Settings: CreatedDocumentSettingsStruct{
+				Language:      document.Settings().Language,
+				ImageEmbed:    document.Settings().ImageEmbed,
+				InstantDelete: document.Settings().InstantDelete,
+				Encrypted:     document.Settings().Encrypted,
+				Public:        document.Settings().Public,
+				Editors:       document.Settings().Editors,
+			},
+		})
+	}
+
 	return c.JSON(Response{
 		Success: true,
-		Data:    getDocuments,
+		Data:    documentArray,
 	})
 }

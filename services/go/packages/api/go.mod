@@ -4,7 +4,7 @@ go 1.16
 
 require (
 	github.com/aws/aws-sdk-go v1.40.37
-	github.com/drexedam/gravatar v0.0.0-20210327211422-e94eea8c338e // indirect
+	github.com/drexedam/gravatar v0.0.0-20210327211422-e94eea8c338e
 	github.com/go-playground/universal-translator v0.18.0 // indirect
 	github.com/go-playground/validator v9.31.0+incompatible
 	github.com/go-redis/redis/v8 v8.11.3
@@ -15,7 +15,6 @@ require (
 	github.com/iancoleman/strcase v0.0.0-20190422225806-e506e3ef7365
 	github.com/joho/godotenv v1.3.0
 	github.com/leodido/go-urn v1.2.1 // indirect
-	github.com/prequist/gomap v0.0.0-20210906185328-99026bd939c3 // indirect
 	github.com/prisma/prisma-client-go v0.10.0
 	github.com/satori/go.uuid v1.2.0 // indirect
 	github.com/shopspring/decimal v1.2.0

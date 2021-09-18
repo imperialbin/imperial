@@ -15,6 +15,9 @@ import { Input, UserIcon, Setting } from "..";
 import { useRecentDocuments, useUser } from "../../hooks";
 import { request } from "../../utils";
 import { updateUserSettings } from "../../utils/updateUserSettings";
+import dayjs from "dayjs";
+import calender from "dayjs/plugin/calendar";
+import updateLocale from "dayjs/plugin/updateLocale";
 
 const Container = styled.div`
   display: inline-flex;
@@ -149,6 +152,18 @@ export const UserSettings = (): JSX.Element => {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  dayjs.extend(calender);
+  dayjs.extend(updateLocale);
+
+  dayjs.updateLocale("en", {
+    calendar: {
+      lastDay: "[Yesterday]",
+      sameDay: "[Today]",
+      nextDay: "[Tomorrow]",
+      lastWeek: "[last] dddd",
+      nextWeek: "[next week]",
+    },
+  });
 
   return (
     <>
@@ -195,38 +210,52 @@ export const UserSettings = (): JSX.Element => {
                 {documentsLoading && "Documents loading..."}
                 {documentsError &&
                   "There was an error getting your recent documents!"}
-                {documents &&
-                  documents.map((document, key) => {
-                    console.log(document);
-                    return (
-                      <Tile
-                        key={key}
-                        style={{
-                          display: "unset",
-                          padding: "17px 10px",
-                          minWidth: 160,
-                        }}
-                      >
-                        <TileBtns>
-                          {document.settings.instantDelete && (
-                            <TileBtn>
-                              <FaEye size={12} />
-                            </TileBtn>
-                          )}
-                          {document.settings.encrypted && (
-                            <TileBtn>
-                              <FaLock size={12} />
-                            </TileBtn>
-                          )}
-                          <TileBtn>
-                            <FaTrash size={12} />
-                          </TileBtn>
-                        </TileBtns>
-                        {document.id}
-                        <TitleInfo>Deletes tomorrow</TitleInfo>
-                      </Tile>
-                    );
-                  })}
+                {documents && documents.length > 0
+                  ? documents.map((document, key) => {
+                      console.log(document.timestamps.expiration);
+                      const date = new Date(
+                        document.timestamps.expiration * 1000
+                      )
+                        .toISOString()
+                        .slice(0, 10);
+
+                      return (
+                        <Link
+                          href={`/${document.id}`}
+                          passHref={true}
+                          key={key}
+                        >
+                          <Tile
+                            style={{
+                              display: "unset",
+                              padding: "17px 8px",
+                              minWidth: 160,
+                            }}
+                          >
+                            <TileBtns>
+                              {document.settings.instantDelete && (
+                                <TileBtn>
+                                  <FaEye size={12} />
+                                </TileBtn>
+                              )}
+                              {document.settings.encrypted && (
+                                <TileBtn>
+                                  <FaLock size={12} />
+                                </TileBtn>
+                              )}
+                              <TileBtn>
+                                <FaTrash size={12} />
+                              </TileBtn>
+                            </TileBtns>
+                            {document.id}
+                            <TitleInfo>
+                              Deletes {dayjs(date).calendar()}
+                            </TitleInfo>
+                          </Tile>
+                        </Link>
+                      );
+                    })
+                  : "You don't have an recent documents"}
               </Tiles>
             </Tiles>
           </Overview>
