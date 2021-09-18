@@ -1,16 +1,18 @@
-import { useState } from "react";
-import { useContext } from "react";
+import { useState, useContext } from "react";
+import Link from "next/link";
 import {
   FaCheck,
   FaCode,
   FaEdit,
+  FaEye,
   FaLock,
   FaRedo,
+  FaTrash,
   FaUnlock,
 } from "react-icons/fa";
 import styled, { ThemeContext } from "styled-components";
 import { Input, UserIcon, Setting } from "..";
-import { useUser } from "../../hooks";
+import { useRecentDocuments, useUser } from "../../hooks";
 import { request } from "../../utils";
 import { updateUserSettings } from "../../utils/updateUserSettings";
 
@@ -20,12 +22,13 @@ const Container = styled.div`
 `;
 
 const Overview = styled.div`
-  flex: 1;
+  flex: 1.25;
   background: ${({ theme }) => theme.layoutDark};
   box-shadow: -1.7168px 6.86722px 36.0529px 8.58402px rgba(0, 0, 0, 0.25);
   padding: 10px;
   border-bottom-right-radius: 12px;
   border-top-right-radius: 12px;
+  overflow-y: scroll;
 `;
 
 const UserOverview = styled.div`
@@ -63,20 +66,43 @@ const Settings = styled.div`
 `;
 
 const Tiles = styled.div`
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
 `;
 
 const Tile = styled.div`
+  min-width: 40%;
+  position: relative;
   display: flex;
   align-items: center;
-  padding: 10px;
+  padding: 13px 10px;
   margin: 10px;
   min-height: 47px;
   border-radius: 8px;
-  font-size: 1.2em;
+  font-size: 1.3em;
   color: ${({ theme }) => theme.textLight};
   background: ${({ theme }) => theme.layoutLightestOfTheBunch};
+`;
+
+const TileBtns = styled.div`
+  position: absolute;
+  top: 0px;
+  right: 8px;
+
+  &: ;
+`;
+
+const TileBtn = styled.div`
+  display: inline-block;
+  margin: 0 3px;
+  color: ${({ theme }) => theme.textDarker};
+  cursor: pointer;
+  transition: color 0.2s ease-in-out;
+
+  &:hover {
+    color: ${({ theme }) => theme.textLight};
+  }
 `;
 
 const TileIcon = styled.img`
@@ -114,6 +140,11 @@ const Btn = styled.button`
 export const UserSettings = (): JSX.Element => {
   const theme = useContext(ThemeContext);
   const { user, isError, isLoading, mutate } = useUser();
+  const {
+    documents,
+    isError: documentsError,
+    isLoading: documentsLoading,
+  } = useRecentDocuments();
   const [iconValue, setIconValue] = useState("");
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -141,18 +172,62 @@ export const UserSettings = (): JSX.Element => {
                 {user.documentsMade}
                 <TitleInfo>Documents made</TitleInfo>
               </Tile>
-              <Tile>
-                <TileIcon src="/img/discord.svg" />
-                <TitleInfo style={{ fontSize: "1em" }}>
-                  {user.discordId ? user.discordId : "Connect"}
-                </TitleInfo>
-              </Tile>
-              <Tile>
-                <TileIcon src="/img/github.svg" />
-                <TitleInfo style={{ fontSize: "1em" }}>
-                  {user.githubAccess ? user.githubAccess : "Connect"}
-                </TitleInfo>
-              </Tile>
+              <Link href="/" passHref={true}>
+                <Tile style={{ cursor: "pointer" }}>
+                  <TileIcon src="/img/discord.svg" />
+                  <TitleInfo style={{ fontSize: "1em" }}>
+                    {user.discordId ? user.discordId : "Connect"}
+                  </TitleInfo>
+                </Tile>
+              </Link>
+              <Link href="/" passHref={true}>
+                <Tile style={{ cursor: "pointer" }}>
+                  <TileIcon src="/img/github.svg" />
+                  <TitleInfo style={{ fontSize: "1em" }}>
+                    {user.githubAccess ? "Connected" : "Connect"}
+                  </TitleInfo>
+                </Tile>
+              </Link>
+            </Tiles>
+            <Subtitle style={{ marginLeft: 12 }}>Recent documents</Subtitle>
+            <Tiles>
+              <Tiles>
+                {documentsLoading && "Documents loading..."}
+                {documentsError &&
+                  "There was an error getting your recent documents!"}
+                {documents &&
+                  documents.map((document, key) => {
+                    console.log(document);
+                    return (
+                      <Tile
+                        key={key}
+                        style={{
+                          display: "unset",
+                          padding: "17px 10px",
+                          minWidth: 160,
+                        }}
+                      >
+                        <TileBtns>
+                          {document.settings.instantDelete && (
+                            <TileBtn>
+                              <FaEye size={12} />
+                            </TileBtn>
+                          )}
+                          {document.settings.encrypted && (
+                            <TileBtn>
+                              <FaLock size={12} />
+                            </TileBtn>
+                          )}
+                          <TileBtn>
+                            <FaTrash size={12} />
+                          </TileBtn>
+                        </TileBtns>
+                        {document.id}
+                        <TitleInfo>Deletes tomorrow</TitleInfo>
+                      </Tile>
+                    );
+                  })}
+              </Tiles>
             </Tiles>
           </Overview>
 
@@ -162,6 +237,10 @@ export const UserSettings = (): JSX.Element => {
               label="User Icon"
               placeholder="GitHub username"
               icon={<FaCheck size={18} />}
+              value={user.icon
+                .match(/[^/]*.png/g)
+                ?.toString()
+                .replace(".png", "")}
               iconHoverColor={theme.success}
               hideIconUntilDifferent={true}
               tooltipTitle="Update icon"
