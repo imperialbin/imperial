@@ -110,7 +110,9 @@ export const Input = ({
           value={inputValue}
           onChange={(e) => {
             setInputValue(e.target.value);
-            onChange!(e);
+            if (onChange) {
+              onChange(e);
+            }
           }}
           placeholder={placeholder}
           disabled={inputDisabled}
