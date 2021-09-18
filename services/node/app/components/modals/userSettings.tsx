@@ -214,7 +214,6 @@ export const UserSettings = (): JSX.Element => {
                   "There was an error getting your recent documents!"}
                 {documents && documents.length > 0
                   ? documents.map((document, key) => {
-                      console.log(document.timestamps.expiration);
                       const date = new Date(
                         document.timestamps.expiration * 1000
                       )
@@ -276,6 +275,7 @@ export const UserSettings = (): JSX.Element => {
                 Logout
               </Btn>
             </Link>
+            <br />
           </Overview>
 
           <Settings>
