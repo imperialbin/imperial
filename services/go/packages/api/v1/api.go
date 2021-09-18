@@ -55,7 +55,7 @@ func PostResetPassword(c *fiber.Ctx) error {
 	return auth.ResetPassword(c)
 }
 
-func PostResetPasswordInClient(c *fiber.Ctx) error {
+func PatchResetPasswordInClient(c *fiber.Ctx) error {
 	return auth.ResetPasswordInClient(c)
 }
 
@@ -71,6 +71,10 @@ func GetMe(c *fiber.Ctx) error {
 
 func PatchMe(c *fiber.Ctx) error {
 	return user.EditMe(c)
+}
+
+func PatchEmail(c *fiber.Ctx) error {
+	return user.ChangeEmail(c)
 }
 
 func PostRegenAPIToken(c *fiber.Ctx) error {

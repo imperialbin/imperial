@@ -5,13 +5,13 @@ import (
 	. "api/utils"
 	. "api/v1/commons"
 	"context"
+	"net/mail"
 	"strings"
 
-	"github.com/drexedam/gravatar"
 	"github.com/gofiber/fiber/v2"
 )
 
-func ChangeIcon(c *fiber.Ctx) error {
+func ChangeEmail(c *fiber.Ctx) error {
 	user, err := GetUser(c)
 	if err != nil || strings.HasPrefix("IMPERIAL-", GetAuthToken(c)) {
 		return c.Status(401).JSON(Response{
@@ -20,7 +20,7 @@ func ChangeIcon(c *fiber.Ctx) error {
 		})
 	}
 
-	req := new(ChangeIconStruct)
+	req := new(ChangeEmailStruct)
 	client := GetPrisma()
 	ctx := context.Background()
 
@@ -41,17 +41,19 @@ func ChangeIcon(c *fiber.Ctx) error {
 		})
 	}
 
-	var icon = req.URL
-	if req.Method == "gravatar" {
-		icon = gravatar.New(req.URL).URL()
-	} else {
-		icon = req.URL
+	_, emailErr := mail.ParseAddress(req.NewEmail)
+
+	if emailErr != nil {
+		return c.Status(400).JSON(Response{
+			Success: false,
+			Message: "You must provide a valid email!",
+		})
 	}
 
 	_, updatedUserErr := client.User.FindUnique(
 		db.User.ID.Equals(user.ID),
 	).Update(
-		db.User.Icon.Set(icon),
+		db.User.Email.Set(req.NewEmail),
 	).Exec(ctx)
 
 	if updatedUserErr != nil {
@@ -65,7 +67,7 @@ func ChangeIcon(c *fiber.Ctx) error {
 
 	return c.JSON(Response{
 		Success: true,
-		Message: "Successfully changed your icon!",
+		Message: "Successfully changed your email!",
 		Data:    newUser,
 	})
 }

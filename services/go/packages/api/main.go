@@ -35,13 +35,14 @@ func setupRoutes(app *fiber.App) {
 	app.Post("/v1/auth/signup", middleware.CheckNotAuthenticated, v1.PostSignup)
 	app.Post("/v1/auth/requestReset", middleware.CheckNotAuthenticated, v1.PostRequestResetPassowrd)
 	app.Post("/v1/auth/reset", middleware.CheckNotAuthenticated, v1.PostResetPassword)
-	app.Post("/v1/auth/resetInClient", middleware.CheckAuthenticated, v1.PostResetPasswordInClient)
+	app.Patch("/v1/auth/resetInClient", middleware.CheckAuthenticated, v1.PatchResetPasswordInClient)
 	app.Delete("/v1/auth/logout", middleware.CheckAuthenticated, v1.DeleteLogout)
 
 	/* User(s) */
 	app.Get("/v1/user/@me", middleware.CheckAuthenticated, v1.GetMe)
 	app.Patch("/v1/user/@me", middleware.CheckAuthenticated, v1.PatchMe)
 	app.Patch("/v1/user/@me/icon", middleware.CheckAuthenticated, v1.PatchIcon)
+	app.Patch("/v1/user/@me/email", middleware.CheckAuthenticated, v1.PatchEmail)
 	app.Post("/v1/user/@me/regenAPIToken", middleware.CheckAuthenticated, v1.PostRegenAPIToken)
 	app.Get("/v1/user/@me/recentDocuments", middleware.CheckAuthenticated, v1.GetUserDocuments)
 	app.Post("/v1/user/@me", middleware.CheckAuthenticated, v1.DeleteMe) // We're making this a post because we need a body

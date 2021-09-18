@@ -151,6 +151,9 @@ export const UserSettings = (): JSX.Element => {
     isLoading: documentsLoading,
   } = useRecentDocuments();
   const [iconValue, setIconValue] = useState("");
+  const [newEmail, setNewEmail] = useState("");
+  const [emailError, setEmailError] = useState<string | null>(null);
+  const [emailSuccess, setEmailSuccess] = useState(false);
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -312,15 +315,50 @@ export const UserSettings = (): JSX.Element => {
                 mutate({ ...data }, false);
               }}
             />
+            {emailError && <p style={{ color: theme.error }}>{emailError}</p>}
+            {emailSuccess && (
+              <p style={{ color: theme.success }}>
+                {console.log(emailSuccess)}
+                Successfully changed your email!
+              </p>
+            )}
             <Input
               label="Email"
               placeholder="Your email"
               value={user.email}
+              onChange={(e) => {
+                setNewEmail(e.target.value);
+                setEmailError(null);
+                setEmailSuccess(false);
+              }}
               icon={<FaEdit size={18} />}
               hideIconUntilDifferent={true}
               iconHoverColor={theme.success}
               tooltipTitle="Update email"
-              iconClick={() => console.log("Edit email")}
+              iconClick={async () => {
+                if (!/^\S+@\S+\.\S+$/.test(newEmail)) {
+                  setEmailError("Invalid email!");
+                  return setEmailSuccess(false);
+                }
+
+                const { data, error } = await request(
+                  "/user/@me/email",
+                  "PATCH",
+                  {
+                    newEmail: newEmail,
+                  }
+                );
+
+                if (error) {
+                  setEmailSuccess(false);
+                  return setEmailError(error);
+                }
+
+                setEmailError(null);
+                setEmailSuccess(true);
+
+                mutate({ ...data }, false);
+              }}
             />
             <Input
               label="API Token"
@@ -594,19 +632,23 @@ export const UserSettings = (): JSX.Element => {
             />
             <Btn
               onClick={async () => {
-                if (newPassword !== confirmPassword)
+                if (newPassword !== confirmPassword) {
+                  setPasswordSuccess(false);
                   return setPasswordError(
                     "Your new password does not match confirm password!"
                   );
+                }
 
                 if (
                   newPassword.length < 8 ||
                   confirmPassword.length < 8 ||
                   currentPassword.length < 8
-                )
+                ) {
+                  setPasswordSuccess(false);
                   return setPasswordError(
                     "A password you provided isn't 8 characters!"
                   );
+                }
 
                 const { data, error } = await request(
                   "/auth/resetInClient",
@@ -619,6 +661,7 @@ export const UserSettings = (): JSX.Element => {
                 );
 
                 if (error) {
+                  setPasswordSuccess(false);
                   return setPasswordError(error);
                 }
 

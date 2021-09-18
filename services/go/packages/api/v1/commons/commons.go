@@ -6,6 +6,10 @@ type ChangeIconStruct struct {
 	Method string `json:"method" validate:"required"`
 	URL    string `json:"url" validate:"required"`
 }
+
+type ChangeEmailStruct struct {
+	NewEmail string `json:"newEmail" validate:"required"`
+}
 type SignupRequest struct {
 	Username        string `json:"username" validate:"required,min=3,max=24"`
 	Email           string `json:"email" validate:"required,min=3"`
