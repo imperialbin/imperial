@@ -1,6 +1,7 @@
 import { useState, useContext } from "react";
 import Link from "next/link";
 import {
+  FaArrowLeft,
   FaCheck,
   FaCode,
   FaEdit,
@@ -122,7 +123,7 @@ const TitleInfo = styled.p`
   color: ${({ theme }) => theme.textDarker};
 `;
 
-const Btn = styled.button`
+const Btn = styled.button<{ backgroundColor?: string }>`
   border: none;
   border-radius: 5px;
   margin-top: 8px;
@@ -131,7 +132,8 @@ const Btn = styled.button`
   cursor: pointer;
   opacity: 0.8;
   color: ${({ theme }) => theme.textLight};
-  background: ${({ theme }) => theme.layoutDark};
+  background: ${({ theme, backgroundColor }) =>
+    backgroundColor || theme.layoutDark};
   box-shadow: 0px 0px 13px rgba(0, 0, 0, 0.25);
   transition: all 0.2s ease-in-out;
 
@@ -230,6 +232,7 @@ export const UserSettings = (): JSX.Element => {
                               display: "unset",
                               padding: "17px 8px",
                               minWidth: 160,
+                              cursor: "pointer",
                             }}
                           >
                             <TileBtns>
@@ -258,6 +261,21 @@ export const UserSettings = (): JSX.Element => {
                   : "You don't have an recent documents"}
               </Tiles>
             </Tiles>
+            <br />
+            <br />
+            <Link href="/logout" passHref={true}>
+              <Btn
+                backgroundColor={theme.layoutLightestOfTheBunch}
+                style={{
+                  marginLeft: 10,
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <FaArrowLeft style={{ color: theme.error, marginRight: 10 }} />
+                Logout
+              </Btn>
+            </Link>
           </Overview>
 
           <Settings>
