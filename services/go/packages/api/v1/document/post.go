@@ -106,7 +106,7 @@ func Post(c *fiber.Ctx) error {
 	).Exec(ctx)
 
 	createdDocument, err := client.Document.CreateOne(
-		db.Document.DocumentID.Set(randomString),
+		db.Document.ID.Set(randomString),
 		db.Document.Content.Set(content),
 		db.Document.ExpirationDate.Set(time.Now().UTC().AddDate(0, 0, int(documentRequest.Settings.Expiration.Int64))),
 		db.Document.Settings.Link(
@@ -131,8 +131,8 @@ func Post(c *fiber.Ctx) error {
 	}
 
 	links := Links{
-		Raw:       c.BaseURL() + "/r/" + createdDocument.DocumentID,
-		Formatted: c.BaseURL() + "/p/" + createdDocument.DocumentID,
+		Raw:       c.BaseURL() + "/r/" + createdDocument.ID,
+		Formatted: c.BaseURL() + "/p/" + createdDocument.ID,
 	}
 
 	settings := CreatedDocumentSettingsStruct{
@@ -147,7 +147,7 @@ func Post(c *fiber.Ctx) error {
 	return c.JSON(Response{
 		Success: true,
 		Data: &CreateDocumentData{
-			ID:         createdDocument.DocumentID,
+			ID:         createdDocument.ID,
 			Creator:    creator,
 			Content:    createdDocument.Content,
 			Views:      createdDocument.Views,

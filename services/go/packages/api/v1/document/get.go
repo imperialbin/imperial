@@ -18,7 +18,7 @@ func Get(c *fiber.Ctx) error {
 	ctx := context.Background()
 
 	document, err := client.Document.FindFirst(
-		db.Document.DocumentID.Equals(id),
+		db.Document.ID.Equals(id),
 	).With(
 		db.Document.Settings.Fetch(),
 	).Exec(ctx)
@@ -57,8 +57,8 @@ func Get(c *fiber.Ctx) error {
 	}
 
 	links := Links{
-		Raw:       c.BaseURL() + "/r/" + document.DocumentID,
-		Formatted: c.BaseURL() + document.DocumentID,
+		Raw:       c.BaseURL() + "/r/" + document.ID,
+		Formatted: c.BaseURL() + document.ID,
 	}
 
 	settings := CreatedDocumentSettingsStruct{
@@ -72,7 +72,7 @@ func Get(c *fiber.Ctx) error {
 
 	if document.Settings().InstantDelete {
 		deletedDocument, _ := client.Document.FindUnique(
-			db.Document.DocumentID.Equals(id),
+			db.Document.ID.Equals(id),
 		).Delete().Exec(ctx)
 
 		client.DocumentSettings.FindUnique(
@@ -82,7 +82,7 @@ func Get(c *fiber.Ctx) error {
 
 	/* Increase view count by one */
 	client.Document.FindUnique(
-		db.Document.DocumentID.Equals(id),
+		db.Document.ID.Equals(id),
 	).Update(
 		db.Document.Views.Increment(1),
 	).Exec(ctx)
@@ -92,7 +92,7 @@ func Get(c *fiber.Ctx) error {
 	return c.JSON(Response{
 		Success: true,
 		Data: &CreateDocumentData{
-			ID:         document.DocumentID,
+			ID:         document.ID,
 			Content:    content,
 			Creator:    Creator,
 			Views:      document.Views + 1, /* We're + 1ing here because we incremented the value before we got the document */

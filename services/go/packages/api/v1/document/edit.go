@@ -33,7 +33,7 @@ func Edit(c *fiber.Ctx) error {
 	}
 
 	document, err := client.Document.FindFirst(
-		db.Document.DocumentID.Equals(req.ID),
+		db.Document.ID.Equals(req.ID),
 	).With(
 		db.Document.Settings.Fetch(),
 	).Exec(ctx)
@@ -84,7 +84,7 @@ func Edit(c *fiber.Ctx) error {
 	}
 
 	updatedDocument, _ := client.Document.FindUnique(
-		db.Document.DocumentID.Equals(req.ID),
+		db.Document.ID.Equals(req.ID),
 	).Update(
 		db.Document.Content.SetIfPresent(req.Content),
 		db.Document.ExpirationDate.SetIfPresent(&expiration),
@@ -107,8 +107,8 @@ func Edit(c *fiber.Ctx) error {
 	}
 
 	links := Links{
-		Raw:       c.BaseURL() + "/r/" + updatedDocument.DocumentID,
-		Formatted: c.BaseURL() + "/p/" + updatedDocument.DocumentID,
+		Raw:       c.BaseURL() + "/r/" + updatedDocument.ID,
+		Formatted: c.BaseURL() + "/p/" + updatedDocument.ID,
 	}
 
 	settings := CreatedDocumentSettingsStruct{
@@ -137,7 +137,7 @@ func Edit(c *fiber.Ctx) error {
 	return c.JSON(Response{
 		Success: true,
 		Data: &CreateDocumentData{
-			ID:         updatedDocument.DocumentID,
+			ID:         updatedDocument.ID,
 			Content:    updatedDocument.Content,
 			Views:      updatedDocument.Views,
 			Links:      links,

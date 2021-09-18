@@ -24,7 +24,7 @@ func Delete(c *fiber.Ctx) error {
 	}
 
 	document, err := client.Document.FindUnique(
-		db.Document.DocumentID.Equals(id),
+		db.Document.ID.Equals(id),
 	).With(
 		db.Document.Settings.Fetch(),
 	).Exec(ctx)
@@ -46,11 +46,11 @@ func Delete(c *fiber.Ctx) error {
 	}
 
 	deletedDocument, _ := client.Document.FindUnique(
-		db.Document.DocumentID.Equals(id),
+		db.Document.ID.Equals(id),
 	).Delete().Exec(ctx)
 
 	client.DocumentSettings.FindUnique(
-		db.DocumentSettings.ID.Equals(deletedDocument.DocumentID),
+		db.DocumentSettings.ID.Equals(deletedDocument.ID),
 	).Delete().Exec(ctx)
 
 	return c.JSON(Response{
