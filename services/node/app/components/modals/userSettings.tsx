@@ -261,7 +261,6 @@ export const UserSettings = (): JSX.Element => {
               </Tiles>
             </Tiles>
             <br />
-            <br />
             <Link href="/logout" passHref={true}>
               <Btn
                 backgroundColor={theme.layoutLightestOfTheBunch}
