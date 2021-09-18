@@ -128,6 +128,7 @@ export interface InputProps {
   onChange?: ChangeEventHandler<HTMLInputElement> | undefined;
   inputDisabled?: boolean;
   tooltipTitle?: string | undefined;
+  type?: string;
 }
 export interface SwitchProps {
   toggled?: boolean;

@@ -154,9 +154,11 @@ export const UserSettings = (): JSX.Element => {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [passwordError, setPasswordError] = useState<string | null>(null);
+  const [passwordSuccess, setPasswordSuccess] = useState(false);
+
   dayjs.extend(calender);
   dayjs.extend(updateLocale);
-
   dayjs.updateLocale("en", {
     calendar: {
       lastDay: "[Yesterday]",
@@ -558,12 +560,21 @@ export const UserSettings = (): JSX.Element => {
             />
             <br />
             <Subtitle>Reset password</Subtitle>
+            {passwordError && (
+              <p style={{ color: theme.error }}>{passwordError}</p>
+            )}
+            {passwordSuccess && (
+              <p style={{ color: theme.success }}>
+                Successfully reset your password!
+              </p>
+            )}
             <Input
               label="Current password"
               placeholder="Enter your current password"
               onChange={(e) => setCurrentPassword(e.target.value)}
               icon={<FaUnlock size={18} />}
               iconClick={() => null}
+              type="password"
             />
             <Input
               label="New password"
@@ -571,18 +582,48 @@ export const UserSettings = (): JSX.Element => {
               icon={<FaLock size={18} />}
               onChange={(e) => setNewPassword(e.target.value)}
               iconClick={() => null}
+              type="password"
             />
             <Input
               label="Confirm password"
               placeholder="Re-enter new password."
               icon={<FaLock size={18} />}
-              onChange={(e) => setCurrentPassword(e.target.value)}
+              onChange={(e) => setConfirmPassword(e.target.value)}
               iconClick={() => null}
+              type="password"
             />
             <Btn
-              onClick={() => {
-                if (newPassword !== confirmPassword) return;
-                console.log("bruh");
+              onClick={async () => {
+                if (newPassword !== confirmPassword)
+                  return setPasswordError(
+                    "Your new password does not match confirm password!"
+                  );
+
+                if (
+                  newPassword.length < 8 ||
+                  confirmPassword.length < 8 ||
+                  currentPassword.length < 8
+                )
+                  return setPasswordError(
+                    "A password you provided isn't 8 characters!"
+                  );
+
+                const { data, error } = await request(
+                  "/auth/resetInClient",
+                  "POST",
+                  {
+                    currentPassword: currentPassword,
+                    newPassword: newPassword,
+                    confirmPassword: confirmPassword,
+                  }
+                );
+
+                if (error) {
+                  return setPasswordError(error);
+                }
+
+                setPasswordError(null);
+                setPasswordSuccess(true);
               }}
             >
               Reset password

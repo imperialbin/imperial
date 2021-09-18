@@ -27,6 +27,11 @@ type ResetPasswordStruct struct {
 	Password        string `json:"password" validate:"required"`
 	ConfirmPassword string `json:"confirmPassword" validate:"required"`
 }
+type ResetPasswordInClientStruct struct {
+	CurrentPassword string `json:"currentPassword" validate:"required"`
+	NewPassword     string `json:"newPassword" validate:"required"`
+	ConfirmPassword string `json:"confirmPassword" validate:"required"`
+}
 
 type DeleteAccount struct {
 	Password        string `json:"password", validate:"required"`

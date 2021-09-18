@@ -55,6 +55,10 @@ func PostResetPassword(c *fiber.Ctx) error {
 	return auth.ResetPassword(c)
 }
 
+func PostResetPasswordInClient(c *fiber.Ctx) error {
+	return auth.ResetPasswordInClient(c)
+}
+
 func DeleteLogout(c *fiber.Ctx) error {
 	return auth.Logout(c)
 }

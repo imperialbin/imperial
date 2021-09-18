@@ -17,7 +17,7 @@ export const request = async (
   const data = await request.json();
 
   if (!request.ok) {
-    return { data: data, error: request.status };
+    return { data: data, error: data.message || request.status };
   }
 
   return { data: data, error: false };
