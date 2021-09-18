@@ -3,7 +3,6 @@ import Link from "next/link";
 import {
   FaArrowLeft,
   FaCheck,
-  FaCode,
   FaEdit,
   FaEye,
   FaLock,
@@ -142,6 +141,20 @@ const Btn = styled.button<{ backgroundColor?: string }>`
   }
 `;
 
+interface EmailState {
+  newEmail: string;
+  emailError: string | null;
+  emailSuccess: boolean;
+}
+
+interface PasswordState {
+  currentPassword: string;
+  newPassword: string;
+  confirmPassword: string;
+  passwordError: string | null;
+  passwordSuccess: boolean;
+}
+
 export const UserSettings = (): JSX.Element => {
   const theme = useContext(ThemeContext);
   const { user, isError, isLoading, mutate } = useUser();
@@ -151,14 +164,18 @@ export const UserSettings = (): JSX.Element => {
     isLoading: documentsLoading,
   } = useRecentDocuments();
   const [iconValue, setIconValue] = useState("");
-  const [newEmail, setNewEmail] = useState("");
-  const [emailError, setEmailError] = useState<string | null>(null);
-  const [emailSuccess, setEmailSuccess] = useState(false);
-  const [currentPassword, setCurrentPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [passwordError, setPasswordError] = useState<string | null>(null);
-  const [passwordSuccess, setPasswordSuccess] = useState(false);
+  const [email, setEmail] = useState<EmailState>({
+    emailError: null,
+    emailSuccess: false,
+    newEmail: "",
+  });
+  const [password, setPassword] = useState<PasswordState>({
+    currentPassword: "",
+    newPassword: "",
+    confirmPassword: "",
+    passwordError: null,
+    passwordSuccess: false,
+  });
 
   dayjs.extend(calender);
   dayjs.extend(updateLocale);
@@ -315,10 +332,11 @@ export const UserSettings = (): JSX.Element => {
                 mutate({ ...data }, false);
               }}
             />
-            {emailError && <p style={{ color: theme.error }}>{emailError}</p>}
-            {emailSuccess && (
+            {email.emailError && (
+              <p style={{ color: theme.error }}>{email.emailError}</p>
+            )}
+            {email.emailSuccess && (
               <p style={{ color: theme.success }}>
-                {console.log(emailSuccess)}
                 Successfully changed your email!
               </p>
             )}
@@ -327,35 +345,45 @@ export const UserSettings = (): JSX.Element => {
               placeholder="Your email"
               value={user.email}
               onChange={(e) => {
-                setNewEmail(e.target.value);
-                setEmailError(null);
-                setEmailSuccess(false);
+                setEmail({
+                  newEmail: e.target.value,
+                  emailSuccess: false,
+                  emailError: null,
+                });
               }}
               icon={<FaEdit size={18} />}
               hideIconUntilDifferent={true}
               iconHoverColor={theme.success}
               tooltipTitle="Update email"
               iconClick={async () => {
-                if (!/^\S+@\S+\.\S+$/.test(newEmail)) {
-                  setEmailError("Invalid email!");
-                  return setEmailSuccess(false);
+                if (!/^\S+@\S+\.\S+$/.test(email.newEmail)) {
+                  return setEmail({
+                    ...email,
+                    emailError: "Invalid email!",
+                    emailSuccess: false,
+                  });
                 }
 
                 const { data, error } = await request(
                   "/user/@me/email",
                   "PATCH",
                   {
-                    newEmail: newEmail,
+                    newEmail: email.newEmail,
                   }
                 );
 
-                if (error) {
-                  setEmailSuccess(false);
-                  return setEmailError(error);
-                }
+                if (error)
+                  return setEmail({
+                    ...email,
+                    emailError: error,
+                    emailSuccess: false,
+                  });
 
-                setEmailError(null);
-                setEmailSuccess(true);
+                setEmail({
+                  ...email,
+                  emailError: null,
+                  emailSuccess: true,
+                });
 
                 mutate({ ...data }, false);
               }}
@@ -598,10 +626,10 @@ export const UserSettings = (): JSX.Element => {
             />
             <br />
             <Subtitle>Reset password</Subtitle>
-            {passwordError && (
-              <p style={{ color: theme.error }}>{passwordError}</p>
+            {password.passwordError && (
+              <p style={{ color: theme.error }}>{password.passwordError}</p>
             )}
-            {passwordSuccess && (
+            {password.passwordSuccess && (
               <p style={{ color: theme.success }}>
                 Successfully reset your password!
               </p>
@@ -609,7 +637,14 @@ export const UserSettings = (): JSX.Element => {
             <Input
               label="Current password"
               placeholder="Enter your current password"
-              onChange={(e) => setCurrentPassword(e.target.value)}
+              onChange={(e) =>
+                setPassword({
+                  ...password,
+                  currentPassword: e.target.value,
+                  passwordSuccess: false,
+                  passwordError: null,
+                })
+              }
               icon={<FaUnlock size={18} />}
               iconClick={() => null}
               type="password"
@@ -618,7 +653,14 @@ export const UserSettings = (): JSX.Element => {
               label="New password"
               placeholder="Enter your new password"
               icon={<FaLock size={18} />}
-              onChange={(e) => setNewPassword(e.target.value)}
+              onChange={(e) =>
+                setPassword({
+                  ...password,
+                  newPassword: e.target.value,
+                  passwordSuccess: false,
+                  passwordError: null,
+                })
+              }
               iconClick={() => null}
               type="password"
             />
@@ -626,47 +668,63 @@ export const UserSettings = (): JSX.Element => {
               label="Confirm password"
               placeholder="Re-enter new password."
               icon={<FaLock size={18} />}
-              onChange={(e) => setConfirmPassword(e.target.value)}
+              onChange={(e) =>
+                setPassword({
+                  ...password,
+                  confirmPassword: e.target.value,
+                  passwordSuccess: false,
+                  passwordError: null,
+                })
+              }
               iconClick={() => null}
               type="password"
             />
             <Btn
               onClick={async () => {
-                if (newPassword !== confirmPassword) {
-                  setPasswordSuccess(false);
-                  return setPasswordError(
-                    "Your new password does not match confirm password!"
-                  );
-                }
+                if (password.newPassword !== password.confirmPassword)
+                  return setPassword({
+                    ...password,
+                    passwordSuccess: false,
+                    passwordError:
+                      "Your new password does not match confirm password!",
+                  });
 
                 if (
-                  newPassword.length < 8 ||
-                  confirmPassword.length < 8 ||
-                  currentPassword.length < 8
-                ) {
-                  setPasswordSuccess(false);
-                  return setPasswordError(
-                    "A password you provided isn't 8 characters!"
-                  );
-                }
+                  password.newPassword.length < 8 ||
+                  password.confirmPassword.length < 8 ||
+                  password.currentPassword.length < 8
+                )
+                  return setPassword({
+                    ...password,
+                    passwordSuccess: false,
+                    passwordError:
+                      "A password you provided isn't 8 characters!",
+                  });
 
                 const { data, error } = await request(
                   "/auth/resetInClient",
-                  "POST",
+                  "PATCH",
                   {
-                    currentPassword: currentPassword,
-                    newPassword: newPassword,
-                    confirmPassword: confirmPassword,
+                    currentPassword: password.currentPassword,
+                    newPassword: password.newPassword,
+                    confirmPassword: password.confirmPassword,
                   }
                 );
 
-                if (error) {
-                  setPasswordSuccess(false);
-                  return setPasswordError(error);
-                }
+                if (error)
+                  return setPassword({
+                    ...password,
+                    passwordSuccess: false,
+                    passwordError: error,
+                  });
 
-                setPasswordError(null);
-                setPasswordSuccess(true);
+                setPassword({
+                  confirmPassword: "",
+                  currentPassword: "",
+                  newPassword: "",
+                  passwordSuccess: true,
+                  passwordError: null,
+                });
               }}
             >
               Reset password
