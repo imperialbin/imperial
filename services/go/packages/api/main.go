@@ -42,6 +42,7 @@ func setupRoutes(app *fiber.App) {
 	app.Patch("/v1/user/@me", middleware.CheckAuthenticated, v1.PatchMe)
 	app.Patch("/v1/user/@me/icon", middleware.CheckAuthenticated, v1.PatchIcon)
 	app.Post("/v1/user/@me/regenAPIToken", middleware.CheckAuthenticated, v1.PostRegenAPIToken)
+	app.Get("/v1/user/@me/recentDocuments", middleware.CheckAuthenticated, v1.GetUserDocuments)
 	app.Post("/v1/user/@me", middleware.CheckAuthenticated, v1.DeleteMe) // We're making this a post because we need a body
 	app.Get("/v1/user/:username", middleware.CheckAuthenticated, v1.GetUser)
 

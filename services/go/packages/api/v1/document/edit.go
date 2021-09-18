@@ -35,7 +35,7 @@ func Edit(c *fiber.Ctx) error {
 	document, err := client.Document.FindFirst(
 		db.Document.DocumentID.Equals(req.ID),
 	).With(
-		db.Document.DocumentSettings.Fetch(),
+		db.Document.Settings.Fetch(),
 	).Exec(ctx)
 
 	if err != nil {
@@ -57,14 +57,14 @@ func Edit(c *fiber.Ctx) error {
 	/* Check if user is in editors and if not yeet them out */
 	documentCreator, _ := document.Creator()
 
-	if user.Username != documentCreator && !ArrayContains(document.DocumentSettings().Editors, user.Username) {
+	if user.Username != documentCreator && !ArrayContains(document.Settings().Editors, user.Username) {
 		return c.Status(401).JSON(Response{
 			Success: false,
 			Message: "You are not authorized to edit this document!",
 		})
 	}
 
-	if document.DocumentSettings().Encrypted {
+	if document.Settings().Encrypted {
 		return c.Status(400).JSON(Response{
 			Success: false,
 			Message: "You can not edit an encrypted document yet!",

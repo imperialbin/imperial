@@ -109,7 +109,7 @@ func Post(c *fiber.Ctx) error {
 		db.Document.DocumentID.Set(randomString),
 		db.Document.Content.Set(content),
 		db.Document.ExpirationDate.Set(time.Now().UTC().AddDate(0, 0, int(documentRequest.Settings.Expiration.Int64))),
-		db.Document.DocumentSettings.Link(
+		db.Document.Settings.Link(
 			db.DocumentSettings.ID.Equals(createdDocumentSettings.ID),
 		),
 		db.Document.EncryptedIv.SetIfPresent(&encryptedIv),

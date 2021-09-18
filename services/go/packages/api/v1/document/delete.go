@@ -26,7 +26,7 @@ func Delete(c *fiber.Ctx) error {
 	document, err := client.Document.FindUnique(
 		db.Document.DocumentID.Equals(id),
 	).With(
-		db.Document.DocumentSettings.Fetch(),
+		db.Document.Settings.Fetch(),
 	).Exec(ctx)
 
 	if err != nil {

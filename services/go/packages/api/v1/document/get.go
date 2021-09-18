@@ -20,7 +20,7 @@ func Get(c *fiber.Ctx) error {
 	document, err := client.Document.FindFirst(
 		db.Document.DocumentID.Equals(id),
 	).With(
-		db.Document.DocumentSettings.Fetch(),
+		db.Document.Settings.Fetch(),
 	).Exec(ctx)
 
 	if err != nil {
@@ -32,7 +32,7 @@ func Get(c *fiber.Ctx) error {
 	/* When the psychopath decides that he would like to decrypt his document */
 	var content = document.Content
 
-	if document.DocumentSettings().Encrypted {
+	if document.Settings().Encrypted {
 		if len(password) < 1 {
 			return c.Status(400).JSON(Response{
 				Success: false,
@@ -62,15 +62,15 @@ func Get(c *fiber.Ctx) error {
 	}
 
 	settings := CreatedDocumentSettingsStruct{
-		Language:      document.DocumentSettings().Language,
-		ImageEmbed:    document.DocumentSettings().ImageEmbed,
-		InstantDelete: document.DocumentSettings().InstantDelete,
-		Encrypted:     document.DocumentSettings().Encrypted,
-		Public:        document.DocumentSettings().Public,
-		Editors:       document.DocumentSettings().Editors,
+		Language:      document.Settings().Language,
+		ImageEmbed:    document.Settings().ImageEmbed,
+		InstantDelete: document.Settings().InstantDelete,
+		Encrypted:     document.Settings().Encrypted,
+		Public:        document.Settings().Public,
+		Editors:       document.Settings().Editors,
 	}
 
-	if document.DocumentSettings().InstantDelete {
+	if document.Settings().InstantDelete {
 		deletedDocument, _ := client.Document.FindUnique(
 			db.Document.DocumentID.Equals(id),
 		).Delete().Exec(ctx)

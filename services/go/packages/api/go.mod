@@ -15,6 +15,7 @@ require (
 	github.com/iancoleman/strcase v0.0.0-20190422225806-e506e3ef7365
 	github.com/joho/godotenv v1.3.0
 	github.com/leodido/go-urn v1.2.1 // indirect
+	github.com/prequist/gomap v0.0.0-20210906185328-99026bd939c3 // indirect
 	github.com/prisma/prisma-client-go v0.10.0
 	github.com/satori/go.uuid v1.2.0 // indirect
 	github.com/shopspring/decimal v1.2.0

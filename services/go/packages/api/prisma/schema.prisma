@@ -61,7 +61,7 @@ model Document {
   creator            String?
   creationDate       DateTime         @default(now())
   expirationDate     DateTime
-  documentSettings   DocumentSettings @relation(fields: [documentSettingsId], references: [id], onDelete: Cascade)
+  settings           DocumentSettings @relation(fields: [documentSettingsId], references: [id], onDelete: Cascade)
   documentSettingsId String
   gist               String?
   views              Int              @default(0)

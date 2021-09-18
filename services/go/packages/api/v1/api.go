@@ -85,6 +85,10 @@ func PatchIcon(c *fiber.Ctx) error {
 	return user.ChangeIcon(c)
 }
 
+func GetUserDocuments(c *fiber.Ctx) error {
+	return user.GetRecentDocuments(c)
+}
+
 /* Admin stuff */
 
 func GetAdmin(c *fiber.Ctx) error {
