@@ -59,6 +59,10 @@ func setupRoutes(app *fiber.App) {
 	/* Admin */
 	app.Get("/v1/admin", middleware.CheckAdmin, v1.GetAdmin)
 	app.Post("/v1/admin/user", middleware.CheckAdmin, v1.PostBanUser)
+
+	/* OAuth */
+	app.Get("/v1/oauth/discord", middleware.CheckAuthenticated, v1.GetDiscord)
+	app.Get("/v1/oauth/discord/callback", middleware.CheckAuthenticated, v1.GetDiscordCallback)
 }
 
 func main() {
@@ -69,7 +73,7 @@ func main() {
 		StrictRouting: true,
 		ServerHeader:  "IMPERIAL API",
 		AppName:       "IMPERIAL API v1.0",
-		BodyLimit:     0.5 * 1024 * 1024,
+		BodyLimit:     0.25 * 1024 * 1024,
 	})
 
 	app.Use(cors.New(cors.Config{

@@ -5,6 +5,7 @@ import (
 	"api/v1/auth"
 	. "api/v1/commons"
 	"api/v1/document"
+	"api/v1/oauth"
 	"api/v1/user"
 
 	"github.com/gofiber/fiber/v2"
@@ -109,4 +110,14 @@ func GetAdmin(c *fiber.Ctx) error {
 
 func PostBanUser(c *fiber.Ctx) error {
 	return admin.BanUser(c)
+}
+
+/* OAuth */
+
+func GetDiscord(c *fiber.Ctx) error {
+	return oauth.GetDiscord(c)
+}
+
+func GetDiscordCallback(c *fiber.Ctx) error {
+	return oauth.GetCallbackDiscord(c)
 }
