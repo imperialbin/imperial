@@ -4,7 +4,7 @@ import (
 	"api/middleware"
 	"api/prisma/db"
 	. "api/utils"
-	v1 "api/v1"
+	v1Routes "api/v1"
 	. "api/v1/commons"
 	"log"
 	"os"
@@ -30,39 +30,40 @@ func setupRoutes(app *fiber.App) {
 	})
 
 	/* VERSION 1 API */
-	app.Get("/v1", v1.Introduction)
+	v1 := app.Group("/v1")
+	v1.Get("/", v1Routes.Introduction)
 
 	/* Authentication */
-	app.Post("/v1/auth/login", middleware.CheckNotAuthenticated, v1.PostLogin)
-	app.Post("/v1/auth/signup", middleware.CheckNotAuthenticated, v1.PostSignup)
-	app.Post("/v1/auth/requestReset", middleware.CheckNotAuthenticated, v1.PostRequestResetPassowrd)
-	app.Post("/v1/auth/reset", middleware.CheckNotAuthenticated, v1.PostResetPassword)
-	app.Patch("/v1/auth/resetInClient", middleware.CheckAuthenticated, v1.PatchResetPasswordInClient)
-	app.Delete("/v1/auth/logout", middleware.CheckAuthenticated, v1.DeleteLogout)
+	v1.Post("/auth/login", middleware.CheckNotAuthenticated, v1Routes.PostLogin)
+	v1.Post("/auth/signup", middleware.CheckNotAuthenticated, v1Routes.PostSignup)
+	v1.Post("/auth/requestReset", middleware.CheckNotAuthenticated, v1Routes.PostRequestResetPassowrd)
+	v1.Post("/auth/reset", middleware.CheckNotAuthenticated, v1Routes.PostResetPassword)
+	v1.Patch("/auth/resetInClient", middleware.CheckAuthenticated, v1Routes.PatchResetPasswordInClient)
+	v1.Delete("/auth/logout", middleware.CheckAuthenticated, v1Routes.DeleteLogout)
 
 	/* User(s) */
-	app.Get("/v1/user/@me", middleware.CheckAuthenticated, v1.GetMe)
-	app.Patch("/v1/user/@me", middleware.CheckAuthenticated, v1.PatchMe)
-	app.Patch("/v1/user/@me/icon", middleware.CheckAuthenticated, v1.PatchIcon)
-	app.Patch("/v1/user/@me/email", middleware.CheckAuthenticated, v1.PatchEmail)
-	app.Post("/v1/user/@me/regenAPIToken", middleware.CheckAuthenticated, v1.PostRegenAPIToken)
-	app.Get("/v1/user/@me/recentDocuments", middleware.CheckAuthenticated, v1.GetUserDocuments)
-	app.Post("/v1/user/@me", middleware.CheckAuthenticated, v1.DeleteMe) // We're making this a post because we need a body
-	app.Get("/v1/user/:username", middleware.CheckAuthenticated, v1.GetUser)
+	v1.Get("/user/@me", middleware.CheckAuthenticated, v1Routes.GetMe)
+	v1.Patch("/user/@me", middleware.CheckAuthenticated, v1Routes.PatchMe)
+	v1.Patch("/user/@me/icon", middleware.CheckAuthenticated, v1Routes.PatchIcon)
+	v1.Patch("/user/@me/email", middleware.CheckAuthenticated, v1Routes.PatchEmail)
+	v1.Post("/user/@me/regenAPIToken", middleware.CheckAuthenticated, v1Routes.PostRegenAPIToken)
+	v1.Get("/user/@me/recentDocuments", middleware.CheckAuthenticated, v1Routes.GetUserDocuments)
+	v1.Post("/user/@me", middleware.CheckAuthenticated, v1Routes.DeleteMe) // We're making this a post because we need a body
+	v1.Get("/user/:username", middleware.CheckAuthenticated, v1Routes.GetUser)
 
 	/* Documents */
-	app.Get("/v1/document/:id", v1.GetDocument)
-	app.Post("/v1/document", v1.PostDocument)
-	app.Patch("/v1/document", middleware.CheckAuthenticated, v1.PatchDocument)
-	app.Delete("/v1/document/:id", middleware.CheckAuthenticated, v1.DeleteDocument)
+	v1.Get("/document/:id", v1Routes.GetDocument)
+	v1.Post("/document", v1Routes.PostDocument)
+	v1.Patch("/document", middleware.CheckAuthenticated, v1Routes.PatchDocument)
+	v1.Delete("/document/:id", middleware.CheckAuthenticated, v1Routes.DeleteDocument)
 
 	/* Admin */
-	app.Get("/v1/admin", middleware.CheckAdmin, v1.GetAdmin)
-	app.Post("/v1/admin/user", middleware.CheckAdmin, v1.PostBanUser)
+	v1.Get("/admin", middleware.CheckAdmin, v1Routes.GetAdmin)
+	v1.Post("/admin/user", middleware.CheckAdmin, v1Routes.PostBanUser)
 
 	/* OAuth */
-	app.Get("/v1/oauth/discord", middleware.CheckAuthenticated, v1.GetDiscord)
-	app.Get("/v1/oauth/discord/callback", middleware.CheckAuthenticated, v1.GetDiscordCallback)
+	v1.Get("/oauth/discord", middleware.CheckAuthenticated, v1Routes.GetDiscord)
+	v1.Get("/oauth/discord/callback", middleware.CheckAuthenticated, v1Routes.GetDiscordCallback)
 }
 
 func main() {
