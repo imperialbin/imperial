@@ -23,12 +23,11 @@ const Home: NextPage = () => {
   }, []);
 
   return (
-    <div>
+    <>
       <DragandDrop />
       <Nav user={user} userLoading={isLoading} creatingDocument />
-
       <Editor user={user} value={clipboardText as string} />
-    </div>
+    </>
   );
 };
 
