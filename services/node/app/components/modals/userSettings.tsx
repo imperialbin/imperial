@@ -590,6 +590,27 @@ export const UserSettings = (): JSX.Element => {
               description="When enabled, the editor will wrap instead of enabling overflow."
             />
             <Setting
+              title="Font size"
+              type="dropdown"
+              initialValue={user.settings.fontSize}
+              mode="expiration"
+              numberLimit={18}
+              onToggle={async (e) => {
+                const { data, error } = await updateUserSettings({
+                  fontSize: Number(e?.target.value),
+                });
+
+                if (error && !data) {
+                  return console.log(
+                    "There was an error whilst editing document settings!"
+                  );
+                }
+
+                mutate({ ...data }, false);
+              }}
+              description="Change font size of the editor!"
+            />
+            <Setting
               title="Tab size"
               type="dropdown"
               initialValue={user.settings.tabSize}
