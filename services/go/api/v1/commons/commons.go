@@ -151,18 +151,18 @@ type CreatedDocumentSettingsStruct struct {
 	ImageEmbed    bool     `json:"imageEmbed"`
 	InstantDelete bool     `json:"instantDelete"`
 	Encrypted     bool     `json:"encrypted"`
-	Password      *string  `json:"password"`
+	Password      *string  `json:"password,omitempty"`
 	Public        bool     `json:"public"`
 	Editors       []string `json:"editors"`
 }
 type CreateDocumentData struct {
 	ID         string                        `json:"id"`
 	Content    string                        `json:"content"`
-	Creator    string                        `json:"creator"`
+	Creator    string                        `json:"creator,omitempty"`
 	Views      int                           `json:"views"`
 	Links      Links                         `json:"links"`
 	Timestamps Timestamps                    `json:"timestamps"`
-	Gist       string                        `json:"gistURL"`
+	Gist       string                        `json:"gistURL,omitempty"`
 	Settings   CreatedDocumentSettingsStruct `json:"settings"`
 }
 
