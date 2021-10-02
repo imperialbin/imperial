@@ -59,6 +59,21 @@ const Span = styled.span`
   color: ${({ theme }) => theme.textDarker};
 `;
 
+const Tip = styled.span`
+  position: absolute;
+  left: 22px;
+  bottom: 20px;
+  font-size: 0.8em;
+  opacity: 0.8;
+`;
+
+const TipAccent = styled.span`
+  font-size: 0.9em;
+  font-weight: 700;
+  padding-right: 8px;
+  color: ${({ theme }) => theme.success};
+`;
+
 const animations = {
   initial: {
     opacity: 0,
@@ -132,7 +147,13 @@ export const DragandDrop = () => {
       const reader = new FileReader();
       reader.readAsText(e?.dataTransfer?.files[0] as Blob);
       reader.addEventListener("load", () =>
-        window.monaco.editor.getModels()[0].setValue(reader.result)
+        window.monaco.editor
+          .getModels()[0]
+          .setValue(
+            e.shiftKey
+              ? reader.result
+              : window.monaco.editor.getModels()[0].getValue() + reader.result
+          )
       );
     };
 
@@ -161,6 +182,10 @@ export const DragandDrop = () => {
               <Span>
                 Drop anywhere to transfer the text in the file to IMPERIAL
               </Span>
+              <Tip>
+                <TipAccent>PROTIP</TipAccent>
+                hold SHIFT to overwrite everything!
+              </Tip>
             </Dash>
           </MiniContainer>
         </Container>
