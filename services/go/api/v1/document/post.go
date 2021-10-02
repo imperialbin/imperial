@@ -140,8 +140,7 @@ func Post(c *fiber.Ctx) error {
 		return c.Status(500).JSON(Response{
 			Success: false,
 			Message: "An internal server error occurred whilst creating that document!",
-		},
-		)
+		})
 	}
 
 	timestamps := Timestamps{
