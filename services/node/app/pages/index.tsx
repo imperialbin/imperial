@@ -5,6 +5,7 @@ import { Editor } from "../components";
 import { useUser } from "../hooks";
 import { Nav } from "../layout/nav";
 import { editingState } from "../state/editor";
+import { DragandDrop } from "../components/DragandDrop";
 
 const Home: NextPage = () => {
   const { user, isLoading } = useUser();
@@ -23,6 +24,7 @@ const Home: NextPage = () => {
 
   return (
     <div>
+      <DragandDrop />
       <Nav user={user} userLoading={isLoading} creatingDocument />
 
       <Editor user={user} value={clipboardText as string} />
