@@ -17,9 +17,11 @@ jobs:
           node-version: 14.x
 
       - name: Install deps
+        working-directory: ./services/node/app
         run: npm i
 
       - name: Run ESLint
+        working-directory: ./services/node/app
         run: npm run lint
         env:
           CI: true
