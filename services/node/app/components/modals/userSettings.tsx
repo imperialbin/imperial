@@ -11,7 +11,7 @@ import {
   FaUnlock,
 } from "react-icons/fa";
 import styled, { ThemeContext } from "styled-components";
-import { Input, UserIcon, Setting } from "..";
+import { Input, UserIcon, Setting, Tooltip } from "..";
 import { useRecentDocuments, useUser } from "../../hooks";
 import { request } from "../../utils";
 import { updateUserSettings } from "../../utils/updateUserSettings";
@@ -258,18 +258,24 @@ export const UserSettings = (): JSX.Element => {
                           >
                             <TileBtns>
                               {document.settings.instantDelete && (
-                                <TileBtn>
-                                  <FaEye size={12} />
-                                </TileBtn>
+                                <Tooltip title="Instantly deletes after being viewed">
+                                  <TileBtn>
+                                    <FaEye size={12} />
+                                  </TileBtn>
+                                </Tooltip>
                               )}
                               {document.settings.encrypted && (
-                                <TileBtn>
-                                  <FaLock size={12} />
-                                </TileBtn>
+                                <Tooltip title="Encrypted">
+                                  <TileBtn>
+                                    <FaLock size={12} />
+                                  </TileBtn>
+                                </Tooltip>
                               )}
-                              <TileBtn>
-                                <FaTrash size={12} />
-                              </TileBtn>
+                              <Tooltip title="Delete document">
+                                <TileBtn>
+                                  <FaTrash size={12} />
+                                </TileBtn>
+                              </Tooltip>
                             </TileBtns>
                             {document.id}
                             <TitleInfo>
