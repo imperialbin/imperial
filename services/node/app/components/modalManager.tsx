@@ -101,7 +101,7 @@ export const ModalManager = (): JSX.Element => {
 
   return (
     <AnimatePresence>
-      {modal && (
+      {modal && currentModal && (
         <ModalContainer
           initial={"initial"}
           animate={"isOpen"}
