@@ -32,7 +32,7 @@ const ModalBody = styled(motion.div)<{
   modal: string;
 }>`
   width: 80%;
-  max-width: 800px;
+  max-width: ${({ modal }) => (modal === "userSettings" ? "800px" : "600px")};
   min-height: 200px;
   ${({ modal }) => modal === "userSettings" && "height: 50%;"}
   max-height: 80%;
