@@ -162,6 +162,14 @@ func Post(c *fiber.Ctx) error {
 		Public:        createdDocumentSettings.Public,
 		Editors:       createdDocumentSettings.Editors}
 
+	if user != nil {
+		client.User.FindUnique(
+			db.User.ID.Equals(user.ID),
+		).Update(
+			db.User.DocumentsMade.Increment(1),
+		).Exec(ctx)
+	}
+
 	return c.JSON(Response{
 		Success: true,
 		Data: &CreateDocumentData{
