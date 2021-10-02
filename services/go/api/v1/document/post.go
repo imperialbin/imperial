@@ -175,5 +175,4 @@ func Post(c *fiber.Ctx) error {
 			Settings:   settings,
 		},
 	})
-
 }
