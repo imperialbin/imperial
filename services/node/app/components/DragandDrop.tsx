@@ -139,7 +139,7 @@ export const DragandDrop = () => {
       setActive(false);
     };
 
-    const isFileImage = (file: any) => {
+    const isFileImage = (file: Blob) => {
       return file && file["type"].split("/")[0] === "image";
     };
 
@@ -149,9 +149,10 @@ export const DragandDrop = () => {
       if (!window.monaco) return;
 
       const reader = new FileReader();
-      reader.readAsText(e?.dataTransfer?.files[0] as Blob);
+      const file = e?.dataTransfer?.files[0] as Blob;
+      reader.readAsText(file);
 
-      if (!isFileImage(e?.dataTransfer?.files[0])) {
+      if (!isFileImage(file)) {
         reader.addEventListener("load", () =>
           window.monaco.editor
             .getModels()[0]
