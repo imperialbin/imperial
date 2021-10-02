@@ -27,21 +27,35 @@ func Post(c *fiber.Ctx) error {
 	user, err := GetUser(c)
 
 	var creator string
+	var content string
+	var language string
+	var imageEmbed bool
+	var instantDelete bool
+	var encrypted bool
+	var public bool
+	var editors []string
+	var password string
 
 	if err != nil {
 		creator = ""
+		content = documentRequest.Content
+		language = documentRequest.Settings.Language.String
+		imageEmbed = false
+		instantDelete = false
+		encrypted = false
+		public = false
+		editors = []string{}
 	} else {
 		creator = user.Username
+		content = documentRequest.Content
+		language = documentRequest.Settings.Language.String
+		imageEmbed = documentRequest.Settings.ImageEmbed.Bool
+		instantDelete = documentRequest.Settings.InstantDelete.Bool
+		encrypted = documentRequest.Settings.Encrypted.Bool
+		public = documentRequest.Settings.Public.Bool
+		editors = documentRequest.Settings.Editors
+		password = documentRequest.Settings.Password.String
 	}
-
-	content := documentRequest.Content
-	language := documentRequest.Settings.Language.String
-	imageEmbed := documentRequest.Settings.ImageEmbed.Bool
-	instantDelete := documentRequest.Settings.InstantDelete.Bool
-	encrypted := documentRequest.Settings.Encrypted.Bool
-	public := documentRequest.Settings.Public.Bool
-	editors := documentRequest.Settings.Editors
-	password := documentRequest.Settings.Password.String
 
 	/* Check if longer/shorter URLs are enabled */
 	randomString, err := GenerateRandomString(8)
@@ -58,13 +72,11 @@ func Post(c *fiber.Ctx) error {
 	}
 
 	var gistURL string
-	if gist {
-		if len(*user.GithubAccess) > 0 {
-			reqGist, err := CreateGist(user, randomString, content)
+	if gist && user != nil && len(*user.GithubAccess) > 0 {
+		reqGist, err := CreateGist(user, randomString, content)
 
-			if err == nil {
-				gistURL = reqGist
-			}
+		if err == nil {
+			gistURL = reqGist
 		}
 	}
 
