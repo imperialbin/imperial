@@ -16,6 +16,29 @@
 
 NOTE: Be sure to merge the latest from "upstream" before making a pull request!
 
+# Running Locally
+```bash
+# Install Web App Dependencies
+$ cd services/node/app
+$ yarn
+
+# Docker Compose (run in root of project)
+$ docker-compose up -d
+
+# Install API Dependencies
+$ cd services/go/packages/api
+$ go get
+
+# Copy env files
+# There should also be a .env file in the prisma folder containing DATABASE_URL
+$ cd cd services/go/packages/api
+$ cp .env.example .env 
+
+# Sync the Database
+$ cd prisma
+$ go run github.com/prisma/prisma-client-go db push
+```
+
 # License
 
 Licensed under the Mozilla Public License, Version 2.0 (the "License"); you may not use this code except in compliance with the License. \
