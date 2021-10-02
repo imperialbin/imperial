@@ -57,6 +57,13 @@ func Post(c *fiber.Ctx) error {
 		password = documentRequest.Settings.Password.String
 	}
 
+	if len(content) == 0 {
+		return c.Status(400).JSON(&Response{
+			Success: false,
+			Message: "Your content length must be 1!",
+		})
+	}
+
 	/* Check if longer/shorter URLs are enabled */
 	randomString, err := GenerateRandomString(8)
 
