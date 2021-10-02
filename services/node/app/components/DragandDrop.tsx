@@ -127,12 +127,13 @@ export const DragandDrop = () => {
     const drop = (e: DragEvent) => {
       e.preventDefault();
       setActive(false);
+      if (!window.monaco) return;
 
       const reader = new FileReader();
       reader.readAsText(e?.dataTransfer?.files[0] as Blob);
-      reader.addEventListener("load", () => {
-        console.log(reader.result);
-      });
+      reader.addEventListener("load", () =>
+        window.monaco.editor.getModels()[0].setValue(reader.result)
+      );
     };
 
     window.addEventListener("drop", drop);
