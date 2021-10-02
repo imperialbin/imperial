@@ -24,6 +24,13 @@ func Post(c *fiber.Ctx) error {
 		})
 	}
 
+	if len(documentRequest.Content) == 0 {
+		return c.Status(400).JSON(&Response{
+			Success: false,
+			Message: "Your content length must be 1!",
+		})
+	}
+
 	user, err := GetUser(c)
 
 	var creator string
@@ -55,13 +62,6 @@ func Post(c *fiber.Ctx) error {
 		public = documentRequest.Settings.Public.Bool
 		editors = documentRequest.Settings.Editors
 		password = documentRequest.Settings.Password.String
-	}
-
-	if len(content) == 0 {
-		return c.Status(400).JSON(&Response{
-			Success: false,
-			Message: "Your content length must be 1!",
-		})
 	}
 
 	/* Check if longer/shorter URLs are enabled */
