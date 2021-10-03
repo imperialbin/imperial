@@ -76,7 +76,7 @@ const Tiles = styled.div`
 `;
 
 const Tile = styled.div`
-  min-width: 40%;
+  min-width: 38%;
   position: relative;
   display: flex;
   align-items: center;
@@ -84,7 +84,7 @@ const Tile = styled.div`
   margin: 10px;
   min-height: 47px;
   border-radius: 8px;
-  font-size: 1.3em;
+  font-size: 1.2em;
   color: ${({ theme }) => theme.textLight};
   background: ${({ theme }) => theme.layoutLightestOfTheBunch};
 `;
@@ -93,8 +93,6 @@ const TileBtns = styled.div`
   position: absolute;
   top: 0px;
   right: 8px;
-
-  &: ;
 `;
 
 const TileBtn = styled.div`
