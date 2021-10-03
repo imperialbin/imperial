@@ -236,7 +236,7 @@ export const Nav = ({
         </ArrowContainer>
       </HideNavContainer>
       <Container>
-        <Link href="/">
+        <Link href="/" passHref>
           <BrandContainer initial={"initial"} whileHover={"hover"}>
             <Brand>IMPERIAL</Brand>
             {document && (
