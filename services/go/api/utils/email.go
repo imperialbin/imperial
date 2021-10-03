@@ -15,6 +15,7 @@ func SESSession() (*session.Session, error) {
 		Credentials: credentials.NewSharedCredentials("", *aws.String((os.Getenv("AWS_PROFILE")))),
 	})
 }
+
 func SendEmail(template string, to string, data string) (ok bool, err error) {
 	session := session.Must(SESSession())
 	svc := ses.New(session)
