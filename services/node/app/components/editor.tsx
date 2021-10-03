@@ -12,7 +12,7 @@ import { EditorSkeleton } from "./skeletons";
 export const Editor = (props: EditorProps & { user?: User }): JSX.Element => {
   const [language] = useAtom(languageState);
   const [editing] = useAtom(editingState);
-  const [text, setText] = useAtom(textState)
+  const [text, setText] = useAtom(textState);
 
   const mounted = (editor: MonacoType) => {
     window.monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions(
