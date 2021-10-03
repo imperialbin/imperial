@@ -26,7 +26,7 @@ import { request } from "../utils/requestWrapper";
 import { useState } from "react";
 import { LoggedInTooltip, LoggedOutTooltip } from "../components/tooltips";
 import { activeModal, documentEditors } from "../state/modal";
-import { supportedLanguages } from "../utils/consts";
+import { supportedLanguages } from "../lib/constants";
 import { motion } from "framer-motion";
 
 const Wrapper = styled(motion.div)`

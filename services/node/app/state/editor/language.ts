@@ -1,3 +1,3 @@
-import { atom } from "jotai";
+import { atomWithStorage } from "jotai/utils";
 
-export const languageState = atom("plain_text");
+export const languageState = atomWithStorage("language", "plain_text");

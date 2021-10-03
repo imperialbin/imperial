@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import { useAtom } from "jotai";
+import { atomWithReducer } from "jotai/utils";
 import styled from "styled-components";
 import { languageState } from "../../state/editor";
 import { activeModal } from "../../state/modal";
-import { supportedLanguages } from "../../utils/consts";
+import { supportedLanguages } from "../../lib/constants";
 import { MdFindInPage } from "react-icons/md";
 import { motion } from "framer-motion";
 import { FaSearch } from "react-icons/fa";
@@ -62,12 +63,9 @@ const TipAccent = styled.span`
 
 export const LanguageModal = (): JSX.Element => {
   const [language, setLanguage] = useAtom(languageState);
-  const [searchInput, setSearchInput] = useState<string>("");
+  const [searchQuery, setSearchQuery] = useState<string>("");
   const [, setActiveModal] = useAtom(activeModal);
-
-  const languageFilter = supportedLanguages.filter((language) =>
-    language.name.startsWith(searchInput)
-  );
+  const languageFilter = supportedLanguages.filter((language) => ((language.name).toLowerCase()).includes(searchQuery.toLowerCase()));
 
   const changeLanguage = (language: string) => {
     setActiveModal([null, null]);
@@ -75,9 +73,9 @@ export const LanguageModal = (): JSX.Element => {
   };
 
   const enterHandler = ({ key }: KeyboardEvent) => {
-    if (key === "Enter" && searchInput.length > 0) {
+    if (key === "Enter" && searchQuery.length > 0) {
       const language = supportedLanguages.find((language) =>
-        language.name.startsWith(searchInput)
+        language.name.startsWith(searchQuery)
       )?.name;
 
       if (!language) return;
@@ -100,7 +98,7 @@ export const LanguageModal = (): JSX.Element => {
         <FaSearch />
         <Search
           placeholder="Search languages"
-          onChange={(e) => setSearchInput(e.target.value)}
+          onChange={(e) => setSearchQuery(e.target.value)}
           autoFocus
         />
       </SearchContainer>
@@ -126,7 +124,7 @@ export const LanguageModal = (): JSX.Element => {
           </LanguageBtn>
         );
       })}
-      {searchInput && (
+      {searchQuery && (
         <Tip>
           <TipAccent>PROTIP</TipAccent>
           you can press enter to select the first result.

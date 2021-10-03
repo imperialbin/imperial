@@ -1,4 +1,4 @@
-import { FULL_URI_V1 } from "./consts";
+import { FULL_URI_V1 } from "../lib/constants";
 
 export const request = async (
   path: string,

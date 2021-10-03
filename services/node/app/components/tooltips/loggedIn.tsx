@@ -1,7 +1,7 @@
 import { useAtom } from "jotai";
 import Link from "next/link";
 import { activeModal } from "../../state/modal";
-import { DiscordURL, GitHubURL } from "../../utils/consts";
+import { DiscordURL, GitHubURL } from "../../lib/constants";
 import { Anchor, ListContainer, ListItem, Seperator } from "./styles";
 
 export const LoggedInTooltip = (): JSX.Element => {

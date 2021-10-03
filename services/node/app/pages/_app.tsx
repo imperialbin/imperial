@@ -24,6 +24,19 @@ const GlobalStyle = createGlobalStyle`
     overflow-x: hidden;
   }
 
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 5px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+  ::-webkit-scrollbar-corner {
+    background: transparent;
+  }
 `;
 
 function MyApp({ Component, pageProps }: AppProps): JSX.Element {

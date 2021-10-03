@@ -1,7 +1,7 @@
 import useSWR from "swr";
 
 import { User } from "../types";
-import { FULL_URI_V1 } from "../utils/consts";
+import { FULL_URI_V1 } from "../lib/constants";
 
 export const useUser = () => {
   const { data, error, mutate } = useSWR(FULL_URI_V1 + "/user/@me");
