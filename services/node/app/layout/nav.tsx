@@ -1,8 +1,11 @@
+/* eslint-disable prefer-destructuring */
+/* eslint-disable no-console */
 import { useAtom } from "jotai";
 import Link from "next/link";
 import Router from "next/router";
 import { useEffect } from "react";
 import styled from "styled-components";
+import Copy from "react-copy-to-clipboard";
 import {
   FaUserFriends,
   FaMinus,
@@ -144,7 +147,7 @@ export const Nav = ({
         imageEmbed: user ? user.settings.imageEmbed : false,
         expiration: user ? user.settings.expiration : 14,
         public: publicStatus,
-        editors: user ? editors.map((user) => user.username) : [],
+        editors: user ? editors.map(user => user.username) : [],
         language,
       },
     });
@@ -155,6 +158,7 @@ export const Nav = ({
     setEditing(false);
     Router.push(`/${data.data.id}`);
   };
+
   const newDocument = () => Router.push("/");
   const allowEdit = () => setEditing(!editing);
 
@@ -178,7 +182,7 @@ export const Nav = ({
   useEffect(() => {
     if (typeof window === "undefined") return;
 
-    window.addEventListener("keydown", (e) => {
+    window.addEventListener("keydown", e => {
       if (
         e.key === "s" &&
         (creatingDocument || editing) &&
@@ -236,19 +240,30 @@ export const Nav = ({
         </ArrowContainer>
       </HideNavContainer>
       <Container>
-        <Link href="/" passHref>
-          <BrandContainer initial={"initial"} whileHover={"hover"}>
+        <BrandContainer initial={"initial"} whileHover={"hover"}>
+          <Link href="/" passHref>
             <Brand>IMPERIAL</Brand>
-            {document && (
-              <DocumentID
-                transition={{ duration: 0.3 }}
-                variants={brandAnimation}
+          </Link>
+          {document && (
+            <Tooltip title="Click to copy URL">
+              <Copy
+                text={
+                  process.env.NODE_ENV === "development"
+                    ? `localhost:3000/${document.id}`
+                    : `https://imperialb.in/${document.id}`
+                }
+                onCopy={() => console.log("testtt")}
               >
-                {document.id}
-              </DocumentID>
-            )}
-          </BrandContainer>
-        </Link>
+                <DocumentID
+                  transition={{ duration: 0.3 }}
+                  variants={brandAnimation}
+                >
+                  {document.id}
+                </DocumentID>
+              </Copy>
+            </Tooltip>
+          )}
+        </BrandContainer>
         <Buttons>
           {editor &&
             !document?.settings.encrypted &&
@@ -332,7 +347,7 @@ export const Nav = ({
                 <Btn
                   onClick={() =>
                     Router.push(
-                      `/r/${location.pathname.substr(1)}${location.search}`
+                      `/r/${location.pathname.substr(1)}${location.search}`,
                     )
                   }
                 >
