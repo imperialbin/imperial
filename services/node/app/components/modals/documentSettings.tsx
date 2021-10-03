@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { useState } from "react";
 import { Document } from "../../types";
 import { HeaderSecondary } from "./styles";
@@ -62,7 +63,7 @@ export const DocumentSettings = ({
         type="dropdown"
         mode="languages"
         initialValue={document.settings.language}
-        onToggle={async (e) => {
+        onToggle={async e => {
           const newLanguage = e?.target.value as string;
           const { data, error } = await updateDocumentSettings(document, {
             language: newLanguage,
@@ -70,7 +71,7 @@ export const DocumentSettings = ({
 
           if (error && !data) {
             return setError(
-              "There was an error whilst editing document settings!"
+              "There was an error whilst editing document settings!",
             );
           }
 
@@ -87,14 +88,14 @@ export const DocumentSettings = ({
           new Date(document.timestamps.expiration * 1000).getDate() -
           new Date().getDate()
         }
-        onToggle={async (e) => {
+        onToggle={async e => {
           const { data, error } = await updateDocumentSettings(document, {
             expiration: Number(e?.target.value),
           });
 
           if (error && !data) {
             return setError(
-              "There was an error whilst editing document settings!"
+              "There was an error whilst editing document settings!",
             );
           }
 
@@ -119,7 +120,7 @@ export const DocumentSettings = ({
 
           if (error && !data) {
             return setError(
-              "There was an error whilst editing document settings!"
+              "There was an error whilst editing document settings!",
             );
           }
 
@@ -137,7 +138,7 @@ export const DocumentSettings = ({
 
           if (error && !data) {
             return setError(
-              "There was an error whilst editing document settings!"
+              "There was an error whilst editing document settings!",
             );
           }
 
@@ -155,7 +156,7 @@ export const DocumentSettings = ({
 
           if (error && !data) {
             return setError(
-              "There was an error whilst editing document settings!"
+              "There was an error whilst editing document settings!",
             );
           }
 
@@ -172,13 +173,13 @@ export const DocumentSettings = ({
         onClick={async () => {
           const { data, error } = await request(
             `/document/${document.id}`,
-            "DELETE"
+            "DELETE",
           );
 
           if (error) {
             return console.error(
               "an error occurred whilst deleting the document",
-              error
+              error,
             );
           }
 

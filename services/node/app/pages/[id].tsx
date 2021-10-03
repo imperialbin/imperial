@@ -12,7 +12,7 @@ const Home: NextPage = () => {
   const { user, isLoading: userLoading } = useUser();
   const { document, isError: documentError } = useDocument(
     id as string,
-    password as string
+    password as string,
   );
   const [, setLanguage] = useAtom(languageState);
 

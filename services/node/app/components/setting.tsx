@@ -50,29 +50,27 @@ export const Setting = ({
 
   /* onToggle method for all to do something */
   onToggle,
-}: SettingProps): JSX.Element => {
-  return (
-    <SettingContainer>
-      <InfoContainer>
-        <Title>{title}</Title>
-        <Description>{description}</Description>
-      </InfoContainer>
+}: SettingProps): JSX.Element => (
+  <SettingContainer>
+    <InfoContainer>
+      <Title>{title}</Title>
+      <Description>{description}</Description>
+    </InfoContainer>
 
-      {/* Switches */}
-      {type === "switch" && (
-        <Switch toggled={toggled} onToggle={onToggle} disabled={disabled} />
-      )}
+    {/* Switches */}
+    {type === "switch" && (
+      <Switch toggled={toggled} onToggle={onToggle} disabled={disabled} />
+    )}
 
-      {/* Dropdowns */}
-      {type === "dropdown" && (
-        <Dropdown
-          mode={mode}
-          onToggle={onToggle}
-          initialValue={initialValue}
-          disabled={disabled}
-          numberLimit={numberLimit}
-        />
-      )}
-    </SettingContainer>
-  );
-};
+    {/* Dropdowns */}
+    {type === "dropdown" && (
+      <Dropdown
+        mode={mode}
+        onToggle={onToggle}
+        initialValue={initialValue}
+        disabled={disabled}
+        numberLimit={numberLimit}
+      />
+    )}
+  </SettingContainer>
+);

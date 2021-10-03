@@ -53,7 +53,7 @@ export const AddUsersModal = (): JSX.Element => {
   const [error, setError] = useState<string | null>(null);
 
   const removeEditor = (username: string) =>
-    setEditors(editors.filter((user) => user.username !== username));
+    setEditors(editors.filter(user => user.username !== username));
 
   return (
     <>
@@ -64,12 +64,12 @@ export const AddUsersModal = (): JSX.Element => {
       <UserSearch>
         <FaUserPlus size={18} />
         <AddInput
-          onChange={(e) => setInput(e.target.value)}
+          onChange={e => setInput(e.target.value)}
           placeholder="Username"
           value={input}
           onKeyDown={async ({ key }) => {
             if (key === "Enter" && input.length > 0) {
-              if (editors.some((user) => user.username === input))
+              if (editors.some(user => user.username === input))
                 return setError("You cannot add a person twice!");
 
               const { data, error } = await request(`/user/${input}`, "GET");
@@ -85,27 +85,25 @@ export const AddUsersModal = (): JSX.Element => {
       </UserSearch>
       {editors.length > 0 ? (
         <>
-          {editors.map((user: DocumentEditor, key: number) => {
-            return (
-              <User
-                transition={{ duration: 0.2 }}
-                variants={FadeAnimation}
-                key={key}
+          {editors.map((user: DocumentEditor, key: number) => (
+            <User
+              transition={{ duration: 0.2 }}
+              variants={FadeAnimation}
+              key={key}
+            >
+              <UserIcon height={30} width={30} URL={user.icon} />
+              <Username>{user.username}</Username>
+              <Tooltip
+                style={{ display: "inline-flex" }}
+                title={`Remove ${user.username}`}
               >
-                <UserIcon height={30} width={30} URL={user.icon} />
-                <Username>{user.username}</Username>
-                <Tooltip
-                  style={{ display: "inline-flex" }}
-                  title={`Remove ${user.username}`}
-                >
-                  <FaUserMinus
-                    style={{ cursor: "pointer" }}
-                    onClick={() => removeEditor(user.username)}
-                  />
-                </Tooltip>
-              </User>
-            );
-          })}
+                <FaUserMinus
+                  style={{ cursor: "pointer" }}
+                  onClick={() => removeEditor(user.username)}
+                />
+              </Tooltip>
+            </User>
+          ))}
         </>
       ) : (
         <NoEditors

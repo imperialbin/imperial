@@ -11,12 +11,8 @@ const Login: NextPage = () => {
   const submit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!username) {
-      setError("You need to have a username");
-    }
-    if (!password) {
-      setError("You need to have a password");
-    }
+    if (!username) return setError("You need to have a username");
+    if (!password) return setError("You need to have a password");
 
     const { data, error } = await request("/auth/login", "POST", {
       username,
@@ -39,14 +35,14 @@ const Login: NextPage = () => {
         <input
           type="username"
           id="username"
-          onChange={(e) => setUsername(e.target.value)}
+          onChange={e => setUsername(e.target.value)}
           placeholder="username or email"
           required
         />
         <input
           type="password"
           id="password"
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={e => setPassword(e.target.value)}
           placeholder="password"
           required
         />

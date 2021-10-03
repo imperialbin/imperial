@@ -116,7 +116,7 @@ const iconAnimation = {
   },
 };
 
-export const DragandDrop = () => {
+export const DragandDrop = (): JSX.Element => {
   const [active, setActive] = useState(false);
 
   useEffect(() => {
@@ -140,7 +140,7 @@ export const DragandDrop = () => {
     };
 
     const isFileImage = (file: Blob) =>
-      file && file["type"].split("/")[0] === "image";
+      file && file.type.split("/")[0] === "image";
 
     const drop = (e: DragEvent) => {
       e.preventDefault();
@@ -158,8 +158,9 @@ export const DragandDrop = () => {
             .setValue(
               e.shiftKey
                 ? reader.result
-                : window.monaco.editor.getModels()[0].getValue() + reader.result
-            )
+                : window.monaco.editor.getModels()[0].getValue() +
+                    reader.result,
+            ),
         );
       }
     };
@@ -167,7 +168,7 @@ export const DragandDrop = () => {
     window.addEventListener("drop", drop);
     window.addEventListener("dragenter", enter);
     window.addEventListener("dragleave", leave);
-    window.addEventListener("dragover", (e) => e.preventDefault());
+    window.addEventListener("dragover", e => e.preventDefault());
   }, []);
 
   return (

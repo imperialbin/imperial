@@ -16,7 +16,7 @@ const Home: NextPage = () => {
     setEditing(true);
 
     if (user && user.settings.clipboard) {
-      navigator.clipboard.readText().then((text) => {
+      navigator.clipboard.readText().then(text => {
         setClipboardText(text);
       });
     }
