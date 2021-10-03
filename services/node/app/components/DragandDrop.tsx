@@ -116,9 +116,8 @@ const iconAnimation = {
   },
 };
 
-export const DragandDrop = () => {
+export const DragandDrop = (): JSX.Element => {
   const [active, setActive] = useState(false);
-  let fileText: any;
 
   useEffect(() => {
     let lastElement: EventTarget | null;

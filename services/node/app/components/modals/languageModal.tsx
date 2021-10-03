@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useAtom } from "jotai";
-import { atomWithReducer } from "jotai/utils";
 import styled from "styled-components";
 import { languageState } from "../../state/editor";
 import { activeModal } from "../../state/modal";
