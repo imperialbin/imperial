@@ -118,7 +118,6 @@ const iconAnimation = {
 
 export const DragandDrop = () => {
   const [active, setActive] = useState(false);
-  let fileText: any;
 
   useEffect(() => {
     let lastElement: EventTarget | null;
