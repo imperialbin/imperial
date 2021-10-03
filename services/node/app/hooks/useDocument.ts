@@ -1,6 +1,6 @@
 import useSWR from "swr";
 import { Document } from "../types";
-import { FULL_URI_V1 } from "../utils/consts";
+import { FULL_URI_V1 } from "../lib/constants";
 
 export const useDocument = (URL: string, password?: string) => {
   const { data, error } = useSWR(

@@ -118,6 +118,7 @@ const iconAnimation = {
 
 export const DragandDrop = () => {
   const [active, setActive] = useState(false);
+  let fileText: any;
 
   useEffect(() => {
     let lastElement: EventTarget | null;
@@ -150,6 +151,7 @@ export const DragandDrop = () => {
 
       const reader = new FileReader();
       const file = e?.dataTransfer?.files[0] as Blob;
+      fileText =
       reader.readAsText(file);
 
       if (!isFileImage(file)) {
@@ -188,7 +190,7 @@ export const DragandDrop = () => {
               <IconContainer variants={iconAnimation}>
                 <FaFileAlt size={70} />
               </IconContainer>
-              <Title>Drop that!</Title>
+              <Title>Drop {fileText}!</Title>
               <Span>
                 Drop anywhere to transfer the text in the file to IMPERIAL
               </Span>
