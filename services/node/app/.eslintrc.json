@@ -4,6 +4,7 @@
     "es2021": true
   },
   "extends": [
+    "xo",
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:@typescript-eslint/recommended",
@@ -20,6 +21,19 @@
   "plugins": ["react", "@typescript-eslint"],
   "rules": {
     "react/react-in-jsx-scope": "off",
-    "typescript-eslint/no-explicit-any": "off"
+    "@typescript-eslint/ban-types": "error",
+    "indent": "off",
+    "quotes": "off",
+    "object-curly-spacing": "off",
+    "curly": "off",
+    "operator-linebreak": "off",
+    "no-unused-vars": "error",
+    "no-unused-expressions": "error",
+    "no-unused-labels": "error",
+    "no-console": "error",
+    "capitalized-comments": "off",
+    "no-negated-condition": "off",
+    "one-var": "off",
+    "@next/next/no-page-custom-font": "off"
   }
 }

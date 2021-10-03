@@ -64,7 +64,9 @@ export const LanguageModal = (): JSX.Element => {
   const [language, setLanguage] = useAtom(languageState);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [, setActiveModal] = useAtom(activeModal);
-  const languageFilter = supportedLanguages.filter((language) => ((language.name).toLowerCase()).includes(searchQuery.toLowerCase()));
+  const languageFilter = supportedLanguages.filter(language =>
+    language.name.toLowerCase().includes(searchQuery.toLowerCase()),
+  );
 
   const changeLanguage = (language: string) => {
     setActiveModal([null, null]);
@@ -73,8 +75,8 @@ export const LanguageModal = (): JSX.Element => {
 
   const enterHandler = ({ key }: KeyboardEvent) => {
     if (key === "Enter" && searchQuery.length > 0) {
-      const language = supportedLanguages.find((language) =>
-        language.name.startsWith(searchQuery)
+      const language = supportedLanguages.find(language =>
+        language.name.startsWith(searchQuery),
       )?.name;
 
       if (!language) return;
@@ -97,7 +99,7 @@ export const LanguageModal = (): JSX.Element => {
         <FaSearch />
         <Search
           placeholder="Search languages"
-          onChange={(e) => setSearchQuery(e.target.value)}
+          onChange={e => setSearchQuery(e.target.value)}
           autoFocus
         />
       </SearchContainer>
@@ -110,19 +112,17 @@ export const LanguageModal = (): JSX.Element => {
           <p>We don&apos;t support that language</p>
         </UnsupportedLanguage>
       )}
-      {languageFilter.map((language, key) => {
-        return (
-          <LanguageBtn
-            transition={{ duration: 0.3 }}
-            variants={FadeAnimation}
-            onClick={() => changeLanguage(language.name)}
-            key={key}
-            value={language.name}
-          >
-            {language.name}
-          </LanguageBtn>
-        );
-      })}
+      {languageFilter.map((language, key) => (
+        <LanguageBtn
+          transition={{ duration: 0.3 }}
+          variants={FadeAnimation}
+          onClick={() => changeLanguage(language.name)}
+          key={key}
+          value={language.name}
+        >
+          {language.name}
+        </LanguageBtn>
+      ))}
       {searchQuery && (
         <Tip>
           <TipAccent>PROTIP</TipAccent>

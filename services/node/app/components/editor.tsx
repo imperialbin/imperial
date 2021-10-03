@@ -19,7 +19,7 @@ export const Editor = (props: EditorProps & { user?: User }): JSX.Element => {
       {
         noSemanticValidation: true,
         noSyntaxValidation: false,
-      }
+      },
     );
 
     editor.focus();
@@ -56,6 +56,6 @@ export const Editor = (props: EditorProps & { user?: User }): JSX.Element => {
   );
 };
 
-export const DiffEditor = (props: DiffEditorProps): JSX.Element => {
-  return <MonacoDiff theme={"vs-dark"} {...props} />;
-};
+export const DiffEditor = (props: DiffEditorProps): JSX.Element => (
+  <MonacoDiff theme={"vs-dark"} {...props} />
+);

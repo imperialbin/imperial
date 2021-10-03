@@ -51,7 +51,7 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
         <GlobalStyle />
         <SWRConfig
           value={{
-            fetcher: fetcher,
+            fetcher,
             refreshInterval: 120000,
             revalidateOnFocus: false,
           }}
@@ -69,5 +69,4 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   );
 }
 
-// commit moment
 export default MyApp;

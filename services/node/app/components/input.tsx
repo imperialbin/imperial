@@ -1,7 +1,6 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import styled from "styled-components";
-import { Tooltip } from ".";
 import { InputProps } from "../types";
 
 const Container = styled.div`
@@ -91,12 +90,10 @@ export const Input = ({
   icon,
   iconClick,
   secretValue = false,
-  iconDisabled = false,
   iconHoverColor = null,
   hideIconUntilDifferent = false,
   inputDisabled = false,
   onChange,
-  tooltipTitle = undefined,
   type = "",
 }: InputProps): JSX.Element => {
   const [inputValue, setInputValue] = useState(value);
@@ -109,7 +106,7 @@ export const Input = ({
       <InputContainer>
         <InputElement
           value={inputValue}
-          onChange={(e) => {
+          onChange={e => {
             setInputValue(e.target.value);
             if (onChange) {
               onChange(e);

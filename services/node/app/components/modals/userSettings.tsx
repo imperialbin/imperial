@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { useState, useContext } from "react";
 import Link from "next/link";
 import {
@@ -237,7 +238,7 @@ export const UserSettings = (): JSX.Element => {
                 {documents && documents.length > 0
                   ? documents.map((document, key) => {
                       const date = new Date(
-                        document.timestamps.expiration * 1000
+                        document.timestamps.expiration * 1000,
                       )
                         .toISOString()
                         .slice(0, 10);
@@ -318,7 +319,7 @@ export const UserSettings = (): JSX.Element => {
               iconHoverColor={theme.success}
               hideIconUntilDifferent={true}
               tooltipTitle="Update icon"
-              onChange={(e) => setIconValue(e.target.value)}
+              onChange={e => setIconValue(e.target.value)}
               iconClick={async () => {
                 const { data, error } = await request(
                   "/user/@me/icon",
@@ -326,12 +327,12 @@ export const UserSettings = (): JSX.Element => {
                   {
                     method: "github",
                     url: `https://github.com/${iconValue}.png`,
-                  }
+                  },
                 );
 
                 if (error && !data) {
                   return console.log(
-                    "There was an error whilst editing document settings!"
+                    "There was an error whilst editing document settings!",
                   );
                 }
 
@@ -350,7 +351,7 @@ export const UserSettings = (): JSX.Element => {
               label="Email"
               placeholder="Your email"
               value={user.email}
-              onChange={(e) => {
+              onChange={e => {
                 setEmail({
                   newEmail: e.target.value,
                   emailSuccess: false,
@@ -375,7 +376,7 @@ export const UserSettings = (): JSX.Element => {
                   "PATCH",
                   {
                     newEmail: email.newEmail,
-                  }
+                  },
                 );
 
                 if (error)
@@ -403,12 +404,12 @@ export const UserSettings = (): JSX.Element => {
               iconClick={async () => {
                 const { data, error } = await request(
                   "/user/@me/regenAPIToken",
-                  "POST"
+                  "POST",
                 );
 
                 if (error && !data) {
                   return console.log(
-                    "There was an error whilst editing document settings!"
+                    "There was an error whilst editing document settings!",
                   );
                 }
 
@@ -428,7 +429,7 @@ export const UserSettings = (): JSX.Element => {
 
                 if (error && !data) {
                   return console.log(
-                    "There was an error whilst editing document settings!"
+                    "There was an error whilst editing document settings!",
                   );
                 }
 
@@ -447,7 +448,7 @@ export const UserSettings = (): JSX.Element => {
 
                 if (error && !data) {
                   return console.log(
-                    "There was an error whilst editing document settings!"
+                    "There was an error whilst editing document settings!",
                   );
                 }
 
@@ -466,7 +467,7 @@ export const UserSettings = (): JSX.Element => {
 
                 if (error && !data) {
                   return console.log(
-                    "There was an error whilst editing document settings!"
+                    "There was an error whilst editing document settings!",
                   );
                 }
 
@@ -485,7 +486,7 @@ export const UserSettings = (): JSX.Element => {
 
                 if (error && !data) {
                   return console.log(
-                    "There was an error whilst editing document settings!"
+                    "There was an error whilst editing document settings!",
                   );
                 }
 
@@ -504,7 +505,7 @@ export const UserSettings = (): JSX.Element => {
 
                 if (error && !data) {
                   return console.log(
-                    "There was an error whilst editing document settings!"
+                    "There was an error whilst editing document settings!",
                   );
                 }
 
@@ -523,7 +524,7 @@ export const UserSettings = (): JSX.Element => {
 
                 if (error && !data) {
                   return console.log(
-                    "There was an error whilst editing document settings!"
+                    "There was an error whilst editing document settings!",
                   );
                 }
 
@@ -542,7 +543,7 @@ export const UserSettings = (): JSX.Element => {
 
                 if (error && !data) {
                   return console.log(
-                    "There was an error whilst editing document settings!"
+                    "There was an error whilst editing document settings!",
                   );
                 }
 
@@ -561,7 +562,7 @@ export const UserSettings = (): JSX.Element => {
 
                 if (error && !data) {
                   return console.log(
-                    "There was an error whilst editing document settings!"
+                    "There was an error whilst editing document settings!",
                   );
                 }
 
@@ -580,7 +581,7 @@ export const UserSettings = (): JSX.Element => {
 
                 if (error && !data) {
                   return console.log(
-                    "There was an error whilst editing document settings!"
+                    "There was an error whilst editing document settings!",
                   );
                 }
 
@@ -595,14 +596,14 @@ export const UserSettings = (): JSX.Element => {
               initialValue={user.settings.fontSize}
               mode="expiration"
               numberLimit={18}
-              onToggle={async (e) => {
+              onToggle={async e => {
                 const { data, error } = await updateUserSettings({
                   fontSize: Number(e?.target.value),
                 });
 
                 if (error && !data) {
                   return console.log(
-                    "There was an error whilst editing document settings!"
+                    "There was an error whilst editing document settings!",
                   );
                 }
 
@@ -616,14 +617,14 @@ export const UserSettings = (): JSX.Element => {
               initialValue={user.settings.tabSize}
               mode="expiration"
               numberLimit={8}
-              onToggle={async (e) => {
+              onToggle={async e => {
                 const { data, error } = await updateUserSettings({
                   tabSize: Number(e?.target.value),
                 });
 
                 if (error && !data) {
                   return console.log(
-                    "There was an error whilst editing document settings!"
+                    "There was an error whilst editing document settings!",
                   );
                 }
 
@@ -636,14 +637,14 @@ export const UserSettings = (): JSX.Element => {
               type="dropdown"
               initialValue={user.settings.expiration}
               mode="expiration"
-              onToggle={async (e) => {
+              onToggle={async e => {
                 const { data, error } = await updateUserSettings({
                   expiration: Number(e?.target.value),
                 });
 
                 if (error && !data) {
                   return console.log(
-                    "There was an error whilst editing document settings!"
+                    "There was an error whilst editing document settings!",
                   );
                 }
 
@@ -664,7 +665,7 @@ export const UserSettings = (): JSX.Element => {
             <Input
               label="Current password"
               placeholder="Enter your current password"
-              onChange={(e) =>
+              onChange={e =>
                 setPassword({
                   ...password,
                   currentPassword: e.target.value,
@@ -680,7 +681,7 @@ export const UserSettings = (): JSX.Element => {
               label="New password"
               placeholder="Enter your new password"
               icon={<FaLock size={18} />}
-              onChange={(e) =>
+              onChange={e =>
                 setPassword({
                   ...password,
                   newPassword: e.target.value,
@@ -695,7 +696,7 @@ export const UserSettings = (): JSX.Element => {
               label="Confirm password"
               placeholder="Re-enter new password."
               icon={<FaLock size={18} />}
-              onChange={(e) =>
+              onChange={e =>
                 setPassword({
                   ...password,
                   confirmPassword: e.target.value,
@@ -728,14 +729,14 @@ export const UserSettings = (): JSX.Element => {
                       "A password you provided isn't 8 characters!",
                   });
 
-                const { data, error } = await request(
+                const { error } = await request(
                   "/auth/resetInClient",
                   "PATCH",
                   {
                     currentPassword: password.currentPassword,
                     newPassword: password.newPassword,
                     confirmPassword: password.confirmPassword,
-                  }
+                  },
                 );
 
                 if (error)

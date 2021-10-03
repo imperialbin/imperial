@@ -25,31 +25,25 @@ export const Dropdown = ({
   initialValue,
   disabled = false,
   numberLimit,
-}: DropdownProps): JSX.Element => {
-  return (
-    <Select defaultValue={initialValue} onChange={onToggle} disabled={disabled}>
-      {mode === "expiration" && (
-        <>
-          {[...Array(numberLimit || 60)].map((day: number, key: number) => {
-            return (
-              <Option value={key + 1} key={key}>
-                {key + 1}
-              </Option>
-            );
-          })}
-        </>
-      )}
-      {mode === "languages" && (
-        <>
-          {supportedLanguages.map((language, key) => {
-            return (
-              <Option value={language.name} key={key}>
-                {language.name}
-              </Option>
-            );
-          })}
-        </>
-      )}
-    </Select>
-  );
-};
+}: DropdownProps): JSX.Element => (
+  <Select defaultValue={initialValue} onChange={onToggle} disabled={disabled}>
+    {mode === "expiration" && (
+      <>
+        {[...Array(numberLimit || 60)].map((day: number, key: number) => (
+          <Option value={key + 1} key={key}>
+            {key + 1}
+          </Option>
+        ))}
+      </>
+    )}
+    {mode === "languages" && (
+      <>
+        {supportedLanguages.map((language, key) => (
+          <Option value={language.name} key={key}>
+            {language.name}
+          </Option>
+        ))}
+      </>
+    )}
+  </Select>
+);
