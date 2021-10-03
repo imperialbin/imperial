@@ -86,6 +86,7 @@ const DocumentID = styled(motion.h1)`
   font-size: 1.1em;
   white-space: nowrap;
   overflow: hidden;
+  cursor: pointer;
   color: ${({ theme }) => theme.textDarker};
 `;
 
