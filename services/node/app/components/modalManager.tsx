@@ -14,6 +14,7 @@ import {
   DocumentSettings,
   UserSettings,
   Login,
+  Signup,
 } from "./modals";
 
 const ModalContainer = styled(motion.div)`
@@ -34,7 +35,8 @@ const ModalBody = styled(motion.div)<{
 }>`
   width: 80%;
   max-width: ${({ modal }) => (modal === "userSettings" ? "800px" : "600px")};
-  ${({ modal }) => modal === "login" && "max-width: 425px;"}
+  ${({ modal }) =>
+    (modal === "login" || modal === "signup") && "max-width: 425px;"}
   min-height: 200px;
   ${({ modal }) => modal === "userSettings" && "height: 50%;"}
   max-height: 80%;
@@ -141,6 +143,7 @@ export const ModalManager = (): JSX.Element => {
               <DocumentSettings document={data as Document} />
             )}
             {currentModal === "login" && <Login />}
+            {currentModal === "signup" && <Signup />}
             <br />
           </ModalBody>
         </ModalContainer>

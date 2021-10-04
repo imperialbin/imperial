@@ -10,9 +10,9 @@ export const LoggedOutTooltip = (): JSX.Element => {
   return (
     <ListContainer>
       <ListItem onClick={() => setActiveModal(["login", null])}>Login</ListItem>
-      <Link href="/signup" passHref={true}>
-        <ListItem>Signup</ListItem>
-      </Link>
+      <ListItem onClick={() => setActiveModal(["signup", null])}>
+        Signup
+      </ListItem>
       <Seperator />
       <Anchor href={DiscordURL} target="_blank" rel="noreferrer">
         Discord

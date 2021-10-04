@@ -14,4 +14,7 @@ export const modals = {
   login: {
     title: "Welcome back!",
   },
+  signup: {
+    title: "Welcome aboard!",
+  },
 };
