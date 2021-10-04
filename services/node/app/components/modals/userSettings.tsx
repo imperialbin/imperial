@@ -242,11 +242,7 @@ export const UserSettings = (): JSX.Element => {
                         .slice(0, 10);
 
                       return (
-                        <Link
-                          href={`/${document.id}`}
-                          passHref={true}
-                          key={key}
-                        >
+                        <Link href={`/${document.id}`} key={key} passHref>
                           <Tile
                             style={{
                               display: "unset",
