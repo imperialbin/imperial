@@ -11,4 +11,7 @@ export const modals = {
   documentSettings: {
     title: "Document settings",
   },
+  login: {
+    title: "Welcome back!",
+  },
 };
