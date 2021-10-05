@@ -151,10 +151,10 @@
     "@types/qs" "*"
     "@types/serve-static" "*"
 
-"@types/gravatar@^1.8.1":
-  version "1.8.1"
-  resolved "https://registry.yarnpkg.com/@types/gravatar/-/gravatar-1.8.1.tgz#28a7718338b4d56a1c1e5d8c60fdc6b1f5262f2e"
-  integrity sha512-j9yLS2opf24/ba3AwAdR3FuvCOuZfhwnLiKT6qhlwDI+aHMHKLuvW6K1rwkQ0JgPZVb56HSAY3l4APJdBxdKEQ==
+"@types/gravatar@^1.8.3":
+  version "1.8.3"
+  resolved "https://registry.yarnpkg.com/@types/gravatar/-/gravatar-1.8.3.tgz#a7d9175d96e0ac54e3ea2dd02a3ed83785ba1c19"
+  integrity sha512-F4Ij02yEI2+hr7aMCrM8syaU9pN16cSJIxnFf/ccVNQ+HrKzgVz8Kn0ZJhWzCJM+UnELHO/OGKTW0O646vk/HA==
 
 "@types/ioredis@*", "@types/ioredis@^4.26.0":
   version "4.26.0"
