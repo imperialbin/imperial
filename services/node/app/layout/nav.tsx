@@ -121,7 +121,7 @@ export const Nav = ({
   const [, setActiveModal] = useAtom(activeModal);
   const [collapsed, setCollapsed] = useState(false);
   const [publicStatus, setPublic] = useState(false);
-  const findIcon = supportedLanguages.find(l => l.name === language)?.icon as React.ElementType;
+  const findIcon = supportedLanguages.find(l => l.name === language)?.icon;
   const Icon = (findIcon ? findIcon : FaMinus) as React.ElementType;
 
   const createDocument = async () => {
