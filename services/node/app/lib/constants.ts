@@ -1,3 +1,7 @@
+import {
+  TypeScript as TypeScriptIcon,
+  HTML as HTMLIcon,
+} from "../components/ui/icons";
 /* ENV and some static stuff */
 
 export const API_BASE = "http://localhost:80/";
@@ -27,7 +31,7 @@ export const supportedLanguages = [
   { id: 13, name: "go" },
   { id: 14, name: "graphql" },
   { id: 15, name: "handlebars" },
-  { id: 16, name: "html" },
+  { id: 16, name: "html", icon: HTMLIcon },
   { id: 17, name: "ini" },
   { id: 18, name: "java" },
   { id: 19, name: "javascript" },
@@ -64,7 +68,7 @@ export const supportedLanguages = [
   { id: 50, name: "st" },
   { id: 51, name: "swift" },
   { id: 52, name: "tcl" },
-  { id: 53, name: "typescript" },
+  { id: 53, name: "typescript", icon: TypeScriptIcon },
   { id: 54, name: "vb" },
   { id: 55, name: "xml" },
   { id: 56, name: "yaml" },
