@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { useAtom } from "jotai";
 import type { NextPage } from "next";
-import { Editor } from "../components";
+import { Editor } from "../components/ui";
 import { useUser } from "../hooks";
 import { Nav } from "../layout/nav";
 import { editingState } from "../state/editor";
-import { DragandDrop } from "../components/DragandDrop";
+import { DragandDrop } from "../components/ui/DragandDrop";
 
 const Home: NextPage = () => {
   const { user, isLoading } = useUser();

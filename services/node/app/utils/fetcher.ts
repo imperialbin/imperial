@@ -1,4 +1,6 @@
-export const fetcher = async (url: string) => {
+import { Response } from "node-fetch";
+
+export const fetcher = async (url: string): Promise<Response> => {
   const res = await fetch(url, {
     mode: "cors",
     credentials: "include",

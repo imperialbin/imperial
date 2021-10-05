@@ -8,7 +8,7 @@ export const useUser = () => {
   const user: User = data?.data;
 
   return {
-    user: user,
+    user,
     isLoading: !error && !data,
     isError: error,
     mutate,

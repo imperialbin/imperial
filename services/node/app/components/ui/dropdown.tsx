@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { DropdownProps } from "../types";
-import { supportedLanguages } from "../utils";
+import { DropdownProps } from "../../types";
+import { supportedLanguages } from "../../utils";
 
 const Select = styled.select`
   background: ${({ theme }) => theme.layoutLittleLessDark};

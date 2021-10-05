@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { DiscordURL, GitHubURL } from "../../lib/constants";
+import { DiscordURL, GitHubURL } from "../../../lib/constants";
 import { Anchor, ListContainer, ListItem, Seperator } from "./styles";
 
 export const LoggedOutTooltip = (): JSX.Element => (

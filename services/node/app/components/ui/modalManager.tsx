@@ -1,13 +1,13 @@
 import styled from "styled-components";
 import { motion, AnimatePresence } from "framer-motion";
-import { Document } from "../types";
+import { Document } from "../../types";
 import { useAtom } from "jotai";
-import { activeModal } from "../state/modal";
-import { Tooltip } from "./";
+import { activeModal } from "../../state/modal";
+import { Tooltip } from "./tooltip";
 import { IoMdClose } from "react-icons/io";
 import { useRef } from "react";
-import { useModalHook } from "../hooks/modalHook";
-import { modals } from "../state/modal/modals";
+import { useModalHook } from "../../hooks/modalHook";
+import { modals } from "../../state/modal/modals";
 import {
   LanguageModal,
   AddUsersModal,

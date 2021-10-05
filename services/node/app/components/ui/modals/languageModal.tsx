@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { useAtom } from "jotai";
 import styled from "styled-components";
-import { languageState } from "../../state/editor";
-import { activeModal } from "../../state/modal";
-import { supportedLanguages } from "../../lib/constants";
+import { languageState } from "../../../state/editor";
+import { activeModal } from "../../../state/modal";
+import { supportedLanguages } from "../../../lib/constants";
 import { MdFindInPage } from "react-icons/md";
 import { motion } from "framer-motion";
 import { FaSearch } from "react-icons/fa";

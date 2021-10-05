@@ -1,4 +1,4 @@
-import { Setting } from "../components";
+import { Setting } from "../components/ui";
 import { Document } from "../types";
 import { request } from "./requestWrapper";
 
@@ -18,7 +18,7 @@ interface Response {
 
 export const updateDocumentSettings = async (
   document: Document,
-  setting: Setting
+  setting: Setting,
 ): Promise<Response> => {
   const { data, error } = await request(`/document`, "PATCH", {
     id: document.id,

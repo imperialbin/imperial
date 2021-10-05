@@ -1,6 +1,7 @@
-import { Switch, Dropdown } from ".";
+import { Switch } from "./switch";
+import { Dropdown } from "./dropdown";
 import styled from "styled-components";
-import { SettingProps } from "../types";
+import { SettingProps } from "../../types";
 
 const SettingContainer = styled.div`
   display: flex;

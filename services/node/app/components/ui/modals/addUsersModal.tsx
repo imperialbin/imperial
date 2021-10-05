@@ -1,16 +1,17 @@
 import { useState } from "react";
 import { useAtom } from "jotai";
 import styled from "styled-components";
-import { documentEditors } from "../../state/modal";
+import { documentEditors } from "../../../state/modal";
 import {
   FadeAnimation,
   FadeSlideUpAnimation,
   HeaderSecondary,
   Search,
 } from "./styles";
-import { request } from "../../utils/requestWrapper";
-import { DocumentEditor } from "../../types";
-import { Tooltip, UserIcon } from "..";
+import { request } from "../../../utils/requestWrapper";
+import { DocumentEditor } from "../../../types";
+import { Tooltip } from "../tooltip";
+import { UserIcon } from "../userIcon";
 import { FaUserMinus, FaUserPlus, FaUserSlash } from "react-icons/fa";
 import { motion } from "framer-motion";
 

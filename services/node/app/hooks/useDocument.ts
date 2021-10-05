@@ -4,12 +4,12 @@ import { FULL_URI_V1 } from "../lib/constants";
 
 export const useDocument = (URL: string, password?: string) => {
   const { data, error } = useSWR(
-    URL && FULL_URI_V1 + `/document/${URL}?password=${password}`
+    URL && FULL_URI_V1 + `/document/${URL}?password=${password}`,
   );
   const document: Document = data?.data;
 
   return {
-    document: document,
+    document,
     isLoading: !error && !data,
     isError: error,
   };

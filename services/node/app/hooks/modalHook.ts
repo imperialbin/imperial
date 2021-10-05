@@ -2,7 +2,7 @@ import { MutableRefObject, useEffect } from "react";
 
 export const useModalHook = (
   ref: MutableRefObject<HTMLDivElement | null>,
-  handler: (e: MouseEvent | TouchEvent | KeyboardEvent) => unknown
+  handler: (e: MouseEvent | TouchEvent | KeyboardEvent) => unknown,
 ): void => {
   useEffect(() => {
     const listener = (e: MouseEvent | TouchEvent) => {

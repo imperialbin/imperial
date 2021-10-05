@@ -1,14 +1,14 @@
 /* eslint-disable no-console */
 import { useState } from "react";
-import { Document } from "../../types";
+import { Document } from "../../../types";
 import { HeaderSecondary } from "./styles";
-import { Setting } from "../";
-import { request, updateDocumentSettings } from "../../utils";
+import { Setting } from "../setting";
+import { request, updateDocumentSettings } from "../../../utils";
 import { useAtom } from "jotai";
-import { languageState } from "../../state/editor";
+import { languageState } from "../../../state/editor";
 import styled from "styled-components";
 import Router from "next/router";
-import { activeModal } from "../../state/modal";
+import { activeModal } from "../../../state/modal";
 
 const DangerArea = styled.h1`
   margin-top: 30px;

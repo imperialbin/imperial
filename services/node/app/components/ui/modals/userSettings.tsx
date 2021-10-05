@@ -13,9 +13,9 @@ import {
 } from "react-icons/fa";
 import styled, { ThemeContext } from "styled-components";
 import { Input, UserIcon, Setting, Tooltip } from "..";
-import { useRecentDocuments, useUser } from "../../hooks";
-import { request } from "../../utils";
-import { updateUserSettings } from "../../utils/updateUserSettings";
+import { useRecentDocuments, useUser } from "../../../hooks";
+import { request } from "../../../utils";
+import { updateUserSettings } from "../../../utils/updateUserSettings";
 import dayjs from "dayjs";
 import calender from "dayjs/plugin/calendar";
 import updateLocale from "dayjs/plugin/updateLocale";

@@ -5,8 +5,8 @@ import Monaco, {
   Monaco as MonacoType,
 } from "imperial-editor";
 import { useAtom } from "jotai";
-import { editingState, languageState, textState } from "../state/editor";
-import { User } from "../types";
+import { editingState, languageState, textState } from "../../state/editor";
+import { User } from "../../types";
 import { EditorSkeleton } from "./skeletons";
 
 export const Editor = (props: EditorProps & { user?: User }): JSX.Element => {

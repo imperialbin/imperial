@@ -3,7 +3,7 @@ import { FULL_URI_V1 } from "../lib/constants";
 export const request = async (
   path: string,
   method: "POST" | "GET" | "DELETE" | "PATCH",
-  body: any = null
+  body: any = null,
 ): Promise<any> => {
   const request = await fetch(FULL_URI_V1 + path, {
     method,
@@ -17,8 +17,8 @@ export const request = async (
   const data = await request.json();
 
   if (!request.ok) {
-    return { data: data, error: data.message || request.status };
+    return { data, error: data.message || request.status };
   }
 
-  return { data: data, error: false };
+  return { data, error: false };
 };

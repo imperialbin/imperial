@@ -6,7 +6,7 @@ import { Provider } from "jotai";
 import { SkeletonTheme } from "react-loading-skeleton";
 import { createGlobalStyle, ThemeProvider } from "styled-components";
 import { darkTheme } from "../utils/theme";
-import { ModalManager } from "../components";
+import { ModalManager } from "../components/ui";
 
 const GlobalStyle = createGlobalStyle`
   html {

@@ -21,13 +21,13 @@ import {
   FaArrowRight,
 } from "react-icons/fa";
 
-import { Tooltip, UserIcon } from "../components";
-import { UserIconSkeleton } from "../components/skeletons";
+import { Tooltip, UserIcon } from "../components/ui";
+import { UserIconSkeleton } from "../components/ui/skeletons";
 import { editingState, languageState } from "../state/editor";
 import { Document, NavProps } from "../types";
 import { request } from "../utils/requestWrapper";
 import { useState } from "react";
-import { LoggedInTooltip, LoggedOutTooltip } from "../components/tooltips";
+import { LoggedInTooltip, LoggedOutTooltip } from "../components/ui/tooltips";
 import { activeModal, documentEditors } from "../state/modal";
 import { supportedLanguages } from "../lib/constants";
 import { motion } from "framer-motion";
