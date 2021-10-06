@@ -21,6 +21,7 @@ import calender from "dayjs/plugin/calendar";
 import updateLocale from "dayjs/plugin/updateLocale";
 import { useAtom } from "jotai";
 import { activeModal } from "../../../state/modal";
+import { LanguageSelector } from "../../locales/LanguageSelector";
 
 const Container = styled.div`
   display: inline-flex;
@@ -422,6 +423,7 @@ export const UserSettings = (): JSX.Element => {
                 inputDisabled={true}
               />
             </Tooltip>
+            <LanguageSelector />
             <br />
             <Subtitle>Editor settings</Subtitle>
             <Setting

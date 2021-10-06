@@ -173,7 +173,6 @@ export const Login = () => {
             iconDisabled={true}
             placeholder="Enter your username or email"
             onChange={e => setUsername(e.target.value)}
-            inputProps={{ required: true, type: "email" }}
           />
           <Input
             label="Password"
