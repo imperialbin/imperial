@@ -17,7 +17,7 @@ import {
   Less as LessIcon,
   FSharp as FSharpIcon,
   ObjectiveC as ObjectiveCIcon,
-} from "../components/ui/icons";
+} from "../components/ui/icons/languages";
 
 /* ENV and some static stuff */
 export const API_BASE = "http://localhost:80/";
