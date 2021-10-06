@@ -65,7 +65,7 @@
     "express-flash": "^0.0.2",
     "express-rate-limit": "^5.2.6",
     "express-session": "^1.17.1",
-    "gravatar": "^1.8.1",
+    "gravatar": "^1.8.2",
     "imperial-highlight.js": "^10.7.3",
     "ioredis": "^4.24.2",
     "ipware": "^2.0.0",
