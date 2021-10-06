@@ -268,10 +268,10 @@
   resolved "https://registry.yarnpkg.com/@types/range-parser/-/range-parser-1.2.3.tgz#7ee330ba7caafb98090bece86a5ee44115904c2c"
   integrity sha512-ewFXqrQHlFsgc09MK5jP5iR7vumV/BYayNC6PgJO2LPe8vrnNFyjQjSppfEngITi0qvfKtzFvgKymGheFM9UOA==
 
-"@types/rate-limit-redis@^1.7.1":
-  version "1.7.1"
-  resolved "https://registry.yarnpkg.com/@types/rate-limit-redis/-/rate-limit-redis-1.7.1.tgz#ac5bd5772de41baba3edb41e2ac93ac3e803d99b"
-  integrity sha512-WceqhiLiZSYDbSIZg0i6qvB/W+rMgnyq0UNgr+YsBsK3LQPzBFUZrwxBGbfB/Gml+uvYaWXxlNVgL+1UErT+og==
+"@types/rate-limit-redis@^1.7.2":
+  version "1.7.2"
+  resolved "https://registry.yarnpkg.com/@types/rate-limit-redis/-/rate-limit-redis-1.7.2.tgz#19627ec7e60099e354e4734ac1a3c0e81a0051c6"
+  integrity sha512-6Rl/7pKHpTYCUnj+2WGfpcF5YiZAV1Zn9GDjZI1pnRcY1qZi9MED7YQSKmGnycLHk5E8vorARw2S9llfkhd6xQ==
   dependencies:
     "@types/ioredis" "*"
     "@types/redis" "*"
