@@ -39,6 +39,19 @@ const Btn = styled.button<{ backgroundColor?: string }>`
   }
 `;
 
+const Span = styled.span`
+  display: block;
+  margin: 2px 0 15px 0;
+  opacity: 0.6;
+  color: ${({ theme }) => theme.textDarker};
+  cursor: pointer;
+  transition: opacity 0.2s ease-in-out;
+
+  &:hover {
+    opacity: 1;
+  }
+`;
+
 export const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -107,6 +120,9 @@ export const Login = () => {
           onChange={e => setPassword(e.target.value)}
           inputProps={{ required: true, type: "password" }}
         />
+        <Span onClick={() => setActiveModal(["signup", null])}>
+          Don&apos;t have an account?
+        </Span>
         <Btn disabled={loading} type="submit">
           Login
         </Btn>

@@ -1,7 +1,9 @@
+import { useAtom } from "jotai";
 import { useState } from "react";
 import { FaLock, FaMailBulk } from "react-icons/fa";
 import styled from "styled-components";
 import { Input } from "..";
+import { activeModal } from "../../../state/modal";
 import { HeaderSecondary } from "./styles";
 
 const Container = styled.form``;
@@ -35,11 +37,25 @@ const Btn = styled.button<{ backgroundColor?: string }>`
   }
 `;
 
+const Span = styled.span`
+  display: block;
+  margin: 2px 0 15px 0;
+  opacity: 0.6;
+  color: ${({ theme }) => theme.textDarker};
+  cursor: pointer;
+  transition: opacity 0.2s ease-in-out;
+
+  &:hover {
+    opacity: 1;
+  }
+`;
+
 export const Signup = () => {
   const [, setUsername] = useState("");
   const [, setEmail] = useState("");
   const [, setPassword] = useState("");
   const [, setConfirmPassword] = useState("");
+  const [, setActiveModal] = useAtom(activeModal);
   const [error] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -97,6 +113,9 @@ export const Signup = () => {
           onChange={e => setConfirmPassword(e.target.value)}
           inputProps={{ required: true, type: "password" }}
         />
+        <Span onClick={() => setActiveModal(["login", null])}>
+          Already have an account?
+        </Span>
         <Btn disabled={loading} type="submit">
           Signup
         </Btn>
