@@ -398,28 +398,30 @@ export const UserSettings = (): JSX.Element => {
                 mutate({ ...data }, false);
               }}
             />
-            <Input
-              label="API Token"
-              placeholder="API Token"
-              value={user.apiToken}
-              icon={<FaRedo size={18} />}
-              secretValue={true}
-              iconClick={async () => {
-                const { data, error } = await request(
-                  "/user/@me/regenAPIToken",
-                  "POST",
-                );
-
-                if (error && !data) {
-                  return console.log(
-                    "There was an error whilst editing document settings!",
+            <Tooltip title="Click to copy API Token">
+              <Input
+                label="API Token"
+                placeholder="API Token"
+                value={user.apiToken}
+                icon={<FaRedo size={18} />}
+                secretValue={true}
+                iconClick={async () => {
+                  const { data, error } = await request(
+                    "/user/@me/regenAPIToken",
+                    "POST",
                   );
-                }
 
-                mutate({ ...data }, false);
-              }}
-              inputDisabled={true}
-            />
+                  if (error && !data) {
+                    return console.log(
+                      "There was an error whilst editing document settings!",
+                    );
+                  }
+
+                  mutate({ ...data }, false);
+                }}
+                inputDisabled={true}
+              />
+            </Tooltip>
             <br />
             <Subtitle>Editor settings</Subtitle>
             <Setting

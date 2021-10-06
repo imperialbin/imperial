@@ -33,18 +33,16 @@ const ModalContainer = styled(motion.div)`
 
 const ModalBody = styled(motion.div)<{
   modal: string;
+  noHeader: boolean;
 }>`
   width: 80%;
-  max-width: ${({ modal }) => (modal === "userSettings" ? "800px" : "600px")};
-  ${({ modal }) =>
-    (modal === "login" || modal === "signup" || modal === "resetPassword") &&
-    "max-width: 450px;"}
+  max-width: ${({ modal }) => (modal === "userSettings" ? "800px" : "650px")};
   min-height: 200px;
   ${({ modal }) => modal === "userSettings" && "height: 50%;"}
   max-height: 80%;
   overflow: scroll;
   border-radius: 8px;
-  padding: ${({ modal }) => (modal !== "userSettings" ? "18px" : "0")};
+  padding: ${({ noHeader }) => (!noHeader ? "18px" : "0")};
   box-shadow: rgba(0, 0, 0, 0.5) 0px 16px 70px;
   background: ${({ theme }) => theme.layoutLightestOfTheBunch};
 `;
@@ -118,6 +116,7 @@ export const ModalManager = (): JSX.Element => {
             transition={{ duration: 0.15 }}
             variants={modalAnimation}
             modal={currentModal}
+            noHeader={modal.noHeader}
           >
             <Header noHeader={modal.noHeader}>
               {/* Remove header for some modals */}
