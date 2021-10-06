@@ -3,12 +3,13 @@ import { FaLock, FaMailBulk } from "react-icons/fa";
 import styled from "styled-components";
 import { Input } from "..";
 import { HeaderSecondary } from "./styles";
+import { request } from "../../../utils";
 
 const Container = styled.form``;
 
 const Error = styled.span`
   color: ${({ theme }) => theme.error};
-  font-size: 1.2em;
+  font-size: 1em;
 `;
 
 const Btn = styled.button<{ backgroundColor?: string }>`
@@ -36,16 +37,48 @@ const Btn = styled.button<{ backgroundColor?: string }>`
 `;
 
 export const Signup = () => {
-  const [, setUsername] = useState("");
-  const [, setEmail] = useState("");
-  const [, setPassword] = useState("");
-  const [, setConfirmPassword] = useState("");
-  const [error, setError] = useState<string | null>(null);
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState<string>("");
   const [loading, setLoading] = useState(false);
 
-  const submit = (e: React.FormEvent<HTMLFormElement>) => {
+  const submit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
+
+    if (!username) {
+      setLoading(false);
+      return setError("You need to have a username");
+    }
+
+    if (!email) {
+      setLoading(false);
+      return setError("You need to have a email");
+    }
+
+    if (!password) {
+      setLoading(false);
+      return setError("You need to have a password");
+    }
+
+    if (confirmPassword !== password) {
+      setLoading(false);
+      return setError("Passwords do not match");
+    }
+
+    const { data, error } = await request("/auth/signup", "POST", {
+      username,
+      email,
+      password,
+      confirmPassword,
+    });
+
+    if (!data.success && error) {
+      setLoading(false);
+      return setError(data.message);
+    }
   };
 
   return (
@@ -55,7 +88,7 @@ export const Signup = () => {
       {error && (
         <>
           <br />
-          <Error>{error}</Error>
+            <Error>{error}</Error>
           <br />
         </>
       )}
@@ -68,7 +101,6 @@ export const Signup = () => {
           iconDisabled={true}
           placeholder="Enter your email"
           onChange={e => setEmail(e.target.value)}
-          inputProps={{ required: true, type: "email" }}
         />
         <Input
           label="Username"
@@ -77,7 +109,6 @@ export const Signup = () => {
           iconDisabled={true}
           placeholder="Enter your username"
           onChange={e => setUsername(e.target.value)}
-          inputProps={{ required: true, type: "username" }}
         />
         <Input
           label="Password"
@@ -86,7 +117,6 @@ export const Signup = () => {
           iconDisabled={true}
           placeholder="Enter your password"
           onChange={e => setPassword(e.target.value)}
-          inputProps={{ required: true, type: "password" }}
         />
         <Input
           label="Confirm password"
@@ -95,7 +125,6 @@ export const Signup = () => {
           iconDisabled={true}
           placeholder="Enter your password again"
           onChange={e => setConfirmPassword(e.target.value)}
-          inputProps={{ required: true, type: "password" }}
         />
         <Btn disabled={loading} type="submit">
           Signup

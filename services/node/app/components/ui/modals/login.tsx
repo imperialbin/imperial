@@ -88,6 +88,11 @@ export const Login = () => {
         </>
       )}
       <br />
+      {error && (
+        <label>
+          <span style={{ color: "coral" }}>Error:</span> {error}
+        </label>
+      )}
       <Container onSubmit={submit}>
         <Input
           label="Email or username"
