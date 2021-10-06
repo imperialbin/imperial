@@ -5,7 +5,7 @@ import { Editor } from "../components/ui";
 import { useUser } from "../hooks";
 import { Nav } from "../layout/nav";
 import { editingState } from "../state/editor";
-import { DragandDrop } from "../components/ui/DragandDrop";
+import { DragandDrop } from "../components/ui";
 
 const Home: NextPage = () => {
   const { user, isLoading } = useUser();

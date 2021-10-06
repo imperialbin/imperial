@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Document } from "../../../types";
 import { HeaderSecondary } from "./styles";
-import { Setting } from "../setting";
+import { Setting } from "../Setting";
 import { request, updateDocumentSettings } from "../../../utils";
 import { useAtom } from "jotai";
 import { languageState } from "../../../state/editor";
