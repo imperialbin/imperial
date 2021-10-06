@@ -40,8 +40,8 @@ const Btn = styled.button<{ backgroundColor?: string }>`
 `;
 
 const Span = styled.span`
-  display: block;
-  margin: 2px 0 15px 0;
+  display: inline-block;
+  margin: 2px 0 5px 0;
   opacity: 0.6;
   color: ${({ theme }) => theme.textDarker};
   cursor: pointer;
@@ -49,6 +49,9 @@ const Span = styled.span`
 
   &:hover {
     opacity: 1;
+  }
+  &:last-of-type {
+    margin-bottom: 8px;
   }
 `;
 
@@ -116,6 +119,9 @@ export const Login = () => {
           onChange={e => setUsername(e.target.value)}
           inputProps={{ required: true, type: "email" }}
         />
+        <Span onClick={() => setActiveModal(["signup", null])}>
+          Don&apos;t have an account?
+        </Span>
         <Input
           label="Password"
           icon={<FaLock />}
@@ -125,9 +131,10 @@ export const Login = () => {
           onChange={e => setPassword(e.target.value)}
           inputProps={{ required: true, type: "password" }}
         />
-        <Span onClick={() => setActiveModal(["signup", null])}>
-          Don&apos;t have an account?
+        <Span onClick={() => setActiveModal(["resetPassword", null])}>
+          Forgot password?
         </Span>
+        <br />
         <Btn disabled={loading} type="submit">
           Login
         </Btn>
