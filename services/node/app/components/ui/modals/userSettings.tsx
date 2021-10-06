@@ -19,6 +19,8 @@ import { updateUserSettings } from "../../../utils/updateUserSettings";
 import dayjs from "dayjs";
 import calender from "dayjs/plugin/calendar";
 import updateLocale from "dayjs/plugin/updateLocale";
+import { useAtom } from "jotai";
+import { activeModal } from "../../../state/modal";
 
 const Container = styled.div`
   display: inline-flex;
@@ -157,6 +159,7 @@ interface PasswordState {
 export const UserSettings = (): JSX.Element => {
   const theme = useContext(ThemeContext);
   const { user, isError, isLoading, mutate } = useUser();
+  const [, setActiveModal] = useAtom(activeModal);
   const {
     documents,
     isError: documentsError,
@@ -242,12 +245,9 @@ export const UserSettings = (): JSX.Element => {
                         .slice(0, 10);
 
                       return (
-                        <Link
-                          href={`/${document.id}`}
-                          passHref={true}
-                          key={key}
-                        >
+                        <Link href={`/${document.id}`} key={key} passHref>
                           <Tile
+                            onClick={() => setActiveModal([null, null])}
                             style={{
                               display: "unset",
                               padding: "17px 8px",

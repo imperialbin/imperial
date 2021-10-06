@@ -1,6 +1,15 @@
-import { ChangeEventHandler } from "hoist-non-react-statics/node_modules/@types/react";
+/* eslint-disable @typescript-eslint/ban-types */
+/* eslint-disable no-unused-vars */
+import {
+  ChangeEventHandler,
+  InputHTMLAttributes,
+} from "hoist-non-react-statics/node_modules/@types/react";
 import { ChangeEvent } from "react";
-import { CSSProperties } from "styled-components";
+import {
+  CSSProperties,
+  DefaultTheme,
+  StyledComponent,
+} from "styled-components";
 
 export interface LoginRequest {
   username: string;
@@ -129,6 +138,7 @@ export interface InputProps {
   inputDisabled?: boolean;
   tooltipTitle?: string | undefined;
   type?: string;
+  inputProps?: InputHTMLAttributes<HTMLInputElement>;
 }
 export interface SwitchProps {
   toggled?: boolean;

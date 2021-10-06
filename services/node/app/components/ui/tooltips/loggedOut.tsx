@@ -1,21 +1,24 @@
-import Link from "next/link";
+import { useAtom } from "jotai";
 import { DiscordURL, GitHubURL } from "../../../lib/constants";
+import { activeModal } from "../../../state/modal";
 import { Anchor, ListContainer, ListItem, Seperator } from "./styles";
 
-export const LoggedOutTooltip = (): JSX.Element => (
-  <ListContainer>
-    <Link href="/login" passHref={true}>
-      <ListItem>Login</ListItem>
-    </Link>
-    <Link href="/signup" passHref={true}>
-      <ListItem>Signup</ListItem>
-    </Link>
-    <Seperator />
-    <Anchor href={DiscordURL} target="_blank" rel="noreferrer">
-      Discord
-    </Anchor>
-    <Anchor href={GitHubURL} target="_blank" rel="noreferrer">
-      GitHub
-    </Anchor>
-  </ListContainer>
-);
+export const LoggedOutTooltip = (): JSX.Element => {
+  const [, setActiveModal] = useAtom(activeModal);
+
+  return (
+    <ListContainer>
+      <ListItem onClick={() => setActiveModal(["login", null])}>Login</ListItem>
+      <ListItem onClick={() => setActiveModal(["signup", null])}>
+        Signup
+      </ListItem>
+      <Seperator />
+      <Anchor href={DiscordURL} target="_blank" rel="noreferrer">
+        Discord
+      </Anchor>
+      <Anchor href={GitHubURL} target="_blank" rel="noreferrer">
+        GitHub
+      </Anchor>
+    </ListContainer>
+  );
+};

@@ -95,6 +95,7 @@ export const Input = ({
   inputDisabled = false,
   onChange,
   type = "",
+  inputProps,
 }: InputProps): JSX.Element => {
   const [inputValue, setInputValue] = useState(value);
 
@@ -116,6 +117,7 @@ export const Input = ({
           disabled={inputDisabled}
           secretValue={secretValue}
           type={type}
+          {...inputProps}
         />
         <AnimatePresence>
           {icon && !hideIconUntilDifferent && (

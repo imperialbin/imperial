@@ -7,3 +7,4 @@ export * from "./switch";
 export * from "./setting";
 export * from "./dropdown";
 export * from "./input";
+export * from "./Loading";
