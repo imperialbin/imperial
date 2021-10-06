@@ -23,7 +23,7 @@ import {
 
 import { Tooltip, UserIcon } from "../components";
 import { UserIconSkeleton } from "../components/skeletons";
-import { editingState } from "../state/editor";
+import { editingState, languageState } from "../state/editor";
 import { Document, NavProps } from "../types";
 import { request } from "../utils/requestWrapper";
 import { useState } from "react";
@@ -116,12 +116,13 @@ export const Nav = ({
   document = null,
 }: NavProps): JSX.Element => {
   const [editing, setEditing] = useAtom(editingState);
+  const [language] = useAtom(languageState);
   const [editors] = useAtom(documentEditors);
   const [, setActiveModal] = useAtom(activeModal);
   const [collapsed, setCollapsed] = useState(false);
-
-  // I forgot that public is a reserved name in javacrip
   const [publicStatus, setPublic] = useState(false);
+  const findIcon = supportedLanguages.find(l => l.name === language)?.icon;
+  const Icon = (findIcon ? findIcon : FaMinus) as React.ElementType;
 
   const createDocument = async () => {
     if (
@@ -316,7 +317,7 @@ export const Nav = ({
                         setActiveModal(["language", supportedLanguages]);
                       }}
                     >
-                      <FaMinus size={18} />
+                      <Icon size={18} />
                     </Btn>
                   </Tooltip>
                   <Tooltip style={{ margin: "0 10px" }} title="Change editors">
@@ -332,7 +333,7 @@ export const Nav = ({
                       setActiveModal(["language", supportedLanguages]);
                     }}
                   >
-                    <FaMinus size={18} />
+                    <Icon size={18} />
                   </Btn>
                 </Tooltip>
               )}
