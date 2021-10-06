@@ -1,6 +1,6 @@
 import { useAtom } from "jotai";
 import { useState } from "react";
-import { FaLock, FaMailBulk } from "react-icons/fa";
+import { FaLock, FaUser } from "react-icons/fa";
 import styled from "styled-components";
 import { Input } from "..";
 import { useUser } from "../../../hooks";
@@ -109,7 +109,7 @@ export const Login = () => {
       <Container onSubmit={submit}>
         <Input
           label="Email or username"
-          icon={<FaMailBulk />}
+          icon={<FaUser />}
           iconClick={() => null}
           iconDisabled={true}
           placeholder="Enter your username or email"

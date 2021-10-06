@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useAtom } from "jotai";
 import { useState } from "react";
-import { FaCheck, FaLock, FaMailBulk } from "react-icons/fa";
+import { FaCheck, FaEnvelope, FaLock, FaUser } from "react-icons/fa";
 import styled from "styled-components";
 import { Input } from "..";
 import { useUser } from "../../../hooks";
@@ -167,7 +167,7 @@ export const Signup = () => {
             <Container onSubmit={submit}>
               <Input
                 label="Email"
-                icon={<FaMailBulk />}
+                icon={<FaEnvelope />}
                 iconClick={() => null}
                 iconDisabled={true}
                 placeholder="Enter your email"
@@ -176,7 +176,7 @@ export const Signup = () => {
               />
               <Input
                 label="Username"
-                icon={<FaMailBulk />}
+                icon={<FaUser />}
                 iconClick={() => null}
                 iconDisabled={true}
                 placeholder="Enter your username"
