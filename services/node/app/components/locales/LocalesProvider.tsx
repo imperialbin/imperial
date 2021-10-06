@@ -3,7 +3,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-empty-function */
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { ILanguage } from "./BaseLanguage";
+import { ILanguage } from "../../types/BaseLanguage";
 import en from "./en";
 
 export const languages: ILanguage[] = [en];

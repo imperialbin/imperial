@@ -1,4 +1,4 @@
-import { ILanguage } from '../BaseLanguage';
+import { ILanguage } from '../../../types/BaseLanguage';
 
 export const lang: ILanguage = {
   langCode: 'en',

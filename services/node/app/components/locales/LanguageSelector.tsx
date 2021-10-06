@@ -2,7 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import en from "./en";
 import { languages, useSetLanguage } from "./LocalesProvider";
-import { ILanguage } from "./BaseLanguage";
+import { ILanguage } from "../../types/BaseLanguage";
 import styled from "styled-components";
 
 const Label = styled.label`
