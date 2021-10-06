@@ -4,7 +4,6 @@ import { FaCheck, FaEnvelope } from "react-icons/fa";
 import styled from "styled-components";
 import { Input } from "..";
 import { request } from "../../../utils";
-import { HeaderSecondary } from "./styles";
 
 import Image from "next/image";
 
@@ -27,42 +26,11 @@ const Left = styled.div`
   border-top-right-radius: 12px;
 `;
 
-const LeftBtn = styled.button`
-  border: none;
-  border-radius: 5px;
-  margin-top: 8px;
-  padding: 10px 15px;
-  font-size: 0.9em;
-  cursor: pointer;
-  opacity: 0.8;
-  color: ${({ theme }) => theme.textLight};
-  background: ${({ theme }) => theme.layoutDarkest};
-  box-shadow: 0px 0px 13px rgba(0, 0, 0, 0.25);
-  transition: all 0.2s ease-in-out;
-
-  &:hover {
-    opacity: 1;
-  }
-
-  &:disabled {
-    cursor: not-allowed;
-    opacity: 0.5;
-  }
-  &:last-of-type {
-    margin-top: 15px;
-  }
-`;
-
 const Right = styled.div`
   flex: 1.25;
   max-height: 300px;
   padding: 10px 30px;
   overflow: scroll;
-`;
-
-const BtnContainer = styled.div`
-  align-self: flex-start;
-  margin-left: 10px;
 `;
 
 const Subtitle = styled.h1`
