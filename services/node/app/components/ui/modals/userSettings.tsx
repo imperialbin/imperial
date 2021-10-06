@@ -142,6 +142,11 @@ const Btn = styled.button<{ backgroundColor?: string }>`
   }
 `;
 
+const NotFoundSpan = styled.span`
+  margin-left: 12px;
+  color: ${({ theme }) => theme.textDarker};
+`;
+
 interface EmailState {
   newEmail: string;
   emailError: string | null;
@@ -236,55 +241,55 @@ export const UserSettings = (): JSX.Element => {
                 {documentsLoading && "Documents loading..."}
                 {documentsError &&
                   "There was an error getting your recent documents!"}
-                {documents && documents.length > 0
-                  ? documents.map((document, key) => {
-                      const date = new Date(
-                        document.timestamps.expiration * 1000,
-                      )
-                        .toISOString()
-                        .slice(0, 10);
+                {documents && documents.length > 0 ? (
+                  documents.map((document, key) => {
+                    const date = new Date(document.timestamps.expiration * 1000)
+                      .toISOString()
+                      .slice(0, 10);
 
-                      return (
-                        <Link href={`/${document.id}`} key={key} passHref>
-                          <Tile
-                            onClick={() => setActiveModal([null, null])}
-                            style={{
-                              display: "unset",
-                              padding: "17px 8px",
-                              minWidth: 160,
-                              cursor: "pointer",
-                            }}
-                          >
-                            <TileBtns>
-                              {document.settings.instantDelete && (
-                                <Tooltip title="Instantly deletes after being viewed">
-                                  <TileBtn>
-                                    <FaEye size={12} />
-                                  </TileBtn>
-                                </Tooltip>
-                              )}
-                              {document.settings.encrypted && (
-                                <Tooltip title="Encrypted">
-                                  <TileBtn>
-                                    <FaLock size={12} />
-                                  </TileBtn>
-                                </Tooltip>
-                              )}
-                              <Tooltip title="Delete document">
+                    return (
+                      <Link href={`/${document.id}`} key={key} passHref>
+                        <Tile
+                          onClick={() => setActiveModal([null, null])}
+                          style={{
+                            display: "unset",
+                            padding: "17px 8px",
+                            minWidth: 160,
+                            cursor: "pointer",
+                          }}
+                        >
+                          <TileBtns>
+                            {document.settings.instantDelete && (
+                              <Tooltip title="Instantly deletes after being viewed">
                                 <TileBtn>
-                                  <FaTrash size={12} />
+                                  <FaEye size={12} />
                                 </TileBtn>
                               </Tooltip>
-                            </TileBtns>
-                            {document.id}
-                            <TitleInfo>
-                              Deletes {dayjs(date).calendar()}
-                            </TitleInfo>
-                          </Tile>
-                        </Link>
-                      );
-                    })
-                  : "You don't have an recent documents"}
+                            )}
+                            {document.settings.encrypted && (
+                              <Tooltip title="Encrypted">
+                                <TileBtn>
+                                  <FaLock size={12} />
+                                </TileBtn>
+                              </Tooltip>
+                            )}
+                            <Tooltip title="Delete document">
+                              <TileBtn>
+                                <FaTrash size={12} />
+                              </TileBtn>
+                            </Tooltip>
+                          </TileBtns>
+                          {document.id}
+                          <TitleInfo>
+                            Deletes {dayjs(date).calendar()}
+                          </TitleInfo>
+                        </Tile>
+                      </Link>
+                    );
+                  })
+                ) : (
+                  <NotFoundSpan>You have no recent documents.</NotFoundSpan>
+                )}
               </Tiles>
             </Tiles>
             <br />
