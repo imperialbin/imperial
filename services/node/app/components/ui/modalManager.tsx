@@ -15,6 +15,7 @@ import {
   UserSettings,
   Login,
   Signup,
+  ResetPassword,
 } from "./modals";
 
 const ModalContainer = styled(motion.div)`
@@ -36,7 +37,8 @@ const ModalBody = styled(motion.div)<{
   width: 80%;
   max-width: ${({ modal }) => (modal === "userSettings" ? "800px" : "600px")};
   ${({ modal }) =>
-    (modal === "login" || modal === "signup") && "max-width: 425px;"}
+    (modal === "login" || modal === "signup" || modal === "resetPassword") &&
+    "max-width: 450px;"}
   min-height: 200px;
   ${({ modal }) => modal === "userSettings" && "height: 50%;"}
   max-height: 80%;
@@ -48,13 +50,12 @@ const ModalBody = styled(motion.div)<{
 `;
 
 const Header = styled.div<{
-  modal: string;
+  noHeader: boolean;
 }>`
   display: flex;
-  position: ${({ modal }) =>
-    modal === "userSettings" ? "absolute" : "relative"};
-  right: ${({ modal }) => modal === "userSettings" && "10px"};
-  top: ${({ modal }) => modal === "userSettings" && "15px"};
+  position: ${({ noHeader }) => (noHeader ? "absolute" : "relative")};
+  right: ${({ noHeader }) => noHeader && "10px"};
+  top: ${({ noHeader }) => noHeader && "15px"};
   flex-direction: row;
   align-items: center;
   color: white;
@@ -98,7 +99,6 @@ const modalAnimation = {
 export const ModalManager = (): JSX.Element => {
   const [[currentModal, data], setActiveModal] = useAtom(activeModal);
   const modalRef = useRef<HTMLDivElement | null>(null);
-
   const modal = currentModal && modals[currentModal];
 
   useModalHook(modalRef, () => setActiveModal([null, null]));
@@ -119,9 +119,9 @@ export const ModalManager = (): JSX.Element => {
             variants={modalAnimation}
             modal={currentModal}
           >
-            <Header modal={currentModal}>
-              {/* Remove title for user settings */}
-              {currentModal !== "userSettings" && <Title>{modal.title}</Title>}
+            <Header noHeader={modal.noHeader}>
+              {/* Remove header for some modals */}
+              {!modal.noHeader && <Title>{modal.title}</Title>}
               <Tooltip
                 style={{
                   display: "inline-flex",
@@ -144,6 +144,7 @@ export const ModalManager = (): JSX.Element => {
             )}
             {currentModal === "login" && <Login />}
             {currentModal === "signup" && <Signup />}
+            {currentModal === "resetPassword" && <ResetPassword />}
             <br />
           </ModalBody>
         </ModalContainer>
