@@ -1,5 +1,6 @@
 import "react-tippy/dist/tippy.css";
 import type { AppProps } from "next/app";
+import { LanguageProvider } from "../locales/LocalesProvider";
 import { SWRConfig } from "swr";
 import { fetcher } from "../utils/fetcher";
 import { Provider } from "jotai";
@@ -59,13 +60,15 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
             revalidateOnFocus: false,
           }}
         >
-          <ModalManager />
-          <SkeletonTheme
-            color={theme.layoutLightestOfTheBunch}
-            highlightColor={theme.layoutDark}
-          >
-            <Component {...pageProps} />
-          </SkeletonTheme>
+          <LanguageProvider>
+            <ModalManager />
+            <SkeletonTheme
+              color={theme.layoutLightestOfTheBunch}
+              highlightColor={theme.layoutDark}
+            >
+              <Component {...pageProps} />
+            </SkeletonTheme>
+          </LanguageProvider>
         </SWRConfig>
       </ThemeProvider>
     </Provider>

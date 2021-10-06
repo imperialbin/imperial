@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { MutableRefObject, useEffect } from "react";
 
 export const useModalHook = (
