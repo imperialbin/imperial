@@ -6,14 +6,14 @@ import styled from "styled-components";
 import { Input } from "..";
 import { useUser } from "../../../hooks";
 import { activeModal } from "../../../state/modal";
-import { request } from "../../../utils";
 import { HeaderSecondary } from "./styles";
+import { request } from "../../../utils";
 
 const Container = styled.form``;
 
 const Error = styled.span`
   color: ${({ theme }) => theme.error};
-  font-size: 1.2em;
+  font-size: 1em;
 `;
 
 const Btn = styled.button<{ backgroundColor?: string }>`
@@ -128,7 +128,7 @@ export const Signup = () => {
 
     if (password !== confirmPassword) {
       setLoading(false);
-      return setError("Confirm password does not match password.");
+      return setError("Passwords do not match");
     }
 
     const { data, error } = await request("/auth/signup", "POST", {

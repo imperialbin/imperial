@@ -3,7 +3,7 @@ import { useAtom } from "jotai";
 import type { NextPage } from "next";
 import { Editor } from "../components/ui";
 import { useUser } from "../hooks";
-import { Nav } from "../layout/nav";
+import { Nav } from "../layout/Navbar";
 import { editingState } from "../state/editor";
 import { DragandDrop } from "../components/ui";
 
