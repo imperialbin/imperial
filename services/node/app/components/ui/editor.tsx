@@ -48,6 +48,7 @@ export const Editor = (props: EditorProps & { user?: User }): JSX.Element => {
             }
           : {
               readOnly: !editing,
+              fontSize: 14,
             }
       }
       theme="IMPERIAL"
