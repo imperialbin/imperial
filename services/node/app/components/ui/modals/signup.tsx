@@ -40,7 +40,7 @@ export const Signup = () => {
   const [, setEmail] = useState("");
   const [, setPassword] = useState("");
   const [, setConfirmPassword] = useState("");
-  const [error, setError] = useState<string | null>(null);
+  const [error] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
   const submit = (e: React.FormEvent<HTMLFormElement>) => {

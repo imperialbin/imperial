@@ -1,4 +1,4 @@
-import { SwitchProps } from "../types";
+import { SwitchProps } from "../../types";
 import styled from "styled-components";
 import { useState } from "react";
 

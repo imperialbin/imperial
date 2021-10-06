@@ -10,8 +10,8 @@ import {
 } from "./styles";
 import { request } from "../../../utils/requestWrapper";
 import { DocumentEditor } from "../../../types";
-import { Tooltip } from "../tooltip";
-import { UserIcon } from "../userIcon";
+import { Tooltip } from "../Tooltip";
+import { UserIcon } from "../UserIcon";
 import { FaUserMinus, FaUserPlus, FaUserSlash } from "react-icons/fa";
 import { motion } from "framer-motion";
 

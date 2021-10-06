@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useAtom } from "jotai";
 import type { NextPage } from "next";
 import { useRouter } from "next/dist/client/router";
-import { Editor } from "../components/editor";
+import { Editor } from "../components/ui";
 import { useDocument, useUser } from "../hooks";
 import { Nav } from "../layout/nav";
 import { languageState } from "../state/editor";

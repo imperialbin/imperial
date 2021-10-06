@@ -1,2 +1,2 @@
-export * from "./userIconSkeleton";
-export * from "./editorSkeleton";
+export * from "./UserIconSkeleton";
+export * from "./EditorSkeleton";

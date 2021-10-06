@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Document } from "../../types";
 import { useAtom } from "jotai";
 import { activeModal } from "../../state/modal";
-import { Tooltip } from "./tooltip";
+import { Tooltip } from "./Tooltip";
 import { IoMdClose } from "react-icons/io";
 import { useRef } from "react";
 import { useModalHook } from "../../hooks/modalHook";
