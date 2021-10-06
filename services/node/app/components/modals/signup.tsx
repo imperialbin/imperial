@@ -28,6 +28,11 @@ const Btn = styled.button<{ backgroundColor?: string }>`
   &:hover {
     opacity: 1;
   }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
 `;
 
 export const Signup = () => {
@@ -36,9 +41,12 @@ export const Signup = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const submit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
+
     console.log(username, email, password, confirmPassword);
   };
 
@@ -91,7 +99,9 @@ export const Signup = () => {
           onChange={e => setConfirmPassword(e.target.value)}
           inputProps={{ required: true, type: "password" }}
         />
-        <Btn type="submit">Login</Btn>
+        <Btn disabled={loading} type="submit">
+          Signup
+        </Btn>
       </Container>
     </>
   );

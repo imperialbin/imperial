@@ -3,4 +3,4 @@ export * from "./languageModal";
 export * from "./documentSettings";
 export * from "./userSettings";
 export * from "./login";
-export * from "./singup";
+export * from "./signup";

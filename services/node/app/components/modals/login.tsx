@@ -32,27 +32,44 @@ const Btn = styled.button<{ backgroundColor?: string }>`
   &:hover {
     opacity: 1;
   }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
 `;
 
 export const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<null | string>(null);
+  const [loading, setLoading] = useState(false);
   const { mutate } = useUser();
   const [, setActiveModal] = useAtom(activeModal);
 
   const submit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
 
-    if (!username) return setError("You need to have a username");
-    if (!password) return setError("You need to have a password");
+    if (!username) {
+      setLoading(false);
+      return setError("You need to have a username");
+    }
+
+    if (!password) {
+      setLoading(false);
+      return setError("You need to have a password");
+    }
 
     const { data, error } = await request("/auth/login", "POST", {
       username,
       password,
     });
 
-    if (!data.success && error) return setError(data.message);
+    if (!data.success && error) {
+      setLoading(false);
+      return setError(data.message);
+    }
 
     setError(null);
     setActiveModal([null, null]);
@@ -90,7 +107,9 @@ export const Login = () => {
           onChange={e => setPassword(e.target.value)}
           inputProps={{ required: true, type: "password" }}
         />
-        <Btn type="submit">Login</Btn>
+        <Btn disabled={loading} type="submit">
+          Login
+        </Btn>
       </Container>
     </>
   );

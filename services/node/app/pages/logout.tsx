@@ -5,14 +5,15 @@ import { useUser } from "../hooks/useUser";
 import { request } from "../utils/requestWrapper";
 
 const Logout: NextPage = () => {
-  const { user, isLoading } = useUser();
+  const { user, isLoading, mutate } = useUser();
 
   useEffect(() => {
-    if (!user && !isLoading) Router.replace("/login");
+    if (!user && !isLoading) Router.replace("/");
 
     request("/auth/logout", "DELETE");
 
-    Router.replace("/login");
+    Router.replace("/");
+    mutate({}, false);
   }, [user, isLoading]);
 
   return user ? <h1>Destroying session...</h1> : <h1></h1>;
