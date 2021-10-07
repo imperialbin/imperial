@@ -322,7 +322,7 @@ export const Nav = ({
                       <motion.div
                         transition={{ duration: 0.22 }}
                         initial="initial"
-                        animate="hover"
+                        animate={{ ...brandAnimation.hover, marginLeft: 0 }}
                         exit="initial"
                         variants={brandAnimation}
                       >
