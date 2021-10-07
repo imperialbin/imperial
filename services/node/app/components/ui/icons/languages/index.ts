@@ -16,3 +16,8 @@ export * from "./Less";
 export * from "./MySQL";
 export * from "./FSharp";
 export * from "./ObjectiveC";
+export * from "./Perl";
+export * from "./PHP";
+export * from "./CSharp";
+export * from "./CPP";
+export * from "./C";
