@@ -10,7 +10,6 @@ import { runCode } from "../components/runner/RunCode";
 import {
   FaUserFriends,
   FaMinus,
-  FaCode,
   FaEdit,
   FaSave,
   FaAlignLeft,
@@ -21,7 +20,6 @@ import {
   FaCheck,
   FaCog,
   FaArrowRight,
-  FaPlay,
   FaPlayCircle,
 } from "react-icons/fa";
 
@@ -113,6 +111,32 @@ const Btn = styled.button`
 
 const ArrowContainer = styled(motion.div)``;
 
+const ExecutionContainer = styled(motion.div)`
+  position: absolute;
+  right: 0;
+  top: 135px;
+  width: 430px;
+  z-index: 999;
+  padding: 15px;
+  background: ${({ theme }) => theme.layoutDarkest};
+  border-bottom-left-radius: 15px;
+  border-top-left-radius: 15px;
+  box-shadow: 0px 0px 6px 3px rgb(0 0 0 / 25%);
+`;
+
+const ExecutionTitle = styled.h1`
+  font-size: 1.3em;
+  margin: 0;
+  color: ${({ theme }) => theme.textLight};
+`;
+
+const ExecutionSpan = styled.span`
+  display: block;
+  font-size: 1em;
+  margin: 0 0 10px 0;
+  color: ${({ theme }) => theme.textDarker};
+`;
+
 export const Nav = ({
   user,
   userLoading = true,
@@ -127,6 +151,7 @@ export const Nav = ({
   const [, setActiveModal] = useAtom(activeModal);
   const [collapsed, setCollapsed] = useState(false);
   const [publicStatus, setPublic] = useState(false);
+  const [executionOutput, setExecutionOutput] = useState<string | null>(null);
   const findIcon = supportedLanguages.find(l => l.name === language)?.icon;
   const Icon = (findIcon ? findIcon : FaMinus) as React.ElementType;
 
@@ -232,138 +257,173 @@ export const Nav = ({
     },
   };
 
+  const codeExecution = {
+    initial: {
+      x: "100%",
+    },
+    animate: {
+      x: 0,
+    },
+  };
+
   return (
-    <Wrapper
-      initial={"initial"}
-      transition={{ type: "spring", duration: 0.5, bounce: 0.2 }}
-      animate={collapsed ? "collapsed" : "initial"}
-      variants={navAnimation}
-    >
-      <HideNavContainer onClick={() => setCollapsed(!collapsed)}>
-        <ArrowContainer
-          transition={{ duration: 0.3 }}
-          animate={collapsed ? { rotate: 180 } : { rotate: 0 }}
-        >
-          <FaArrowRight />
-        </ArrowContainer>
-      </HideNavContainer>
-      <Container>
-        <BrandContainer initial={"initial"} whileHover={"hover"}>
-          <Link href="/" passHref>
-            <Brand>IMPERIAL</Brand>
-          </Link>
-          {document && (
-            <Tooltip title="Click to copy URL">
-              <Copy
-                text={
-                  process.env.NODE_ENV === "development"
-                    ? `localhost:3000/${document.id}`
-                    : `https://imperialb.in/${document.id}`
-                }
-                onCopy={() => console.log("testtt")}
-              >
-                <DocumentID
-                  transition={{ duration: 0.3 }}
-                  variants={brandAnimation}
+    <>
+      <Wrapper
+        initial={"initial"}
+        transition={{ type: "spring", duration: 0.5, bounce: 0.2 }}
+        animate={collapsed ? "collapsed" : "initial"}
+        variants={navAnimation}
+      >
+        <HideNavContainer onClick={() => setCollapsed(!collapsed)}>
+          <ArrowContainer
+            transition={{ duration: 0.3 }}
+            animate={collapsed ? { rotate: 180 } : { rotate: 0 }}
+          >
+            <FaArrowRight />
+          </ArrowContainer>
+        </HideNavContainer>
+        <Container>
+          <BrandContainer initial={"initial"} whileHover={"hover"}>
+            <Link href="/" passHref>
+              <Brand>IMPERIAL</Brand>
+            </Link>
+            {document && (
+              <Tooltip title="Click to copy URL">
+                <Copy
+                  text={
+                    process.env.NODE_ENV === "development"
+                      ? `localhost:3000/${document.id}`
+                      : `https://imperialb.in/${document.id}`
+                  }
+                  onCopy={() => console.log("testtt")}
                 >
-                  {document.id}
-                </DocumentID>
-              </Copy>
-            </Tooltip>
-          )}
-        </BrandContainer>
-        <Buttons>
-          {editor &&
-            !document?.settings.encrypted &&
-            !document?.settings.instantDelete && (
-              <>
-                <Tooltip
-                  style={{ margin: "0 10px" }}
-                  title={!editing ? "Edit document" : "Save document"}
-                >
-                  <Btn onClick={!editing ? allowEdit : editDocument}>
-                    {editing ? <FaCheck size={18} /> : <FaEdit size={18} />}
-                  </Btn>
-                </Tooltip>
-                {user.username === document?.creator && (
+                  <DocumentID
+                    transition={{ duration: 0.3 }}
+                    variants={brandAnimation}
+                  >
+                    {document.id}
+                  </DocumentID>
+                </Copy>
+              </Tooltip>
+            )}
+          </BrandContainer>
+          <Buttons>
+            {editor &&
+              !document?.settings.encrypted &&
+              !document?.settings.instantDelete && (
+                <>
                   <Tooltip
                     style={{ margin: "0 10px" }}
-                    title="Edit document settings"
+                    title={!editing ? "Edit document" : "Save document"}
                   >
-                    <Btn
-                      onClick={() =>
-                        setActiveModal([
-                          "documentSettings",
-                          document as Document,
-                        ])
-                      }
+                    <Btn onClick={!editing ? allowEdit : editDocument}>
+                      {editing ? <FaCheck size={18} /> : <FaEdit size={18} />}
+                    </Btn>
+                  </Tooltip>
+                  {user.username === document?.creator && (
+                    <Tooltip
+                      style={{ margin: "0 10px" }}
+                      title="Edit document settings"
                     >
-                      <FaCog size={18} />
-                    </Btn>
-                  </Tooltip>
-                )}
-              </>
-            )}
-          {creatingDocument ? (
-            <>
-              {user ? (
-                <>
-                  <Tooltip style={{ margin: "0 10px" }} title="Public status">
-                    <Btn onClick={() => setPublic(!publicStatus)}>
-                      {publicStatus ? (
-                        <FaEye size={18} />
-                      ) : (
-                        <FaEyeSlash size={18} />
-                      )}
-                    </Btn>
-                  </Tooltip>
-                  <AnimatePresence>
-                    {language !== "plaintext" && text.length > 0 && (
-                      <motion.div
-                        transition={{ duration: 0.22 }}
-                        initial="initial"
-                        animate={{ ...brandAnimation.hover, marginLeft: 0 }}
-                        exit="initial"
-                        variants={brandAnimation}
+                      <Btn
+                        onClick={() =>
+                          setActiveModal([
+                            "documentSettings",
+                            document as Document,
+                          ])
+                        }
                       >
-                        <Tooltip style={{ margin: "0 10px" }} title="Run Code">
-                          <RuntimesContext.Consumer>
-                            {context => (
-                              <Btn
-                                onClick={async () => {
-                                  const runtime = context.find(
-                                    (l: any) => l.language === language,
-                                  )?.version;
-                                  const { data, error } = await runCode(
-                                    language,
-                                    runtime,
-                                    text,
-                                  );
+                        <FaCog size={18} />
+                      </Btn>
+                    </Tooltip>
+                  )}
+                </>
+              )}
+            {creatingDocument ? (
+              <>
+                {user ? (
+                  <>
+                    <Tooltip style={{ margin: "0 10px" }} title="Public status">
+                      <Btn onClick={() => setPublic(!publicStatus)}>
+                        {publicStatus ? (
+                          <FaEye size={18} />
+                        ) : (
+                          <FaEyeSlash size={18} />
+                        )}
+                      </Btn>
+                    </Tooltip>
+                    <AnimatePresence>
+                      {language !== "plaintext" && text.length > 0 && (
+                        <motion.div
+                          transition={{ duration: 0.22 }}
+                          initial="initial"
+                          animate={{ ...brandAnimation.hover, marginLeft: 0 }}
+                          exit="initial"
+                          variants={brandAnimation}
+                        >
+                          <Tooltip
+                            style={{ margin: "0 10px" }}
+                            title="Run Code"
+                          >
+                            <RuntimesContext.Consumer>
+                              {context => (
+                                <Btn
+                                  onClick={async () => {
+                                    const runtime = context.find(
+                                      (l: any) => l.language === language,
+                                    )?.version;
+                                    const { data, error } = await runCode(
+                                      language,
+                                      runtime,
+                                      text,
+                                    );
 
-                                  if (error) {
-                                    if (error === 429) {
+                                    if (error && !data) {
+                                      if (error === 429) {
+                                        return console.log(
+                                          "You are being rate limited!",
+                                        );
+                                      }
+
                                       return console.log(
-                                        "You are being rate limited!",
+                                        "An unknown error happened!",
+                                        error,
                                       );
                                     }
 
-                                    return console.log(
-                                      "An unknown error happened!",
-                                      error,
-                                    );
-                                  }
-
-                                  console.log("hey!", data);
-                                }}
-                              >
-                                <FaPlayCircle size={18} />
-                              </Btn>
-                            )}
-                          </RuntimesContext.Consumer>
-                        </Tooltip>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+                                    setExecutionOutput(data);
+                                  }}
+                                >
+                                  <FaPlayCircle size={18} />
+                                </Btn>
+                              )}
+                            </RuntimesContext.Consumer>
+                          </Tooltip>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                    <Tooltip
+                      style={{ margin: "0 10px" }}
+                      title="Change language"
+                    >
+                      <Btn
+                        onClick={() => {
+                          setActiveModal(["language", supportedLanguages]);
+                        }}
+                      >
+                        <Icon size={18} />
+                      </Btn>
+                    </Tooltip>
+                    <Tooltip
+                      style={{ margin: "0 10px" }}
+                      title="Change editors"
+                    >
+                      <Btn onClick={() => setActiveModal(["addUsers", null])}>
+                        <FaUserFriends size={18} />
+                      </Btn>
+                    </Tooltip>
+                  </>
+                ) : (
                   <Tooltip style={{ margin: "0 10px" }} title="Change language">
                     <Btn
                       onClick={() => {
@@ -373,74 +433,82 @@ export const Nav = ({
                       <Icon size={18} />
                     </Btn>
                   </Tooltip>
-                  <Tooltip style={{ margin: "0 10px" }} title="Change editors">
-                    <Btn onClick={() => setActiveModal(["addUsers", null])}>
-                      <FaUserFriends size={18} />
-                    </Btn>
-                  </Tooltip>
-                </>
-              ) : (
-                <Tooltip style={{ margin: "0 10px" }} title="Change language">
-                  <Btn
-                    onClick={() => {
-                      setActiveModal(["language", supportedLanguages]);
-                    }}
-                  >
-                    <Icon size={18} />
+                )}
+                <Tooltip style={{ margin: "0 10px" }} title="Save document">
+                  <Btn onClick={createDocument}>
+                    <FaSave size={18} />
                   </Btn>
                 </Tooltip>
-              )}
-              <Tooltip style={{ margin: "0 10px" }} title="Save document">
-                <Btn onClick={createDocument}>
-                  <FaSave size={18} />
-                </Btn>
-              </Tooltip>
-            </>
-          ) : (
-            <>
-              <Tooltip style={{ margin: "0 10px" }} title="View Raw">
-                <Btn
-                  onClick={() =>
-                    Router.push(
-                      `/r/${location.pathname.substr(1)}${location.search}`,
-                    )
-                  }
+              </>
+            ) : (
+              <>
+                <Tooltip style={{ margin: "0 10px" }} title="View Raw">
+                  <Btn
+                    onClick={() =>
+                      Router.push(
+                        `/r/${location.pathname.substr(1)}${location.search}`,
+                      )
+                    }
+                  >
+                    <FaAlignLeft size={18} />
+                  </Btn>
+                </Tooltip>
+                <Tooltip
+                  style={{ margin: "0 10px" }}
+                  title="Duplicate document"
                 >
-                  <FaAlignLeft size={18} />
-                </Btn>
-              </Tooltip>
-              <Tooltip style={{ margin: "0 10px" }} title="Duplicate document">
-                <Btn onClick={createDocument}>
-                  <FaCopy size={18} />
-                </Btn>
-              </Tooltip>
-            </>
-          )}
-          <Tooltip style={{ margin: "0 10px" }} title="New document">
-            <Btn onClick={newDocument}>
-              <FaFileAlt size={18} />
-            </Btn>
-          </Tooltip>
-          {!userLoading ? (
-            <Tooltip
-              style={{ margin: "0 10px" }}
-              trigger="click"
-              position="bottom-end"
-              interactive={true}
-              useContext={true}
-              html={user ? <LoggedInTooltip /> : <LoggedOutTooltip />}
-              arrow
-            >
-              <UserIcon
-                style={{ cursor: "pointer" }}
-                URL={user ? user.icon : "/img/pfp.png"}
-              />
+                  <Btn onClick={createDocument}>
+                    <FaCopy size={18} />
+                  </Btn>
+                </Tooltip>
+              </>
+            )}
+            <Tooltip style={{ margin: "0 10px" }} title="New document">
+              <Btn onClick={newDocument}>
+                <FaFileAlt size={18} />
+              </Btn>
             </Tooltip>
-          ) : (
-            <UserIconSkeleton style={{ margin: "0 10px", display: "block" }} />
-          )}
-        </Buttons>
-      </Container>
-    </Wrapper>
+            {!userLoading ? (
+              <Tooltip
+                style={{ margin: "0 10px" }}
+                trigger="click"
+                position="bottom-end"
+                interactive={true}
+                useContext={true}
+                html={user ? <LoggedInTooltip /> : <LoggedOutTooltip />}
+                arrow
+              >
+                <UserIcon
+                  style={{ cursor: "pointer" }}
+                  URL={user ? user.icon : "/img/pfp.png"}
+                />
+              </Tooltip>
+            ) : (
+              <UserIconSkeleton
+                style={{ margin: "0 10px", display: "block" }}
+              />
+            )}
+          </Buttons>
+        </Container>
+      </Wrapper>
+      <AnimatePresence>
+        {executionOutput && (
+          <ExecutionContainer
+            variants={codeExecution}
+            transition={{ duration: 0.45, type: "spring" }}
+            initial="initial"
+            exit="initial"
+            animate="animate"
+          >
+            <ExecutionTitle>Code output</ExecutionTitle>
+            <ExecutionSpan>Powered by Piston</ExecutionSpan>
+
+            {new Date().toDateString() + " " + new Date().toLocaleTimeString()}
+            <br />
+            {executionOutput}
+          </ExecutionContainer>
+        )}
+      </AnimatePresence>
+    </>
   );
 };
