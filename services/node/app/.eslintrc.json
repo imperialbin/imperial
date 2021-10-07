@@ -34,6 +34,7 @@
     "capitalized-comments": "off",
     "no-negated-condition": "off",
     "one-var": "off",
+    "react/prop-types": "off",
     "@next/next/no-page-custom-font": "off"
   }
 }

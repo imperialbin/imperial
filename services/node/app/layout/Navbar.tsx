@@ -6,9 +6,11 @@ import Router from "next/router";
 import { useEffect } from "react";
 import styled from "styled-components";
 import Copy from "react-copy-to-clipboard";
+import { runCode } from "../components/runner/RunCode";
 import {
   FaUserFriends,
   FaMinus,
+  FaCode,
   FaEdit,
   FaSave,
   FaAlignLeft,
@@ -23,7 +25,7 @@ import {
 
 import { Tooltip, UserIcon } from "../components/ui";
 import { UserIconSkeleton } from "../components/ui/skeletons";
-import { editingState, languageState } from "../state/editor";
+import { editingState, textState, languageState } from "../state/editor";
 import { Document, NavProps } from "../types";
 import { request } from "../utils/requestWrapper";
 import { useState } from "react";
@@ -31,6 +33,7 @@ import { LoggedInTooltip, LoggedOutTooltip } from "../components/ui/tooltips";
 import { activeModal, documentEditors } from "../state/modal";
 import { supportedLanguages } from "../lib/constants";
 import { motion } from "framer-motion";
+import { RuntimesContext } from "../components/runner/PistonRuntimesProvider";
 
 const Wrapper = styled(motion.div)`
   position: absolute;
@@ -117,6 +120,7 @@ export const Nav = ({
 }: NavProps): JSX.Element => {
   const [editing, setEditing] = useAtom(editingState);
   const [language] = useAtom(languageState);
+  const [text] = useAtom(textState);
   const [editors] = useAtom(documentEditors);
   const [, setActiveModal] = useAtom(activeModal);
   const [collapsed, setCollapsed] = useState(false);
@@ -311,6 +315,22 @@ export const Nav = ({
                       )}
                     </Btn>
                   </Tooltip>
+                  {language !== "plaintext" && (
+                    <Tooltip style={{ margin: "0 10px" }} title="Run Code">
+                      <RuntimesContext.Consumer>
+                        {context => (
+                          <Btn
+                            onClick={() => {
+                              const runtime = context.find((l: any) => l.language === language)?.version;
+                              runCode(language, runtime, text);
+                            }}
+                          >
+                            <FaCode size={18} />
+                          </Btn>
+                        )}
+                      </RuntimesContext.Consumer>
+                    </Tooltip>
+                  )}
                   <Tooltip style={{ margin: "0 10px" }} title="Change language">
                     <Btn
                       onClick={() => {

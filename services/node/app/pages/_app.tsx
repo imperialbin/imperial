@@ -1,6 +1,7 @@
 import "react-tippy/dist/tippy.css";
 import type { AppProps } from "next/app";
 import { LanguageProvider } from "../components/locales/LocalesProvider";
+import { RuntimesProvider } from "../components/runner/PistonRuntimesProvider";
 import { SWRConfig } from "swr";
 import { fetcher } from "../utils/fetcher";
 import { Provider } from "jotai";
@@ -60,6 +61,7 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
             revalidateOnFocus: false,
           }}
         >
+          <RuntimesProvider>
           <LanguageProvider>
             <ModalManager />
             <SkeletonTheme
@@ -69,6 +71,7 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
               <Component {...pageProps} />
             </SkeletonTheme>
           </LanguageProvider>
+          </RuntimesProvider>
         </SWRConfig>
       </ThemeProvider>
     </Provider>
