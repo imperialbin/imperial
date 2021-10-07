@@ -330,11 +330,30 @@ export const Nav = ({
                           <RuntimesContext.Consumer>
                             {context => (
                               <Btn
-                                onClick={() => {
+                                onClick={async () => {
                                   const runtime = context.find(
                                     (l: any) => l.language === language,
                                   )?.version;
-                                  runCode(language, runtime, text);
+                                  const { data, error } = await runCode(
+                                    language,
+                                    runtime,
+                                    text,
+                                  );
+
+                                  if (error) {
+                                    if (error === 429) {
+                                      return console.log(
+                                        "You are being rate limited!",
+                                      );
+                                    }
+
+                                    return console.log(
+                                      "An unknown error happened!",
+                                      error,
+                                    );
+                                  }
+
+                                  console.log("hey!", data);
                                 }}
                               >
                                 <FaPlayCircle size={18} />

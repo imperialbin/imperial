@@ -3,7 +3,7 @@ export const runCode = async (
   language: string,
   version: string,
   code: string,
-): Promise<void> => {
+): Promise<{ data: string | null; error: number | null }> => {
   const req = await fetch("https://emkc.org/api/v2/piston/execute", {
     method: "POST",
     body: JSON.stringify({
@@ -15,9 +15,11 @@ export const runCode = async (
         },
       ],
     }),
-  })
-    .then(res => res.json())
-    .then(res => res.run.output);
-  console.log(req);
-  return req;
+  });
+
+  if (!req.ok) return { data: null, error: req.status };
+
+  const parsedJSON = await req.json();
+
+  return { data: parsedJSON.run.output, error: null };
 };
