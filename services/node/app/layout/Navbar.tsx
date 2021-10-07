@@ -21,6 +21,8 @@ import {
   FaCheck,
   FaCog,
   FaArrowRight,
+  FaPlay,
+  FaPlayCircle,
 } from "react-icons/fa";
 
 import { Tooltip, UserIcon } from "../components/ui";
@@ -32,7 +34,7 @@ import { useState } from "react";
 import { LoggedInTooltip, LoggedOutTooltip } from "../components/ui/tooltips";
 import { activeModal, documentEditors } from "../state/modal";
 import { supportedLanguages } from "../lib/constants";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { RuntimesContext } from "../components/runner/PistonRuntimesProvider";
 
 const Wrapper = styled(motion.div)`
@@ -315,22 +317,34 @@ export const Nav = ({
                       )}
                     </Btn>
                   </Tooltip>
-                  {language !== "plaintext" && (
-                    <Tooltip style={{ margin: "0 10px" }} title="Run Code">
-                      <RuntimesContext.Consumer>
-                        {context => (
-                          <Btn
-                            onClick={() => {
-                              const runtime = context.find((l: any) => l.language === language)?.version;
-                              runCode(language, runtime, text);
-                            }}
-                          >
-                            <FaCode size={18} />
-                          </Btn>
-                        )}
-                      </RuntimesContext.Consumer>
-                    </Tooltip>
-                  )}
+                  <AnimatePresence>
+                    {language !== "plaintext" && text.length > 0 && (
+                      <motion.div
+                        transition={{ duration: 0.22 }}
+                        initial="initial"
+                        animate="hover"
+                        exit="initial"
+                        variants={brandAnimation}
+                      >
+                        <Tooltip style={{ margin: "0 10px" }} title="Run Code">
+                          <RuntimesContext.Consumer>
+                            {context => (
+                              <Btn
+                                onClick={() => {
+                                  const runtime = context.find(
+                                    (l: any) => l.language === language,
+                                  )?.version;
+                                  runCode(language, runtime, text);
+                                }}
+                              >
+                                <FaPlayCircle size={18} />
+                              </Btn>
+                            )}
+                          </RuntimesContext.Consumer>
+                        </Tooltip>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                   <Tooltip style={{ margin: "0 10px" }} title="Change language">
                     <Btn
                       onClick={() => {
@@ -341,7 +355,7 @@ export const Nav = ({
                     </Btn>
                   </Tooltip>
                   <Tooltip style={{ margin: "0 10px" }} title="Change editors">
-                    <Btn onClick={() => setActiveModal(["addUsers", "balls"])}>
+                    <Btn onClick={() => setActiveModal(["addUsers", null])}>
                       <FaUserFriends size={18} />
                     </Btn>
                   </Tooltip>
