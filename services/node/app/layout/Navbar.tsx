@@ -134,7 +134,6 @@ export const Nav = ({
   const [executions, setExecutions] = useAtom(executionsState);
   const findIcon = supportedLanguages.find(l => l.name === language)?.icon;
   const Icon = (findIcon ? findIcon : FaMinus) as React.ElementType;
-  console.log(executions);
 
   const createDocument = async () => {
     if (
