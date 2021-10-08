@@ -33,6 +33,10 @@ const ExecutionText = styled.span`
   color: white;
 `;
 
+const ExecutionError = styled.span`
+  color: #FFCCCC;
+`;
+
 const codeExecution = {
   initial: {
     x: "100%",
@@ -64,7 +68,15 @@ export const CodeExecution: React.FC = (): JSX.Element => {
         .map((e, key) => (
           <ExecutionSpan key={key}>
             <ExecutionText>{e.date}</ExecutionText> <br />{" "}
-            <ExecutionText>&gt;</ExecutionText> {e.output}
+            {e.error === false ? (
+              <>
+                <ExecutionText>&gt;</ExecutionText> {e.output}
+              </>
+            ) : (
+              <>
+                <ExecutionText>&gt;</ExecutionText> <ExecutionError>{e.output}</ExecutionError>
+              </>
+            )}
           </ExecutionSpan>
         ))}
 

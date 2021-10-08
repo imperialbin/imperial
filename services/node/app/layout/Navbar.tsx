@@ -349,19 +349,6 @@ export const Nav = ({
                                       text,
                                     );
 
-                                    if (error && !data) {
-                                      if (error === 429) {
-                                        return console.log(
-                                          "You are being rate limited!",
-                                        );
-                                      }
-
-                                      return console.log(
-                                        "An unknown error happened!",
-                                        error,
-                                      );
-                                    }
-
                                     setExecutions((old: any) => [
                                       ...old,
                                       {
@@ -370,6 +357,7 @@ export const Nav = ({
                                           new Date().toDateString() +
                                           " " +
                                           new Date().toLocaleTimeString(),
+                                        error,
                                       },
                                     ]);
                                   }}
