@@ -1,6 +1,6 @@
 /* eslint-disable prefer-destructuring */
 /* eslint-disable no-console */
-import { useAtom } from "jotai";
+import { useAtom, atom } from "jotai";
 import Link from "next/link";
 import Router from "next/router";
 import { useEffect } from "react";
@@ -116,6 +116,7 @@ const Btn = styled.button`
 `;
 
 const ArrowContainer = styled(motion.div)``;
+const executedAtom = atom(false);
 
 export const Nav = ({
   user,
@@ -131,7 +132,8 @@ export const Nav = ({
   const [, setActiveModal] = useAtom(activeModal);
   const [collapsed, setCollapsed] = useState(false);
   const [publicStatus, setPublic] = useState(false);
-  const [executions, setExecutions] = useAtom(executionsState);
+  const [, setExecutions] = useAtom(executionsState);
+  const [executed, setExecuted] = useAtom(executedAtom);
   const findIcon = supportedLanguages.find(l => l.name === language)?.icon;
   const Icon = (findIcon ? findIcon : FaMinus) as React.ElementType;
 
@@ -360,6 +362,8 @@ export const Nav = ({
                                         error,
                                       },
                                     ]);
+
+                                    setExecuted(true);
                                   }}
                                 >
                                   <FaPlayCircle size={18} />
@@ -460,7 +464,7 @@ export const Nav = ({
         </Container>
       </Wrapper>
       <AnimatePresence>
-        {executions && (
+        {executed && (
           <CodeExecution />
         )}
       </AnimatePresence>

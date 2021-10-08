@@ -14,6 +14,7 @@ const ExecutionContainer = styled(motion.div)`
   border-bottom-left-radius: 15px;
   border-top-left-radius: 15px;
   box-shadow: 0px 0px 6px 3px rgb(0 0 0 / 25%);
+  word-wrap: break-word;
 `;
 
 const ExecutionTitle = styled.h1`
