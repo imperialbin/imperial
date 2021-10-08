@@ -31,7 +31,6 @@ import {
   textState,
   languageState,
   executionsState,
-  executionOutputState,
 } from "../state/editor";
 import { Document, NavProps } from "../types";
 import { request } from "../utils/requestWrapper";
@@ -132,10 +131,10 @@ export const Nav = ({
   const [, setActiveModal] = useAtom(activeModal);
   const [collapsed, setCollapsed] = useState(false);
   const [publicStatus, setPublic] = useState(false);
-  const [executionOutput, setExecutionOutput] = useAtom(executionOutputState);
-  const [, setExecutions] = useAtom(executionsState);
+  const [executions, setExecutions] = useAtom(executionsState);
   const findIcon = supportedLanguages.find(l => l.name === language)?.icon;
   const Icon = (findIcon ? findIcon : FaMinus) as React.ElementType;
+  console.log(executions);
 
   const createDocument = async () => {
     if (
@@ -374,8 +373,6 @@ export const Nav = ({
                                           new Date().toLocaleTimeString(),
                                       },
                                     ]);
-
-                                    setExecutionOutput(String(data));
                                   }}
                                 >
                                   <FaPlayCircle size={18} />
@@ -476,7 +473,7 @@ export const Nav = ({
         </Container>
       </Wrapper>
       <AnimatePresence>
-        {executionOutput && (
+        {executions && (
           <CodeExecution />
         )}
       </AnimatePresence>

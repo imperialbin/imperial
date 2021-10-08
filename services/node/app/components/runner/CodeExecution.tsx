@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
-import { executionsState, executionOutputState } from "../../state/editor";
+import { executionsState } from "../../state/editor";
 import { useAtom } from "jotai";
 
 const ExecutionContainer = styled(motion.div)`
@@ -29,6 +29,10 @@ const ExecutionSpan = styled.span`
   color: ${({ theme }) => theme.textDarker};
 `;
 
+const ExecutionText = styled.span`
+  color: white;
+`;
+
 const codeExecution = {
   initial: {
     x: "100%",
@@ -38,9 +42,10 @@ const codeExecution = {
   },
 };
 
-export const CodeExecution = (): JSX.Element => {
+export const CodeExecution: React.FC = (): JSX.Element => {
   const [executions] = useAtom(executionsState);
-  const [executionOutput] = useAtom(executionOutputState);
+  const executedOutput = executions[executions.length - 1]?.output;
+  const executedDate = executions[executions.length - 1]?.date;
 
   return (
     <ExecutionContainer
@@ -53,13 +58,19 @@ export const CodeExecution = (): JSX.Element => {
       <ExecutionTitle>Code output</ExecutionTitle>
       <ExecutionSpan>Powered by Piston</ExecutionSpan>
 
-      {executions.map((e, key) => (
-        <ExecutionSpan key={key}> &gt; {e.output} - {e.date}</ExecutionSpan>
-      ))}
+      {executions
+        .slice(1)
+        .slice(-5)
+        .map((e, key) => (
+          <ExecutionSpan key={key}>
+            <ExecutionText>{e.date}</ExecutionText> <br />{" "}
+            <ExecutionText>&gt;</ExecutionText> {e.output}
+          </ExecutionSpan>
+        ))}
 
-      {new Date().toDateString() + " " + new Date().toLocaleTimeString()}
+      {executedDate}
       <br />
-      {executionOutput}
+      {executedOutput}
     </ExecutionContainer>
   );
 };
