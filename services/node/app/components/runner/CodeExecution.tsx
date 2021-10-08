@@ -34,7 +34,7 @@ const ExecutionText = styled.span`
 `;
 
 const ExecutionError = styled.span`
-  color: #FFCCCC;
+  color: #ffcccc;
 `;
 
 const codeExecution = {
@@ -74,7 +74,8 @@ export const CodeExecution: React.FC = (): JSX.Element => {
               </>
             ) : (
               <>
-                <ExecutionText>&gt;</ExecutionText> <ExecutionError>{e.output}</ExecutionError>
+                <ExecutionText>&gt;</ExecutionText>
+                <ExecutionError>{e.output}</ExecutionError>
               </>
             )}
           </ExecutionSpan>
