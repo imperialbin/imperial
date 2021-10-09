@@ -1,10 +1,10 @@
 FROM golang:1.16-alpine
+WORKDIR /services/go/api
 
-COPY /services/go/api/go.mod .
-COPY /services/go/api/go.sum .
+COPY go.mod \
+  go.sum /services/go/api/
+
 RUN go get
-
-COPY /services/go/api .
 
 RUN go build
 
