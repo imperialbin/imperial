@@ -15,4 +15,4 @@ RUN go build
 
 EXPOSE ${PORT}
 
-CMD ["ls"]
+CMD ["./api"]
