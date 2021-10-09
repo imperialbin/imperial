@@ -1,8 +1,11 @@
 FROM golang:1.16-alpine
 
-COPY /services/go/api ./
-
-RUN rm -rf go.mod
+COPY /services/go/api/go.mod .
+COPY /services/go/api/go.sum .
 RUN go get
+
+COPY /services/go/api .
+
 RUN go build
-RUN go run api
+
+CMD [ "go", "run", "api" ]
