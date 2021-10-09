@@ -21,3 +21,8 @@ export * from "./PHP";
 export * from "./CSharp";
 export * from "./CPP";
 export * from "./C";
+export * from "./Python";
+export * from "./Redis";
+export * from "./Rust";
+export * from "./Ruby";
+export * from "./R";
