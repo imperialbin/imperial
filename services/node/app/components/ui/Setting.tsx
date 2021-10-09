@@ -1,4 +1,4 @@
-import { Switch } from "./Switch";
+import { Switch } from "./";
 import { Dropdown } from "./Dropdown";
 import styled from "styled-components";
 import { SettingProps } from "../../types";
