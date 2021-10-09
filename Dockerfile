@@ -6,7 +6,7 @@ COPY /services/go/api/go.sum .
 
 RUN go mod download
 
-COPY / .
+COPY /services/go/api .
 RUN go build
 
 CMD [ "go", "run", "api" ]
