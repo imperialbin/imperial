@@ -1,6 +1,6 @@
 /* eslint-disable prefer-destructuring */
 /* eslint-disable no-console */
-import { useAtom } from "jotai";
+import { useAtom, atom } from "jotai";
 import Link from "next/link";
 import Router from "next/router";
 import { useEffect } from "react";
@@ -25,7 +25,13 @@ import {
 
 import { Tooltip, UserIcon } from "../components/ui";
 import { UserIconSkeleton } from "../components/ui/skeletons";
-import { editingState, textState, languageState } from "../state/editor";
+import { CodeExecution } from "../components/runner/CodeExecution";
+import {
+  editingState,
+  textState,
+  languageState,
+  executionsState,
+} from "../state/editor";
 import { Document, NavProps } from "../types";
 import { request } from "../utils/requestWrapper";
 import { useState } from "react";
@@ -110,32 +116,7 @@ const Btn = styled.button`
 `;
 
 const ArrowContainer = styled(motion.div)``;
-
-const ExecutionContainer = styled(motion.div)`
-  position: absolute;
-  right: 0;
-  top: 135px;
-  width: 430px;
-  z-index: 999;
-  padding: 15px;
-  background: ${({ theme }) => theme.layoutDarkest};
-  border-bottom-left-radius: 15px;
-  border-top-left-radius: 15px;
-  box-shadow: 0px 0px 6px 3px rgb(0 0 0 / 25%);
-`;
-
-const ExecutionTitle = styled.h1`
-  font-size: 1.3em;
-  margin: 0;
-  color: ${({ theme }) => theme.textLight};
-`;
-
-const ExecutionSpan = styled.span`
-  display: block;
-  font-size: 1em;
-  margin: 0 0 10px 0;
-  color: ${({ theme }) => theme.textDarker};
-`;
+const executedAtom = atom(false);
 
 export const Nav = ({
   user,
@@ -151,7 +132,8 @@ export const Nav = ({
   const [, setActiveModal] = useAtom(activeModal);
   const [collapsed, setCollapsed] = useState(false);
   const [publicStatus, setPublic] = useState(false);
-  const [executionOutput, setExecutionOutput] = useState<string | null>(null);
+  const [, setExecutions] = useAtom(executionsState);
+  const [executed, setExecuted] = useAtom(executedAtom);
   const findIcon = supportedLanguages.find(l => l.name === language)?.icon;
   const Icon = (findIcon ? findIcon : FaMinus) as React.ElementType;
 
@@ -254,15 +236,6 @@ export const Nav = ({
     },
     collapsed: {
       x: "93.5%",
-    },
-  };
-
-  const codeExecution = {
-    initial: {
-      x: "100%",
-    },
-    animate: {
-      x: 0,
     },
   };
 
@@ -378,20 +351,19 @@ export const Nav = ({
                                       text,
                                     );
 
-                                    if (error && !data) {
-                                      if (error === 429) {
-                                        return console.log(
-                                          "You are being rate limited!",
-                                        );
-                                      }
-
-                                      return console.log(
-                                        "An unknown error happened!",
+                                    setExecutions((old: any) => [
+                                      ...old,
+                                      {
+                                        output: data,
+                                        date:
+                                          new Date().toDateString() +
+                                          " " +
+                                          new Date().toLocaleTimeString(),
                                         error,
-                                      );
-                                    }
+                                      },
+                                    ]);
 
-                                    setExecutionOutput(data);
+                                    setExecuted(true);
                                   }}
                                 >
                                   <FaPlayCircle size={18} />
@@ -492,21 +464,8 @@ export const Nav = ({
         </Container>
       </Wrapper>
       <AnimatePresence>
-        {executionOutput && (
-          <ExecutionContainer
-            variants={codeExecution}
-            transition={{ duration: 0.45, type: "spring" }}
-            initial="initial"
-            exit="initial"
-            animate="animate"
-          >
-            <ExecutionTitle>Code output</ExecutionTitle>
-            <ExecutionSpan>Powered by Piston</ExecutionSpan>
-
-            {new Date().toDateString() + " " + new Date().toLocaleTimeString()}
-            <br />
-            {executionOutput}
-          </ExecutionContainer>
+        {executed && (
+          <CodeExecution />
         )}
       </AnimatePresence>
     </>
