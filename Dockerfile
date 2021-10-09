@@ -11,3 +11,5 @@ COPY /services/go/api .
 
 RUN go run github.com/prisma/prisma-client-go db push
 RUN go build
+
+CMD ["/main"]
