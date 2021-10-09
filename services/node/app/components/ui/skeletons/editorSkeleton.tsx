@@ -1,5 +1,6 @@
 import Skeleton from "react-loading-skeleton";
 import styled from "styled-components";
+import {} from "../../../types";
 
 const Container = styled.div`
   display: flex;
