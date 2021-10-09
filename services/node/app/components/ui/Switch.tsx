@@ -1,0 +1,71 @@
+import { SwitchProps } from "../../types";
+import styled from "styled-components";
+import { useState } from "react";
+
+const SwitchElement = styled.label`
+  position: relative;
+  display: inline-block;
+`;
+
+const Slider = styled.span`
+  position: relative;
+  cursor: pointer;
+  text-indent: -9999px;
+  width: 55px;
+  height: 25px;
+  display: block;
+  border-radius: 100px;
+  position: relative;
+  background: ${({ theme }) => theme.layoutDark};
+
+  &:after {
+    content: "";
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    width: 15px;
+    height: 15px;
+    background: #fff;
+    border-radius: 90px;
+    transition: 0.3s;
+    background: ${({ theme }) => theme.error};
+  }
+`;
+
+const CheckBox = styled.input.attrs({ type: "checkbox" })`
+  height: 0;
+  width: 0;
+  visibility: hidden;
+
+  &:checked + ${Slider}:after {
+    width: 8px;
+    background: ${({ theme }) => theme.success};
+    transform: translateX(35px);
+  }
+
+  &:disabled + ${Slider} {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+`;
+
+export const Switch = ({
+  toggled,
+  onToggle,
+  disabled,
+}: SwitchProps): JSX.Element => {
+  const [checked, setChecked] = useState(toggled);
+  return (
+    <SwitchElement>
+      <CheckBox
+        checked={checked}
+        onChange={() => {
+          setChecked(!checked);
+          onToggle();
+        }}
+        disabled={disabled}
+      />
+      <Slider />
+    </SwitchElement>
+  );
+};
