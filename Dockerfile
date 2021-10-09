@@ -1,4 +1,5 @@
 FROM golang:1.16-buster
+ARG DATABASE_URL
 WORKDIR /services/go/api
 
 COPY /services/go/api/go.mod .
