@@ -15,4 +15,4 @@ RUN go build
 
 EXPOSE ${PORT}
 
-CMD ["go" "run" "api"]
+CMD ["go"]
