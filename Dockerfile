@@ -1,7 +1,6 @@
 FROM golang:1.16-alpine
 
 WORKDIR /services/go/api
-RUN ls
-
+RUN go get
 RUN go build
 RUN go run api
