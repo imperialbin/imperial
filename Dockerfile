@@ -1,4 +1,4 @@
-FROM golang:1.16-alpine
+FROM golang:1.16-buster
 WORKDIR /services/go/api
 
 COPY /services/go/api/go.mod .
