@@ -12,7 +12,7 @@ var rdb *redis.Client
 var ctx = context.Background()
 
 func SetRedisDB() {
-	opt, err := redis.ParseURL(os.Getenv("REDIS_URI"))
+	opt, err := redis.ParseURL(os.Getenv("REDIS_URL"))
 
 	if err != nil {
 		panic(err)

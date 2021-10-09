@@ -1,0 +1,1 @@
+web: go run ./services/go/api/main.go
