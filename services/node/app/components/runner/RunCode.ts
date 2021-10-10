@@ -4,6 +4,10 @@ export const runCode = async (
   version: string,
   code: string,
 ) => {
+  if (language === "typescript") {
+    version = "*";
+  }
+  
   const req = await fetch("https://emkc.org/api/v2/piston/execute", {
     method: "POST",
     body: JSON.stringify({
