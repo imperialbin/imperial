@@ -12,7 +12,7 @@ import { EditorSkeleton } from "./skeletons";
 export const Editor = (props: EditorProps & { user?: User }): JSX.Element => {
   const [language] = useAtom(languageState);
   const [editing] = useAtom(editingState);
-  const [text, setText] = useAtom(textState);
+  const [text] = useAtom(textState);
 
   const mounted = (editor: MonacoType) => {
     window.monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions(
@@ -26,7 +26,9 @@ export const Editor = (props: EditorProps & { user?: User }): JSX.Element => {
     editor.setPosition(editor.getPosition());
   };
 
+  /*
   const changed = (value: MonacoType) => setText(value);
+ */
 
   return (
     <Monaco
@@ -34,7 +36,7 @@ export const Editor = (props: EditorProps & { user?: User }): JSX.Element => {
       height={"97vh"}
       loading={<EditorSkeleton />}
       onMount={mounted}
-      onChange={changed}
+      /*       onChange={changed} */
       value={text}
       options={
         props.user
