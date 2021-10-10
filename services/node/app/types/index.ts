@@ -31,7 +31,8 @@ export interface UserIconProps {
   URL: string;
   width?: number;
   height?: number;
-  style?: CSSProperties;
+  pointer?: boolean;
+  margin?: string | null;
 }
 
 export interface RequestError {

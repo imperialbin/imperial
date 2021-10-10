@@ -207,7 +207,7 @@ export const UserSettings = (): JSX.Element => {
                 URL={user.icon}
                 width={60}
                 height={60}
-                style={{ marginRight: 15 }}
+                margin="0 15px 0 0"
               />
               <UserInfo>
                 <Username>{user.username}</Username>

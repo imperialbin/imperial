@@ -451,7 +451,7 @@ export const Nav = ({
                 arrow
               >
                 <UserIcon
-                  style={{ cursor: "pointer" }}
+                  pointer={true}
                   URL={user ? user.icon : "/img/pfp.png"}
                 />
               </Tooltip>
@@ -463,11 +463,7 @@ export const Nav = ({
           </Buttons>
         </Container>
       </Wrapper>
-      <AnimatePresence>
-        {executed && (
-          <CodeExecution />
-        )}
-      </AnimatePresence>
+      <AnimatePresence>{executed && <CodeExecution />}</AnimatePresence>
     </>
   );
 };
