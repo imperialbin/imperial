@@ -30,7 +30,10 @@ import {
 } from "../components/ui/icons/languages";
 
 /* ENV and some static stuff */
-export const API_BASE = "https://staging-balls-api.impb.in/";
+export const API_BASE =
+  process.env.NODE_ENV === "development"
+    ? "http://localhost/"
+    : "https://staging-balls-api.impb.in/";
 export const API_VERSION_V1 = "v1";
 export const FULL_URI_V1 = API_BASE + API_VERSION_V1;
 

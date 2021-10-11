@@ -38,7 +38,7 @@ const Selector = styled.select`
   }
 `;
 
-export const LanguageSelector = () => {
+export const LanguageSelector = (): JSX.Element => {
   const { i18n } = useTranslation();
 
   const changeLang = useSetLanguage();

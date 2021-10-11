@@ -154,7 +154,7 @@ const showAnimation = {
   },
 };
 
-export const Signup = () => {
+export const Signup = (): JSX.Element => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
