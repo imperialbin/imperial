@@ -7,7 +7,7 @@ export const runCode = async (
   if (language === "typescript") {
     version = "*";
   }
-  
+
   const req = await fetch("https://emkc.org/api/v2/piston/execute", {
     method: "POST",
     body: JSON.stringify({
