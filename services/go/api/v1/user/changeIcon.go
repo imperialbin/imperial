@@ -44,8 +44,13 @@ func ChangeIcon(c *fiber.Ctx) error {
 	var icon = req.URL
 	if req.Method == "gravatar" {
 		icon = gravatar.New(req.URL).URL()
-	} else {
+	} else if strings.HasPrefix(req.URL, "https://github.com/") {
 		icon = req.URL
+	} else {
+		return c.Status(400).JSON(Response{
+			Success: false,
+			Message: "Invalid image URL!",
+		})
 	}
 
 	_, updatedUserErr := client.User.FindUnique(

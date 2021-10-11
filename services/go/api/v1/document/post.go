@@ -41,6 +41,7 @@ func Post(c *fiber.Ctx) error {
 	var encrypted bool
 	var public bool
 	var editors []string
+	var expiration int64
 	var password string
 
 	if err != nil {
@@ -51,6 +52,7 @@ func Post(c *fiber.Ctx) error {
 		instantDelete = false
 		encrypted = false
 		public = false
+		expiration = 7
 		editors = []string{}
 	} else {
 		creator = user.Username
@@ -62,6 +64,7 @@ func Post(c *fiber.Ctx) error {
 		public = documentRequest.Settings.Public.Bool
 		editors = documentRequest.Settings.Editors
 		password = documentRequest.Settings.Password.String
+		expiration = documentRequest.Settings.Expiration.Int64
 	}
 
 	/* Check if longer/shorter URLs are enabled */
@@ -115,6 +118,10 @@ func Post(c *fiber.Ctx) error {
 		})
 	}
 
+	if expiration <= 0 || expiration > 120 {
+		expiration = 7
+	}
+
 	createdDocumentSettings, _ := client.DocumentSettings.CreateOne(
 		db.DocumentSettings.Language.Set(language),
 		db.DocumentSettings.ImageEmbed.Set(imageEmbed),
@@ -127,7 +134,7 @@ func Post(c *fiber.Ctx) error {
 	createdDocument, err := client.Document.CreateOne(
 		db.Document.ID.Set(randomString),
 		db.Document.Content.Set(content),
-		db.Document.ExpirationDate.Set(time.Now().UTC().AddDate(0, 0, int(documentRequest.Settings.Expiration.Int64))),
+		db.Document.ExpirationDate.Set(time.Now().UTC().AddDate(0, 0, int(expiration))),
 		db.Document.Settings.Link(
 			db.DocumentSettings.ID.Equals(createdDocumentSettings.ID),
 		),

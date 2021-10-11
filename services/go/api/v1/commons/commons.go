@@ -3,43 +3,43 @@ package commons
 import "github.com/guregu/null"
 
 type ChangeIconStruct struct {
-	Method string `json:"method" validate:"required"`
+	Method string `json:"method" validate:"required,eq=github|eq=gravatar"`
 	URL    string `json:"url" validate:"required"`
 }
 
 type ChangeEmailStruct struct {
-	NewEmail string `json:"newEmail" validate:"required"`
+	NewEmail string `json:"newEmail" validate:"required,email"`
 }
 type SignupRequest struct {
-	Username        string `json:"username" validate:"required,min=3,max=24"`
-	Email           string `json:"email" validate:"required,min=3"`
+	Username        string `json:"username" validate:"required,min=3,max=24,alpha"`
+	Email           string `json:"email" validate:"required,min=3,email"`
 	Password        string `json:"password" validate:"required,min=8"`
 	ConfirmPassword string `json:"confirmPassword" validate:"required,min=8"`
 }
 
 type LoginRequest struct {
 	Username string `json:"username" validate:"required"`
-	Password string `json:"password" validate:"required"`
+	Password string `json:"password" validate:"required,min=8"`
 }
 
 type RequestResetPasswordStruct struct {
-	Email string `json:"email" validate:"required"`
+	Email string `json:"email" validate:"required,email"`
 }
 
 type ResetPasswordStruct struct {
-	Token           string `json:"token" validate:"required"`
-	Password        string `json:"password" validate:"required"`
-	ConfirmPassword string `json:"confirmPassword" validate:"required"`
+	Token           string `json:"token" validate:"required,min=16"`
+	Password        string `json:"password" validate:"required,min=8"`
+	ConfirmPassword string `json:"confirmPassword" validate:"required,min=8"`
 }
 type ResetPasswordInClientStruct struct {
-	CurrentPassword string `json:"currentPassword" validate:"required"`
-	NewPassword     string `json:"newPassword" validate:"required"`
-	ConfirmPassword string `json:"confirmPassword" validate:"required"`
+	CurrentPassword string `json:"currentPassword" validate:"required,min=8"`
+	NewPassword     string `json:"newPassword" validate:"required,min=8"`
+	ConfirmPassword string `json:"confirmPassword" validate:"required,min=8"`
 }
 
 type DeleteAccount struct {
-	Password        string `json:"password", validate:"required"`
-	ConfirmPassword string `json:"confirmPassword", validate:"required"`
+	Password        string `json:"password" validate:"required,min=8"`
+	ConfirmPassword string `json:"confirmPassword" validate:"required,min=8"`
 }
 
 type EditDocument struct {
