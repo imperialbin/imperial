@@ -2,28 +2,30 @@ import styled from "styled-components";
 import Image from "next/image";
 import { UserIconProps } from "../../types";
 
-const Icon = styled(Image)<{
-  pointer?: boolean;
-  margin?: string | null;
-}>`
+const Icon = styled(Image)<{ pointer?: boolean }>`
+  position: relative;
   border-radius: 50%;
   cursor: ${({ pointer }) => (pointer ? "pointer" : "unset")};
-  margin: ${({ margin }) => (margin ? margin : "initial")};
 `;
 
 export const UserIcon = ({
   URL,
   width = 52,
   height = 52,
-  pointer = false,
-  margin = null,
+  pointer,
+  margin,
 }: UserIconProps): JSX.Element => (
-  <Icon
-    width={width}
-    margin={margin}
-    pointer={pointer}
-    height={height}
-    src={URL}
-    draggable={false}
-  />
+  <div
+    style={{
+      margin: margin ? margin : "initial",
+    }}
+  >
+    <Icon
+      width={width}
+      pointer={pointer}
+      height={height}
+      src={URL}
+      draggable={false}
+    />
+  </div>
 );

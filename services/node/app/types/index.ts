@@ -32,7 +32,7 @@ export interface UserIconProps {
   width?: number;
   height?: number;
   pointer?: boolean;
-  margin?: string | null;
+  margin?: string;
 }
 
 export interface RequestError {
