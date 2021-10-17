@@ -91,6 +91,12 @@ func main() {
 	app.Use(limiter.New(limiter.Config{
 		Max:        80,
 		Expiration: 1 * time.Minute,
+		LimitReached: func(c *fiber.Ctx) error {
+			return c.Status(429).JSON(Response{
+				Success: false,
+				Message: "You are being rate limited!",
+			})
+		},
 	}))
 
 	setupRoutes(app)
