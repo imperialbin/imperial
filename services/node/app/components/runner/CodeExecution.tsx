@@ -54,17 +54,17 @@ export const CodeExecution: React.FC = (): JSX.Element => {
   const hasPrev = index > 0;
   const hasNext = index < executions.length - 1;
 
-  function handlePrevClick() {
+  const handlePrevClick = () => {
     if (hasPrev) {
       setIndex(index - 1);
     }
-  }
+  };
 
-  function handleNextClick() {
+  const handleNextClick = () => {
     if (hasNext) {
       setIndex(index + 1);
     }
-  }
+  };
 
   const execution = executions[index];
   const executedOutput = executions[executions.length - 1]?.output;
