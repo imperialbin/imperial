@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 import { executionsState } from "../../state/editor";
 import { useAtom } from "jotai";
+import { useState } from "react";
 
 const ExecutionContainer = styled(motion.div)`
   position: absolute;
@@ -49,6 +50,23 @@ const codeExecution = {
 
 export const CodeExecution: React.FC = (): JSX.Element => {
   const [executions] = useAtom(executionsState);
+  const [index, setIndex] = useState(0);
+  const hasPrev = index > 0;
+  const hasNext = index < executions.length - 1;
+
+  const handlePrevClick = () => {
+    if (hasPrev) {
+      setIndex(index - 1);
+    }
+  };
+
+  const handleNextClick = () => {
+    if (hasNext) {
+      setIndex(index + 1);
+    }
+  };
+
+  const execution = executions[index];
   const executedOutput = executions[executions.length - 1]?.output;
   const executedDate = executions[executions.length - 1]?.date;
 
@@ -63,28 +81,32 @@ export const CodeExecution: React.FC = (): JSX.Element => {
       <ExecutionTitle>Code output</ExecutionTitle>
       <ExecutionSpan>Powered by Piston</ExecutionSpan>
 
-      {executions
-        .slice(1)
-        .slice(-5)
-        .map((e, key) => (
-          <ExecutionSpan key={key}>
-            <ExecutionText>{e.date}</ExecutionText> <br />{" "}
-            {e.error === false ? (
-              <>
-                <ExecutionText>&gt;</ExecutionText> {e.output}
-              </>
-            ) : (
-              <>
-                <ExecutionText>&gt;</ExecutionText>
-                <ExecutionError>{e.output}</ExecutionError>
-              </>
-            )}
-          </ExecutionSpan>
-        ))}
+      <button onClick={handlePrevClick} disabled={!hasPrev}>
+        back
+      </button>
+      <button onClick={handleNextClick} disabled={!hasNext}>
+        next
+      </button>
 
-      {executedDate}
-      <br />
-      {executedOutput}
+      {index > 0 ? (
+        <ExecutionSpan>
+          <ExecutionText>{execution.date}</ExecutionText> <br />{" "}
+          {execution.error === false ? (
+            <>{execution.output}</>
+          ) : (
+            <>
+              <ExecutionError>{execution.output}</ExecutionError>
+            </>
+          )}
+        </ExecutionSpan>
+      ) : (
+        <>
+          <br />
+          {executedDate}
+          <br />
+          {executedOutput}
+        </>
+      )}
     </ExecutionContainer>
   );
 };
