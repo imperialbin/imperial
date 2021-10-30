@@ -21,5 +21,4 @@ yarn-error.log*
 .vscode
 tmp
 bin
-api
 api.*
