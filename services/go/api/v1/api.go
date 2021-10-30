@@ -48,7 +48,7 @@ func PostSignup(c *fiber.Ctx) error {
 	return auth.Signup(c)
 }
 
-func PostRequestResetPassowrd(c *fiber.Ctx) error {
+func PostRequestResetPassword(c *fiber.Ctx) error {
 	return auth.RequestResetPassword(c)
 }
 
