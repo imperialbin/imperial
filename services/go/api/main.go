@@ -36,7 +36,7 @@ func setupRoutes(app *fiber.App) {
 	/* Authentication */
 	v1.Post("/auth/login", middleware.CheckNotAuthenticated, v1Routes.PostLogin)
 	v1.Post("/auth/signup", middleware.CheckNotAuthenticated, v1Routes.PostSignup)
-	v1.Post("/auth/requestReset", middleware.CheckNotAuthenticated, v1Routes.PostRequestResetPassowrd)
+	v1.Post("/auth/requestReset", middleware.CheckNotAuthenticated, v1Routes.PostRequestResetPassword)
 	v1.Post("/auth/reset", middleware.CheckNotAuthenticated, v1Routes.PostResetPassword)
 	v1.Patch("/auth/resetInClient", middleware.CheckAuthenticated, v1Routes.PatchResetPasswordInClient)
 	v1.Delete("/auth/logout", middleware.CheckAuthenticated, v1Routes.DeleteLogout)
@@ -64,6 +64,9 @@ func setupRoutes(app *fiber.App) {
 	/* OAuth */
 	v1.Get("/oauth/discord", middleware.CheckAuthenticated, v1Routes.GetDiscord)
 	v1.Get("/oauth/discord/callback", middleware.CheckAuthenticated, v1Routes.GetDiscordCallback)
+
+	/* Invalid Routes */
+	app.Use(v1Routes.InvalidRoute)
 }
 
 func main() {
