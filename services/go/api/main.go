@@ -64,6 +64,9 @@ func setupRoutes(app *fiber.App) {
 	/* OAuth */
 	v1.Get("/oauth/discord", middleware.CheckAuthenticated, v1Routes.GetDiscord)
 	v1.Get("/oauth/discord/callback", middleware.CheckAuthenticated, v1Routes.GetDiscordCallback)
+
+	/* Invalid Routes */
+	v1.Use(v1Routes.InvalidRoute)
 }
 
 func main() {

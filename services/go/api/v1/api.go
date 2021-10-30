@@ -20,6 +20,13 @@ func Introduction(c *fiber.Ctx) error {
 	})
 }
 
+func InvalidRoute(c *fiber.Ctx) error {
+	return c.Status(404).JSON(Response{
+		Success: false,
+		Message: c.Path() + " isn't a valid route!",
+	})
+}
+
 /* Document things */
 
 func GetDocument(c *fiber.Ctx) error {
