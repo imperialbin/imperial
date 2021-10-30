@@ -39,6 +39,22 @@ func GetCallbackDiscord(c *fiber.Ctx) error {
 
 	client := http.Client{}
 
+	println("balls")
+
+	/*       method: "POST",
+      body: stringify({
+        client_id: CLIENT_ID,
+        client_secret: CLIENT_SECRET,
+        grant_type: "authorization_code",
+        code: code as string,
+        redirect_uri: `${DISCORD_CALLBACK_URI}`,
+        scope: "identify guilds guilds.join",
+      }),
+      headers: {
+        "content-type": "application/x-www-form-urlencoded",
+      },
+    }); */
+
 	/* Check valid token */
 	getTokenJSON, _ := json.Marshal(map[string]string{
 		"client_id":     clientID,
@@ -48,6 +64,8 @@ func GetCallbackDiscord(c *fiber.Ctx) error {
 		"redirect_uri":  callbackURI,
 		"scope":         "identify guilds guilds.join",
 	})
+
+	println("balls")
 
 	tokenReq, err := http.NewRequest("POST", "https://discord.com/api/oauth2/token", bytes.NewBuffer(getTokenJSON))
 	tokenReq.Header.Set("Content-Type", "application/x-www-form-urlencoded")

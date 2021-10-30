@@ -58,7 +58,7 @@ func Get(c *fiber.Ctx) error {
 
 	links := Links{
 		Raw:       c.BaseURL() + "/r/" + document.ID,
-		Formatted: c.BaseURL() + document.ID,
+		Formatted: c.BaseURL() + "/" + document.ID,
 	}
 
 	settings := CreatedDocumentSettingsStruct{
