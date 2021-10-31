@@ -20,4 +20,4 @@ jobs:
           destination-repository-name: 'imperial-build'
           user-email: hello@looskie.com
           commit-message: See ORIGIN_COMMIT from $GITHUB_REF
-          target-branch: main
+          target-branch: next
