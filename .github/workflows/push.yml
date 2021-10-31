@@ -15,5 +15,7 @@ jobs:
         personal_token: ${{ secrets.API_TOKEN_GITHUB }}
         src_path: /services/node/app
         dst_path: /
+        dst_branch: main
+        src_branch: next
         dst_owner: Looskie
         dst_repo_name: imperial-build
