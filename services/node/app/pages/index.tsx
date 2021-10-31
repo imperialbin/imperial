@@ -7,6 +7,7 @@ import { Nav } from "../layout/Navbar";
 import { editingState, textState } from "../state/editor";
 import { DragandDrop } from "../components/ui";
 
+// workflwo
 const Home: NextPage = () => {
   const { user, isLoading } = useUser();
   const [, setEditing] = useAtom(editingState);
