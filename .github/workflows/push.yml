@@ -1,0 +1,23 @@
+name: push
+
+on:
+  push:
+    branches: [ next ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: pandoc/latex
+    steps:
+      - name: Pushes to another repository
+        id: push_directory
+        uses: cpina/github-action-push-to-another-repository@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+        with:
+          source-directory: 'services'
+          destination-github-username: 'Looskie'
+          destination-repository-name: 'imperial-build'
+          user-email: hello@looskie.com
+          commit-message: See ORIGIN_COMMIT from $GITHUB_REF
+          target-branch: main
