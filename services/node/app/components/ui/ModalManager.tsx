@@ -70,15 +70,12 @@ const Title = styled.h1`
 const modalContainerAnimation = {
   initial: {
     opacity: 0,
-    backdropFilter: "blur(0px)",
   },
   isOpen: {
     opacity: 1,
-    backdropFilter: "blur(1.3px)",
   },
   exit: {
     opacity: 0,
-    backdropFilter: "blur(0px)",
   },
 };
 
