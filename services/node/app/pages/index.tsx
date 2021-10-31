@@ -9,16 +9,15 @@ import { DragandDrop } from "../components/ui";
 
 const Home: NextPage = () => {
   const { user, isLoading } = useUser();
-  const [clipboardText, setClipboardText] = useState<string | null>(null);
   const [, setEditing] = useAtom(editingState);
-  const [text] = useAtom(textState);
+  const [text, setText] = useAtom(textState);
 
   useEffect(() => {
     setEditing(true);
 
     if (user && user.settings.clipboard) {
       navigator.clipboard.readText().then(text => {
-        setClipboardText(text);
+        setText(text);
       });
     }
   }, []);
@@ -27,7 +26,7 @@ const Home: NextPage = () => {
     <>
       <DragandDrop />
       <Nav user={user} userLoading={isLoading} creatingDocument />
-      <Editor user={user} value={text ?? clipboardText as string} />
+      <Editor user={user} value={text} />
     </>
   );
 };
