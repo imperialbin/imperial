@@ -21,7 +21,7 @@ const Home: NextPage = () => {
         setText(text);
       });
     }
-  }, []);
+  }, [user]);
 
   return (
     <>
