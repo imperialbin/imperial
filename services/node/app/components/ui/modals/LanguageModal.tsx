@@ -19,15 +19,14 @@ const SearchContainer = styled.div`
 `;
 
 const LanguageBtn = styled(motion.button)`
-  display: block;
-  width: 100%;
+  display: inline-block;
+  margin-right: 5px;
   text-align: left;
   font-size: 1.1em;
   padding: 10px 15px;
   background: transparent;
   cursor: pointer;
-  border: none;
-  border-top: 1px solid ${({ theme }) => theme.textDarkest};
+  border: 1px solid ${({ theme }) => theme.textDarkest};
   color: ${({ theme }) => theme.textLight};
   transition: background-color 0.12s ease-in-out;
 
@@ -112,6 +111,7 @@ export const LanguageModal = (): JSX.Element => {
           <p>We don&apos;t support that language</p>
         </UnsupportedLanguage>
       )}
+      <br />
       {languageFilter.map((language, key) => (
         <LanguageBtn
           transition={{ duration: 0.3 }}
