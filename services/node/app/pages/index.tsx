@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useAtom } from "jotai";
 import type { NextPage } from "next";
 import { Editor } from "../components/ui";
