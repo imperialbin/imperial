@@ -15,7 +15,7 @@ jobs:
         env:
           API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
         with:
-          source-directory: ''
+          source-directory: 'src'
           destination-github-username: 'Looskie'
           destination-repository-name: 'imperial-build'
           user-email: hello@looskie.com
