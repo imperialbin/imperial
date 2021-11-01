@@ -182,7 +182,7 @@ func Post(c *fiber.Ctx) error {
 		Data: &CreateDocumentData{
 			ID:         createdDocument.ID,
 			Creator:    creator,
-			Content:    createdDocument.Content,
+			Content:    content,
 			Views:      createdDocument.Views,
 			Links:      links,
 			Timestamps: timestamps,
