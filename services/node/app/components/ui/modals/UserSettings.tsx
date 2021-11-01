@@ -219,7 +219,7 @@ export const UserSettings = (): JSX.Element => {
                 {user.documentsMade}
                 <TitleInfo>Documents made</TitleInfo>
               </Tile>
-              <Link href="/" passHref={true}>
+              <Link href="/link/discord" passHref={true}>
                 <Tile style={{ cursor: "pointer" }}>
                   <TileIcon src="/img/discord.svg" />
                   <TitleInfo style={{ fontSize: "1em" }}>

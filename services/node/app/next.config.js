@@ -12,6 +12,14 @@ module.exports = {
         destination: "/:id*",
         permanent: true,
       },
+      {
+        source: "/link/discord",
+        destination:
+          process.env.NODE_ENV !== "development"
+            ? "https://staging-api.impb.in/v1/oauth/discord"
+            : "http://localhost/v1/oauth/discord",
+        permanent: true,
+      },
     ];
   },
 };
