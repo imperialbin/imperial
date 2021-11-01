@@ -131,6 +131,8 @@ func GetCallbackDiscord(c *fiber.Ctx) error {
 		giveRoleReq.Header.Set("Authorization", fmt.Sprintf("Bot %s", botToken))
 
 		client.Do(giveRoleReq)
+
+		// work flow please run again
 	*/
 
 	return c.JSON(Response{
