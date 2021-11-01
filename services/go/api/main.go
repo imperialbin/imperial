@@ -60,7 +60,7 @@ func setupRoutes(app *fiber.App) {
 	v1.Post("/admin/user", middleware.CheckAdmin, v1Routes.PostBanUser)
 
 	/* OAuth */
-	v1.Get("/oauth/discord", middleware.CheckAuthenticated, v1Routes.GetDiscord)
+	v1.Get("/oauth/discord", v1Routes.GetDiscord)
 	v1.Get("/oauth/discord/callback", middleware.CheckAuthenticated, v1Routes.GetDiscordCallback)
 
 	/* Invalid Routes */
