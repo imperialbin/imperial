@@ -1,17 +1,19 @@
 package oauth
 
 import (
+	"api/prisma/db"
 	. "api/utils"
 	. "api/v1/commons"
-	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"net/http"
 	"os"
 	"strings"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/ravener/discord-oauth2"
+	"golang.org/x/oauth2"
 )
 
 func GetDiscord(c *fiber.Ctx) error {
@@ -24,12 +26,17 @@ func GetCallbackDiscord(c *fiber.Ctx) error {
 	var clientID = os.Getenv("DISCORD_ID")
 	var clientSecret = os.Getenv("DISCORD_CLIENT_SECRET")
 	var callbackURI = os.Getenv("DISCORD_CALLBACK")
-	var botToken = os.Getenv("DISCORD_BOT_TOKEN")
-	var guild = os.Getenv("DISCORD_GUILD")
-	var roleMember = os.Getenv("DISCORD_ROLE_MEMBER")
+	client := GetPrisma()
+	ctx := context.Background()
+	/*
+		var botToken = os.Getenv("DISCORD_BOT_TOKEN")
+		var guild = os.Getenv("DISCORD_GUILD")
+		var roleMember = os.Getenv("DISCORD_ROLE_MEMBER")
 
+	*/
 	user, err := GetUser(c)
 	var code = c.Query("code")
+
 	if err != nil || strings.HasPrefix("IMPERIAL-", GetAuthToken(c)) {
 		return c.Status(401).JSON(Response{
 			Success: false,
@@ -37,65 +44,41 @@ func GetCallbackDiscord(c *fiber.Ctx) error {
 		})
 	}
 
-	client := http.Client{}
+	config := &oauth2.Config{
+		Endpoint:     discord.Endpoint,
+		Scopes:       []string{discord.ScopeIdentify, discord.ScopeGuilds, discord.ScopeGuildsJoin},
+		RedirectURL:  callbackURI,
+		ClientID:     clientID,
+		ClientSecret: clientSecret,
+	}
 
-	println("balls")
-
-	/*       method: "POST",
-      body: stringify({
-        client_id: CLIENT_ID,
-        client_secret: CLIENT_SECRET,
-        grant_type: "authorization_code",
-        code: code as string,
-        redirect_uri: `${DISCORD_CALLBACK_URI}`,
-        scope: "identify guilds guilds.join",
-      }),
-      headers: {
-        "content-type": "application/x-www-form-urlencoded",
-      },
-    }); */
-
-	/* Check valid token */
-	getTokenJSON, _ := json.Marshal(map[string]string{
-		"client_id":     clientID,
-		"client_secret": clientSecret,
-		"grant_type":    "authorization_code",
-		"code":          code,
-		"redirect_uri":  callbackURI,
-		"scope":         "identify guilds guilds.join",
-	})
-
-	println("balls")
-
-	tokenReq, err := http.NewRequest("POST", "https://discord.com/api/oauth2/token", bytes.NewBuffer(getTokenJSON))
-	tokenReq.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-
-	tokenRes, err := client.Do(tokenReq)
-
-	var token map[string]interface{}
-	json.NewDecoder(tokenRes.Body).Decode(&token)
+	token, err := config.Exchange(context.Background(), code)
 
 	if err != nil {
+		println(err.Error())
 		return c.Status(400).JSON(Response{
 			Success: false,
 			Message: "There was an error whilst enabling oauth on your account!",
 		})
 	}
 
-	fmt.Sprintln("token: %s", token)
+	tokenRes, err := config.Client(context.Background(), token).Get("https://discord.com/api/users/@me")
 
-	/* Get user info */
+	if err != nil {
+		println(err.Error())
+		return c.Status(400).JSON(Response{
+			Success: false,
+			Message: "There was an error whilst enabling oauth on your account!",
+		})
+	}
 
-	discordUserReq, err := http.NewRequest("GET", "https://discord.com/api/users/@me", nil)
-	discordUserReq.Header.Add("Authorization", fmt.Sprintf("%s", token))
+	defer tokenRes.Body.Close()
 
-	discordUserRes, err := client.Do(tokenReq)
-
-	var discordUser struct {
+	discordUser := struct {
 		ID string `json:"id"`
-	}
-	parsed, _ := ioutil.ReadAll(discordUserRes.Body)
-	json.Unmarshal(parsed, &discordUser)
+	}{}
+
+	body, err := ioutil.ReadAll(tokenRes.Body)
 
 	if err != nil {
 		return c.Status(400).JSON(Response{
@@ -104,36 +87,54 @@ func GetCallbackDiscord(c *fiber.Ctx) error {
 		})
 	}
 
-	println(string(parsed))
-	println(string(discordUser.ID))
+	json.Unmarshal(body, &discordUser)
 
-	/* Join server */
-	joinServerJSON, _ := json.Marshal(map[string]string{
-		"access_token": fmt.Sprint(token["json"]),
+	_, updateUserErr := client.User.FindUnique(
+		db.User.ID.Equals(user.ID),
+	).Update(
+		db.User.DiscordID.Set(discordUser.ID),
+	).Exec(ctx)
+
+	if updateUserErr != nil {
+		return c.Status(400).JSON(Response{
+			Success: false,
+			Message: "There was an error whilst enabling oauth on your account!",
+		})
+	}
+
+	/*
+
+		Join server
+		joinServerJSON, _ := json.Marshal(map[string]string{
+			"access_token": fmt.Sprint(token["json"]),
+		})
+
+		joinServerReq, err := http.NewRequest("PUT", fmt.Sprintf("https://discord.com/api/guilds/%s/members/%s", guild, discordUser.ID), bytes.NewBuffer(joinServerJSON))
+		joinServerReq.Header.Set("Content-Type", "application/json")
+
+		client.Do(joinServerReq)
+
+		Set name
+		setNameJSON, _ := json.Marshal(map[string]string{
+			"nick": user.Username,
+		})
+
+		setNameReq, err := http.NewRequest("PATCH", fmt.Sprintf("https://discord.com/api/guilds/%s/members/%s", guild, discordUser.ID), bytes.NewBuffer(setNameJSON))
+		setNameReq.Header.Set("Content-Type", "application/json")
+		setNameReq.Header.Set("Authorization", fmt.Sprintf("Bot %s", botToken))
+
+		client.Do(setNameReq)
+
+		Give role
+		giveRoleReq, err := http.NewRequest("PUT", fmt.Sprintf("https://discord.com/api/guilds/%s/members/%s/roles/%s", guild, discordUser.ID, roleMember), nil)
+		giveRoleReq.Header.Set("Content-Type", "application/json")
+		giveRoleReq.Header.Set("Authorization", fmt.Sprintf("Bot %s", botToken))
+
+		client.Do(giveRoleReq)
+	*/
+
+	return c.JSON(Response{
+		Success: true,
+		Message: "Successfully linked your discord account!",
 	})
-
-	joinServerReq, err := http.NewRequest("PUT", fmt.Sprintf("https://discord.com/api/guilds/%s/members/%s", guild, discordUser.ID), bytes.NewBuffer(joinServerJSON))
-	joinServerReq.Header.Set("Content-Type", "application/json")
-
-	client.Do(joinServerReq)
-
-	/* Set name */
-	setNameJSON, _ := json.Marshal(map[string]string{
-		"nick": user.Username,
-	})
-
-	setNameReq, err := http.NewRequest("PATCH", fmt.Sprintf("https://discord.com/api/guilds/%s/members/%s", guild, discordUser.ID), bytes.NewBuffer(setNameJSON))
-	setNameReq.Header.Set("Content-Type", "application/json")
-	setNameReq.Header.Set("Authorization", fmt.Sprintf("Bot %s", botToken))
-
-	client.Do(setNameReq)
-
-	/* Give role */
-	giveRoleReq, err := http.NewRequest("PUT", fmt.Sprintf("https://discord.com/api/guilds/%s/members/%s/roles/%s", guild, discordUser.ID, roleMember), nil)
-	giveRoleReq.Header.Set("Content-Type", "application/json")
-	giveRoleReq.Header.Set("Authorization", fmt.Sprintf("Bot %s", botToken))
-
-	client.Do(giveRoleReq)
-
-	return c.Redirect("/")
 }
