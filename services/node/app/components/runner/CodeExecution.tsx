@@ -88,6 +88,9 @@ export const CodeExecution: React.FC = (): JSX.Element => {
         next
       </button>
 
+      <br/>
+      <span>{index}/{executions.length - 1}</span>
+
       {index > 0 ? (
         <ExecutionSpan>
           <ExecutionText>{execution.date}</ExecutionText> <br />{" "}
