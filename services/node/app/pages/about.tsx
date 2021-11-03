@@ -84,7 +84,7 @@ const Contributors = () => {
   );
 };
 
-export const About: NextPage = () => (
+const About: NextPage = () => (
   <Wrapper>
     <AboutContainer>
       <Banner />
