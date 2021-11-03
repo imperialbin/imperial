@@ -26,7 +26,7 @@ const Wrapper = styled.div`
 
 const AboutContainer = styled.div`
   font-size: 16px;
-  max-width: 800px;
+  max-width: 750px;
 
   @media (max-width: 768px) {
     max-width: 90vw;
@@ -90,14 +90,11 @@ export const About: NextPage = () => (
       <Banner />
       <Title>About Imperial</Title>
       <Text>
-        Imperial is the next generation Hastebin, focusing on user experience
-        and It&apos;s a minimalist pastebin, perfect for
-        sharing small snippets of text, passwords, API keys, code and more. Using modern technologies such as Next.js for the frontend, and Go
-        for a super fast API, we&apos;re able to recieve requests in 200-400ms.
+        Imperial is a open source, free, and fast way to share text, focusing on
+        user experience. With Imperial, you can share small snippets of text,
+        passwords, API keys, code and more.
       </Text>
-      <Text>
-        Here are some features Imperial offers:
-      </Text>
+      <Text>Here are some features Imperial offers:</Text>
       <p>&#8226; Encryption</p>
       <p>&#8226; Customizability</p>
       <p>&#8226; Supports 56+ coding languages</p>
