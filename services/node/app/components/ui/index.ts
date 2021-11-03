@@ -9,3 +9,4 @@ export * from "./Dropdown";
 export * from "./Input";
 export * from "./Loading";
 export * from "./DragandDrop";
+export * from './Banner';
