@@ -27,7 +27,6 @@ const ModalContainer = styled(motion.div)`
   height: 100vh;
   z-index: 9999;
   color: white;
-  backdrop-filter: blur(1.5px);
   background: rgba(0, 0, 0, 0.3);
 `;
 
