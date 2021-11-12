@@ -5,3 +5,4 @@ export * from "./UserSettings";
 export * from "./Login";
 export * from "./Signup";
 export * from "./ResetPassword";
+export * from "./ResetPasswordCode";
