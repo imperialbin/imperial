@@ -3,7 +3,7 @@
 import { useAtom, atom } from "jotai";
 import Link from "next/link";
 import Router from "next/router";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import styled from "styled-components";
 import Copy from "react-copy-to-clipboard";
 import { runCode } from "../components/runner/RunCode";
@@ -134,8 +134,12 @@ export const Nav = ({
   const [publicStatus, setPublic] = useState(false);
   const [, setExecutions] = useAtom(executionsState);
   const [executed, setExecuted] = useAtom(executedAtom);
-  const findIcon = supportedLanguages.find(l => l.name === language)?.icon;
-  const Icon = (findIcon ? findIcon : FaMinus) as React.ElementType;
+
+  const Icon: React.ElementType = useMemo(() => {
+    const findLanguage = supportedLanguages.find(l => l.name === language);
+
+    return findLanguage?.icon ? findLanguage.icon : FaMinus;
+  }, [language]);
 
   const createDocument = async () => {
     if (
