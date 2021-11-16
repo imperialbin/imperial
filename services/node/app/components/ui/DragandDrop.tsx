@@ -1,7 +1,10 @@
 import { AnimatePresence, motion } from "framer-motion";
+import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
 import { FaFileAlt } from "react-icons/fa";
 import styled from "styled-components";
+import { languageState } from "../../state/editor";
+import { supportedLanguages } from "../../utils";
 
 const Container = styled(motion.div)`
   position: absolute;
@@ -118,6 +121,7 @@ const iconAnimation = {
 
 export const DragandDrop = (): JSX.Element => {
   const [active, setActive] = useState(false);
+  const [language, setLanguage] = useAtom(languageState);
 
   useEffect(() => {
     let lastElement: EventTarget | null;
@@ -149,6 +153,7 @@ export const DragandDrop = (): JSX.Element => {
 
       const reader = new FileReader();
       const file = e?.dataTransfer?.files[0] as Blob;
+
       reader.readAsText(file);
 
       if (!isFileImage(file)) {
@@ -162,6 +167,15 @@ export const DragandDrop = (): JSX.Element => {
                     reader.result,
             ),
         );
+
+        const ext = (file as File)?.name.split(".").pop();
+
+        const lang =
+          supportedLanguages.find(lang =>
+            lang.extensions?.some(extension => extension === ext),
+          )?.name ?? language;
+
+        if (lang !== "plaintext" || e.shiftKey) setLanguage(lang);
       }
     };
 

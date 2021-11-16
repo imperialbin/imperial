@@ -142,3 +142,10 @@ export interface DocumentEditor {
   memberPlus: boolean;
   banned: boolean;
 }
+
+export interface Language {
+  id: number;
+  name: string;
+  icon?: React.ReactNode;
+  extensions?: string[];
+}
