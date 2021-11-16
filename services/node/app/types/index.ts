@@ -82,7 +82,7 @@ export interface DocumentSettings {
   encrypted: boolean;
   password: null | string;
   public: boolean;
-  editors: string[];
+  editors: Array<string>;
 }
 
 export interface UserSettings {
@@ -147,5 +147,5 @@ export interface Language {
   id: number;
   name: string;
   icon?: React.ReactNode;
-  extensions?: string[];
+  extensions?: Array<string>;
 }

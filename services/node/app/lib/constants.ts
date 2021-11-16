@@ -31,7 +31,7 @@ export const GitHubURL = "https://github.com/imperialbin";
 export const TwitterURL = "https://twitter.com/imperialbin";
 
 /* Supported Languages */
-export const supportedLanguages: Language[] = [
+export const supportedLanguages: Array<Language> = [
   { id: 1, name: "apex", extensions: ["cls"] },
   { id: 2, name: "azcli" },
   { id: 3, name: "bat", extensions: ["bat"] },
