@@ -72,7 +72,7 @@
     "isbot": "^3.0.26",
     "jsonwebtoken": "^8.5.1",
     "method-override": "^3.0.0",
-    "mongodb": "^3.6.4",
+    "mongodb": "^4.2.0",
     "mongoose": "^5.12.5",
     "nedb": "^1.8.0",
     "node-fetch": "^2.6.1",
