@@ -67,7 +67,7 @@
     "express-session": "^1.17.1",
     "gravatar": "^1.8.1",
     "imperial-highlight.js": "^10.7.3",
-    "ioredis": "^4.24.2",
+    "ioredis": "^4.28.2",
     "ipware": "^2.0.0",
     "isbot": "^3.0.26",
     "jsonwebtoken": "^8.5.1",
