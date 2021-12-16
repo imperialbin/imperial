@@ -76,7 +76,7 @@
     "mongoose": "^5.12.5",
     "nedb": "^1.8.0",
     "node-fetch": "^2.6.1",
-    "passport": "^0.4.1",
+    "passport": "^0.5.1",
     "passport-local": "^1.0.0",
     "puppeteer": "^9.0.0",
     "qrcode": "^1.4.4",
