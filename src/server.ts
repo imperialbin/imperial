@@ -64,7 +64,9 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(methodOverride("_method"));
-app.use(cors());
+app.use(cors({
+  credentials: true
+}));
 app.disable("x-powered-by");
 
 // Some of our routes
