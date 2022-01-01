@@ -157,7 +157,7 @@ export const Login = () => {
         </BtnContainer>
       </Left>
       <Right>
-        <Subtitle>Welcome aboard!</Subtitle>
+        <Subtitle>Welcome back!</Subtitle>
         {error && (
           <>
             <br />

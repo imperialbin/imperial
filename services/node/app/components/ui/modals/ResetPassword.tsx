@@ -127,7 +127,7 @@ export const ResetPassword = (): JSX.Element => {
 
     if (!data.success && error) return setError(data.message);
 
-    setLoading(false);
+    setError(null);
     setSuccess(true);
   };
 

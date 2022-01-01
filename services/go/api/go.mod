@@ -5,6 +5,7 @@ go 1.16
 require (
 	github.com/andybalholm/brotli v1.0.3 // indirect
 	github.com/aws/aws-sdk-go v1.40.37
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible // indirect
 	github.com/drexedam/gravatar v0.0.0-20210327211422-e94eea8c338e
 	github.com/go-playground/universal-translator v0.18.0 // indirect
 	github.com/go-playground/validator v9.31.0+incompatible
@@ -18,7 +19,10 @@ require (
 	github.com/joho/godotenv v1.3.0
 	github.com/klauspost/compress v1.13.6 // indirect
 	github.com/leodido/go-urn v1.2.1 // indirect
+	github.com/machinebox/graphql v0.2.2 // indirect
+	github.com/mitchellh/mapstructure v1.4.3 // indirect
 	github.com/prisma/prisma-client-go v0.10.0
+	github.com/prisma/prisma-go-client v0.0.0-20181017161110-68a1f9908416 // indirect
 	github.com/ravener/discord-oauth2 v0.0.0-20210928130214-d7697a35c387 // indirect
 	github.com/shopspring/decimal v1.2.0
 	github.com/takuoki/gocase v1.0.0
