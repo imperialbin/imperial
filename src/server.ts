@@ -8,6 +8,7 @@ import session from "express-session";
 import cookieParser from "cookie-parser";
 import passport from "passport";
 import methodOverride from "method-override";
+import cors from "cors";
 
 // @ts-ignore shut the fuck up pwetty pwease
 import MongoStore from "connect-mongo";
@@ -63,6 +64,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(methodOverride("_method"));
+app.use(cors());
 app.disable("x-powered-by");
 
 // Some of our routes
