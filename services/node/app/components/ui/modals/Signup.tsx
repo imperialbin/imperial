@@ -224,9 +224,11 @@ export const Signup = (): JSX.Element => {
         <br />
         <br />
         <BtnContainer>
-          <LeftBtn onClick={() => setActiveModal(["login", null])}>
-            Already have an account?
-          </LeftBtn>
+          {!success && (
+            <LeftBtn onClick={() => setActiveModal(["login", null])}>
+              Already have an account?
+            </LeftBtn>
+          )}
         </BtnContainer>
       </Left>
       <Right>

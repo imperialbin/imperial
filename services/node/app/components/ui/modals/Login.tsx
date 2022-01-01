@@ -157,14 +157,13 @@ export const Login = () => {
         </BtnContainer>
       </Left>
       <Right>
-        <Subtitle>Welcome back!</Subtitle>
         {error && (
           <>
             <br />
             <Error>{error}</Error>
-            <br />
           </>
         )}
+        <Subtitle>Welcome back!</Subtitle>
         <Container onSubmit={submit}>
           <Input
             label="Email or username"
