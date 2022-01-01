@@ -32,7 +32,7 @@ const ExecutionSpan = styled.span`
 `;
 
 const ExecutionText = styled.span`
-  color: white;
+  color: ${({ theme }) => theme.textLight};
 `;
 
 const ExecutionError = styled.span`
@@ -88,8 +88,10 @@ export const CodeExecution: React.FC = (): JSX.Element => {
         next
       </button>
 
-      <br/>
-      <span>{index}/{executions.length - 1}</span>
+      <br />
+      <span>
+        {index + 1}/{executions.length}
+      </span>
 
       {index > 0 ? (
         <ExecutionSpan>
