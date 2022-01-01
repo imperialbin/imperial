@@ -48,6 +48,13 @@ const NoEditors = styled(motion.div)`
   color: ${({ theme }) => theme.textDarker};
 `;
 
+const Error = styled.span`
+  color: ${({ theme }) => theme.error};
+  font-size: 1.2em;
+  display: block;
+  margin: 5px 0 0;
+`;
+
 export const AddUsersModal = (): JSX.Element => {
   const [editors, setEditors] = useAtom(documentEditors);
   const [input, setInput] = useState<string>("");
@@ -61,7 +68,7 @@ export const AddUsersModal = (): JSX.Element => {
       <HeaderSecondary>
         Who do you want to add to this document?
       </HeaderSecondary>
-      {error && error}
+      {error && <Error>{error}</Error>}
       <UserSearch>
         <FaUserPlus size={18} />
         <AddInput
@@ -77,6 +84,7 @@ export const AddUsersModal = (): JSX.Element => {
 
               if (error) return setError(error);
 
+              setError(null);
               setEditors([...editors, data.data]);
               setInput("");
             }
