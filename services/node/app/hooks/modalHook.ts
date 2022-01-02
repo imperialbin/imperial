@@ -1,9 +1,8 @@
-/* eslint-disable no-unused-vars */
 import { MutableRefObject, useEffect } from "react";
-// br
+
 export const useModalHook = (
   ref: MutableRefObject<HTMLDivElement | null>,
-  handler: (e: MouseEvent | TouchEvent | KeyboardEvent) => unknown,
+  handler: (_e: MouseEvent | TouchEvent | KeyboardEvent) => unknown,
 ): void => {
   useEffect(() => {
     const listener = (e: MouseEvent | TouchEvent) => {
