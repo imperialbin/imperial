@@ -2,6 +2,7 @@ package utils
 
 import (
 	"context"
+	"os"
 
 	"github.com/chromedp/chromedp"
 )
@@ -14,7 +15,7 @@ func ScreenshotDocument(documentID string, memberPlus bool) {
 
 	var buf []byte
 
-	if err := chromedp.Run(ctx, fullScreenshot(`http://localhost:3000/`+documentID+"?noNav=true", 80, &buf)); err != nil {
+	if err := chromedp.Run(ctx, fullScreenshot(os.Getenv("SCREENSHOT_URI")+documentID+"?noNav=true", 80, &buf)); err != nil {
 		println(err.Error())
 		return
 	}
