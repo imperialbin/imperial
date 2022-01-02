@@ -89,6 +89,10 @@ export const LanguageModal = (): JSX.Element => {
     if (typeof window === "undefined") return;
 
     window.addEventListener("keydown", enterHandler);
+
+    return () => {
+      window.removeEventListener("keydown", enterHandler);
+    };
   });
 
   return (

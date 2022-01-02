@@ -221,7 +221,6 @@ export const Nav = ({
     };
 
     window.addEventListener("keydown", keyDown);
-
     return () => {
       window.removeEventListener("keydown", keyDown);
     };

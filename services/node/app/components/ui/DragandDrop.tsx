@@ -169,6 +169,13 @@ export const DragandDrop = (): JSX.Element => {
     window.addEventListener("dragenter", enter);
     window.addEventListener("dragleave", leave);
     window.addEventListener("dragover", e => e.preventDefault());
+
+    return () => {
+      window.removeEventListener("drop", drop);
+      window.removeEventListener("dragenter", enter);
+      window.removeEventListener("dragleave", leave);
+      window.removeEventListener("dragover", e => e.preventDefault());
+    };
   }, []);
 
   return (
