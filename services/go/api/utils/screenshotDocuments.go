@@ -14,8 +14,13 @@ func ScreenshotDocument(documentID string, memberPlus bool) {
 	defer cancel()
 
 	var buf []byte
+	var quality = 60
 
-	if err := chromedp.Run(ctx, fullScreenshot(os.Getenv("SCREENSHOT_URI")+documentID+"?noNav=true", 80, &buf)); err != nil {
+	if memberPlus {
+		quality = 90
+	}
+
+	if err := chromedp.Run(ctx, fullScreenshot(os.Getenv("SCREENSHOT_URI")+documentID+"?noNav=true", quality, &buf)); err != nil {
 		println(err.Error())
 		return
 	}
