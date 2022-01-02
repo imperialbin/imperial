@@ -223,7 +223,7 @@ export const UserSettings = (): JSX.Element => {
                 <Tile style={{ cursor: "pointer" }}>
                   <TileIcon src="/img/discord.svg" />
                   <TitleInfo style={{ fontSize: "1em" }}>
-                    {user.discordId ? user.discordId : "Connect"}
+                    {user.discordId ? "Connected" : "Connect"}
                   </TitleInfo>
                 </Tile>
               </Link>
