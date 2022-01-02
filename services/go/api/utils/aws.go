@@ -1,11 +1,14 @@
 package utils
 
 import (
+	"bytes"
+	"fmt"
 	"os"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
+	"github.com/aws/aws-sdk-go/service/s3/s3manager"
 	"github.com/aws/aws-sdk-go/service/ses"
 )
 
@@ -37,5 +40,23 @@ func SendEmail(template string, to string, data string) (ok bool, err error) {
 		return false, emailErr
 	}
 
+	return true, nil
+}
+
+func SaveImage(documentID string, buf []byte) (ok bool, err error) {
+	session := session.Must(SESSession())
+	uploader := s3manager.NewUploader(session)
+
+	result, err := uploader.Upload(&s3manager.UploadInput{
+		Bucket: aws.String("imperial"),
+		Key:    aws.String(documentID + ".png"),
+		Body:   bytes.NewReader(buf),
+	})
+
+	if err != nil {
+		return false, err
+	}
+
+	fmt.Printf("file downloaded, %d bytes\n", result)
 	return true, nil
 }
