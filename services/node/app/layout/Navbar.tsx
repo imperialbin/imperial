@@ -201,7 +201,7 @@ export const Nav = ({
   useEffect(() => {
     if (typeof window === "undefined") return;
 
-    window.addEventListener("keydown", e => {
+    const keyDown = (e: KeyboardEvent) => {
       if (
         e.key === "s" &&
         (creatingDocument || editing) &&
@@ -218,7 +218,13 @@ export const Nav = ({
         e.preventDefault();
         newDocument();
       }
-    });
+    };
+
+    window.addEventListener("keydown", keyDown);
+
+    return () => {
+      window.removeEventListener("keydown", keyDown);
+    };
   }, [editing, editors]);
 
   const brandAnimation = {
