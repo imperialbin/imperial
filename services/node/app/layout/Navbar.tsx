@@ -1,12 +1,12 @@
 /* eslint-disable prefer-destructuring */
 /* eslint-disable no-console */
-import { useAtom, atom } from "jotai";
+import { useAtom /* atom */ } from "jotai";
 import Link from "next/link";
 import Router from "next/router";
 import { useEffect, useMemo } from "react";
 import styled from "styled-components";
 import Copy from "react-copy-to-clipboard";
-import { runCode } from "../components/runner/RunCode";
+// import { runCode } from "../components/runner/RunCode";
 import {
   FaUserFriends,
   FaMinus,
@@ -20,17 +20,17 @@ import {
   FaCheck,
   FaCog,
   FaArrowRight,
-  FaPlayCircle,
+  // FaPlayCircle,
 } from "react-icons/fa";
 
 import { Tooltip, UserIcon } from "../components/ui";
 import { UserIconSkeleton } from "../components/ui/skeletons";
-import { CodeExecution } from "../components/runner/CodeExecution";
+// import { CodeExecution } from "../components/runner/CodeExecution";
 import {
   editingState,
   textState,
   languageState,
-  executionsState,
+  // executionsState,
 } from "../state/editor";
 import { Document, NavProps } from "../types";
 import { request } from "../utils/requestWrapper";
@@ -39,7 +39,7 @@ import { LoggedInTooltip, LoggedOutTooltip } from "../components/ui/tooltips";
 import { activeModal, documentEditors } from "../state/modal";
 import { supportedLanguages } from "../lib/constants";
 import { AnimatePresence, motion } from "framer-motion";
-import { RuntimesContext } from "../components/runner/PistonRuntimesProvider";
+// import { RuntimesContext } from "../components/runner/PistonRuntimesProvider";
 
 const Wrapper = styled(motion.div)`
   position: absolute;
@@ -116,7 +116,7 @@ const Btn = styled.button`
 `;
 
 const ArrowContainer = styled(motion.div)``;
-const executedAtom = atom(false);
+// const executedAtom = atom(false);
 
 export const Nav = ({
   user,
@@ -132,8 +132,8 @@ export const Nav = ({
   const [, setActiveModal] = useAtom(activeModal);
   const [collapsed, setCollapsed] = useState(false);
   const [publicStatus, setPublic] = useState(false);
-  const [, setExecutions] = useAtom(executionsState);
-  const [executed, setExecuted] = useAtom(executedAtom);
+  // const [, setExecutions] = useAtom(executionsState);
+  // const [executed, setExecuted] = useAtom(executedAtom);
 
   const Icon: React.ElementType = useMemo(() => {
     const findLanguage = supportedLanguages.find(l => l.name === language);
@@ -338,7 +338,8 @@ export const Nav = ({
                           exit="initial"
                           variants={brandAnimation}
                         >
-                          <Tooltip
+                          {/* NOTE: Not ready, will finish */}
+                          {/*                           <Tooltip
                             style={{ margin: "0 10px" }}
                             title="Run Code"
                           >
@@ -374,7 +375,7 @@ export const Nav = ({
                                 </Btn>
                               )}
                             </RuntimesContext.Consumer>
-                          </Tooltip>
+                          </Tooltip> */}
                         </motion.div>
                       )}
                     </AnimatePresence>
@@ -467,7 +468,7 @@ export const Nav = ({
           </Buttons>
         </Container>
       </Wrapper>
-      <AnimatePresence>{executed && <CodeExecution />}</AnimatePresence>
+      {/* <AnimatePresence>{executed && <CodeExecution />}</AnimatePresence> */}
     </>
   );
 };
