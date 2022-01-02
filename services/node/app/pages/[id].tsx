@@ -6,6 +6,13 @@ import { Editor } from "../components/ui";
 import { useDocument, useUser } from "../hooks";
 import { Nav } from "../layout/Navbar";
 import { languageState } from "../state/editor";
+import styled from "styled-components";
+
+const Container = styled.div`
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+`;
 
 const Home: NextPage = () => {
   const { id, password, lang } = useRouter().query;
@@ -25,7 +32,7 @@ const Home: NextPage = () => {
   return (
     <div>
       {document ? (
-        <>
+        <Container>
           <Nav
             user={user}
             userLoading={userLoading}
@@ -38,7 +45,7 @@ const Home: NextPage = () => {
             document={document}
           />
           <Editor value={document && document.content} user={user} />
-        </>
+        </Container>
       ) : (
         documentError && (
           <>
