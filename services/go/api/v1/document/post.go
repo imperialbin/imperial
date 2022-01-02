@@ -177,6 +177,8 @@ func Post(c *fiber.Ctx) error {
 		).Exec(ctx)
 	}
 
+	go ScreenshotDocument(createdDocument.ID, user.MemberPlus)
+
 	return c.JSON(Response{
 		Success: true,
 		Data: &CreateDocumentData{
@@ -190,4 +192,5 @@ func Post(c *fiber.Ctx) error {
 			Settings:   settings,
 		},
 	})
+
 }
