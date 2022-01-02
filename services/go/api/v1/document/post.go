@@ -177,7 +177,9 @@ func Post(c *fiber.Ctx) error {
 		).Exec(ctx)
 	}
 
-	go ScreenshotDocument(createdDocument.ID, user.MemberPlus)
+	if settings.ImageEmbed {
+		go ScreenshotDocument(createdDocument.ID, user.MemberPlus)
+	}
 
 	return c.JSON(Response{
 		Success: true,
