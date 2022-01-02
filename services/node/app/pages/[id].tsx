@@ -14,8 +14,8 @@ const Container = styled.div`
   overflow: hidden;
 `;
 
-const Home: NextPage = () => {
-  const { id, password, lang } = useRouter().query;
+const ViewDocument: NextPage = () => {
+  const { id, password, lang, noNav = false } = useRouter().query;
   const { user, isLoading: userLoading } = useUser();
   const { document, isError: documentError } = useDocument(
     id as string,
@@ -33,17 +33,19 @@ const Home: NextPage = () => {
     <div>
       {document ? (
         <Container>
-          <Nav
-            user={user}
-            userLoading={userLoading}
-            editor={
-              user
-                ? document.creator === user.username ||
-                  document.settings.editors.includes(user.username)
-                : false
-            }
-            document={document}
-          />
+          {!noNav ? (
+            <Nav
+              user={user}
+              userLoading={userLoading}
+              editor={
+                user
+                  ? document.creator === user.username ||
+                    document.settings.editors.includes(user.username)
+                  : false
+              }
+              document={document}
+            />
+          ) : null}
           <Editor value={document && document.content} user={user} />
         </Container>
       ) : (
@@ -61,4 +63,4 @@ const Home: NextPage = () => {
   );
 };
 
-export default Home;
+export default ViewDocument;
