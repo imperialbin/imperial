@@ -1,4 +1,4 @@
-FROM golang:1.16-buster
+FROM golang:1.16-buster as uwu
 ARG DATABASE_URL
 ARG PORT
 WORKDIR /services/go/api
@@ -21,4 +21,5 @@ RUN apt-get update
 RUN apt install tini
 ENTRYPOINT ["tini", "--"]
 
+COPY --from=uwu /services/go/api .
 CMD ["./api"]
