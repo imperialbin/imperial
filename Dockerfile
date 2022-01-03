@@ -16,6 +16,8 @@ RUN go build
 EXPOSE ${PORT}
 
 FROM chromedp/headless-shell:latest
+
+RUN apt-get update
 RUN apt install tini
 ENTRYPOINT ["tini", "--"]
 
