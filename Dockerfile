@@ -16,7 +16,7 @@ RUN go build
 EXPOSE ${PORT}
 
 FROM chromedp/headless-shell:latest
-RUN apt install dumb-init
-ENTRYPOINT ["dumb-init", "--"]
+RUN apt install tini
+ENTRYPOINT ["tini", "--"]
 
 CMD ["./api"]
