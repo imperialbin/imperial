@@ -8,16 +8,10 @@ import (
 )
 
 func ScreenshotDocument(documentID string, memberPlus bool) {
-	println("bruhh")
 	ctx, cancel := chromedp.NewContext(
 		context.Background(),
 	)
-
-	println("bruhh444")
 	defer cancel()
-
-
-	println("MATE")
 
 	var buf []byte
 	var quality = 60
@@ -26,7 +20,6 @@ func ScreenshotDocument(documentID string, memberPlus bool) {
 		quality = 90
 	}
 
-	println("llll")
 	if err := chromedp.Run(ctx, fullScreenshot(os.Getenv("SCREENSHOT_URI")+documentID+"?noNav=true", quality, &buf)); err != nil {
 		println(err.Error())
 		return
