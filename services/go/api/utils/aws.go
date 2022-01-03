@@ -46,21 +46,17 @@ func SaveImage(imageName string, buf []byte) (ok bool, err error) {
 	session := session.Must(SESSession())
 	uploader := s3manager.NewUploader(session)
 
-	println("bruhh")
 	result, err := uploader.Upload(&s3manager.UploadInput{
 		Bucket: aws.String("imperial"),
 		Key:    aws.String(imageName + ".png"),
 		Body:   bytes.NewReader(buf),
 	})
 
-	println("bruhh2")
-
 	if err != nil {
-		println("WEEE WOOOO ", err.Error())
+		println("[S3 ERROR]", err.Error())
 		return false, err
 	}
 
-	println("saved image", result.Location)
-
+	println("SUCCESSFULLY UPLOADED", result.Location)
 	return true, nil
 }
