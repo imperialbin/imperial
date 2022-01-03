@@ -56,6 +56,7 @@ func SaveImage(imageName string, buf []byte) (ok bool, err error) {
 	println("bruhh2")
 
 	if err != nil {
+		println("WEEE WOOOO ", err.Error())
 		return false, err
 	}
 
