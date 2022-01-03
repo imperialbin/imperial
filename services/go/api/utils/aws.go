@@ -56,5 +56,7 @@ func SaveImage(imageName string, buf []byte) (ok bool, err error) {
 		return false, err
 	}
 
+	println("saved image", result.Location)
+
 	return true, nil
 }
