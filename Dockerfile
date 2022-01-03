@@ -15,4 +15,8 @@ RUN go build
 
 EXPOSE ${PORT}
 
+FROM chromedp/headless-shell:latest
+RUN apt install dumb-init
+ENTRYPOINT ["dumb-init", "--"]
+
 CMD ["./api"]
