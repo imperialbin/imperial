@@ -20,7 +20,7 @@ FROM chromedp/headless-shell:latest
 RUN apt-get update
 RUN apt install tini
 ENTRYPOINT ["tini", "--"]
-RUN apk update && apk add ca-certificates && rm -rf /var/cache/apk/*
+RUN apt install ca-certificates && rm -rf /var/cache/apk/*
 
 COPY --from=uwu /services/go/api .
 CMD ["./api"]
