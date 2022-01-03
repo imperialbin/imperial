@@ -177,7 +177,9 @@ func Post(c *fiber.Ctx) error {
 		).Exec(ctx)
 	}
 
+	println("CHECKING IMAGE EMBED")
 	if settings.ImageEmbed {
+		println("HAS IMAGE EMBED")
 		go ScreenshotDocument(createdDocument.ID, user.MemberPlus)
 	}
 

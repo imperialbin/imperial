@@ -25,6 +25,7 @@ func ScreenshotDocument(documentID string, memberPlus bool) {
 		return
 	}
 
+	println("SAVING IMAGE")
 	SaveImage(documentID, buf)
 }
 
