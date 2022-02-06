@@ -8,9 +8,11 @@ import (
 	. "api/v1/commons"
 	"log"
 	"os"
+	"time"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/gofiber/fiber/v2/middleware/limiter"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/joho/godotenv"
@@ -89,17 +91,16 @@ func main() {
 		EnableStackTrace: true,
 	}))
 
-	/*
-		app.Use(limiter.New(limiter.Config{
-			Max:        1000,
-			Expiration: 1 * time.Minute,
-			LimitReached: func(c *fiber.Ctx) error {
-				return c.Status(429).JSON(Response{
-					Success: false,
-					Message: "You are being rate limited!",
-				})
-			},
-		})) */
+	app.Use(limiter.New(limiter.Config{
+		Max:        1000,
+		Expiration: 1 * time.Minute,
+		LimitReached: func(c *fiber.Ctx) error {
+			return c.Status(429).JSON(Response{
+				Success: false,
+				Message: "You are being rate limited!",
+			})
+		},
+	}))
 
 	setupRoutes(app)
 
