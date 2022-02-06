@@ -92,7 +92,7 @@ func main() {
 	}))
 
 	app.Use(limiter.New(limiter.Config{
-		Max:        1000,
+		Max:        80,
 		Expiration: 1 * time.Minute,
 		LimitReached: func(c *fiber.Ctx) error {
 			return c.Status(429).JSON(Response{
