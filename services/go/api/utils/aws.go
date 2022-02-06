@@ -52,8 +52,6 @@ func SaveImage(imageName string, buf []byte) (ok bool, err error) {
 		Body:   bytes.NewReader(buf),
 	})
 
-	// railway please deploy again
-
 	if err != nil {
 		println("[S3 ERROR]", err.Error())
 		return false, err
