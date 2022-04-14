@@ -35,3 +35,27 @@ export interface User {
   icon: string;
   memberPlus: boolean;
 }
+
+export interface Document {
+  id: string;
+  content: string;
+  creator: string | null;
+  views: number;
+  links: {
+    raw: string;
+    formatted: string;
+  };
+  timestamps: {
+    creation: number;
+    expiration: number;
+  };
+  settings: {
+    language: string;
+    imageEmbed: boolean;
+    instantDelete: boolean;
+    encrypted: boolean;
+    password: null | string;
+    public: boolean;
+    editors: string[];
+  };
+}

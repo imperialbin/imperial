@@ -2,11 +2,12 @@ import Image from "next/image";
 import { useState } from "react";
 import styled from "styled-components";
 import { store } from "../../../state";
-import { closeModal, openModal, setUser } from "../../../state/actions";
+import { closeModal, openModal } from "../../../state/actions";
 import { Lock, User } from "react-feather";
 import Input from "../Input";
 import { request } from "../../utils/Request";
 import Header from "./components/Header";
+import { fetchMe } from "../../utils/fetchMe";
 
 const Wrapper = styled.div`
   position: relative;
@@ -34,7 +35,7 @@ const Left = styled.div`
   flex: 0.8;
   align-items: center;
   justify-content: center;
-  background: ${({ theme }) => theme.background.darkest};
+  background: ${({ theme }) => theme.background.dark};
   box-shadow: -1.7168px 6.86722px 36.0529px 8.58402px rgba(0, 0, 0, 0.25);
   padding: 10px;
   border-bottom-right-radius: 12px;
@@ -50,7 +51,7 @@ const LeftBtn = styled.button`
   cursor: pointer;
   opacity: 0.8;
   color: ${({ theme }) => theme.text.light};
-  background: ${({ theme }) => theme.background.dark};
+  background: ${({ theme }) => theme.background.darkest};
   box-shadow: 0px 0px 13px rgba(0, 0, 0, 0.25);
   transition: all 0.2s ease-in-out;
 
@@ -133,18 +134,18 @@ const Login = () => {
       return setError("You need to have a password");
     }
 
-    const { data, error } = await request("/auth/login", "POST", {
+    const { error, success } = await request("/auth/login", "POST", {
       username,
       password,
     });
 
-    if (!data.success && error) {
+    if (!success && error) {
       setLoading(false);
       return setError(error.message);
     }
 
     setError(null);
-    store.dispatch(setUser(data));
+    fetchMe();
     store.dispatch(closeModal());
   };
 

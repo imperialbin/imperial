@@ -3,8 +3,8 @@ import { DefaultTheme } from "styled-components";
 export const DarkTheme: DefaultTheme = {
   type: "dark",
   background: {
-    dark: "#121212",
-    darkest: "#191919",
+    dark: "#191919",
+    darkest: "#121212",
     littleLessDark: "#1e1e1e",
     lightestOfTheBunch: "#242424",
   },

@@ -62,15 +62,15 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
           }}
         >
           <RuntimesProvider>
-          <LanguageProvider>
-            <ModalManager />
-            <SkeletonTheme
-              color={theme.layoutLightestOfTheBunch}
-              highlightColor={theme.layoutDark}
-            >
-              <Component {...pageProps} />
-            </SkeletonTheme>
-          </LanguageProvider>
+            <LanguageProvider>
+              <ModalManager />
+              <SkeletonTheme
+                color={theme.layoutLightestOfTheBunch}
+                highlightColor={theme.layoutDark}
+              >
+                <Component {...pageProps} />
+              </SkeletonTheme>
+            </LanguageProvider>
           </RuntimesProvider>
         </SWRConfig>
       </ThemeProvider>

@@ -1,4 +1,4 @@
-import { API_VERSION_V1 } from "./Consts";
+import { FULL_URI_V1 } from "./Consts";
 
 export interface Response<T = any> {
   success: boolean;
@@ -18,11 +18,12 @@ export const request = async <T = any>(
   body?: any,
 ): Promise<Response<T>> => {
   try {
-    const res = await fetch(API_VERSION_V1 + endpoint, {
+    const res = await fetch(FULL_URI_V1 + endpoint, {
       method,
       headers: {
         "Content-Type": "application/json",
       },
+      credentials: "include",
       body: JSON.stringify(body),
     });
 

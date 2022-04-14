@@ -1,3 +1,4 @@
+import "react-tippy/dist/tippy.css";
 import type { AppProps } from "next/app";
 import { createGlobalStyle, ThemeProvider } from "styled-components";
 import { DarkTheme } from "../utils/Theme";
@@ -5,6 +6,8 @@ import { Provider } from "react-redux";
 import { store } from "../../state";
 import { SkeletonTheme } from "react-loading-skeleton";
 import ModalManager from "../components/ModalManager";
+import { useEffect } from "react";
+import { fetchMe } from "../utils/fetchMe";
 
 const GlobalStyle = createGlobalStyle`
  *, *:before, *:after {
@@ -14,13 +17,13 @@ const GlobalStyle = createGlobalStyle`
   font-family: 'Manrope', sans-serif;
  }
  
-
- html {
-  max-width: 100vw;
- }
+  html {
+    max-height: 100vh;
+  }
 
  body {
-  background: ${({ theme }) => theme.background.darkest};
+  max-width: 100vw;
+  background: ${({ theme }) => theme.background.dark};
   color: ${({ theme }) => theme.text.light};
   font-weight: 500;
  }
@@ -45,6 +48,9 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 function Imperial({ Component, pageProps }: AppProps) {
+  useEffect(() => {
+    fetchMe();
+  }, []);
   return (
     <ThemeProvider theme={DarkTheme}>
       <Provider store={store}>
