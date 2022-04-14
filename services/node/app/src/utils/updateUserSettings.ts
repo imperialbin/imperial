@@ -1,4 +1,4 @@
-import { request } from "./requestWrapper";
+import { request } from "./Request";
 
 interface Settings {
   clipboard?: boolean;
@@ -24,12 +24,12 @@ interface Response {
 export const updateUserSettings = async (
   settings: Settings,
 ): Promise<Response> => {
-  const { data, error } = await request(`/user/@me`, "PATCH", {
+  const { data, error } = await request("/user/@me", "PATCH", {
     ...settings,
   });
 
   if (error) {
-    return { data: false, error };
+    return { data: false, error: error.code };
   }
 
   return { data, error: false };

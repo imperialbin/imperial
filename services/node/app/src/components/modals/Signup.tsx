@@ -8,7 +8,7 @@ import { store } from "../../../state";
 import { openModal } from "../../../state/actions";
 import Input from "../Input";
 import Header from "./components/Header";
-import { fetchMe } from "../../utils/fetchMe";
+import { fetchMe } from "../../utils/FetchMe";
 
 const Wrapper = styled.div`
   position: relative;
@@ -17,7 +17,7 @@ const Wrapper = styled.div`
   justify-content: center;
   flex-direction: column;
   width: 80%;
-  max-width: 800px;
+  max-width: 650px;
   min-height: 200px;
   height: 50%;
   border-radius: 12px;

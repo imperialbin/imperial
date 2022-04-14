@@ -7,7 +7,7 @@ import { Anchor, ListContainer, ListItem, Seperator } from "./styles";
 export const LoggedInTooltip = (): JSX.Element => {
   return (
     <ListContainer>
-      <ListItem onClick={() => store.dispatch(openModal("login"))}>
+      <ListItem onClick={() => store.dispatch(openModal("user_settings"))}>
         User settings
       </ListItem>
       <Anchor href={DiscordURL} target="_blank" rel="noreferrer">

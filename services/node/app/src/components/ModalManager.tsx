@@ -7,6 +7,7 @@ import Login from "./modals/Login";
 import Signup from "./modals/Signup";
 import { useOutsideClick } from "../hooks/useOutsideClick";
 import { closeModal } from "../../state/actions";
+import UserSettings from "./modals/UserSettings";
 
 const Wrapper = styled(motion.div)`
   display: flex;
@@ -21,6 +22,7 @@ const Wrapper = styled(motion.div)`
 `;
 const Container = styled(motion.div)`
   width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -47,6 +49,7 @@ const ContainerAnimation = {
 const MODAL_MAP = {
   login: Login,
   signup: Signup,
+  user_settings: UserSettings,
 };
 
 export type Modals = keyof typeof MODAL_MAP; // 💀💀💀💀
