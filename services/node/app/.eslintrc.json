@@ -4,38 +4,40 @@
     "es2021": true
   },
   "extends": [
-    "xo",
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:@next/next/recommended"
+    "plugin:@next/next/recommended",
+    "plugin:prettier/recommended"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
     },
-    "ecmaVersion": 12,
+    "ecmaVersion": "latest",
     "sourceType": "module"
   },
   "plugins": ["react", "@typescript-eslint"],
   "rules": {
     "react/react-in-jsx-scope": "off",
-    "@typescript-eslint/ban-types": "error",
     "indent": "off",
-    "quotes": "off",
-    "object-curly-spacing": "off",
-    "curly": "off",
-    "operator-linebreak": "off",
-    "no-unused-vars": "error",
-    "no-unused-expressions": "error",
-    "no-unused-labels": "error",
+    "linebreak-style": ["error", "unix"],
+    "quotes": ["error", "double"],
+    "semi": ["error", "always"],
     "no-console": "error",
-    "capitalized-comments": "off",
-    "no-negated-condition": "off",
-    "one-var": "off",
-    "react/prop-types": "off",
-    "@next/next/no-page-custom-font": "off",
-    "complexity": "off"
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      { "argsIgnorePattern": "^_", "ignoreRestSiblings": true }
+    ],
+
+    "@typescript-eslint/no-inferrable-types": "off",
+    "no-restricted-syntax": [
+      "error",
+      {
+        "selector": ":matches(JSXElement, JSXFragment) > JSXExpressionContainer > LogicalExpression[operator!='??']",
+        "message": "Please use ternaries when writing JSX!"
+      }
+    ]
   }
 }
