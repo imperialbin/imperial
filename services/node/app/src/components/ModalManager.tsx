@@ -19,7 +19,12 @@ const Wrapper = styled(motion.div)`
   color: white;
   background: rgba(0, 0, 0, 0.3);
 `;
-const Container = styled(motion.div)``;
+const Container = styled(motion.div)`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 
 const WrapperAnimation = {
   initial: {

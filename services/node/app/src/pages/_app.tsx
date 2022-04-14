@@ -22,6 +22,7 @@ const GlobalStyle = createGlobalStyle`
  body {
   background: ${({ theme }) => theme.background.darkest};
   color: ${({ theme }) => theme.text.light};
+  font-weight: 500;
  }
 
  ::-webkit-scrollbar {
