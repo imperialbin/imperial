@@ -1,13 +1,14 @@
 import { AnyAction } from "redux";
+import { Modals } from "../../src/components/ModalManager";
 
 export interface ModalState {
-  modal: string;
+  modal: Modals;
   data?: unknown;
 }
 
 const modal = (state: ModalState | null = null, action: AnyAction) => {
   switch (action.type) {
-    case "SET_MODAL":
+    case "OPEN_MODAL":
       return action.payload;
     case "CLOSE_MODAL":
       return null;

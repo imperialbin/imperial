@@ -4,6 +4,7 @@ import { DarkTheme } from "../utils/Theme";
 import { Provider } from "react-redux";
 import { store } from "../../state";
 import { SkeletonTheme } from "react-loading-skeleton";
+import ModalManager from "../components/ModalManager";
 
 const GlobalStyle = createGlobalStyle`
  *, *:before, *:after {
@@ -46,6 +47,7 @@ function Imperial({ Component, pageProps }: AppProps) {
   return (
     <ThemeProvider theme={DarkTheme}>
       <Provider store={store}>
+        <ModalManager />
         <GlobalStyle />
         <SkeletonTheme
           baseColor={DarkTheme.background.lightestOfTheBunch}
