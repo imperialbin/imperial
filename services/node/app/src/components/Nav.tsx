@@ -72,7 +72,7 @@ const Buttons = styled.div`
   display: flex;
   align-items: center;
   flex-direction: row;
-  margin: 15px 20px 10px;
+  margin: 0 20px 10px;
 `;
 
 const Btn = styled.button`

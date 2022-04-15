@@ -7,13 +7,10 @@ import { store } from "../../state";
 import { SkeletonTheme } from "react-loading-skeleton";
 import ModalManager from "../components/ModalManager";
 import { useEffect } from "react";
-import { fetchMe } from "../utils/fetchMe";
+import { fetchMe } from "../utils/FetchMe";
 
 const GlobalStyle = createGlobalStyle`
  *, *:before, *:after {
-  margin:0;
-  padding:0;
-  box-sizing: border-box;
   font-family: 'Manrope', sans-serif;
  }
  
@@ -23,6 +20,8 @@ const GlobalStyle = createGlobalStyle`
 
  body {
   max-width: 100vw;
+  margin: 0;
+  padding: 0;
   background: ${({ theme }) => theme.background.dark};
   color: ${({ theme }) => theme.text.light};
   font-weight: 500;
