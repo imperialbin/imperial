@@ -1,27 +1,58 @@
+import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import { useRouter } from "next/router";
+import { useState } from "react";
 import styled from "styled-components";
 import Editor from "../components/Editor";
 import Nav from "../components/Nav";
-import { useDocument } from "../hooks/useDocument";
+import { Document } from "../types";
+import { request } from "../utils/Request";
 
 const Wrapper = styled.div`
   width: 100vw;
   height: 100vh;
 `;
 
-const Document = () => {
-  const { id, password, lang, noNav = false } = useRouter().query;
-  const { document, isError, isLoading } = useDocument(
-    id?.toString() ?? "",
-    password?.toString() ?? "",
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const { query } = context;
+
+  const { success, data } = await request(
+    `/document/${query.id}?${query?.password}`,
   );
+
+  if (!success) {
+    return {
+      props: {
+        document: null,
+      },
+    };
+  }
+
+  return {
+    props: {
+      document: data as Document,
+    },
+  };
+}
+
+const Document = ({
+  document,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+  const [editing, setEditing] = useState(false);
+  const { lang, noNav = false } = useRouter().query;
 
   return (
     <Wrapper>
-      {!noNav ? <Nav /> : null}
-      <Editor language={lang?.toString() ?? document.settings.language} />
+      {document ? (
+        <>
+          {!noNav ? <Nav /> : null}
+          <Editor
+            language={lang?.toString() ?? document.settings.language}
+            value={document.content}
+            readonly={!editing}
+          />
+        </>
+      ) : null}
     </Wrapper>
   );
 };
-
 export default Document;

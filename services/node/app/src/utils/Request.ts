@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { FULL_URI_V1 } from "./Consts";
 
 export interface Response<T = any> {
@@ -41,6 +42,7 @@ export const request = async <T = any>(
 
     return parsedRes;
   } catch (err) {
+    console.error(err);
     return {
       success: false,
       error: {

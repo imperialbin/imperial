@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { connect, ConnectedProps } from "react-redux";
 import styled from "styled-components";
 import { ImperialState } from "../../state/reducers";
@@ -9,6 +9,9 @@ import Link from "next/link";
 import Copy from "react-copy-to-clipboard";
 import { UserIcon } from "./UserIcon";
 import { LoggedInTooltip, LoggedOutTooltip } from "./tooltips";
+import { Document } from "../types";
+import { request } from "../utils/Request";
+import Router from "next/router";
 
 const Wrapper = styled(motion.div)`
   position: absolute;
@@ -111,10 +114,67 @@ const brandAnimation = {
 };
 
 interface INavProps extends ReduxProps {
-  document?: { id: string };
+  document?: Document;
 }
 const Nav = ({ user, document }: INavProps) => {
   const [collapsed, setCollapsed] = useState(false);
+
+  const saveDocument = useCallback(async () => {
+    if (typeof window === "undefined" || !window.monaco) return;
+
+    const content = window.monaco.editor.getModels()[0].getValue();
+    if (content.length <= 0) return;
+
+    const language = window.monaco.editor.getModels()[0].getLanguageId();
+
+    const { success, data, error } = await request("/document", "POST", {
+      content,
+      settings: {
+        longUrls: user ? user.settings.longUrls : false,
+        shortUrls: user ? user.settings.shortUrls : false,
+        instantDelete: user ? user.settings.instantDelete : false,
+        encrypted: user ? user.settings.encrypted : false,
+        imageEmbed: user ? user.settings.imageEmbed : false,
+        expiration: user ? user.settings.expiration : 14,
+        public: false,
+        language,
+      },
+    });
+
+    if (!success) {
+      console.error("error", error?.message);
+      return;
+    }
+
+    Router.push(`/${data.id}`);
+  }, [document, user]);
+
+  const editDocument = useCallback(() => {
+    if (typeof window === "undefined" || !window.monaco || !user || !document)
+      return;
+    if (
+      document.creator !== user.username ||
+      !document.settings.editors.find(editor => editor === user.username)
+    )
+      return;
+
+    console.log("editing document");
+  }, [document, user]);
+
+  useEffect(() => {
+    const keypress = (e: KeyboardEvent) => {
+      switch (true) {
+        case (e.ctrlKey || e.metaKey) && e.key === "s":
+          !document ? saveDocument() : editDocument();
+          break;
+      }
+    };
+
+    window.addEventListener("keypress", keypress);
+    return () => {
+      window.removeEventListener("keypress", keypress);
+    };
+  }, [document]);
 
   return (
     <Wrapper

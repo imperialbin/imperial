@@ -28,6 +28,7 @@
     "dayjs": "^1.11.0",
     "framer-motion": "^6.3.0",
     "imperial-editor": "https://github.com/imperialbin/imperial-editor",
+    "monaco-editor": "^0.33.0",
     "next": "12.1.5",
     "react": "18.0.0",
     "react-copy-to-clipboard": "^5.1.0",

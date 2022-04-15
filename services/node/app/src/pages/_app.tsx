@@ -8,6 +8,8 @@ import { SkeletonTheme } from "react-loading-skeleton";
 import ModalManager from "../components/ModalManager";
 import { useEffect } from "react";
 import { fetchMe } from "../utils/FetchMe";
+import { SWRConfig } from "swr";
+import { fetcher } from "../utils/fetcher";
 
 const GlobalStyle = createGlobalStyle`
  *, *:before, *:after {
@@ -52,16 +54,24 @@ function Imperial({ Component, pageProps }: AppProps) {
   }, []);
   return (
     <ThemeProvider theme={DarkTheme}>
-      <Provider store={store}>
-        <ModalManager />
-        <GlobalStyle />
-        <SkeletonTheme
-          baseColor={DarkTheme.background.lightestOfTheBunch}
-          highlightColor={DarkTheme.background.dark}
-        >
-          <Component {...pageProps} />
-        </SkeletonTheme>
-      </Provider>
+      <SWRConfig
+        value={{
+          fetcher,
+          refreshInterval: 120000,
+          revalidateOnFocus: false,
+        }}
+      >
+        <Provider store={store}>
+          <ModalManager />
+          <GlobalStyle />
+          <SkeletonTheme
+            baseColor={DarkTheme.background.lightestOfTheBunch}
+            highlightColor={DarkTheme.background.dark}
+          >
+            <Component {...pageProps} />
+          </SkeletonTheme>
+        </Provider>
+      </SWRConfig>
     </ThemeProvider>
   );
 }
