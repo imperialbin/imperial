@@ -4,7 +4,6 @@ import styled from "styled-components";
 
 const Container = styled.div`
   position: relative;
-  max-width: 80%;
 `;
 
 const Label = styled.label`
@@ -51,8 +50,8 @@ const InputElement = styled.input<{ secretValue: boolean }>`
 
 const Icon = styled(motion.div)<{ iconHoverColor: string | null }>`
   position: absolute;
-  bottom: 18px;
-  right: 85px;
+  bottom: 20px;
+  right: 25px;
   cursor: pointer;
   overflow: hidden;
   color: ${({ theme }) => theme.text.dark};
