@@ -29,6 +29,7 @@ import { ImperialState } from "../../../state/reducers";
 import { connect, ConnectedProps } from "react-redux";
 import { closeModal, setUser } from "../../../state/actions";
 import Setting from "../Setting";
+import Header from "./components/Header";
 
 const Wrapper = styled.div`
   position: relative;
@@ -215,6 +216,7 @@ const UserSettings = ({ user, dispatch }: ReduxProps): JSX.Element => {
 
   return (
     <Wrapper>
+      <Header />
       {user ? (
         <Container>
           <Overview>
@@ -417,7 +419,7 @@ const UserSettings = ({ user, dispatch }: ReduxProps): JSX.Element => {
                 dispatch(setUser(data));
               }}
             />
-            <Tooltip title="Click to copy API Token">
+            <Tooltip title="Click to copy API Token" position="bottom">
               <Input
                 label="API Token"
                 placeholder="API Token"
@@ -436,6 +438,7 @@ const UserSettings = ({ user, dispatch }: ReduxProps): JSX.Element => {
                     );
                   }
 
+                  console.log(data);
                   dispatch(setUser(data));
                 }}
                 inputDisabled={true}
