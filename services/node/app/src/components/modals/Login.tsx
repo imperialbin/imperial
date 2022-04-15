@@ -19,6 +19,8 @@ const Wrapper = styled.div`
   max-width: 650px;
   min-height: 200px;
   height: 50%;
+  max-height: 325px;
+  overflow: hidden;
   border-radius: 12px;
   background: ${({ theme }) => theme.background.lightestOfTheBunch};
 `;
@@ -84,7 +86,9 @@ const Subtitle = styled.h1`
   color: ${({ theme }) => theme.text.light};
 `;
 
-const Container = styled.form``;
+const Container = styled.form`
+  max-width: 100%;
+`;
 
 const Error = styled.span`
   color: ${({ theme }) => theme.system.error};

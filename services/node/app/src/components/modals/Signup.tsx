@@ -21,6 +21,8 @@ const Wrapper = styled.div`
   min-height: 200px;
   height: 50%;
   border-radius: 12px;
+  max-height: 325px;
+  overflow: hidden;
   background: ${({ theme }) => theme.background.lightestOfTheBunch};
 `;
 
