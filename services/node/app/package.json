@@ -25,6 +25,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@floating-ui/react-dom-interactions": "^0.6.3",
     "dayjs": "^1.11.0",
     "framer-motion": "^6.3.0",
     "imperial-editor": "https://github.com/imperialbin/imperial-editor",

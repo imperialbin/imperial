@@ -26,10 +26,7 @@
     "quotes": ["error", "double"],
     "semi": ["error", "always"],
     "no-console": "error",
-    "@typescript-eslint/no-unused-vars": [
-      "error",
-      { "argsIgnorePattern": "^_", "ignoreRestSiblings": true }
-    ],
+    "@typescript-eslint/no-unused-vars": "off",
 
     "@typescript-eslint/no-inferrable-types": "off",
     "no-restricted-syntax": [

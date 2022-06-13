@@ -8,10 +8,11 @@ import { Tooltip } from "./Tooltip";
 import Link from "next/link";
 import Copy from "react-copy-to-clipboard";
 import { UserIcon } from "./UserIcon";
-import { LoggedInTooltip, LoggedOutTooltip } from "./tooltips";
 import { Document } from "../types";
 import { request } from "../utils/Request";
 import Router from "next/router";
+import Popover from "./popovers/Popover";
+import UserPopover from "./popovers/UserPopover";
 
 const Wrapper = styled(motion.div)`
   position: absolute;
@@ -118,6 +119,7 @@ interface INavProps extends ReduxProps {
 }
 const Nav = ({ user, document }: INavProps) => {
   const [collapsed, setCollapsed] = useState(false);
+  const [userPopover, setUserPopover] = useState(false);
 
   const saveDocument = useCallback(async () => {
     if (typeof window === "undefined" || !window.monaco) return;
@@ -161,6 +163,7 @@ const Nav = ({ user, document }: INavProps) => {
     console.log("editing document");
   }, [document, user]);
 
+  /* Keybinds */
   useEffect(() => {
     const keypress = (e: KeyboardEvent) => {
       switch (true) {
@@ -235,17 +238,13 @@ const Nav = ({ user, document }: INavProps) => {
               <FileText size={20} />
             </Btn>
           </StyledTooltip>
-          <Tooltip
-            style={{ margin: "0 10px" }}
-            trigger="click"
-            position="bottom-end"
-            interactive={true}
-            useContext={true}
-            html={user ? <LoggedInTooltip /> : <LoggedOutTooltip />}
-            arrow
+          <Popover
+            active={userPopover}
+            render={defaults => <UserPopover {...defaults} />}
+            setPopover={setUserPopover}
           >
             <UserIcon URL={user ? user.icon : "/img/pfp.png"} pointer />
-          </Tooltip>
+          </Popover>
         </Buttons>
       </Container>
     </Wrapper>

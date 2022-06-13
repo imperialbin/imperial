@@ -6,6 +6,7 @@
     "services-up": "docker compose up -d"
   },
   "dependencies": {
+    "@floating-ui/react-dom-interactions": "^0.6.3",
     "@types/amqp": "^0.2.4"
   }
 }
