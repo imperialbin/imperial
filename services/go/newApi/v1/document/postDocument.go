@@ -23,10 +23,21 @@ func Post(c *fiber.Ctx) error {
 
 	client := utils.GetDB()
 	randomString, _ := utils.GenerateRandomString(8)
+	user, err := utils.GetAuthedUser(c)
+
+	if err != nil {
+		return c.Status(500).JSON(Response{
+			Success: false,
+			Message: "An internal server error occurred.",
+		})
+	}
 
 	documentRequest := &DocumentStruct{}
 	if err := defaults.Set(documentRequest); err != nil {
-		panic(err)
+		return c.Status(500).JSON(Response{
+			Success: false,
+			Message: "An internal server error occurred.",
+		})
 	}
 
 	marshalReqq, _ := json.Marshal(req)
@@ -38,10 +49,25 @@ func Post(c *fiber.Ctx) error {
 		randomString, _ = utils.GenerateRandomString(4)
 	}
 
+	var creatorPartial *models.UserPartial
+
+	if user != nil {
+		creatorPartial, _ = utils.GetUserPartial(user.Username)
+	}
+
+	if err != nil {
+		println(err.Error())
+	}
+
+	var creatorID *uint = nil
+	if user != nil {
+		creatorID = &user.ID
+	}
+
 	var document = models.Document{
 		ID:        randomString,
 		Content:   documentRequest.Content,
-		Creator:   nil,
+		Creator:   creatorID,
 		CreatedAt: time.Now(),
 		ExpiresAt: nil,
 		DocumentSettings: models.DocumentSettings{
@@ -98,7 +124,7 @@ func Post(c *fiber.Ctx) error {
 			ID:       document.ID,
 			Content:  document.Content,
 			Password: password,
-			Creator:  document.Creator,
+			Creator:  creatorPartial,
 			Gist:     document.Gist,
 			Views:    0,
 			Timestamps: Timestamps{
