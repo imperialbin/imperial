@@ -5,6 +5,7 @@ import (
 	"newapi/models"
 
 	"github.com/gofiber/fiber/v2"
+	"gorm.io/gorm"
 )
 
 func GetAuthedUser(c *fiber.Ctx) (*models.User, error) {
@@ -12,13 +13,19 @@ func GetAuthedUser(c *fiber.Ctx) (*models.User, error) {
 	userID, err := RedisGet(authToken)
 
 	if err != nil {
-		return nil, errors.New("ErrNotFound")
+		return nil, nil
 	}
 
 	client := GetDB()
 
 	var user models.User
-	client.First(&user, userID)
+	if result := client.First(&user, "id = ? ", userID); result.Error != nil {
+		if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+			return nil, nil
+		}
+
+		return nil, result.Error
+	}
 
 	return &user, nil
 }
