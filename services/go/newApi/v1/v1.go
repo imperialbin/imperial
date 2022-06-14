@@ -37,7 +37,7 @@ func PostDocument(c *fiber.Ctx) error {
 }
 
 func PatchDocument(c *fiber.Ctx) error {
-	return document.Edit(c)
+	return document.PatchDocument(c)
 }
 
 func DeleteDocument(c *fiber.Ctx) error {
