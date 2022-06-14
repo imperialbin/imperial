@@ -40,8 +40,11 @@ func Post(c *fiber.Ctx) error {
 		})
 	}
 
-	marshalReqq, _ := json.Marshal(req)
-	json.Unmarshal([]byte(marshalReqq), &documentRequest)
+	/* only allow authed users to make settings */
+	if user != nil {
+		marshalReq, _ := json.Marshal(req)
+		json.Unmarshal([]byte(marshalReq), &documentRequest)
+	}
 
 	if documentRequest.Settings.ShortURLs {
 		randomString, _ = utils.GenerateRandomString(32)
@@ -102,20 +105,24 @@ func Post(c *fiber.Ctx) error {
 		document.Content = content
 	}
 
-	/* 	var gistURL string
-	   	if gist && user != nil && len(*user.GithubAccess) > 0 {
-	   		reqGist, err := CreateGist(user, randomString, content)
+	if documentRequest.Settings.CreateGist && user != nil && user.GithubOAuth != nil && len(*user.GithubOAuth) > 0 {
+		reqGist, err := utils.CreateGist(user, randomString, document.Content)
 
-	   		if err == nil {
-	   			gistURL = reqGist
-	   		}
-	   	} */
+		if err == nil {
+			document.Gist = &reqGist
+		}
+	}
 
 	if result := client.Create(&document); result.Error != nil {
 		return c.JSON(Response{
 			Success: false,
 			Message: result.Error.Error(),
 		})
+	}
+
+	if user != nil {
+		client.Model(&user).Update("documents_made", user.DocumentsMade+1)
+		creatorPartial.DocumentsMade = creatorPartial.DocumentsMade + 1
 	}
 
 	return c.JSON(Response{
