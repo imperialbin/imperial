@@ -14,7 +14,7 @@ func EditGist(user *models.User, gistID, content string) (gist string, err error
 
 	req, err := http.NewRequest("PATCH", "https://api.github.com/gists/"+gistID, bytes.NewBuffer(body))
 	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("Authorization", "token "+*&user.GithubAccess)
+	req.Header.Set("Authorization", "token "+*user.GithubOAuth)
 
 	if err != nil {
 		println(err.Error())

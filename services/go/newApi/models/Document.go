@@ -5,7 +5,7 @@ import "time"
 type Document struct {
 	ID               string           `json:"id" gorm:"index"`
 	Content          string           `json:"content"`
-	Creator          *UserPartial     `json:"creator" gorm:"foreignKey:DocumentID;"`
+	Creator          *uint            `json:"creator"`
 	Gist             *string          `json:"gist_url" gorm:"default:null"`
 	Views            int              `json:"views" gorm:"default:0"`
 	CreatedAt        time.Time        `json:"created_at"`
