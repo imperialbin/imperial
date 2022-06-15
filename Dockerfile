@@ -1,17 +1,14 @@
-# syntax=docker/dockerfile:1
-FROM golang:1.18-buster as uwu
-WORKDIR /api
+FROM golang:1.16-buster as uwu
+WORKDIR /services/go/api
 
-COPY go.mod ./
-COPY go.sum ./
+COPY /services/go/api/go.mod .
+COPY /services/go/api/go.sum .
 
 RUN go mod download
 
-COPY *.go ./
+COPY /services/go/api .
 
 RUN go build
-RUN ls
-
 
 EXPOSE ${PORT}
 
@@ -22,5 +19,5 @@ RUN apt install tini
 ENTRYPOINT ["tini", "--"]
 RUN apt install -y ca-certificates && rm -rf /var/cache/apk/*
 
-COPY --from=uwu /api .
+COPY --from=uwu /services/go/api .
 CMD ["./api"]
