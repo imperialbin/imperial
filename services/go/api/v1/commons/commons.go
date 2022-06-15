@@ -37,17 +37,7 @@ type RequestResetPasswordStruct struct {
 type ResetPasswordStruct struct {
 	Token           string `json:"token" validate:"required,min=16"`
 	Password        string `json:"password" validate:"required,min=8"`
-	ConfirmPassword string `json:"confirmPassword" validate:"required,min=8"`
-}
-type ResetPasswordInClientStruct struct {
-	CurrentPassword string `json:"currentPassword" validate:"required,min=8"`
-	NewPassword     string `json:"newPassword" validate:"required,min=8"`
-	ConfirmPassword string `json:"confirmPassword" validate:"required,min=8"`
-}
-
-type DeleteAccount struct {
-	Password        string `json:"password" validate:"required,min=8"`
-	ConfirmPassword string `json:"confirmPassword" validate:"required,min=8"`
+	ConfirmPassword string `json:"confirm_password" validate:"required,min=8"`
 }
 
 type EditDocument struct {
@@ -66,7 +56,7 @@ type EditDocumentSettingsStruct struct {
 }
 
 type ErrorResponse struct {
-	FailedField string `json:"failedField"`
+	FailedField string `json:"failed_field"`
 	Tag         string
 	Value       string
 }
@@ -116,6 +106,6 @@ type VersionResponse struct {
 type BaseResponse struct {
 	Success           bool     `json:"success"`
 	Message           string   `json:"message"`
-	AvailableVersions []string `json:"availableVersions"`
+	AvailableVersions []string `json:"available_versions"`
 	Documentation     string   `json:"documentation"`
 }
