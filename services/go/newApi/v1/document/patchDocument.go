@@ -1,6 +1,7 @@
 package document
 
 import (
+	"encoding/json"
 	"errors"
 	"newapi/models"
 	"newapi/utils"
@@ -11,7 +12,6 @@ import (
 )
 
 func PatchDocument(c *fiber.Ctx) error {
-	var id = c.Params("id")
 	user, err := utils.GetAuthedUser(c)
 
 	if err != nil {
@@ -21,11 +21,20 @@ func PatchDocument(c *fiber.Ctx) error {
 		})
 	}
 
+	req := new(commons.EditDocument)
+
+	if err := c.BodyParser(req); err != nil {
+		return c.Status(400).JSON(commons.Response{
+			Success: false,
+			Message: "You have a type error in your request!",
+		})
+	}
+
 	/* Find document */
 	var client = utils.GetDB()
 	var document models.Document
 
-	if result := client.First(&document, "id = ?", id); result.Error != nil {
+	if result := client.Preload("DocumentSettings").First(&document, "id = ?", req.ID); result.Error != nil {
 		if errors.Is(result.Error, gorm.ErrRecordNotFound) {
 			return c.Status(404).JSON(commons.Response{
 				Success: false,
@@ -46,12 +55,36 @@ func PatchDocument(c *fiber.Ctx) error {
 		})
 	}
 
-	/* need to check if they are an editor */
+	var newDocument = models.Document{
+		ID:        document.ID,
+		Content:   document.Content,
+		Creator:   document.Creator,
+		GistURL:   document.GistURL,
+		Views:     document.Views,
+		CreatedAt: document.CreatedAt,
+		ExpiresAt: document.ExpiresAt,
+		DocumentSettings: models.DocumentSettings{
+			Language:      document.DocumentSettings.Language,
+			ImageEmbed:    document.DocumentSettings.ImageEmbed,
+			InstantDelete: document.DocumentSettings.InstantDelete,
+			Encrypted:     document.DocumentSettings.Encrypted,
+			Public:        document.DocumentSettings.Public,
+			Editors:       document.DocumentSettings.Editors,
+		},
+	}
 
-	 
+	marshalReq, _ := json.Marshal(req)
+	json.Unmarshal(marshalReq, &newDocument)
+
+	if result := client.Updates(&newDocument); result.Error != nil {
+		return c.Status(500).JSON(commons.Response{
+			Success: false,
+			Message: "An internal server error occurred",
+		})
+	}
 
 	return c.JSON(commons.Response{
 		Success: true,
-		Message: "yo",
+		Data:    newDocument,
 	})
 }
