@@ -4,7 +4,7 @@ type User struct {
 	ID             uint         `json:"id" gorm:"primaryKey"`
 	Username       string       `json:"username"`
 	Email          string       `json:"email"`
-	Icon           string       `json:"icon"`
+	Icon           *string      `json:"icon" gorm:"default:null"`
 	ConfirmedEmail bool         `json:"confirmed_email"`
 	Password       string       `json:"-"`
 	DocumentsMade  int          `json:"documents_made" gorm:"default:0"`

@@ -12,7 +12,6 @@ import (
 	"github.com/getsentry/sentry-go"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
-	"github.com/gofiber/fiber/v2/middleware/limiter"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/joho/godotenv"
@@ -23,7 +22,6 @@ const (
 )
 
 func setupRoutes(app *fiber.App) {
-
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.JSON(commons.BaseResponse{
 			Success:           true,
@@ -35,33 +33,33 @@ func setupRoutes(app *fiber.App) {
 
 	/* VERSION 1 API */
 	v1 := app.Group("/v1")
-	v1.Get("/", v1Routes.Introduction)
+	v1.Get("/", utils.RateLimit(200), v1Routes.Introduction)
 
 	/* Authentication */
-	v1.Post("/auth/login", middleware.CheckNotAuthenticated, v1Routes.PostLogin)
-	v1.Post("/auth/signup", middleware.CheckNotAuthenticated, v1Routes.PostSignup)
-	v1.Post("/auth/requestReset", middleware.CheckNotAuthenticated, v1Routes.PostRequestResetPassword)
-	v1.Post("/auth/reset", middleware.CheckNotAuthenticated, v1Routes.PostResetPassword)
-	v1.Delete("/auth/logout", middleware.CheckAuthenticated, v1Routes.DeleteLogout)
+	v1.Post("/auth/login", middleware.CheckNotAuthenticated, utils.RateLimit(20), v1Routes.PostLogin)
+	v1.Post("/auth/signup", middleware.CheckNotAuthenticated, utils.RateLimit(20), v1Routes.PostSignup)
+	v1.Post("/auth/requestReset", middleware.CheckNotAuthenticated, utils.RateLimit(20), v1Routes.PostRequestResetPassword)
+	v1.Post("/auth/reset", middleware.CheckNotAuthenticated, utils.RateLimit(80), v1Routes.PostResetPassword)
+	v1.Delete("/auth/logout", middleware.CheckAuthenticated, utils.RateLimit(20), v1Routes.DeleteLogout)
 
 	/* User(s) */
-	v1.Get("/users/@me", middleware.CheckAuthenticated, v1Routes.GetMe)
-	v1.Patch("/users/@me", middleware.CheckAuthenticated, v1Routes.PatchMe)
-	v1.Post("/users/@me/delete", middleware.CheckAuthenticated, v1Routes.DeleteMe) // We're making this a post because we need a body
-	v1.Post("/users/@me/regenAPIToken", middleware.CheckAuthenticated, v1Routes.PostRegenAPIToken)
-	v1.Get("/users/:username", middleware.CheckAuthenticated, v1Routes.GetUser)
+	v1.Get("/users/@me", middleware.CheckAuthenticated, utils.RateLimit(200), v1Routes.GetMe)
+	v1.Get("/users/:username", middleware.CheckAuthenticated, utils.RateLimit(200), v1Routes.GetUser)
+	v1.Patch("/users/@me", middleware.CheckAuthenticated, utils.RateLimit(20), v1Routes.PatchMe)
+	v1.Post("/users/@me/delete", middleware.CheckAuthenticated, utils.RateLimit(20), v1Routes.DeleteMe) // We're making this a post because we need a body
+	v1.Post("/users/@me/regenAPIToken", middleware.CheckAuthenticated, utils.RateLimit(20), v1Routes.PostRegenAPIToken)
 
 	/* Documents */
-	v1.Get("/document/:id", v1Routes.GetDocument)
-	v1.Post("/document", v1Routes.PostDocument)
-	v1.Patch("/document", middleware.CheckAuthenticated, v1Routes.PatchDocument)
-	v1.Delete("/document/:id", middleware.CheckAuthenticated, v1Routes.DeleteDocument)
+	v1.Get("/document/:id", utils.RateLimit(200), v1Routes.GetDocument)
+	v1.Post("/document", utils.RateLimit(80), v1Routes.PostDocument)
+	v1.Patch("/document", middleware.CheckAuthenticated, utils.RateLimit(20), v1Routes.PatchDocument)
+	v1.Delete("/document/:id", middleware.CheckAuthenticated, utils.RateLimit(20), v1Routes.DeleteDocument)
 
 	/* OAuth */
-	v1.Get("/oauth/discord", v1Routes.GetDiscordOAuth)
-	v1.Get("/oauth/discord/callback", middleware.CheckAuthenticated, v1Routes.GetDiscordOAuthCallback)
-	v1.Get("/oauth/github", v1Routes.GetGitHubOAuth)
-	v1.Get("/oauth/github/callback", middleware.CheckAuthenticated, v1Routes.GetGitHubOAuthCallback)
+	v1.Get("/oauth/discord", utils.RateLimit(200), v1Routes.GetDiscordOAuth)
+	v1.Get("/oauth/discord/callback", utils.RateLimit(200), middleware.CheckAuthenticated, v1Routes.GetDiscordOAuthCallback)
+	v1.Get("/oauth/github", utils.RateLimit(200), v1Routes.GetGitHubOAuth)
+	v1.Get("/oauth/github/callback", utils.RateLimit(200), middleware.CheckAuthenticated, v1Routes.GetGitHubOAuthCallback)
 
 	/* Invalid Routes */
 	app.Use(v1Routes.InvalidRoute)
@@ -107,17 +105,6 @@ func main() {
 	app.Use(recover.New(recover.Config{
 		Next:             nil,
 		EnableStackTrace: true,
-	}))
-
-	app.Use(limiter.New(limiter.Config{
-		Max:        80,
-		Expiration: 1 * time.Minute,
-		LimitReached: func(c *fiber.Ctx) error {
-			return c.Status(429).JSON(commons.Response{
-				Success: false,
-				Message: "You are being rate limited!",
-			})
-		},
 	}))
 
 	setupRoutes(app)

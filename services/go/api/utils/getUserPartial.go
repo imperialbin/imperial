@@ -14,7 +14,7 @@ func GetUserPartial(username string) (*models.UserPartial, error) {
 		UserID:        user.ID,
 		Username:      user.Username,
 		DocumentsMade: user.DocumentsMade,
-		Icon:          user.Icon,
+		Icon:          *user.Icon,
 		Flags:         user.Flags,
 	}, nil
 }
@@ -31,7 +31,7 @@ func GetUserPartialByID(ID uint) (*models.UserPartial, error) {
 		UserID:        user.ID,
 		Username:      user.Username,
 		DocumentsMade: user.DocumentsMade,
-		Icon:          user.Icon,
+		Icon:          *user.Icon,
 		Flags:         user.Flags,
 	}, nil
 }
