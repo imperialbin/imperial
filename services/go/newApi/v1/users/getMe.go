@@ -17,6 +17,13 @@ func Me(c *fiber.Ctx) error {
 		})
 	}
 
+	if user == nil {
+		return c.Status(401).JSON(Response{
+			Success: false,
+			Message: "You are not authorized!",
+		})
+	}
+
 	return c.JSON(Response{
 		Success: true,
 		Data:    user,
