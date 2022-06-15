@@ -51,20 +51,18 @@ type DeleteAccount struct {
 }
 
 type EditDocument struct {
-	ID       string                     `json:"id" validate:"required"`
-	Content  *string                    `json:"content"`
-	Settings EditDocumentSettingsStruct `json:"settings"`
+	ID       string                      `json:"id" validate:"required"`
+	Content  *string                     `json:"content"`
+	Settings *EditDocumentSettingsStruct `json:"settings"`
 }
 
 type EditDocumentSettingsStruct struct {
-	Language      *string   `json:"language"`
-	Expiration    *int      `json:"expiration"`
-	ImageEmbed    *bool     `json:"imageEmbed"`
-	InstantDelete *bool     `json:"instantDelete"`
-	Encrypted     *bool     `json:"encrypted"`
-	Password      *string   `json:"password"`
-	Public        *bool     `json:"public"`
-	Editors       *[]string `json:"editors"`
+	Language      *string   `json:"language" default:"plaintext"`
+	Expiration    *int      `json:"expiration" default:"7"`
+	ImageEmbed    *bool     `json:"image_embed"  default:"false"`
+	InstantDelete *bool     `json:"instant_delete"  default:"false"`
+	Public        *bool     `json:"public"  default:"false"`
+	Editors       *[]string `json:"editors"  default:"[]"`
 }
 
 type EditUserSettings struct {
