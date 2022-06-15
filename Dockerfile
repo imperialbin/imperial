@@ -1,4 +1,4 @@
-FROM golang:1.16-buster as uwu
+FROM golang:1.18-buster as uwu
 WORKDIR /services/go/api
 
 COPY /services/go/api/go.mod .
@@ -7,6 +7,8 @@ COPY /services/go/api/go.sum .
 RUN go mod download
 
 COPY /services/go/api .
+
+RUN go mod download github.com/orisano/pixelmatch
 
 RUN go build
 
