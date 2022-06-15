@@ -55,23 +55,7 @@ func PatchDocument(c *fiber.Ctx) error {
 		})
 	}
 
-	var newDocument = models.Document{
-		ID:        document.ID,
-		Content:   document.Content,
-		Creator:   document.Creator,
-		GistURL:   document.GistURL,
-		Views:     document.Views,
-		CreatedAt: document.CreatedAt,
-		ExpiresAt: document.ExpiresAt,
-		DocumentSettings: models.DocumentSettings{
-			Language:      document.DocumentSettings.Language,
-			ImageEmbed:    document.DocumentSettings.ImageEmbed,
-			InstantDelete: document.DocumentSettings.InstantDelete,
-			Encrypted:     document.DocumentSettings.Encrypted,
-			Public:        document.DocumentSettings.Public,
-			Editors:       document.DocumentSettings.Editors,
-		},
-	}
+	var newDocument = &document
 
 	marshalReq, _ := json.Marshal(req)
 	json.Unmarshal(marshalReq, &newDocument)
