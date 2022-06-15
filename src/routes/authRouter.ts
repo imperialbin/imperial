@@ -135,7 +135,7 @@ routes.get(
   checkAuthenticated,
   async (req: Request, res: Response) => {
     res.redirect(
-      `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&redirect_uri=${GITHUB_REDIRECT_URI}&client_secret=${GITHUB_CLIENT_SECRET}&scope=gist`
+      `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&redirect_uri=${GITHUB_REDIRECT_URI}&scope=gist`
     );
   }
 );
