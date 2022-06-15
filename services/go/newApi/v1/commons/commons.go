@@ -10,7 +10,7 @@ type PostDocumentResponse struct {
 	Content                 string              `json:"content"`
 	Password                string              `json:"password,omitempty"`
 	Creator                 *models.UserPartial `json:"creator"`
-	Gist                    *string             `json:"gist"`
+	GistURL                 *string             `json:"gist_url"`
 	Views                   int                 `json:"views"`
 	EncryptedIv             *string             `json:"encrypted_iv,omitempty"`
 	Links                   `json:"links"`
@@ -65,21 +65,6 @@ type EditDocumentSettingsStruct struct {
 	Editors       *[]string `json:"editors"  default:"[]"`
 }
 
-type EditUserSettings struct {
-	Clipboard        *bool `json:"clipboard"`
-	LongURLs         *bool `json:"longUrls"`
-	ShortURLs        *bool `json:"shortUrls"`
-	InstantDelete    *bool `json:"instantDelete"`
-	Encrypted        *bool `json:"encrypted"`
-	ImageEmbed       *bool `json:"imageEmbed"`
-	Expiration       *int  `json:"expiration"`
-	FontLignatures   *bool `json:"fontLignatures"`
-	FontSize         *int  `json:"fontSize"`
-	RenderWhitespace *bool `json:"renderWhitespace"`
-	WordWrap         *bool `json:"wordWrap"`
-	TabSize          *int  `json:"tabSize"`
-}
-
 type ErrorResponse struct {
 	FailedField string `json:"failedField"`
 	Tag         string
@@ -99,50 +84,6 @@ type DocumentSettingsStruct struct {
 	CreateGist    bool     `json:"create_gist"  default:"false"`
 }
 
-type User struct {
-	ID                       string       `json:"id"`
-	UserID                   int          `json:"userId"`
-	Username                 string       `json:"username"`
-	Email                    string       `json:"email"`
-	Banned                   bool         `json:"banned"`
-	Confirmed                bool         `json:"confirmed"`
-	Icon                     string       `json:"icon"`
-	Password                 string       `json:"-"`
-	MemberPlus               bool         `json:"memberPlus"`
-	DocumentsMade            int          `json:"documentsMade"`
-	ActiveUnlimitedDocuments int          `json:"activeUnlimitedDocuments"`
-	DiscordID                *string      `json:"discordId"`
-	Admin                    bool         `json:"admin"`
-	APIToken                 string       `json:"apiToken"`
-	GithubAccess             *string      `json:"githubAccess"`
-	Opt                      *string      `json:"opt"`
-	UserSettingsID           string       `json:"-"`
-	Settings                 UserSettings `json:"settings"`
-}
-
-type PublicUser struct {
-	Username   string `json:"username"`
-	Icon       string `json:"icon"`
-	MemberPlus bool   `json:"memberPlus"`
-	Banned     bool   `json:"banned"`
-}
-
-type UserSettings struct {
-	Clipboard        bool `json:"clipboard"`
-	LongURLs         bool `json:"longUrls"`
-	ShortURLs        bool `json:"shortUrls"`
-	InstantDelete    bool `json:"instantDelete"`
-	Encrypted        bool `json:"encrypted"`
-	ImageEmbed       bool `json:"imageEmbed"`
-	Expiration       int  `json:"expiration"`
-	FontLignatures   bool `json:"fontLignatures"`
-	FontSize         int  `json:"fontSize"`
-	RenderWhitespace bool `json:"renderWhitespace"`
-	WordWrap         bool `json:"wordWrap"`
-	TabSize          int  `json:"tabSize"`
-	CreateGist       bool `json:"createGist"`
-}
-
 type Links struct {
 	Raw       string `json:"raw"`
 	Formatted string `json:"formatted"`
@@ -151,31 +92,6 @@ type Links struct {
 type Timestamps struct {
 	Creation   time.Time  `json:"creation"`
 	Expiration *time.Time `json:"expiration"`
-}
-
-type CreatedDocumentSettingsStruct struct {
-	Language      string   `json:"language"`
-	ImageEmbed    bool     `json:"imageEmbed"`
-	InstantDelete bool     `json:"instantDelete"`
-	Encrypted     bool     `json:"encrypted"`
-	Password      *string  `json:"password,omitempty"`
-	Public        bool     `json:"public"`
-	Editors       []string `json:"editors"`
-}
-type CreateDocumentData struct {
-	ID         string                        `json:"id"`
-	Content    string                        `json:"content"`
-	Creator    string                        `json:"creator,omitempty"`
-	Views      int                           `json:"views"`
-	Links      Links                         `json:"links"`
-	Timestamps Timestamps                    `json:"timestamps"`
-	Gist       string                        `json:"gistURL,omitempty"`
-	Settings   CreatedDocumentSettingsStruct `json:"settings"`
-}
-
-type CreateResponseStruct struct {
-	Success bool               `json:"success"`
-	Data    CreateDocumentData `json:"data"`
 }
 
 type DocumentStruct struct {
