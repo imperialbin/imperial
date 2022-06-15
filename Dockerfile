@@ -5,7 +5,9 @@ COPY /services/go/api .
 
 RUN go mod download
 RUN go build
+RUN ls
 COPY /services/go/api/api .
+
 
 EXPOSE ${PORT}
 
