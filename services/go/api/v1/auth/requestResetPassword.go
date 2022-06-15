@@ -1,18 +1,17 @@
 package auth
 
 import (
-	"api/prisma/db"
-	. "api/utils"
+	"api/models"
+	"api/utils"
 	. "api/v1/commons"
-	"context"
+	"errors"
 
 	"github.com/gofiber/fiber/v2"
+	"gorm.io/gorm"
 )
 
 func RequestResetPassword(c *fiber.Ctx) error {
 	req := new(RequestResetPasswordStruct)
-	client := GetPrisma()
-	ctx := context.Background()
 
 	if err := c.BodyParser(req); err != nil {
 		return c.Status(400).JSON(Response{
@@ -21,33 +20,45 @@ func RequestResetPassword(c *fiber.Ctx) error {
 		})
 	}
 
-	errors := ValidateRequest(*req)
+	reqErrors := utils.ValidateRequest(*req)
 
-	if errors != nil {
+	if reqErrors != nil {
 		return c.Status(400).JSON(Response{
 			Success: false,
 			Message: "You have a validation error in your request.",
-			Errors:  errors,
+			Errors:  reqErrors,
 		})
 	}
 
-	user, err := client.User.FindUnique(
-		db.User.Email.Equals(req.Email),
-	).With(
-		db.User.Settings.Fetch(),
-	).Exec(ctx)
+	client := utils.GetDB()
+
+	var user models.User
+	if result := client.First(&user, "email = ?", req.Email); result.Error != nil {
+		if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+			return c.Status(404).JSON(Response{
+				Success: false,
+				Message: "User with that email doesn't exist.",
+			})
+		}
+
+		return c.Status(500).JSON(Response{
+			Success: false,
+			Message: "An internal server error occurred",
+		})
+	}
+
+	token, err := utils.GenerateRandomString(32)
 
 	if err != nil {
-		return c.Status(404).JSON(Response{
+		return c.Status(500).JSON(Response{
 			Success: false,
-			Message: "That user does not exist!",
+			Message: "There was an internal server error",
 		})
 	}
 
-	token, err := GenerateRandomString(64)
-	RedisSet(token, user.Email, 1)
+	utils.RedisSet(token, user.Email, 1)
 
-	_, emailErr := SendEmail("ResetPassword", user.Email, "{ \"token\":\""+token+"\"}")
+	_, emailErr := utils.SendEmail("ResetPassword", user.Email, "{ \"token\":\""+token+"\"}")
 
 	if emailErr != nil {
 		return c.Status(500).JSON(Response{

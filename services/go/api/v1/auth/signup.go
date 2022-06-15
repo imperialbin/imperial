@@ -1,35 +1,35 @@
 package auth
 
 import (
-	"api/prisma/db"
-	. "api/utils"
+	"api/models"
+	"api/utils"
 	. "api/v1/commons"
-	"context"
+	"errors"
+	"fmt"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
+	"gorm.io/gorm"
 )
 
 func Signup(c *fiber.Ctx) error {
 	req := new(SignupRequest)
-	client := GetPrisma()
-	ctx := context.Background()
 
 	if err := c.BodyParser(req); err != nil {
-		return c.JSON(Response{
+		return c.Status(400).JSON(Response{
 			Success: false,
 			Message: "You have a type error in your request!",
 		})
 	}
 
-	errors := ValidateRequest(*req)
+	validationErrors := utils.ValidateRequest(*req)
 
-	if errors != nil {
+	if validationErrors != nil {
 		return c.Status(400).JSON(Response{
 			Success: false,
 			Message: "You have a validation error in your request.",
-			Errors:  errors,
+			Errors:  validationErrors,
 		})
 	}
 
@@ -40,67 +40,88 @@ func Signup(c *fiber.Ctx) error {
 		})
 	}
 
-	_, emailErr := client.User.FindUnique(
-		db.User.Email.Equals(req.Email),
-	).Exec(ctx)
+	var client = utils.GetDB()
+	var userWithEmail = true
 
-	if emailErr == nil {
+	/* Check if user with email exists */
+	if result := client.First(&models.User{}, "email = ?", req.Email); result.Error != nil {
+		if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+			userWithEmail = false
+		}
+	}
+
+	if userWithEmail {
 		return c.Status(400).JSON(Response{
 			Success: false,
-			Message: "That email already has an account",
+			Message: "User with this email already has an account!",
 		})
 	}
 
-	_, usernameErr := client.User.FindUnique(
-		db.User.Username.Equals(req.Username),
-	).Exec(ctx)
+	/* Check if user with username exists */
+	var userWithUsername = true
+	if result := client.First(&models.User{}, "username = ?", req.Username); result.Error != nil {
+		if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+			userWithUsername = false
+		}
+	}
 
-	if usernameErr == nil {
+	if userWithUsername {
 		return c.Status(400).JSON(Response{
 			Success: false,
-			Message: "That username is taken!",
+			Message: "Username has been taken!",
 		})
 	}
 
-	hashedPassword, err := HashPassword(req.Password)
+	hashedPassword, err := utils.HashPassword(req.Password)
 
 	if err != nil {
 		return c.Status(500).JSON(Response{
 			Success: false,
-			Message: "There was an internal server error while fulfilling your request.",
+			Message: "An internal server error occurred!",
 		})
 	}
 
-	createdUserSettings, err := client.UserSettings.CreateOne().Exec(ctx)
+	var user = models.User{Username: req.Username,
+		Email:          req.Email,
+		ConfirmedEmail: false,
+		Password:       hashedPassword,
+		DocumentsMade:  0,
+		Flags:          0,
+		GithubOAuth:    nil,
+		APIToken:       "IMPERIAL-" + uuid.NewString(),
+		UserSettings: models.UserSettings{
+			Clipboard:        false,
+			LongUrls:         false,
+			ShortUrls:        false,
+			InstantDelete:    false,
+			Encrypted:        false,
+			ImageEmbed:       false,
+			Expiration:       nil,
+			FontLignatures:   false,
+			FontSize:         14,
+			RenderWhitespace: false,
+			WordWrap:         false,
+			TabSize:          2,
+			CreateGist:       false,
+		}}
 
-	if err != nil {
-		return c.Status(500).JSON(Response{
+	if result := client.Create(&user); result.Error != nil {
+		return c.JSON(Response{
 			Success: false,
-			Message: "An error occurred whilst creating user's settings.",
-		})
-	}
-
-	createdUser, err := client.User.CreateOne(
-		db.User.Username.Set(req.Username),
-		db.User.Email.Set(req.Email),
-		db.User.Password.Set(hashedPassword),
-		db.User.APIToken.Set("IMPERIAL-"+uuid.NewString()),
-		db.User.Settings.Link(
-			db.UserSettings.ID.Equals(createdUserSettings.ID),
-		),
-	).Exec(ctx)
-
-	if err != nil {
-		return c.Status(500).JSON(Response{
-			Success: false,
-			Message: "An error occurred whilst creating user.",
+			Message: result.Error.Error(),
 		})
 	}
 
 	/* Generate session */
-	token, _ := GenerateSessionToken()
-	RedisSet(token, createdUser.ID, 7)
-	RedisSet(createdUser.APIToken, createdUser.ID, 0)
+	token, err := utils.GenerateSessionToken()
+	if err != nil {
+		return c.Status(500).JSON(Response{
+			Success: false,
+			Message: "An internal server error occurred!",
+		})
+	}
+
+	utils.RedisSet(token, fmt.Sprint(user.ID), 7)
 
 	cookie := fiber.Cookie{
 		Name:     "IMPERIAL-AUTH",
@@ -117,7 +138,7 @@ func Signup(c *fiber.Ctx) error {
 		Success: true,
 		Message: "Successfully created your account!",
 		Data: fiber.Map{
-			"authToken": token,
+			"token": token,
 		},
 	})
 }

@@ -18,7 +18,7 @@ func CheckAdmin(c *fiber.Ctx) error {
 		})
 	}
 
-	user, err := GetUser(c)
+	_, err := GetAuthedUser(c)
 
 	if err != nil {
 		return c.Status(401).JSON(Response{
@@ -27,12 +27,12 @@ func CheckAdmin(c *fiber.Ctx) error {
 		})
 	}
 
-	if !user.Admin {
+	/* 	if !user.Admin {
 		return c.Status(401).JSON(Response{
 			Success: false,
 			Message: "You are not an admin!",
 		})
-	}
+	} */
 
 	return c.Next()
 }

@@ -1,10 +1,10 @@
 package auth
 
 import (
-	"api/prisma/db"
-	. "api/utils"
+	"api/models"
+	"api/utils"
 	. "api/v1/commons"
-	"context"
+	"fmt"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
@@ -12,8 +12,6 @@ import (
 
 func Login(c *fiber.Ctx) error {
 	req := new(LoginRequest)
-	client := GetPrisma()
-	ctx := context.Background()
 
 	if err := c.BodyParser(req); err != nil {
 		return c.Status(400).JSON(Response{
@@ -22,7 +20,7 @@ func Login(c *fiber.Ctx) error {
 		})
 	}
 
-	errors := ValidateRequest(*req)
+	errors := utils.ValidateRequest(*req)
 
 	if errors != nil {
 		return c.Status(400).JSON(Response{
@@ -32,14 +30,17 @@ func Login(c *fiber.Ctx) error {
 		})
 	}
 
-	user, err := client.User.FindFirst(
-		db.User.Or(
-			db.User.Username.Equals(req.Username),
-			db.User.Email.Equals(req.Username),
-		),
-	).Exec(ctx)
+	var client = utils.GetDB()
+	var user = models.User{}
 
-	if err != nil || !CheckHashedPassword(user.Password, req.Password) {
+	if result := client.Where("username = ?", req.Username).Or("email = ?", req.Username).Find(&user); result.Error != nil {
+		return c.Status(400).JSON(Response{
+			Success: false,
+			Message: "Username or password is incorrect!",
+		})
+	}
+
+	if !utils.CheckHashedPassword(user.Password, req.Password) {
 		return c.Status(400).JSON(Response{
 			Success: false,
 			Message: "Username or password is incorrect!",
@@ -47,12 +48,16 @@ func Login(c *fiber.Ctx) error {
 	}
 
 	/* Generate session */
-	token, _ := GenerateSessionToken()
-	RedisSet(token, user.ID, 7)
-	RedisSet(user.APIToken, user.ID, 0)
+	token, err := utils.GenerateSessionToken()
+	if err != nil {
+		return c.Status(500).JSON(Response{
+			Success: false,
+			Message: "An internal server error occurred!",
+		})
+	}
 
-	/* Send login email */
-	SendEmail("NewLogin", user.Email, "{ }")
+	utils.RedisSet(token, fmt.Sprint(user.ID), 7)
+	utils.SendEmail("NewLogin", user.Email, "{ }")
 
 	cookie := fiber.Cookie{
 		Name:     "IMPERIAL-AUTH",
@@ -67,7 +72,7 @@ func Login(c *fiber.Ctx) error {
 
 	return c.JSON(Response{
 		Success: true,
-		Message: "Created session",
+		Message: "Successfully logged in.",
 		Data: fiber.Map{
 			"token": token,
 		},

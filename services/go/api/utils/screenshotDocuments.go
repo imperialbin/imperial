@@ -7,7 +7,7 @@ import (
 	"github.com/chromedp/chromedp"
 )
 
-func ScreenshotDocument(documentID string, memberPlus bool) {
+func ScreenshotDocument(documentID string, userFlag uint) {
 	ctx, cancel := chromedp.NewContext(
 		context.Background(),
 	)
@@ -16,7 +16,7 @@ func ScreenshotDocument(documentID string, memberPlus bool) {
 	var buf []byte
 	var quality = 60
 
-	if memberPlus {
+	if TestPermission(userFlag, MEMBER_PLUS) {
 		quality = 90
 	}
 

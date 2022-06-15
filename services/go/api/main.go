@@ -2,10 +2,9 @@ package main
 
 import (
 	"api/middleware"
-	"api/prisma/db"
-	. "api/utils"
+	"api/utils"
 	v1Routes "api/v1"
-	. "api/v1/commons"
+	"api/v1/commons"
 	"log"
 	"os"
 	"time"
@@ -21,7 +20,7 @@ import (
 func setupRoutes(app *fiber.App) {
 
 	app.Get("/", func(c *fiber.Ctx) error {
-		return c.JSON(BaseResponse{
+		return c.JSON(commons.BaseResponse{
 			Success:           true,
 			Message:           "You have reached IMPERIAL's API!",
 			AvailableVersions: []string{"/v1"},
@@ -38,18 +37,14 @@ func setupRoutes(app *fiber.App) {
 	v1.Post("/auth/signup", middleware.CheckNotAuthenticated, v1Routes.PostSignup)
 	v1.Post("/auth/requestReset", middleware.CheckNotAuthenticated, v1Routes.PostRequestResetPassword)
 	v1.Post("/auth/reset", middleware.CheckNotAuthenticated, v1Routes.PostResetPassword)
-	v1.Patch("/auth/resetInClient", middleware.CheckAuthenticated, v1Routes.PatchResetPasswordInClient)
 	v1.Delete("/auth/logout", middleware.CheckAuthenticated, v1Routes.DeleteLogout)
 
 	/* User(s) */
-	v1.Get("/user/@me", middleware.CheckAuthenticated, v1Routes.GetMe)
-	v1.Patch("/user/@me", middleware.CheckAuthenticated, v1Routes.PatchMe)
-	v1.Patch("/user/@me/icon", middleware.CheckAuthenticated, v1Routes.PatchIcon)
-	v1.Patch("/user/@me/email", middleware.CheckAuthenticated, v1Routes.PatchEmail)
-	v1.Post("/user/@me/regenAPIToken", middleware.CheckAuthenticated, v1Routes.PostRegenAPIToken)
-	v1.Get("/user/@me/recentDocuments", middleware.CheckAuthenticated, v1Routes.GetUserDocuments)
-	v1.Post("/user/@me", middleware.CheckAuthenticated, v1Routes.DeleteMe) // We're making this a post because we need a body
-	v1.Get("/user/:username", middleware.CheckAuthenticated, v1Routes.GetUser)
+	v1.Get("/users/@me", middleware.CheckAuthenticated, v1Routes.GetMe)
+	v1.Patch("/users/@me", middleware.CheckAuthenticated, v1Routes.PatchMe)
+	v1.Post("/users/@me/delete", middleware.CheckAuthenticated, v1Routes.DeleteMe) // We're making this a post because we need a body
+	v1.Post("/users/@me/regenAPIToken", middleware.CheckAuthenticated, v1Routes.PostRegenAPIToken)
+	v1.Get("/users/:username", middleware.CheckAuthenticated, v1Routes.GetUser)
 
 	/* Documents */
 	v1.Get("/document/:id", v1Routes.GetDocument)
@@ -57,20 +52,24 @@ func setupRoutes(app *fiber.App) {
 	v1.Patch("/document", middleware.CheckAuthenticated, v1Routes.PatchDocument)
 	v1.Delete("/document/:id", middleware.CheckAuthenticated, v1Routes.DeleteDocument)
 
-	/* Admin */
-	v1.Get("/admin", middleware.CheckAdmin, v1Routes.GetAdmin)
-	v1.Post("/admin/user", middleware.CheckAdmin, v1Routes.PostBanUser)
-
 	/* OAuth */
-	v1.Get("/oauth/discord", v1Routes.GetDiscord)
-	v1.Get("/oauth/discord/callback", middleware.CheckAuthenticated, v1Routes.GetDiscordCallback)
+	v1.Get("/oauth/discord", v1Routes.GetDiscordOAuth)
+	v1.Get("/oauth/discord/callback", middleware.CheckAuthenticated, v1Routes.GetDiscordOAuthCallback)
+	v1.Get("/oauth/github", v1Routes.GetGitHubOAuth)
+	v1.Get("/oauth/github/callback", middleware.CheckAuthenticated, v1Routes.GetGitHubOAuthCallback)
 
 	/* Invalid Routes */
 	app.Use(v1Routes.InvalidRoute)
+
 }
 
 func main() {
 	godotenv.Load()
+	utils.InitDB()
+
+	if utils.GetRedisDB() == nil {
+		utils.SetRedisDB()
+	}
 
 	app := fiber.New(fiber.Config{
 		CaseSensitive: false,
@@ -83,9 +82,11 @@ func main() {
 	app.Use(cors.New(cors.Config{
 		AllowCredentials: true,
 	}))
+
 	app.Use(logger.New(logger.Config{
 		Format: "${time} |   ${cyan}${status} ${reset}|   ${latency} | ${ip} on ${cyan}${ua} ${reset}| ${cyan}${method} ${reset}${path} \n",
 	}))
+
 	app.Use(recover.New(recover.Config{
 		Next:             nil,
 		EnableStackTrace: true,
@@ -95,7 +96,7 @@ func main() {
 		Max:        80,
 		Expiration: 1 * time.Minute,
 		LimitReached: func(c *fiber.Ctx) error {
-			return c.Status(429).JSON(Response{
+			return c.Status(429).JSON(commons.Response{
 				Success: false,
 				Message: "You are being rate limited!",
 			})
@@ -103,24 +104,6 @@ func main() {
 	}))
 
 	setupRoutes(app)
-
-	if GetPrisma() == nil {
-		SetGlobalDb(db.NewClient())
-	}
-
-	if GetRedisDB() == nil {
-		SetRedisDB()
-	}
-
-	if err := GetPrisma().Prisma.Connect(); err != nil {
-		panic(err)
-	}
-
-	defer func() {
-		if err := GetPrisma().Prisma.Disconnect(); err != nil {
-			panic(err)
-		}
-	}()
 
 	log.Fatal(app.Listen("127.0.0.1:" + os.Getenv("PORT")))
 }

@@ -1,20 +1,28 @@
 package commons
 
-import "github.com/guregu/null"
+import (
+	"api/models"
+	"time"
+)
 
-type ChangeIconStruct struct {
-	Method string `json:"method" validate:"required,eq=github|eq=gravatar"`
-	URL    string `json:"url" validate:"required"`
+type PostDocumentResponse struct {
+	ID                      string              `json:"id" gorm:"primaryKey"`
+	Content                 string              `json:"content"`
+	Password                string              `json:"password,omitempty"`
+	Creator                 *models.UserPartial `json:"creator"`
+	GistURL                 *string             `json:"gist_url"`
+	Views                   int                 `json:"views"`
+	EncryptedIv             *string             `json:"encrypted_iv,omitempty"`
+	Links                   `json:"links"`
+	Timestamps              `json:"timestamps"`
+	models.DocumentSettings `json:"settings"`
 }
 
-type ChangeEmailStruct struct {
-	NewEmail string `json:"newEmail" validate:"required,email"`
-}
 type SignupRequest struct {
 	Username        string `json:"username" validate:"required,min=3,max=24,alpha"`
 	Email           string `json:"email" validate:"required,min=3,email"`
 	Password        string `json:"password" validate:"required,min=8"`
-	ConfirmPassword string `json:"confirmPassword" validate:"required,min=8"`
+	ConfirmPassword string `json:"confirm_password" validate:"required,min=8"`
 }
 
 type LoginRequest struct {
@@ -43,35 +51,18 @@ type DeleteAccount struct {
 }
 
 type EditDocument struct {
-	ID       string                     `json:"id" validate:"required"`
-	Content  *string                    `json:"content"`
-	Settings EditDocumentSettingsStruct `json:"settings"`
+	ID       string                      `json:"id" validate:"required"`
+	Content  *string                     `json:"content"`
+	Settings *EditDocumentSettingsStruct `json:"settings"`
 }
 
 type EditDocumentSettingsStruct struct {
-	Language      *string   `json:"language"`
-	Expiration    *int      `json:"expiration"`
-	ImageEmbed    *bool     `json:"imageEmbed"`
-	InstantDelete *bool     `json:"instantDelete"`
-	Encrypted     *bool     `json:"encrypted"`
-	Password      *string   `json:"password"`
-	Public        *bool     `json:"public"`
-	Editors       *[]string `json:"editors"`
-}
-
-type EditUserSettings struct {
-	Clipboard        *bool `json:"clipboard"`
-	LongURLs         *bool `json:"longUrls"`
-	ShortURLs        *bool `json:"shortUrls"`
-	InstantDelete    *bool `json:"instantDelete"`
-	Encrypted        *bool `json:"encrypted"`
-	ImageEmbed       *bool `json:"imageEmbed"`
-	Expiration       *int  `json:"expiration"`
-	FontLignatures   *bool `json:"fontLignatures"`
-	FontSize         *int  `json:"fontSize"`
-	RenderWhitespace *bool `json:"renderWhitespace"`
-	WordWrap         *bool `json:"wordWrap"`
-	TabSize          *int  `json:"tabSize"`
+	Language      *string   `json:"language" default:"plaintext"`
+	Expiration    *int      `json:"expiration" default:"7"`
+	ImageEmbed    *bool     `json:"image_embed"  default:"false"`
+	InstantDelete *bool     `json:"instant_delete"  default:"false"`
+	Public        *bool     `json:"public"  default:"false"`
+	Editors       *[]string `json:"editors"  default:"[]"`
 }
 
 type ErrorResponse struct {
@@ -80,61 +71,17 @@ type ErrorResponse struct {
 	Value       string
 }
 type DocumentSettingsStruct struct {
-	Language      null.String `json:"language"`
-	Expiration    null.Int    `json:"expiration"`
-	ShortURLs     null.Bool   `json:"shortUrls"`
-	LongURLs      null.Bool   `json:"longUrls"`
-	ImageEmbed    null.Bool   `json:"imageEmbed"`
-	InstantDelete null.Bool   `json:"instantDelete"`
-	Encrypted     null.Bool   `json:"encrypted"`
-	Password      null.String `json:"password"`
-	Public        null.Bool   `json:"public"`
-	Editors       []string    `json:"editors"`
-	CreateGist    null.Bool   `json:"createGist"`
-}
-
-type User struct {
-	ID                       string       `json:"id"`
-	UserID                   int          `json:"userId"`
-	Username                 string       `json:"username"`
-	Email                    string       `json:"email"`
-	Banned                   bool         `json:"banned"`
-	Confirmed                bool         `json:"confirmed"`
-	Icon                     string       `json:"icon"`
-	Password                 string       `json:"-"`
-	MemberPlus               bool         `json:"memberPlus"`
-	DocumentsMade            int          `json:"documentsMade"`
-	ActiveUnlimitedDocuments int          `json:"activeUnlimitedDocuments"`
-	DiscordID                *string      `json:"discordId"`
-	Admin                    bool         `json:"admin"`
-	APIToken                 string       `json:"apiToken"`
-	GithubAccess             *string      `json:"githubAccess"`
-	Opt                      *string      `json:"opt"`
-	UserSettingsID           string       `json:"-"`
-	Settings                 UserSettings `json:"settings"`
-}
-
-type PublicUser struct {
-	Username   string `json:"username"`
-	Icon       string `json:"icon"`
-	MemberPlus bool   `json:"memberPlus"`
-	Banned     bool   `json:"banned"`
-}
-
-type UserSettings struct {
-	Clipboard        bool `json:"clipboard"`
-	LongURLs         bool `json:"longUrls"`
-	ShortURLs        bool `json:"shortUrls"`
-	InstantDelete    bool `json:"instantDelete"`
-	Encrypted        bool `json:"encrypted"`
-	ImageEmbed       bool `json:"imageEmbed"`
-	Expiration       int  `json:"expiration"`
-	FontLignatures   bool `json:"fontLignatures"`
-	FontSize         int  `json:"fontSize"`
-	RenderWhitespace bool `json:"renderWhitespace"`
-	WordWrap         bool `json:"wordWrap"`
-	TabSize          int  `json:"tabSize"`
-	CreateGist       bool `json:"createGist"`
+	Language      string   `json:"language" default:"plaintext"`
+	Expiration    int      `json:"expiration" default:"7"`
+	ShortURLs     bool     `json:"short_urls"  default:"false"`
+	LongURLs      bool     `json:"long_urls"  default:"false"`
+	ImageEmbed    bool     `json:"image_embed"  default:"false"`
+	InstantDelete bool     `json:"instant_delete"  default:"false"`
+	Encrypted     bool     `json:"encrypted"  default:"false"`
+	Password      string   `json:"password"  default:""`
+	Public        bool     `json:"public"  default:"false"`
+	Editors       []string `json:"editors"  default:"[]"`
+	CreateGist    bool     `json:"create_gist"  default:"false"`
 }
 
 type Links struct {
@@ -143,37 +90,13 @@ type Links struct {
 }
 
 type Timestamps struct {
-	Creation   int64 `json:"creation"`
-	Expiration int64 `json:"expiration"`
-}
-type CreatedDocumentSettingsStruct struct {
-	Language      string   `json:"language"`
-	ImageEmbed    bool     `json:"imageEmbed"`
-	InstantDelete bool     `json:"instantDelete"`
-	Encrypted     bool     `json:"encrypted"`
-	Password      *string  `json:"password,omitempty"`
-	Public        bool     `json:"public"`
-	Editors       []string `json:"editors"`
-}
-type CreateDocumentData struct {
-	ID         string                        `json:"id"`
-	Content    string                        `json:"content"`
-	Creator    string                        `json:"creator,omitempty"`
-	Views      int                           `json:"views"`
-	Links      Links                         `json:"links"`
-	Timestamps Timestamps                    `json:"timestamps"`
-	Gist       string                        `json:"gistURL,omitempty"`
-	Settings   CreatedDocumentSettingsStruct `json:"settings"`
-}
-
-type CreateResponseStruct struct {
-	Success bool               `json:"success"`
-	Data    CreateDocumentData `json:"data"`
+	Creation   time.Time  `json:"creation"`
+	Expiration *time.Time `json:"expiration"`
 }
 
 type DocumentStruct struct {
 	Content  string                 `json:"content"`
-	Settings DocumentSettingsStruct `json:"settings"`
+	Settings DocumentSettingsStruct `json:"settings" default:"{}"`
 }
 
 type Response struct {

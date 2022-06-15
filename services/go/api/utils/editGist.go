@@ -1,26 +1,20 @@
 package utils
 
 import (
-	. "api/v1/commons"
+	"api/models"
 	"bytes"
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
 )
 
-func EditGist(user *User, gistID, content string) (gist string, err error) {
+func EditGist(user *models.User, gistID, content string) (gist string, err error) {
 	client := http.Client{}
-	body, _ := json.Marshal(BodyStruct{
-		Files: Files{
-			Document: Document{
-				Content: content,
-			},
-		},
-	})
+	body, _ := json.Marshal("")
 
 	req, err := http.NewRequest("PATCH", "https://api.github.com/gists/"+gistID, bytes.NewBuffer(body))
 	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("Authorization", "token "+*user.GithubAccess)
+	req.Header.Set("Authorization", "token "+*user.GithubOAuth)
 
 	if err != nil {
 		println(err.Error())
