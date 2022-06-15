@@ -7,6 +7,7 @@ require (
 	github.com/chromedp/chromedp v0.8.2
 	github.com/creasty/defaults v1.6.0
 	github.com/drexedam/gravatar v0.0.0-20210327211422-e94eea8c338e
+	github.com/getsentry/sentry-go v0.13.0
 	github.com/go-playground/validator v9.31.0+incompatible
 	github.com/go-redis/redis/v8 v8.11.5
 	github.com/gofiber/fiber/v2 v2.34.1
@@ -29,7 +30,6 @@ require (
 	github.com/chromedp/sysutil v1.0.0 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
-	github.com/getsentry/sentry-go v0.13.0 // indirect
 	github.com/go-playground/locales v0.14.0 // indirect
 	github.com/go-playground/universal-translator v0.18.0 // indirect
 	github.com/gobwas/httphead v0.1.0 // indirect
