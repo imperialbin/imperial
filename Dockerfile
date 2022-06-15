@@ -1,11 +1,11 @@
 FROM golang:1.18-buster as uwu
-WORKDIR /services/go/api
+WORKDIR "/services/go/api"
 
-COPY /services/go/api/go.mod .
-COPY /services/go/api/go.sum .
+COPY /services/go/api .
 
 RUN go mod download
-COPY /services/go/api .
+RUN go build
+COPY /services/go/api/api .
 
 EXPOSE ${PORT}
 
