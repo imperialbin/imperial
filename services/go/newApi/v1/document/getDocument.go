@@ -41,7 +41,7 @@ func Get(c *fiber.Ctx) error {
 			ID:      document.ID,
 			Content: document.Content,
 			Creator: creatorPartial,
-			Gist:    document.Gist,
+			GistURL: document.GistURL,
 			Views:   0,
 			Timestamps: Timestamps{
 				Creation:   document.CreatedAt,

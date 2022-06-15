@@ -53,7 +53,6 @@ func Post(c *fiber.Ctx) error {
 	}
 
 	var creatorPartial *models.UserPartial
-
 	if user != nil {
 		creatorPartial, _ = utils.GetUserPartial(user.Username)
 	}
@@ -109,7 +108,7 @@ func Post(c *fiber.Ctx) error {
 		reqGist, err := utils.CreateGist(user, randomString, document.Content)
 
 		if err == nil {
-			document.Gist = &reqGist
+			document.GistURL = &reqGist
 		}
 	}
 
@@ -132,7 +131,7 @@ func Post(c *fiber.Ctx) error {
 			Content:  document.Content,
 			Password: password,
 			Creator:  creatorPartial,
-			Gist:     document.Gist,
+			GistURL:  document.GistURL,
 			Views:    0,
 			Timestamps: Timestamps{
 				Creation:   document.CreatedAt,
