@@ -4,7 +4,7 @@ deps:
 
 api_dev:
 	docker-compose up -d
-	cd services/go/api && air
+	cd services/go/api && ~/.air
 
 app_dev:
 	cd services/node/app && yarn dev
