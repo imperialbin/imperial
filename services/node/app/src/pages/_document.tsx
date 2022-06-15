@@ -1,10 +1,7 @@
-import Document, {
-  Head,
-  Html,
-  NextScript,
-  Main,
-  DocumentContext,
-} from "next/document";
+import type { DocumentContext, DocumentInitialProps } from "next/document";
+import NextDocument, { Head, Html, Main, NextScript } from "next/document";
+import React, { Fragment } from "react";
+
 import { ServerStyleSheet } from "styled-components";
 
 const Page = () => (
@@ -45,38 +42,36 @@ const Page = () => (
     </body>
   </Html>
 );
-
-export default class DocumentClass extends Document {
-  static async getInitialProps(ctx: DocumentContext): Promise<{
-    styles: JSX.Element;
-    html: string;
-    head?: (JSX.Element | null)[] | undefined;
-  }> {
+export default class Document extends NextDocument {
+  static async getInitialProps(
+    ctx: DocumentContext,
+  ): Promise<DocumentInitialProps> {
     const sheet = new ServerStyleSheet();
     const originalRenderPage = ctx.renderPage;
 
     try {
       ctx.renderPage = () =>
         originalRenderPage({
-          enhanceApp: App => props => sheet.collectStyles(<App {...props} />),
+          enhanceApp: (App) => (props) =>
+            sheet.collectStyles(<App {...props} />),
         });
 
-      const initialProps = await Document.getInitialProps(ctx);
+      const initialProps = await NextDocument.getInitialProps(ctx);
       return {
         ...initialProps,
-        styles: (
-          <>
+        styles: [
+          <Fragment key="1">
             {initialProps.styles}
             {sheet.getStyleElement()}
-          </>
-        ),
+          </Fragment>,
+        ],
       };
     } finally {
       sheet.seal();
     }
   }
 
-  render(): JSX.Element {
+  render() {
     return <Page />;
   }
 }

@@ -120,7 +120,7 @@ const Input = ({
       <InputContainer>
         <InputElement
           value={inputValue}
-          onChange={e => {
+          onChange={(e) => {
             setInputValue(e.target.value);
             if (onChange) {
               onChange(e);

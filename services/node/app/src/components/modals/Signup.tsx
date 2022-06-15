@@ -267,7 +267,7 @@ const Signup = (): JSX.Element => {
                     iconClick={() => null}
                     iconDisabled={true}
                     placeholder="Enter your email"
-                    onChange={e => setEmail(e.target.value)}
+                    onChange={(e) => setEmail(e.target.value)}
                     type="email"
                     required
                   />
@@ -277,7 +277,7 @@ const Signup = (): JSX.Element => {
                     iconClick={() => null}
                     iconDisabled={true}
                     placeholder="Enter your username"
-                    onChange={e => setUsername(e.target.value)}
+                    onChange={(e) => setUsername(e.target.value)}
                     type="username"
                     required
                   />
@@ -287,7 +287,7 @@ const Signup = (): JSX.Element => {
                     iconClick={() => null}
                     iconDisabled={true}
                     placeholder="Enter your password"
-                    onChange={e => setPassword(e.target.value)}
+                    onChange={(e) => setPassword(e.target.value)}
                     type="password"
                     required
                   />
@@ -297,7 +297,7 @@ const Signup = (): JSX.Element => {
                     iconClick={() => null}
                     iconDisabled={true}
                     placeholder="Enter your password again"
-                    onChange={e => setConfirmPassword(e.target.value)}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
                     type="password"
                     required
                   />

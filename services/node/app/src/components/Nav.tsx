@@ -132,11 +132,11 @@ const Nav = ({ user, document }: INavProps) => {
     const { success, data, error } = await request("/document", "POST", {
       content,
       settings: {
-        longUrls: user ? user.settings.longUrls : false,
-        shortUrls: user ? user.settings.shortUrls : false,
-        instantDelete: user ? user.settings.instantDelete : false,
+        long_urls: user ? user.settings.long_urls : false,
+        short_urls: user ? user.settings.short_urls : false,
+        instant_delete: user ? user.settings.instant_delete : false,
         encrypted: user ? user.settings.encrypted : false,
-        imageEmbed: user ? user.settings.imageEmbed : false,
+        image_embed: user ? user.settings.image_embed : false,
         expiration: user ? user.settings.expiration : 14,
         public: false,
         language,
@@ -144,7 +144,6 @@ const Nav = ({ user, document }: INavProps) => {
     });
 
     if (!success) {
-      console.error("error", error?.message);
       return;
     }
 
@@ -156,11 +155,9 @@ const Nav = ({ user, document }: INavProps) => {
       return;
     if (
       document.creator !== user.username ||
-      !document.settings.editors.find(editor => editor === user.username)
+      !document.settings.editors.find((editor) => editor === user.username)
     )
       return;
-
-    console.log("editing document");
   }, [document, user]);
 
   /* Keybinds */
@@ -240,7 +237,7 @@ const Nav = ({ user, document }: INavProps) => {
           </StyledTooltip>
           <Popover
             active={userPopover}
-            render={defaults => <UserPopover {...defaults} />}
+            render={(defaults) => <UserPopover {...defaults} />}
             setPopover={setUserPopover}
           >
             <UserIcon URL={user ? user.icon : "/img/pfp.png"} pointer />

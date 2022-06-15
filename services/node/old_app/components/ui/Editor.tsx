@@ -39,7 +39,7 @@ export const Editor = (props: EditorProps & { user?: User }): JSX.Element => {
         props.user
           ? {
               readOnly: !editing,
-              fontLignatures: props.user.settings.fontLignatures,
+              fontLigatures: props.user.settings.fontLigatures,
               fontSize: props.user.settings.fontSize,
               renderWhitespace: props.user.settings.renderWhitespace,
               wordWrap: props.user.settings.wordWrap,

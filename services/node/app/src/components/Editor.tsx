@@ -1,4 +1,5 @@
-import Monaco, { EditorProps, Monaco as MonacoType } from "imperial-editor";
+import Monaco, { EditorProps } from "imperial-editor";
+import { editor } from "monaco-editor";
 import { connect, ConnectedProps } from "react-redux";
 import { ImperialState } from "../../state/reducers";
 import EditorSkeleton from "./EditorSkeleton";
@@ -11,10 +12,10 @@ interface IEditorProps extends ReduxProps, EditorProps {
 const Editor = ({
   user,
   readonly = false,
-  language = "none",
+  language = "plaintext",
   ...props
 }: IEditorProps): JSX.Element => {
-  const mounted = (editor: MonacoType) => {
+  const mounted = (editor: editor.IStandaloneCodeEditor) => {
     window.monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions(
       {
         noSemanticValidation: true,
@@ -23,7 +24,6 @@ const Editor = ({
     );
 
     editor.focus();
-    editor.setPosition(editor.getPosition());
   };
 
   return (
@@ -31,16 +31,18 @@ const Editor = ({
       {...props}
       height={"100%"}
       loading={<EditorSkeleton />}
-      onMount={mounted}
+      onMount={(e) => mounted(e)}
       options={
         user
           ? {
               readOnly: readonly,
-              fontLignatures: user.settings.fontLignatures,
-              fontSize: user.settings.fontSize,
-              renderWhitespace: user.settings.renderWhitespace,
-              wordWrap: user.settings.wordWrap,
-              tabSize: user.settings.tabSize,
+              fontLigatures: user.settings.font_ligatures,
+              fontSize: user.settings.font_size,
+              renderWhitespace: user.settings.render_whitespace
+                ? "all"
+                : "none",
+              wordWrap: user.settings.word_wrap ? "on" : "off",
+              tabSize: user.settings.tab_size,
             }
           : {
               readOnly: readonly,

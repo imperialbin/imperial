@@ -541,11 +541,11 @@ export const UserSettings = (): JSX.Element => {
               description="Have a sneak peak at a document's content with Open Graph embeds"
             />
             <Setting
-              title="Font Lignatures"
+              title="Font Ligatures"
               type="switch"
               onToggle={async () => {
                 const { data, error } = await updateUserSettings({
-                  fontLignatures: !user.settings.fontLignatures,
+                  fontLigatures: !user.settings.fontLigatures,
                 });
 
                 if (error && !data) {
@@ -556,8 +556,8 @@ export const UserSettings = (): JSX.Element => {
 
                 mutate({ ...data }, false);
               }}
-              toggled={user.settings.fontLignatures}
-              description="When enabled, the editor will have font lignatures"
+              toggled={user.settings.fontLigatures}
+              description="When enabled, the editor will have font ligatures"
             />
             <Setting
               title="White Space"

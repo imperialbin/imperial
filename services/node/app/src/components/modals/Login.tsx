@@ -190,7 +190,7 @@ const Login = () => {
               iconClick={() => null}
               iconDisabled={true}
               placeholder="Enter your username or email"
-              onChange={e => setUsername(e.target.value)}
+              onChange={(e) => setUsername(e.target.value)}
               required
             />
             <Input
@@ -199,7 +199,7 @@ const Login = () => {
               iconClick={() => null}
               iconDisabled={true}
               placeholder="Enter your password"
-              onChange={e => setPassword(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
               type="password"
               required
             />

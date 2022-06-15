@@ -229,19 +229,19 @@ const UserSettings = ({ user, dispatch }: ReduxProps): JSX.Element => {
               />
               <UserInfo>
                 <Username>{user.username}</Username>
-                <UserID>user #{user.userId}</UserID>
+                <UserID>user #{user.id}</UserID>
               </UserInfo>
             </UserOverview>
             <Tiles>
               <Tile style={{ display: "unset" }}>
-                {user.documentsMade}
+                {user.documents_made}
                 <TitleInfo>Documents made</TitleInfo>
               </Tile>
               <Link href="/link/discord" passHref={true}>
                 <Tile style={{ cursor: "pointer" }}>
                   <TileIcon src="/img/discord.svg" />
                   <TitleInfo style={{ fontSize: "1em" }}>
-                    {user.discordId ? "Connected" : "Connect"}
+                    {user.discord_id ? "Connected" : "Connect"}
                   </TitleInfo>
                 </Tile>
               </Link>
@@ -249,7 +249,7 @@ const UserSettings = ({ user, dispatch }: ReduxProps): JSX.Element => {
                 <Tile style={{ cursor: "pointer" }}>
                   <TileIcon src="/img/github.svg" />
                   <TitleInfo style={{ fontSize: "1em" }}>
-                    {user.githubAccess ? "Connected" : "Connect"}
+                    {user.github_oauth ? "Connected" : "Connect"}
                   </TitleInfo>
                 </Tile>
               </Link>
@@ -343,7 +343,7 @@ const UserSettings = ({ user, dispatch }: ReduxProps): JSX.Element => {
               iconHoverColor={theme.system.success}
               hideIconUntilDifferent={true}
               tooltipTitle="Update icon"
-              onChange={e => setIconValue(e.target.value)}
+              onChange={(e) => setIconValue(e.target.value)}
               iconClick={async () => {
                 const { data, error } = await request(
                   "/user/@me/icon",
@@ -375,7 +375,7 @@ const UserSettings = ({ user, dispatch }: ReduxProps): JSX.Element => {
               label="Email"
               placeholder="Your email"
               value={user.email}
-              onChange={e => {
+              onChange={(e) => {
                 setEmail({
                   newEmail: e.target.value,
                   emailSuccess: false,
@@ -423,7 +423,7 @@ const UserSettings = ({ user, dispatch }: ReduxProps): JSX.Element => {
               <Input
                 label="API Token"
                 placeholder="API Token"
-                value={user.apiToken}
+                value={user.api_token}
                 icon={<RefreshCw size={18} />}
                 secretValue={true}
                 iconClick={async () => {
@@ -470,7 +470,7 @@ const UserSettings = ({ user, dispatch }: ReduxProps): JSX.Element => {
               type="switch"
               onToggle={async () => {
                 const { data, error } = await updateUserSettings({
-                  longUrls: !user.settings.longUrls,
+                  longUrls: !user.settings.long_urls,
                 });
 
                 if (error && !data) {
@@ -481,7 +481,7 @@ const UserSettings = ({ user, dispatch }: ReduxProps): JSX.Element => {
 
                 dispatch(setUser(data));
               }}
-              toggled={user.settings.longUrls}
+              toggled={user.settings.long_urls}
               description="Create 32 character URLs."
             />
             <Setting
@@ -489,7 +489,7 @@ const UserSettings = ({ user, dispatch }: ReduxProps): JSX.Element => {
               type="switch"
               onToggle={async () => {
                 const { data, error } = await updateUserSettings({
-                  shortUrls: !user.settings.shortUrls,
+                  shortUrls: !user.settings.short_urls,
                 });
 
                 if (error && !data) {
@@ -500,7 +500,7 @@ const UserSettings = ({ user, dispatch }: ReduxProps): JSX.Element => {
 
                 dispatch(setUser(data));
               }}
-              toggled={user.settings.shortUrls}
+              toggled={user.settings.short_urls}
               description="Create 4 character URLs."
             />
             <Setting
@@ -508,7 +508,7 @@ const UserSettings = ({ user, dispatch }: ReduxProps): JSX.Element => {
               type="switch"
               onToggle={async () => {
                 const { data, error } = await updateUserSettings({
-                  instantDelete: !user.settings.instantDelete,
+                  instantDelete: !user.settings.instant_delete,
                 });
 
                 if (error && !data) {
@@ -519,7 +519,7 @@ const UserSettings = ({ user, dispatch }: ReduxProps): JSX.Element => {
 
                 dispatch(setUser(data));
               }}
-              toggled={user.settings.instantDelete}
+              toggled={user.settings.instant_delete}
               description="Instantly delete the document after being viewed."
             />
             <Setting
@@ -546,7 +546,7 @@ const UserSettings = ({ user, dispatch }: ReduxProps): JSX.Element => {
               type="switch"
               onToggle={async () => {
                 const { data, error } = await updateUserSettings({
-                  imageEmbed: !user.settings.imageEmbed,
+                  imageEmbed: !user.settings.image_embed,
                 });
 
                 if (error && !data) {
@@ -557,15 +557,15 @@ const UserSettings = ({ user, dispatch }: ReduxProps): JSX.Element => {
 
                 dispatch(setUser(data));
               }}
-              toggled={user.settings.imageEmbed}
+              toggled={user.settings.image_embed}
               description="Have a sneak peak at a document's content with Open Graph embeds"
             />
             <Setting
-              title="Font Lignatures"
+              title="Font Ligatures"
               type="switch"
               onToggle={async () => {
                 const { data, error } = await updateUserSettings({
-                  fontLignatures: !user.settings.fontLignatures,
+                  fontLigatures: !user.settings.font_ligatures,
                 });
 
                 if (error && !data) {
@@ -576,15 +576,15 @@ const UserSettings = ({ user, dispatch }: ReduxProps): JSX.Element => {
 
                 dispatch(setUser(data));
               }}
-              toggled={user.settings.fontLignatures}
-              description="When enabled, the editor will have font lignatures"
+              toggled={user.settings.font_ligatures}
+              description="When enabled, the editor will have font ligatures"
             />
             <Setting
               title="White Space"
               type="switch"
               onToggle={async () => {
                 const { data, error } = await updateUserSettings({
-                  renderWhitespace: !user.settings.renderWhitespace,
+                  renderWhitespace: !user.settings.render_whitespace,
                 });
 
                 if (error && !data) {
@@ -595,7 +595,7 @@ const UserSettings = ({ user, dispatch }: ReduxProps): JSX.Element => {
 
                 dispatch(setUser(data));
               }}
-              toggled={user.settings.renderWhitespace}
+              toggled={user.settings.render_whitespace}
               description="When enabled, the editor will render white space."
             />
             <Setting
@@ -603,7 +603,7 @@ const UserSettings = ({ user, dispatch }: ReduxProps): JSX.Element => {
               type="switch"
               onToggle={async () => {
                 const { data, error } = await updateUserSettings({
-                  wordWrap: !user.settings.wordWrap,
+                  wordWrap: !user.settings.word_wrap,
                 });
 
                 if (error && !data) {
@@ -614,16 +614,16 @@ const UserSettings = ({ user, dispatch }: ReduxProps): JSX.Element => {
 
                 dispatch(setUser(data));
               }}
-              toggled={user.settings.wordWrap}
+              toggled={user.settings.word_wrap}
               description="When enabled, the editor will wrap instead of enabling overflow."
             />
             <Setting
               title="Font size"
               type="dropdown"
-              initialValue={user.settings.fontSize}
+              initialValue={user.settings.font_size}
               mode="expiration"
               numberLimit={18}
-              onToggle={async e => {
+              onToggle={async (e) => {
                 const { data, error } = await updateUserSettings({
                   fontSize: Number(e?.target.value),
                 });
@@ -641,10 +641,10 @@ const UserSettings = ({ user, dispatch }: ReduxProps): JSX.Element => {
             <Setting
               title="Tab size"
               type="dropdown"
-              initialValue={user.settings.tabSize}
+              initialValue={user.settings.tab_size}
               mode="expiration"
               numberLimit={8}
-              onToggle={async e => {
+              onToggle={async (e) => {
                 const { data, error } = await updateUserSettings({
                   tabSize: Number(e?.target.value),
                 });
@@ -662,9 +662,9 @@ const UserSettings = ({ user, dispatch }: ReduxProps): JSX.Element => {
             <Setting
               title="Expiration"
               type="dropdown"
-              initialValue={user.settings.expiration}
+              initialValue={user.settings.expiration ?? 0}
               mode="expiration"
-              onToggle={async e => {
+              onToggle={async (e) => {
                 const { data, error } = await updateUserSettings({
                   expiration: Number(e?.target.value),
                 });
@@ -694,7 +694,7 @@ const UserSettings = ({ user, dispatch }: ReduxProps): JSX.Element => {
             <Input
               label="Current password"
               placeholder="Enter your current password"
-              onChange={e =>
+              onChange={(e) =>
                 setPassword({
                   ...password,
                   currentPassword: e.target.value,
@@ -710,7 +710,7 @@ const UserSettings = ({ user, dispatch }: ReduxProps): JSX.Element => {
               label="New password"
               placeholder="Enter your new password"
               icon={<Lock size={18} />}
-              onChange={e =>
+              onChange={(e) =>
                 setPassword({
                   ...password,
                   newPassword: e.target.value,
@@ -725,7 +725,7 @@ const UserSettings = ({ user, dispatch }: ReduxProps): JSX.Element => {
               label="Confirm password"
               placeholder="Re-enter new password."
               icon={<Lock size={18} />}
-              onChange={e =>
+              onChange={(e) =>
                 setPassword({
                   ...password,
                   confirmPassword: e.target.value,

@@ -9,7 +9,6 @@ import ModalManager from "../components/ModalManager";
 import { useEffect } from "react";
 import { fetchMe } from "../utils/FetchMe";
 import { SWRConfig } from "swr";
-import { fetcher } from "../utils/fetcher";
 
 const GlobalStyle = createGlobalStyle`
  *, *:before, *:after {
@@ -52,11 +51,11 @@ function Imperial({ Component, pageProps }: AppProps) {
   useEffect(() => {
     fetchMe();
   }, []);
+
   return (
     <ThemeProvider theme={DarkTheme}>
       <SWRConfig
         value={{
-          fetcher,
           refreshInterval: 120000,
           revalidateOnFocus: false,
         }}

@@ -104,7 +104,7 @@ export interface UserSettings {
   imageEmbed: boolean;
   expiration: number;
 
-  fontLignatures: boolean;
+  fontLigatures: boolean;
   fontSize: number;
   renderWhitespace: boolean;
   wordWrap: boolean;

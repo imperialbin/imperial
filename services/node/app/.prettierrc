@@ -6,6 +6,5 @@
   "bracketSpacing": true,
   "jsxBracketSameLine": false,
   "jsxSingleQuote": false,
-  "arrowParens": "avoid",
   "tabWidth": 2
 }

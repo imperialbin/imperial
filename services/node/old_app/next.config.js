@@ -3,7 +3,12 @@
 module.exports = {
   reactStrictMode: true,
   images: {
-    domains: ["localhost", "github.com", "gravatar.com", "avatars.githubusercontent.com"],
+    domains: [
+      "localhost",
+      "github.com",
+      "gravatar.com",
+      "avatars.githubusercontent.com",
+    ],
   },
   async redirects() {
     return [

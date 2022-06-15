@@ -3,8 +3,7 @@ import { PopoverBase } from "./popovers";
 
 const Wrapper = styled.div``;
 
-interface IUserPopover extends PopoverBase {}
-const UserPopover = ({ close }: IUserPopover) => {
+const UserPopover = ({ close }: PopoverBase) => {
   return (
     <Wrapper>
       <h1 onClick={close}>yo</h1>

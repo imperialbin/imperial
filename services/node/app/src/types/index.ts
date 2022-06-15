@@ -1,33 +1,32 @@
 export interface SelfUser {
-  id: string;
-  userId: number;
+  id: number;
   username: string;
   email: string;
-  banned: boolean;
-  confirmed: boolean;
   icon: string;
-  memberPlus: boolean;
-  apiToken: string;
-  documentsMade: number;
-  discordId: string;
-  githubAccess: string;
+  confirmed_email: boolean;
+  banned: boolean;
+  documents_made: number;
+  flags: number;
+  discord_id: string | null;
+  github_oauth: string | null;
+  api_token: string;
   settings: UserSettings;
 }
 
 export interface UserSettings {
   clipboard: boolean;
-  longUrls: boolean;
-  shortUrls: boolean;
-  instantDelete: boolean;
+  long_urls: boolean;
+  short_urls: boolean;
+  instant_delete: boolean;
   encrypted: boolean;
-  imageEmbed: boolean;
-  expiration: number;
-
-  fontLignatures: boolean;
-  fontSize: number;
-  renderWhitespace: boolean;
-  wordWrap: boolean;
-  tabSize: number;
+  image_embed: boolean;
+  expiration: number | null;
+  font_ligatures: boolean;
+  font_size: number;
+  render_whitespace: boolean;
+  word_wrap: boolean;
+  tab_size: number;
+  create_gist: boolean;
 }
 
 export interface User {

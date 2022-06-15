@@ -99,7 +99,7 @@ func Signup(c *fiber.Ctx) error {
 			Encrypted:        false,
 			ImageEmbed:       false,
 			Expiration:       nil,
-			FontLignatures:   false,
+			FontLigatures:    false,
 			FontSize:         14,
 			RenderWhitespace: false,
 			WordWrap:         false,

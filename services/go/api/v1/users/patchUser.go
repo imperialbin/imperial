@@ -21,7 +21,7 @@ type PatchUserRequest struct {
 		Encrypted        *bool `json:"encrypted"`
 		ImageEmbed       *bool `json:"image_embed"`
 		Expiration       *int  `json:"expiration"`
-		FontLignatures   *bool `json:"font_lignatures"`
+		FontLigatures    *bool `json:"font_ligatures"`
 		FontSize         *int  `json:"font_size"`
 		RenderWhitespace *bool `json:"render_whitespace"`
 		WordWrap         *bool `json:"word_wrap"`

@@ -461,8 +461,8 @@ export const Nav = ({
                 arrow
               >
                 <UserIcon
-                  pointer={true}
                   URL={user ? user.icon : "/img/pfp.png"}
+                  pointer
                 />
               </Tooltip>
             ) : (

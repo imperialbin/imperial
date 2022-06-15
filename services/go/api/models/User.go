@@ -23,7 +23,7 @@ type UserSettings struct {
 	Encrypted        bool `json:"encrypted" gorm:"default:false"`
 	ImageEmbed       bool `json:"image_embed" gorm:"default:false"`
 	Expiration       *int `json:"expiration"  gorm:"default:null"`
-	FontLignatures   bool `json:"font_lignatures" gorm:"default:false"`
+	FontLigatures    bool `json:"font_ligatures" gorm:"default:false"`
 	FontSize         int  `json:"font_size"  gorm:"default:12"`
 	RenderWhitespace bool `json:"render_whitespace" gorm:"default:false"`
 	WordWrap         bool `json:"word_wrap" gorm:"default:false"`

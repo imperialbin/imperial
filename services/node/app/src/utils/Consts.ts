@@ -27,7 +27,7 @@ import {
   Rust as RustIcon,
   Ruby as RubyIcon,
   R as RIcon,
-} from "../components/icons";
+} from "../components/Icons";
 
 /* ENV and some static stuff */
 export const API_BASE =
