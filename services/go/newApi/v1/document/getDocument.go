@@ -35,6 +35,8 @@ func Get(c *fiber.Ctx) error {
 		creatorPartial, _ = utils.GetUserPartialByID(*document.Creator)
 	}
 
+	client.Model(&document).Update("views", document.Views+1)
+
 	return c.JSON(Response{
 		Success: true,
 		Data: PostDocumentResponse{
@@ -42,7 +44,7 @@ func Get(c *fiber.Ctx) error {
 			Content: document.Content,
 			Creator: creatorPartial,
 			GistURL: document.GistURL,
-			Views:   0,
+			Views:   document.Views,
 			Timestamps: Timestamps{
 				Creation:   document.CreatedAt,
 				Expiration: document.ExpiresAt,
