@@ -8,9 +8,10 @@ type User struct {
 	ConfirmedEmail bool         `json:"confirmed_email"`
 	Password       string       `json:"-"`
 	DocumentsMade  int          `json:"documents_made" gorm:"default:0"`
-	Flags          int          `json:"flags"`
+	Flags          int          `json:"flags" gorm:"default:1"`
 	GithubOAuth    *string      `json:"github_oauth"`
 	APIToken       string       `json:"api_token"`
+	Banned         bool         `json:"banned" gorm:"default:false"`
 	UserSettings   UserSettings `json:"settings" gorm:"foreignKey:UserID;"`
 }
 

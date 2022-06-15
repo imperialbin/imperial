@@ -8,7 +8,7 @@ import (
 	"github.com/getsentry/sentry-go"
 )
 
-func ScreenshotDocument(documentID string, userFlag uint) {
+func ScreenshotDocument(documentID string, userFlag int) {
 	ctx, cancel := chromedp.NewContext(
 		context.Background(),
 	)

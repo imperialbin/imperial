@@ -88,7 +88,7 @@ func Signup(c *fiber.Ctx) error {
 		ConfirmedEmail: false,
 		Password:       hashedPassword,
 		DocumentsMade:  0,
-		Flags:          0,
+		Flags:          1,
 		GithubOAuth:    nil,
 		APIToken:       "IMPERIAL-" + uuid.NewString(),
 		UserSettings: models.UserSettings{
