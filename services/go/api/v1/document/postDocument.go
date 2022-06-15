@@ -41,9 +41,21 @@ func Post(c *fiber.Ctx) error {
 	}
 
 	/* only allow authed users to make settings */
-	if user != nil {
-		marshalReq, _ := json.Marshal(req)
-		json.Unmarshal([]byte(marshalReq), &documentRequest)
+	marshalReq, _ := json.Marshal(req)
+	json.Unmarshal([]byte(marshalReq), &documentRequest)
+	if user == nil {
+		documentRequest.Settings = DocumentSettingsStruct{
+			Language:      documentRequest.Settings.Language,
+			Expiration:    7,
+			ShortURLs:     false,
+			LongURLs:      false,
+			ImageEmbed:    false,
+			InstantDelete: false,
+			Encrypted:     false,
+			Public:        false,
+			Editors:       nil,
+			CreateGist:    false,
+		}
 	}
 
 	if documentRequest.Settings.ShortURLs {
