@@ -6,6 +6,7 @@ import (
 	"api/v1/commons"
 	"errors"
 
+	"github.com/getsentry/sentry-go"
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
 )
@@ -33,6 +34,7 @@ func Delete(c *fiber.Ctx) error {
 			})
 		}
 
+		sentry.CaptureException(result.Error)
 		return c.Status(500).JSON(commons.Response{
 			Success: false,
 			Message: "An internal server error occurred :(",
@@ -47,6 +49,7 @@ func Delete(c *fiber.Ctx) error {
 	}
 
 	if result := client.Delete(&document); result.Error != nil {
+		sentry.CaptureException(result.Error)
 		return c.Status(500).JSON(commons.Response{
 			Success: false,
 			Message: "An error occurred deleting this document :(",

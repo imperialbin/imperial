@@ -10,6 +10,7 @@ import (
 	"os"
 	"strings"
 
+	"github.com/getsentry/sentry-go"
 	"github.com/gofiber/fiber/v2"
 	"github.com/ravener/discord-oauth2"
 	"golang.org/x/oauth2"
@@ -47,7 +48,7 @@ func GetDiscordOAuthCallback(c *fiber.Ctx) error {
 	token, err := config.Exchange(context.Background(), code)
 
 	if err != nil {
-		println(err.Error())
+		sentry.CaptureException(err)
 		return c.Status(400).JSON(Response{
 			Success: false,
 			Message: "There was an error whilst enabling oauth on your account!",
@@ -57,7 +58,8 @@ func GetDiscordOAuthCallback(c *fiber.Ctx) error {
 	tokenRes, err := config.Client(context.Background(), token).Get("https://discord.com/api/users/@me")
 
 	if err != nil {
-		println(err.Error())
+		sentry.CaptureException(err)
+
 		return c.Status(400).JSON(Response{
 			Success: false,
 			Message: "There was an error whilst enabling oauth on your account!",

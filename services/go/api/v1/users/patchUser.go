@@ -6,6 +6,7 @@ import (
 	. "api/v1/commons"
 	"encoding/json"
 
+	"github.com/getsentry/sentry-go"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -73,6 +74,7 @@ func PatchUser(c *fiber.Ctx) error {
 
 	/* fix this dumb shit */
 	if result := client.Updates(&newUser); result.Error != nil {
+		sentry.CaptureException(result.Error)
 		return c.Status(500).JSON(commons.Response{
 			Success: false,
 			Message: "An internal server error occurred",

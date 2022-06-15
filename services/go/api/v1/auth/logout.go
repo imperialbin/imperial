@@ -4,6 +4,7 @@ import (
 	. "api/utils"
 	. "api/v1/commons"
 
+	"github.com/getsentry/sentry-go"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -13,6 +14,7 @@ func Logout(c *fiber.Ctx) error {
 	_, err := RedisDel(authToken)
 
 	if err != nil {
+		sentry.CaptureException(err)
 		return c.Status(500).JSON(Response{
 			Success: false,
 			Message: "There was an internal server error whilst deleting your token!",

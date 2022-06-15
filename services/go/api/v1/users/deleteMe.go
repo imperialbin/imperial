@@ -5,6 +5,7 @@ import (
 	"api/v1/commons"
 	. "api/v1/commons"
 
+	"github.com/getsentry/sentry-go"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -64,9 +65,10 @@ func DeleteMe(c *fiber.Ctx) error {
 
 	var client = utils.GetDB()
 	if result := client.Select("UserSettings").Delete(&user); result.Error != nil {
+		sentry.CaptureException(result.Error)
 		return c.Status(500).JSON(Response{
 			Success: false,
-			Message: "An internal server error code",
+			Message: "An internal server error occurred",
 		})
 	}
 

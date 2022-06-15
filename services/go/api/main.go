@@ -9,12 +9,17 @@ import (
 	"os"
 	"time"
 
+	"github.com/getsentry/sentry-go"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/limiter"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/joho/godotenv"
+)
+
+const (
+	API_RELEASE = "api@0.0.1"
 )
 
 func setupRoutes(app *fiber.App) {
@@ -66,6 +71,18 @@ func setupRoutes(app *fiber.App) {
 func main() {
 	godotenv.Load()
 	utils.InitDB()
+
+	if err := sentry.Init(sentry.ClientOptions{
+		Dsn:              os.Getenv("SENTRY_DSN"),
+		Environment:      os.Getenv("SENTRY_ENVIRONMENT"),
+		TracesSampleRate: 1.0,
+		Release:          API_RELEASE,
+	}); err != nil {
+		log.Fatalf("sentry.Init: %s", err)
+	}
+
+	// Flush buffered events before the program terminates.
+	defer sentry.Flush(2 * time.Second)
 
 	if utils.GetRedisDB() == nil {
 		utils.SetRedisDB()

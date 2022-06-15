@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	"errors"
 
+	"github.com/getsentry/sentry-go"
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
 )
@@ -42,6 +43,7 @@ func PatchDocument(c *fiber.Ctx) error {
 			})
 		}
 
+		sentry.CaptureException(result.Error)
 		return c.Status(500).JSON(commons.Response{
 			Success: false,
 			Message: "An internal server error occurred :(",
@@ -61,6 +63,7 @@ func PatchDocument(c *fiber.Ctx) error {
 	json.Unmarshal(marshalReq, &newDocument)
 
 	if result := client.Updates(&newDocument); result.Error != nil {
+		sentry.CaptureException(result.Error)
 		return c.Status(500).JSON(commons.Response{
 			Success: false,
 			Message: "An internal server error occurred",

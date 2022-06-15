@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/getsentry/sentry-go"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -50,6 +51,7 @@ func Login(c *fiber.Ctx) error {
 	/* Generate session */
 	token, err := utils.GenerateSessionToken()
 	if err != nil {
+		sentry.CaptureException(err)
 		return c.Status(500).JSON(Response{
 			Success: false,
 			Message: "An internal server error occurred!",

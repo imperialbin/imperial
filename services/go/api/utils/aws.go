@@ -9,6 +9,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/s3/s3manager"
 	"github.com/aws/aws-sdk-go/service/ses"
+	"github.com/getsentry/sentry-go"
 )
 
 func SESSession() (*session.Session, error) {
@@ -34,6 +35,7 @@ func SendEmail(template string, to string, data string) (ok bool, err error) {
 	_, emailErr := svc.SendTemplatedEmail((email))
 
 	if emailErr != nil {
+		sentry.CaptureException(emailErr)
 		println("[EMAIL ERROR]", emailErr.Error())
 
 		return false, emailErr
@@ -53,6 +55,7 @@ func SaveImage(imageName string, buf []byte) (ok bool, err error) {
 	})
 
 	if err != nil {
+		sentry.CaptureException(err)
 		println("[S3 ERROR]", err.Error())
 		return false, err
 	}

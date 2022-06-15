@@ -5,6 +5,7 @@ import (
 	. "api/v1/commons"
 	"errors"
 
+	"github.com/getsentry/sentry-go"
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
 )
@@ -22,9 +23,10 @@ func FindUser(c *fiber.Ctx) error {
 			})
 		}
 
+		sentry.CaptureException(err)
 		return c.Status(500).JSON(Response{
 			Success: false,
-			Message: err.Error(),
+			Message: "An internal server error occurred",
 		})
 	}
 

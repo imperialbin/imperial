@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/chromedp/chromedp"
+	"github.com/getsentry/sentry-go"
 )
 
 func ScreenshotDocument(documentID string, userFlag uint) {
@@ -21,7 +22,8 @@ func ScreenshotDocument(documentID string, userFlag uint) {
 	}
 
 	if err := chromedp.Run(ctx, fullScreenshot(os.Getenv("SCREENSHOT_URI")+documentID+"?noNav=true", quality, &buf)); err != nil {
-		println(err.Error())
+		sentry.CaptureException(err)
+
 		return
 	}
 

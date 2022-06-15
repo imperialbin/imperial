@@ -6,6 +6,7 @@ import (
 	. "api/v1/commons"
 	"errors"
 
+	"github.com/getsentry/sentry-go"
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
 )
@@ -41,6 +42,7 @@ func RequestResetPassword(c *fiber.Ctx) error {
 			})
 		}
 
+		sentry.CaptureException(result.Error)
 		return c.Status(500).JSON(Response{
 			Success: false,
 			Message: "An internal server error occurred",
@@ -50,6 +52,7 @@ func RequestResetPassword(c *fiber.Ctx) error {
 	token, err := utils.GenerateRandomString(32)
 
 	if err != nil {
+		sentry.CaptureException(err)
 		return c.Status(500).JSON(Response{
 			Success: false,
 			Message: "There was an internal server error",
@@ -61,6 +64,7 @@ func RequestResetPassword(c *fiber.Ctx) error {
 	_, emailErr := utils.SendEmail("ResetPassword", user.Email, "{ \"token\":\""+token+"\"}")
 
 	if emailErr != nil {
+		sentry.CaptureException(emailErr)
 		return c.Status(500).JSON(Response{
 			Success: false,
 			Message: "There was an error sending an email to your account!",

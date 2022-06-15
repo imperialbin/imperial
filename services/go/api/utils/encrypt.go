@@ -7,6 +7,8 @@ import (
 	"encoding/hex"
 	"fmt"
 	"io"
+
+	"github.com/getsentry/sentry-go"
 )
 
 func Encrypt(text, password string) (encryptedText, initVector string) {
@@ -16,7 +18,8 @@ func Encrypt(text, password string) (encryptedText, initVector string) {
 	block, err := aes.NewCipher(hashedPassword)
 
 	if err != nil {
-		println("??????")
+		sentry.CaptureException(err)
+
 	}
 
 	cipherText := make([]byte, aes.BlockSize+len(text))

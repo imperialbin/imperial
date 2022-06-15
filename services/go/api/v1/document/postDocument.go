@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/creasty/defaults"
+	"github.com/getsentry/sentry-go"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -26,6 +27,7 @@ func Post(c *fiber.Ctx) error {
 	user, err := utils.GetAuthedUser(c)
 
 	if err != nil {
+		sentry.CaptureException(err)
 		return c.Status(500).JSON(Response{
 			Success: false,
 			Message: "An internal server error occurred.",
@@ -34,6 +36,7 @@ func Post(c *fiber.Ctx) error {
 
 	documentRequest := &DocumentStruct{}
 	if err := defaults.Set(documentRequest); err != nil {
+		sentry.CaptureException(err)
 		return c.Status(500).JSON(Response{
 			Success: false,
 			Message: "An internal server error occurred.",
@@ -69,10 +72,6 @@ func Post(c *fiber.Ctx) error {
 		creatorPartial, _ = utils.GetUserPartial(user.Username)
 	}
 
-	if err != nil {
-		println(err.Error())
-	}
-
 	var creatorID *uint = nil
 	if user != nil {
 		creatorID = &user.ID
@@ -100,6 +99,7 @@ func Post(c *fiber.Ctx) error {
 			randomString, err := utils.GenerateRandomString(8)
 
 			if err != nil {
+				sentry.CaptureException(err)
 				c.Status(500).JSON(Response{
 					Success: false,
 					Message: "An error occurred whilst generating a password for your encrypted document!",
@@ -125,9 +125,10 @@ func Post(c *fiber.Ctx) error {
 	}
 
 	if result := client.Create(&document); result.Error != nil {
-		return c.JSON(Response{
+		sentry.CaptureException(result.Error)
+		return c.Status(500).JSON(Response{
 			Success: false,
-			Message: result.Error.Error(),
+			Message: "An internal server error occurred",
 		})
 	}
 

@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/getsentry/sentry-go"
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
 	"gorm.io/gorm"
@@ -75,6 +76,7 @@ func Signup(c *fiber.Ctx) error {
 	hashedPassword, err := utils.HashPassword(req.Password)
 
 	if err != nil {
+		sentry.CaptureException(err)
 		return c.Status(500).JSON(Response{
 			Success: false,
 			Message: "An internal server error occurred!",
@@ -106,15 +108,17 @@ func Signup(c *fiber.Ctx) error {
 		}}
 
 	if result := client.Create(&user); result.Error != nil {
-		return c.JSON(Response{
+		sentry.CaptureException(result.Error)
+		return c.Status(500).JSON(Response{
 			Success: false,
-			Message: result.Error.Error(),
+			Message: "An internal server error occurred",
 		})
 	}
 
 	/* Generate session */
 	token, err := utils.GenerateSessionToken()
 	if err != nil {
+		sentry.CaptureException(err)
 		return c.Status(500).JSON(Response{
 			Success: false,
 			Message: "An internal server error occurred!",

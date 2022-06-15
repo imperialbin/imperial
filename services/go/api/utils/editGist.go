@@ -6,6 +6,8 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
+
+	"github.com/getsentry/sentry-go"
 )
 
 func EditGist(user *models.User, gistID, content string) (gist string, err error) {
@@ -17,14 +19,16 @@ func EditGist(user *models.User, gistID, content string) (gist string, err error
 	req.Header.Set("Authorization", "token "+*user.GithubOAuth)
 
 	if err != nil {
-		println(err.Error())
+		sentry.CaptureException(err)
+
 		return "", err
 	}
 
 	makeReq, err := client.Do(req)
 
 	if err != nil {
-		println(err.Error())
+		sentry.CaptureException(err)
+
 		return "", err
 	}
 
@@ -35,7 +39,8 @@ func EditGist(user *models.User, gistID, content string) (gist string, err error
 	json.Unmarshal(parsed, &res)
 
 	if reqErr != nil {
-		println(err.Error())
+		sentry.CaptureException(err)
+
 		return "", err
 	}
 
