@@ -105,7 +105,5 @@ func main() {
 
 	setupRoutes(app)
 
-	log.Fatal(app.Listen("127.0.0.1:" + os.Getenv("PORT")))
+	log.Fatal(app.Listen(":" + os.Getenv("PORT")))
 }
-
-//
