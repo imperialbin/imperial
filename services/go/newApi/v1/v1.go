@@ -77,7 +77,7 @@ func PatchMe(c *fiber.Ctx) error {
 }
 
 func PostRegenAPIToken(c *fiber.Ctx) error {
-	return users.RegenApiToken(c)
+	return users.RegenAPIToken(c)
 }
 
 func DeleteMe(c *fiber.Ctx) error {
