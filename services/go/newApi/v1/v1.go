@@ -90,10 +90,18 @@ func GetUser(c *fiber.Ctx) error {
 
 /* OAuth */
 
-func GetDiscord(c *fiber.Ctx) error {
-	return oauth.GetDiscord(c)
+func GetDiscordOAuth(c *fiber.Ctx) error {
+	return oauth.GetDiscordOAuth(c)
 }
 
-func GetDiscordCallback(c *fiber.Ctx) error {
-	return oauth.GetCallbackDiscord(c)
+func GetDiscordOAuthCallback(c *fiber.Ctx) error {
+	return oauth.GetDiscordOAuthCallback(c)
+}
+
+func GetGitHubOAuth(c *fiber.Ctx) error {
+	return oauth.GetGitHubOAuth(c)
+}
+
+func GetGitHubOAuthCallback(c *fiber.Ctx) error {
+	return oauth.GetGitHubOAuthCallback(c)
 }

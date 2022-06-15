@@ -53,8 +53,10 @@ func setupRoutes(app *fiber.App) {
 	v1.Delete("/document/:id", middleware.CheckAuthenticated, v1Routes.DeleteDocument)
 
 	/* OAuth */
-	v1.Get("/oauth/discord", v1Routes.GetDiscord)
-	v1.Get("/oauth/discord/callback", middleware.CheckAuthenticated, v1Routes.GetDiscordCallback)
+	v1.Get("/oauth/discord", v1Routes.GetDiscordOAuth)
+	v1.Get("/oauth/discord/callback", middleware.CheckAuthenticated, v1Routes.GetDiscordOAuthCallback)
+	v1.Get("/oauth/github", v1Routes.GetGitHubOAuth)
+	v1.Get("/oauth/github/callback", middleware.CheckAuthenticated, v1Routes.GetGitHubOAuthCallback)
 
 	/* Invalid Routes */
 	app.Use(v1Routes.InvalidRoute)
