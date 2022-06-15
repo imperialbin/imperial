@@ -2,9 +2,11 @@ package auth
 
 import (
 	"errors"
+	"fmt"
 	"newapi/models"
 	"newapi/utils"
 	. "newapi/v1/commons"
+	"time"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
@@ -79,8 +81,7 @@ func Signup(c *fiber.Ctx) error {
 		})
 	}
 
-	if result := client.Create(&models.User{
-		Username:       req.Username,
+	var user = models.User{Username: req.Username,
 		Email:          req.Email,
 		ConfirmedEmail: false,
 		Password:       hashedPassword,
@@ -102,17 +103,42 @@ func Signup(c *fiber.Ctx) error {
 			WordWrap:         false,
 			TabSize:          2,
 			CreateGist:       false,
-		},
-	}); result.Error != nil {
+		}}
+
+	if result := client.Create(&user); result.Error != nil {
 		return c.JSON(Response{
 			Success: false,
 			Message: result.Error.Error(),
 		})
 	}
 
+	/* Generate session */
+	token, err := utils.GenerateSessionToken()
+	if err != nil {
+		return c.Status(500).JSON(Response{
+			Success: false,
+			Message: "An internal server error occurred!",
+		})
+	}
+
+	utils.RedisSet(token, fmt.Sprint(user.ID), 7)
+
+	cookie := fiber.Cookie{
+		Name:     "IMPERIAL-AUTH",
+		Value:    token,
+		Expires:  time.Now().Add(time.Hour * 168),
+		HTTPOnly: true,
+		Secure:   false,
+		SameSite: "None",
+	}
+
+	c.Cookie(&cookie)
+
 	return c.JSON(Response{
 		Success: true,
 		Message: "Successfully created your account!",
-		Data:    hashedPassword,
+		Data: fiber.Map{
+			"token": token,
+		},
 	})
 }
