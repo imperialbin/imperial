@@ -93,6 +93,7 @@ func main() {
 		AppName:                 "IMPERIAL API v1.0",
 		BodyLimit:               0.25 * 1024 * 1024,
 		EnableTrustedProxyCheck: true,
+		ProxyHeader:             "X-Real-Ip",
 	})
 
 	app.Use(cors.New(cors.Config{
