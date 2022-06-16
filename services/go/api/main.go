@@ -87,11 +87,12 @@ func main() {
 	}
 
 	app := fiber.New(fiber.Config{
-		CaseSensitive: false,
-		StrictRouting: false,
-		ServerHeader:  "IMPERIAL API",
-		AppName:       "IMPERIAL API v1.0",
-		BodyLimit:     0.25 * 1024 * 1024,
+		CaseSensitive:           false,
+		StrictRouting:           false,
+		ServerHeader:            "IMPERIAL API",
+		AppName:                 "IMPERIAL API v1.0",
+		BodyLimit:               0.25 * 1024 * 1024,
+		EnableTrustedProxyCheck: true,
 	})
 
 	app.Use(cors.New(cors.Config{
