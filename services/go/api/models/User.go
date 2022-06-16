@@ -33,10 +33,10 @@ type UserSettings struct {
 }
 
 type UserPartial struct {
-	DocumentID    string `json:"-" gorm:"primaryKey"`
-	UserID        uint   `json:"id"`
-	Username      string `json:"username"`
-	DocumentsMade int    `json:"documents_made"`
-	Icon          string `json:"icon"`
-	Flags         int    `json:"flags"`
+	DocumentID    string  `json:"-" gorm:"primaryKey"`
+	UserID        uint    `json:"id"`
+	Username      string  `json:"username"`
+	DocumentsMade int     `json:"documents_made"`
+	Icon          *string `json:"icon"`
+	Flags         int     `json:"flags"`
 }
