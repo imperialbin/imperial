@@ -3,6 +3,7 @@ package users
 import (
 	"api/utils"
 	. "api/v1/commons"
+	"fmt"
 	"strings"
 
 	"github.com/gofiber/fiber/v2"
@@ -31,7 +32,7 @@ func RegenAPIToken(c *fiber.Ctx) error {
 		})
 	}
 
-	utils.RedisSet(token, string(user.ID), 0)
+	utils.RedisSet(token, fmt.Sprint(user.ID), 0)
 
 	return c.JSON(Response{
 		Success: true,
