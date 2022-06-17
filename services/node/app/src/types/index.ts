@@ -2,7 +2,7 @@ export interface SelfUser {
   id: number;
   username: string;
   email: string;
-  icon: string;
+  icon: string | null;
   confirmed_email: boolean;
   banned: boolean;
   documents_made: number;
