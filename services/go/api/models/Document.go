@@ -10,11 +10,11 @@ type Document struct {
 	ID               string           `json:"id" gorm:"index"`
 	Content          string           `json:"content"`
 	Creator          *uint            `json:"creator"`
-	GistURL          *string          `json:"gist_url" gorm:"default:null"`
+	GistURL          *string          `json:"gist_url"`
 	Views            int              `json:"views" gorm:"default:0"`
 	CreatedAt        time.Time        `json:"created_at"`
 	ExpiresAt        *time.Time       `json:"expires_at"`
-	DocumentSettings DocumentSettings `json:"settings" gorm:"foreignKey:DocumentID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
+	DocumentSettings DocumentSettings `json:"settings" gorm:"foreignKey:DocumentID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 }
 
 type DocumentSettings struct {

@@ -6,6 +6,7 @@ import (
 	"api/v1/commons"
 	"encoding/json"
 	"errors"
+	"os"
 
 	"github.com/getsentry/sentry-go"
 	"github.com/gofiber/fiber/v2"
@@ -70,8 +71,48 @@ func PatchDocument(c *fiber.Ctx) error {
 		})
 	}
 
+	var creatorPartial *models.UserPartial
+	if user != nil {
+		creatorPartial, _ = utils.GetUserPartial(user.Username)
+	}
+
+	var editors = []models.UserPartial{}
+	if document.DocumentSettings.Editors != nil {
+		for _, userID := range document.DocumentSettings.Editors {
+			partial, err := utils.GetUserPartial(userID)
+
+			if err != nil {
+				sentry.CaptureException(err)
+				continue
+			}
+
+			editors = append(editors, *partial)
+		}
+	}
+
 	return c.JSON(commons.Response{
 		Success: true,
-		Data:    newDocument,
+		Data: commons.PostDocumentResponse{
+			ID:      newDocument.ID,
+			Content: newDocument.Content,
+			Creator: creatorPartial,
+			Views:   newDocument.Views,
+			Timestamps: commons.Timestamps{
+				Creation:   newDocument.CreatedAt,
+				Expiration: newDocument.ExpiresAt,
+			},
+			Links: commons.Links{
+				Raw:       os.Getenv("FRONTEND_URL") + "r/" + newDocument.ID,
+				Formatted: os.Getenv("FRONTEND_URL") + newDocument.ID,
+			},
+			DocumentSettings: commons.PostDocumentSettingsResponse{
+				Language:      newDocument.DocumentSettings.Language,
+				ImageEmbed:    newDocument.DocumentSettings.ImageEmbed,
+				InstantDelete: newDocument.DocumentSettings.ImageEmbed,
+				Encrypted:     newDocument.DocumentSettings.Encrypted,
+				Public:        newDocument.DocumentSettings.Public,
+				Editors:       &editors,
+			},
+		},
 	})
 }

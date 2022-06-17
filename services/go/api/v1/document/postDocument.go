@@ -5,6 +5,7 @@ import (
 	"api/utils"
 	. "api/v1/commons"
 	"encoding/json"
+	"os"
 	"time"
 
 	"github.com/creasty/defaults"
@@ -89,7 +90,7 @@ func Post(c *fiber.Ctx) error {
 			InstantDelete: documentRequest.Settings.InstantDelete,
 			Encrypted:     documentRequest.Settings.Encrypted,
 			Public:        documentRequest.Settings.Public,
-			Editors:       []string{},
+			Editors:       documentRequest.Settings.Editors,
 		},
 	}
 
@@ -141,6 +142,21 @@ func Post(c *fiber.Ctx) error {
 		go utils.ScreenshotDocument(document.ID, user.Flags)
 	} */
 
+	var editors = []models.UserPartial{}
+	if documentRequest.Settings.Editors != nil {
+		for _, userID := range documentRequest.Settings.Editors {
+			partial, err := utils.GetUserPartial(userID)
+
+			if err != nil {
+				sentry.CaptureException(err)
+				println(err.Error())
+				continue
+			}
+
+			editors = append(editors, *partial)
+		}
+	}
+
 	return c.JSON(Response{
 		Success: true,
 		Data: PostDocumentResponse{
@@ -155,10 +171,17 @@ func Post(c *fiber.Ctx) error {
 				Expiration: document.ExpiresAt,
 			},
 			Links: Links{
-				Raw:       c.BaseURL() + "/r/" + document.ID,
-				Formatted: c.BaseURL() + "/p/" + document.ID,
+				Raw:       os.Getenv("FRONTEND_URL") + "r/" + document.ID,
+				Formatted: os.Getenv("FRONTEND_URL") + document.ID,
 			},
-			DocumentSettings: document.DocumentSettings,
+			DocumentSettings: PostDocumentSettingsResponse{
+				Language:      document.DocumentSettings.Language,
+				ImageEmbed:    document.DocumentSettings.ImageEmbed,
+				InstantDelete: document.DocumentSettings.ImageEmbed,
+				Encrypted:     document.DocumentSettings.Encrypted,
+				Public:        document.DocumentSettings.Public,
+				Editors:       &editors,
+			},
 		},
 	})
 

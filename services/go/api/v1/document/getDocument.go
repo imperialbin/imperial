@@ -5,6 +5,7 @@ import (
 	"api/utils"
 	. "api/v1/commons"
 	"errors"
+	"os"
 
 	"github.com/getsentry/sentry-go"
 	"github.com/gofiber/fiber/v2"
@@ -39,6 +40,20 @@ func Get(c *fiber.Ctx) error {
 
 	client.Model(&document).Update("views", document.Views+1)
 
+	var editors = []models.UserPartial{}
+	if document.DocumentSettings.Editors != nil {
+		for _, userID := range document.DocumentSettings.Editors {
+			partial, err := utils.GetUserPartial(userID)
+
+			if err != nil {
+				sentry.CaptureException(err)
+				continue
+			}
+
+			editors = append(editors, *partial)
+		}
+	}
+
 	return c.JSON(Response{
 		Success: true,
 		Data: PostDocumentResponse{
@@ -52,10 +67,17 @@ func Get(c *fiber.Ctx) error {
 				Expiration: document.ExpiresAt,
 			},
 			Links: Links{
-				Raw:       c.BaseURL() + "/r/" + document.ID,
-				Formatted: c.BaseURL() + "/p/" + document.ID,
+				Raw:       os.Getenv("FRONTEND_URL") + "r/" + document.ID,
+				Formatted: os.Getenv("FRONTEND_URL") + document.ID,
 			},
-			DocumentSettings: document.DocumentSettings,
+			DocumentSettings: PostDocumentSettingsResponse{
+				Language:      document.DocumentSettings.Language,
+				ImageEmbed:    document.DocumentSettings.ImageEmbed,
+				InstantDelete: document.DocumentSettings.ImageEmbed,
+				Encrypted:     document.DocumentSettings.Encrypted,
+				Public:        document.DocumentSettings.Public,
+				Editors:       &editors,
+			},
 		},
 	})
 }

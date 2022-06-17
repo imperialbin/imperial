@@ -6,16 +6,26 @@ import (
 )
 
 type PostDocumentResponse struct {
-	ID                      string              `json:"id" gorm:"primaryKey"`
-	Content                 string              `json:"content"`
-	Password                string              `json:"password,omitempty"`
-	Creator                 *models.UserPartial `json:"creator"`
-	GistURL                 *string             `json:"gist_url"`
-	Views                   int                 `json:"views"`
-	EncryptedIv             *string             `json:"encrypted_iv,omitempty"`
-	Links                   `json:"links"`
-	Timestamps              `json:"timestamps"`
-	models.DocumentSettings `json:"settings"`
+	ID               string                       `json:"id" gorm:"primaryKey"`
+	Content          string                       `json:"content"`
+	Password         string                       `json:"password,omitempty"`
+	Creator          *models.UserPartial          `json:"creator"`
+	GistURL          *string                      `json:"gist_url"`
+	Views            int                          `json:"views"`
+	EncryptedIv      *string                      `json:"encrypted_iv,omitempty"`
+	Links            Links                        `json:"links"`
+	Timestamps       Timestamps                   `json:"timestamps"`
+	DocumentSettings PostDocumentSettingsResponse `json:"settings"`
+}
+
+type PostDocumentSettingsResponse struct {
+	DocumentID    string                `json:"-" gorm:"primaryKey"`
+	Language      string                `json:"language" gorm:"default:plaintext"`
+	ImageEmbed    bool                  `json:"image_embed" gorm:"default:false"`
+	InstantDelete bool                  `json:"instant_delete" gorm:"default:false"`
+	Encrypted     bool                  `json:"encrypted" gorm:"default:false"`
+	Public        bool                  `json:"public" gorm:"default:false"`
+	Editors       *[]models.UserPartial `json:"editors"`
 }
 
 type SignupRequest struct {

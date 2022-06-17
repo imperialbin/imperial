@@ -24,9 +24,9 @@ func Delete(c *fiber.Ctx) error {
 
 	/* Find document */
 	var client = utils.GetDB()
-	var document models.Document
 
-	if result := client.First(&document, "id = ?", id); result.Error != nil {
+	var document models.Document
+	if result := client.Preload("DocumentSettings").First(&document, "id = ?", id); result.Error != nil {
 		if errors.Is(result.Error, gorm.ErrRecordNotFound) {
 			return c.Status(404).JSON(commons.Response{
 				Success: false,
@@ -48,7 +48,8 @@ func Delete(c *fiber.Ctx) error {
 		})
 	}
 
-	if result := client.Delete(&document); result.Error != nil {
+	if result := client.Select("DocumentSettings").Delete(&document); result.Error != nil {
+		println(result.Error.Error())
 		sentry.CaptureException(result.Error)
 		return c.Status(500).JSON(commons.Response{
 			Success: false,

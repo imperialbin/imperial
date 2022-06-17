@@ -21,7 +21,7 @@ func ScreenshotDocument(documentID string, userFlag int) {
 		quality = 90
 	}
 
-	if err := chromedp.Run(ctx, fullScreenshot(os.Getenv("SCREENSHOT_URI")+documentID+"?noNav=true", quality, &buf)); err != nil {
+	if err := chromedp.Run(ctx, fullScreenshot(os.Getenv("FRONTEND_URL")+documentID+"?noNav=true", quality, &buf)); err != nil {
 		sentry.CaptureException(err)
 
 		return
