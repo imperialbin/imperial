@@ -30,7 +30,6 @@ export const addNotification = (notification: Omit<Notification, "id">) => {
 };
 
 export const removeNotification = (id: string) => {
-  console.log(id);
   return {
     type: "REMOVE_NOTIFICATION",
     payload: { id },
