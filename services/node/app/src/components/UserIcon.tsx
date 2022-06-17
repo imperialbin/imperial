@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Image from "next/image";
-import { forwardRef } from "react";
+import { forwardRef, CSSProperties } from "react";
 
 const Icon = styled(Image)<{ pointer?: boolean }>`
   position: relative;
@@ -13,16 +13,11 @@ export interface IUserIconProps {
   width?: number;
   height?: number;
   pointer?: boolean;
-  margin?: string;
+  style?: CSSProperties;
 }
 export const UserIcon = forwardRef<HTMLDivElement, IUserIconProps>(
-  ({ URL, width = 52, height = 52, pointer, margin }, ref) => (
-    <div
-      ref={ref}
-      style={{
-        margin: margin ? margin : "initial",
-      }}
-    >
+  ({ URL, width = 52, height = 52, pointer, ...rest }, ref) => (
+    <div ref={ref} {...rest}>
       <Icon
         width={width}
         pointer={pointer}
