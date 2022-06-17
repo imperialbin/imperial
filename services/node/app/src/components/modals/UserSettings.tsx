@@ -1,9 +1,4 @@
-/* 
-For anyone looking at this component im so sorry and i hope you recover from looking at it
-*/
-
-/* eslint-disable no-console */
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import Link from "next/link";
 import {
   ArrowLeft,
@@ -14,22 +9,24 @@ import {
   RefreshCw,
   Trash,
   Unlock,
+  X,
 } from "react-feather";
 import styled, { useTheme } from "styled-components";
+import dayjs from "dayjs";
+import calender from "dayjs/plugin/calendar";
+import updateLocale from "dayjs/plugin/updateLocale";
+import { connect, ConnectedProps } from "react-redux";
+
 import Input from "../Input";
 import { UserIcon } from "../UserIcon";
 import { Tooltip } from "../Tooltip";
 import { useRecentDocuments } from "../../hooks/useRecentDocuments";
 import { request } from "../../utils/Request";
-import { updateUserSettings } from "../../utils/updateUserSettings";
-import dayjs from "dayjs";
-import calender from "dayjs/plugin/calendar";
-import updateLocale from "dayjs/plugin/updateLocale";
 import { ImperialState } from "../../../state/reducers";
-import { connect, ConnectedProps } from "react-redux";
-import { closeModal, setUser } from "../../../state/actions";
+import { addNotification, closeModal, setUser } from "../../../state/actions";
 import Setting from "../Setting";
 import Header from "./components/Header";
+import { SelfUser, UserSettings } from "../../types";
 
 const Wrapper = styled.div`
   position: relative;
@@ -42,8 +39,9 @@ const Wrapper = styled.div`
   min-height: 200px;
   height: 50%;
   max-height: 80%;
-  border-radius: 12px;
   background: ${({ theme }) => theme.background.lightestOfTheBunch};
+  border-radius: 10px;
+  overflow: hidden;
 `;
 
 const Container = styled.div`
@@ -69,7 +67,8 @@ const UserOverview = styled.div`
 `;
 
 const Subtitle = styled.h1`
-  font-size: 1.2em;
+  font-size: 1.4em;
+  margin: 10px 0;
   color: ${({ theme }) => theme.text.light};
 `;
 
@@ -79,12 +78,14 @@ const UserInfo = styled.div`
 `;
 
 const Username = styled.span`
-  font-size: 1.55em;
+  font-size: 1.5em;
+  font-weight: 600;
   color: ${({ theme }) => theme.text.light};
 `;
 
 const UserID = styled.span`
-  font-size: 1em;
+  font-size: 1.25em;
+  font-weight: 400;
   opacity: 0.6;
   color: ${({ theme }) => theme.text.dark};
 `;
@@ -99,6 +100,7 @@ const Tiles = styled.div`
   width: 100%;
   display: flex;
   flex-wrap: wrap;
+  margin-bottom: 20px;
 `;
 
 const Tile = styled.div`
@@ -106,10 +108,12 @@ const Tile = styled.div`
   position: relative;
   display: flex;
   align-items: center;
+  justify-content: center;
   padding: 13px 10px;
   margin: 10px;
-  min-height: 47px;
+  min-height: 73px;
   border-radius: 8px;
+  flex: 1;
   font-size: 1.2em;
   color: ${({ theme }) => theme.text.light};
   background: ${({ theme }) => theme.background.lightestOfTheBunch};
@@ -143,7 +147,6 @@ const TitleInfo = styled.p`
   font-size: 0.8em;
   opacity: 0.6;
   margin: 0;
-  padding-right: 10px;
   color: ${({ theme }) => theme.text.dark};
 `;
 
@@ -161,6 +164,15 @@ const Btn = styled.button<{ backgroundColor?: string }>`
   box-shadow: 0px 0px 13px rgba(0, 0, 0, 0.25);
   transition: all 0.2s ease-in-out;
 
+  &:disabled {
+    opacity: 0.5;
+    cursor: initial;
+
+    &:hover {
+      opacity: 0.5;
+    }
+  }
+
   &:hover {
     opacity: 1;
   }
@@ -171,48 +183,65 @@ const NotFoundSpan = styled.span`
   color: ${({ theme }) => theme.text.dark};
 `;
 
-interface EmailState {
-  newEmail: string;
-  emailError: string | null;
-  emailSuccess: boolean;
-}
-
-interface PasswordState {
-  currentPassword: string;
-  newPassword: string;
-  confirmPassword: string;
-  passwordError: string | null;
-  passwordSuccess: boolean;
-}
+dayjs.extend(calender);
+dayjs.extend(updateLocale);
+dayjs.updateLocale("en", {
+  calendar: {
+    lastDay: "[Yesterday]",
+    sameDay: "[Today]",
+    nextDay: "[Tomorrow]",
+    lastWeek: "[last] dddd",
+    nextWeek: "[next week]",
+  },
+});
 
 const UserSettings = ({ user, dispatch }: ReduxProps): JSX.Element => {
   const theme = useTheme();
   const { documents, isError: documentsError } = useRecentDocuments();
-  const [iconValue, setIconValue] = useState("");
-  const [email, setEmail] = useState<EmailState>({
-    emailError: null,
-    emailSuccess: false,
-    newEmail: "",
-  });
-  const [password, setPassword] = useState<PasswordState>({
-    currentPassword: "",
-    newPassword: "",
-    confirmPassword: "",
-    passwordError: null,
-    passwordSuccess: false,
-  });
 
-  dayjs.extend(calender);
-  dayjs.extend(updateLocale);
-  dayjs.updateLocale("en", {
-    calendar: {
-      lastDay: "[Yesterday]",
-      sameDay: "[Today]",
-      nextDay: "[Tomorrow]",
-      lastWeek: "[last] dddd",
-      nextWeek: "[next week]",
+  const [iconValue, setIconValue] = useState("");
+  const [email, setEmail] = useState("");
+
+  const [password, setPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const patchUser = useCallback(
+    async <T extends keyof UserSettings>(
+      setting: T,
+      value: UserSettings[T],
+    ) => {
+      const { success, error, data } = await request<{ user: SelfUser }>(
+        "/users/@me",
+        "PATCH",
+        {
+          settings: {
+            [setting]: value,
+          },
+        },
+      );
+
+      if (!success || !data)
+        return dispatch(
+          addNotification({
+            icon: <X />,
+            message: error?.message ?? "An unknown error occurred",
+            type: "error",
+          }),
+        );
+
+      dispatch(
+        addNotification({
+          icon: <Check />,
+          message: "Successfully updated user settings",
+          type: "success",
+        }),
+      );
+
+      dispatch(setUser(data.user));
     },
-  });
+    [],
+  );
 
   return (
     <Wrapper>
@@ -222,10 +251,10 @@ const UserSettings = ({ user, dispatch }: ReduxProps): JSX.Element => {
           <Overview>
             <UserOverview>
               <UserIcon
-                URL={user.icon}
-                width={60}
-                height={60}
-                margin="0 15px 0 0"
+                URL={user.icon ?? "/img/pfp.png"}
+                width={70}
+                height={70}
+                style={{ margin: "0 15px 0 0" }}
               />
               <UserInfo>
                 <Username>{user.username}</Username>
@@ -237,7 +266,7 @@ const UserSettings = ({ user, dispatch }: ReduxProps): JSX.Element => {
                 {user.documents_made}
                 <TitleInfo>Documents made</TitleInfo>
               </Tile>
-              <Link href="/link/discord" passHref={true}>
+              <Link href="/link/discord" passHref>
                 <Tile style={{ cursor: "pointer" }}>
                   <TileIcon src="/img/discord.svg" />
                   <TitleInfo style={{ fontSize: "1em" }}>
@@ -245,7 +274,7 @@ const UserSettings = ({ user, dispatch }: ReduxProps): JSX.Element => {
                   </TitleInfo>
                 </Tile>
               </Link>
-              <Link href="/" passHref={true}>
+              <Link href="/" passHref>
                 <Tile style={{ cursor: "pointer" }}>
                   <TileIcon src="/img/github.svg" />
                   <TitleInfo style={{ fontSize: "1em" }}>
@@ -312,7 +341,7 @@ const UserSettings = ({ user, dispatch }: ReduxProps): JSX.Element => {
               </Tiles>
             </Tiles>
             <br />
-            <Link href="/logout" passHref={true}>
+            <Link href="/logout" passHref>
               <Btn
                 backgroundColor={theme.background.lightestOfTheBunch}
                 style={{
@@ -337,87 +366,86 @@ const UserSettings = ({ user, dispatch }: ReduxProps): JSX.Element => {
               placeholder="GitHub username"
               icon={<Check size={18} />}
               value={user.icon
-                .match(/[^/]*.png/g)
+                ?.match(/[^/]*.png/g)
                 ?.toString()
                 .replace(".png", "")}
               iconHoverColor={theme.system.success}
-              hideIconUntilDifferent={true}
               tooltipTitle="Update icon"
               onChange={(e) => setIconValue(e.target.value)}
               iconClick={async () => {
-                const { data, error } = await request(
-                  "/user/@me/icon",
-                  "PATCH",
-                  {
-                    method: "github",
-                    url: `https://github.com/${iconValue}.png`,
-                  },
-                );
+                const { data, error, success } = await request<{
+                  user: SelfUser;
+                }>("/users/@me", "PATCH", {
+                  icon: `https://github.com/${iconValue}.png`,
+                });
 
-                if (error && !data) {
-                  return console.log(
-                    "There was an error whilst editing document settings!",
+                if (!success || !data)
+                  return dispatch(
+                    addNotification({
+                      icon: <X />,
+                      message:
+                        error?.message ??
+                        "An unknown error occurred whilst saving your icon.",
+                      type: "error",
+                    }),
                   );
-                }
 
-                dispatch(setUser(data));
+                dispatch(
+                  addNotification({
+                    icon: <Check />,
+                    message: "Successfully changes your icon",
+                    type: "success",
+                  }),
+                );
+                dispatch(setUser(data.user));
               }}
+              hideIconUntilDifferent
             />
-            {email.emailError ? (
-              <p style={{ color: theme.system.error }}>{email.emailError}</p>
-            ) : null}
-            {email.emailSuccess ? (
-              <p style={{ color: theme.system.success }}>
-                Successfully changed your email!
-              </p>
-            ) : null}
             <Input
               label="Email"
               placeholder="Your email"
               value={user.email}
-              onChange={(e) => {
-                setEmail({
-                  newEmail: e.target.value,
-                  emailSuccess: false,
-                  emailError: null,
-                });
-              }}
+              onChange={(e) => setEmail(e.target.value)}
               icon={<Edit size={18} />}
-              hideIconUntilDifferent={true}
               iconHoverColor={theme.system.success}
               tooltipTitle="Update email"
               iconClick={async () => {
-                if (!/^\S+@\S+\.\S+$/.test(email.newEmail)) {
-                  return setEmail({
-                    ...email,
-                    emailError: "Invalid email!",
-                    emailSuccess: false,
-                  });
-                }
+                if (!/^\S+@\S+\.\S+$/.test(email))
+                  return dispatch(
+                    addNotification({
+                      icon: <X />,
+                      message: "Invalid email!",
+                      type: "error",
+                    }),
+                  );
 
-                const { data, error } = await request(
-                  "/user/@me/email",
+                const { data, error } = await request<{ user: SelfUser }>(
+                  "/users/@me",
                   "PATCH",
                   {
-                    newEmail: email.newEmail,
+                    email,
                   },
                 );
 
-                if (error)
-                  return setEmail({
-                    ...email,
-                    emailError: error.message,
-                    emailSuccess: false,
-                  });
+                if (error || !data)
+                  return dispatch(
+                    addNotification({
+                      icon: <X />,
+                      message: "An error occurred whilst changing your email.",
+                      type: "error",
+                    }),
+                  );
 
-                setEmail({
-                  ...email,
-                  emailError: null,
-                  emailSuccess: true,
-                });
-
-                dispatch(setUser(data));
+                dispatch(
+                  addNotification({
+                    icon: <Check />,
+                    message: "Successfully changed your email.",
+                    type: "success",
+                  }),
+                );
+                dispatch(setUser(data.user));
               }}
+              hideIconUntilDifferent
             />
             <Tooltip title="Click to copy API Token" position="bottom">
               <Input
@@ -425,23 +453,33 @@ const UserSettings = ({ user, dispatch }: ReduxProps): JSX.Element => {
                 placeholder="API Token"
                 value={user.api_token}
                 icon={<RefreshCw size={18} />}
-                secretValue={true}
                 iconClick={async () => {
-                  const { data, error } = await request(
+                  const { data, error } = await request<{ token: string }>(
                     "/user/@me/regenAPIToken",
                     "POST",
                   );
 
-                  if (error && !data) {
-                    return console.log(
-                      "There was an error whilst editing document settings!",
+                  if (error || !data)
+                    return dispatch(
+                      addNotification({
+                        icon: <X />,
+                        message:
+                          "An error occurred whilst regenerating your API token.",
+                        type: "error",
+                      }),
                     );
-                  }
 
-                  console.log(data);
-                  dispatch(setUser(data));
+                  dispatch(
+                    addNotification({
+                      icon: <Check />,
+                      message: "Successfully regenerated your API Token",
+                      type: "success",
+                    }),
+                  );
+                  dispatch(setUser({ ...user, api_token: data.token }));
                 }}
-                inputDisabled={true}
+                secretValue
+                inputDisabled
               />
             </Tooltip>
             <br />
@@ -449,171 +487,73 @@ const UserSettings = ({ user, dispatch }: ReduxProps): JSX.Element => {
             <Setting
               title="Clipboard"
               type="switch"
-              onToggle={async () => {
-                const { data, error } = await updateUserSettings({
-                  clipboard: !user.settings.clipboard,
-                });
-
-                if (error && !data) {
-                  return console.log(
-                    "There was an error whilst editing document settings!",
-                  );
-                }
-
-                dispatch(setUser(data));
-              }}
+              onToggle={() => patchUser("clipboard", !user.settings.clipboard)}
               toggled={user.settings.clipboard}
               description="Let IMPERIAL automatically paste your clipboard."
             />
             <Setting
               title="Longer URLs"
               type="switch"
-              onToggle={async () => {
-                const { data, error } = await updateUserSettings({
-                  longUrls: !user.settings.long_urls,
-                });
-
-                if (error && !data) {
-                  return console.log(
-                    "There was an error whilst editing document settings!",
-                  );
-                }
-
-                dispatch(setUser(data));
-              }}
+              onToggle={() => patchUser("long_urls", !user.settings.long_urls)}
               toggled={user.settings.long_urls}
               description="Create 32 character URLs."
             />
             <Setting
               title="Short URLs"
               type="switch"
-              onToggle={async () => {
-                const { data, error } = await updateUserSettings({
-                  shortUrls: !user.settings.short_urls,
-                });
-
-                if (error && !data) {
-                  return console.log(
-                    "There was an error whilst editing document settings!",
-                  );
-                }
-
-                dispatch(setUser(data));
-              }}
+              onToggle={() =>
+                patchUser("short_urls", !user.settings.short_urls)
+              }
               toggled={user.settings.short_urls}
               description="Create 4 character URLs."
             />
             <Setting
               title="Instant Delete"
               type="switch"
-              onToggle={async () => {
-                const { data, error } = await updateUserSettings({
-                  instantDelete: !user.settings.instant_delete,
-                });
-
-                if (error && !data) {
-                  return console.log(
-                    "There was an error whilst editing document settings!",
-                  );
-                }
-
-                dispatch(setUser(data));
-              }}
+              onToggle={() =>
+                patchUser("instant_delete", !user.settings.instant_delete)
+              }
               toggled={user.settings.instant_delete}
               description="Instantly delete the document after being viewed."
             />
             <Setting
               title="Encrypted"
               type="switch"
-              onToggle={async () => {
-                const { data, error } = await updateUserSettings({
-                  encrypted: !user.settings.encrypted,
-                });
-
-                if (error && !data) {
-                  return console.log(
-                    "There was an error whilst editing document settings!",
-                  );
-                }
-
-                dispatch(setUser(data));
-              }}
+              onToggle={() => patchUser("encrypted", !user.settings.encrypted)}
               toggled={user.settings.encrypted}
               description="Encrypt documents with AES256 encryption."
             />
             <Setting
               title="Image Embed"
               type="switch"
-              onToggle={async () => {
-                const { data, error } = await updateUserSettings({
-                  imageEmbed: !user.settings.image_embed,
-                });
-
-                if (error && !data) {
-                  return console.log(
-                    "There was an error whilst editing document settings!",
-                  );
-                }
-
-                dispatch(setUser(data));
-              }}
+              onToggle={() =>
+                patchUser("image_embed", !user.settings.image_embed)
+              }
               toggled={user.settings.image_embed}
               description="Have a sneak peak at a document's content with Open Graph embeds"
             />
             <Setting
               title="Font Ligatures"
               type="switch"
-              onToggle={async () => {
-                const { data, error } = await updateUserSettings({
-                  fontLigatures: !user.settings.font_ligatures,
-                });
-
-                if (error && !data) {
-                  return console.log(
-                    "There was an error whilst editing document settings!",
-                  );
-                }
-
-                dispatch(setUser(data));
-              }}
+              onToggle={() =>
+                patchUser("font_ligatures", !user.settings.font_ligatures)
+              }
               toggled={user.settings.font_ligatures}
               description="When enabled, the editor will have font ligatures"
             />
             <Setting
               title="White Space"
               type="switch"
-              onToggle={async () => {
-                const { data, error } = await updateUserSettings({
-                  renderWhitespace: !user.settings.render_whitespace,
-                });
-
-                if (error && !data) {
-                  return console.log(
-                    "There was an error whilst editing document settings!",
-                  );
-                }
-
-                dispatch(setUser(data));
-              }}
+              onToggle={() =>
+                patchUser("render_whitespace", !user.settings.render_whitespace)
+              }
               toggled={user.settings.render_whitespace}
               description="When enabled, the editor will render white space."
             />
             <Setting
               title="Word Wrapping"
               type="switch"
-              onToggle={async () => {
-                const { data, error } = await updateUserSettings({
-                  wordWrap: !user.settings.word_wrap,
-                });
-
-                if (error && !data) {
-                  return console.log(
-                    "There was an error whilst editing document settings!",
-                  );
-                }
-
-                dispatch(setUser(data));
-              }}
+              onToggle={() => patchUser("word_wrap", !user.settings.word_wrap)}
               toggled={user.settings.word_wrap}
               description="When enabled, the editor will wrap instead of enabling overflow."
             />
@@ -623,19 +563,9 @@ const UserSettings = ({ user, dispatch }: ReduxProps): JSX.Element => {
               initialValue={user.settings.font_size}
               mode="expiration"
               numberLimit={18}
-              onToggle={async (e) => {
-                const { data, error } = await updateUserSettings({
-                  fontSize: Number(e?.target.value),
-                });
-
-                if (error && !data) {
-                  return console.log(
-                    "There was an error whilst editing document settings!",
-                  );
-                }
-
-                dispatch(setUser(data));
-              }}
+              onToggle={(e) =>
+                patchUser("font_size", parseInt(e?.target.value ?? "12"))
+              }
               description="Change font size of the editor!"
             />
             <Setting
@@ -644,19 +574,9 @@ const UserSettings = ({ user, dispatch }: ReduxProps): JSX.Element => {
               initialValue={user.settings.tab_size}
               mode="expiration"
               numberLimit={8}
-              onToggle={async (e) => {
-                const { data, error } = await updateUserSettings({
-                  tabSize: Number(e?.target.value),
-                });
-
-                if (error && !data) {
-                  return console.log(
-                    "There was an error whilst editing document settings!",
-                  );
-                }
-
-                dispatch(setUser(data));
-              }}
+              onToggle={(e) =>
+                patchUser("tab_size", parseInt(e?.target.value ?? "2"))
+              }
               description="How big do you want your tabs?"
             />
             <Setting
@@ -664,44 +584,17 @@ const UserSettings = ({ user, dispatch }: ReduxProps): JSX.Element => {
               type="dropdown"
               initialValue={user.settings.expiration ?? 0}
               mode="expiration"
-              onToggle={async (e) => {
-                const { data, error } = await updateUserSettings({
-                  expiration: Number(e?.target.value),
-                });
-
-                if (error && !data) {
-                  return console.log(
-                    "There was an error whilst editing document settings!",
-                  );
-                }
-
-                dispatch(setUser(data));
-              }}
+              onToggle={(e) =>
+                patchUser("expiration", parseInt(e?.target.value ?? "7"))
+              }
               description="How long (in days) a document takes to delete."
             />
             <br />
             <Subtitle>Reset password</Subtitle>
-            {password.passwordError ? (
-              <p style={{ color: theme.system.error }}>
-                {password.passwordError}
-              </p>
-            ) : null}
-            {password.passwordSuccess ? (
-              <p style={{ color: theme.system.success }}>
-                Successfully reset your password!
-              </p>
-            ) : null}
             <Input
               label="Current password"
               placeholder="Enter your current password"
-              onChange={(e) =>
-                setPassword({
-                  ...password,
-                  currentPassword: e.target.value,
-                  passwordSuccess: false,
-                  passwordError: null,
-                })
-              }
+              onChange={(e) => setPassword(e.target.value)}
               icon={<Unlock size={18} />}
               iconClick={() => null}
               type="password"
@@ -710,14 +603,7 @@ const UserSettings = ({ user, dispatch }: ReduxProps): JSX.Element => {
               label="New password"
               placeholder="Enter your new password"
               icon={<Lock size={18} />}
-              onChange={(e) =>
-                setPassword({
-                  ...password,
-                  newPassword: e.target.value,
-                  passwordSuccess: false,
-                  passwordError: null,
-                })
-              }
+              onChange={(e) => setNewPassword(e.target.value)}
               iconClick={() => null}
               type="password"
             />
@@ -725,64 +611,67 @@ const UserSettings = ({ user, dispatch }: ReduxProps): JSX.Element => {
               label="Confirm password"
               placeholder="Re-enter new password."
               icon={<Lock size={18} />}
-              onChange={(e) =>
-                setPassword({
-                  ...password,
-                  confirmPassword: e.target.value,
-                  passwordSuccess: false,
-                  passwordError: null,
-                })
-              }
+              onChange={(e) => setConfirmPassword(e.target.value)}
               iconClick={() => null}
               type="password"
             />
             <Btn
               onClick={async () => {
-                if (password.newPassword !== password.confirmPassword)
-                  return setPassword({
-                    ...password,
-                    passwordSuccess: false,
-                    passwordError:
-                      "Your new password does not match confirm password!",
-                  });
+                if (newPassword !== confirmPassword)
+                  return dispatch(
+                    addNotification({
+                      icon: <X />,
+                      message:
+                        "Your new password does not match confirm password",
+                      type: "error",
+                    }),
+                  );
 
                 if (
-                  password.newPassword.length < 8 ||
-                  password.confirmPassword.length < 8 ||
-                  password.currentPassword.length < 8
+                  newPassword.length < 8 ||
+                  confirmPassword.length < 8 ||
+                  password.length < 8
                 )
-                  return setPassword({
-                    ...password,
-                    passwordSuccess: false,
-                    passwordError:
-                      "A password you provided isn't 8 characters!",
-                  });
+                  return dispatch(
+                    addNotification({
+                      icon: <X />,
+                      message: "Password is not 8 characters long!",
+                      type: "error",
+                    }),
+                  );
 
                 const { error } = await request(
-                  "/auth/resetInClient",
+                  "/auth/reset_password",
                   "PATCH",
                   {
-                    currentPassword: password.currentPassword,
-                    newPassword: password.newPassword,
-                    confirmPassword: password.confirmPassword,
+                    password: password,
+                    new_password: newPassword,
+                    confirm_password: confirmPassword,
                   },
                 );
 
                 if (error)
-                  return setPassword({
-                    ...password,
-                    passwordSuccess: false,
-                    passwordError: error.message,
-                  });
+                  return dispatch(
+                    addNotification({
+                      icon: <X />,
+                      message: error.message,
+                      type: "error",
+                    }),
+                  );
 
-                setPassword({
-                  confirmPassword: "",
-                  currentPassword: "",
-                  newPassword: "",
-                  passwordSuccess: true,
-                  passwordError: null,
-                });
+                return dispatch(
+                  addNotification({
+                    icon: <X />,
+                    message: "Successfully changed your password.",
+                    type: "success",
+                  }),
+                );
               }}
+              disabled={
+                newPassword.length === 0 ||
+                password.length === 0 ||
+                confirmPassword.length === 0
+              }
             >
               Reset password
             </Btn>
