@@ -10,22 +10,26 @@ import { closeModal } from "../../state/actions";
 import UserSettings from "./modals/UserSettings";
 
 const Wrapper = styled(motion.div)`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
+  top: 0;
+  left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 9999;
-  color: white;
+  position: fixed;
+  z-index: 900;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   background: rgba(0, 0, 0, 0.3);
 `;
+
 const Container = styled(motion.div)`
   width: 100%;
   height: 100%;
   display: flex;
-  align-items: center;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
 `;
 
 const WrapperAnimation = {
@@ -53,6 +57,18 @@ const MODAL_MAP = {
 };
 
 export type Modals = keyof typeof MODAL_MAP; // 💀💀💀💀
+type GetComponentProps<T> = T extends
+  | React.ComponentType<infer P>
+  | React.Component<infer P>
+  ? P
+  : never;
+export type ModalData<T extends Modals> = GetComponentProps<
+  typeof MODAL_MAP[T]
+> extends {
+  data: unknown;
+}
+  ? GetComponentProps<typeof MODAL_MAP[T]>["data"]
+  : Record<string, never> | never;
 
 const ModalManager = ({ modal, dispatch }: ReduxProps) => {
   const modalRef = useRef<HTMLDivElement | null>(null);
