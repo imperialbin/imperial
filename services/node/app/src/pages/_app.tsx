@@ -1,15 +1,17 @@
 import "react-tippy/dist/tippy.css";
 import type { AppProps } from "next/app";
-import { createGlobalStyle, ThemeProvider } from "styled-components";
-import { DarkTheme } from "../utils/Theme";
-import { Provider } from "react-redux";
-import { store } from "../../state";
-import { SkeletonTheme } from "react-loading-skeleton";
-import ModalManager from "../components/ModalManager";
 import { useEffect } from "react";
-import { fetchMe } from "../utils/FetchMe";
+import { createGlobalStyle, ThemeProvider } from "styled-components";
+import { Provider } from "react-redux";
 import { SWRConfig } from "swr";
+import { SkeletonTheme } from "react-loading-skeleton";
+
+import { store } from "../../state";
+import { DarkTheme } from "../utils/Theme";
+import { fetchMe } from "../utils/FetchMe";
+import ModalManager from "../components/ModalManager";
 import Notifications from "../components/Notifications";
+import DragandDrop from "../components/DragandDrop";
 
 const GlobalStyle = createGlobalStyle`
  *, *:before, *:after {
@@ -65,6 +67,7 @@ function Imperial({ Component, pageProps }: AppProps) {
         }}
       >
         <Provider store={store}>
+          <DragandDrop />
           <Notifications />
           <ModalManager />
           <GlobalStyle />
