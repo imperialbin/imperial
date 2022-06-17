@@ -2,8 +2,8 @@ import Image from "next/image";
 import { useState } from "react";
 import styled from "styled-components";
 import { store } from "../../../state";
-import { closeModal, openModal } from "../../../state/actions";
-import { Lock, User } from "react-feather";
+import { addNotification, closeModal, openModal } from "../../../state/actions";
+import { Lock, User, X } from "react-feather";
 import Input from "../Input";
 import { request } from "../../utils/Request";
 import Header from "./components/Header";
@@ -98,7 +98,7 @@ const Error = styled.span`
 const Btn = styled.button`
   border: none;
   border-radius: 5px;
-  margin-top: 8px;
+  margin-top: 5px;
   padding: 10px 15px;
   font-size: 0.9em;
   cursor: pointer;
@@ -130,23 +130,41 @@ const Login = () => {
 
     if (!username) {
       setLoading(false);
-      return setError("You need to have a username");
+      return store.dispatch(
+        addNotification({
+          icon: <X />,
+          message: "Please provide a username",
+          type: "error",
+        }),
+      );
     }
 
     if (!password) {
       setLoading(false);
-      return setError("You need to have a password");
+      return store.dispatch(
+        addNotification({
+          icon: <X />,
+          message: "Please provide a password",
+          type: "error",
+        }),
+      );
     }
 
-    const { error, success } = await request("/auth/login", "POST", {
+    const { success, message, error } = await request("/auth/login", "POST", {
       username,
       password,
     });
 
-    if (!success && error) {
-      setLoading(false);
-      return setError(error.message);
-    }
+    setLoading(false);
+
+    if (!success && error)
+      return store.dispatch(
+        addNotification({
+          icon: <X />,
+          message: error.message,
+          type: "error",
+        }),
+      );
 
     setError(null);
     fetchMe();
@@ -176,12 +194,6 @@ const Login = () => {
           </BtnContainer>
         </Left>
         <Right>
-          {error ? (
-            <>
-              <br />
-              <Error>{error}</Error>
-            </>
-          ) : null}
           <Subtitle>Welcome back!</Subtitle>
           <Container onSubmit={submit}>
             <Input
