@@ -82,6 +82,10 @@ func PatchDocument(c *fiber.Ctx) error {
 			partial, err := utils.GetUserPartial(userID)
 
 			if err != nil {
+				if errors.Is(err, gorm.ErrRecordNotFound) {
+					continue
+				}
+
 				sentry.CaptureException(err)
 				continue
 			}

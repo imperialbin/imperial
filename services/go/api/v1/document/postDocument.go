@@ -5,12 +5,14 @@ import (
 	"api/utils"
 	. "api/v1/commons"
 	"encoding/json"
+	"errors"
 	"os"
 	"time"
 
 	"github.com/creasty/defaults"
 	"github.com/getsentry/sentry-go"
 	"github.com/gofiber/fiber/v2"
+	"gorm.io/gorm"
 )
 
 func Post(c *fiber.Ctx) error {
@@ -148,8 +150,11 @@ func Post(c *fiber.Ctx) error {
 			partial, err := utils.GetUserPartial(userID)
 
 			if err != nil {
+				if errors.Is(err, gorm.ErrRecordNotFound) {
+					continue
+				}
+
 				sentry.CaptureException(err)
-				println(err.Error())
 				continue
 			}
 
