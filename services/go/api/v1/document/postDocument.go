@@ -137,6 +137,10 @@ func Post(c *fiber.Ctx) error {
 		creatorPartial.DocumentsMade = creatorPartial.DocumentsMade + 1
 	}
 
+	if document.DocumentSettings.ImageEmbed {
+		go utils.ScreenshotDocument(document.ID, user.Flags)
+	}
+
 	return c.JSON(Response{
 		Success: true,
 		Data: PostDocumentResponse{
