@@ -20,10 +20,11 @@ const Wrapper = styled(motion.div)`
   flex-direction: row;
   top: 0;
   right: 0;
-  z-index: 500;
+  z-index: 100;
   background: ${({ theme }) => theme.background.darkest};
   color: ${({ theme }) => theme.text.light};
   border-bottom-left-radius: 15px;
+  padding: 0 15px;
   box-shadow: 0px 0px 6px 3px rgb(0 0 0 / 25%);
 `;
 
@@ -36,14 +37,15 @@ const HideNavContainer = styled(motion.div)`
   position: absolute;
   display: flex;
   align-items: center;
+  left: 0;
   padding: 0 5px;
   width: 25px;
   height: 100%;
   overflow: hidden;
   border-bottom-left-radius: 15px;
   opacity: 0;
-  transition: all 0.15s ease-in-out;
   cursor: pointer;
+  transition: all 0.15s ease-in-out;
 
   &:hover {
     background: ${({ theme }) => theme.background.lightestOfTheBunch};
@@ -59,7 +61,7 @@ const BrandContainer = styled(motion.div)`
 const Brand = styled.h1`
   text-align: center;
   margin-top: 20px;
-  font-size: 1.1em;
+  font-size: 1.3em;
 `;
 
 const DocumentID = styled(motion.h1)`
@@ -90,6 +92,10 @@ const Btn = styled.button`
 
 const StyledTooltip = styled(Tooltip)`
   margin: 0 10px;
+`;
+
+const StyledUserIcon = styled(UserIcon)`
+  margin-left: 20px;
 `;
 
 const navAnimation = {
@@ -129,7 +135,7 @@ const Nav = ({ user, document }: INavProps) => {
 
     const language = window.monaco.editor.getModels()[0].getLanguageId();
 
-    const { success, data, error } = await request("/document", "POST", {
+    const { success, data } = await request("/document", "POST", {
       content,
       settings: {
         long_urls: user ? user.settings.long_urls : false,
@@ -238,9 +244,10 @@ const Nav = ({ user, document }: INavProps) => {
           <Popover
             active={userPopover}
             render={(defaults) => <UserPopover {...defaults} />}
+            placement="bottom-end"
             setPopover={setUserPopover}
           >
-            <UserIcon URL={user ? user.icon : "/img/pfp.png"} pointer />
+            <StyledUserIcon URL={user ? user.icon : "/img/pfp.png"} pointer />
           </Popover>
         </Buttons>
       </Container>
