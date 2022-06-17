@@ -9,10 +9,14 @@ import ModalManager from "../components/ModalManager";
 import { useEffect } from "react";
 import { fetchMe } from "../utils/FetchMe";
 import { SWRConfig } from "swr";
+import Notifications from "../components/Notifications";
 
 const GlobalStyle = createGlobalStyle`
  *, *:before, *:after {
   font-family: 'Manrope', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
  }
  
   html {
@@ -61,6 +65,7 @@ function Imperial({ Component, pageProps }: AppProps) {
         }}
       >
         <Provider store={store}>
+          <Notifications />
           <ModalManager />
           <GlobalStyle />
           <SkeletonTheme
