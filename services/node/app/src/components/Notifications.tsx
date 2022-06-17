@@ -19,16 +19,18 @@ const Wrapper = styled.div`
 
 const NotificationWrapper = styled(motion.div)<{ type: NotificationType }>`
   display: flex;
+  align-items: center;
   border-radius: 10px;
   padding: 10px 15px;
   max-width: 280px;
+  min-height: 50px;
   margin: 10px 0;
   cursor: pointer;
   background: ${({ theme }) => theme.background.lightestOfTheBunch};
 
   svg {
-    align-self: center;
-    width: 40px;
+    height: auto;
+    width: 35px;
     margin-right: 15px;
     color ${({ theme, type }) => theme.system[type]}
   }
