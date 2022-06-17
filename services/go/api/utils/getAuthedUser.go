@@ -27,7 +27,7 @@ func GetAuthedUser(c *fiber.Ctx) (*models.User, error) {
 					return nil, nil
 				}
 
-				sentry.CaptureException(err)
+				sentry.CaptureException(result.Error)
 				return nil, nil
 			}
 
