@@ -18,7 +18,7 @@ import (
 )
 
 const (
-	API_RELEASE = "api@0.0.1"
+	API_RELEASE = "api@0.0.2"
 )
 
 func setupRoutes(app *fiber.App) {
