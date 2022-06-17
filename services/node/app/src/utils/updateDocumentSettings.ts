@@ -20,7 +20,7 @@ export const updateDocumentSettings = async (
   document: Document,
   setting: Setting,
 ): Promise<Response> => {
-  const { data, error } = await request("/document", "PATCH", {
+  const { data, error } = await request("PATCH", "/document", {
     id: document.id,
     settings: setting,
   });

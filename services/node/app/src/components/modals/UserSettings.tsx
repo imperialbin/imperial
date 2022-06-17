@@ -213,8 +213,8 @@ const UserSettings = ({ user, dispatch }: ReduxProps): JSX.Element => {
       value: UserSettings[T],
     ) => {
       const { success, error, data } = await request<{ user: SelfUser }>(
-        "/users/@me",
         "PATCH",
+        "/users/@me",
         {
           settings: {
             [setting]: value,
@@ -279,7 +279,7 @@ const UserSettings = ({ user, dispatch }: ReduxProps): JSX.Element => {
                   </TitleInfo>
                 </Tile>
               </Link>
-              <Link href="/" passHref>
+              <Link href="/link/github" passHref>
                 <Tile style={{ cursor: "pointer" }}>
                   <TileIcon src="/img/github.svg" />
                   <TitleInfo style={{ fontSize: "1em" }}>
@@ -380,7 +380,7 @@ const UserSettings = ({ user, dispatch }: ReduxProps): JSX.Element => {
               iconClick={async () => {
                 const { data, error, success } = await request<{
                   user: SelfUser;
-                }>("/users/@me", "PATCH", {
+                }>("PATCH", "/users/@me", {
                   icon: `https://github.com/${iconValue}.png`,
                 });
 
@@ -425,8 +425,8 @@ const UserSettings = ({ user, dispatch }: ReduxProps): JSX.Element => {
                   );
 
                 const { data, error } = await request<{ user: SelfUser }>(
-                  "/users/@me",
                   "PATCH",
+                  "/users/@me",
                   {
                     email,
                   },
@@ -460,8 +460,8 @@ const UserSettings = ({ user, dispatch }: ReduxProps): JSX.Element => {
                 icon={<RefreshCw size={18} />}
                 iconClick={async () => {
                   const { data, error } = await request<{ token: string }>(
-                    "/users/@me/regenAPIToken",
                     "POST",
+                    "/users/@me/regenAPIToken",
                   );
 
                   if (error || !data)
@@ -646,8 +646,8 @@ const UserSettings = ({ user, dispatch }: ReduxProps): JSX.Element => {
                   );
 
                 const { error } = await request(
-                  "/auth/reset_password",
                   "PATCH",
+                  "/auth/reset_password",
                   {
                     password: password,
                     new_password: newPassword,

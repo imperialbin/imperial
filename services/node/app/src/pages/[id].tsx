@@ -16,6 +16,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { query } = context;
 
   const { success, data } = await request(
+    "GET",
     `/document/${query.id}?${query?.password}`,
   );
 

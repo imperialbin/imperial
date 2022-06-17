@@ -135,7 +135,7 @@ const Nav = ({ user, document }: INavProps) => {
 
     const language = window.monaco.editor.getModels()[0].getLanguageId();
 
-    const { success, data } = await request("/document", "POST", {
+    const { success, data } = await request("POST", "/document", {
       content,
       settings: {
         long_urls: user ? user.settings.long_urls : false,
@@ -247,7 +247,7 @@ const Nav = ({ user, document }: INavProps) => {
             placement="bottom-end"
             setPopover={setUserPopover}
           >
-            <StyledUserIcon URL={user ? user.icon : "/img/pfp.png"} pointer />
+            <StyledUserIcon URL={user?.icon ?? "/img/pfp.png"} pointer />
           </Popover>
         </Buttons>
       </Container>

@@ -172,7 +172,7 @@ const Login = () => {
       );
     }
 
-    const { success, message, error } = await request("/auth/login", "POST", {
+    const { success, error } = await request("POST", "/auth/login", {
       username,
       password,
     });

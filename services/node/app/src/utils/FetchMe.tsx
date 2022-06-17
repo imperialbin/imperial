@@ -4,7 +4,8 @@ import { addNotification, setUser } from "../../state/actions";
 import { request } from "./Request";
 
 export const fetchMe = async () => {
-  const { success, data } = await request("/users/@me");
+  const { success, data } = await request("GET", "/users/@me");
+
   if (!success) {
     // remove their cookie
     return store.dispatch(

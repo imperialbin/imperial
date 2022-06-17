@@ -14,8 +14,8 @@ export interface ResponseError {
 }
 
 export const request = async <T = any>(
+  method: "GET" | "POST" | "DELETE" | "PATCH",
   endpoint: string,
-  method: "GET" | "POST" | "DELETE" | "PATCH" = "GET",
   body?: any,
 ): Promise<Response<T>> => {
   try {

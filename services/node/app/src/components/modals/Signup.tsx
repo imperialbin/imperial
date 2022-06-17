@@ -209,7 +209,7 @@ const Signup = (): JSX.Element => {
       return setError("Passwords do not match");
     }
 
-    const { success, data, error } = await request("/auth/signup", "POST", {
+    const { success, data, error } = await request("POST", "/auth/signup", {
       username,
       email,
       password,
