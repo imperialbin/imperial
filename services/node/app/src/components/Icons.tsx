@@ -1,5 +1,9 @@
 import React, { SVGProps } from "react";
 
+/* 
+  A bunch of Programming language icon
+*/
+
 export const C = (props: SVGProps<SVGSVGElement>) => (
   <svg
     stroke="currentColor"
