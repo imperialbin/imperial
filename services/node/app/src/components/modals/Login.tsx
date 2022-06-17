@@ -139,12 +139,34 @@ const Login = () => {
       );
     }
 
+    if (username.length < 3) {
+      setLoading(false);
+      return store.dispatch(
+        addNotification({
+          icon: <X />,
+          message: "Username must be 3 characters",
+          type: "error",
+        }),
+      );
+    }
+
     if (!password) {
       setLoading(false);
       return store.dispatch(
         addNotification({
           icon: <X />,
           message: "Please provide a password",
+          type: "error",
+        }),
+      );
+    }
+
+    if (password.length < 8) {
+      setLoading(false);
+      return store.dispatch(
+        addNotification({
+          icon: <X />,
+          message: "Password must be 8 characters",
           type: "error",
         }),
       );
