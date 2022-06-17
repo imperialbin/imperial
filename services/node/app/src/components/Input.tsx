@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { ChangeEventHandler, InputHTMLAttributes, useState } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 const Container = styled.div`
   position: relative;
@@ -11,12 +11,21 @@ const Label = styled.label`
 `;
 
 const InputContainer = styled.div`
+  width: 100%;
+  position: relative;
   display: flex;
+`;
+
+const Wrapper = styled.div`
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 85%;
 `;
 
 const InputElement = styled.input<{ secretValue: boolean }>`
   display: block;
-  width: 80%;
+  width: 100%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -50,8 +59,7 @@ const InputElement = styled.input<{ secretValue: boolean }>`
 
 const Icon = styled(motion.div)<{ iconHoverColor: string | null }>`
   position: absolute;
-  bottom: 20px;
-  right: 25px;
+  right: 15px;
   cursor: pointer;
   overflow: hidden;
   color: ${({ theme }) => theme.text.dark};
@@ -118,34 +126,35 @@ const Input = ({
     <Container>
       <Label>{label}</Label>
       <InputContainer>
-        <InputElement
-          value={inputValue}
-          onChange={(e) => {
-            setInputValue(e.target.value);
-            if (onChange) {
-              onChange(e);
-            }
-          }}
-          placeholder={placeholder}
-          disabled={inputDisabled}
-          secretValue={secretValue}
-          type={type}
-          {...props}
-        />
-        <AnimatePresence>
-          {icon && !hideIconUntilDifferent ? (
-            <Icon
-              initial={"initial"}
-              animate={"changed"}
-              exit={"exit"}
-              variants={iconAnimation}
-              onClick={iconClick}
-              iconHoverColor={iconHoverColor}
-            >
-              {icon}
-            </Icon>
-          ) : null}
-        </AnimatePresence>
+        <Wrapper>
+          <InputElement
+            value={inputValue}
+            onChange={(e) => {
+              setInputValue(e.target.value);
+
+              if (onChange) onChange(e);
+            }}
+            placeholder={placeholder}
+            disabled={inputDisabled}
+            secretValue={secretValue}
+            type={type}
+            {...props}
+          />
+          <AnimatePresence>
+            {icon && !hideIconUntilDifferent ? (
+              <Icon
+                initial={"initial"}
+                animate={"changed"}
+                exit={"exit"}
+                variants={iconAnimation}
+                onClick={iconClick}
+                iconHoverColor={iconHoverColor}
+              >
+                {icon}
+              </Icon>
+            ) : null}
+          </AnimatePresence>
+        </Wrapper>
       </InputContainer>
     </Container>
   );
