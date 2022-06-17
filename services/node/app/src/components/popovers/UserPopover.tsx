@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { connect, ConnectedProps } from "react-redux";
 import styled from "styled-components";
 import { addNotification, openModal } from "../../../state/actions";
@@ -23,6 +24,11 @@ const Item = styled.li<{ danger?: boolean }>`
   margin: 2.5px 10px;
   color: ${({ theme }) => theme.text.dark}5d;
   cursor: pointer;
+
+  a {
+    text-decoration: none;
+    color: unset;
+  }
 
   transition: color 0.15s ease-in-out;
 
@@ -54,13 +60,26 @@ const UserPopover = ({ close, user, dispatch }: PopoverBase & ReduxProps) => {
             >
               User profile
             </Item>
-            <Item>Discord</Item>
-            <Item>GitHub</Item>
+            <Item>
+              <Link href="/discord" passHref>
+                <a target="_blank">Discord</a>
+              </Link>
+            </Item>
+            <Item>
+              <Link href="/github" passHref>
+                <a target="_blank">GitHub</a>
+              </Link>
+            </Item>
             <Separator />
             {TestPermission(user.flags, ROLES.ADMIN) ? (
               <Item>Admin</Item>
             ) : null}
-            <Item>Terms</Item>
+            <Item>
+              {" "}
+              <Link href="/terms" passHref>
+                <a target="_blank">Terms</a>
+              </Link>
+            </Item>
             <Item danger>Logout</Item>
           </>
         ) : (
@@ -87,8 +106,16 @@ const UserPopover = ({ close, user, dispatch }: PopoverBase & ReduxProps) => {
               Signup
             </Item>
             <Separator />
-            <Item>Discord</Item>
-            <Item>GitHub</Item>
+            <Item>
+              <Link href="/discord" passHref>
+                <a target="_blank">discord</a>
+              </Link>
+            </Item>
+            <Item>
+              <Link href="/github" passHref>
+                <a target="_blank">GitHub</a>
+              </Link>
+            </Item>
           </>
         )}
       </List>
