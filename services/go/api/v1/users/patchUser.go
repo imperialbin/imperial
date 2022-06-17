@@ -72,13 +72,17 @@ func PatchUser(c *fiber.Ctx) error {
 	marshalReq, _ := json.Marshal(req)
 	json.Unmarshal(marshalReq, &newUser)
 
-	/* fix this dumb shit */
 	if result := client.Updates(&newUser); result.Error != nil {
 		sentry.CaptureException(result.Error)
+
 		return c.Status(500).JSON(commons.Response{
 			Success: false,
 			Message: "An internal server error occurred",
 		})
+	}
+
+	if req.Icon == nil {
+		newUser.Icon = user.Icon
 	}
 
 	return c.JSON(Response{
