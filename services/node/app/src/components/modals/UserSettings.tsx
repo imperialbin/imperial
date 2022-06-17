@@ -27,6 +27,7 @@ import { addNotification, closeModal, setUser } from "../../../state/actions";
 import Setting from "../Setting";
 import Header from "./components/Header";
 import { SelfUser, UserSettings } from "../../types";
+import { GetRole, ROLES, TestPermission } from "../../utils/Permissions";
 
 const Wrapper = styled.div`
   position: relative;
@@ -152,7 +153,7 @@ const TitleInfo = styled.p`
 
 const Btn = styled.button<{ backgroundColor?: string }>`
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   margin-top: 8px;
   padding: 10px 15px;
   font-size: 0.9em;
@@ -265,6 +266,10 @@ const UserSettings = ({ user, dispatch }: ReduxProps): JSX.Element => {
               <Tile style={{ display: "unset" }}>
                 {user.documents_made}
                 <TitleInfo>Documents made</TitleInfo>
+              </Tile>
+              <Tile style={{ display: "unset" }}>
+                {GetRole(user.flags)}
+                <TitleInfo>Role</TitleInfo>
               </Tile>
               <Link href="/link/discord" passHref>
                 <Tile style={{ cursor: "pointer" }}>
@@ -455,7 +460,7 @@ const UserSettings = ({ user, dispatch }: ReduxProps): JSX.Element => {
                 icon={<RefreshCw size={18} />}
                 iconClick={async () => {
                   const { data, error } = await request<{ token: string }>(
-                    "/user/@me/regenAPIToken",
+                    "/users/@me/regenAPIToken",
                     "POST",
                   );
 

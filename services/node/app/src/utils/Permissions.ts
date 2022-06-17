@@ -18,3 +18,19 @@ export enum ROLES {
 export const TestPermission = (bitfield: number, flag: ROLES | PERMISSIONS) => {
   return (bitfield & flag) == flag;
 };
+
+export const GetRole = (bitfield: number) => {
+  switch (bitfield) {
+    case ROLES.DEFAULT:
+      return "Member";
+
+    case ROLES.BETA_TESTER:
+      return "Beta Tester";
+
+    case ROLES.MEMBER_PLUS:
+      return "Member+";
+
+    case ROLES.ADMIN:
+      return "Admin";
+  }
+};
