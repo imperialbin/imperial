@@ -8,7 +8,7 @@ import { PopoverBase } from "./popovers";
 
 const Wrapper = styled.div`
   background: ${({ theme }) => theme.background.lightestOfTheBunch};
-  padding: 10px 25px;
+  padding: 15px 25px;
   border-radius: 10px;
 `;
 
@@ -18,22 +18,24 @@ const List = styled.ul`
   list-style: none;
 `;
 
-const Item = styled.li`
+const Item = styled.li<{ danger?: boolean }>`
   text-align: center;
   margin: 2.5px 10px;
   color: ${({ theme }) => theme.text.dark}5d;
+  cursor: pointer;
 
   transition: color 0.15s ease-in-out;
 
   &:hover {
-    color: ${({ theme }) => theme.text.light};
+    color: ${({ theme, danger }) =>
+      danger ? theme.system.error : theme.text.light};
   }
 `;
 
 const Separator = styled.span`
   display: block;
   margin: 8px auto;
-  width: 100%;
+  width: 80%;
   height: 1.5px;
   background: ${({ theme }) => theme.text.darkest};
 `;
@@ -44,18 +46,22 @@ const UserPopover = ({ close, user, dispatch }: PopoverBase & ReduxProps) => {
       <List>
         {user ? (
           <>
-            <Item onClick={() => dispatch(openModal("user_settings"))}>
+            <Item
+              onClick={() => {
+                dispatch(openModal("user_settings"));
+                close();
+              }}
+            >
               User profile
             </Item>
-            <Item>Terms</Item>
-            <Item>Privacy</Item>
-            <Separator />
             <Item>Discord</Item>
             <Item>GitHub</Item>
+            <Separator />
             {TestPermission(user.flags, ROLES.ADMIN) ? (
               <Item>Admin</Item>
             ) : null}
-            <Item>Logout</Item>
+            <Item>Terms</Item>
+            <Item danger>Logout</Item>
           </>
         ) : (
           <>
