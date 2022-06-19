@@ -8,7 +8,6 @@ export interface SelfUser {
   documents_made: number;
   flags: number;
   discord_id: string | null;
-  github_oauth: string | null;
   api_token: string;
   discord: DiscordUser | null;
   github: GitHubUser | null;
