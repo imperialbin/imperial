@@ -3,7 +3,16 @@ import { useCallback, useEffect, useState } from "react";
 import { connect, ConnectedProps } from "react-redux";
 import styled from "styled-components";
 import { ImperialState } from "../../state/reducers";
-import { ArrowRight, Globe, Save, FileText } from "react-feather";
+import {
+  ArrowRight,
+  Globe,
+  Save,
+  FileText,
+  X,
+  Copy as CopyIcon,
+  AlignLeft,
+  Edit2,
+} from "react-feather";
 import { Tooltip } from "./Tooltip";
 import Link from "next/link";
 import Copy from "react-copy-to-clipboard";
@@ -13,6 +22,7 @@ import { request } from "../utils/Request";
 import Router from "next/router";
 import Popover from "./popovers/Popover";
 import UserPopover from "./popovers/UserPopover";
+import { addNotification } from "../../state/actions";
 
 const Wrapper = styled(motion.div)`
   position: absolute;
@@ -123,7 +133,7 @@ const brandAnimation = {
 interface INavProps extends ReduxProps {
   document?: Document;
 }
-const Nav = ({ user, document }: INavProps) => {
+const Nav = ({ user, document, dispatch }: INavProps) => {
   const [collapsed, setCollapsed] = useState(false);
   const [userPopover, setUserPopover] = useState(false);
 
@@ -150,18 +160,40 @@ const Nav = ({ user, document }: INavProps) => {
     });
 
     if (!success) {
-      return;
+      return dispatch(
+        addNotification({
+          icon: <X />,
+          message: "An error occurred whilst creating document",
+          type: "error",
+        }),
+      );
     }
 
     Router.push(`/${data.id}`);
   }, [document, user]);
+
+  const newDocument = useCallback(() => {
+    Router.push("/");
+  }, []);
+
+  const forkDocument = useCallback(() => {
+    if (typeof window === "undefined" || !window.monaco) return;
+    const editor = window.monaco.editor.getModels()[0];
+
+    const content = editor.getValue();
+    Router.push("/");
+
+    editor.setValue(content);
+  }, []);
 
   const editDocument = useCallback(() => {
     if (typeof window === "undefined" || !window.monaco || !user || !document)
       return;
     if (
       document.creator !== user.username ||
-      !document.settings.editors.find((editor) => editor === user.username)
+      !document.settings.editors.find(
+        (editor) => editor.username === user.username,
+      )
     )
       return;
   }, [document, user]);
@@ -171,14 +203,15 @@ const Nav = ({ user, document }: INavProps) => {
     const keypress = (e: KeyboardEvent) => {
       switch (true) {
         case (e.ctrlKey || e.metaKey) && e.key === "s":
+          e.preventDefault();
           !document ? saveDocument() : editDocument();
           break;
       }
     };
 
-    window.addEventListener("keypress", keypress);
+    window.addEventListener("keydown", keypress);
     return () => {
-      window.removeEventListener("keypress", keypress);
+      window.removeEventListener("keydown", keypress);
     };
   }, [document]);
 
@@ -230,14 +263,32 @@ const Nav = ({ user, document }: INavProps) => {
                 </Btn>
               </StyledTooltip>
               <StyledTooltip title="Save document">
-                <Btn onClick={() => null}>
+                <Btn onClick={saveDocument}>
                   <Save size={20} />
                 </Btn>
               </StyledTooltip>
             </>
-          ) : null}
+          ) : (
+            <>
+              <StyledTooltip title="Edit document">
+                <Btn onClick={forkDocument}>
+                  <Edit2 size={20} />
+                </Btn>
+              </StyledTooltip>
+              <StyledTooltip title="View raw">
+                <Btn onClick={() => Router.push(`/r/${document.id}`)}>
+                  <AlignLeft size={20} />
+                </Btn>
+              </StyledTooltip>
+              <StyledTooltip title="Duplicate document">
+                <Btn onClick={forkDocument}>
+                  <CopyIcon size={20} />
+                </Btn>
+              </StyledTooltip>
+            </>
+          )}
           <StyledTooltip title="New document">
-            <Btn onClick={() => null}>
+            <Btn onClick={newDocument}>
               <FileText size={20} />
             </Btn>
           </StyledTooltip>

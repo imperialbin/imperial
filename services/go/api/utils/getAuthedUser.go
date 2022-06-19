@@ -37,7 +37,7 @@ func GetAuthedUser(c *fiber.Ctx) (*models.User, error) {
 	}
 
 	var user models.User
-	if result := client.Preload("UserSettings").First(&user, "id = ? ", userID); result.Error != nil {
+	if result := client.Preload("UserSettings").Preload("Discord").Preload("GitHub").First(&user, "id = ? ", userID); result.Error != nil {
 		if errors.Is(result.Error, gorm.ErrRecordNotFound) {
 			return nil, nil
 		}

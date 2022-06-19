@@ -271,22 +271,28 @@ const UserSettings = ({ user, dispatch }: ReduxProps): JSX.Element => {
                 {GetRole(user.flags)}
                 <TitleInfo>Role</TitleInfo>
               </Tile>
-              <Link href="/link/discord" passHref>
-                <Tile style={{ cursor: "pointer" }}>
-                  <TileIcon src="/img/discord.svg" />
-                  <TitleInfo style={{ fontSize: "1em" }}>
-                    {user.discord_id ? "Connected" : "Connect"}
-                  </TitleInfo>
-                </Tile>
-              </Link>
-              <Link href="/link/github" passHref>
-                <Tile style={{ cursor: "pointer" }}>
-                  <TileIcon src="/img/github.svg" />
-                  <TitleInfo style={{ fontSize: "1em" }}>
-                    {user.github_oauth ? "Connected" : "Connect"}
-                  </TitleInfo>
-                </Tile>
-              </Link>
+              <Tile
+                style={!user.discord ? { cursor: "pointer" } : {}}
+                onClick={() =>
+                  !user.discord ? window.open("/link/discord") : null
+                }
+              >
+                <TileIcon src="/img/discord.svg" />
+                <TitleInfo style={{ fontSize: "1em" }}>
+                  {user.discord ? "Connected" : "Connect"}
+                </TitleInfo>
+              </Tile>
+              <Tile
+                style={!user.github ? { cursor: "pointer" } : {}}
+                onClick={() =>
+                  !user.github ? window.open("/link/github") : null
+                }
+              >
+                <TileIcon src="/img/github.svg" />
+                <TitleInfo style={{ fontSize: "1em" }}>
+                  {user.github ? "Connected" : "Connect"}
+                </TitleInfo>
+              </Tile>
             </Tiles>
             <Subtitle style={{ marginLeft: 12 }}>Recent documents</Subtitle>
             <Tiles>

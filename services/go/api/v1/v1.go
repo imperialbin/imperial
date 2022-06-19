@@ -76,6 +76,10 @@ func PatchMe(c *fiber.Ctx) error {
 	return users.PatchUser(c)
 }
 
+func GetRecentDocuments(c *fiber.Ctx) error {
+	return users.GetMeDocuments(c)
+}
+
 func PostRegenAPIToken(c *fiber.Ctx) error {
 	return users.RegenAPIToken(c)
 }

@@ -38,12 +38,13 @@ func setupRoutes(app *fiber.App) {
 	/* Authentication */
 	v1.Post("/auth/login", middleware.CheckNotAuthenticated, utils.RateLimit(20), v1Routes.PostLogin)
 	v1.Post("/auth/signup", middleware.CheckNotAuthenticated, utils.RateLimit(20), v1Routes.PostSignup)
-	v1.Post("/auth/requestReset", middleware.CheckNotAuthenticated, utils.RateLimit(20), v1Routes.PostRequestResetPassword)
+	v1.Post("/auth/request_reset", middleware.CheckNotAuthenticated, utils.RateLimit(20), v1Routes.PostRequestResetPassword)
 	v1.Post("/auth/reset", middleware.CheckNotAuthenticated, utils.RateLimit(80), v1Routes.PostResetPassword)
 	v1.Delete("/auth/logout", middleware.CheckAuthenticated, utils.RateLimit(20), v1Routes.DeleteLogout)
 
 	/* User(s) */
 	v1.Get("/users/@me", middleware.CheckAuthenticated, utils.RateLimit(200), v1Routes.GetMe)
+	v1.Get("/users/@me/recent_documents", middleware.CheckAuthenticated, utils.RateLimit(200), v1Routes.GetRecentDocuments)
 	v1.Get("/users/:username", middleware.CheckAuthenticated, utils.RateLimit(200), v1Routes.GetUser)
 	v1.Patch("/users/@me", middleware.CheckAuthenticated, utils.RateLimit(20), v1Routes.PatchMe)
 	v1.Post("/users/@me/delete", middleware.CheckAuthenticated, utils.RateLimit(20), v1Routes.DeleteMe) // We're making this a post because we need a body

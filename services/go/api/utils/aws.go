@@ -15,7 +15,7 @@ import (
 func SESSession() (*session.Session, error) {
 	return session.NewSession(&aws.Config{
 		Region:      aws.String(os.Getenv("AWS_REGION")),
-		Credentials: credentials.NewStaticCredentials(os.Getenv("AWS_ACCESS_KEY"), os.Getenv("AES_SECRET_KEY"), ""),
+		Credentials: credentials.NewStaticCredentials(os.Getenv("AWS_ACCESS_KEY"), os.Getenv("AWS_SECRET_KEY"), ""),
 	})
 }
 

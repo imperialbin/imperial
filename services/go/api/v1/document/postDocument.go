@@ -119,7 +119,7 @@ func Post(c *fiber.Ctx) error {
 		document.Content = content
 	}
 
-	if documentRequest.Settings.CreateGist && user != nil && user.GithubOAuth != nil && len(*user.GithubOAuth) > 0 {
+	if documentRequest.Settings.CreateGist && user != nil && user.GitHub != nil {
 		reqGist, err := utils.CreateGist(user, randomString, document.Content)
 
 		if err == nil {

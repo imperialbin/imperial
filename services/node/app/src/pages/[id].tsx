@@ -45,7 +45,7 @@ const Document = ({
     <Wrapper>
       {document ? (
         <>
-          {!noNav ? <Nav /> : null}
+          {!noNav ? <Nav document={document} /> : null}
           <Editor
             language={lang?.toString() ?? document.settings.language}
             value={document.content}

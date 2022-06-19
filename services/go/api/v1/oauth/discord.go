@@ -1,6 +1,7 @@
 package oauth
 
 import (
+	"api/models"
 	"api/utils"
 	. "api/v1/commons"
 	"context"
@@ -67,12 +68,7 @@ func GetDiscordOAuthCallback(c *fiber.Ctx) error {
 	}
 	defer tokenRes.Body.Close()
 
-	discordUser := struct {
-		ID string `json:"id"`
-	}{}
-
 	body, err := ioutil.ReadAll(tokenRes.Body)
-
 	if err != nil {
 		return c.Status(400).JSON(Response{
 			Success: false,
@@ -80,12 +76,24 @@ func GetDiscordOAuthCallback(c *fiber.Ctx) error {
 		})
 	}
 
+	var discordUser models.DiscordUser
 	json.Unmarshal(body, &discordUser)
 
-	println(discordUser.ID) // we need to do this
+	user.Discord = &discordUser
+
+	client := utils.GetDB()
+	if result := client.Updates(&user); result.Error != nil {
+		sentry.CaptureException(result.Error)
+
+		return c.JSON(Response{
+			Success: false,
+			Message: "An error occurred whilst updating your user.",
+		})
+	}
 
 	return c.JSON(Response{
 		Success: true,
-		Message: "Successfully linked your discord account!",
+		Message: "yo",
+		Data:    discordUser,
 	})
 }

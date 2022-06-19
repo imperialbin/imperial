@@ -37,7 +37,7 @@ func CreateGist(user *models.User, id, content string) (gist string, err error) 
 
 	req, err := http.NewRequest("POST", "https://api.github.com/gists", bytes.NewBuffer(body))
 	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("Authorization", "token "+*user.GithubOAuth)
+	req.Header.Set("Authorization", "token "+*&user.GitHub.OAuthToken)
 
 	if err != nil {
 		sentry.CaptureException(err)

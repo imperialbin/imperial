@@ -22,7 +22,14 @@ func InitDB() *gorm.DB {
 		log.Fatalln(err)
 	}
 
-	db.AutoMigrate(&models.User{}, &models.UserSettings{}, &models.Document{}, &models.DocumentSettings{})
+	db.AutoMigrate(
+		&models.User{},
+		&models.UserSettings{},
+		&models.DiscordUser{},
+		&models.GitHubUser{},
+		&models.Document{},
+		&models.DocumentSettings{},
+	)
 
 	globalDB = db
 	return db

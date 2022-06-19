@@ -10,6 +10,8 @@ export interface SelfUser {
   discord_id: string | null;
   github_oauth: string | null;
   api_token: string;
+  discord: DiscordUser | null;
+  github: GitHubUser | null;
   settings: UserSettings;
 }
 
@@ -30,9 +32,11 @@ export interface UserSettings {
 }
 
 export interface User {
+  id: number;
+  documents_made: number;
   username: string;
   icon: string;
-  memberPlus: boolean;
+  flags: 0;
 }
 
 export interface Document {
@@ -55,6 +59,39 @@ export interface Document {
     encrypted: boolean;
     password: null | string;
     public: boolean;
-    editors: string[];
+    editors: User[];
   };
+}
+
+interface DiscordUser {
+  id: string;
+  username: string;
+  avatar: string;
+  avatar_decoration: string | null;
+  discriminator: string;
+  public_flags: string;
+  flags: number;
+  banner: string | null;
+  banner_color: string | null;
+  accent_color: string | null;
+  locale: string;
+  mfa_enabled: boolean;
+  premium_type: number | null;
+}
+
+interface GitHubUser {
+  login: string;
+  id: string;
+  avatar_url: string;
+  gravatar_id: string;
+  type: string;
+  name: string | null;
+  location: string | null;
+  email: string | null;
+  hireable: boolean | null;
+  bio: string | null;
+  twitter_username: string | null;
+  public_gists: number;
+  private_gists: number;
+  two_factor_authentication: boolean;
 }
