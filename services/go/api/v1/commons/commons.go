@@ -45,7 +45,7 @@ type RequestResetPasswordStruct struct {
 }
 
 type ResetPasswordStruct struct {
-	Token           string `json:"token" validate:"required,min=16"`
+	Token           string `json:"token" validate:"required,min=32"`
 	Password        string `json:"password" validate:"required,min=8"`
 	ConfirmPassword string `json:"confirm_password" validate:"required,min=8"`
 }

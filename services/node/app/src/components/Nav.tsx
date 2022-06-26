@@ -12,6 +12,7 @@ import {
   Copy as CopyIcon,
   AlignLeft,
   Edit2,
+  Check,
 } from "react-feather";
 import { Tooltip } from "./Tooltip";
 import Link from "next/link";
@@ -22,7 +23,8 @@ import { request } from "../utils/Request";
 import Router from "next/router";
 import Popover from "./popovers/Popover";
 import UserPopover from "./popovers/UserPopover";
-import { addNotification } from "../../state/actions";
+import { addNotification, setReadOnly } from "../../state/actions";
+import { useMonaco } from "imperial-editor";
 
 const Wrapper = styled(motion.div)`
   position: absolute;
@@ -136,6 +138,7 @@ interface INavProps extends ReduxProps {
 const Nav = ({ user, document, dispatch }: INavProps) => {
   const [collapsed, setCollapsed] = useState(false);
   const [userPopover, setUserPopover] = useState(false);
+  const [editing, setEditing] = useState(false);
 
   const saveDocument = useCallback(async () => {
     if (typeof window === "undefined" || !window.monaco) return;
@@ -177,25 +180,69 @@ const Nav = ({ user, document, dispatch }: INavProps) => {
   }, []);
 
   const forkDocument = useCallback(() => {
-    if (typeof window === "undefined" || !window.monaco) return;
+    if (typeof window === "undefined" || !document) return;
     const editor = window.monaco.editor.getModels()[0];
 
-    const content = editor.getValue();
+    const content = document.content;
     Router.push("/");
 
     editor.setValue(content);
-  }, []);
+  }, [document]);
 
-  const editDocument = useCallback(() => {
-    if (typeof window === "undefined" || !window.monaco || !user || !document)
-      return;
+  const prepareEdit = useCallback(() => {
+    if (!user) return;
+    if (!document) return;
     if (
-      document.creator !== user.username ||
-      !document.settings.editors.find(
-        (editor) => editor.username === user.username,
+      !(
+        document.creator.username === user.username ||
+        document.settings.editors.find(
+          (editor) => editor.username === user.username,
+        )
       )
     )
       return;
+
+    if (editing) {
+      editDocument();
+      setEditing(false);
+    } else {
+      setEditing(true);
+      dispatch(setReadOnly(false));
+    }
+  }, [document, user, editing]);
+
+  const editDocument = useCallback(async () => {
+    if (typeof window === "undefined" || !window.monaco || !user || !document)
+      return;
+
+    const editor = window.monaco.editor.getModels()[0];
+    const content = editor.getValue();
+
+    if (content === document.content) return;
+
+    const { success } = await request("PATCH", "/document", {
+      id: document.id,
+      content,
+    });
+
+    if (!success)
+      return dispatch(
+        addNotification({
+          icon: <X />,
+          message: "There was an error updating this document",
+          type: "error",
+        }),
+      );
+
+    setEditing(false);
+    dispatch(setReadOnly(true));
+    dispatch(
+      addNotification({
+        icon: <Check />,
+        message: "Successfully edited document.",
+        type: "success",
+      }),
+    );
   }, [document, user]);
 
   /* Keybinds */
@@ -204,7 +251,7 @@ const Nav = ({ user, document, dispatch }: INavProps) => {
       switch (true) {
         case (e.ctrlKey || e.metaKey) && e.key === "s":
           e.preventDefault();
-          !document ? saveDocument() : editDocument();
+          !document ? saveDocument() : prepareEdit();
           break;
       }
     };
@@ -270,11 +317,13 @@ const Nav = ({ user, document, dispatch }: INavProps) => {
             </>
           ) : (
             <>
-              <StyledTooltip title="Edit document">
-                <Btn onClick={forkDocument}>
-                  <Edit2 size={20} />
-                </Btn>
-              </StyledTooltip>
+              {user ? (
+                <StyledTooltip title="Edit document">
+                  <Btn onClick={prepareEdit}>
+                    {editing ? <Check size={20} /> : <Edit2 size={20} />}
+                  </Btn>
+                </StyledTooltip>
+              ) : null}
               <StyledTooltip title="View raw">
                 <Btn onClick={() => Router.push(`/r/${document.id}`)}>
                   <AlignLeft size={20} />

@@ -1,18 +1,23 @@
 import Monaco, { EditorProps } from "imperial-editor";
 import { editor } from "monaco-editor";
+import { useEffect } from "react";
 import { connect, ConnectedProps } from "react-redux";
+import { setLanguage, setReadOnly } from "../../state/actions";
 import { ImperialState } from "../../state/reducers";
+import { SupportedLanguages } from "../utils/Consts";
 import EditorSkeleton from "./EditorSkeleton";
 
 interface IEditorProps extends ReduxProps, EditorProps {
   readonly?: boolean;
-  language?: string;
+  language?: SupportedLanguages;
 }
 
 const Editor = ({
   user,
-  readonly = false,
   language = "plaintext",
+  editor,
+  dispatch,
+  readonly = false,
   ...props
 }: IEditorProps): JSX.Element => {
   const mounted = (editor: editor.IStandaloneCodeEditor) => {
@@ -26,6 +31,11 @@ const Editor = ({
     editor.focus();
   };
 
+  useEffect(() => {
+    dispatch(setReadOnly(readonly));
+    dispatch(setLanguage(language));
+  }, [readonly, language]);
+
   return (
     <Monaco
       {...props}
@@ -35,7 +45,7 @@ const Editor = ({
       options={
         user
           ? {
-              readOnly: readonly,
+              readOnly: editor.readOnly,
               fontLigatures: user.settings.font_ligatures,
               fontSize: user.settings.font_size,
               renderWhitespace: user.settings.render_whitespace
@@ -45,18 +55,18 @@ const Editor = ({
               tabSize: user.settings.tab_size,
             }
           : {
-              readOnly: readonly,
+              readOnly: editor.readOnly,
               fontSize: 14,
             }
       }
       theme="IMPERIAL"
-      language={language}
+      language={editor.language}
     />
   );
 };
 
-const mapStateToProps = ({ user }: ImperialState) => {
-  return { user };
+const mapStateToProps = ({ user, editor }: ImperialState) => {
+  return { user, editor };
 };
 
 const connector = connect(mapStateToProps);

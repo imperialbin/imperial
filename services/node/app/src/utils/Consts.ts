@@ -42,6 +42,8 @@ export const DiscordURL = "https://discord.gg/cTm85eW49D";
 export const GitHubURL = "https://github.com/imperialbin";
 export const TwitterURL = "https://twitter.com/imperialbin";
 
+export type SupportedLanguages = typeof supportedLanguages[number]["name"];
+
 export const supportedLanguages = [
   { id: 1, name: "apex" },
   { id: 2, name: "azcli" },
@@ -99,4 +101,4 @@ export const supportedLanguages = [
   { id: 54, name: "vb" },
   { id: 55, name: "xml" },
   { id: 56, name: "yaml" },
-];
+] as const;

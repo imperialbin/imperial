@@ -20,7 +20,7 @@ const List = styled.ul`
 `;
 
 const Item = styled.li<{ danger?: boolean }>`
-  text-align: center;
+  width: 100%;
   margin: 2.5px 10px;
   color: ${({ theme }) => theme.text.dark}5d;
   cursor: pointer;

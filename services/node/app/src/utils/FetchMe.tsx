@@ -1,13 +1,20 @@
+import {
+  checkCookies,
+  getCookie,
+  getCookies,
+  removeCookies,
+} from "cookies-next";
 import { X } from "react-feather";
 import { store } from "../../state";
 import { addNotification, setUser } from "../../state/actions";
 import { request } from "./Request";
 
 export const fetchMe = async () => {
-  const { success, data } = await request("GET", "/users/@me");
+  const { success, data, error } = await request("GET", "/users/@me");
 
   if (!success) {
-    // remove their cookie
+    if (error?.code === 401) return;
+
     return store.dispatch(
       addNotification({
         icon: <X />,

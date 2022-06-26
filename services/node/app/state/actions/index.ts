@@ -1,5 +1,6 @@
 import { ModalData, Modals } from "../../src/components/ModalManager";
 import { SelfUser } from "../../src/types";
+import { SupportedLanguages } from "../../src/utils/Consts";
 import { Notification } from "../reducers/notifications";
 
 export const setUser = (user: SelfUser) => {
@@ -39,5 +40,18 @@ export const removeNotification = (id: string) => {
 export const removeAllNotifications = () => {
   return {
     type: "REMOVE_ALL_NOTIFICATION",
+  };
+};
+
+export const setReadOnly = (read_only: boolean) => {
+  return {
+    type: "SET_READONLY",
+    payload: read_only,
+  };
+};
+export const setLanguage = (language: SupportedLanguages) => {
+  return {
+    type: "SET_LANGUAGE",
+    payload: language,
   };
 };

@@ -41,7 +41,7 @@ export interface User {
 export interface Document {
   id: string;
   content: string;
-  creator: string | null;
+  creator: User;
   views: number;
   links: {
     raw: string;
