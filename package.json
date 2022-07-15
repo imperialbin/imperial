@@ -52,7 +52,7 @@
     "typescript": "^4.2.2"
   },
   "dependencies": {
-    "aws-sdk": "^2.905.0",
+    "aws-sdk": "^2.1175.0",
     "bcryptjs": "^2.4.3",
     "connect-mongo": "^4.2.2",
     "cookie-parser": "^1.4.5",
