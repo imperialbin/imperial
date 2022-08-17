@@ -23,7 +23,7 @@ import { request } from "../utils/Request";
 import Router from "next/router";
 import Popover from "./popovers/Popover";
 import UserPopover from "./popovers/UserPopover";
-import { addNotification, setReadOnly } from "../../state/actions";
+import { addNotification, openModal, setReadOnly } from "../../state/actions";
 import { useMonaco } from "imperial-editor";
 
 const Wrapper = styled(motion.div)`
@@ -264,7 +264,7 @@ const Nav = ({ user, document, dispatch }: INavProps) => {
 
   return (
     <Wrapper
-      initial={"initial"}
+      initial="initial"
       transition={{ type: "spring", duration: 0.5, bounce: 0.2 }}
       animate={collapsed ? "collapsed" : "initial"}
       variants={navAnimation}
@@ -278,7 +278,7 @@ const Nav = ({ user, document, dispatch }: INavProps) => {
         </motion.div>
       </HideNavContainer>
       <Container>
-        <BrandContainer initial={"initial"} whileHover={"hover"}>
+        <BrandContainer initial="initial" whileHover="hover">
           <Link href="/" passHref>
             <Brand>IMPERIAL</Brand>
           </Link>
@@ -305,7 +305,7 @@ const Nav = ({ user, document, dispatch }: INavProps) => {
           {!document ? (
             <>
               <StyledTooltip title="Change language">
-                <Btn onClick={() => null}>
+                <Btn onClick={() => dispatch(openModal("language_selector"))}>
                   <Globe size={20} />
                 </Btn>
               </StyledTooltip>

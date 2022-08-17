@@ -2,35 +2,35 @@ export enum PERMISSIONS {
   CAN_ENCRYPT_DOCUMENTS = 1 << 0,
   HIGH_QUALITY_SCREENSHOTS = 1 << 1,
   VANITY_URL = 1 << 2,
-  MEMBER_PLUS_BADGE = 1 << 3,
-  BETA_BADGE = 1 << 4,
-  ADMIN_BADGE = 1 << 5,
   BAN_USERS = 1 << 6,
 }
 
-export enum ROLES {
-  DEFAULT,
-  BETA_TESTER,
-  MEMBER_PLUS,
-  ADMIN,
-}
-
-export const TestPermission = (bitfield: number, flag: ROLES | PERMISSIONS) => {
-  return (bitfield & flag) == flag;
+export const roles = {
+  member: PERMISSIONS.CAN_ENCRYPT_DOCUMENTS,
+  betaTester: PERMISSIONS.CAN_ENCRYPT_DOCUMENTS | PERMISSIONS.VANITY_URL,
+  memberPlus: PERMISSIONS.CAN_ENCRYPT_DOCUMENTS | PERMISSIONS.VANITY_URL,
+  admin:
+    PERMISSIONS.CAN_ENCRYPT_DOCUMENTS |
+    PERMISSIONS.VANITY_URL |
+    PERMISSIONS.BAN_USERS,
 };
 
-export const GetRole = (bitfield: number) => {
+export const TestPermission = (bitfield: number, flag: PERMISSIONS) => {
+  return Boolean(bitfield & flag);
+};
+
+export const getRole = (bitfield: number) => {
   switch (bitfield) {
-    case ROLES.DEFAULT:
+    case roles.member:
       return "Member";
 
-    case ROLES.BETA_TESTER:
+    case roles.betaTester:
       return "Beta Tester";
 
-    case ROLES.MEMBER_PLUS:
+    case roles.memberPlus:
       return "Member+";
 
-    case ROLES.ADMIN:
+    case roles.admin:
       return "Admin";
   }
 };

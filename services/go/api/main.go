@@ -18,7 +18,7 @@ import (
 )
 
 const (
-	API_RELEASE = "api@0.0.3"
+	APIRelease = "api@0.0.3"
 )
 
 func setupRoutes(app *fiber.App) {
@@ -64,7 +64,6 @@ func setupRoutes(app *fiber.App) {
 
 	/* Invalid Routes */
 	app.Use(v1Routes.InvalidRoute)
-
 }
 
 func main() {
@@ -75,7 +74,7 @@ func main() {
 		Dsn:              os.Getenv("SENTRY_DSN"),
 		Environment:      os.Getenv("SENTRY_ENVIRONMENT"),
 		TracesSampleRate: 1.0,
-		Release:          API_RELEASE,
+		Release:          APIRelease,
 	}); err != nil {
 		log.Fatalf("sentry.Init: %s", err)
 	}

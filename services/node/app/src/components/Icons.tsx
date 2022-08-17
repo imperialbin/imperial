@@ -1,6 +1,8 @@
 import React, { SVGProps } from "react";
 
-export const Logo = (props: SVGProps<SVGSVGElement>) => (
+type Props = SVGProps<SVGSVGElement>;
+
+export const Logo = (props: Props) => (
   <svg
     viewBox="0 0 898 786"
     fill="none"
@@ -14,7 +16,7 @@ export const Logo = (props: SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-export const DiscordLogo = (props: SVGProps<SVGSVGElement>) => (
+export const DiscordLogo = (props: Props) => (
   <svg
     viewBox="0 0 128 97"
     fill="none"
@@ -28,7 +30,7 @@ export const DiscordLogo = (props: SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-export const GitHubLogo = (props: SVGProps<SVGSVGElement>) => (
+export const GitHubLogo = (props: Props) => (
   <svg
     viewBox="0 0 30 30"
     fill="none"
@@ -48,7 +50,7 @@ export const GitHubLogo = (props: SVGProps<SVGSVGElement>) => (
   A bunch of Programming language icon
 */
 
-export const C = (props: SVGProps<SVGSVGElement>) => (
+export const C = (props: Props) => (
   <svg
     stroke="currentColor"
     fill="currentColor"
@@ -74,7 +76,7 @@ export const C = (props: SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-export const Clojure = (props: SVGProps<SVGSVGElement>) => (
+export const Clojure = (props: Props) => (
   <svg
     stroke="currentColor"
     fill="currentColor"
@@ -110,7 +112,7 @@ export const Clojure = (props: SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-export const CoffeeScript = (props: SVGProps<SVGSVGElement>) => (
+export const CoffeeScript = (props: Props) => (
   <svg
     stroke="currentColor"
     fill="currentColor"
@@ -125,7 +127,7 @@ export const CoffeeScript = (props: SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-export const CPP = (props: SVGProps<SVGSVGElement>) => (
+export const CPP = (props: Props) => (
   <svg
     stroke="currentColor"
     fill="currentColor"
@@ -155,7 +157,7 @@ export const CPP = (props: SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-export const CSharp = (props: SVGProps<SVGSVGElement>) => (
+export const CSharp = (props: Props) => (
   <svg
     stroke="currentColor"
     fill="currentColor"
@@ -181,7 +183,7 @@ export const CSharp = (props: SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-export const CSS = (props: SVGProps<SVGSVGElement>) => (
+export const CSS = (props: Props) => (
   <svg
     stroke="currentColor"
     fill="currentColor"
@@ -219,7 +221,7 @@ export const CSS = (props: SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-export const Docker = (props: SVGProps<SVGSVGElement>) => (
+export const Docker = (props: Props) => (
   <svg
     stroke="currentColor"
     fill="currentColor"
@@ -317,7 +319,7 @@ export const Docker = (props: SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-export const FSharp = (props: SVGProps<SVGSVGElement>) => (
+export const FSharp = (props: Props) => (
   <svg
     stroke="currentColor"
     fill="currentColor"
@@ -340,7 +342,7 @@ export const FSharp = (props: SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-export const Go = (props: SVGProps<SVGSVGElement>) => (
+export const Go = (props: Props) => (
   <svg
     stroke="currentColor"
     fill="currentColor"
@@ -546,7 +548,7 @@ export const Go = (props: SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-export const GraphQL = (props: SVGProps<SVGSVGElement>) => (
+export const GraphQL = (props: Props) => (
   <svg
     stroke="currentColor"
     fill="currentColor"
@@ -570,7 +572,7 @@ export const GraphQL = (props: SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-export const Handlebars = (props: SVGProps<SVGSVGElement>) => (
+export const Handlebars = (props: Props) => (
   <svg
     stroke="currentColor"
     fill="currentColor"
@@ -586,7 +588,7 @@ export const Handlebars = (props: SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-export const HTML = (props: SVGProps<SVGSVGElement>) => (
+export const HTML = (props: Props) => (
   <svg
     stroke="currentColor"
     fill="currentColor"
@@ -613,7 +615,7 @@ export const HTML = (props: SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-export const Java = (props: SVGProps<SVGSVGElement>) => (
+export const Java = (props: Props) => (
   <svg
     stroke="currentColor"
     fill="currentColor"
@@ -647,7 +649,7 @@ export const Java = (props: SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-export const JavaScript = (props: SVGProps<SVGSVGElement>) => (
+export const JavaScript = (props: Props) => (
   <svg
     stroke="currentColor"
     fill="currentColor"
@@ -666,7 +668,7 @@ export const JavaScript = (props: SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-export const Kotlin = (props: SVGProps<SVGSVGElement>) => (
+export const Kotlin = (props: Props) => (
   <svg
     stroke="currentColor"
     fill="currentColor"
@@ -727,7 +729,7 @@ export const Kotlin = (props: SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-export const Less = (props: SVGProps<SVGSVGElement>) => (
+export const Less = (props: Props) => (
   <svg
     stroke="currentColor"
     fill="currentColor"
@@ -747,7 +749,7 @@ export const Less = (props: SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-export const Lua = (props: SVGProps<SVGSVGElement>) => (
+export const Lua = (props: Props) => (
   <svg
     stroke="currentColor"
     fill="currentColor"
@@ -774,7 +776,7 @@ export const Lua = (props: SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-export const MySQL = (props: SVGProps<SVGSVGElement>) => (
+export const MySQL = (props: Props) => (
   <svg
     stroke="currentColor"
     fill="currentColor"
@@ -792,7 +794,7 @@ export const MySQL = (props: SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-export const ObjectiveC = (props: SVGProps<SVGSVGElement>) => (
+export const ObjectiveC = (props: Props) => (
   <svg
     stroke="currentColor"
     fill="currentColor"
@@ -810,7 +812,7 @@ export const ObjectiveC = (props: SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-export const Perl = (props: SVGProps<SVGSVGElement>) => (
+export const Perl = (props: Props) => (
   <svg
     stroke="currentColor"
     fill="currentColor"
@@ -832,7 +834,7 @@ export const Perl = (props: SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-export const PHP = (props: SVGProps<SVGSVGElement>) => (
+export const PHP = (props: Props) => (
   <svg
     stroke="currentColor"
     fill="currentColor"
@@ -890,7 +892,7 @@ export const PHP = (props: SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-export const Python = (props: SVGProps<SVGSVGElement>) => (
+export const Python = (props: Props) => (
   <svg
     stroke="currentColor"
     fill="currentColor"
@@ -954,7 +956,7 @@ export const Python = (props: SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-export const R = (props: SVGProps<SVGSVGElement>) => (
+export const R = (props: Props) => (
   <svg
     stroke="currentColor"
     fill="currentColor"
@@ -1004,7 +1006,7 @@ export const R = (props: SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-export const Redis = (props: SVGProps<SVGSVGElement>) => (
+export const Redis = (props: Props) => (
   <svg
     stroke="currentColor"
     fill="currentColor"
@@ -1049,7 +1051,7 @@ export const Redis = (props: SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-export const Ruby = (props: SVGProps<SVGSVGElement>) => (
+export const Ruby = (props: Props) => (
   <svg
     stroke="currentColor"
     fill="currentColor"
@@ -1375,7 +1377,7 @@ export const Ruby = (props: SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-export const Rust = (props: SVGProps<SVGSVGElement>) => (
+export const Rust = (props: Props) => (
   <svg
     stroke="currentColor"
     fill="currentColor"
@@ -1393,7 +1395,7 @@ export const Rust = (props: SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-export const Swift = (props: SVGProps<SVGSVGElement>) => (
+export const Swift = (props: Props) => (
   <svg
     stroke="currentColor"
     fill="currentColor"
@@ -1415,7 +1417,7 @@ export const Swift = (props: SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-export const TypeScript = (props: SVGProps<SVGSVGElement>) => (
+export const TypeScript = (props: Props) => (
   <svg
     stroke="currentColor"
     fill="currentColor"
@@ -1432,5 +1434,17 @@ export const TypeScript = (props: SVGProps<SVGSVGElement>) => (
       fill="#007acc"
       d="M1.5 63.91v62.5h125v-125H1.5zm100.73-5a15.56 15.56 0 017.82 4.5 20.58 20.58 0 013 4c0 .16-5.4 3.81-8.69 5.85-.12.08-.6-.44-1.13-1.23a7.09 7.09 0 00-5.87-3.53c-3.79-.26-6.23 1.73-6.21 5a4.58 4.58 0 00.54 2.34c.83 1.73 2.38 2.76 7.24 4.86 8.95 3.85 12.78 6.39 15.16 10 2.66 4 3.25 10.46 1.45 15.24-2 5.2-6.9 8.73-13.83 9.9a38.32 38.32 0 01-9.52-.1 23 23 0 01-12.72-6.63c-1.15-1.27-3.39-4.58-3.25-4.82a9.34 9.34 0 011.15-.73L82 101l3.59-2.08.75 1.11a16.78 16.78 0 004.74 4.54c4 2.1 9.46 1.81 12.16-.62a5.43 5.43 0 00.69-6.92c-1-1.39-3-2.56-8.59-5-6.45-2.78-9.23-4.5-11.77-7.24a16.48 16.48 0 01-3.43-6.25 25 25 0 01-.22-8c1.33-6.23 6-10.58 12.82-11.87a31.66 31.66 0 019.49.26zm-29.34 5.24v5.12H56.66v46.23H45.15V69.26H28.88v-5a49.19 49.19 0 01.12-5.17C29.08 59 39 59 51 59h21.83z"
     ></path>
+  </svg>
+);
+
+export const SearchIcon = (props: Props) => (
+  <svg width={24} height={24} fill="none" viewBox="0 0 24 24" {...props}>
+    <path
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="1.5"
+      d="M19.25 19.25L15.5 15.5M4.75 11C4.75 7.54822 7.54822 4.75 11 4.75C14.4518 4.75 17.25 7.54822 17.25 11C17.25 14.4518 14.4518 17.25 11 17.25C7.54822 17.25 4.75 14.4518 4.75 11Z"
+    />
   </svg>
 );

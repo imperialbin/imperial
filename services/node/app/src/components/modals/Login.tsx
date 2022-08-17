@@ -1,28 +1,21 @@
 import Image from "next/image";
 import { useState } from "react";
 import styled from "styled-components";
-import { store } from "../../../state";
 import { addNotification, closeModal, openModal } from "../../../state/actions";
 import { Lock, User, X } from "react-feather";
 import Input from "../Input";
 import { request } from "../../utils/Request";
 import Header from "./components/Header";
 import { fetchMe } from "../../utils/FetchMe";
+import { ModalProps } from "./components/modals";
+import { Wrapper } from "./components/Styles";
 
-const Wrapper = styled.div`
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
+const StyledWrapper = styled(Wrapper)`
   width: 80%;
   max-width: 650px;
-  min-height: 200px;
   height: 50%;
+  min-height: 200px;
   max-height: 325px;
-  overflow: hidden;
-  border-radius: 12px;
-  background: ${({ theme }) => theme.background.lightestOfTheBunch};
 `;
 
 const FullContainer = styled.div`
@@ -118,7 +111,7 @@ const Btn = styled.button`
   }
 `;
 
-const Login = () => {
+const Login = ({ dispatch }: ModalProps) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<null | string>(null);
@@ -130,7 +123,7 @@ const Login = () => {
 
     if (!username) {
       setLoading(false);
-      return store.dispatch(
+      return dispatch(
         addNotification({
           icon: <X />,
           message: "Please provide a username",
@@ -141,7 +134,7 @@ const Login = () => {
 
     if (username.length < 3) {
       setLoading(false);
-      return store.dispatch(
+      return dispatch(
         addNotification({
           icon: <X />,
           message: "Username must be 3 characters",
@@ -152,7 +145,7 @@ const Login = () => {
 
     if (!password) {
       setLoading(false);
-      return store.dispatch(
+      return dispatch(
         addNotification({
           icon: <X />,
           message: "Please provide a password",
@@ -163,7 +156,7 @@ const Login = () => {
 
     if (password.length < 8) {
       setLoading(false);
-      return store.dispatch(
+      return dispatch(
         addNotification({
           icon: <X />,
           message: "Password must be 8 characters",
@@ -180,7 +173,7 @@ const Login = () => {
     setLoading(false);
 
     if (!success && error)
-      return store.dispatch(
+      return dispatch(
         addNotification({
           icon: <X />,
           message: error.message,
@@ -189,12 +182,13 @@ const Login = () => {
       );
 
     setError(null);
+
     fetchMe();
-    store.dispatch(closeModal());
+    dispatch(closeModal());
   };
 
   return (
-    <Wrapper>
+    <StyledWrapper>
       <Header />
       <FullContainer>
         <Left>
@@ -207,10 +201,10 @@ const Login = () => {
           <br />
           <br />
           <BtnContainer>
-            <LeftBtn onClick={() => store.dispatch(openModal("signup"))}>
+            <LeftBtn onClick={() => dispatch(openModal("signup"))}>
               Don&apos;t have an account?
             </LeftBtn>
-            <LeftBtn onClick={() => store.dispatch(openModal("signup"))}>
+            <LeftBtn onClick={() => dispatch(openModal("signup"))}>
               Forgot password?
             </LeftBtn>
           </BtnContainer>
@@ -245,7 +239,7 @@ const Login = () => {
           </Container>
         </Right>
       </FullContainer>
-    </Wrapper>
+    </StyledWrapper>
   );
 };
 

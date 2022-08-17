@@ -27,7 +27,8 @@ import { addNotification, closeModal, setUser } from "../../../state/actions";
 import Setting from "../Setting";
 import Header from "./components/Header";
 import { SelfUser, UserSettings } from "../../types";
-import { GetRole, ROLES, TestPermission } from "../../utils/Permissions";
+import { getRole } from "../../utils/Permissions";
+import { ModalProps } from "./components/modals";
 
 const Wrapper = styled.div`
   position: relative;
@@ -196,7 +197,10 @@ dayjs.updateLocale("en", {
   },
 });
 
-const UserSettings = ({ user, dispatch }: ReduxProps): JSX.Element => {
+const UserSettings = ({
+  user,
+  dispatch,
+}: ReduxProps & ModalProps): JSX.Element => {
   const theme = useTheme();
   const { documents, isError: documentsError } = useRecentDocuments();
 
@@ -263,12 +267,22 @@ const UserSettings = ({ user, dispatch }: ReduxProps): JSX.Element => {
               </UserInfo>
             </UserOverview>
             <Tiles>
-              <Tile style={{ display: "unset" }}>
+              <Tile
+                style={{
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                }}
+              >
                 {user.documents_made}
                 <TitleInfo>Documents made</TitleInfo>
               </Tile>
-              <Tile style={{ display: "unset" }}>
-                {GetRole(user.flags)}
+              <Tile
+                style={{
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                }}
+              >
+                {getRole(user.flags)}
                 <TitleInfo>Role</TitleInfo>
               </Tile>
               <Tile

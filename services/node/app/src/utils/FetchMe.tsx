@@ -1,9 +1,3 @@
-import {
-  checkCookies,
-  getCookie,
-  getCookies,
-  removeCookies,
-} from "cookies-next";
 import { X } from "react-feather";
 import { store } from "../../state";
 import { addNotification, setUser } from "../../state/actions";

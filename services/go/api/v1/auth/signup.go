@@ -34,13 +34,6 @@ func Signup(c *fiber.Ctx) error {
 		})
 	}
 
-	if req.Password != req.ConfirmPassword {
-		return c.Status(400).JSON(Response{
-			Success: false,
-			Message: "Password does not match confirm password!",
-		})
-	}
-
 	var client = utils.GetDB()
 	var userWithEmail = true
 
@@ -83,13 +76,15 @@ func Signup(c *fiber.Ctx) error {
 		})
 	}
 
-	var user = models.User{Username: req.Username,
+	var user = models.User{
+		Username:       req.Username,
 		Email:          req.Email,
 		ConfirmedEmail: false,
 		Password:       hashedPassword,
 		DocumentsMade:  0,
-		Flags:          1,
+		Flags:          0,
 		APIToken:       "IMPERIAL-" + uuid.NewString(),
+		Icon:           nil,
 		UserSettings: models.UserSettings{
 			Clipboard:        false,
 			LongUrls:         false,

@@ -4,11 +4,11 @@ import styled from "styled-components";
 import Image from "next/image";
 import { Check as CheckIcon, Mail, User, Lock } from "react-feather";
 import { request } from "../../utils/Request";
-import { store } from "../../../state";
 import { openModal } from "../../../state/actions";
 import Input from "../Input";
 import Header from "./components/Header";
 import { fetchMe } from "../../utils/FetchMe";
+import { ModalProps } from "./components/modals";
 
 const Wrapper = styled.div`
   position: relative;
@@ -73,7 +73,6 @@ const LeftBtn = styled.button`
 
 const Right = styled.div`
   flex: 1.25;
-  max-height: 300px;
   padding: 10px 30px;
   overflow: scroll;
 `;
@@ -171,7 +170,7 @@ const showAnimation = {
   },
 };
 
-const Signup = (): JSX.Element => {
+const Signup = ({ dispatch }: ModalProps) => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -213,7 +212,6 @@ const Signup = (): JSX.Element => {
       username,
       email,
       password,
-      confirmPassword,
     });
 
     if (!success && error) {
@@ -242,7 +240,7 @@ const Signup = (): JSX.Element => {
           <br />
           <BtnContainer>
             {!success ? (
-              <LeftBtn onClick={() => store.dispatch(openModal("login"))}>
+              <LeftBtn onClick={() => dispatch(openModal("login"))}>
                 Already have an account?
               </LeftBtn>
             ) : null}
@@ -301,7 +299,7 @@ const Signup = (): JSX.Element => {
                     type="password"
                     required
                   />
-                  <Span onClick={() => store.dispatch(openModal("login"))}>
+                  <Span onClick={() => dispatch(openModal("login"))}>
                     Already have an account?
                   </Span>
                   <Btn disabled={loading} type="submit">

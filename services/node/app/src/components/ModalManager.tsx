@@ -2,12 +2,13 @@ import { connect, ConnectedProps } from "react-redux";
 import { ImperialState } from "../../state/reducers";
 import styled from "styled-components";
 import { AnimatePresence, motion } from "framer-motion";
-import { useRef } from "react";
+import { useCallback, useRef } from "react";
 import Login from "./modals/Login";
 import Signup from "./modals/Signup";
 import { useOutsideClick } from "../hooks/useOutsideClick";
 import { closeModal } from "../../state/actions";
 import UserSettings from "./modals/UserSettings";
+import { LanguageSelector } from "./modals/LanguageSelector";
 
 const Wrapper = styled(motion.div)`
   top: 0;
@@ -54,6 +55,7 @@ const MODAL_MAP = {
   login: Login,
   signup: Signup,
   user_settings: UserSettings,
+  language_selector: LanguageSelector,
 };
 
 export type Modals = keyof typeof MODAL_MAP; // 💀💀💀💀
@@ -76,6 +78,8 @@ const ModalManager = ({ modal, dispatch }: ReduxProps) => {
 
   useOutsideClick(modalRef, () => dispatch(closeModal()));
 
+  const stableDispatch = useCallback(dispatch, []);
+
   return (
     <AnimatePresence>
       {modal ? (
@@ -91,7 +95,12 @@ const ModalManager = ({ modal, dispatch }: ReduxProps) => {
             transition={{ duration: 0.15 }}
             variants={ContainerAnimation}
           >
-            {ActiveModal ? <ActiveModal /> : null}
+            {ActiveModal ? (
+              <ActiveModal
+                dispatch={stableDispatch}
+                closeModal={() => dispatch(closeModal())}
+              />
+            ) : null}
           </Container>
         </Wrapper>
       ) : null}

@@ -32,7 +32,6 @@ type SignupRequest struct {
 	Username        string `json:"username" validate:"required,min=3,max=24,alpha"`
 	Email           string `json:"email" validate:"required,min=3,email"`
 	Password        string `json:"password" validate:"required,min=8"`
-	ConfirmPassword string `json:"confirm_password" validate:"required,min=8"`
 }
 
 type LoginRequest struct {

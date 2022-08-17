@@ -3,7 +3,7 @@ import { connect, ConnectedProps } from "react-redux";
 import styled from "styled-components";
 import { addNotification, openModal } from "../../../state/actions";
 import { ImperialState } from "../../../state/reducers";
-import { ROLES, TestPermission } from "../../utils/Permissions";
+import { getRole } from "../../utils/Permissions";
 import { C } from "../Icons";
 import { PopoverBase } from "./popovers";
 
@@ -71,11 +71,8 @@ const UserPopover = ({ close, user, dispatch }: PopoverBase & ReduxProps) => {
               </Link>
             </Item>
             <Separator />
-            {TestPermission(user.flags, ROLES.ADMIN) ? (
-              <Item>Admin</Item>
-            ) : null}
+            {getRole(user.flags) === "Admin" ? <Item>Admin</Item> : null}
             <Item>
-              {" "}
               <Link href="/terms" passHref>
                 <a target="_blank">Terms</a>
               </Link>
@@ -108,7 +105,7 @@ const UserPopover = ({ close, user, dispatch }: PopoverBase & ReduxProps) => {
             <Separator />
             <Item>
               <Link href="/discord" passHref>
-                <a target="_blank">discord</a>
+                <a target="_blank">Discord</a>
               </Link>
             </Item>
             <Item>

@@ -11,8 +11,8 @@ type User struct {
 	Flags          int          `json:"flags" gorm:"default:1"`
 	APIToken       string       `json:"api_token"`
 	Banned         bool         `json:"banned" gorm:"default:false"`
-	GitHub         *GitHubUser  `json:"github" gorm:"foreignKey:UserID;default:null;"`
-	Discord        *DiscordUser `json:"discord" gorm:"foreignKey:UserID;default:null;"`
+	GitHub         *GitHubUser  `json:"github" gorm:"foreignKey:UserID;"`
+	Discord        *DiscordUser `json:"discord" gorm:"foreignKey:UserID;"`
 	UserSettings   UserSettings `json:"settings" gorm:"foreignKey:UserID;"`
 }
 

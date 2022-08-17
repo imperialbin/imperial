@@ -7,6 +7,7 @@ import { Tooltip } from "../../Tooltip";
 const Wrapper = styled.div<{
   noHeader: boolean;
 }>`
+  width: 100%;
   display: flex;
   position: ${({ noHeader }) => (noHeader ? "absolute" : "relative")};
   right: ${({ noHeader }) => noHeader && "10px"};

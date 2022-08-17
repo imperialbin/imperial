@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { ModalProps } from "./components/modals";
 
 const Wrapper = styled.div`
   position: relative;
@@ -16,10 +17,9 @@ const Wrapper = styled.div`
   background: ${({ theme }) => theme.background.lightestOfTheBunch};
 `;
 
-const PasswordModal = () => {
+const PasswordModal = (props: ModalProps) => {
   return (
     <Wrapper>
-      
       <h1>Document is encrypted.</h1>
     </Wrapper>
   );

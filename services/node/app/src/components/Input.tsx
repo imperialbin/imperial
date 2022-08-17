@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { ChangeEventHandler, InputHTMLAttributes, useState } from "react";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
 const Container = styled.div`
   position: relative;
@@ -32,7 +32,7 @@ const InputElement = styled.input<{ secretValue: boolean }>`
   margin: 5px 0 10px;
   border-radius: 8px;
   border: none;
-  font-size: 1em;
+  font-size: 0.9em;
   padding: 13px 40px 13px 12px;
   background: ${({ theme }) => theme.background.dark};
   box-shadow: 0px 0px 18px rgba(0, 0, 0, 0.25);
@@ -65,12 +65,16 @@ const Icon = styled(motion.div)<{ iconHoverColor: string | null }>`
   color: ${({ theme }) => theme.text.dark};
   transition: color 0.2s ease-in-out;
 
+  > svg {
+    width: 23px;
+  }
+
   &:hover {
     color: ${({ iconHoverColor }) => iconHoverColor};
   }
 `;
 
-const iconAnimation = {
+const ICON_ANIMATION = {
   initial: {
     opacity: 0,
     x: 10,
@@ -143,10 +147,10 @@ const Input = ({
           <AnimatePresence>
             {icon && !hideIconUntilDifferent ? (
               <Icon
-                initial={"initial"}
-                animate={"changed"}
-                exit={"exit"}
-                variants={iconAnimation}
+                initial="initial"
+                animate="changed"
+                exit="exit"
+                variants={ICON_ANIMATION}
                 onClick={iconClick}
                 iconHoverColor={iconHoverColor}
               >
