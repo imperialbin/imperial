@@ -17,7 +17,7 @@ func ScreenshotDocument(documentID string, userFlag int) {
 	var buf []byte
 	var quality = 60
 
-	if TestPermission(userFlag, memberPlus) {
+	if TestPermission(userFlag, MemberPlus) {
 		quality = 90
 	}
 

@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"api/utils"
 	. "api/utils"
 	. "api/v1/commons"
 
@@ -18,7 +19,7 @@ func CheckAdmin(c *fiber.Ctx) error {
 		})
 	}
 
-	_, err := GetAuthedUser(c)
+	user, err := GetAuthedUser(c)
 
 	if err != nil {
 		return c.Status(401).JSON(Response{
@@ -27,12 +28,12 @@ func CheckAdmin(c *fiber.Ctx) error {
 		})
 	}
 
-	/* 	if !user.Admin {
+	if !TestPermission(user.Flags, utils.Admin) {
 		return c.Status(401).JSON(Response{
 			Success: false,
 			Message: "You are not an admin!",
 		})
-	} */
+	}
 
 	return c.Next()
 }

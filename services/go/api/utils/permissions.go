@@ -10,10 +10,10 @@ const (
 
 /* Roles */
 const (
-	member     = canEncryptDocument
-	betaTester = member | vanityURL
-	memberPlus = highQualityScrreenshots | vanityURL
-	ADMIN      = memberPlus | banUsers
+	Member     = canEncryptDocument
+	BetaTester = Member | vanityURL
+	MemberPlus = highQualityScrreenshots | vanityURL
+	Admin      = MemberPlus | banUsers
 )
 
 func TestPermission(value int, flag int) bool {

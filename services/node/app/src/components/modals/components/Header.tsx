@@ -4,14 +4,10 @@ import { closeModal } from "../../../../state/actions";
 import { X } from "react-feather";
 import { Tooltip } from "../../Tooltip";
 
-const Wrapper = styled.div<{
-  noHeader: boolean;
-}>`
+const Wrapper = styled.div`
   width: 100%;
   display: flex;
-  position: ${({ noHeader }) => (noHeader ? "absolute" : "relative")};
-  right: ${({ noHeader }) => noHeader && "10px"};
-  top: ${({ noHeader }) => noHeader && "15px"};
+  position: relative;
   flex-direction: row;
   align-items: center;
   color: white;
@@ -22,22 +18,21 @@ const Title = styled.h1`
   margin: 0;
   font-size: 1.55em;
   font-weight: 600;
-  flex-grow: 1;
 `;
 
 interface IHeaderProps {
-  title?: string;
+  children?: React.ReactChild;
 }
 
-const Header = ({ title = "" }: IHeaderProps) => {
+const Header = ({ children }: IHeaderProps) => {
   return (
-    <Wrapper noHeader={title.length <= 0}>
-      {/* Remove header for some modals */}
-      {title.length > 0 ? <Title>{title}</Title> : null}
+    <Wrapper style={!children ? { position: "absolute", top: 0 } : undefined}>
+      <Title>{children}</Title>
       <Tooltip
         style={{
           display: "inline-flex",
           marginRight: 8,
+          marginLeft: "auto",
         }}
         title="Close (esc)"
       >

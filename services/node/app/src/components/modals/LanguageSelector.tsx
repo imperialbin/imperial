@@ -141,7 +141,7 @@ export const LanguageSelector = ({ closeModal, dispatch }: ModalProps) => {
 
   return (
     <Wrapper>
-      <Header title="Select Language" />
+      <Header>Select Language</Header>
       <Content>
         <SearchContainer>
           <SearchIcon />
