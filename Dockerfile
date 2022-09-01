@@ -12,8 +12,6 @@ RUN go mod download github.com/orisano/pixelmatch
 
 RUN go build
 
-EXPOSE ${PORT}
-
 FROM chromedp/headless-shell:latest
 
 RUN apt-get update
