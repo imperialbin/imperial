@@ -75,7 +75,7 @@
     "jsonwebtoken": "^8.5.1",
     "method-override": "^3.0.0",
     "mongodb": "^3.6.4",
-    "mongoose": "^5.12.5",
+    "mongoose": "^6.6.4",
     "nedb": "^1.8.0",
     "node-fetch": "^2.6.1",
     "passport": "^0.4.1",
