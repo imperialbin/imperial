@@ -1,13 +1,4 @@
-import { editingState, languageState } from "./editor";
-import { activeModal, documentEditors } from "./modal";
+import { createStore } from "redux";
+import { reducers } from "./reducers";
 
-export default {
-  editor: {
-    languageState,
-    editingState,
-  },
-  modal: {
-    activeModal,
-    documentEditors,
-  },
-};
+export const store = createStore(reducers);
