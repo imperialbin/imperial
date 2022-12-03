@@ -1,21 +1,19 @@
-import { styled } from "@stitches/react";
+import Editor from "../components/Editor";
+import Navbar from "../components/Navbar";
+import { styled } from "../stitches";
 
-const Button = styled("button", {
-  backgroundColor: "gainsboro",
-  borderRadius: "9999px",
-  fontSize: "13px",
-  padding: "10px 15px",
-  "&:hover": {
-    backgroundColor: "lightgray",
-  },
+const Wrapper = styled("div", {
+  width: "100vw",
+  height: "100vh",
 });
 
-function Index() {
+const Index = () => {
   return (
-    <div>
-      <Button>hey x</Button>
-    </div>
+    <Wrapper>
+      <Navbar />
+      <Editor />
+    </Wrapper>
   );
-}
+};
 
 export default Index;

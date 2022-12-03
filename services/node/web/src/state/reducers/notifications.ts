@@ -1,5 +1,4 @@
-import { AnyAction } from "redux";
-import { GenerateString } from "../../src/utils/GenerateString";
+import { generateString } from "../../utils/Strings";
 
 export type NotificationType = "success" | "info" | "error";
 export type Notification = {
@@ -14,18 +13,29 @@ export type NotificationState = Array<Notification> | [];
 
 const initialPopNotificationsState: NotificationState = [];
 
+type PopNotificationActions =
+  | {
+      type: "ADD_NOTIFICATION";
+      payload: Notification;
+    }
+  | {
+      type: "REMOVE_NOTIFICATION";
+      payload: { id: string };
+    }
+  | { type: "REMOVE_ALL_NOTIFICATIONS" };
+
 const pop_notifications = (
   state: NotificationState = initialPopNotificationsState,
-  action: AnyAction,
+  action: PopNotificationActions
 ): NotificationState => {
   switch (action.type) {
     case "ADD_NOTIFICATION":
-      return [{ ...action.payload, id: GenerateString() }, ...state];
+      return [{ ...action.payload, id: generateString() }, ...state];
 
     case "REMOVE_NOTIFICATION":
       return [
         ...state.filter(
-          (notification) => notification.id !== action.payload.id,
+          (notification) => notification.id !== action.payload.id
         ),
       ];
 

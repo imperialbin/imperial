@@ -1,7 +1,11 @@
-import { AnyAction } from "redux";
-import { SelfUser } from "../../src/types";
+import { SelfUser } from "../../types";
 
-const user = (state: SelfUser | null = null, action: AnyAction) => {
+type UserActions = {
+  type: "SET_USER";
+  payload: SelfUser | null;
+};
+
+const user = (state: SelfUser | null = null, action: UserActions) => {
   switch (action.type) {
     case "SET_USER":
       return action.payload;

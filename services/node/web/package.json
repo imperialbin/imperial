@@ -10,19 +10,26 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@monaco-editor/react": "^4.4.6",
+    "@reduxjs/toolkit": "^1.9.1",
     "@sentry/react": "^7.19.0",
     "@stitches/react": "^1.2.8",
+    "dayjs": "^1.11.6",
     "framer-motion": "^7.6.6",
+    "monaco-editor": "^0.34.1",
     "react": "^18.2.0",
     "react-copy-to-clipboard": "^5.1.0",
     "react-dom": "^18.2.0",
+    "react-feather": "^2.0.10",
     "react-helmet": "^6.1.0",
+    "react-loading-skeleton": "^3.1.0",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.4.3",
     "redux": "^4.2.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.24",
+    "@types/react-copy-to-clipboard": "^5.0.4",
     "@types/react-dom": "^18.0.8",
     "@types/react-helmet": "^6.1.5",
     "@vitejs/plugin-react": "^2.2.0",

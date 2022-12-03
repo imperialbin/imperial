@@ -22,9 +22,9 @@ const Wrapper = styled(motion.div)`
   overflow: hidden;
   color: var(--text-primary);
   font-weight: 500;
-  background: var(--bg-primary);
+  background: var(--primary-primary);
   border-radius: var(--card-border-radius);
-  border: 1px solid var(--bg-tertiary);
+  border: 1px solid var(--primary-tertiary);
 `;
 
 interface IPopover {

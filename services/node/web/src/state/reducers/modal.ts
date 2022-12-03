@@ -1,17 +1,18 @@
-import { AnyAction } from "redux";
-import { Modals } from "../../src/components/ModalManager";
+import { Modals } from "../../components/ModalManager";
 
 export interface ModalState {
   modal: Modals;
   data?: unknown;
 }
 
-type ModalActions = {
-  type: "OPEN_MODAL";
-  payload: ModalState;
-};
+type ModalActions =
+  | {
+      type: "OPEN_MODAL";
+      payload: ModalState;
+    }
+  | { type: "CLOSE_MODAL" };
 
-const modal = (state: ModalState | null = null, action: AnyAction) => {
+const modal = (state: ModalState | null = null, action: ModalActions) => {
   switch (action.type) {
     case "OPEN_MODAL":
       return action.payload;

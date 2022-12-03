@@ -1,6 +1,6 @@
-import { ModalData, Modals } from "../../src/components/ModalManager";
-import { SelfUser } from "../../src/types";
-import { SupportedLanguages } from "../../src/utils/Consts";
+import { ModalData, Modals } from "../../components/ModalManager";
+import { SelfUser } from "../../types";
+import { SupportedLanguages } from "../../utils/Constants";
 import { Notification } from "../reducers/notifications";
 
 export const setUser = (user: SelfUser) => {

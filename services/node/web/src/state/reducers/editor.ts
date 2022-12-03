@@ -1,5 +1,3 @@
-import { AnyAction } from "redux";
-
 export interface EditorState {
   readOnly: boolean;
   language: string;

@@ -1,104 +1,112 @@
 import { motion } from "framer-motion";
 import { useCallback, useEffect, useState } from "react";
-import { connect, ConnectedProps } from "react-redux";
-import { ImperialState } from "../../state/reducers";
-
-import { Tooltip } from "./Tooltip";
 import Copy from "react-copy-to-clipboard";
-import { UserIcon } from "./UserIcon";
+import {
+  AlignLeft,
+  ArrowRight,
+  Check,
+  Copy as CopyIcon,
+  Edit2,
+  FileText,
+  Globe,
+  Save,
+  X,
+} from "react-feather";
+import { connect, ConnectedProps } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { addNotification, openModal, setReadOnly } from "../state/actions";
+import { ImperialState } from "../state/reducers";
+import { styled } from "../stitches";
 import { Document } from "../types";
-import { request } from "../utils/Request";
-import Popover from "./popovers/Popover";
-import UserPopover from "./popovers/UserPopover";
-import { addNotification, openModal, setReadOnly } from "../../state/actions";
-import { useMonaco } from "imperial-editor";
-import { styled } from "@stitches/react";
+import { makeRequest } from "../utils/Rest";
+import Popover from "./popover/Popover";
+import UserPopover from "./popover/UserPopover";
+import Tooltip from "./Tooltip";
+import { UserIcon } from "./UserIcon";
 
-const Wrapper = styled(motion.div)`
-  position: absolute;
-  display: flex;
-  flex-direction: row;
-  top: 0;
-  right: 0;
-  z-index: 100;
-  background: ${({ theme }) => theme.background.darkest};
-  color: ${({ theme }) => theme.text.light};
-  border-bottom-left-radius: 15px;
-  padding: 0 15px;
-  box-shadow: 0px 0px 6px 3px rgb(0 0 0 / 25%);
-`;
+const Wrapper = styled(motion.div, {
+  position: "fixed",
+  display: "flex",
+  top: 0,
+  right: 0,
+  zIndex: 100,
+  background: "$primary",
+  color: "$text-primary",
+  borderBottomLeftRadius: "$large",
+  padding: "0 15px",
+  boxShadow: "$nav",
+});
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
+const Container = styled("div", {
+  display: "flex",
+  flexDirection: "column",
+});
 
-const HideNavContainer = styled(motion.div)`
-  position: absolute;
-  display: flex;
-  align-items: center;
-  left: 0;
-  padding: 0 5px;
-  width: 25px;
-  height: 100%;
-  overflow: hidden;
-  border-bottom-left-radius: 15px;
-  opacity: 0;
-  cursor: pointer;
-  transition: all 0.15s ease-in-out;
+const HideNavContainer = styled(motion.div, {
+  position: "absolute",
+  display: "flex",
+  alignItems: "center",
+  left: 0,
+  padding: "0 5px",
+  width: "25px",
+  height: "100%",
+  overflow: "hidden",
+  borderBottomLeftRadius: "$large",
+  opacity: 0,
+  cursor: "pointer",
+  transition: "all 0.15s ease-in-out",
 
-  &:hover {
-    background: ${({ theme }) => theme.background.lightestOfTheBunch};
-    opacity: 1;
-  }
-`;
+  "&:hover": {
+    background: "$tertiary",
+    opacity: 1,
+  },
+});
 
-const BrandContainer = styled(motion.div)`
-  display: inline-flex;
-  justify-content: center;
-`;
+const BrandContainer = styled(motion.div, {
+  display: "inline-flex",
+  justifyContent: "center",
+});
 
-const Brand = styled.h1`
-  text-align: center;
-  margin-top: 20px;
-  font-size: 1.3em;
-`;
+const Brand = styled("h1", {
+  textAlign: "center",
+  marginTop: 20,
+  fontSize: "1.3em",
+});
 
-const DocumentID = styled(motion.h1)`
-  text-align: center;
-  margin-top: 20px;
-  font-size: 1.1em;
-  white-space: nowrap;
-  overflow: hidden;
-  cursor: pointer;
-  color: ${({ theme }) => theme.text.dark};
-`;
+const DocumentID = styled(motion.h1, {
+  textAlign: "center",
+  marginTop: 20,
+  fontSize: "1.1em",
+  whiteSpace: "nowrap",
+  overflow: "hidden",
+  cursor: "pointer",
+  color: "$text-muted",
+});
 
-const Buttons = styled.div`
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  margin: 0 20px 10px;
-`;
+const Buttons = styled("div", {
+  display: "flex",
+  alignItems: "center",
+  margin: "0 20px 10px",
+});
 
-const Btn = styled.button`
-  padding: 8px 11px;
-  border-radius: 6px;
-  border: none;
-  background: ${({ theme }) => theme.background.lightestOfTheBunch};
-  color: ${({ theme }) => theme.text.lightest};
-  cursor: pointer;
-`;
+const Btn = styled("button", {
+  padding: "8px 11px",
+  borderRadius: "",
+  border: "none",
+  background: "$tertiary",
+  color: "$text-primary",
+  cursor: "pointer",
+});
 
-const StyledTooltip = styled(Tooltip)`
-  margin: 0 10px;
-`;
+const StyledTooltip = styled(Tooltip, {
+  margin: "0 10px",
+});
 
-const StyledUserIcon = styled(UserIcon)`
-  margin-left: 20px;
-`;
+const StyledUserIcon = styled(UserIcon, {
+  marginLeft: "20px",
+});
 
-const navAnimation = {
+const NAV_ANIMATION = {
   initial: {
     x: 0,
   },
@@ -107,7 +115,7 @@ const navAnimation = {
   },
 };
 
-const brandAnimation = {
+const BRAND_ANIMATION = {
   initial: {
     opacity: 0,
     width: 0,
@@ -128,6 +136,8 @@ const Nav = ({ user, document, dispatch }: INavProps) => {
   const [userPopover, setUserPopover] = useState(false);
   const [editing, setEditing] = useState(false);
 
+  const navigate = useNavigate();
+
   const saveDocument = useCallback(async () => {
     if (typeof window === "undefined" || !window.monaco) return;
 
@@ -136,7 +146,7 @@ const Nav = ({ user, document, dispatch }: INavProps) => {
 
     const language = window.monaco.editor.getModels()[0].getLanguageId();
 
-    const { success, data } = await request("POST", "/document", {
+    const { success, data } = await makeRequest("POST", "/document", {
       content,
       settings: {
         long_urls: user ? user.settings.long_urls : false,
@@ -160,19 +170,19 @@ const Nav = ({ user, document, dispatch }: INavProps) => {
       );
     }
 
-    Router.push(`/${data.id}`);
+    navigate(`/${data.id}`);
   }, [document, user]);
 
-  const newDocument = useCallback(() => {
-    Router.push("/");
-  }, []);
+  const newDocument = () => {
+    navigate("/");
+  };
 
   const forkDocument = useCallback(() => {
     if (typeof window === "undefined" || !document) return;
     const editor = window.monaco.editor.getModels()[0];
 
     const content = document.content;
-    Router.push("/");
+    navigate("/");
 
     editor.setValue(content);
   }, [document]);
@@ -200,15 +210,16 @@ const Nav = ({ user, document, dispatch }: INavProps) => {
   }, [document, user, editing]);
 
   const editDocument = useCallback(async () => {
-    if (typeof window === "undefined" || !window.monaco || !user || !document)
-      return;
+    if (!user || !document) return;
+    /* if (typeof window === "undefined" || !window.monaco || !user || !document)
+      return; */
 
     const editor = window.monaco.editor.getModels()[0];
     const content = editor.getValue();
 
     if (content === document.content) return;
 
-    const { success } = await request("PATCH", "/document", {
+    const { success } = await makeRequest("PATCH", "/document", {
       id: document.id,
       content,
     });
@@ -255,7 +266,7 @@ const Nav = ({ user, document, dispatch }: INavProps) => {
       initial="initial"
       transition={{ type: "spring", duration: 0.5, bounce: 0.2 }}
       animate={collapsed ? "collapsed" : "initial"}
-      variants={navAnimation}
+      variants={NAV_ANIMATION}
     >
       <HideNavContainer onClick={() => setCollapsed(!collapsed)}>
         <motion.div
@@ -267,7 +278,7 @@ const Nav = ({ user, document, dispatch }: INavProps) => {
       </HideNavContainer>
       <Container>
         <BrandContainer initial="initial" whileHover="hover">
-          <Link href="/" passHref>
+          <Link to="/">
             <Brand>IMPERIAL</Brand>
           </Link>
           {document ? (
@@ -281,7 +292,7 @@ const Nav = ({ user, document, dispatch }: INavProps) => {
               >
                 <DocumentID
                   transition={{ duration: 0.3 }}
-                  variants={brandAnimation}
+                  variants={BRAND_ANIMATION}
                 >
                   {document.id}
                 </DocumentID>
@@ -313,7 +324,7 @@ const Nav = ({ user, document, dispatch }: INavProps) => {
                 </StyledTooltip>
               ) : null}
               <StyledTooltip title="View raw">
-                <Btn onClick={() => Router.push(`/r/${document.id}`)}>
+                <Btn onClick={() => navigate(`/r/${document.id}`)}>
                   <AlignLeft size={20} />
                 </Btn>
               </StyledTooltip>
