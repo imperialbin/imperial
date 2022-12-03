@@ -167,10 +167,7 @@ const Popover = ({
   const PopoverElement = (
     <AnimatePresence>
       {active ? (
-        <FloatingFocusManager
-          context={context}
-          order={["reference", "content"]}
-        >
+        <FloatingFocusManager context={context} order={[]}>
           <Wrapper
             {...getFloatingProps({
               "aria-labelledby": labelId,

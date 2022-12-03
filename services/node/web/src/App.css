@@ -1,15 +1,13 @@
 :root {
-  --primary-900: hsl(228, 19%, 5%);
-  --primary-800: hsl(230, 18%, 7%);
-  --primary-700: hsl(228, 19%, 11%);
-  --primary-600: hsl(225, 20%, 12%);
-  --primary-500: hsl(226, 19%, 13%);
-  --primary-400: hsl(225, 11%, 22%);
-  --primary-300: hsl(228, 6%, 31%);
-  --primary-200: hsl(222, 5%, 39%);
-  --primary-100: hsl(225, 3%, 48%);
-  --primary-50: hsl(223, 3%, 57%);
-  --primary-0: hsl(228, 3%, 65%);
+  --bg-primary: #121212;
+  --bg-secondary: #191919;
+  --bg-tertiary: #1e1e1e;
+  --bg-contrast: #242424;
+
+  --text-white: hsl(0, 0%, 100%);
+  --text-primary: hsl(0, 0%, 87%);
+  --text-secondary: hsl(0, 0%, 67%);
+  --text-muted: hsl(0, 0%, 23%);
 
   --success: hsl(144, 67%, 51%);
   --error: hsl(0, 100%, 65%);

@@ -5,7 +5,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./app/index";
 import { useEffect } from "react";
 import { loader } from "@monaco-editor/react";
-import { Tomorrow } from "./components/editorthemes/Tomorrow";
+import { IMPERIAL_THEME } from "./components/editorthemes/Imperial";
 import ModalManager from "./components/ModalManager";
 
 function App() {
@@ -13,7 +13,7 @@ function App() {
     // fetch me
 
     loader.init().then(async (monaco) => {
-      monaco.editor.defineTheme("Tomorrow", Tomorrow);
+      monaco.editor.defineTheme("imperial", IMPERIAL_THEME);
     });
   }, []);
 

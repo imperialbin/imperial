@@ -1,5 +1,4 @@
 import Monaco, { EditorProps } from "@monaco-editor/react";
-import { editor } from "monaco-editor";
 import { useEffect } from "react";
 import { connect, ConnectedProps } from "react-redux";
 import { setLanguage, setReadOnly } from "../state/actions";
@@ -123,7 +122,7 @@ const Editor = ({
               fontFamily: "var(--font-mono)",
             }
       }
-      theme="Tomorrow"
+      theme="imperial"
       language={editor.language}
     />
   );

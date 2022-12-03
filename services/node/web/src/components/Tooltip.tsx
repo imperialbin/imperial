@@ -60,7 +60,7 @@ const Tooltip = ({
       toggleOnHover={true}
       toggleOnTargetClick={false}
       widthAtTarget={false}
-      toggleFocus={toggleFocus}
+      toggleFocus={false}
     >
       {children}
     </Popover>

@@ -4,35 +4,26 @@ export const { styled, css } = createStitches({
   theme: {
     colors: {
       /* General names */
-      primary: "var(--primary-500)",
-      secondary: "var(--primary-700)",
-      tertiary: "var(--primary-400)",
+      primary: "var(--bg-primary)",
+      secondary: "var(--bg-secondary)",
+      tertiary: "var(--bg-tertiary)",
+      contrast: "var(--bg-contrast)",
 
-      "text-primary": "var(--primary-0)",
-      "text-secondary": "var(--primary-100)",
-      "text-muted": "var(--primary-300)",
+      "text-white": "var(--text-white)",
+      "text-primary": "var(--text-primary)",
+      "text-secondary": "var(--text-secondary)",
+      "text-muted": "var(--text-muted)",
 
       success: "var(--success)",
       error: "var(--error)",
       info: "var(--info)",
-
-      /* specific color variables exposed to stitches */
-      "primary-900": "var(--primary-900)",
-      "primary-800": "var(--primary-800)",
-      "primary-700": "var(--primary-700)",
-      "primary-600": "var(--primary-600)",
-      "primary-500": "var(--primary-500)",
-      "primary-400": "var(--primary-400)",
-      "primary-300": "var(--primary-300)",
-      "primary-200": "var(--primary-200)",
-      "primary-100": "var(--primary-100)",
-      "primary-50": "var(--primary-50)",
-      "primary-0": "var(--primary-0)",
     },
     space: {
-      1: "5px",
-      2: "10px",
-      3: "15px",
+      tiny: "2px",
+      small: "5px",
+      medium: "10px",
+      "medium-large": "15px",
+      large: "20px",
     },
     fontSizes: {
       1: "13px",

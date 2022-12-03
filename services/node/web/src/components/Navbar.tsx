@@ -19,6 +19,7 @@ import { ImperialState } from "../state/reducers";
 import { styled } from "../stitches";
 import { Document } from "../types";
 import { makeRequest } from "../utils/Rest";
+import Button from "./Button";
 import Popover from "./popover/Popover";
 import UserPopover from "./popover/UserPopover";
 import Tooltip from "./Tooltip";
@@ -48,7 +49,7 @@ const HideNavContainer = styled(motion.div, {
   alignItems: "center",
   left: 0,
   padding: "0 5px",
-  width: "25px",
+  width: 25,
   height: "100%",
   overflow: "hidden",
   borderBottomLeftRadius: "$large",
@@ -87,15 +88,7 @@ const Buttons = styled("div", {
   display: "flex",
   alignItems: "center",
   margin: "0 20px 10px",
-});
-
-const Btn = styled("button", {
-  padding: "8px 11px",
-  borderRadius: "",
-  border: "none",
-  background: "$tertiary",
-  color: "$text-primary",
-  cursor: "pointer",
+  gap: "$medium",
 });
 
 const StyledTooltip = styled(Tooltip, {
@@ -304,41 +297,43 @@ const Nav = ({ user, document, dispatch }: INavProps) => {
           {!document ? (
             <>
               <StyledTooltip title="Change language">
-                <Btn onClick={() => dispatch(openModal("language_selector"))}>
+                <Button
+                  onClick={() => dispatch(openModal("language_selector"))}
+                >
                   <Globe size={20} />
-                </Btn>
+                </Button>
               </StyledTooltip>
               <StyledTooltip title="Save document">
-                <Btn onClick={saveDocument}>
+                <Button onClick={saveDocument}>
                   <Save size={20} />
-                </Btn>
+                </Button>
               </StyledTooltip>
             </>
           ) : (
             <>
               {user ? (
                 <StyledTooltip title="Edit document">
-                  <Btn onClick={prepareEdit}>
+                  <Button onClick={prepareEdit}>
                     {editing ? <Check size={20} /> : <Edit2 size={20} />}
-                  </Btn>
+                  </Button>
                 </StyledTooltip>
               ) : null}
               <StyledTooltip title="View raw">
-                <Btn onClick={() => navigate(`/r/${document.id}`)}>
+                <Button onClick={() => navigate(`/r/${document.id}`)}>
                   <AlignLeft size={20} />
-                </Btn>
+                </Button>
               </StyledTooltip>
               <StyledTooltip title="Duplicate document">
-                <Btn onClick={forkDocument}>
+                <Button onClick={forkDocument}>
                   <CopyIcon size={20} />
-                </Btn>
+                </Button>
               </StyledTooltip>
             </>
           )}
           <StyledTooltip title="New document">
-            <Btn onClick={newDocument}>
+            <Button onClick={newDocument}>
               <FileText size={20} />
-            </Btn>
+            </Button>
           </StyledTooltip>
           <Popover
             active={userPopover}
