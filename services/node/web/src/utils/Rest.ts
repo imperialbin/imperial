@@ -1,4 +1,4 @@
-import { API_VERSION_V1 } from "./Constants";
+import { FULL_URI_V1 } from "./Constants";
 
 export interface ImperialAPIResponse<T = any> {
   success: boolean;
@@ -36,7 +36,7 @@ export const makeRequest = async <T = any>(
     }
 
     const response: ImperialAPIResponse<T> = await fetch(
-      API_VERSION_V1 + endpoint,
+      FULL_URI_V1 + endpoint,
       {
         method,
         headers,

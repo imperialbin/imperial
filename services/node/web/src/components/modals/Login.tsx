@@ -6,7 +6,7 @@ import { makeRequest } from "../../utils/Rest";
 import Input from "../Input";
 import Header from "./base/Header";
 import { ModalProps } from "./base/modals";
-import { Wrapper } from "./base/Styles";
+import { LeftBtn, Wrapper } from "./base/Styles";
 
 const StyledWrapper = styled(Wrapper, {
   width: "80%",
@@ -28,37 +28,11 @@ const Left = styled("div", {
   flex: 0.8,
   alignItems: "center",
   justifyContent: "center",
-  background: "${({ theme }) => theme.background.dark}",
+  background: "$secondary",
   boxShadow: "-1.7168px 6.86722px 36.0529px 8.58402px rgba(0, 0, 0, 0.25)",
   padding: 10,
   borderBottomRightRadius: 12,
   borderTopRightRadius: 12,
-});
-
-const LeftBtn = styled("button", {
-  border: "none",
-  borderRadius: 5,
-  marginTop: 8,
-  padding: "10px 15px",
-  fontSize: "0.9em",
-  cursor: "pointer",
-  opacity: 0.8,
-  color: "${({ theme }) => theme.text.light}",
-  background: "",
-  boxShadow: "0px 0px 13px rgba(0, 0, 0, 0.25)",
-  transition: "all 0.2s ease-in-out",
-
-  "&:hover": {
-    opacity: 1,
-  },
-
-  "&:disabled": {
-    cursor: "not-allowed",
-    opacity: 0.5,
-  },
-  "&:last-of-type": {
-    marginTop: 15,
-  },
 });
 
 const Right = styled("div", {

@@ -73,9 +73,10 @@ const BrandContainer = styled(motion.div, {
 const Brand = styled(Link, {
   textAlign: "center",
   marginTop: 20,
-  fontSize: "1.3em",
+  fontSize: "1.1em",
   textDecoration: "unset",
-  color: "$text-secondary",
+  color: "$text-primary",
+  fontWeight: 700,
 });
 
 const DocumentID = styled(motion.h1, {
