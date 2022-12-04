@@ -1,5 +1,4 @@
 import useSWR from "swr";
-import { makeRequest } from "../utils/Rest";
 
 import { Document } from "../types";
 
