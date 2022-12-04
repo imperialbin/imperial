@@ -10,6 +10,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@floating-ui/react-dom-interactions": "^0.13.0",
     "@monaco-editor/react": "^4.4.6",
     "@reduxjs/toolkit": "^1.9.1",
     "@sentry/react": "^7.19.0",
@@ -28,6 +29,7 @@
     "redux": "^4.2.0"
   },
   "devDependencies": {
+    "@types/node": "^18.11.10",
     "@types/react": "^18.0.24",
     "@types/react-copy-to-clipboard": "^5.0.4",
     "@types/react-dom": "^18.0.8",
