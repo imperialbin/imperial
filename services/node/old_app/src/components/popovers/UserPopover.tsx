@@ -8,9 +8,7 @@ import { C } from "../Icons";
 import { PopoverBase } from "./popovers";
 
 const Wrapper = styled.div`
-  background: ${({ theme }) => theme.background.lightestOfTheBunch};
   padding: 15px 25px;
-  border-radius: 10px;
 `;
 
 const List = styled.ul`

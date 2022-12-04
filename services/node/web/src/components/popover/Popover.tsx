@@ -14,9 +14,8 @@ import {
   useHover,
   useId,
   useInteractions,
-  useRole,
 } from "@floating-ui/react-dom-interactions";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { cloneElement, useCallback, useEffect, useMemo } from "react";
 import { styled } from "../../stitches";
 import { PopoverBase } from "./base/popover";
@@ -25,11 +24,11 @@ const Wrapper = styled(motion.div, {
   position: "absolute",
   overflow: "hidden",
   color: "$text-primary",
-  background: "$secondary",
-  borderRadius: "$medium",
-  border: "1px solid hsl(var(--primary-tertiary))",
+  borderRadius: "$tiny",
+  border: "2px solid var(--bg-contrast)",
+  background: "transparent",
   boxShadow: "$dialogs",
-  backdropFilter: "blur(10px) saturate(190%) contrast(70%) brightness(80%)",
+  backdropFilter: "blur(10px) saturate(190%) contrast(70%) brightness(50%)",
 });
 
 interface IPopover {
@@ -167,7 +166,12 @@ const Popover = ({
   const PopoverElement = (
     <AnimatePresence>
       {active ? (
-        <FloatingFocusManager context={context} order={[]}>
+        <FloatingFocusManager
+          context={context}
+          order={["reference", "content"]}
+          returnFocus={false}
+          initialFocus={false}
+        >
           <Wrapper
             {...getFloatingProps({
               "aria-labelledby": labelId,

@@ -68,10 +68,12 @@ const BrandContainer = styled(motion.div, {
   justifyContent: "center",
 });
 
-const Brand = styled("h1", {
+const Brand = styled(Link, {
   textAlign: "center",
   marginTop: 20,
   fontSize: "1.3em",
+  textDecoration: "unset",
+  color: "$text-secondary",
 });
 
 const DocumentID = styled(motion.h1, {
@@ -271,9 +273,7 @@ const Nav = ({ user, document, dispatch }: INavProps) => {
       </HideNavContainer>
       <Container>
         <BrandContainer initial="initial" whileHover="hover">
-          <Link to="/">
-            <Brand>IMPERIAL</Brand>
-          </Link>
+          <Brand to="/">IMPERIAL</Brand>
           {document ? (
             <Tooltip title="Click to copy URL">
               <Copy
