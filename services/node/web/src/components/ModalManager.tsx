@@ -7,7 +7,6 @@ import { ImperialState } from "../state/reducers";
 import { useOutsideClick } from "../hooks/useOutsideClick";
 import Login from "./modals/Login";
 import Signup from "./modals/Signup";
-/* import UserSettings from "./modals/UserSettings"; */
 import { LanguageSelector } from "./modals/LanguageSelector";
 import UserSettings from "./modals/UserSettings";
 

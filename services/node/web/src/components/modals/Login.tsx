@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Lock, User, X } from "react-feather";
-import { addNotification, openModal } from "../../state/actions";
+import { addNotification, closeModal, openModal } from "../../state/actions";
 import { styled } from "../../stitches";
 import { makeRequest } from "../../utils/Rest";
 import Button from "../Button";
@@ -109,7 +109,7 @@ const Login = ({ dispatch }: ModalProps) => {
         })
       );
 
-    window.location.reload();
+    closeModal();
   };
 
   return (
