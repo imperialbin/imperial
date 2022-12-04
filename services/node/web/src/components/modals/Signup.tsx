@@ -1,67 +1,51 @@
 import Header from "./base/Header";
 import { ModalProps } from "./base/modals";
-import { LeftBtn, Wrapper } from "./base/Styles";
+import { Content, LeftBtn, Wrapper } from "./base/Styles";
 
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import { styled } from "../../stitches";
-import { Check as CheckIcon, Mail, User, Lock } from "react-feather";
+import { Check as CheckIcon, Mail, User, Lock, X } from "react-feather";
 
 import Input from "../Input";
 import { makeRequest } from "../../utils/Rest";
-import { openModal } from "../../state/actions";
+import { addNotification, openModal } from "../../state/actions";
 import Button from "../Button";
+import { Logo } from "../Icons";
 
-const FullContainer = styled("div", {
-  display: "inline-flex",
-  height: "100%",
-  width: "100%",
+const StyledWrapper = styled(Wrapper, {
+  width: "80%",
+  maxWidth: 600,
+  maxHeight: 300,
 });
 
-const Left = styled("div", {
+const StyledContent = styled(Content, {
+  flexDirection: "row",
+  marginBottom: 0,
+});
+
+const LogoContainer = styled("div", {
+  position: "absolute",
+  background: "$tertiary",
   display: "flex",
   flexDirection: "column",
-  flex: "0.8",
   alignItems: "center",
   justifyContent: "center",
-  background: "$primary",
-  boxShadow: "-1.7168px 6.86722px 36.0529px 8.58402px rgba(0, 0, 0, 0.25)",
-  padding: "10px",
-  borderBottomRightRadius: "12px",
-  borderTopRightRadius: "12px",
-});
+  height: "100%",
+  width: "45%",
+  gap: 10,
+  right: 0,
+  top: 0,
+  borderBottomLeftRadius: "$medium",
+  borderTopLeftRadius: "$medium",
 
-const Right = styled("div", {
-  flex: "1.25",
-  padding: "10px 30px",
-  overflow: "scroll",
-});
+  "> svg": {
+    height: 80,
+  },
 
-const BtnContainer = styled("div", {
-  alignSelf: "flex-start",
-  marginLeft: "10px",
-});
-
-const Subtitle = styled("h1", {
-  fontSize: "1.2em",
-  margin: "20px 0",
-  color: "$text-white",
-});
-
-const Error = styled("span", {
-  color: "$error",
-  fontSize: "1em",
-});
-
-const Span = styled("span", {
-  display: "block",
-  margin: "2px 0 15px 0",
-  opacity: "0.6",
-  color: "$text-muted",
-  cursor: "pointer",
-  transition: "opacity 0.2s ease-in-out",
-  "&:hover": {
-    opacity: 1,
+  "> button": {
+    position: "absolute",
+    bottom: 20,
   },
 });
 
@@ -70,29 +54,29 @@ const SuccessContainer = styled(motion.div, {
   alignItems: "center",
   justifyContent: "center",
   flexDirection: "column",
-  marginTop: "40px",
+  width: "100%",
+  minHeight: 150,
+
+  "> svg": {
+    color: "$success",
+  },
+
+  "> h1": {
+    textAlign: "center",
+    fontSize: "1.4em",
+    marginBottom: "0",
+    color: "$text-primary",
+  },
+
+  "> span": {
+    textAlign: "center",
+    fontSize: "1em",
+    fontWeight: 500,
+    color: "$text-secondary",
+  },
 });
 
-const Check = styled(CheckIcon, {
-  color: "$success",
-});
-
-const SuccessTitle = styled("h1", {
-  textAlign: "center",
-  fontSize: "1.4em",
-  fontWeight: "500",
-  marginBottom: "0",
-  color: "$text-muted",
-});
-
-const SuccessSpan = styled("span", {
-  textAlign: "center",
-  fontSize: "1.2em",
-  fontWeight: 500,
-  color: "$text-muted",
-});
-
-const showAnimation = {
+const SUCCESS_ANIMATION = {
   initial: {
     opacity: 0,
     transform: "scale(0.95)",
@@ -108,157 +92,166 @@ const Signup = ({ dispatch }: ModalProps) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
-  const submit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setLoading(true);
-
+  const submit = async () => {
     if (!username) {
-      setLoading(false);
-      return setError("You need to have a username");
+      return dispatch(
+        addNotification({
+          icon: <X />,
+          message: "You need an username",
+          type: "error",
+        })
+      );
     }
 
     if (!email) {
-      setLoading(false);
-      return setError("You need to have a email");
+      return dispatch(
+        addNotification({
+          icon: <X />,
+          message: "You need an email",
+          type: "error",
+        })
+      );
     }
 
     if (!password) {
-      setLoading(false);
-      return setError("You need to have a password");
+      return dispatch(
+        addNotification({
+          icon: <X />,
+          message: "You need a password",
+          type: "error",
+        })
+      );
     }
 
     if (!confirmPassword) {
-      setLoading(false);
-      return setError("You must confirm your password");
+      return dispatch(
+        addNotification({
+          icon: <X />,
+          message: "You need to confirm your password",
+          type: "error",
+        })
+      );
     }
 
     if (password !== confirmPassword) {
-      setLoading(false);
-      return setError("Passwords do not match");
+      return dispatch(
+        addNotification({
+          icon: <X />,
+          message: "Passwords do not match",
+          type: "error",
+        })
+      );
     }
 
+    setLoading(true);
     const { success, data, error } = await makeRequest("POST", "/auth/signup", {
       username,
       email,
       password,
     });
 
-    if (!success && error) {
-      setLoading(false);
-      return setError(data.message);
+    setLoading(false);
+
+    if (!success) {
+      return dispatch(
+        addNotification({
+          icon: <X />,
+          message: error?.message ?? "An error occurred whilst signing up",
+          type: "error",
+        })
+      );
     }
 
     // fetchMe();
-    setError(null);
-    setLoading(false);
     setSuccess(true);
   };
 
   return (
-    <Wrapper>
-      <Header />
-      <FullContainer>
-        <Left>
-          <img
-            src="/img/logo_transparent.png"
-            width={90}
-            height={80}
-            draggable={false}
-          />
-          <br />
-          <br />
-          <BtnContainer>
-            {!success ? (
-              <LeftBtn onClick={() => dispatch(openModal("login"))}>
-                Already have an account?
-              </LeftBtn>
-            ) : null}
-          </BtnContainer>
-        </Left>
-        <Right>
-          <AnimatePresence>
-            {!success ? (
-              <>
-                <Subtitle>Welcome aboard!</Subtitle>
-                {error ? (
-                  <>
-                    <br />
-                    <Error>{error}</Error>
-                    <br />
-                  </>
-                ) : null}
-                <form onSubmit={submit}>
-                  <Input
-                    label="Email"
-                    icon={<Mail />}
-                    iconClick={() => null}
-                    iconDisabled={true}
-                    placeholder="Enter your email"
-                    onChange={(e) => setEmail(e.target.value)}
-                    type="email"
-                    required
-                  />
-                  <Input
-                    label="Username"
-                    icon={<User />}
-                    iconClick={() => null}
-                    iconDisabled={true}
-                    placeholder="Enter your username"
-                    onChange={(e) => setUsername(e.target.value)}
-                    type="username"
-                    required
-                  />
-                  <Input
-                    label="Password"
-                    icon={<Lock />}
-                    iconClick={() => null}
-                    iconDisabled={true}
-                    placeholder="Enter your password"
-                    onChange={(e) => setPassword(e.target.value)}
-                    type="password"
-                    required
-                  />
-                  <Input
-                    label="Confirm password"
-                    icon={<Lock />}
-                    iconClick={() => null}
-                    iconDisabled={true}
-                    placeholder="Enter your password again"
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    type="password"
-                    required
-                  />
-                  <Span onClick={() => dispatch(openModal("login"))}>
-                    Already have an account?
-                  </Span>
-                  <Button disabled={loading} type="submit">
-                    Signup
-                  </Button>
-                </form>
-              </>
-            ) : (
-              <SuccessContainer
-                transition={{ duration: 0.25 }}
-                variants={showAnimation}
-                initial="initial"
-                animate="animate"
-                exit="initial"
+    <StyledWrapper>
+      <Header>Signup</Header>
+      <StyledContent>
+        <AnimatePresence>
+          {!success ? (
+            <>
+              <div
+                style={{
+                  width: "50%",
+                  gap: 10,
+                  display: "flex",
+                  flexDirection: "column",
+                }}
               >
-                <Check size={40} />
-                <SuccessTitle>Successfully created your account!</SuccessTitle>
-                <SuccessSpan>
-                  Make sure to check your email ({email})
-                </SuccessSpan>
-              </SuccessContainer>
-            )}
-          </AnimatePresence>
-        </Right>
-      </FullContainer>
-    </Wrapper>
+                <Input
+                  label="Email"
+                  icon={<Mail />}
+                  placeholder="Enter your email"
+                  onChange={(e) => setEmail(e.target.value)}
+                  type="email"
+                  iconDisabled
+                  required
+                />
+                <Input
+                  label="Username"
+                  icon={<User />}
+                  placeholder="Enter your username"
+                  onChange={(e) => setUsername(e.target.value)}
+                  type="username"
+                  iconDisabled
+                  required
+                />
+                <Input
+                  label="Password"
+                  icon={<Lock />}
+                  placeholder="Enter your password"
+                  onChange={(e) => setPassword(e.target.value)}
+                  type="password"
+                  iconDisabled
+                  required
+                />
+                <Input
+                  label="Confirm password"
+                  icon={<Lock />}
+                  placeholder="Enter your password again"
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  type="password"
+                  iconDisabled
+                  required
+                />
+                <Button
+                  style={{ alignSelf: "flex-start", marginTop: 15 }}
+                  disabled={loading}
+                  type="submit"
+                  onClick={submit}
+                >
+                  Signup
+                </Button>
+              </div>
+              <LogoContainer>
+                <Logo />
+                <Button onClick={() => dispatch(openModal("signup"))}>
+                  No account?
+                </Button>
+              </LogoContainer>
+            </>
+          ) : (
+            <SuccessContainer
+              transition={{ duration: 0.25 }}
+              variants={SUCCESS_ANIMATION}
+              initial="initial"
+              animate="animate"
+              exit="initial"
+            >
+              <CheckIcon size={40} />
+              <h1>Successfully created your account!</h1>
+              <span>Make sure to check your email ({email})</span>
+            </SuccessContainer>
+          )}
+        </AnimatePresence>
+      </StyledContent>
+    </StyledWrapper>
   );
 };
 

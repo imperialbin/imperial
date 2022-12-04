@@ -1,26 +1,17 @@
-import styled from "styled-components";
+import { Lock } from "react-feather";
+import Input from "../Input";
+import Header from "./base/Header";
 import { ModalProps } from "./base/modals";
-
-const Wrapper = styled.div`
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  width: 80%;
-  max-width: 650px;
-  min-height: 200px;
-  height: 50%;
-  max-height: 325px;
-  overflow: hidden;
-  border-radius: 12px;
-  background: ${({ theme }) => theme.background.lightestOfTheBunch};
-`;
+import { Paragraph, Wrapper } from "./base/Styles";
 
 const PasswordModal = (props: ModalProps) => {
   return (
     <Wrapper>
-      <h1>Document is encrypted.</h1>
+      <Header>Document is encrypted</Header>
+      <Paragraph>
+        To access this document, you will need to provide a password.
+      </Paragraph>
+      <Input icon={<Lock />} placeholder="s3cur3 p@s5w0rd1" />
     </Wrapper>
   );
 };

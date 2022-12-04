@@ -51,10 +51,7 @@ const Login = ({ dispatch }: ModalProps) => {
   const [loading, setLoading] = useState(false);
 
   const submit = async () => {
-    setLoading(true);
-
     if (!username) {
-      setLoading(false);
       return dispatch(
         addNotification({
           icon: <X />,
@@ -65,7 +62,6 @@ const Login = ({ dispatch }: ModalProps) => {
     }
 
     if (username.length < 3) {
-      setLoading(false);
       return dispatch(
         addNotification({
           icon: <X />,
@@ -76,7 +72,6 @@ const Login = ({ dispatch }: ModalProps) => {
     }
 
     if (!password) {
-      setLoading(false);
       return dispatch(
         addNotification({
           icon: <X />,
@@ -87,7 +82,6 @@ const Login = ({ dispatch }: ModalProps) => {
     }
 
     if (password.length < 8) {
-      setLoading(false);
       return dispatch(
         addNotification({
           icon: <X />,
@@ -96,6 +90,8 @@ const Login = ({ dispatch }: ModalProps) => {
         })
       );
     }
+
+    setLoading(true);
 
     const { success, error } = await makeRequest("POST", "/auth/login", {
       username,

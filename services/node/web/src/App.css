@@ -38,6 +38,10 @@ body {
   font-family: var(--font);
 }
 
+svg {
+  display: block;
+}
+
 ::-webkit-scrollbar {
   width: 5px;
   height: 0;

@@ -9,7 +9,6 @@ import { PopoverBase } from "./base/popover";
 
 const Wrapper = styled("div", {
   background: "$tertiary",
-  padding: "15px 25px",
   borderRadius: "$medium",
 });
 
@@ -17,24 +16,28 @@ const List = styled("ul", {
   display: "flex",
   flexDirection: "column",
   listStyle: "none",
+  minWidth: 130,
+  margin: 5,
 });
 
 const Item = styled("li", {
   width: "100%",
-  margin: "2.5px 10px",
-  color: "",
   cursor: "pointer",
+  padding: "5px 15px",
+  borderRadius: "$tiny",
+  color: "$text-muted",
+  transition: "color 0.15s ease-in-out, background 0.15s ease-in-out",
 
   a: {
     textDecoration: "none",
     color: "unset",
   },
 
-  transition: "color 0.15s ease-in-out",
-
   "&:hover": {
     color: "$text-primary",
+    background: "$contrast",
   },
+
   variants: {
     danger: {
       true: {
@@ -51,7 +54,7 @@ const Separator = styled("span", {
   margin: "8px auto",
   width: "80%",
   height: "1.5px",
-  background: "$primary",
+  background: "$contrast",
 });
 
 const UserPopover = ({ close, user, dispatch }: PopoverBase & ReduxProps) => {
@@ -69,20 +72,20 @@ const UserPopover = ({ close, user, dispatch }: PopoverBase & ReduxProps) => {
               User profile
             </Item>
             <Item>
-              <Link to="/discord">
-                <a target="_blank">Discord</a>
+              <Link to="/discord" target="_blank">
+                Discord
               </Link>
             </Item>
             <Item>
-              <Link to="/github">
-                <a target="_blank">GitHub</a>
+              <Link to="/github" target="_blank">
+                GitHub
               </Link>
             </Item>
             <Separator />
             {getRole(user.flags) === "Admin" ? <Item>Admin</Item> : null}
             <Item>
-              <Link to="/terms">
-                <a target="_blank">Terms</a>
+              <Link to="/terms" target="_blank">
+                Terms
               </Link>
             </Item>
             <Item danger>Logout</Item>
@@ -107,13 +110,13 @@ const UserPopover = ({ close, user, dispatch }: PopoverBase & ReduxProps) => {
             </Item>
             <Separator />
             <Item>
-              <Link to="/discord">
-                <a target="_blank">Discord</a>
+              <Link to="/discord" target="_blank">
+                Discord
               </Link>
             </Item>
             <Item>
-              <Link to="/github">
-                <a target="_blank">GitHub</a>
+              <Link to="/github" target="_blank">
+                GitHub
               </Link>
             </Item>
           </>

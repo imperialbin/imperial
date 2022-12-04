@@ -13,6 +13,11 @@ export const Wrapper = styled("div", {
   minWidth: 200,
 });
 
+export const Paragraph = styled("p", {
+  color: "$text-secondary",
+  fontSize: "0.9em",
+});
+
 export const Content = styled("div", {
   display: "flex",
   flexDirection: "column",
