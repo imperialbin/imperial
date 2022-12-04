@@ -26,7 +26,6 @@ const InputElement = styled("input", {
   outline: "none",
   width: "100%",
   display: "block",
-  padding: "0.9rem 40px",
   paddingRight: 10,
   fontWeight: 500,
   borderRadius: "$medium",
@@ -45,6 +44,14 @@ const InputElement = styled("input", {
   },
 
   variants: {
+    hasIcon: {
+      true: {
+        padding: "0.9em 35px",
+      },
+      false: {
+        padding: "0.9em 10px",
+      },
+    },
     hasSecretValue: {
       true: {
         textShadow:
@@ -148,6 +155,7 @@ const Input = ({
           disabled={inputDisabled}
           hasSecretValue={secretValue}
           type={type}
+          hasIcon={!!icon}
           {...props}
         />
       </Wrapper>
