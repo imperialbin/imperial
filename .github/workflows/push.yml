@@ -15,7 +15,7 @@ jobs:
       uses: andstor/copycat-action@v3
       with:
         personal_token: ${{ secrets.API_TOKEN_GITHUB }}
-        src_path: /services/node/app/
+        src_path: /services/node/web/
         dst_path: /
         dst_branch: main
         src_branch: next

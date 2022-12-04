@@ -23,11 +23,9 @@ export const makeRequest = async <T = any>(
   endpoint: string,
   body?: any
 ): Promise<ImperialAPIResponse<T>> => {
-  const imperialToken = localStorage.getItem("imperial-token") || "";
-
   try {
     const headers: Record<string, string> = {
-      authorization: imperialToken,
+      credentials: "include",
       "Content-Type": "application/json",
     };
 
@@ -74,10 +72,8 @@ export const fetcher = async <T = any>(
   endpoint: string,
   body?: any
 ): Promise<ImperialAPIResponse<T>> => {
-  const imperialToken = localStorage.getItem("imperial-token") || "";
-
   const headers: Record<string, string> = {
-    authorization: imperialToken,
+    credentials: "include",
     "Content-Type": "application/json",
   };
 
