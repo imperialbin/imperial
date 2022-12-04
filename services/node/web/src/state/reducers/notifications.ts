@@ -1,6 +1,6 @@
 import { generateString } from "../../utils/Strings";
 
-export type NotificationType = "success" | "info" | "error";
+export type NotificationType = "success" | "warning" | "error";
 export type Notification = {
   type: NotificationType;
   message: string;

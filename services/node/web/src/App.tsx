@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import { loader } from "@monaco-editor/react";
 import { IMPERIAL_THEME } from "./components/editorthemes/Imperial";
 import ModalManager from "./components/ModalManager";
+import NotificationsManager from "./components/NotificationsManager";
 
 function App() {
   useEffect(() => {
@@ -21,12 +22,12 @@ function App() {
   return (
     <>
       <ModalManager />
+      <NotificationsManager />
       <BrowserRouter>
         <Helmet defaultTitle="IMPERIAL" titleTemplate="%s • IMPERIAL" />
 
         <Routes>
           <Route path="/" element={<Index />} />
-          <Route path="/2" element={<div>:3</div>} />
           <Route path="/:document_id" element={<Document />} />
         </Routes>
       </BrowserRouter>

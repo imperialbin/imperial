@@ -36,6 +36,7 @@ const Language = styled("button", {
   minWidth: 150,
   border: "none",
   cursor: "pointer",
+  textTransform: "capitalize",
   fontSize: "1em",
   flex: 1,
   borderRadius: "$tiny",

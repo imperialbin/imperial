@@ -7,13 +7,9 @@ const Container = styled("div", {
 });
 
 const Label = styled("label", {
+  display: "block",
   color: "$text-muted",
-});
-
-const InputContainer = styled("div", {
-  width: "100%",
-  position: "relative",
-  display: "flex",
+  marginBottom: 5,
 });
 
 const Wrapper = styled("div", {
@@ -23,32 +19,29 @@ const Wrapper = styled("div", {
   alignItems: "stretch",
   flexWrap: "wrap",
   color: "$text-secondary",
+  overflow: "hidden",
 });
 
 const InputElement = styled("input", {
   outline: "none",
-  border: "none",
+  width: "100%",
   display: "block",
   padding: "0.9rem 40px",
   paddingRight: 10,
-  fontWeight: 600,
+  fontWeight: 500,
   borderRadius: "$medium",
-  background: "$primary",
-  transition: "all 0.15s ease",
+  background: "$contrast",
+  transition: "background 0.15s ease-in-out",
   color: "$text-secondary",
+  border: "2px solid var(--bg-contrast)",
 
-  "&:focus, &:focus::placeholder": {
+  "&:focus": {
     color: "$text-secondary",
-  },
-
-  "&:not(:hover)": {
-    textShadow:
-      "${({ secretValue, theme }) => secretValue ? `0 0 5px ${theme.text.light}9d` : unset}",
+    background: "$primary",
   },
 
   "&::placeholder": {
     color: "$text-muted",
-    transition: "all 0.1s ease-in-out",
   },
 
   variants: {
@@ -74,24 +67,19 @@ const IconContainer = styled(motion.div, {
   "> svg": {
     width: 18,
     height: 18,
-    color: "",
   },
 });
 
 const ICON_ANIMATION = {
   initial: {
-    opacity: 0,
-    x: 10,
+    scale: 0.5,
     width: 0,
   },
-  changed: {
-    opacity: 1,
-    x: 0,
-    width: "unset",
+  animate: {
+    scale: 1,
+    width: "auto",
   },
   exit: {
-    opacity: 0,
-    x: 10,
     width: 0,
   },
 };
@@ -137,11 +125,11 @@ const Input = ({
         <AnimatePresence>
           {icon && !hideIconUntilDifferent ? (
             <IconContainer
-              initial="initial"
-              animate="changed"
-              exit="exit"
-              variants={ICON_ANIMATION}
+              initial={ICON_ANIMATION.initial}
+              exit={ICON_ANIMATION.exit}
+              animate={ICON_ANIMATION.animate}
               onClick={iconClick}
+              transition={{ duration: 0.15 }}
               /* @ts-ignore will fix later */
               iconHoverColor={iconHoverColor}
             >

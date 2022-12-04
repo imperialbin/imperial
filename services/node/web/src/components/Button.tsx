@@ -5,10 +5,19 @@ import { styled } from "../stitches";
 const StyledButton = styled("button", {
   padding: "8px 10px",
   borderRadius: "$tiny",
-  border: "none",
   background: "$tertiary",
-  color: "$text-primary",
+  color: "$text-secondary",
   cursor: "pointer",
+  border: "1.5px solid var(--bg-contrast)",
+  transition: "color 0.15s ease-in-out, border 0.15s ease-in-out",
+
+  "&:hover": {
+    color: "$text-primary",
+  },
+
+  "&:disabled": {
+    opacity: 0.5,
+  },
 
   variants: {
     btnType: {

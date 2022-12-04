@@ -94,6 +94,7 @@ const ModalManager = ({ modal, dispatch }: ReduxProps) => {
             ref={modalRef}
             transition={{ duration: 0.15 }}
             variants={CONTAINER_ANIMATION}
+            key={modal.modal}
           >
             {ActiveModal ? (
               <ActiveModal

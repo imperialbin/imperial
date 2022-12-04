@@ -3,89 +3,54 @@ import { Lock, User, X } from "react-feather";
 import { addNotification, openModal } from "../../state/actions";
 import { styled } from "../../stitches";
 import { makeRequest } from "../../utils/Rest";
+import Button from "../Button";
+import { Logo } from "../Icons";
 import Input from "../Input";
 import Header from "./base/Header";
 import { ModalProps } from "./base/modals";
-import { LeftBtn, Wrapper } from "./base/Styles";
+import { Content, Wrapper } from "./base/Styles";
 
 const StyledWrapper = styled(Wrapper, {
   width: "80%",
-  maxWidth: 650,
-  height: "50%",
-  minHeight: 200,
-  maxHeight: 325,
+  maxWidth: 600,
 });
 
-const FullContainer = styled("div", {
-  display: "inline-flex",
-  height: "100%",
-  width: "100%",
+const StyledContent = styled(Content, {
+  flexDirection: "row",
+  marginBottom: 0,
 });
 
-const Left = styled("div", {
+const LogoContainer = styled("div", {
+  position: "absolute",
+  background: "$tertiary",
   display: "flex",
   flexDirection: "column",
-  flex: 0.8,
   alignItems: "center",
   justifyContent: "center",
-  background: "$secondary",
-  boxShadow: "-1.7168px 6.86722px 36.0529px 8.58402px rgba(0, 0, 0, 0.25)",
-  padding: 10,
-  borderBottomRightRadius: 12,
-  borderTopRightRadius: 12,
-});
+  height: "100%",
+  width: "45%",
+  gap: 10,
+  right: 0,
+  top: 0,
+  borderBottomLeftRadius: "$medium",
+  borderTopLeftRadius: "$medium",
 
-const Right = styled("div", {
-  flex: 1.25,
-  padding: "10px 30px",
-});
-
-const BtnContainer = styled("div", {
-  alignSelf: "flex-start",
-  marginLeft: 10,
-});
-
-const Subtitle = styled("h1", {
-  fontSize: "1.2em",
-  margin: "20px 0",
-  color: "",
-});
-
-const Container = styled("form", {
-  maxWidth: "100%",
-});
-
-const Btn = styled("button", {
-  border: "none",
-  borderRadius: 5,
-  marginTop: 5,
-  padding: "10px 15px",
-  fontSize: "0.9em",
-  cursor: "pointer",
-  opacity: 0.8,
-  color: "$text-light",
-  background: "$primary",
-  boxShadow: "0px 0px 13px rgba(0, 0, 0, 0.25)",
-  transition: "all 0.2s ease-in-out",
-
-  "&:hover": {
-    opacity: 1,
+  "> svg": {
+    height: 80,
   },
 
-  "&:disabled": {
-    cursor: "not-allowed",
-    opacity: 0.5,
+  "> button": {
+    position: "absolute",
+    bottom: 20,
   },
 });
 
 const Login = ({ dispatch }: ModalProps) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState<null | string>(null);
   const [loading, setLoading] = useState(false);
 
-  const submit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const submit = async () => {
     setLoading(true);
 
     if (!username) {
@@ -148,63 +113,56 @@ const Login = ({ dispatch }: ModalProps) => {
         })
       );
 
-    setError(null);
-
     window.location.reload();
   };
 
   return (
     <StyledWrapper>
-      <Header />
-      <FullContainer>
-        <Left>
-          <img
-            src="/img/logo_transparent.png"
-            width={90}
-            height={80}
-            draggable={false}
+      <Header>Login</Header>
+      <StyledContent>
+        <div
+          style={{
+            width: "50%",
+            gap: 10,
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <Input
+            label="Email or username"
+            icon={<User />}
+            iconClick={() => null}
+            placeholder="Enter your username or email"
+            onChange={(e) => setUsername(e.target.value)}
+            iconDisabled
+            required
           />
-          <br />
-          <br />
-          <BtnContainer>
-            <LeftBtn onClick={() => dispatch(openModal("signup"))}>
-              Don&apos;t have an account?
-            </LeftBtn>
-            <LeftBtn onClick={() => dispatch(openModal("signup"))}>
-              Forgot password?
-            </LeftBtn>
-          </BtnContainer>
-        </Left>
-        <Right>
-          <Subtitle>Welcome back!</Subtitle>
-          <Container onSubmit={submit}>
-            <Input
-              label="Email or username"
-              icon={<User />}
-              iconClick={() => null}
-              placeholder="Enter your username or email"
-              onChange={(e) => setUsername(e.target.value)}
-              iconDisabled
-              required
-            />
-            <Input
-              label="Password"
-              icon={<Lock />}
-              iconClick={() => null}
-              placeholder="Enter your password"
-              onChange={(e) => setPassword(e.target.value)}
-              type="password"
-              iconDisabled
-              required
-            />
-            <Btn disabled={loading} type="submit">
-              Login
-            </Btn>
-            <br />
-            <br />
-          </Container>
-        </Right>
-      </FullContainer>
+          <Input
+            label="Password"
+            icon={<Lock />}
+            iconClick={() => null}
+            placeholder="Enter your password"
+            onChange={(e) => setPassword(e.target.value)}
+            type="password"
+            iconDisabled
+            required
+          />
+          <Button
+            style={{ alignSelf: "flex-start", marginTop: 15 }}
+            disabled={loading}
+            type="submit"
+            onClick={submit}
+          >
+            Login
+          </Button>
+        </div>
+        <LogoContainer>
+          <Logo />
+          <Button onClick={() => dispatch(openModal("signup"))}>
+            No account?
+          </Button>
+        </LogoContainer>
+      </StyledContent>
     </StyledWrapper>
   );
 };

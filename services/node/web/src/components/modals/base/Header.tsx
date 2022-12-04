@@ -29,14 +29,7 @@ const Header = ({ children }: IHeaderProps) => {
   return (
     <Wrapper style={!children ? { position: "absolute", top: 0 } : undefined}>
       <Title>{children}</Title>
-      <Tooltip
-        style={{
-          display: "inline-flex",
-          marginRight: 8,
-          marginLeft: "auto",
-        }}
-        title="Close (esc)"
-      >
+      <Tooltip title="Close (esc)">
         <X
           size={23}
           style={{ cursor: "pointer" }}

@@ -16,7 +16,7 @@ export const { styled, css } = createStitches({
 
       success: "var(--success)",
       error: "var(--error)",
-      info: "var(--info)",
+      warning: "var(--warning)",
     },
     space: {
       tiny: "2px",

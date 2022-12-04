@@ -11,7 +11,7 @@
 
   --success: hsl(144, 67%, 51%);
   --error: hsl(0, 100%, 65%);
-  --info: hsl(65, 92%, 76%);
+  --warning: hsl(65, 92%, 76%);
 
   --font: "Manrope", sans-serif;
   --font-mono: "JetBrains Mono", "Courier New", "Courier", monospace;

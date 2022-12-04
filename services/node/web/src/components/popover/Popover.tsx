@@ -148,7 +148,7 @@ const Popover = ({
       enabled: toggleOnTargetClick,
     }),
     useDismiss(context, {
-      outsidePointerDown: clickToClose,
+      outsidePress: clickToClose,
     }),
     useFocus(context, {
       enabled: toggleFocus,
@@ -170,7 +170,7 @@ const Popover = ({
           context={context}
           order={["reference", "content"]}
           returnFocus={false}
-          initialFocus={false}
+          initialFocus={-1}
         >
           <Wrapper
             {...getFloatingProps({
