@@ -2,7 +2,7 @@ name: push
 
 on:
   push:
-    branches: [ next ]
+    branches: [next-next]
     paths:
       - "services/node/**"
 
@@ -11,14 +11,14 @@ jobs:
     runs-on: ubuntu-latest
     container: pandoc/latex
     steps:
-    - name: Copy
-      uses: andstor/copycat-action@v3
-      with:
-        personal_token: ${{ secrets.API_TOKEN_GITHUB }}
-        src_path: /services/node/web/
-        dst_path: /
-        dst_branch: main
-        src_branch: next
-        clean: true
-        dst_owner: Looskie
-        dst_repo_name: imperial-build
+      - name: Copy
+        uses: andstor/copycat-action@v3
+        with:
+          personal_token: ${{ secrets.API_TOKEN_GITHUB }}
+          src_path: /services/node/web/
+          dst_path: /
+          dst_branch: main
+          src_branch: next
+          clean: true
+          dst_owner: Looskie
+          dst_repo_name: imperial-build
