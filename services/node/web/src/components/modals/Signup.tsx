@@ -231,8 +231,8 @@ const Signup = ({ dispatch }: ModalProps) => {
               </div>
               <LogoContainer>
                 <Logo />
-                <Button onClick={() => dispatch(openModal("signup"))}>
-                  No account?
+                <Button onClick={() => dispatch(openModal("login"))}>
+                  Have an account?
                 </Button>
               </LogoContainer>
             </>
