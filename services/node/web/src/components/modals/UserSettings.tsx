@@ -17,12 +17,7 @@ import { connect, ConnectedProps } from "react-redux";
 
 import Input from "../Input";
 import { UserIcon } from "../UserIcon";
-import { Tooltip } from "../Tooltip";
-import { useRecentDocuments } from "../../hooks/useRecentDocuments";
-import { request } from "../../utils/Request";
-import { ImperialState } from "../../../state/reducers";
-import { addNotification, closeModal, setUser } from "../../../state/actions";
-import Setting from "../Setting";
+
 import Header from "./base/Header";
 import { SelfUser, UserSettings as UserSettingsType } from "../../types";
 import { getRole } from "../../utils/Permissions";
@@ -30,156 +25,165 @@ import { ModalProps } from "./base/modals";
 import { Link } from "react-router-dom";
 import { makeRequest } from "../../utils/Rest";
 import { styled } from "../../stitches";
+import { addNotification, closeModal, setUser } from "../../state/actions";
+import Tooltip from "../Tooltip";
+import { ImperialState } from "../../state/reducers";
+import Setting from "../Setting";
 
-const Wrapper = styled.div`
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  width: 80%;
-  max-width: 800px;
-  min-height: 200px;
-  height: 50%;
-  max-height: 80%;
-  background: ${({ theme }) => theme.background.lightestOfTheBunch};
-  border-radius: 10px;
-  overflow: hidden;
-`;
+const Wrapper = styled("div", {
+  position: "relative",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  flexDirection: "column",
+  width: "80%",
+  maxWidth: "800px",
+  minHeight: "200px",
+  height: "50%",
+  maxHeight: "80%",
+  background: "$tertiary", // needs to be changed to
+  borderRadius: "10px",
+  overflow: "hidden",
+});
 
-const Container = styled.div`
-  display: inline-flex;
-  height: 100%;
-`;
+const Container = styled("div", {
+  display: "inline-flex",
+  height: "100%",
+});
 
-const Overview = styled.div`
-  flex: 1.25;
-  background: ${({ theme }) => theme.background.dark};
-  box-shadow: -1.7168px 6.86722px 36.0529px 8.58402px rgba(0, 0, 0, 0.25);
-  padding: 10px;
-  border-bottom-right-radius: 12px;
-  border-top-right-radius: 12px;
-  overflow-y: scroll;
-`;
+const Overview = styled("div", {
+  flex: "1.25",
+  background: "$dark",
+  boxShadow: "-1.7168px 6.86722px 36.0529px 8.58402px rgba(0, 0, 0, 0.25)",
+  padding: "10px",
+  borderBottomRightRadius: "12px",
+  borderTopRightRadius: "12px",
+  overflowY: "scroll",
+});
 
-const UserOverview = styled.div`
-  overflow-y: scroll;
-  display: flex;
-  align-items: center;
-  margin: 15px 0 15px 15px;
-`;
+const UserOverview = styled("div", {
+  overflowY: "scroll",
+  display: "flex",
+  alignItems: "center",
+  margin: "15px 0 15px 15px",
+});
 
-const Subtitle = styled.h1`
-  font-size: 1.4em;
-  margin: 10px 0;
-  color: ${({ theme }) => theme.text.light};
-`;
+const Subtitle = styled("h1", {
+  fontSize: "1.4em",
+  margin: "10px 0",
+  color: "$text-white",
+});
 
-const UserInfo = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
+const UserInfo = styled("div", {
+  display: "flex",
+  flexDirection: "column",
+});
 
-const Username = styled.span`
-  font-size: 1.5em;
-  font-weight: 600;
-  color: ${({ theme }) => theme.text.light};
-`;
+const Username = styled("span", {
+  fontSize: "1.5em",
+  fontWeight: 600,
+  color: "$text-white",
+});
 
-const UserID = styled.span`
-  font-size: 1.25em;
-  font-weight: 400;
-  opacity: 0.6;
-  color: ${({ theme }) => theme.text.dark};
-`;
+const UserID = styled("span", {
+  fontSize: "1.25em",
+  fontWeight: "400",
+  opacity: "0.6",
+  color: "$text-muted",
+});
 
-const Settings = styled.div`
-  flex: 1;
-  padding: 10px 30px;
-  overflow-y: scroll;
-`;
+const Settings = styled("div", {
+  flex: 1,
+  padding: "10px 30px",
+  overflowY: "scroll",
+});
 
-const Tiles = styled.div`
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  margin-bottom: 20px;
-`;
+const Tiles = styled("div", {
+  width: "100%",
+  display: "flex",
+  flexWrap: "wrap",
+  marginBottom: "20px",
+});
 
-const Tile = styled.div`
-  min-width: 38%;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 13px 10px;
-  margin: 10px;
-  min-height: 73px;
-  border-radius: 8px;
-  flex: 1;
-  font-size: 1.2em;
-  color: ${({ theme }) => theme.text.light};
-  background: ${({ theme }) => theme.background.lightestOfTheBunch};
-`;
+const Tile = styled("div", {
+  minWidth: "38%",
+  position: "relative",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  padding: "13px 10px",
+  margin: "10px",
+  minHeight: "73px",
+  borderRadius: "8px",
+  flex: 1,
+  fontSize: "1.2em",
+  color: "$text-white",
+  background: "$tertiary",
+});
 
-const TileBtns = styled.div`
-  position: absolute;
-  top: 0px;
-  right: 8px;
-`;
+const TileBtns = styled("div", {
+  position: "absolute",
+  top: "0px",
+  right: "8px",
+});
 
-const TileBtn = styled.div`
-  display: inline-block;
-  margin: 0 3px;
-  color: ${({ theme }) => theme.text.dark};
-  cursor: pointer;
-  transition: color 0.2s ease-in-out;
+const TileBtn = styled("div", {
+  display: "inline-block",
+  margin: "0 3px",
+  color: "$text-muted",
+  cursor: "pointer",
+  transition: "color 0.2s ease-in-out",
+  "&:hover": {
+    color: "$test-primary",
+  },
+});
 
-  &:hover {
-    color: ${({ theme }) => theme.text.light};
-  }
-`;
+const TileIcon = styled("img", {
+  width: "30px",
+  height: "auto",
+  marginRight: "13px",
+});
 
-const TileIcon = styled.img`
-  width: 30px;
-  height: auto;
-  margin-right: 13px;
-`;
+const TitleInfo = styled("p", {
+  fontSize: "0.8em",
+  opacity: "0.6",
+  margin: "0",
+  color: "$text-muted",
+});
 
-const TitleInfo = styled.p`
-  font-size: 0.8em;
-  opacity: 0.6;
-  margin: 0;
-  color: ${({ theme }) => theme.text.dark};
-`;
+const Btn = styled("button", {
+  border: "none",
+  borderRadius: "8px",
+  marginTop: "8px",
+  padding: "10px 15px",
+  fontSize: "0.9em",
+  cursor: "pointer",
+  opacity: 0.8,
+  color: "$text-primary",
+  background: "$primary",
+  boxShadow: "0px 0px 13px rgba(0, 0, 0, 0.25)",
+  transition: "all 0.2s ease-in-out",
 
-const Btn = styled("button")<{ backgroundColor?: string }>`
-  border: none;
-  border-radius: 8px;
-  margin-top: 8px;
-  padding: 10px 15px;
-  font-size: 0.9em;
-  cursor: pointer;
-  opacity: 0.8;
-  color: ${({ theme }) => theme.text.light};
-  background: ${({ theme, backgroundColor }) =>
-    backgroundColor || theme.background.dark};
-  box-shadow: 0px 0px 13px rgba(0, 0, 0, 0.25);
-  transition: all 0.2s ease-in-out;
+  "&:disabled": {
+    opacity: 0.5,
+    cursor: "initial",
+    "&:hover": {
+      opacity: 0.5,
+    },
+  },
 
-  &:disabled {
-    opacity: 0.5;
-    cursor: initial;
+  "&:hover": {
+    opacity: 1,
+  },
 
-    &:hover {
-      opacity: 0.5;
-    }
-  }
-
-  &:hover {
-    opacity: 1;
-  }
-`;
+  variants: {
+    useLightBackground: {
+      true: {
+        background: "$tertiary",
+      },
+    },
+  },
+});
 
 const NotFoundSpan = styled("span", {
   marginLeft: 12,
@@ -369,7 +373,7 @@ const UserSettings = ({
             <br />
             <Link to="/logout">
               <Btn
-                backgroundColor={theme.background.lightestOfTheBunch}
+                useLightBackground
                 style={{
                   marginLeft: 10,
                   display: "flex",
@@ -399,7 +403,7 @@ const UserSettings = ({
               tooltipTitle="Update icon"
               onChange={(e) => setIconValue(e.target.value)}
               iconClick={async () => {
-                const { data, error, success } = await request<{
+                const { data, error, success } = await makeRequest<{
                   user: SelfUser;
                 }>("PATCH", "/users/@me", {
                   icon: `https://github.com/${iconValue}.png`,
@@ -445,7 +449,7 @@ const UserSettings = ({
                     })
                   );
 
-                const { data, error } = await request<{ user: SelfUser }>(
+                const { data, error } = await makeRequest<{ user: SelfUser }>(
                   "PATCH",
                   "/users/@me",
                   {
@@ -473,14 +477,14 @@ const UserSettings = ({
               }}
               hideIconUntilDifferent
             />
-            <Tooltip title="Click to copy API Token" position="bottom">
+            <Tooltip title="Click to copy API Token" placement="bottom">
               <Input
                 label="API Token"
                 placeholder="API Token"
                 value={user.api_token}
                 icon={<RefreshCw size={18} />}
                 iconClick={async () => {
-                  const { data, error } = await request<{ token: string }>(
+                  const { data, error } = await makeRequest<{ token: string }>(
                     "POST",
                     "/users/@me/regenAPIToken"
                   );
@@ -666,7 +670,7 @@ const UserSettings = ({
                     })
                   );
 
-                const { error } = await request(
+                const { error } = await makeRequest(
                   "PATCH",
                   "/auth/reset_password",
                   {
