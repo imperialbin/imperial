@@ -1,19 +1,15 @@
 import { styled } from "../../../stitches";
 
 export const Wrapper = styled("div", {
-  position: "relative",
   display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
   flexDirection: "column",
-  borderRadius: 12,
-  maxWidth: "90%",
-  width: "50%",
-  height: "80%",
-  maxHeight: "90%",
+  padding: 25,
+  margin: 10,
+  background: "$secondary",
+  borderRadius: 8,
   overflow: "auto",
-  padding: 30,
-  background: "$light",
+  maxHeight: "90%",
+  minWidth: 200,
 });
 
 export const Content = styled("div", {

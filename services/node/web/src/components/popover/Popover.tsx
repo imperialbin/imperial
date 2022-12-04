@@ -25,8 +25,8 @@ const Wrapper = styled(motion.div, {
   overflow: "hidden",
   color: "$text-primary",
   borderRadius: "$tiny",
+  background: "hsla(var(--bg-secondary), 0.8)",
   border: "2px solid var(--bg-contrast)",
-  background: "transparent",
   boxShadow: "$dialogs",
   backdropFilter: "blur(10px) saturate(190%) contrast(70%) brightness(50%)",
 });
