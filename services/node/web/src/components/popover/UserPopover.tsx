@@ -99,13 +99,8 @@ const UserPopover = ({ close, user, dispatch }: PopoverBase & ReduxProps) => {
             </Item>
             <Item
               onClick={() => {
-                dispatch(
-                  addNotification({
-                    icon: <C />,
-                    message: "Fuck",
-                    type: "error",
-                  })
-                );
+                dispatch(openModal("signup"));
+                close();
               }}
             >
               Signup

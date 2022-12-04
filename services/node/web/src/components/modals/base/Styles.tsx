@@ -22,3 +22,30 @@ export const Content = styled("div", {
   width: "100%",
   height: "100%",
 });
+
+export const LeftBtn = styled("button", {
+    border: "none",
+    borderRadius: 5,
+    marginTop: 8,
+    padding: "10px 15px",
+    fontSize: "0.9em",
+    cursor: "pointer",
+    opacity: 0.8,
+    color: "$text-muted",
+    background: "",
+    boxShadow: "0px 0px 13px rgba(0, 0, 0, 0.25)",
+    transition: "all 0.2s ease-in-out",
+  
+    "&:hover": {
+      opacity: 1,
+    },
+  
+    "&:disabled": {
+      cursor: "not-allowed",
+      opacity: 0.5,
+    },
+    "&:last-of-type": {
+      marginTop: 15,
+    },
+  });
+  
