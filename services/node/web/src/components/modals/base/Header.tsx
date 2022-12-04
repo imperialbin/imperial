@@ -18,6 +18,7 @@ const Title = styled("h1", {
   margin: 0,
   fontSize: "1.55em",
   fontWeight: 600,
+  flexGrow: 1,
 });
 
 interface IHeaderProps {
