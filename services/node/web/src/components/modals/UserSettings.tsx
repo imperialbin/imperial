@@ -29,6 +29,7 @@ import { addNotification, closeModal, setUser } from "../../state/actions";
 import Tooltip from "../Tooltip";
 import { ImperialState } from "../../state/reducers";
 import Setting from "../Setting";
+import { useRecentDocuments } from "../../hooks/useRecentDocuments";
 
 const Wrapper = styled("div", {
   position: "relative",
@@ -206,8 +207,7 @@ const UserSettings = ({
   user,
   dispatch,
 }: ReduxProps & ModalProps): JSX.Element => {
-  const theme = useTheme();
-  const { documents, isError: documentsError } = useRecentDocuments();
+  const documents = useRecentDocuments();
 
   const [iconValue, setIconValue] = useState("");
   const [email, setEmail] = useState("");
@@ -316,9 +316,6 @@ const UserSettings = ({
             <Subtitle style={{ marginLeft: 12 }}>Recent documents</Subtitle>
             <Tiles>
               <Tiles>
-                {documentsError
-                  ? "There was an error getting your recent documents!"
-                  : null}
                 {documents && documents.length > 0 ? (
                   documents.map((document, key) => {
                     const date = new Date(document.timestamps.expiration * 1000)
@@ -380,9 +377,7 @@ const UserSettings = ({
                   alignItems: "center",
                 }}
               >
-                <ArrowLeft
-                  style={{ color: theme.system.error, marginRight: 10 }}
-                />
+                <ArrowLeft style={{ color: "var(--error)", marginRight: 10 }} />
                 Logout
               </Btn>
             </Link>
@@ -399,7 +394,7 @@ const UserSettings = ({
                 ?.match(/[^/]*.png/g)
                 ?.toString()
                 .replace(".png", "")}
-              iconHoverColor={theme.system.success}
+              iconHoverColor="var(--success)"
               tooltipTitle="Update icon"
               onChange={(e) => setIconValue(e.target.value)}
               iconClick={async () => {
@@ -437,7 +432,7 @@ const UserSettings = ({
               value={user.email}
               onChange={(e) => setEmail(e.target.value)}
               icon={<Edit size={18} />}
-              iconHoverColor={theme.system.success}
+              iconHoverColor="var(--success)"
               tooltipTitle="Update email"
               iconClick={async () => {
                 if (!/^\S+@\S+\.\S+$/.test(email))
@@ -684,7 +679,9 @@ const UserSettings = ({
                   return dispatch(
                     addNotification({
                       icon: <X />,
-                      message: error.message,
+                      message:
+                        error.message ??
+                        "An error occurred whilst resetting password",
                       type: "error",
                     })
                   );
