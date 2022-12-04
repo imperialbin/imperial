@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Copy from "react-copy-to-clipboard";
 import {
   AlignLeft,
@@ -9,6 +9,7 @@ import {
   Edit2,
   FileText,
   Globe,
+  Minus,
   Save,
   X,
 } from "react-feather";
@@ -18,6 +19,7 @@ import { addNotification, openModal, setReadOnly } from "../state/actions";
 import { ImperialState } from "../state/reducers";
 import { styled } from "../stitches";
 import { Document } from "../types";
+import { supportedLanguages } from "../utils/Constants";
 import { makeRequest } from "../utils/Rest";
 import Button from "./Button";
 import Popover from "./popover/Popover";
@@ -126,7 +128,7 @@ const BRAND_ANIMATION = {
 interface INavProps extends ReduxProps {
   document?: Document;
 }
-const Nav = ({ user, document, dispatch }: INavProps) => {
+const Nav = ({ user, document, language, dispatch }: INavProps) => {
   const [collapsed, setCollapsed] = useState(false);
   const [userPopover, setUserPopover] = useState(false);
   const [editing, setEditing] = useState(false);
@@ -256,6 +258,12 @@ const Nav = ({ user, document, dispatch }: INavProps) => {
     };
   }, [document]);
 
+  const SelectedLanguageIcon = useMemo(() => {
+    const findLanguage = supportedLanguages.find((l) => l.name === language);
+
+    return findLanguage?.icon ?? Globe;
+  }, [language]);
+
   return (
     <Wrapper
       initial="initial"
@@ -300,7 +308,7 @@ const Nav = ({ user, document, dispatch }: INavProps) => {
                 <Button
                   onClick={() => dispatch(openModal("language_selector"))}
                 >
-                  <Globe size={20} />
+                  <SelectedLanguageIcon width={20} height={20} />
                 </Button>
               </StyledTooltip>
               <StyledTooltip title="Save document">
@@ -349,8 +357,8 @@ const Nav = ({ user, document, dispatch }: INavProps) => {
   );
 };
 
-const mapStateToProps = ({ user }: ImperialState) => {
-  return { user };
+const mapStateToProps = ({ user, editor: { language } }: ImperialState) => {
+  return { user, language };
 };
 const connector = connect(mapStateToProps);
 type ReduxProps = ConnectedProps<typeof connector>;

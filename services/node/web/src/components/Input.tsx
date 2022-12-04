@@ -17,35 +17,31 @@ const InputContainer = styled("div", {
 });
 
 const Wrapper = styled("div", {
-  display: "flex",
-  alignItems: "center",
   position: "relative",
-  width: "85%",
+  display: "flex",
+  width: "100%",
+  alignItems: "stretch",
+  flexWrap: "wrap",
+  color: "$text-secondary",
 });
 
 const InputElement = styled("input", {
-  display: "block",
-  width: "100%",
-  whiteSpace: "nowrap",
-  overflow: "hidden",
-  textOverflow: "ellipsis",
-  margin: "5px 0 10px",
-  borderRadius: 8,
-  border: "none",
-  fontSize: "0.9em",
-  padding: "13px 40px 13px 12px",
-  background: "$primary",
-  boxShadow: "0px 0px 18px rgba(0, 0, 0, 0.25)",
   outline: "none",
+  border: "none",
+  display: "block",
+  padding: "0.9rem 40px",
+  paddingRight: 10,
+  fontWeight: 600,
+  borderRadius: "$medium",
+  background: "$primary",
+  transition: "all 0.15s ease",
   color: "$text-secondary",
-  transition: "all 0.1s ease-in-out",
 
   "&:focus, &:focus::placeholder": {
     color: "$text-secondary",
   },
 
   "&:not(:hover)": {
-    color: "transparent",
     textShadow:
       "${({ secretValue, theme }) => secretValue ? `0 0 5px ${theme.text.light}9d` : unset}",
   },
@@ -65,23 +61,20 @@ const InputElement = styled("input", {
   },
 });
 
-const Icon = styled(motion.div, {
+const IconContainer = styled(motion.div, {
   position: "absolute",
-  right: 15,
-  cursor: "pointer",
-  overflow: "hidden",
-  color: "$text-dark",
-  transition: "color 0.2s ease-in-out",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  top: 2,
+  bottom: 2,
+  padding: 10,
+  pointerEvents: "none",
 
   "> svg": {
-    width: 23,
-  },
-
-  "&:hover": {
-    color: "${({ iconHoverColor }) => iconHoverColor}",
-  },
-  variants: {
-    iconHoverColor: {},
+    width: 18,
+    height: 18,
+    color: "",
   },
 });
 
@@ -105,11 +98,11 @@ const ICON_ANIMATION = {
 
 export interface IInputProps extends InputHTMLAttributes<HTMLInputElement> {
   placeholder: string;
-  label: string;
+  label?: string;
   value?: string;
-  icon: JSX.Element;
+  icon?: JSX.Element;
   secretValue?: boolean;
-  iconClick: () => unknown;
+  iconClick?: () => unknown;
   iconDisabled?: boolean;
   iconHoverColor?: string | null;
   hideIconUntilDifferent?: boolean;
@@ -139,39 +132,37 @@ const Input = ({
 
   return (
     <Container>
-      <Label>{label}</Label>
-      <InputContainer>
-        <Wrapper>
-          <InputElement
-            value={inputValue}
-            onChange={(e) => {
-              setInputValue(e.target.value);
+      {label ? <Label>{label}</Label> : null}
+      <Wrapper>
+        <AnimatePresence>
+          {icon && !hideIconUntilDifferent ? (
+            <IconContainer
+              initial="initial"
+              animate="changed"
+              exit="exit"
+              variants={ICON_ANIMATION}
+              onClick={iconClick}
+              /* @ts-ignore will fix later */
+              iconHoverColor={iconHoverColor}
+            >
+              {icon}
+            </IconContainer>
+          ) : null}
+        </AnimatePresence>
+        <InputElement
+          value={inputValue}
+          onChange={(e) => {
+            setInputValue(e.target.value);
 
-              if (onChange) onChange(e);
-            }}
-            placeholder={placeholder}
-            disabled={inputDisabled}
-            hasSecretValue={secretValue}
-            type={type}
-            {...props}
-          />
-          <AnimatePresence>
-            {icon && !hideIconUntilDifferent ? (
-              <Icon
-                initial="initial"
-                animate="changed"
-                exit="exit"
-                variants={ICON_ANIMATION}
-                onClick={iconClick}
-                /* @ts-ignore will fix later */
-                iconHoverColor={iconHoverColor}
-              >
-                {icon}
-              </Icon>
-            ) : null}
-          </AnimatePresence>
-        </Wrapper>
-      </InputContainer>
+            if (onChange) onChange(e);
+          }}
+          placeholder={placeholder}
+          disabled={inputDisabled}
+          hasSecretValue={secretValue}
+          type={type}
+          {...props}
+        />
+      </Wrapper>
     </Container>
   );
 };

@@ -7,28 +7,47 @@ import { Content, Wrapper } from "./base/Styles";
 import { styled } from "../../stitches";
 import { supportedLanguages, SupportedLanguages } from "../../utils/Constants";
 import { setLanguage } from "../../state/actions";
+import Input from "../Input";
 
-const SearchContainer = styled("div", {
-  color: "$primary",
+const StyledWrapper = styled(Wrapper, {
+  gap: 10,
+  maxWidth: 600,
+  width: "100%",
 });
 
-export const Search = styled("input", {
-  display: "inline-block",
-  margin: "15px 15px 0",
-  padding: "10px 0px",
-  border: "none",
-  borderRadius: "$medium",
-  fontSize: "1.4em",
-  background: "$tertiary",
-  color: "$text-primary",
+const StyledContent = styled(Content, {
+  maxHeight: 300,
+});
 
-  "&:focus": {
-    outline: "none",
+const Languages = styled("div", {
+  display: "flex",
+  flexWrap: "wrap",
+  gap: 10,
+  marginTop: 15,
+});
+
+const Language = styled("button", {
+  display: "flex",
+  alignItems: "center",
+  gap: 10,
+  padding: "5px 10px",
+  color: "$text-secondary",
+  background: "unset",
+  minWidth: 150,
+  border: "none",
+  cursor: "pointer",
+  fontSize: "1em",
+  flex: 1,
+  borderRadius: "$tiny",
+  transition: "background 0.15s ease-in-out",
+
+  "&:hover": {
+    background: "$tertiary",
   },
 
-  "&::placeholder": {
-    opacity: 0.4,
-    color: "",
+  "> svg": {
+    width: 25,
+    height: 25,
   },
 });
 
@@ -122,8 +141,6 @@ export const LanguageSelector = ({ closeModal, dispatch }: ModalProps) => {
   };
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
-
     window.addEventListener("keydown", enterHandler);
 
     return () => {
@@ -140,51 +157,30 @@ export const LanguageSelector = ({ closeModal, dispatch }: ModalProps) => {
   );
 
   return (
-    <Wrapper>
+    <StyledWrapper>
       <Header>Select Language</Header>
-      <Content>
-        <SearchContainer>
-          <SearchIcon />
-          <Search
-            placeholder="Search languages"
-            onChange={(e) => setSearchQuery(e.target.value)}
-            autoFocus
-          />
-        </SearchContainer>
-        {filteredLanguages.length === 0 ? (
-          <UnsupportedLanguage
-            transition={{ duration: 0.3 }}
-            animate={NOT_FOUND_ANIMATION.animate}
-            initial={NOT_FOUND_ANIMATION.initial}
-            exit={NOT_FOUND_ANIMATION.initial}
-          >
-            <SearchIcon />
-            <p>We don&apos;t support that language</p>
-          </UnsupportedLanguage>
-        ) : null}
-
-        <br />
-        {filteredLanguages.map((language) => (
-          <LanguageBtn
-            transition={{ duration: 0.3 }}
-            initial={ITEM_ANIMATION.initial}
-            animate={ITEM_ANIMATION.animate}
-            exit={ITEM_ANIMATION.initial}
-            onClick={() => changeLanguage(language.name)}
-            key={language.id}
-            value={language.name}
-          >
-            {language.name}
-          </LanguageBtn>
-        ))}
-
-        {searchQuery ? (
-          <Tip>
-            <TipAccent>PROTIP</TipAccent>
-            you can press enter to select the first result.
-          </Tip>
-        ) : null}
-      </Content>
-    </Wrapper>
+      <StyledContent>
+        <Input
+          style={{ width: "100%" }}
+          icon={<SearchIcon />}
+          placeholder="Search Language"
+          onChange={({ target: { value } }) => setSearchQuery(value)}
+          autoFocus
+        />
+        <Languages>
+          {filteredLanguages.map((language) => (
+            <Language
+              onClick={() => {
+                dispatch(setLanguage(language.name));
+                closeModal();
+              }}
+            >
+              {language.icon ? <language.icon /> : null}
+              {language.name}
+            </Language>
+          ))}
+        </Languages>
+      </StyledContent>
+    </StyledWrapper>
   );
 };

@@ -1,3 +1,4 @@
+import { SVGProps } from "react";
 import {
   TypeScript as TypeScriptIcon,
   HTML as HTMLIcon,
@@ -44,7 +45,11 @@ export const TwitterURL = "https://twitter.com/imperialbin";
 
 export type SupportedLanguages = typeof supportedLanguages[number]["name"];
 
-export const supportedLanguages = [
+export const supportedLanguages: Array<{
+  id: number;
+  name: string;
+  icon?: (props: SVGProps<SVGSVGElement>) => JSX.Element;
+}> = [
   { id: 1, name: "apex" },
   { id: 2, name: "azcli" },
   { id: 3, name: "bat" },
@@ -101,4 +106,4 @@ export const supportedLanguages = [
   { id: 54, name: "vb" },
   { id: 55, name: "xml" },
   { id: 56, name: "yaml" },
-] as const;
+];
