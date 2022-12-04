@@ -3,6 +3,7 @@ import "./App.css";
 import Helmet from "react-helmet";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./app/index";
+import Document from "./app/document";
 import { useEffect } from "react";
 import { loader } from "@monaco-editor/react";
 import { IMPERIAL_THEME } from "./components/editorthemes/Imperial";
@@ -26,6 +27,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/2" element={<div>:3</div>} />
+          <Route path="/:document_id" element={<Document />} />
         </Routes>
       </BrowserRouter>
     </>
