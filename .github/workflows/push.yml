@@ -18,7 +18,7 @@ jobs:
           src_path: /services/node/web/
           dst_path: /
           dst_branch: main
-          src_branch: next
+          src_branch: next-next
           clean: true
           dst_owner: Looskie
           dst_repo_name: imperial-build
