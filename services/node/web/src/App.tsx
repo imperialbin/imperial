@@ -9,8 +9,11 @@ import { loader } from "@monaco-editor/react";
 import { IMPERIAL_THEME } from "./components/editorthemes/Imperial";
 import ModalManager from "./components/ModalManager";
 import NotificationsManager from "./components/NotificationsManager";
+import { useUser } from "./hooks/useUser";
 
 function App() {
+  const user = useUser();
+  console.log(user);
   useEffect(() => {
     // fetch me
 

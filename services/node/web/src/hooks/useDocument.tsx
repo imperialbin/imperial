@@ -1,6 +1,5 @@
-import { makeRequest } from "../utils/Rest";
-import { FULL_URI_V1 } from "../utils/Constants";
 import useSWR from "swr";
+import { makeRequest } from "../utils/Rest";
 
 import { Document } from "../types";
 
@@ -9,10 +8,7 @@ export const useDocument = (
 ): Document | undefined => {
   if (!documentId) return;
 
-  const { data: response } = useSWR(
-    `/document/${documentId}`,
-    async (url) => await makeRequest<Document>("GET", url)
-  );
+  const { data: response, error } = useSWR(`/document/${documentId}`);
 
   return response?.data;
 };

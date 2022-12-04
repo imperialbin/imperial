@@ -67,3 +67,37 @@ export const makeRequest = async <T = any>(
     };
   }
 };
+
+/* This is used for SWR, but we can't have it the same as makeRequest because we have a try catch */
+export const fetcher = async <T = any>(
+  method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE" | "HEAD",
+  endpoint: string,
+  body?: any
+): Promise<ImperialAPIResponse<T>> => {
+  const imperialToken = localStorage.getItem("imperial-token") || "";
+
+  const headers: Record<string, string> = {
+    authorization: imperialToken,
+    "Content-Type": "application/json",
+  };
+
+  if (body && (method === "GET" || method === "HEAD")) {
+    throw new Error("GET requests cannot have a body");
+  }
+
+  return await fetch(FULL_URI_V1 + endpoint, {
+    method,
+    headers,
+    body: body ? JSON.stringify(body) : null,
+  }).then(async (res) => {
+    const parsedRes = await res.json();
+
+    if (!res.ok) throw new Error(parsedRes.message);
+
+    return res.status === 204
+      ? { success: true }
+      : parsedRes.catch(() =>
+          res.status >= 300 ? { success: false } : { success: true }
+        );
+  });
+};

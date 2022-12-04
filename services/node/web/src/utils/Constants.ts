@@ -33,8 +33,8 @@ import {
 /* ENV and some static stuff */
 export const API_BASE =
   process.env.NODE_ENV === "development"
-    ? "http://127.0.0.1:8080/"
-    : "https://staging.impb.in/";
+    ? "https://imperial.hop.sh/"
+    : "https://imperial.hop.sh/";
 export const API_VERSION_V1 = "v1";
 export const FULL_URI_V1 = API_BASE + API_VERSION_V1;
 
