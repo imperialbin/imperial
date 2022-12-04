@@ -9,6 +9,7 @@ import Login from "./modals/Login";
 import Signup from "./modals/Signup";
 /* import UserSettings from "./modals/UserSettings"; */
 import { LanguageSelector } from "./modals/LanguageSelector";
+import UserSettings from "./modals/UserSettings";
 
 const Wrapper = styled(motion.div, {
   top: 0,
@@ -54,7 +55,7 @@ const CONTAINER_ANIMATION = {
 const MODAL_MAP = {
   login: Login,
   signup: Signup,
-  /* user_settings: UserSettings, */
+  user_settings: UserSettings,
   language_selector: LanguageSelector,
 };
 
