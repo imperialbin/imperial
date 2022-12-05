@@ -36,6 +36,7 @@ body {
   padding: 0;
   font-weight: 500;
   font-family: var(--font);
+  background: #191919;
 }
 
 svg {

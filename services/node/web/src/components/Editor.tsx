@@ -26,7 +26,7 @@ const CodeContainer = styled("div", {
 const EditorSkeleton = (): JSX.Element => (
   <Container>
     <CodeContainer>
-      {[...Array(9)].map((_, i) => (
+      {[...Array(9).fill("undefined")].map((_, i) => (
         <Skeleton
           duration={0.5}
           style={{ display: "inline-block", marginTop: 3 }}

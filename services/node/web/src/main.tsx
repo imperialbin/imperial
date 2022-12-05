@@ -1,11 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { SkeletonTheme } from "react-loading-skeleton";
 import { Provider } from "react-redux";
+import { SWRConfig } from "swr";
 import App from "./App";
 import { store } from "./state";
-import { SkeletonTheme } from "react-loading-skeleton";
-import { SWRConfig } from "swr";
-import { fetcher, makeRequest } from "./utils/Rest";
+import { fetcher } from "./utils/Rest";
+
+import "react-loading-skeleton/dist/skeleton.css";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
@@ -15,7 +17,10 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
           fetcher: (url: string) => fetcher("GET", url),
         }}
       >
-        <SkeletonTheme baseColor="red" highlightColor="blue">
+        <SkeletonTheme
+          baseColor="var(--bg-contrast)"
+          highlightColor="var(--bg-secondary)"
+        >
           <App />
         </SkeletonTheme>
       </SWRConfig>
