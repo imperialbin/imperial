@@ -127,7 +127,6 @@ const Login = ({ dispatch }: ModalProps) => {
           <Input
             label="Email or username"
             icon={<User />}
-            iconClick={() => null}
             placeholder="Enter your username or email"
             onChange={(e) => setUsername(e.target.value)}
             iconDisabled
@@ -136,7 +135,6 @@ const Login = ({ dispatch }: ModalProps) => {
           <Input
             label="Password"
             icon={<Lock />}
-            iconClick={() => null}
             placeholder="Enter your password"
             onChange={(e) => setPassword(e.target.value)}
             type="password"

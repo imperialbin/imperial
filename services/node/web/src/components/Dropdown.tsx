@@ -3,13 +3,13 @@ import { styled } from "../stitches";
 import { supportedLanguages } from "../utils/Constants";
 
 const Select = styled("select", {
-  background: "$secondary",
-  border: "none",
+  background: "$contrast",
   borderRadius: "4px",
   padding: "5px 10px",
   color: "$text-primary",
   marginTop: "10px",
   fontSize: "0.95em",
+  border: "2px solid var(---bg-tertiary)",
 
   "&:disabled": {
     cursor: "not-allowed",
@@ -33,24 +33,20 @@ const Dropdown = ({
   numberLimit,
 }: IDropdownProps): JSX.Element => (
   <Select defaultValue={initialValue} onChange={onToggle} disabled={disabled}>
-    {mode === "expiration" ? (
-      <>
-        {[...Array(numberLimit || 60)].map((day: number, key: number) => (
+    {mode === "expiration"
+      ? [...Array(numberLimit || 60)].map((day: number, key: number) => (
           <option value={key + 1} key={key}>
             {key + 1}
           </option>
-        ))}
-      </>
-    ) : null}
-    {mode === "languages" ? (
-      <>
-        {supportedLanguages.map((language, key) => (
+        ))
+      : null}
+    {mode === "languages"
+      ? supportedLanguages.map((language, key) => (
           <option value={language.name} key={key}>
             {language.name}
           </option>
-        ))}
-      </>
-    ) : null}
+        ))
+      : null}
   </Select>
 );
 

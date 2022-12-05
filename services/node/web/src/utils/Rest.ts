@@ -25,7 +25,6 @@ export const makeRequest = async <T = any>(
 ): Promise<ImperialAPIResponse<T>> => {
   try {
     const headers: Record<string, string> = {
-      credentials: "include",
       "Content-Type": "application/json",
     };
 
@@ -38,6 +37,7 @@ export const makeRequest = async <T = any>(
       {
         method,
         headers,
+        credentials: "include",
         body: body ? JSON.stringify(body) : null,
       }
     ).then(async (res) =>
@@ -73,7 +73,6 @@ export const fetcher = async <T = any>(
   body?: any
 ): Promise<ImperialAPIResponse<T>> => {
   const headers: Record<string, string> = {
-    credentials: "include",
     "Content-Type": "application/json",
   };
 
@@ -84,16 +83,13 @@ export const fetcher = async <T = any>(
   return await fetch(FULL_URI_V1 + endpoint, {
     method,
     headers,
+    credentials: "include",
     body: body ? JSON.stringify(body) : null,
   }).then(async (res) => {
     const parsedRes = await res.json();
 
     if (!res.ok) throw new Error(parsedRes.message);
 
-    return res.status === 204
-      ? { success: true }
-      : parsedRes.catch(() =>
-          res.status >= 300 ? { success: false } : { success: true }
-        );
+    return res.status === 204 ? { success: true } : parsedRes;
   });
 };

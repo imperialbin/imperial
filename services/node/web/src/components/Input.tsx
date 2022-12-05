@@ -8,8 +8,9 @@ const Container = styled("div", {
 
 const Label = styled("label", {
   display: "block",
-  color: "$text-muted",
+  color: "$text-secondary",
   marginBottom: 5,
+  fontSize: "0.9em",
 });
 
 const Wrapper = styled("div", {
@@ -52,6 +53,14 @@ const InputElement = styled("input", {
         padding: "0.9em 10px",
       },
     },
+    iconPosition: {
+      right: {
+        padding: "0.9em 35px 0.9em 10px",
+      },
+      left: {
+        padding: "0.9em 35px",
+      },
+    },
     hasSecretValue: {
       true: {
         textShadow:
@@ -75,6 +84,17 @@ const IconContainer = styled(motion.div, {
     width: 18,
     height: 18,
   },
+
+  variants: {
+    position: {
+      right: {
+        right: 0,
+      },
+      left: {
+        left: 0,
+      },
+    },
+  },
 });
 
 const ICON_ANIMATION = {
@@ -96,6 +116,7 @@ export interface IInputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   value?: string;
   icon?: JSX.Element;
+  iconPosition?: "left" | "right";
   secretValue?: boolean;
   iconClick?: () => unknown;
   iconDisabled?: boolean;
@@ -113,6 +134,7 @@ const Input = ({
   value = "",
   icon,
   iconClick,
+  iconPosition = "left",
   secretValue = false,
   iconHoverColor = null,
   hideIconUntilDifferent = false,
@@ -137,8 +159,7 @@ const Input = ({
               animate={ICON_ANIMATION.animate}
               onClick={iconClick}
               transition={{ duration: 0.15 }}
-              /* @ts-ignore will fix later */
-              iconHoverColor={iconHoverColor}
+              position={iconPosition}
             >
               {icon}
             </IconContainer>
@@ -156,6 +177,7 @@ const Input = ({
           hasSecretValue={secretValue}
           type={type}
           hasIcon={!!icon}
+          iconPosition={iconPosition}
           {...props}
         />
       </Wrapper>

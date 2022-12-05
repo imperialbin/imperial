@@ -2,11 +2,13 @@ import useSWR from "swr";
 import { makeRequest } from "../utils/Rest";
 
 import { Document } from "../types";
+import { store } from "../state";
+import { setUser } from "../state/actions";
 
 export const useUser = (): Document | undefined => {
-  const { data: response, error } = useSWR(`/users/@me`);
+  const { data } = useSWR(`/users/@me`);
 
-  console.log(response);
+  store.dispatch(setUser(data?.data ?? null));
 
-  return response?.data;
+  return data?.data;
 };

@@ -20,6 +20,7 @@ const InfoContainer = styled("div", {
 const Title = styled("h1", {
   fontSize: "1.15em",
   fontWeight: 500,
+  color: "$text-primary",
   margin: 0,
 });
 
@@ -27,7 +28,7 @@ const Description = styled("p", {
   fontSize: "1em",
   maxWidth: "50ch",
   paddingRight: "15px",
-  color: "$text-muted",
+  color: "$text-secondary",
   margin: 0,
 });
 

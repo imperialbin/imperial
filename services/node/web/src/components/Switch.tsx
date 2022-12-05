@@ -55,9 +55,11 @@ export interface ISwitchProps {
 
 const Switch = ({ toggled, onToggle, disabled }: ISwitchProps): JSX.Element => {
   const [checked, setChecked] = useState(toggled);
+
   return (
     <SwitchElement>
       <CheckBox
+        type="checkbox"
         checked={checked}
         onChange={() => {
           setChecked(!checked);

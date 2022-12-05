@@ -27,7 +27,11 @@ interface IHeaderProps {
 
 const Header = ({ children }: IHeaderProps) => {
   return (
-    <Wrapper style={!children ? { position: "absolute", top: 0 } : undefined}>
+    <Wrapper
+      style={
+        !children ? { position: "absolute", top: 20, right: 20 } : undefined
+      }
+    >
       <Title>{children}</Title>
       <Tooltip title="Close (esc)">
         <X

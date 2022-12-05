@@ -30,6 +30,8 @@ import Tooltip from "../Tooltip";
 import { ImperialState } from "../../state/reducers";
 import Setting from "../Setting";
 import { useRecentDocuments } from "../../hooks/useRecentDocuments";
+import { DiscordLogo, GitHubLogo } from "../Icons";
+import Button from "../Button";
 
 const Wrapper = styled("div", {
   position: "relative",
@@ -42,7 +44,7 @@ const Wrapper = styled("div", {
   minHeight: "200px",
   height: "50%",
   maxHeight: "80%",
-  background: "$tertiary", // needs to be changed to
+  background: "$secondary", // needs to be changed to
   borderRadius: "10px",
   overflow: "hidden",
 });
@@ -54,7 +56,7 @@ const Container = styled("div", {
 
 const Overview = styled("div", {
   flex: "1.25",
-  background: "$dark",
+  background: "$secondary",
   boxShadow: "-1.7168px 6.86722px 36.0529px 8.58402px rgba(0, 0, 0, 0.25)",
   padding: "10px",
   borderBottomRightRadius: "12px",
@@ -90,7 +92,7 @@ const UserID = styled("span", {
   fontSize: "1.25em",
   fontWeight: "400",
   opacity: "0.6",
-  color: "$text-muted",
+  color: "$text-secondary",
 });
 
 const Settings = styled("div", {
@@ -104,6 +106,12 @@ const Tiles = styled("div", {
   display: "flex",
   flexWrap: "wrap",
   marginBottom: "20px",
+});
+
+const InputWrapper = styled("div", {
+  display: "flex",
+  flexDirection: "column",
+  gap: 10,
 });
 
 const Tile = styled("div", {
@@ -120,6 +128,12 @@ const Tile = styled("div", {
   fontSize: "1.2em",
   color: "$text-white",
   background: "$tertiary",
+
+  "> svg": {
+    width: "30px",
+    height: "auto",
+    marginRight: "13px",
+  },
 });
 
 const TileBtns = styled("div", {
@@ -131,7 +145,7 @@ const TileBtns = styled("div", {
 const TileBtn = styled("div", {
   display: "inline-block",
   margin: "0 3px",
-  color: "$text-muted",
+  color: "$text-secondary",
   cursor: "pointer",
   transition: "color 0.2s ease-in-out",
   "&:hover": {
@@ -139,56 +153,22 @@ const TileBtn = styled("div", {
   },
 });
 
-const TileIcon = styled("img", {
-  width: "30px",
-  height: "auto",
-  marginRight: "13px",
-});
-
 const TitleInfo = styled("p", {
   fontSize: "0.8em",
   opacity: "0.6",
   margin: "0",
-  color: "$text-muted",
-});
-
-const Btn = styled("button", {
-  border: "none",
-  borderRadius: "8px",
-  marginTop: "8px",
-  padding: "10px 15px",
-  fontSize: "0.9em",
-  cursor: "pointer",
-  opacity: 0.8,
-  color: "$text-primary",
-  background: "$primary",
-  boxShadow: "0px 0px 13px rgba(0, 0, 0, 0.25)",
-  transition: "all 0.2s ease-in-out",
-
-  "&:disabled": {
-    opacity: 0.5,
-    cursor: "initial",
-    "&:hover": {
-      opacity: 0.5,
-    },
-  },
-
-  "&:hover": {
-    opacity: 1,
-  },
-
-  variants: {
-    useLightBackground: {
-      true: {
-        background: "$tertiary",
-      },
-    },
-  },
+  color: "$text-secondary",
 });
 
 const NotFoundSpan = styled("span", {
   marginLeft: 12,
   color: "$text-muted",
+});
+
+const StyledEditBtn = styled(Edit, {
+  "&:hover": {
+    color: "$success",
+  },
 });
 
 dayjs.extend(calender);
@@ -296,18 +276,18 @@ const UserSettings = ({
                   !user.discord ? window.open("/link/discord") : null
                 }
               >
-                <TileIcon src="/img/discord.svg" />
+                <DiscordLogo />
                 <TitleInfo style={{ fontSize: "1em" }}>
                   {user.discord ? "Connected" : "Connect"}
                 </TitleInfo>
               </Tile>
               <Tile
-                style={!user.github ? { cursor: "pointer" } : {}}
+                style={!user.github ? { cursor: "pointer" } : undefined}
                 onClick={() =>
                   !user.github ? window.open("/link/github") : null
                 }
               >
-                <TileIcon src="/img/github.svg" />
+                <GitHubLogo />
                 <TitleInfo style={{ fontSize: "1em" }}>
                   {user.github ? "Connected" : "Connect"}
                 </TitleInfo>
@@ -369,127 +349,52 @@ const UserSettings = ({
             </Tiles>
             <br />
             <Link to="/logout">
-              <Btn
-                useLightBackground
+              <Button
                 style={{
                   marginLeft: 10,
                   display: "flex",
                   alignItems: "center",
                 }}
               >
-                <ArrowLeft style={{ color: "var(--error)", marginRight: 10 }} />
+                <ArrowLeft
+                  size={15}
+                  style={{ color: "var(--error)", marginRight: 10 }}
+                />
                 Logout
-              </Btn>
+              </Button>
             </Link>
             <br />
           </Overview>
 
           <Settings>
             <Subtitle>Information</Subtitle>
-            <Input
-              label="User Icon"
-              placeholder="GitHub username"
-              icon={<Check size={18} />}
-              value={user.icon
-                ?.match(/[^/]*.png/g)
-                ?.toString()
-                .replace(".png", "")}
-              iconHoverColor="var(--success)"
-              tooltipTitle="Update icon"
-              onChange={(e) => setIconValue(e.target.value)}
-              iconClick={async () => {
-                const { data, error, success } = await makeRequest<{
-                  user: SelfUser;
-                }>("PATCH", "/users/@me", {
-                  icon: `https://github.com/${iconValue}.png`,
-                });
-
-                if (!success || !data)
-                  return dispatch(
-                    addNotification({
-                      icon: <X />,
-                      message:
-                        error?.message ??
-                        "An unknown error occurred whilst saving your icon.",
-                      type: "error",
-                    })
-                  );
-
-                dispatch(
-                  addNotification({
-                    icon: <Check />,
-                    message: "Successfully changes your icon",
-                    type: "success",
-                  })
-                );
-                dispatch(setUser(data.user));
-              }}
-              hideIconUntilDifferent
-            />
-            <Input
-              label="Email"
-              placeholder="Your email"
-              value={user.email}
-              onChange={(e) => setEmail(e.target.value)}
-              icon={<Edit size={18} />}
-              iconHoverColor="var(--success)"
-              tooltipTitle="Update email"
-              iconClick={async () => {
-                if (!/^\S+@\S+\.\S+$/.test(email))
-                  return dispatch(
-                    addNotification({
-                      icon: <X />,
-                      message: "Invalid email!",
-                      type: "error",
-                    })
-                  );
-
-                const { data, error } = await makeRequest<{ user: SelfUser }>(
-                  "PATCH",
-                  "/users/@me",
-                  {
-                    email,
-                  }
-                );
-
-                if (error || !data)
-                  return dispatch(
-                    addNotification({
-                      icon: <X />,
-                      message: "An error occurred whilst changing your email.",
-                      type: "error",
-                    })
-                  );
-
-                dispatch(
-                  addNotification({
-                    icon: <Check />,
-                    message: "Successfully changed your email.",
-                    type: "success",
-                  })
-                );
-                dispatch(setUser(data.user));
-              }}
-              hideIconUntilDifferent
-            />
-            <Tooltip title="Click to copy API Token" placement="bottom">
+            <InputWrapper>
               <Input
-                label="API Token"
-                placeholder="API Token"
-                value={user.api_token}
-                icon={<RefreshCw size={18} />}
+                label="User Icon"
+                placeholder="GitHub username"
+                icon={<Check size={18} />}
+                value={user.icon
+                  ?.match(/[^/]*.png/g)
+                  ?.toString()
+                  .replace(".png", "")}
+                iconHoverColor="var(--success)"
+                tooltipTitle="Update icon"
+                onChange={(e) => setIconValue(e.target.value)}
+                iconPosition="right"
                 iconClick={async () => {
-                  const { data, error } = await makeRequest<{ token: string }>(
-                    "POST",
-                    "/users/@me/regenAPIToken"
-                  );
+                  const { data, error, success } = await makeRequest<{
+                    user: SelfUser;
+                  }>("PATCH", "/users/@me", {
+                    icon: `https://github.com/${iconValue}.png`,
+                  });
 
-                  if (error || !data)
+                  if (!success || !data)
                     return dispatch(
                       addNotification({
                         icon: <X />,
                         message:
-                          "An error occurred whilst regenerating your API token.",
+                          error?.message ??
+                          "An unknown error occurred whilst saving your icon.",
                         type: "error",
                       })
                     );
@@ -497,16 +402,97 @@ const UserSettings = ({
                   dispatch(
                     addNotification({
                       icon: <Check />,
-                      message: "Successfully regenerated your API Token",
+                      message: "Successfully changes your icon",
                       type: "success",
                     })
                   );
-                  dispatch(setUser({ ...user, api_token: data.token }));
+                  dispatch(setUser(data.user));
                 }}
-                secretValue
-                inputDisabled
+                hideIconUntilDifferent
               />
-            </Tooltip>
+              <Input
+                label="Email"
+                placeholder="Your email"
+                value={user.email}
+                onChange={(e) => setEmail(e.target.value)}
+                icon={<StyledEditBtn />}
+                tooltipTitle="Update email"
+                iconPosition="right"
+                iconClick={async () => {
+                  if (!/^\S+@\S+\.\S+$/.test(email))
+                    return dispatch(
+                      addNotification({
+                        icon: <X />,
+                        message: "Invalid email!",
+                        type: "error",
+                      })
+                    );
+
+                  const { data, error } = await makeRequest<{ user: SelfUser }>(
+                    "PATCH",
+                    "/users/@me",
+                    {
+                      email,
+                    }
+                  );
+
+                  if (error || !data)
+                    return dispatch(
+                      addNotification({
+                        icon: <X />,
+                        message:
+                          "An error occurred whilst changing your email.",
+                        type: "error",
+                      })
+                    );
+
+                  dispatch(
+                    addNotification({
+                      icon: <Check />,
+                      message: "Successfully changed your email.",
+                      type: "success",
+                    })
+                  );
+                  dispatch(setUser(data.user));
+                }}
+                hideIconUntilDifferent
+              />
+              <Tooltip title="Click to copy API Token" placement="bottom">
+                <Input
+                  label="API Token"
+                  placeholder="API Token"
+                  value={user.api_token}
+                  icon={<RefreshCw size={18} />}
+                  iconPosition="right"
+                  iconClick={async () => {
+                    const { data, error } = await makeRequest<{
+                      token: string;
+                    }>("POST", "/users/@me/regenAPIToken");
+
+                    if (error || !data)
+                      return dispatch(
+                        addNotification({
+                          icon: <X />,
+                          message:
+                            "An error occurred whilst regenerating your API token.",
+                          type: "error",
+                        })
+                      );
+
+                    dispatch(
+                      addNotification({
+                        icon: <Check />,
+                        message: "Successfully regenerated your API Token",
+                        type: "success",
+                      })
+                    );
+                    dispatch(setUser({ ...user, api_token: data.token }));
+                  }}
+                  secretValue
+                  inputDisabled
+                />
+              </Tooltip>
+            </InputWrapper>
             <br />
             <Subtitle>Editor settings</Subtitle>
             <Setting
@@ -616,94 +602,92 @@ const UserSettings = ({
             />
             <br />
             <Subtitle>Reset password</Subtitle>
-            <Input
-              label="Current password"
-              placeholder="Enter your current password"
-              onChange={(e) => setPassword(e.target.value)}
-              icon={<Unlock size={18} />}
-              iconClick={() => null}
-              type="password"
-            />
-            <Input
-              label="New password"
-              placeholder="Enter your new password"
-              icon={<Lock size={18} />}
-              onChange={(e) => setNewPassword(e.target.value)}
-              iconClick={() => null}
-              type="password"
-            />
-            <Input
-              label="Confirm password"
-              placeholder="Re-enter new password."
-              icon={<Lock size={18} />}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              iconClick={() => null}
-              type="password"
-            />
-            <Btn
-              onClick={async () => {
-                if (newPassword !== confirmPassword)
+            <InputWrapper>
+              <Input
+                label="Current password"
+                placeholder="Enter your current password"
+                onChange={(e) => setPassword(e.target.value)}
+                icon={<Unlock size={18} />}
+                type="password"
+              />
+              <Input
+                label="New password"
+                placeholder="Enter your new password"
+                icon={<Lock size={18} />}
+                onChange={(e) => setNewPassword(e.target.value)}
+                type="password"
+              />
+              <Input
+                label="Confirm password"
+                placeholder="Re-enter new password."
+                icon={<Lock size={18} />}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                type="password"
+              />
+              <Button
+                style={{ alignSelf: "flex-start" }}
+                onClick={async () => {
+                  if (newPassword !== confirmPassword)
+                    return dispatch(
+                      addNotification({
+                        icon: <X />,
+                        message:
+                          "Your new password does not match confirm password",
+                        type: "error",
+                      })
+                    );
+
+                  if (
+                    newPassword.length < 8 ||
+                    confirmPassword.length < 8 ||
+                    password.length < 8
+                  )
+                    return dispatch(
+                      addNotification({
+                        icon: <X />,
+                        message: "Password is not 8 characters long!",
+                        type: "error",
+                      })
+                    );
+
+                  const { error } = await makeRequest(
+                    "PATCH",
+                    "/auth/reset_password",
+                    {
+                      password: password,
+                      new_password: newPassword,
+                      confirm_password: confirmPassword,
+                    }
+                  );
+
+                  if (error)
+                    return dispatch(
+                      addNotification({
+                        icon: <X />,
+                        message:
+                          error.message ??
+                          "An error occurred whilst resetting password",
+                        type: "error",
+                      })
+                    );
+
                   return dispatch(
                     addNotification({
                       icon: <X />,
-                      message:
-                        "Your new password does not match confirm password",
-                      type: "error",
+                      message: "Successfully changed your password.",
+                      type: "success",
                     })
                   );
-
-                if (
-                  newPassword.length < 8 ||
-                  confirmPassword.length < 8 ||
-                  password.length < 8
-                )
-                  return dispatch(
-                    addNotification({
-                      icon: <X />,
-                      message: "Password is not 8 characters long!",
-                      type: "error",
-                    })
-                  );
-
-                const { error } = await makeRequest(
-                  "PATCH",
-                  "/auth/reset_password",
-                  {
-                    password: password,
-                    new_password: newPassword,
-                    confirm_password: confirmPassword,
-                  }
-                );
-
-                if (error)
-                  return dispatch(
-                    addNotification({
-                      icon: <X />,
-                      message:
-                        error.message ??
-                        "An error occurred whilst resetting password",
-                      type: "error",
-                    })
-                  );
-
-                return dispatch(
-                  addNotification({
-                    icon: <X />,
-                    message: "Successfully changed your password.",
-                    type: "success",
-                  })
-                );
-              }}
-              disabled={
-                newPassword.length === 0 ||
-                password.length === 0 ||
-                confirmPassword.length === 0
-              }
-            >
-              Reset password
-            </Btn>
-            <br />
-            <br />
+                }}
+                disabled={
+                  newPassword.length === 0 ||
+                  password.length === 0 ||
+                  confirmPassword.length === 0
+                }
+              >
+                Reset password
+              </Button>
+            </InputWrapper>
           </Settings>
         </Container>
       ) : null}

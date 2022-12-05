@@ -42,6 +42,10 @@ svg {
   display: block;
 }
 
+a {
+  text-decoration: none;
+}
+
 ::-webkit-scrollbar {
   width: 5px;
   height: 0;

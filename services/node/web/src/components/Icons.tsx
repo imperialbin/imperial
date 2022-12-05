@@ -16,6 +16,7 @@ export const Logo = (props: Props) => (
   </svg>
 );
 
+
 export const DiscordLogo = (props: Props) => (
   <svg
     viewBox="0 0 128 97"

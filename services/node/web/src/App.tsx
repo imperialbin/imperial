@@ -13,7 +13,6 @@ import { useUser } from "./hooks/useUser";
 
 function App() {
   const user = useUser();
-  console.log(user);
   useEffect(() => {
     // fetch me
 
@@ -23,18 +22,16 @@ function App() {
   }, []);
 
   return (
-    <>
-      <ModalManager />
+    <BrowserRouter>
       <NotificationsManager />
-      <BrowserRouter>
-        <Helmet defaultTitle="IMPERIAL" titleTemplate="%s • IMPERIAL" />
+      <ModalManager />
+      <Helmet defaultTitle="IMPERIAL" titleTemplate="%s • IMPERIAL" />
 
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/:document_id" element={<Document />} />
-        </Routes>
-      </BrowserRouter>
-    </>
+      <Routes>
+        <Route path="/" element={<Index />} />
+        <Route path="/:document_id" element={<Document />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
