@@ -25,8 +25,10 @@ const Item = styled("li", {
   cursor: "pointer",
   padding: "5px 15px",
   borderRadius: "$tiny",
-  color: "$text-muted",
-  transition: "color 0.15s ease-in-out, background 0.15s ease-in-out",
+  color: "$text-secondary",
+  opacity: 0.7,
+  transition:
+    "color 0.15s ease-in-out, background 0.15s ease-in-out,opacity 0.15s ease-in-out",
 
   a: {
     textDecoration: "none",
@@ -35,6 +37,7 @@ const Item = styled("li", {
 
   "&:hover": {
     color: "$text-primary",
+    opacity: 1,
     background: "$contrast",
   },
 
