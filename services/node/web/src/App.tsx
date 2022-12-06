@@ -2,10 +2,14 @@ import "./App.css";
 
 import Helmet from "react-helmet";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Index from "./app/index";
-import Document from "./app/document";
 import { useEffect } from "react";
 import { loader } from "@monaco-editor/react";
+
+import Index from "./app/index";
+import Document from "./app/Document";
+import Discord from "./app/Auth/Discord";
+import GitHub from "./app/Auth/GitHub";
+
 import { IMPERIAL_THEME } from "./components/editorthemes/Imperial";
 import ModalManager from "./components/ModalManager";
 import NotificationsManager from "./components/NotificationsManager";
@@ -30,6 +34,12 @@ function App() {
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/:document_id" element={<Document />} />
+
+        {/* Auth routes */}
+        <Route path="auth">
+          <Route path="discord" element={<Discord />} />
+          <Route path="github" element={<GitHub />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );
