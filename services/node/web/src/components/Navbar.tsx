@@ -1,3 +1,4 @@
+import { useMonaco } from "@monaco-editor/react";
 import { motion } from "framer-motion";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Copy from "react-copy-to-clipboard";
@@ -135,14 +136,17 @@ const Nav = ({ user, document, language, dispatch }: INavProps) => {
   const [editing, setEditing] = useState(false);
 
   const navigate = useNavigate();
+  const monaco = useMonaco();
+
+  useEffect(() => {
+    console.log(monaco);
+  }, [monaco]);
 
   const saveDocument = useCallback(async () => {
-    if (typeof window === "undefined" || !window.monaco) return;
+    if (!monaco) return;
 
-    const content = window.monaco.editor.getModels()[0].getValue();
+    const content = monaco.editor.getModels()[0].getValue();
     if (content.length <= 0) return;
-
-    const language = window.monaco.editor.getModels()[0].getLanguageId();
 
     const { success, data } = await makeRequest("POST", "/document", {
       content,
@@ -169,15 +173,16 @@ const Nav = ({ user, document, language, dispatch }: INavProps) => {
     }
 
     navigate(`/${data.id}`);
-  }, [document, user]);
+  }, [monaco, language, document, user]);
 
   const newDocument = () => {
     navigate("/");
   };
 
   const forkDocument = useCallback(() => {
-    if (typeof window === "undefined" || !document) return;
-    const editor = window.monaco.editor.getModels()[0];
+    if (!monaco || !document) return;
+
+    const editor = monaco.editor.getModels()[0];
 
     const content = document.content;
     navigate("/");
@@ -208,11 +213,9 @@ const Nav = ({ user, document, language, dispatch }: INavProps) => {
   }, [document, user, editing]);
 
   const editDocument = useCallback(async () => {
-    if (!user || !document) return;
-    /* if (typeof window === "undefined" || !window.monaco || !user || !document)
-      return; */
+    if (!user || !document || !monaco) return;
 
-    const editor = window.monaco.editor.getModels()[0];
+    const editor = monaco.editor.getModels()[0];
     const content = editor.getValue();
 
     if (content === document.content) return;
@@ -240,7 +243,7 @@ const Nav = ({ user, document, language, dispatch }: INavProps) => {
         type: "success",
       })
     );
-  }, [document, user]);
+  }, [monaco, document, user]);
 
   /* Keybinds */
   useEffect(() => {
@@ -257,10 +260,10 @@ const Nav = ({ user, document, language, dispatch }: INavProps) => {
     return () => {
       window.removeEventListener("keydown", keypress);
     };
-  }, [document]);
+  }, [document, saveDocument, prepareEdit]);
 
   const SelectedLanguageIcon = useMemo(() => {
-    const findLanguage = supportedLanguages.find((l) => l.name === language);
+    const findLanguage = supportedLanguages.find((l) => l.id === language);
 
     return findLanguage?.icon ?? Globe;
   }, [language]);

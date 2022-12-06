@@ -1,4 +1,4 @@
-import { SupportedLanguages } from "../utils/Constants";
+import { SupportedLanguagesID } from "../utils/Constants";
 
 export interface SelfUser {
   id: number;
@@ -54,7 +54,7 @@ export interface Document {
     expiration: number;
   };
   settings: {
-    language: SupportedLanguages;
+    language: SupportedLanguagesID;
     imageEmbed: boolean;
     instantDelete: boolean;
     encrypted: boolean;

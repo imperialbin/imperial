@@ -1,7 +1,10 @@
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Editor from "../components/Editor";
 import Navbar from "../components/Navbar";
 import { useDocument } from "../hooks/useDocument";
+import { store } from "../state";
+import { setLanguage, setReadOnly } from "../state/actions";
 import { styled } from "../stitches";
 
 const Wrapper = styled("div", {
@@ -14,10 +17,15 @@ const Document = () => {
 
   const document = useDocument(document_id);
 
+  useEffect(() => {
+    store.dispatch(setReadOnly(true));
+    store.dispatch(setLanguage(document?.settings.language ?? "plaintext"));
+  }, [document]);
+
   return (
     <Wrapper>
-      <Navbar />
-      <Editor value={document?.content} />
+      <Navbar document={document} />
+      <Editor isLoading={!document} value={document?.content} />
     </Wrapper>
   );
 };

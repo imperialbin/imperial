@@ -1,6 +1,6 @@
 import { ModalData, Modals } from "../../components/ModalManager";
 import { SelfUser } from "../../types";
-import { SupportedLanguages } from "../../utils/Constants";
+import { SupportedLanguagesID } from "../../utils/Constants";
 import { Notification } from "../reducers/notifications";
 
 export const setUser = (user: SelfUser) => {
@@ -49,7 +49,7 @@ export const setReadOnly = (read_only: boolean) => {
     payload: read_only,
   };
 };
-export const setLanguage = (language: SupportedLanguages) => {
+export const setLanguage = (language: SupportedLanguagesID) => {
   return {
     type: "SET_LANGUAGE",
     payload: language,

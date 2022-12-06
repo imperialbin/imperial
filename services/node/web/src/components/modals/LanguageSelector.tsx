@@ -1,13 +1,16 @@
-import { useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
+import { useEffect, useMemo, useState } from "react";
+import { setLanguage } from "../../state/actions";
+import { styled } from "../../stitches";
+import {
+  supportedLanguages,
+  SupportedLanguagesID,
+} from "../../utils/Constants";
+import { SearchIcon } from "../Icons";
+import Input from "../Input";
 import Header from "./base/Header";
 import { ModalProps } from "./base/modals";
-import { SearchIcon } from "../Icons";
 import { Content, Wrapper } from "./base/Styles";
-import { styled } from "../../stitches";
-import { supportedLanguages, SupportedLanguages } from "../../utils/Constants";
-import { setLanguage } from "../../state/actions";
-import Input from "../Input";
 
 const StyledWrapper = styled(Wrapper, {
   gap: 10,
@@ -123,20 +126,14 @@ const ITEM_ANIMATION = {
 export const LanguageSelector = ({ closeModal, dispatch }: ModalProps) => {
   const [searchQuery, setSearchQuery] = useState<string>("");
 
-  const changeLanguage = (language: SupportedLanguages) => {
+  const changeLanguage = (language: SupportedLanguagesID) => {
     dispatch(setLanguage(language));
     closeModal();
   };
 
   const enterHandler = ({ key }: KeyboardEvent) => {
     if (key === "Enter" && searchQuery.length > 0) {
-      const language = supportedLanguages.find((language) =>
-        language.name.startsWith(searchQuery)
-      )?.name;
-
-      if (!language) return;
-
-      changeLanguage(language);
+      changeLanguage(filteredLanguages[0].id);
       window.removeEventListener("keydown", enterHandler);
     }
   };
@@ -171,8 +168,9 @@ export const LanguageSelector = ({ closeModal, dispatch }: ModalProps) => {
         <Languages>
           {filteredLanguages.map((language) => (
             <Language
+              key={language.id}
               onClick={() => {
-                dispatch(setLanguage(language.name));
+                dispatch(setLanguage(language.id));
                 closeModal();
               }}
             >

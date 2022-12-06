@@ -1,11 +1,9 @@
 import Monaco, { EditorProps } from "@monaco-editor/react";
-import { useEffect } from "react";
-import { connect, ConnectedProps } from "react-redux";
-import { setLanguage, setReadOnly } from "../state/actions";
-import { ImperialState } from "../state/reducers";
-import { SupportedLanguages } from "../utils/Constants";
 import Skeleton from "react-loading-skeleton";
+import { connect, ConnectedProps } from "react-redux";
+import { ImperialState } from "../state/reducers";
 import { styled } from "../stitches";
+import { SupportedLanguagesID } from "../utils/Constants";
 
 const Container = styled("div", {
   display: "flex",
@@ -74,7 +72,8 @@ const EditorSkeleton = (): JSX.Element => (
 
 interface IEditorProps extends ReduxProps, EditorProps {
   readonly?: boolean;
-  language?: SupportedLanguages;
+  language?: SupportedLanguagesID;
+  isLoading?: boolean;
 }
 
 const Editor = ({
@@ -83,14 +82,10 @@ const Editor = ({
   editor,
   dispatch,
   readonly = false,
+  isLoading = false,
   ...props
 }: IEditorProps): JSX.Element => {
-  useEffect(() => {
-    dispatch(setReadOnly(readonly));
-    dispatch(setLanguage(language));
-  }, [readonly, language]);
-
-  return (
+  return !isLoading ? (
     <Monaco
       {...props}
       height="100%"
@@ -123,8 +118,10 @@ const Editor = ({
             }
       }
       theme="imperial"
-      language={editor.language}
+      language={editor.language.toLowerCase()}
     />
+  ) : (
+    <EditorSkeleton />
   );
 };
 

@@ -1,5 +1,8 @@
+import { useEffect } from "react";
 import Editor from "../components/Editor";
 import Navbar from "../components/Navbar";
+import { store } from "../state";
+import { setReadOnly } from "../state/actions";
 import { styled } from "../stitches";
 
 const Wrapper = styled("div", {
@@ -8,6 +11,10 @@ const Wrapper = styled("div", {
 });
 
 const Index = () => {
+  useEffect(() => {
+    store.dispatch(setReadOnly(false));
+  }, []);
+
   return (
     <Wrapper>
       <Navbar />

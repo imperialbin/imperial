@@ -79,7 +79,7 @@ export const StyledX = styled(X, {
 export const CONTAINER_ANIMATION = {
   animate: {
     y: 0,
-    opacity: 1,
+  opacity: 1,
     scale: 1,
   },
   initial: {
