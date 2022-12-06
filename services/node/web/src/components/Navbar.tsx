@@ -1,6 +1,7 @@
 import { useMonaco } from "@monaco-editor/react";
 import { motion } from "framer-motion";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import CopyToClipboard from "react-copy-to-clipboard";
 import Copy from "react-copy-to-clipboard";
 import {
   AlignLeft,
@@ -134,20 +135,20 @@ const Nav = ({ user, document, language, dispatch }: INavProps) => {
   const [collapsed, setCollapsed] = useState(false);
   const [userPopover, setUserPopover] = useState(false);
   const [editing, setEditing] = useState(false);
+  const [saving, setSaving] = useState(false);
 
   const navigate = useNavigate();
   const monaco = useMonaco();
 
-  useEffect(() => {
-    console.log(monaco);
-  }, [monaco]);
-
   const saveDocument = useCallback(async () => {
     if (!monaco) return;
+    if (saving) return;
 
     const content = monaco.editor.getModels()[0].getValue();
     if (content.length <= 0) return;
 
+    setSaving(true);
+    dispatch(setReadOnly(true));
     const { success, data } = await makeRequest("POST", "/document", {
       content,
       settings: {
@@ -161,8 +162,11 @@ const Nav = ({ user, document, language, dispatch }: INavProps) => {
         language,
       },
     });
+    setSaving(false);
 
     if (!success) {
+      dispatch(setReadOnly(false));
+
       return dispatch(
         addNotification({
           icon: <X />,
@@ -172,8 +176,18 @@ const Nav = ({ user, document, language, dispatch }: INavProps) => {
       );
     }
 
-    navigate(`/${data.id}`);
-  }, [monaco, language, document, user]);
+    dispatch(
+      addNotification({
+        icon: <Check />,
+        message: "Successfully created document",
+        type: "success",
+        async onClick() {
+          await navigator.clipboard.writeText(`${window.location}/${data.id}`);
+        },
+      })
+    );
+    navigate(`/${data.id}`, { state: data });
+  }, [monaco, language, document, user, saving]);
 
   const newDocument = () => {
     navigate("/");
