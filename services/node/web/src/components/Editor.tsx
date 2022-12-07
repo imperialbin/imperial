@@ -27,7 +27,7 @@ const EditorSkeleton = (): JSX.Element => (
       {[...Array(9).fill("undefined")].map((_, i) => (
         <Skeleton
           duration={0.5}
-          style={{ display: "inline-block", marginTop: 3 }}
+          style={{ display: "inline-block", marginTop: i === 0 ? 0 : 3 }}
           key={i}
           width={Math.floor(Math.random() * 200) + 100}
           height={16}

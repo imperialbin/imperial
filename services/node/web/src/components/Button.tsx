@@ -18,6 +18,7 @@ const StyledButton = styled("button", {
   "&:disabled": {
     opacity: 0.8,
     color: "$text-muted",
+    cursor: "not-allowed",
   },
 
   variants: {
