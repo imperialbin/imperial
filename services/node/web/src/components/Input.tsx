@@ -67,7 +67,10 @@ const InputElement = styled("input", {
     },
     hasSecretValue: {
       true: {
-        textShadow: "",
+        "&:not(:hover)": {
+          color: "transparent",
+          textShadow: "0 0 5px var(--text-secondary)",
+        },
       },
     },
   },
