@@ -1,4 +1,5 @@
 import Monaco, { EditorProps } from "@monaco-editor/react";
+import { editor } from "monaco-editor";
 import Skeleton from "react-loading-skeleton";
 import { connect, ConnectedProps } from "react-redux";
 import { ImperialState } from "../state/reducers";
@@ -76,6 +77,12 @@ interface IEditorProps extends ReduxProps, EditorProps {
   isLoading?: boolean;
 }
 
+const DEFAULT_EDITOR_OPTIONS: editor.IStandaloneEditorConstructionOptions = {
+  minimap: {
+    enabled:false
+  }
+};
+
 const Editor = ({
   user,
   language = "plaintext",
@@ -110,11 +117,13 @@ const Editor = ({
               wordWrap: user.settings.word_wrap ? "on" : "off",
               tabSize: user.settings.tab_size,
               fontFamily: "var(--font-mono)",
+              ...DEFAULT_EDITOR_OPTIONS,
             }
           : {
               readOnly: editor.readOnly,
               fontSize: 14,
               fontFamily: "var(--font-mono)",
+              ...DEFAULT_EDITOR_OPTIONS,
             }
       }
       theme="imperial"
