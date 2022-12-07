@@ -2,7 +2,7 @@ import { Modals } from "../../components/ModalManager";
 
 export interface ModalState {
   modal: Modals;
-  data?: unknown;
+  data?: any;
 }
 
 type ModalActions =

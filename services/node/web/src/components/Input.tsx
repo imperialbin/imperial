@@ -1,5 +1,9 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { ChangeEventHandler, InputHTMLAttributes, useState } from "react";
+import React, {
+  ChangeEventHandler,
+  InputHTMLAttributes,
+  useState,
+} from "react";
 import { styled } from "../stitches";
 
 const Container = styled("div", {
@@ -63,8 +67,7 @@ const InputElement = styled("input", {
     },
     hasSecretValue: {
       true: {
-        textShadow:
-          "${({ secretValue, theme }) => secretValue ? `0 0 5px ${theme.text.light}9d` : unset}",
+        textShadow: "",
       },
     },
   },
@@ -78,14 +81,23 @@ const IconContainer = styled(motion.div, {
   top: 2,
   bottom: 2,
   padding: 10,
-  pointerEvents: "none",
 
   "> svg": {
     width: 18,
     height: 18,
+    transition: "color 0.15s ease-in-out",
   },
 
   variants: {
+    hasCallback: {
+      true: {
+        pointerEvents: "unset",
+        cursor: "pointer",
+      },
+      false: {
+        pointerEvents: "none",
+      },
+    },
     position: {
       right: {
         right: 0,
@@ -128,61 +140,67 @@ export interface IInputProps extends InputHTMLAttributes<HTMLInputElement> {
   type?: string;
 }
 
-const Input = ({
-  placeholder,
-  label,
-  value = "",
-  icon,
-  iconClick,
-  iconPosition = "left",
-  secretValue = false,
-  iconHoverColor = null,
-  hideIconUntilDifferent = false,
-  inputDisabled = false,
-  onChange,
-  type = "",
-  ...props
-}: IInputProps): JSX.Element => {
-  const [inputValue, setInputValue] = useState(value);
+const Input = React.forwardRef<HTMLDivElement, IInputProps>(
+  (
+    {
+      placeholder,
+      label,
+      value = "",
+      icon,
+      iconClick,
+      iconPosition = "left",
+      secretValue = false,
+      iconHoverColor = null,
+      hideIconUntilDifferent = false,
+      inputDisabled = false,
+      onChange,
+      type = "",
+      ...props
+    },
+    ref
+  ) => {
+    const [inputValue, setInputValue] = useState(value);
 
-  if (inputValue !== value) hideIconUntilDifferent = false;
+    if (inputValue !== value) hideIconUntilDifferent = false;
 
-  return (
-    <Container>
-      {label ? <Label>{label}</Label> : null}
-      <Wrapper>
-        <AnimatePresence>
-          {icon && !hideIconUntilDifferent ? (
-            <IconContainer
-              initial={ICON_ANIMATION.initial}
-              exit={ICON_ANIMATION.exit}
-              animate={ICON_ANIMATION.animate}
-              onClick={iconClick}
-              transition={{ duration: 0.15 }}
-              position={iconPosition}
-            >
-              {icon}
-            </IconContainer>
-          ) : null}
-        </AnimatePresence>
-        <InputElement
-          value={inputValue}
-          onChange={(e) => {
-            setInputValue(e.target.value);
+    return (
+      <Container ref={ref}>
+        {label ? <Label>{label}</Label> : null}
+        <Wrapper>
+          <AnimatePresence>
+            {icon && !hideIconUntilDifferent ? (
+              <IconContainer
+                initial={ICON_ANIMATION.initial}
+                exit={ICON_ANIMATION.exit}
+                animate={ICON_ANIMATION.animate}
+                onClick={iconClick}
+                transition={{ duration: 0.15 }}
+                position={iconPosition}
+                hasCallback={!!iconClick}
+              >
+                {icon}
+              </IconContainer>
+            ) : null}
+          </AnimatePresence>
+          <InputElement
+            value={inputValue}
+            onChange={(e) => {
+              setInputValue(e.target.value);
 
-            if (onChange) onChange(e);
-          }}
-          placeholder={placeholder}
-          disabled={inputDisabled}
-          hasSecretValue={secretValue}
-          type={type}
-          hasIcon={!!icon}
-          iconPosition={iconPosition}
-          {...props}
-        />
-      </Wrapper>
-    </Container>
-  );
-};
+              if (onChange) onChange(e);
+            }}
+            placeholder={placeholder}
+            disabled={inputDisabled}
+            hasSecretValue={secretValue}
+            type={type}
+            hasIcon={!!icon}
+            iconPosition={iconPosition}
+            {...props}
+          />
+        </Wrapper>
+      </Container>
+    );
+  }
+);
 
 export default Input;

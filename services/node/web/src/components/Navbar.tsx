@@ -13,6 +13,7 @@ import {
   Globe,
   Minus,
   Save,
+  Settings,
   X,
 } from "react-feather";
 import { connect, ConnectedProps } from "react-redux";
@@ -234,7 +235,7 @@ const Nav = ({ user, document, language, dispatch }: INavProps) => {
 
     if (content === document.content) return;
 
-    const { success } = await makeRequest("PATCH", "/document", {
+    const { success, error } = await makeRequest("PATCH", "/document", {
       id: document.id,
       content,
     });
@@ -243,7 +244,8 @@ const Nav = ({ user, document, language, dispatch }: INavProps) => {
       return dispatch(
         addNotification({
           icon: <X />,
-          message: "There was an error updating this document",
+          message:
+            error?.message ?? "There was an error updating this document",
           type: "error",
         })
       );
@@ -305,7 +307,7 @@ const Nav = ({ user, document, language, dispatch }: INavProps) => {
               <Copy
                 text={
                   process.env.NODE_ENV === "development"
-                    ? `localhost:3000/${document.id}`
+                    ? `localhost:5173/${document.id}`
                     : `https://imperialb.in/${document.id}`
                 }
               >
@@ -337,10 +339,22 @@ const Nav = ({ user, document, language, dispatch }: INavProps) => {
             </>
           ) : (
             <>
-              {user ? (
+              {user && document.creator.id === user.id ? (
                 <StyledTooltip title="Edit document">
                   <Button onClick={prepareEdit}>
                     {editing ? <Check size={20} /> : <Edit2 size={20} />}
+                  </Button>
+                </StyledTooltip>
+              ) : null}
+
+              {user && document.creator.id === user.id ? (
+                <StyledTooltip title="Edit document settings">
+                  <Button
+                    onClick={() =>
+                      dispatch(openModal("document_settings", { document }))
+                    }
+                  >
+                    <Settings size={20} />
                   </Button>
                 </StyledTooltip>
               ) : null}

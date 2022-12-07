@@ -45,6 +45,11 @@ export const makeRequest = async <T = any>(
         ? { success: true }
         : res
             .json()
+            .then((json) =>
+              res.status >= 300
+                ? { ...json, error: { message: json.message } }
+                : json
+            )
             .catch(() =>
               res.status >= 300 ? { success: false } : { success: true }
             )

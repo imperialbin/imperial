@@ -32,6 +32,7 @@ import Setting from "../Setting";
 import { useRecentDocuments } from "../../hooks/useRecentDocuments";
 import { DiscordLogo, GitHubLogo } from "../Icons";
 import Button from "../Button";
+import CopyToClipboard from "react-copy-to-clipboard";
 
 const Wrapper = styled("div", {
   position: "relative",
@@ -144,10 +145,11 @@ const TileBtns = styled("div", {
 
 const TileBtn = styled("div", {
   display: "inline-block",
-  margin: "0 3px",
+  margin: "15px 5px",
   color: "$text-secondary",
   cursor: "pointer",
   transition: "color 0.2s ease-in-out",
+
   "&:hover": {
     color: "$test-primary",
   },
@@ -298,12 +300,13 @@ const UserSettings = ({
               <Tiles>
                 {documents && documents.length > 0 ? (
                   documents.map((document, key) => {
-                    const date = new Date(document.timestamps.expiration * 1000)
-                      .toISOString()
-                      .slice(0, 10);
-
                     return (
-                      <Link to={`/${document.id}`} key={key}>
+                      <Link
+                        style={{ display: "flex" }}
+                        to={`/${document.id}`}
+                        state={document}
+                        key={key}
+                      >
                         <Tile
                           onClick={() => dispatch(closeModal())}
                           style={{
@@ -314,7 +317,7 @@ const UserSettings = ({
                           }}
                         >
                           <TileBtns>
-                            {document.settings.instantDelete ? (
+                            {document.settings.instant_delete ? (
                               <Tooltip title="Instantly deletes after being viewed">
                                 <TileBtn>
                                   <Eye size={12} />
@@ -330,13 +333,27 @@ const UserSettings = ({
                             ) : null}
                             <Tooltip title="Delete document">
                               <TileBtn>
-                                <Trash size={12} />
+                                <Trash size={15} />
                               </TileBtn>
                             </Tooltip>
                           </TileBtns>
                           {document.id}
                           <TitleInfo>
-                            Deletes {dayjs(date).calendar()}
+                            {document.timestamps.expiration &&
+                            !isNaN(
+                              Date.parse(
+                                document.timestamps.expiration.toString()
+                              )
+                            ) ? (
+                              <>
+                                Deletes{" "}
+                                {dayjs(
+                                  document.timestamps.expiration
+                                ).calendar()}
+                              </>
+                            ) : (
+                              "Never expires"
+                            )}
                           </TitleInfo>
                         </Tile>
                       </Link>
@@ -457,41 +474,57 @@ const UserSettings = ({
                 }}
                 hideIconUntilDifferent
               />
-              <Tooltip title="Click to copy API Token" placement="bottom">
-                <Input
-                  label="API Token"
-                  placeholder="API Token"
-                  value={user.api_token}
-                  icon={<RefreshCw size={18} />}
-                  iconPosition="right"
-                  iconClick={async () => {
-                    const { data, error } = await makeRequest<{
-                      token: string;
-                    }>("POST", "/users/@me/regenAPIToken");
+              <CopyToClipboard
+                text={user.api_token}
+                onCopy={() =>
+                  dispatch(
+                    addNotification({
+                      icon: <Check />,
+                      message: "Copied API Token",
+                      type: "success",
+                    })
+                  )
+                }
+              >
+                <Tooltip
+                  title="Click to copy API Token"
+                  placement="bottom-start"
+                >
+                  <Input
+                    label="API Token"
+                    placeholder="API Token"
+                    value={user.api_token}
+                    icon={<RefreshCw size={18} />}
+                    iconPosition="right"
+                    iconClick={async () => {
+                      const { data, error } = await makeRequest<{
+                        token: string;
+                      }>("POST", "/users/@me/regenAPIToken");
 
-                    if (error || !data)
-                      return dispatch(
+                      if (error || !data)
+                        return dispatch(
+                          addNotification({
+                            icon: <X />,
+                            message:
+                              "An error occurred whilst regenerating your API token.",
+                            type: "error",
+                          })
+                        );
+
+                      dispatch(
                         addNotification({
-                          icon: <X />,
-                          message:
-                            "An error occurred whilst regenerating your API token.",
-                          type: "error",
+                          icon: <Check />,
+                          message: "Successfully regenerated your API Token",
+                          type: "success",
                         })
                       );
-
-                    dispatch(
-                      addNotification({
-                        icon: <Check />,
-                        message: "Successfully regenerated your API Token",
-                        type: "success",
-                      })
-                    );
-                    dispatch(setUser({ ...user, api_token: data.token }));
-                  }}
-                  secretValue
-                  inputDisabled
-                />
-              </Tooltip>
+                      dispatch(setUser({ ...user, api_token: data.token }));
+                    }}
+                    secretValue
+                    inputDisabled
+                  />
+                </Tooltip>
+              </CopyToClipboard>
             </InputWrapper>
             <br />
             <Subtitle>Editor settings</Subtitle>

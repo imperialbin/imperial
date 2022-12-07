@@ -9,6 +9,7 @@ import Login from "./modals/Login";
 import Signup from "./modals/Signup";
 import { LanguageSelector } from "./modals/LanguageSelector";
 import UserSettings from "./modals/UserSettings";
+import { DocumentSettings } from "./modals/DocumentSettings";
 
 const Wrapper = styled(motion.div, {
   top: 0,
@@ -56,21 +57,22 @@ const MODAL_MAP = {
   signup: Signup,
   user_settings: UserSettings,
   language_selector: LanguageSelector,
+  document_settings: DocumentSettings,
 };
 
-export type Modals = keyof typeof MODAL_MAP; // 💀💀💀💀
 type GetComponentProps<T> = T extends
   | React.ComponentType<infer P>
   | React.Component<infer P>
   ? P
   : never;
+export type Modals = keyof typeof MODAL_MAP;
 export type ModalData<T extends Modals> = GetComponentProps<
   typeof MODAL_MAP[T]
 > extends {
   data: unknown;
 }
   ? GetComponentProps<typeof MODAL_MAP[T]>["data"]
-  : Record<string, never> | never;
+  : {} | never;
 
 const ModalManager = ({ modal, dispatch }: ReduxProps) => {
   const modalRef = useRef<HTMLDivElement | null>(null);
@@ -100,6 +102,7 @@ const ModalManager = ({ modal, dispatch }: ReduxProps) => {
               <ActiveModal
                 dispatch={stableDispatch}
                 closeModal={() => dispatch(closeModal())}
+                data={modal.data}
               />
             ) : null}
           </Container>

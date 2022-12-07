@@ -55,8 +55,8 @@ export interface Document {
   };
   settings: {
     language: SupportedLanguagesID;
-    imageEmbed: boolean;
-    instantDelete: boolean;
+    image_embed: boolean;
+    instant_delete: boolean;
     encrypted: boolean;
     password: null | string;
     public: boolean;
