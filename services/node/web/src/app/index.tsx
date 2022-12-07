@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import Editor from "../components/Editor";
 import Navbar from "../components/Navbar";
 import { store } from "../state";
@@ -11,14 +12,19 @@ const Wrapper = styled("div", {
 });
 
 const Index = () => {
+  const location = useLocation();
+
   useEffect(() => {
     store.dispatch(setReadOnly(false));
+
+    /* Reset state if there is any */
+    if (location.state) window.history.replaceState({}, document.title);
   }, []);
 
   return (
     <Wrapper>
       <Navbar />
-      <Editor />
+      <Editor value={location.state?.init_text ?? ""} />
     </Wrapper>
   );
 };

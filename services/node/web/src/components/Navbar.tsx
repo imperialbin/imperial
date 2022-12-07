@@ -200,9 +200,7 @@ const Nav = ({ user, document, language, dispatch }: INavProps) => {
     const editor = monaco.editor.getModels()[0];
 
     const content = document.content;
-    navigate("/");
-
-    editor.setValue(content);
+    navigate("/", { state: { init_text: content } });
   }, [document]);
 
   const prepareEdit = useCallback(() => {
