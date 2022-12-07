@@ -45,7 +45,7 @@ const Item = styled("li", {
     danger: {
       true: {
         "&:hover": {
-          color: "error",
+          color: "$error",
         },
       },
     },
