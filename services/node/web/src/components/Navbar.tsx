@@ -314,7 +314,7 @@ const Nav = ({ user, document, language, dispatch }: INavProps) => {
               <Copy
                 text={
                   process.env.NODE_ENV === "development"
-                    ? `localhost:5173/${document.id}`
+                    ? `localhost:3000/${document.id}`
                     : `https://imperialb.in/${document.id}`
                 }
               >
