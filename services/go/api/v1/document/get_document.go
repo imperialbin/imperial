@@ -14,6 +14,7 @@ import (
 
 func Get(c *fiber.Ctx) error {
 	var id = c.Params("id")
+	var password = c.Query("password")
 
 	client := utils.GetDB()
 
@@ -56,6 +57,12 @@ func Get(c *fiber.Ctx) error {
 
 			editors = append(editors, *partial)
 		}
+	}
+
+	/* Todo: finish this */
+	if document.DocumentSettings.Encrypted && len(password) != 0 {
+		decryptedValue, _ := utils.Decrypt(password, document.Content, "")
+		document.Content = decryptedValue
 	}
 
 	return c.JSON(Response{

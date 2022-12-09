@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	"errors"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/creasty/defaults"
@@ -64,7 +65,7 @@ func Post(c *fiber.Ctx) error {
 		}
 	}
 
-	if documentRequest.Settings.ShortURLs {
+	if documentRequest.Settings.LongURLs {
 		randomString, _ = utils.GenerateRandomString(32)
 	} else if documentRequest.Settings.ShortURLs {
 		randomString, _ = utils.GenerateRandomString(4)
@@ -114,7 +115,15 @@ func Post(c *fiber.Ctx) error {
 			password = documentRequest.Settings.Password
 		}
 
-		content, _ := utils.Encrypt(document.Content, password)
+		var content string
+
+		if strings.HasPrefix(document.Content, "IMPERIAL_ENCRYPTED") {
+			content = document.Content
+			println("uwu")
+		} else {
+			encryptedContent, _ := utils.Encrypt(document.Content, password)
+			content = encryptedContent
+		}
 
 		document.Content = content
 	}
