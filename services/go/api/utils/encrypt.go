@@ -5,7 +5,6 @@ import (
 	"crypto/cipher"
 	"crypto/rand"
 	"encoding/hex"
-	"fmt"
 	"io"
 
 	"github.com/getsentry/sentry-go"
@@ -19,7 +18,6 @@ func Encrypt(text, password string) (encryptedText, initVector string) {
 
 	if err != nil {
 		sentry.CaptureException(err)
-
 	}
 
 	cipherText := make([]byte, aes.BlockSize+len(text))
@@ -27,11 +25,11 @@ func Encrypt(text, password string) (encryptedText, initVector string) {
 	iv := cipherText[:aes.BlockSize]
 
 	if _, err := io.ReadFull(rand.Reader, iv); err != nil {
-		fmt.Printf("wtf")
+		sentry.CaptureException(err)
 	}
 
 	encrypt := cipher.NewCFBEncrypter(block, iv)
 	encrypt.XORKeyStream(cipherText[aes.BlockSize:], []byte(text))
 
-	return hex.EncodeToString(cipherText), hex.EncodeToString(iv)
+	return "IMPERIAL_ENCRYPTED" + hex.EncodeToString(cipherText), hex.EncodeToString(iv)
 }
