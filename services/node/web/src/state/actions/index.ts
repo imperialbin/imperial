@@ -10,6 +10,13 @@ export const setUser = (user: SelfUser) => {
   };
 };
 
+export const setDisableClickOutsideModal = (disable: boolean) => {
+  return {
+    type: "SET_DISABLE_CLICK_OUTSIDE_MODAL",
+    payload: disable,
+  };
+};
+
 export const openModal = <T extends Modals>(modal: T, data?: ModalData<T>) => {
   return {
     type: "OPEN_MODAL",

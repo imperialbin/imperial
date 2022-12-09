@@ -23,9 +23,10 @@ const Title = styled("h1", {
 
 interface IHeaderProps {
   children?: ReactNode;
+  canClose?: boolean;
 }
 
-const Header = ({ children }: IHeaderProps) => {
+const Header = ({ children, canClose = true }: IHeaderProps) => {
   return (
     <Wrapper
       style={
@@ -33,13 +34,15 @@ const Header = ({ children }: IHeaderProps) => {
       }
     >
       <Title>{children}</Title>
-      <Tooltip title="Close (esc)">
-        <X
-          size={23}
-          style={{ cursor: "pointer" }}
-          onClick={() => store.dispatch(closeModal())}
-        />
-      </Tooltip>
+      {canClose ? (
+        <Tooltip title="Close (esc)">
+          <X
+            size={23}
+            style={{ cursor: "pointer" }}
+            onClick={() => store.dispatch(closeModal())}
+          />
+        </Tooltip>
+      ) : null}
     </Wrapper>
   );
 };

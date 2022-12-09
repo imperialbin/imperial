@@ -10,6 +10,7 @@ import Signup from "./modals/Signup";
 import { LanguageSelector } from "./modals/LanguageSelector";
 import UserSettings from "./modals/UserSettings";
 import { DocumentSettings } from "./modals/DocumentSettings";
+import DocumentPasswordModal from "./modals/DocumentPasswordModal";
 
 const Wrapper = styled(motion.div, {
   top: 0,
@@ -58,6 +59,7 @@ const MODAL_MAP = {
   user_settings: UserSettings,
   language_selector: LanguageSelector,
   document_settings: DocumentSettings,
+  document_password: DocumentPasswordModal,
 };
 
 type GetComponentProps<T> = T extends
@@ -74,11 +76,17 @@ export type ModalData<T extends Modals> = GetComponentProps<
   ? GetComponentProps<typeof MODAL_MAP[T]>["data"]
   : {} | never;
 
-const ModalManager = ({ modal, dispatch }: ReduxProps) => {
+const ModalManager = ({
+  modal,
+  disable_click_outside_modal,
+  dispatch,
+}: ReduxProps) => {
   const modalRef = useRef<HTMLDivElement | null>(null);
   const ActiveModal = modal ? MODAL_MAP[modal.modal] : null;
 
-  useOutsideClick(modalRef, () => dispatch(closeModal()));
+  useOutsideClick(modalRef, () =>
+    disable_click_outside_modal ? null : dispatch(closeModal())
+  );
 
   const stableDispatch = useCallback(dispatch, []);
 
@@ -112,8 +120,11 @@ const ModalManager = ({ modal, dispatch }: ReduxProps) => {
   );
 };
 
-const mapStateToProps = ({ modal }: ImperialState) => {
-  return { modal };
+const mapStateToProps = ({ modal, ui_state }: ImperialState) => {
+  return {
+    modal,
+    disable_click_outside_modal: ui_state.disable_click_outside_modal,
+  };
 };
 const connector = connect(mapStateToProps);
 type ReduxProps = ConnectedProps<typeof connector>;

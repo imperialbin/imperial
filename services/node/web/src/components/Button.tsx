@@ -25,7 +25,7 @@ const StyledButton = styled("button", {
     btnType: {
       primary: {},
       secondary: {
-        background: "$contrast",
+        background: "unset",
       },
     },
   },

@@ -23,6 +23,7 @@ import { ImperialState } from "../state/reducers";
 import { styled } from "../stitches";
 import { Document } from "../types";
 import { supportedLanguages } from "../utils/Constants";
+import { encrypt, generateSecureString } from "../utils/Crypto";
 import { makeRequest } from "../utils/Rest";
 import Button from "./Button";
 import Popover from "./popover/Popover";
@@ -150,8 +151,13 @@ const Nav = ({ user, document, language, dispatch }: INavProps) => {
 
     setSaving(true);
     dispatch(setReadOnly(true));
-    const { success, data } = await makeRequest("POST", "/document", {
-      content,
+    const password = user?.settings.encrypted ? generateSecureString(12) : null;
+    const { success, data } = await makeRequest<
+      Document & { password?: string }
+    >("POST", "/document", {
+      content: user?.settings.encrypted
+        ? encrypt(password as string, content).toString()
+        : content,
       settings: {
         long_urls: user ? user.settings.long_urls : false,
         short_urls: user ? user.settings.short_urls : false,
@@ -160,12 +166,13 @@ const Nav = ({ user, document, language, dispatch }: INavProps) => {
         image_embed: user ? user.settings.image_embed : false,
         expiration: user ? user.settings.expiration : 14,
         public: false,
+        password: password,
         language,
       },
     });
     setSaving(false);
 
-    if (!success) {
+    if (!success || !data) {
       dispatch(setReadOnly(false));
 
       return dispatch(
@@ -187,7 +194,9 @@ const Nav = ({ user, document, language, dispatch }: INavProps) => {
         },
       })
     );
-    navigate(`/${data.id}`, { state: data });
+    navigate(`/${data.id}${data.settings.encrypted ? `#${password}` : ""}`, {
+      state: data,
+    });
   }, [monaco, language, document, user, saving]);
 
   const newDocument = () => {

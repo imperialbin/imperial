@@ -3,6 +3,7 @@ import { SelfUser } from "../../types";
 import editor, { EditorState } from "./editor";
 import modal, { ModalState } from "./modal";
 import notifications, { NotificationState } from "./notifications";
+import ui_state, { UIState } from "./ui_state";
 import user from "./user";
 
 export interface ImperialState {
@@ -10,6 +11,7 @@ export interface ImperialState {
   modal: ModalState | null;
   notifications: NotificationState;
   editor: EditorState;
+  ui_state: UIState;
 }
 
 export const reducers = combineReducers<ImperialState>({
@@ -17,4 +19,5 @@ export const reducers = combineReducers<ImperialState>({
   modal,
   notifications,
   editor,
+  ui_state,
 });

@@ -18,6 +18,14 @@ export const Paragraph = styled("p", {
   fontSize: "0.9em",
 });
 
+export const Footer = styled("div", {
+  display: "flex",
+  justifyContent: "flex-end",
+  width: "100%",
+  marginTop: 10,
+  gap: 10,
+});
+
 export const Content = styled("div", {
   display: "flex",
   flexDirection: "column",
