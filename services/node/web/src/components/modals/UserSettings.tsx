@@ -106,7 +106,12 @@ const Tiles = styled("div", {
   width: "100%",
   display: "flex",
   flexWrap: "wrap",
-  marginBottom: "20px",
+  gap: 10,
+
+  "> a, > div": {
+    flex: "1 1",
+    minWidth: "48%",
+  },
 });
 
 const InputWrapper = styled("div", {
@@ -116,24 +121,30 @@ const InputWrapper = styled("div", {
 });
 
 const Tile = styled("div", {
-  minWidth: "38%",
+  width: "100%",
   position: "relative",
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
   padding: "13px 10px",
-  margin: "10px",
   minHeight: "73px",
   borderRadius: "8px",
   flex: 1,
   fontSize: "1.2em",
   color: "$text-white",
   background: "$tertiary",
+  overflow: "hidden",
+  whiteSpace: "nowrap",
+  textOverflow: "ellipsis",
 
   "> svg": {
     width: "30px",
     height: "auto",
     marginRight: "13px",
+  },
+
+  "> span": {
+    paddingRight: 10,
   },
 });
 
@@ -297,72 +308,70 @@ const UserSettings = ({
             </Tiles>
             <Subtitle style={{ marginLeft: 12 }}>Recent documents</Subtitle>
             <Tiles>
-              <Tiles>
-                {documents && documents.length > 0 ? (
-                  documents.map((document, key) => {
-                    return (
-                      <Link
-                        style={{ display: "flex" }}
-                        to={`/${document.id}`}
-                        state={document}
-                        key={key}
+              {documents && documents.length > 0 ? (
+                documents.map((document, key) => {
+                  return (
+                    <Link
+                      style={{ display: "flex" }}
+                      to={`/${document.id}`}
+                      state={document}
+                      key={key}
+                    >
+                      <Tile
+                        onClick={() => dispatch(closeModal())}
+                        style={{
+                          display: "unset",
+                          padding: "17px 8px",
+                          minWidth: 160,
+                          cursor: "pointer",
+                        }}
                       >
-                        <Tile
-                          onClick={() => dispatch(closeModal())}
-                          style={{
-                            display: "unset",
-                            padding: "17px 8px",
-                            minWidth: 160,
-                            cursor: "pointer",
-                          }}
-                        >
-                          <TileBtns>
-                            {document.settings.instant_delete ? (
-                              <Tooltip title="Instantly deletes after being viewed">
-                                <TileBtn>
-                                  <Eye size={12} />
-                                </TileBtn>
-                              </Tooltip>
-                            ) : null}
-                            {document.settings.encrypted ? (
-                              <Tooltip title="Encrypted">
-                                <TileBtn>
-                                  <Lock size={12} />
-                                </TileBtn>
-                              </Tooltip>
-                            ) : null}
-                            <Tooltip title="Delete document">
+                        <TileBtns>
+                          {document.settings.instant_delete ? (
+                            <Tooltip title="Instantly deletes after being viewed">
                               <TileBtn>
-                                <Trash size={15} />
+                                <Eye size={12} />
                               </TileBtn>
                             </Tooltip>
-                          </TileBtns>
-                          {document.id}
-                          <TitleInfo>
-                            {document.timestamps.expiration &&
-                            !isNaN(
-                              Date.parse(
-                                document.timestamps.expiration.toString()
-                              )
-                            ) ? (
-                              <>
-                                Deletes{" "}
-                                {dayjs(
-                                  document.timestamps.expiration
-                                ).calendar()}
-                              </>
-                            ) : (
-                              "Never expires"
-                            )}
-                          </TitleInfo>
-                        </Tile>
-                      </Link>
-                    );
-                  })
-                ) : (
-                  <NotFoundSpan>You have no recent documents.</NotFoundSpan>
-                )}
-              </Tiles>
+                          ) : null}
+
+                          {document.settings.encrypted ? (
+                            <Tooltip title="Encrypted">
+                              <TileBtn>
+                                <Lock size={12} />
+                              </TileBtn>
+                            </Tooltip>
+                          ) : null}
+
+                          <Tooltip title="Delete document">
+                            <TileBtn>
+                              <Trash size={15} />
+                            </TileBtn>
+                          </Tooltip>
+                        </TileBtns>
+                        <span>{document.id}</span>
+                        <TitleInfo>
+                          {document.timestamps.expiration &&
+                          !isNaN(
+                            Date.parse(
+                              document.timestamps.expiration.toString()
+                            )
+                          ) ? (
+                            <>
+                              Deletes{" "}
+                              {dayjs(document.timestamps.expiration).calendar()}
+                            </>
+                          ) : (
+                            "Never expires"
+                          )}
+                        </TitleInfo>
+                      </Tile>
+                    </Link>
+                  );
+                })
+              ) : (
+                <NotFoundSpan>You have no recent documents.</NotFoundSpan>
+              )}
             </Tiles>
             <br />
             <Link to="/logout">
