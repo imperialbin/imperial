@@ -16,6 +16,7 @@
     "@sentry/react": "^7.19.0",
     "@stitches/react": "^1.2.8",
     "crypto-js": "^4.1.1",
+    "crypto-random-string": "^5.0.0",
     "dayjs": "^1.11.6",
     "framer-motion": "^7.6.6",
     "monaco-editor": "^0.34.1",
