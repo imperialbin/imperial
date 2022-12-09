@@ -16,10 +16,8 @@ import NotificationsManager from "./components/NotificationsManager";
 import { useUser } from "./hooks/useUser";
 
 function App() {
-  const user = useUser();
+  useUser();
   useEffect(() => {
-    // fetch me
-
     loader.init().then(async (monaco) => {
       monaco.editor.defineTheme("imperial", IMPERIAL_THEME);
     });
