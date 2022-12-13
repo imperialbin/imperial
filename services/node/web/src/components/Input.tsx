@@ -76,7 +76,7 @@ const InputElement = styled("input", {
   },
 });
 
-const IconContainer = styled(motion.div, {
+const IconContainer = styled("div", {
   position: "absolute",
   display: "flex",
   alignItems: "center",
@@ -85,7 +85,7 @@ const IconContainer = styled(motion.div, {
   bottom: 2,
   padding: 10,
 
-  "> svg": {
+  "> div > svg": {
     width: 18,
     height: 18,
     transition: "color 0.15s ease-in-out",
@@ -112,17 +112,25 @@ const IconContainer = styled(motion.div, {
   },
 });
 
-const ICON_ANIMATION = {
+const ICON_ANIMATION_LEFT = {
   initial: {
-    scale: 0.5,
+    left: -50,
     width: 0,
   },
   animate: {
-    scale: 1,
+    left: 0,
     width: "auto",
   },
-  exit: {
+};
+
+const ICON_ANIMATION_RIGHT = {
+  initial: {
+    right: -50,
     width: 0,
+  },
+  animate: {
+    right: 0,
+    width: "auto",
   },
 };
 
@@ -172,16 +180,29 @@ const Input = React.forwardRef<HTMLDivElement, IInputProps>(
         <Wrapper>
           <AnimatePresence>
             {icon && !hideIconUntilDifferent ? (
-              <IconContainer
-                initial={ICON_ANIMATION.initial}
-                exit={ICON_ANIMATION.exit}
-                animate={ICON_ANIMATION.animate}
-                onClick={iconClick}
-                transition={{ duration: 0.15 }}
-                position={iconPosition}
-                hasCallback={!!iconClick}
-              >
-                {icon}
+              <IconContainer position={iconPosition} hasCallback={!!iconClick}>
+                <motion.div
+                  style={{ position: "relative" }}
+                  initial={
+                    iconPosition === "left"
+                      ? ICON_ANIMATION_LEFT.initial
+                      : ICON_ANIMATION_RIGHT.initial
+                  }
+                  exit={
+                    iconPosition === "left"
+                      ? ICON_ANIMATION_LEFT.initial
+                      : ICON_ANIMATION_RIGHT.initial
+                  }
+                  animate={
+                    iconPosition === "left"
+                      ? ICON_ANIMATION_LEFT.animate
+                      : ICON_ANIMATION_RIGHT.animate
+                  }
+                  onClick={iconClick}
+                  transition={{ duration: 0.25 }}
+                >
+                  {icon}
+                </motion.div>
               </IconContainer>
             ) : null}
           </AnimatePresence>
