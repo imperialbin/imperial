@@ -85,7 +85,11 @@ const Setting = <T = "switch" | "dropdown", K = unknown>({
     {type === "switch" ? (
       <Switch
         toggled={toggled}
-        onToggle={() => onToggle && onToggle(toggled)}
+        onToggle={() => {
+          if (!onToggle || !toggled) return;
+
+          onToggle(toggled);
+        }}
         disabled={disabled}
       />
     ) : null}
