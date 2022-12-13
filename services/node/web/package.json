@@ -19,6 +19,7 @@
     "crypto-random-string": "^5.0.0",
     "dayjs": "^1.11.6",
     "framer-motion": "^7.6.6",
+    "lodash": "^4.17.21",
     "monaco-editor": "^0.34.1",
     "react": "^18.2.0",
     "react-copy-to-clipboard": "^5.1.0",
@@ -33,6 +34,7 @@
   },
   "devDependencies": {
     "@types/crypto-js": "^4.1.1",
+    "@types/lodash": "^4.14.191",
     "@types/node": "^18.11.10",
     "@types/react": "^18.0.24",
     "@types/react-copy-to-clipboard": "^5.0.4",

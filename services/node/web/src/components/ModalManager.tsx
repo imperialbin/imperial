@@ -11,6 +11,7 @@ import { LanguageSelector } from "./modals/LanguageSelector";
 import UserSettings from "./modals/UserSettings";
 import { DocumentSettings } from "./modals/DocumentSettings";
 import DocumentPasswordModal from "./modals/DocumentPasswordModal";
+import EditorsModal from "./modals/EditorsModal";
 
 const Wrapper = styled(motion.div, {
   top: 0,
@@ -60,6 +61,7 @@ const MODAL_MAP = {
   language_selector: LanguageSelector,
   document_settings: DocumentSettings,
   document_password: DocumentPasswordModal,
+  editors: EditorsModal,
 };
 
 type GetComponentProps<T> = T extends

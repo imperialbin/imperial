@@ -27,7 +27,7 @@ func RegenAPIToken(c *fiber.Ctx) error {
 	var client = utils.GetDB()
 	if result := client.Model(&user).Update("api_token", token); result.Error != nil {
 		return c.Status(500).JSON(Response{
-			Success: true,
+			Success: false,
 			Message: "An internal server error occurred",
 		})
 	}

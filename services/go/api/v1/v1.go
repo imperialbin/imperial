@@ -92,6 +92,10 @@ func GetUser(c *fiber.Ctx) error {
 	return users.FindUser(c)
 }
 
+func SearchUsers(c *fiber.Ctx) error {
+	return users.SearchUsers(c)
+}
+
 /* OAuth */
 
 func GetDiscordOAuth(c *fiber.Ctx) error {

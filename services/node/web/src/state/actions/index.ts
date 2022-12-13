@@ -1,5 +1,5 @@
 import { ModalData, Modals } from "../../components/ModalManager";
-import { SelfUser } from "../../types";
+import { SelfUser, User } from "../../types";
 import { SupportedLanguagesID } from "../../utils/Constants";
 import { Notification } from "../reducers/notifications";
 
@@ -7,6 +7,20 @@ export const setUser = (user: SelfUser) => {
   return {
     type: "SET_USER",
     payload: user,
+  };
+};
+
+export const addEditor = (user: User) => {
+  return {
+    type: "ADD_EDITOR",
+    payload: user,
+  };
+};
+
+export const removeEditor = (id: number) => {
+  return {
+    type: "REMOVE_EDITOR",
+    payload: id,
   };
 };
 

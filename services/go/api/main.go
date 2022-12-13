@@ -46,6 +46,7 @@ func setupRoutes(app *fiber.App) {
 	v1.Get("/users/@me", middleware.CheckAuthenticated, utils.RateLimit(200), v1Routes.GetMe)
 	v1.Get("/users/@me/recent_documents", middleware.CheckAuthenticated, utils.RateLimit(200), v1Routes.GetRecentDocuments)
 	v1.Get("/users/:username", middleware.CheckAuthenticated, utils.RateLimit(200), v1Routes.GetUser)
+	v1.Get("/users/search/:username", middleware.CheckAuthenticated, utils.RateLimit(200), v1Routes.SearchUsers)
 	v1.Patch("/users/@me", middleware.CheckAuthenticated, utils.RateLimit(20), v1Routes.PatchMe)
 	v1.Post("/users/@me/delete", middleware.CheckAuthenticated, utils.RateLimit(20), v1Routes.DeleteMe) // We're making this a post because we need a body
 	v1.Post("/users/@me/regenAPIToken", middleware.CheckAuthenticated, utils.RateLimit(20), v1Routes.PostRegenAPIToken)

@@ -14,6 +14,7 @@ import {
   Minus,
   Save,
   Settings,
+  Users,
   X,
 } from "react-feather";
 import { connect, ConnectedProps } from "react-redux";
@@ -133,7 +134,7 @@ const BRAND_ANIMATION = {
 interface INavProps extends ReduxProps {
   document?: Document;
 }
-const Nav = ({ user, document, language, dispatch }: INavProps) => {
+const Nav = ({ user, document, language, dispatch, editors }: INavProps) => {
   const [collapsed, setCollapsed] = useState(false);
   const [userPopover, setUserPopover] = useState(false);
   const [editing, setEditing] = useState(false);
@@ -167,6 +168,7 @@ const Nav = ({ user, document, language, dispatch }: INavProps) => {
         expiration: user ? user.settings.expiration : 14,
         public: false,
         password: password,
+        editors: editors.map((user) => user.username),
         language,
       },
     });
@@ -194,19 +196,18 @@ const Nav = ({ user, document, language, dispatch }: INavProps) => {
         },
       })
     );
+
     navigate(`/${data.id}${data.settings.encrypted ? `#${password}` : ""}`, {
       state: data,
     });
-  }, [monaco, language, document, user, saving]);
+  }, [monaco, language, document, user, saving, editors]);
 
   const newDocument = () => {
     navigate("/");
   };
 
   const forkDocument = useCallback(() => {
-    if (!monaco || !document) return;
-
-    const editor = monaco.editor.getModels()[0];
+    if (!document) return;
 
     const content = document.content;
     navigate("/", { state: { init_text: content } });
@@ -338,6 +339,15 @@ const Nav = ({ user, document, language, dispatch }: INavProps) => {
                   <SelectedLanguageIcon width={20} height={20} />
                 </Button>
               </StyledTooltip>
+
+              {user ? (
+                <StyledTooltip title="Add editors">
+                  <Button onClick={() => dispatch(openModal("editors"))}>
+                    <Users size={20} />
+                  </Button>
+                </StyledTooltip>
+              ) : null}
+
               <StyledTooltip title="Save document">
                 <Button onClick={saveDocument}>
                   <Save size={20} />
@@ -346,7 +356,11 @@ const Nav = ({ user, document, language, dispatch }: INavProps) => {
             </>
           ) : (
             <>
-              {user && document.creator.id === user.id ? (
+              {user &&
+              (document.creator.id === user.id ||
+                document.settings.editors.find(
+                  (editor) => editor.id === user.id
+                )) ? (
                 <StyledTooltip title="Edit document">
                   <Button onClick={prepareEdit}>
                     {editing ? <Check size={20} /> : <Edit2 size={20} />}
@@ -396,8 +410,12 @@ const Nav = ({ user, document, language, dispatch }: INavProps) => {
   );
 };
 
-const mapStateToProps = ({ user, editor: { language } }: ImperialState) => {
-  return { user, language };
+const mapStateToProps = ({
+  user,
+  editor: { language },
+  ui_state: { editors },
+}: ImperialState) => {
+  return { user, language, editors };
 };
 const connector = connect(mapStateToProps);
 type ReduxProps = ConnectedProps<typeof connector>;
