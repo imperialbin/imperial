@@ -15,7 +15,7 @@ import Popover from "../popover/Popover";
 import Tooltip from "../Tooltip";
 import Header from "./base/Header";
 import { ModalProps } from "./base/modals";
-import { Content, Footer, Wrapper } from "./base/Styles";
+import { Content, Footer, Paragraph, Wrapper } from "./base/Styles";
 
 const EditorsWrapper = styled("div", {
   display: "flex",
@@ -88,6 +88,7 @@ const EDITOR_ANIMATION = {
 const EditorsModal = ({
   dispatch,
   editors,
+  user,
   closeModal,
 }: ModalProps & ReduxProps) => {
   const [searchedUsers, setSearchedUsers] = useState<User[]>([]);
@@ -112,12 +113,16 @@ const EditorsModal = ({
         })
       );
 
-    setSearchedUsers(data);
+    setSearchedUsers(data.filter((filterUser) => filterUser.id !== user?.id));
   }, 250);
 
   return (
     <Wrapper>
       <Header>Editors</Header>
+      <Paragraph>
+        Add and remove editors for your documents, you can change them at any
+        time, just search by their username!
+      </Paragraph>
       <Content>
         <Popover
           active={searchedUsers.length > 0 && focused && input.length > 0}
@@ -182,9 +187,10 @@ const EditorsModal = ({
   );
 };
 
-const mapStateToProps = ({ ui_state: { editors } }: ImperialState) => {
+const mapStateToProps = ({ user, ui_state: { editors } }: ImperialState) => {
   return {
     editors,
+    user,
   };
 };
 const connector = connect(mapStateToProps);
