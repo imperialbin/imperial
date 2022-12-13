@@ -4,7 +4,10 @@ import { useNavigate } from "react-router-dom";
 import { addNotification, setLanguage } from "../../state/actions";
 import { styled } from "../../stitches";
 import { Document } from "../../types";
-import { SupportedLanguagesID } from "../../utils/Constants";
+import {
+  supportedLanguages,
+  SupportedLanguagesID,
+} from "../../utils/Constants";
 import { makeRequest } from "../../utils/Rest";
 import Button from "../Button";
 import Setting from "../Setting";
@@ -83,17 +86,19 @@ export const DocumentSettings = ({
           title="Language"
           description="Change the language of the document."
           type="dropdown"
-          mode="languages"
-          initialValue={document.settings.language}
-          onToggle={async (e) => {
-            const newLanguage = e?.target.value as SupportedLanguagesID;
+          items={supportedLanguages.map((language) => ({
+            value: language.id,
+            title: language.name,
+            icon: language.icon ? <language.icon /> : undefined,
+            selected: document.settings.language === language.id,
+          }))}
+          onSelect={async (item) => {
+            await patchDocument("language", item.value);
 
-            await patchDocument("language", newLanguage);
-
-            dispatch(setLanguage(newLanguage));
+            dispatch(setLanguage(item.value));
           }}
         />
-        <Setting
+        {/*         <Setting
           title="Expiration"
           description="Change the date when the document expires."
           type="dropdown"
@@ -102,22 +107,65 @@ export const DocumentSettings = ({
             new Date(document.timestamps.expiration * 1000).getDate() -
             new Date().getDate()
           }
+          items={[
+            {
+              title: "Never",
+              value: null,
+              selected: user.settings.expiration === null,
+            },
+            {
+              title: "1 day",
+              value: 1,
+              selected: user.settings.expiration === 1,
+            },
+            {
+              title: "7 days",
+              value: 2,
+              selected: user.settings.expiration === 7,
+            },
+            {
+              title: "1 month",
+              value: 30,
+              selected: user.settings.expiration === 30,
+            },
+            {
+              title: "2 months",
+              value: 60,
+              selected: user.settings.expiration === 60,
+            },
+            {
+              title: "3 months",
+              value: 90,
+              selected: user.settings.expiration === 90,
+            },
+            {
+              title: "6 months",
+              value: 180,
+              selected: user.settings.expiration === 180,
+            },
+            {
+              title: "1 year",
+              value: 365,
+              selected: user.settings.expiration === 365,
+            },
+          ]}
           onToggle={async (e) => {
-            /* @ts-expect-error todo fix this */
             await patchDocument("expiration", Number(e?.target.value));
           }}
-        />
+        /> */}
         <Setting
           title="Encrypted"
           description="You can not edit the encryption after the document has been made."
           toggled={document.settings.encrypted}
           onToggle={() => null}
+          type="switch"
           disabled
         />
         <Setting
           title="Image embed"
           description="Toggle image embed on the document. This will generate an image of the document and will support rich embeds."
           toggled={document.settings.image_embed}
+          type="switch"
           onToggle={async () => {
             await patchDocument("image_embed", !document.settings.image_embed);
           }}
@@ -126,6 +174,7 @@ export const DocumentSettings = ({
           title="Instant delete"
           description="Toggle instant delete on the document. After someone viewing the document, it will instantly delete."
           toggled={document.settings.instant_delete}
+          type="switch"
           onToggle={async () => {
             await patchDocument(
               "instant_delete",
@@ -135,6 +184,7 @@ export const DocumentSettings = ({
         />
         <Setting
           title="Toggle public"
+          type="switch"
           description="Toggle public status on the document. After enabled, the document will be public on our discovery page."
           toggled={document.settings.public}
           onToggle={async () => {

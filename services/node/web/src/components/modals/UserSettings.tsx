@@ -611,35 +611,77 @@ const UserSettings = ({
               description="When enabled, the editor will wrap instead of enabling overflow."
             />
             <Setting
-              title="Font size"
               type="dropdown"
-              initialValue={user.settings.font_size}
-              mode="expiration"
-              numberLimit={18}
-              onToggle={(e) =>
-                patchUser("font_size", parseInt(e?.target.value ?? "12"))
-              }
+              title="Font size"
+              items={Array(18)
+                .fill(0)
+                .map((_, i) => ({
+                  title: `${i + 1}`,
+                  value: i + 1,
+                  selected: user.settings.font_size === i + 1,
+                }))}
+              onSelect={(item) => patchUser("font_size", item.value)}
               description="Change font size of the editor!"
             />
             <Setting
               title="Tab size"
               type="dropdown"
-              initialValue={user.settings.tab_size}
-              mode="expiration"
-              numberLimit={8}
-              onToggle={(e) =>
-                patchUser("tab_size", parseInt(e?.target.value ?? "2"))
-              }
+              items={Array(8)
+                .fill(0)
+                .map((_, i) => ({
+                  title: `${i + 1}`,
+                  value: i + 1,
+                  selected: user.settings.tab_size === i + 1,
+                }))}
+              onSelect={(item) => patchUser("tab_size", item.value)}
               description="How big do you want your tabs?"
             />
             <Setting
               title="Expiration"
               type="dropdown"
-              initialValue={user.settings.expiration ?? 0}
-              mode="expiration"
-              onToggle={(e) =>
-                patchUser("expiration", parseInt(e?.target.value ?? "7"))
-              }
+              items={[
+                {
+                  title: "Never",
+                  value: null,
+                  selected: user.settings.expiration === null,
+                },
+                {
+                  title: "1 day",
+                  value: 1,
+                  selected: user.settings.expiration === 1,
+                },
+                {
+                  title: "7 days",
+                  value: 2,
+                  selected: user.settings.expiration === 7,
+                },
+                {
+                  title: "1 month",
+                  value: 30,
+                  selected: user.settings.expiration === 30,
+                },
+                {
+                  title: "2 months",
+                  value: 60,
+                  selected: user.settings.expiration === 60,
+                },
+                {
+                  title: "3 months",
+                  value: 90,
+                  selected: user.settings.expiration === 90,
+                },
+                {
+                  title: "6 months",
+                  value: 180,
+                  selected: user.settings.expiration === 180,
+                },
+                {
+                  title: "1 year",
+                  value: 365,
+                  selected: user.settings.expiration === 365,
+                },
+              ]}
+              onSelect={(item) => patchUser("expiration", item.value)}
               description="How long (in days) a document takes to delete."
             />
             <br />

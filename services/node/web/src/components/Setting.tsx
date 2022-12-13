@@ -19,7 +19,7 @@ const InfoContainer = styled("div", {
 
 const Title = styled("h1", {
   fontSize: "1.15em",
-  fontWeight: 500,
+  fontWeight: 600,
   color: "$text-primary",
   margin: 0,
 });
@@ -32,33 +32,49 @@ const Description = styled("p", {
   margin: 0,
 });
 
-export interface ISettingProps extends ISwitchProps, IDropdownProps {
-  title: string;
-  description: string;
-  type?: "switch" | "dropdown";
-}
+type SettingProps<T = "dropdown" | "switch", k = unknown> = T extends "switch"
+  ? {
+      title: string;
+      description: string;
+      type: T;
+      disabled?: boolean;
+      toggled: boolean;
+      onToggle: (toggled: boolean) => void;
 
-const Setting = ({
+      onSelect?: never;
+      items?: never;
+    }
+  : {
+      title: string;
+      description: string;
+      type: T;
+      disabled?: boolean;
+      onSelect: (item: IDropdownProps<k>["items"][number]) => void;
+      items: IDropdownProps<k>["items"];
+
+      toggled?: never;
+      onToggle?: never;
+    };
+
+const Setting = <T = "switch" | "dropdown", K = unknown>({
   /* For the actual setting its self */
   title,
   description,
 
   /* Type default switch */
-  type = "switch",
+  type,
 
   /* For switches */
   toggled,
 
   disabled = false,
 
-  /* Drop down settings */
-  initialValue = "",
-  numberLimit = 60,
-  mode,
-
   /* onToggle method for all to do something */
   onToggle,
-}: ISettingProps): JSX.Element => (
+  onSelect,
+
+  items,
+}: SettingProps<T, K>): JSX.Element => (
   <SettingContainer>
     <InfoContainer>
       <Title>{title}</Title>
@@ -67,17 +83,18 @@ const Setting = ({
 
     {/* Switches */}
     {type === "switch" ? (
-      <Switch toggled={toggled} onToggle={onToggle} disabled={disabled} />
+      <Switch
+        toggled={toggled}
+        onToggle={() => onToggle && onToggle(toggled)}
+        disabled={disabled}
+      />
     ) : null}
 
     {/* Dropdowns */}
     {type === "dropdown" ? (
       <Dropdown
-        mode={mode}
-        onToggle={onToggle}
-        initialValue={initialValue}
-        disabled={disabled}
-        numberLimit={numberLimit}
+        items={items ?? []}
+        onSelect={(item) => onSelect && onSelect(item)}
       />
     ) : null}
   </SettingContainer>
