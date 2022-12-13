@@ -16,6 +16,7 @@ export const Wrapper = styled("div", {
 export const Paragraph = styled("p", {
   color: "$text-secondary",
   fontSize: "0.9em",
+  maxWidth: "48ch",
 });
 
 export const Footer = styled("div", {
