@@ -4,6 +4,7 @@ import (
 	"api/models"
 	"api/utils"
 	. "api/v1/commons"
+	"strings"
 
 	"github.com/getsentry/sentry-go"
 	"github.com/gofiber/fiber/v2"
@@ -15,7 +16,7 @@ func SearchUsers(c *fiber.Ctx) error {
 	client := utils.GetDB()
 
 	var users []models.User
-	if result := client.Find(&users, "username LIKE ? ", "%"+username+"%"); result.Error != nil {
+	if result := client.Find(&users, "username LIKE ? ", "%"+strings.ToLower(username)+"%"); result.Error != nil {
 		sentry.CaptureException(result.Error)
 
 		return c.Status(500).JSON(Response{
