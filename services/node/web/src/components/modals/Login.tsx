@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Lock, User, X } from "react-feather";
-import { addNotification, closeModal, openModal } from "../../state/actions";
+import { addNotification, openModal } from "../../state/actions";
 import { styled } from "../../stitches";
 import { makeRequest } from "../../utils/Rest";
 import Button from "../Button";
@@ -45,7 +45,7 @@ const LogoContainer = styled("div", {
   },
 });
 
-const Login = ({ dispatch }: ModalProps) => {
+const Login = ({ dispatch, closeModal }: ModalProps) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
