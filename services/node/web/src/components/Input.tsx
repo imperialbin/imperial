@@ -116,10 +116,12 @@ const ICON_ANIMATION_LEFT = {
   initial: {
     left: -50,
     width: 0,
+    opacity: 0,
   },
   animate: {
     left: 0,
     width: "auto",
+    opacity: 1,
   },
 };
 
