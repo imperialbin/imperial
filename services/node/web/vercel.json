@@ -1,5 +1,13 @@
 {
-  "rewrites": [
-    { "source": "/:match*", "destination": "/:match*" }
+  "redirects": [
+    {
+      "source": "/:document/",
+      "destination": "/:document/",
+      "permanent": true
+    },
+    {
+      "source": "/view-source",
+      "destination": "https://github.com/imperialbin/imperial"
+    }
   ]
 }
