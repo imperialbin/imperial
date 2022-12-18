@@ -121,7 +121,6 @@ func Post(c *fiber.Ctx) error {
 
 		if strings.HasPrefix(document.Content, "IMPERIAL_ENCRYPTED") {
 			content = document.Content
-			println("uwu")
 		} else {
 			encryptedContent, _ := utils.Encrypt(document.Content, password)
 			content = encryptedContent

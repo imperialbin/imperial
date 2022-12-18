@@ -2,10 +2,13 @@ package utils
 
 import (
 	"api/models"
+	"log"
 	"os"
+	"time"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 )
 
 var globalDB *gorm.DB
@@ -15,6 +18,14 @@ func InitDB() *gorm.DB {
 
 	db, err := gorm.Open(postgres.Open(dbURL), &gorm.Config{
 		FullSaveAssociations: true,
+		Logger: logger.New(
+			log.New(os.Stdout, "\r\n", log.LstdFlags), // io writer
+			logger.Config{
+				SlowThreshold:             time.Second, // Slow SQL threshold
+				LogLevel:                  logger.Info, // Log level
+				Colorful:                  true,        // Disable color
+			},
+		),
 	})
 
 	if err != nil {
@@ -29,6 +40,7 @@ func InitDB() *gorm.DB {
 		&models.GitHubUser{},
 		&models.Document{},
 		&models.DocumentSettings{},
+		&models.Device{},
 	)
 
 	globalDB = db

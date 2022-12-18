@@ -63,6 +63,10 @@ func setupRoutes(app *fiber.App) {
 	v1.Get("/oauth/github", utils.RateLimit(200), v1Routes.GetGitHubOAuth)
 	v1.Get("/oauth/github/callback", utils.RateLimit(200), middleware.CheckAuthenticated, v1Routes.GetGitHubOAuthCallback)
 
+	/* Devices */
+	v1.Get("/devices/@me", middleware.CheckAuthenticated, utils.RateLimit(200), v1Routes.GetDevices)
+	v1.Delete("/devices/:id", middleware.CheckAuthenticated, utils.RateLimit(20), v1Routes.DeleteDevice)
+
 	/* Invalid Routes */
 	app.Use(v1Routes.InvalidRoute)
 }

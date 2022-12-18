@@ -3,6 +3,7 @@ package v1
 import (
 	"api/v1/auth"
 	. "api/v1/commons"
+	"api/v1/devices"
 	"api/v1/document"
 	"api/v1/oauth"
 	"api/v1/users"
@@ -112,4 +113,14 @@ func GetGitHubOAuth(c *fiber.Ctx) error {
 
 func GetGitHubOAuthCallback(c *fiber.Ctx) error {
 	return oauth.GetGitHubOAuthCallback(c)
+}
+
+/* Devices */
+
+func GetDevices(c *fiber.Ctx) error {
+	return devices.GetMeDevices(c)
+}
+
+func DeleteDevice(c *fiber.Ctx) error {
+	return devices.DeleteDevice(c)
 }

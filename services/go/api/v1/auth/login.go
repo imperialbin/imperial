@@ -59,6 +59,21 @@ func Login(c *fiber.Ctx) error {
 	}
 
 	utils.RedisSet(token, fmt.Sprint(user.ID), 7)
+	var device = models.Device{
+		UserID:    user.ID,
+		UserAgent: c.Get("User-Agent"),
+		IP:        c.IP(),
+		AuthToken: token,
+	}
+
+	if result := client.Create(&device); result.Error != nil {
+		sentry.CaptureException(result.Error)
+		return c.Status(500).JSON(Response{
+			Success: false,
+			Message: "An internal server error occurred",
+		})
+	}
+
 	utils.SendEmail("NewLogin", user.Email, "{ }")
 
 	cookie := fiber.Cookie{

@@ -18,9 +18,11 @@ func GetAuthedUser(c *fiber.Ctx) (*models.User, error) {
 
 	// Dear lord help me as i've commited a sin and nested a bunch of ifs together
 	if err != nil {
+
 		// if request is an API token
-		if !strings.Contains(authToken, "IMPERIAL-AUTH") {
+		if strings.HasPrefix(authToken, "IMPERIAL-") {
 			var apiToken models.User
+
 			if result := client.First(&apiToken, "api_token = ? ", authToken).Select("api_token"); result.Error != nil {
 				println(err.Error())
 				if errors.Is(result.Error, gorm.ErrRecordNotFound) {
@@ -33,13 +35,28 @@ func GetAuthedUser(c *fiber.Ctx) (*models.User, error) {
 
 			RedisSet(apiToken.APIToken, fmt.Sprint(apiToken.ID), -1)
 			userID = fmt.Sprint(apiToken.ID)
+		} else {
+			var device models.Device
+
+			if result := client.First(&device, "auth_token = ? ", authToken); result.Error != nil {
+				if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+					return nil, nil
+				}
+
+				sentry.CaptureException(result.Error)
+				return nil, nil
+			}
+
+			RedisSet(device.AuthToken, fmt.Sprint(device.UserID), 7)
+
+			userID = fmt.Sprint(device.UserID)
 		}
 	}
 
 	var user models.User
 	if result := client.Preload("UserSettings").Preload("Discord").Preload("GitHub").First(&user, "id = ? ", userID); result.Error != nil {
 		if errors.Is(result.Error, gorm.ErrRecordNotFound) {
-			return nil, nil
+			return nil, err
 		}
 
 		return nil, result.Error
