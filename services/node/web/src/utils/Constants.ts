@@ -50,6 +50,7 @@ export const supportedLanguages = [
   {
     name: "Auto",
     id: "auto",
+    icon: undefined,
   },
   {
     name: "TypeScript",
