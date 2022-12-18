@@ -1,13 +1,3 @@
 {
-  "redirects": [
-    {
-      "source": "/:document/",
-      "destination": "/:document/",
-      "permanent": true
-    },
-    {
-      "source": "/view-source",
-      "destination": "https://github.com/imperialbin/imperial"
-    }
-  ]
+  "redirects": [{ "src": "/[^.]+", "dest": "/", "status": 200 }]
 }
