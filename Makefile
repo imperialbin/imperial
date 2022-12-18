@@ -6,8 +6,8 @@ api_dev:
 	docker-compose up -d
 	cd services/go/api && ~/.air
 
-app_dev:
-	cd services/node/app && yarn dev
+web_dev:
+	cd services/node/web && yarn dev
 
 build:
 	cd services/go/api && go build

@@ -14,6 +14,7 @@ import { IMPERIAL_THEME } from "./components/editorthemes/Imperial";
 import ModalManager from "./components/ModalManager";
 import NotificationsManager from "./components/NotificationsManager";
 import { useUser } from "./hooks/useUser";
+import FourOFour from "./app/404";
 
 function App() {
   useUser();
@@ -38,6 +39,8 @@ function App() {
           <Route path="discord" element={<Discord />} />
           <Route path="github" element={<GitHub />} />
         </Route>
+
+        <Route path="*" element={<FourOFour />} />
       </Routes>
     </BrowserRouter>
   );
