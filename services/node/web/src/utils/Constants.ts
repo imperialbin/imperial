@@ -48,6 +48,10 @@ export type SupportedLanguagesID = typeof supportedLanguages[number]["id"];
 
 export const supportedLanguages = [
   {
+    name: "Auto",
+    id: "auto",
+  },
+  {
     name: "TypeScript",
     id: "typescript",
     icon: TypeScriptIcon,
