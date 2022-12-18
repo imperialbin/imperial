@@ -1,5 +1,5 @@
 {
   "rewrites": [
-    { "source": "/proxy/:match*", "destination": "https://example.com/:match*" }
+    { "source": "/:match*", "destination": "/:match*" }
   ]
 }
