@@ -25,7 +25,12 @@ import { ModalProps } from "./base/modals";
 import { Link } from "react-router-dom";
 import { makeRequest } from "../../utils/Rest";
 import { styled } from "../../stitches";
-import { addNotification, closeModal, setUser } from "../../state/actions";
+import {
+  addNotification,
+  closeModal,
+  openModal,
+  setUser,
+} from "../../state/actions";
 import Tooltip from "../Tooltip";
 import { ImperialState } from "../../state/reducers";
 import Setting from "../Setting";
@@ -69,7 +74,7 @@ const UserOverview = styled("div", {
   overflowY: "scroll",
   display: "flex",
   alignItems: "center",
-  margin: "15px 0 15px 15px",
+  margin: "15px 0 15px 0",
 });
 
 const Subtitle = styled("h1", {
@@ -170,6 +175,13 @@ const TitleInfo = styled("p", {
   fontSize: "0.8em",
   opacity: "0.6",
   margin: "0",
+  color: "$text-secondary",
+});
+
+const HeaderParagraph = styled("p", {
+  fontSize: "1em",
+  margin: "0",
+  marginBottom: 10,
   color: "$text-secondary",
 });
 
@@ -306,7 +318,7 @@ const UserSettings = ({
                 </TitleInfo>
               </Tile>
             </Tiles>
-            <Subtitle style={{ marginLeft: 12 }}>Recent documents</Subtitle>
+            <Subtitle>Recent documents</Subtitle>
             <Tiles>
               {documents && documents.length > 0 ? (
                 documents.map((document, key) => {
@@ -374,10 +386,22 @@ const UserSettings = ({
               )}
             </Tiles>
             <br />
+
+            <Subtitle style={{ margin: 0 }}>Devices</Subtitle>
+            <HeaderParagraph>
+              View all devices logged into your IMPERIAL account
+            </HeaderParagraph>
+            <Button
+              style={{ marginBottom: 25 }}
+              onClick={() => dispatch(openModal("devices"))}
+            >
+              View Devices
+            </Button>
+
+            <br />
             <Link to="/logout">
               <Button
                 style={{
-                  marginLeft: 10,
                   display: "flex",
                   alignItems: "center",
                 }}

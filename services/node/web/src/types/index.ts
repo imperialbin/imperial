@@ -96,3 +96,11 @@ interface GitHubUser {
   private_gists: number;
   two_factor_authentication: boolean;
 }
+
+export interface Device {
+  id: number;
+  user_id: number;
+  user_agent: string;
+  ip: string;
+  created_at: string;
+}
