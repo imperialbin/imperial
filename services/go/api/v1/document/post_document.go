@@ -13,6 +13,7 @@ import (
 	"github.com/creasty/defaults"
 	"github.com/getsentry/sentry-go"
 	"github.com/gofiber/fiber/v2"
+	"gopkg.in/src-d/enry.v1"
 	"gorm.io/gorm"
 )
 
@@ -104,6 +105,7 @@ func Post(c *fiber.Ctx) error {
 
 			if err != nil {
 				sentry.CaptureException(err)
+
 				c.Status(500).JSON(Response{
 					Success: false,
 					Message: "An error occurred whilst generating a password for your encrypted document!",
@@ -135,6 +137,15 @@ func Post(c *fiber.Ctx) error {
 			document.GistURL = &reqGist
 		}
 	}
+
+	if documentRequest.Settings.Language == "auto" {
+		lang, _ := enry.GetLanguageByClassifier([]byte(document.Content), utils.AvailableLanguages)
+
+		document.DocumentSettings.Language = strings.ToLower(lang)
+		println(strings.ToLower(lang))
+	}
+
+	println(document.DocumentSettings.Language)
 
 	if result := client.Create(&document); result.Error != nil {
 		sentry.CaptureException(result.Error)

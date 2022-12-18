@@ -19,7 +19,12 @@ import {
 } from "react-feather";
 import { connect, ConnectedProps } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { addNotification, openModal, setReadOnly } from "../state/actions";
+import {
+  addNotification,
+  openModal,
+  setLanguage,
+  setReadOnly,
+} from "../state/actions";
 import { ImperialState } from "../state/reducers";
 import { styled } from "../stitches";
 import { Document } from "../types";
@@ -196,6 +201,8 @@ const Nav = ({ user, document, language, dispatch, editors }: INavProps) => {
         },
       })
     );
+
+    dispatch(setLanguage(data.settings.language));
 
     navigate(`/${data.id}${data.settings.encrypted ? `#${password}` : ""}`, {
       state: data,

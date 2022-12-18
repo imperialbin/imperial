@@ -32,7 +32,7 @@ func GetMeDocuments(c *fiber.Ctx) error {
 	var client = utils.GetDB()
 	var documents []models.Document
 
-	if result := client.Limit(10).Find(&documents).Where("creator = ?", user.ID); result.Error != nil {
+	if result := client.Limit(10).Find(&documents).Where("creator = ?", user.ID).Order("created_at DESC"); result.Error != nil {
 		sentry.CaptureException(result.Error)
 		return c.Status(500).JSON(Response{
 			Success: false,
@@ -96,8 +96,6 @@ func GetMeDocuments(c *fiber.Ctx) error {
 			},
 		})
 	}
-
-	/* Todo sort parsedDocuments by date */
 
 	return c.JSON(Response{
 		Success: true,
