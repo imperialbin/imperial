@@ -65,7 +65,9 @@ func setupRoutes(app *fiber.App) {
 
 	/* Devices */
 	v1.Get("/devices/@me", middleware.CheckAuthenticated, utils.RateLimit(200), v1Routes.GetDevices)
-	v1.Delete("/devices/:id", middleware.CheckAuthenticated, utils.RateLimit(20), v1Routes.DeleteDevice)
+	
+	/* This is a post because we need users password in body */
+	v1.Post("/devices/:id", middleware.CheckAuthenticated, utils.RateLimit(20), v1Routes.DeleteDevice)
 
 	/* Invalid Routes */
 	app.Use(v1Routes.InvalidRoute)
