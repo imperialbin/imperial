@@ -19,7 +19,6 @@ const Device = styled("div", {
   display: "flex",
   alignItems: "center",
   gap: 10,
-  marginBottom: 20,
   border: "1px solid $contrast",
   background: "$tertiary",
   color: "$text-secondary",
@@ -62,7 +61,9 @@ const DevicesModal = ({ closeModal, dispatch }: ModalProps) => {
   };
 
   const deleteDevice = async (id: number) => {
-    const { success, error } = await makeRequest("DELETE", `/devices/${id}`);
+    const { success, error } = await makeRequest("POST", `/devices/${id}`, {
+      password: "",
+    });
 
     if (!success) {
       dispatch(

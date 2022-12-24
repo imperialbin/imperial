@@ -64,7 +64,7 @@ const Overview = styled("div", {
   flex: "1.25",
   background: "$secondary",
   boxShadow: "-1.7168px 6.86722px 36.0529px 8.58402px rgba(0, 0, 0, 0.25)",
-  padding: "10px",
+  padding: "20px",
   borderBottomRightRadius: "12px",
   borderTopRightRadius: "12px",
   overflowY: "scroll",

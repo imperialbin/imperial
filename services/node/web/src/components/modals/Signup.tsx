@@ -225,6 +225,7 @@ const Signup = ({ dispatch }: ModalProps) => {
                   disabled={loading}
                   type="submit"
                   onClick={submit}
+                  clickOnEnter
                 >
                   Signup
                 </Button>

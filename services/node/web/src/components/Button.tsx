@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import type * as Stitches from "@stitches/react";
 import { styled } from "../stitches";
 
@@ -35,10 +35,27 @@ interface ButtonProps
   extends React.ComponentPropsWithRef<"button">,
     Stitches.VariantProps<typeof StyledButton> {
   children: React.ReactNode;
+  clickOnEnter?: boolean;
+  onClick?: (e?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ children, ...props }, ref) => {
+    useEffect(() => {
+      const onKeyPress = (e: KeyboardEvent) => {
+        if (e.key !== "Enter" || props.disabled || !props.onClick) return;
+
+        props.onClick();
+      };
+
+      if (props.clickOnEnter && props.onClick)
+        document.addEventListener("keydown", onKeyPress);
+
+      return () => {
+        document.removeEventListener("keydown", onKeyPress);
+      };
+    }, [props.onClick, props.clickOnEnter, props.disabled]);
+
     return (
       <StyledButton ref={ref} {...props}>
         {children}

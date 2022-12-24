@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from "framer-motion";
 import debounce from "lodash/debounce";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { User as UserIcon, X } from "react-feather";
 import { connect, ConnectedProps } from "react-redux";
 import { addNotification, removeEditor } from "../../state/actions";
@@ -95,26 +95,31 @@ const EditorsModal = ({
   const [input, setInput] = useState("");
   const [focused, setFocused] = useState(false);
 
-  const fetchUsers = debounce(async (search: string) => {
-    if (search.length === 0) return;
+  const fetchUsers = useCallback(
+    debounce(async (search: string) => {
+      if (search.length === 0) return;
 
-    const { success, data, error } = await makeRequest<User[]>(
-      "GET",
-      `/users/search/${search}`
-    );
-
-    if (!success || !data)
-      return dispatch(
-        addNotification({
-          icon: <X />,
-          message:
-            error?.message ?? "An error occurred while searching for users",
-          type: "error",
-        })
+      const { success, data, error } = await makeRequest<User[]>(
+        "GET",
+        `/users/search/${search}`
       );
 
-    setSearchedUsers(data.filter((filterUser) => filterUser.id !== user?.id));
-  }, 250);
+      if (!success || !data) {
+        setSearchedUsers([]);
+        return dispatch(
+          addNotification({
+            icon: <X />,
+            message:
+              error?.message ?? "An error occurred while searching for users",
+            type: "error",
+          })
+        );
+      }
+
+      setSearchedUsers(data.filter((filterUser) => filterUser.id !== user?.id));
+    }, 250),
+    []
+  );
 
   return (
     <Wrapper>

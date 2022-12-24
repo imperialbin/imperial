@@ -1,6 +1,5 @@
-import { connect, ConnectedProps } from "react-redux";
+import { store } from "../../state";
 import { addEditor } from "../../state/actions";
-import { ImperialState } from "../../state/reducers";
 import { styled } from "../../stitches";
 import { User } from "../../types";
 import { PopoverBase } from "./base/popover";
@@ -12,12 +11,15 @@ const List = styled("ul", {
   margin: 5,
 });
 
-const Item = styled("li", {
+const Item = styled("button", {
   display: "flex",
   gap: 5,
   alignItems: "center",
   padding: 10,
   borderRadius: "$medium",
+  background: "unset",
+  textAlign: "unset",
+  fontSize: "1.05em",
   cursor: "pointer",
   color: "$text-secondary",
   border: "1.5px solid transparent",
@@ -61,16 +63,11 @@ const Item = styled("li", {
   },
 });
 
-interface IEditorsPopoverProps extends PopoverBase, ReduxProps {
+interface IEditorsPopoverProps extends PopoverBase {
   users: User[];
 }
 
-const EditorsPopover = ({
-  close,
-  user,
-  users,
-  dispatch,
-}: IEditorsPopoverProps) => {
+const EditorsPopover = ({ close, users }: IEditorsPopoverProps) => {
   return (
     <div>
       <List>
@@ -78,7 +75,7 @@ const EditorsPopover = ({
           <Item
             onClick={() => {
               close();
-              dispatch(addEditor(user));
+              store.dispatch(addEditor(user));
             }}
           >
             <img src={user.icon ?? "/img/pfp.png"} alt={user.username} />
@@ -93,11 +90,4 @@ const EditorsPopover = ({
   );
 };
 
-const mapStateToProps = ({ user }: ImperialState) => {
-  return { user };
-};
-
-const connector = connect(mapStateToProps);
-type ReduxProps = ConnectedProps<typeof connector>;
-
-export default connector(EditorsPopover);
+export default EditorsPopover;

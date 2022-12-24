@@ -146,6 +146,7 @@ const Login = ({ dispatch, closeModal }: ModalProps) => {
             disabled={loading}
             type="submit"
             onClick={submit}
+            clickOnEnter
           >
             Login
           </Button>

@@ -1,7 +1,6 @@
 import { useMonaco } from "@monaco-editor/react";
 import { motion } from "framer-motion";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import CopyToClipboard from "react-copy-to-clipboard";
 import Copy from "react-copy-to-clipboard";
 import {
   AlignLeft,
@@ -11,7 +10,6 @@ import {
   Edit2,
   FileText,
   Globe,
-  Minus,
   Save,
   Settings,
   Users,
@@ -19,6 +17,7 @@ import {
 } from "react-feather";
 import { connect, ConnectedProps } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { useIsSmallDevice } from "../hooks/useIsMobile";
 import {
   addNotification,
   openModal,
@@ -147,6 +146,7 @@ const Nav = ({ user, document, language, dispatch, editors }: INavProps) => {
 
   const navigate = useNavigate();
   const monaco = useMonaco();
+  const isSmallDevice = useIsSmallDevice();
 
   const saveDocument = useCallback(async () => {
     if (!monaco) return;
@@ -292,6 +292,11 @@ const Nav = ({ user, document, language, dispatch, editors }: INavProps) => {
       window.removeEventListener("keydown", keypress);
     };
   }, [document, saveDocument, prepareEdit]);
+
+  /* collapse navbar when its mobile */
+  useEffect(() => {
+    setCollapsed(isSmallDevice);
+  }, [isSmallDevice]);
 
   const SelectedLanguageIcon = useMemo(() => {
     const findLanguage = supportedLanguages.find((l) => l.id === language);

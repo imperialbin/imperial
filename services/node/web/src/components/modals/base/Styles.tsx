@@ -17,6 +17,7 @@ export const Paragraph = styled("p", {
   color: "$text-secondary",
   fontSize: "0.9em",
   maxWidth: "48ch",
+  margin: "5px 0",
 });
 
 export const Footer = styled("div", {
