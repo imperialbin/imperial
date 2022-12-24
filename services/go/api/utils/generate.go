@@ -4,10 +4,6 @@ import (
 	"crypto/rand"
 	"encoding/base64"
 	"math/big"
-	"os"
-	"time"
-
-	"github.com/golang-jwt/jwt"
 )
 
 func GenerateRandomBytes(n int) ([]byte, error) {
@@ -33,21 +29,6 @@ func GenerateRandomString(n int) (string, error) {
 	}
 
 	return string(ret), nil
-}
-
-func GenerateJWT(userId string, expiration int) string {
-	claims := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.StandardClaims{
-		Issuer:    userId,
-		ExpiresAt: time.Now().Add(time.Hour * time.Duration(expiration) * 24).Unix(),
-	})
-
-	token, err := claims.SignedString([]byte(os.Getenv("JWT_SECRET")))
-
-	if err != nil {
-		print(err.Error())
-	}
-
-	return token
 }
 
 func GenerateSessionToken() (string, error) {
