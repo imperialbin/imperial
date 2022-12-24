@@ -37,6 +37,7 @@ export const API_BASE =
     : "https://imperial.hop.sh/";
 export const API_VERSION_V1 = "v1";
 export const FULL_URI_V1 = API_BASE + API_VERSION_V1;
+export const CDN_URL = "https://cdn.impb.in/";
 
 /* Socials */
 export const DiscordURL = "https://discord.gg/cTm85eW49D";
