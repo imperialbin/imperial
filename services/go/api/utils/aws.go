@@ -49,7 +49,7 @@ func SaveImage(imageName string, buf []byte) (ok bool, err error) {
 	uploader := s3manager.NewUploader(session)
 
 	result, err := uploader.Upload(&s3manager.UploadInput{
-		Bucket: aws.String("imperial"),
+		Bucket: aws.String("cdn.impb.in"),
 		Key:    aws.String(imageName + ".png"),
 		Body:   bytes.NewReader(buf),
 	})
