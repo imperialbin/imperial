@@ -159,9 +159,9 @@ func Post(c *fiber.Ctx) error {
 		creatorPartial.DocumentsMade = creatorPartial.DocumentsMade + 1
 	}
 
-	/* 	if document.DocumentSettings.ImageEmbed {
+	if document.DocumentSettings.ImageEmbed && !document.DocumentSettings.Encrypted && !document.DocumentSettings.InstantDelete {
 		go utils.ScreenshotDocument(document.ID, user.Flags)
-	} */
+	}
 
 	var editors = []models.UserPartial{}
 	if documentRequest.Settings.Editors != nil {
@@ -201,7 +201,7 @@ func Post(c *fiber.Ctx) error {
 			DocumentSettings: PostDocumentSettingsResponse{
 				Language:      document.DocumentSettings.Language,
 				ImageEmbed:    document.DocumentSettings.ImageEmbed,
-				InstantDelete: document.DocumentSettings.ImageEmbed,
+				InstantDelete: document.DocumentSettings.InstantDelete,
 				Encrypted:     document.DocumentSettings.Encrypted,
 				Public:        document.DocumentSettings.Public,
 				Editors:       &editors,
