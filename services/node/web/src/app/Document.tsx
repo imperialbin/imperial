@@ -60,14 +60,14 @@ const Document = () => {
           property="og:site_name"
         />
         <meta property="twitter:card" content="summary_large_image" />
-        <meta property="og:image" content={CDN_URL + document_id + ".jpg"} />
+        <meta property="og:image" content={CDN_URL + document_id + ".png"} />
         <meta
           property="og:image:url"
-          content={CDN_URL + document_id + ".jpg"}
+          content={CDN_URL + document_id + ".png"}
         />
         <meta
           property="twitter:image"
-          content={CDN_URL + document_id + ".jpg"}
+          content={CDN_URL + document_id + ".png"}
         />
       </Helmet>
       <Wrapper>
