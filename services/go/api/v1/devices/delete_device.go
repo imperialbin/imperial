@@ -8,6 +8,10 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+type DeleteDeviceRequest struct {
+	Password string `json:"password"`
+}
+
 func DeleteDevice(c *fiber.Ctx) error {
 	user, err := utils.GetAuthedUser(c)
 
@@ -22,6 +26,31 @@ func DeleteDevice(c *fiber.Ctx) error {
 		return c.Status(401).JSON(Response{
 			Success: false,
 			Message: "You are not authorized!",
+		})
+	}
+
+	req := new(DeleteDeviceRequest)
+	if err := c.BodyParser(req); err != nil {
+		return c.Status(400).JSON(Response{
+			Success: false,
+			Message: "You have a type error in your request!",
+		})
+	}
+
+	errors := utils.ValidateRequest(*req)
+
+	if errors != nil {
+		return c.Status(400).JSON(Response{
+			Success: false,
+			Message: "You have a validation error in your request.",
+			Errors:  errors,
+		})
+	}
+
+	if !utils.CheckHashedPassword(user.Password, req.Password) {
+		return c.Status(400).JSON(Response{
+			Success: false,
+			Message: "Incorrect password.",
 		})
 	}
 
