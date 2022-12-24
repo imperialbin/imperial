@@ -112,7 +112,7 @@ func PatchDocument(c *fiber.Ctx) error {
 			DocumentSettings: commons.PostDocumentSettingsResponse{
 				Language:      newDocument.DocumentSettings.Language,
 				ImageEmbed:    newDocument.DocumentSettings.ImageEmbed,
-				InstantDelete: newDocument.DocumentSettings.ImageEmbed,
+				InstantDelete: newDocument.DocumentSettings.InstantDelete,
 				Encrypted:     newDocument.DocumentSettings.Encrypted,
 				Public:        newDocument.DocumentSettings.Public,
 				Editors:       &editors,

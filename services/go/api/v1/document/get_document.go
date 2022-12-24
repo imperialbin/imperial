@@ -84,7 +84,7 @@ func Get(c *fiber.Ctx) error {
 			DocumentSettings: PostDocumentSettingsResponse{
 				Language:      document.DocumentSettings.Language,
 				ImageEmbed:    document.DocumentSettings.ImageEmbed,
-				InstantDelete: document.DocumentSettings.ImageEmbed,
+				InstantDelete: document.DocumentSettings.InstantDelete,
 				Encrypted:     document.DocumentSettings.Encrypted,
 				Public:        document.DocumentSettings.Public,
 				Editors:       &editors,
