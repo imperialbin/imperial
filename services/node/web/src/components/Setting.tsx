@@ -86,7 +86,7 @@ const Setting = <T = "switch" | "dropdown", K = unknown>({
       <Switch
         toggled={toggled}
         onToggle={() => {
-          if (!onToggle) return;
+          if (!onToggle || toggled === undefined) return;
 
           onToggle(toggled);
         }}
