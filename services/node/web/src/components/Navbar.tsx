@@ -18,6 +18,7 @@ import {
 import { connect, ConnectedProps } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { useIsSmallDevice } from "../hooks/useIsMobile";
+import { useQuery } from "../hooks/useQuery";
 import {
   addNotification,
   openModal,
@@ -147,6 +148,9 @@ const Nav = ({ user, document, language, dispatch, editors }: INavProps) => {
   const navigate = useNavigate();
   const monaco = useMonaco();
   const isSmallDevice = useIsSmallDevice();
+  const query = useQuery();
+
+  if (query.get("noNav") === "true") return null;
 
   const saveDocument = useCallback(async () => {
     if (!monaco) return;
