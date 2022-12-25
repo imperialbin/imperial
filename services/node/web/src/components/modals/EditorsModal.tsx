@@ -186,7 +186,7 @@ const EditorsModal = ({
         <Button btnType="secondary" onClick={closeModal}>
           Close
         </Button>
-        <Button onClick={() => null}>Save</Button>
+        <Button onClick={() => closeModal()}>Save</Button>
       </Footer>
     </Wrapper>
   );

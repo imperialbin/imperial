@@ -6,6 +6,7 @@ import (
 	"api/v1/commons"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"os"
 
 	"github.com/getsentry/sentry-go"
@@ -51,7 +52,8 @@ func PatchDocument(c *fiber.Ctx) error {
 		})
 	}
 
-	if document.Creator != nil && *document.Creator != user.ID {
+	/* If you are not the creator or do not have edit permissions */
+	if (document.Creator != nil && *document.Creator != user.ID) && !utils.ArrayContains(document.DocumentSettings.Editors, fmt.Sprint(user.Username)) {
 		return c.Status(401).JSON(commons.Response{
 			Success: false,
 			Message: "You do not own this document to edit it.",
