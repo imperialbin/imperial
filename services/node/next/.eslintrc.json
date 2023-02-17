@@ -1,0 +1,10 @@
+{
+  "extends": "next/core-web-vitals",
+  "rules": {
+    "react-hooks/rules-of-hooks": "off",
+    /* This rule has only helped once in my entire time of coding... */
+    "react-hooks/exhaustive-deps": "off",
+    /* im not falling for this propaganda */
+    "@next/next/no-img-element": "off"
+  }
+}
