@@ -116,13 +116,13 @@ const Editor = ({
                 : "none",
               wordWrap: user.settings.word_wrap ? "on" : "off",
               tabSize: user.settings.tab_size,
-              fontFamily: config.theme.fonts.mono,
+              fontFamily: `${config.theme.fonts.mono}`,
               ...DEFAULT_EDITOR_OPTIONS,
             }
           : {
               readOnly: editor.readOnly,
               fontSize: 14,
-              fontFamily: config.theme.fonts.mono,
+              fontFamily: `${config.theme.fonts.mono}`,
               ...DEFAULT_EDITOR_OPTIONS,
             }
       }

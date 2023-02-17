@@ -2,12 +2,18 @@ import { createStitches } from "@stitches/react";
 import { Manrope, JetBrains_Mono } from "@next/font/google";
 
 const manrope = Manrope({
-  variable: "--font",
+  weight: "variable",
+  style: "normal",
+  display: "swap",
+  preload: true,
   subsets: ["latin"],
 });
 
 const jetbrainsMono = JetBrains_Mono({
-  variable: "--font-mono",
+  weight: "variable",
+  style: "normal",
+  display: "swap",
+  preload: true,
   subsets: ["latin"],
 });
 
@@ -42,8 +48,8 @@ const stitches = createStitches({
       3: "17px",
     },
     fonts: {
-      main: `${manrope.variable}`,
-      mono: `${jetbrainsMono.variable}`,
+      main: `${manrope.style.fontFamily}, sans-serif`,
+      mono: `${jetbrainsMono.style.fontFamily}, monospace`,
     },
     fontWeights: {},
     lineHeights: {},
@@ -75,10 +81,18 @@ const stitches = createStitches({
 export const { styled, css, keyframes, getCssText, theme, config } = stitches;
 
 export const globalStyles = stitches.globalCss({
+  "*, *::before, *::after": {
+    fontFamily: "$main",
+  },
+
   body: {
     margin: 0,
     padding: 0,
     boxSizing: "border-box",
     fontFamily: "$main",
+  },
+
+  ".monaco-editor *": {
+    fontFamily: "$mono!important",
   },
 });
