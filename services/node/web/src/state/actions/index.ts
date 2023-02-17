@@ -3,7 +3,7 @@ import { SelfUser, User } from "../../types";
 import { SupportedLanguagesID } from "../../utils/Constants";
 import { Notification } from "../reducers/notifications";
 
-export const setUser = (user: SelfUser) => {
+export const setUser = (user: SelfUser | null) => {
   return {
     type: "SET_USER",
     payload: user,

@@ -4,7 +4,7 @@ import React, {
   InputHTMLAttributes,
   useState,
 } from "react";
-import { styled } from "../stitches";
+import { styled } from "@/stitches.config";
 
 const Container = styled("div", {
   position: "relative",
@@ -228,5 +228,7 @@ const Input = React.forwardRef<HTMLDivElement, IInputProps>(
     );
   }
 );
+
+Input.displayName = "Input";
 
 export default Input;

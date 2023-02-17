@@ -1,19 +1,16 @@
+import { addNotification, setLanguage } from "@/state/actions";
+import { styled } from "@/stitches.config";
+import { Document } from "@/types";
+import { supportedLanguages } from "@/utils/Constants";
+import { makeRequest } from "@/utils/Rest";
 import { useState } from "react";
 import { Check, X } from "react-feather";
-import { useNavigate } from "react-router-dom";
-import { addNotification, setLanguage } from "../../state/actions";
-import { styled } from "../../stitches";
-import { Document } from "../../types";
-import {
-  supportedLanguages,
-  SupportedLanguagesID,
-} from "../../utils/Constants";
-import { makeRequest } from "../../utils/Rest";
-import Button from "../Button";
-import Setting from "../Setting";
+import Button from "@/components/Button";
+import Setting from "@/components/Setting";
 import Header from "./base/Header";
 import { ModalProps } from "./base/modals";
 import { Content, Paragraph, Wrapper } from "./base/Styles";
+import { useRouter } from "next/router";
 
 const StyledWrapper = styled(Wrapper, {
   maxWidth: "80%",
@@ -38,7 +35,7 @@ export const DocumentSettings = ({
   closeModal,
 }: IDocumentSettings): JSX.Element => {
   const [error, setError] = useState<string | null>(null);
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const patchDocument = async <T extends keyof Document["settings"]>(
     setting: T,
@@ -218,7 +215,7 @@ export const DocumentSettings = ({
             }
 
             closeModal();
-            navigate("/");
+            router.push("/");
           }}
         >
           Delete document

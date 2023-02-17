@@ -17,7 +17,7 @@ import {
 } from "@floating-ui/react-dom-interactions";
 import { AnimatePresence, motion } from "framer-motion";
 import { cloneElement, useCallback, useEffect, useMemo } from "react";
-import { styled } from "../../stitches";
+import { styled } from "@/stitches.config";
 import { PopoverBase } from "./base/popover";
 
 const Wrapper = styled(motion.div, {

@@ -1,5 +1,20 @@
+import { useIsSmallDevice } from "@/hooks/useIsMobile";
+import {
+  addNotification,
+  openModal,
+  setLanguage,
+  setReadOnly,
+} from "@/state/actions";
+import { ImperialState } from "@/state/reducers";
+import { styled } from "@/stitches.config";
+import { Document } from "@/types";
+import { supportedLanguages } from "@/utils/Constants";
+import { encrypt, generateSecureString } from "@/utils/Crypto";
+import { makeRequest } from "@/utils/Rest";
 import { useMonaco } from "@monaco-editor/react";
 import { motion } from "framer-motion";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Copy from "react-copy-to-clipboard";
 import {
@@ -16,21 +31,6 @@ import {
   X,
 } from "react-feather";
 import { connect, ConnectedProps } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import { useIsSmallDevice } from "../hooks/useIsMobile";
-import { useQuery } from "../hooks/useQuery";
-import {
-  addNotification,
-  openModal,
-  setLanguage,
-  setReadOnly,
-} from "../state/actions";
-import { ImperialState } from "../state/reducers";
-import { styled } from "../stitches";
-import { Document } from "../types";
-import { supportedLanguages } from "../utils/Constants";
-import { encrypt, generateSecureString } from "../utils/Crypto";
-import { makeRequest } from "../utils/Rest";
 import Button from "./Button";
 import Popover from "./popover/Popover";
 import UserPopover from "./popover/UserPopover";
@@ -145,12 +145,11 @@ const Nav = ({ user, document, language, dispatch, editors }: INavProps) => {
   const [editing, setEditing] = useState(false);
   const [saving, setSaving] = useState(false);
 
-  const navigate = useNavigate();
+  const router = useRouter();
   const monaco = useMonaco();
   const isSmallDevice = useIsSmallDevice();
-  const query = useQuery();
 
-  if (query.get("noNav") === "true") return null;
+  if (router.query.noNav === "true") return null;
 
   const saveDocument = useCallback(async () => {
     if (!monaco) return;
@@ -208,20 +207,22 @@ const Nav = ({ user, document, language, dispatch, editors }: INavProps) => {
 
     dispatch(setLanguage(data.settings.language));
 
-    navigate(`/${data.id}${data.settings.encrypted ? `#${password}` : ""}`, {
-      state: data,
-    });
+    router.push(`/${data.id}${data.settings.encrypted ? `#${password}` : ""}`);
   }, [monaco, language, document, user, saving, editors]);
 
   const newDocument = () => {
-    navigate("/");
+    router.push("/");
   };
 
   const forkDocument = useCallback(() => {
     if (!document) return;
 
     const content = document.content;
-    navigate("/", { state: { init_text: content } });
+    router.push("/", {
+      query: {
+        init_text: content,
+      },
+    });
   }, [document]);
 
   const prepareEdit = useCallback(() => {
@@ -325,7 +326,7 @@ const Nav = ({ user, document, language, dispatch, editors }: INavProps) => {
       </HideNavContainer>
       <Container>
         <BrandContainer initial="initial" whileHover="hover">
-          <Brand to="/">IMPERIAL</Brand>
+          <Brand href="/">IMPERIAL</Brand>
           {document ? (
             <Tooltip title="Click to copy URL">
               <Copy
@@ -396,7 +397,7 @@ const Nav = ({ user, document, language, dispatch, editors }: INavProps) => {
                 </StyledTooltip>
               ) : null}
               <StyledTooltip title="View raw">
-                <Button onClick={() => navigate(`/r/${document.id}`)}>
+                <Button onClick={() => router.push(`/r/${document.id}`)}>
                   <AlignLeft size={20} />
                 </Button>
               </StyledTooltip>

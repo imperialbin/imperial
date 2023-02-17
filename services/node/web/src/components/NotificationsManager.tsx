@@ -2,10 +2,10 @@ import { memo, useCallback, useEffect } from "react";
 import { connect, ConnectedProps } from "react-redux";
 import { Dispatch } from "redux";
 import { AnimatePresence, motion, Variants } from "framer-motion";
-import { styled } from "../stitches";
-import { removeNotification } from "../state/actions";
-import { ImperialState } from "../state/reducers";
-import { Notification as NotificationType } from "../state/reducers/notifications";
+import { styled } from "@/stitches.config";
+import { removeNotification } from "@/state/actions";
+import { ImperialState } from "@/state/reducers";
+import { Notification as NotificationType } from "@/state/reducers/notifications";
 
 const Wrapper = styled("div", {
   position: "fixed",

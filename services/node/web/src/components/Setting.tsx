@@ -1,6 +1,6 @@
 import Switch, { ISwitchProps } from "./Switch";
 import Dropdown, { IDropdownProps } from "./Dropdown";
-import { styled } from "../stitches";
+import { styled } from "@/stitches.config";
 
 const SettingContainer = styled("div", {
   display: "flex",

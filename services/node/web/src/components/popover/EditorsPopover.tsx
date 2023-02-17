@@ -1,7 +1,7 @@
-import { store } from "../../state";
-import { addEditor } from "../../state/actions";
-import { styled } from "../../stitches";
-import { User } from "../../types";
+import { store } from "@/state";
+import { addEditor } from "@/state/actions";
+import { styled } from "@/stitches.config";
+import { User } from "@/types";
 import { PopoverBase } from "./base/popover";
 
 const List = styled("ul", {
@@ -73,6 +73,7 @@ const EditorsPopover = ({ close, users }: IEditorsPopoverProps) => {
       <List>
         {users.map((user) => (
           <Item
+            key={user.id}
             onClick={() => {
               close();
               store.dispatch(addEditor(user));

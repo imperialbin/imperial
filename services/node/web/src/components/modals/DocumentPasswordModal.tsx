@@ -1,6 +1,6 @@
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Lock, X } from "react-feather";
-import { useNavigate } from "react-router-dom";
 import {
   addNotification,
   setDisableClickOutsideModal,
@@ -25,7 +25,7 @@ const DocumentPasswordModal = ({
   dispatch,
 }: IDocumentPasswordModalProps) => {
   const [password, setPassword] = useState(location.hash.split("#")[1] ?? "");
-  const navigate = useNavigate();
+  const router = useRouter();
 
   useEffect(() => {
     dispatch(setDisableClickOutsideModal(true));
@@ -53,7 +53,7 @@ const DocumentPasswordModal = ({
         <Button
           btnType="secondary"
           onClick={() => {
-            navigate("/");
+            router.push("/");
             closeModal();
           }}
         >

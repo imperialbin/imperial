@@ -1,13 +1,10 @@
 import { motion } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
-import { setLanguage } from "../../state/actions";
-import { styled } from "../../stitches";
-import {
-  supportedLanguages,
-  SupportedLanguagesID,
-} from "../../utils/Constants";
-import { SearchIcon } from "../Icons";
-import Input from "../Input";
+import { setLanguage } from "@/state/actions";
+import { styled } from "@/stitches.config";
+import { supportedLanguages, SupportedLanguagesID } from "@/utils/Constants";
+import { SearchIcon } from "@/components/Icons";
+import Input from "@/components/Input";
 import Header from "./base/Header";
 import { ModalProps } from "./base/modals";
 import { Content, Wrapper } from "./base/Styles";

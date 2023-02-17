@@ -1,7 +1,7 @@
 import { Placement } from "@floating-ui/react-dom-interactions";
 import { CSSProperties } from "@stitches/react";
 import { ReactElement, useState } from "react";
-import { styled } from "../stitches";
+import { styled } from "@/stitches.config";
 import Popover from "./popover/Popover";
 
 const TooltipStyle = styled("div", {

@@ -1,39 +1,38 @@
-import { SVGProps } from "react";
 import {
-  TypeScript as TypeScriptIcon,
-  HTML as HTMLIcon,
-  GraphQL as GraphQLIcon,
-  CoffeeScript as CoffeeScriptIcon,
-  Handlebars as HandlebarsIcon,
+  C as CIcon,
   Clojure as ClojureIcon,
+  CoffeeScript as CoffeeScriptIcon,
+  CPP as CPPIcon,
+  CSharp as CSharpIcon,
+  CSS as CSSIcon,
   Docker as DockerIcon,
+  FSharp as FSharpIcon,
+  Go as GoIcon,
+  GraphQL as GraphQLIcon,
+  Handlebars as HandlebarsIcon,
+  HTML as HTMLIcon,
   Java as JavaIcon,
   JavaScript as JavaScriptIcon,
-  CSS as CSSIcon,
-  Go as GoIcon,
   Kotlin as KotlinIcon,
-  Lua as LuaIcon,
-  Swift as SwiftIcon,
-  MySQL as MySQLIcon,
   Less as LessIcon,
-  FSharp as FSharpIcon,
+  Lua as LuaIcon,
+  MySQL as MySQLIcon,
   ObjectiveC as ObjectiveCIcon,
   Perl as PerlIcon,
   PHP as PHPIcon,
-  CSharp as CSharpIcon,
-  CPP as CPPIcon,
-  C as CIcon,
   Python as PythonIcon,
-  Redis as RedisIcon,
-  Rust as RustIcon,
-  Ruby as RubyIcon,
   R as RIcon,
+  Redis as RedisIcon,
+  Ruby as RubyIcon,
+  Rust as RustIcon,
+  Swift as SwiftIcon,
+  TypeScript as TypeScriptIcon,
 } from "../components/Icons";
 
 /* ENV and some static stuff */
 export const API_BASE =
   process.env.NODE_ENV === "development"
-    ? "http://localhost:8080/"
+    ? "http://127.0.0.1:8080/"
     : "https://imperial.hop.sh/";
 export const API_VERSION_V1 = "v1";
 export const FULL_URI_V1 = API_BASE + API_VERSION_V1;

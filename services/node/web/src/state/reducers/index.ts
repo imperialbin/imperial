@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import { SelfUser } from "../../types";
+import { SelfUser } from "@/types";
 import editor, { EditorState } from "./editor";
 import modal, { ModalState } from "./modal";
 import notifications, { NotificationState } from "./notifications";

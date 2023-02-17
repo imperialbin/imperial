@@ -1,12 +1,12 @@
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { Monitor, X } from "react-feather";
-import { useDevices } from "../../hooks/useDevices";
-import { addNotification } from "../../state/actions";
-import { styled } from "../../stitches";
-import { makeRequest } from "../../utils/Rest";
-import { parseUserAgent, UserAgent } from "../../utils/UA";
-import Button from "../Button";
+import { useDevices } from "@/hooks/useDevices";
+import { addNotification } from "@/state/actions";
+import { styled } from "@/stitches.config";
+import { makeRequest } from "@/utils/Rest";
+import { parseUserAgent, UserAgent } from "@/utils/UA";
+import Button from "@/components/Button";
 import Header from "./base/Header";
 import { ModalProps } from "./base/modals";
 import { Content, Footer, Paragraph, Wrapper } from "./base/Styles";

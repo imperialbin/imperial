@@ -1,17 +1,17 @@
 import Header from "./base/Header";
 import { ModalProps } from "./base/modals";
-import { Content, LeftBtn, Wrapper } from "./base/Styles";
+import { Content, Wrapper } from "./base/Styles";
 
+import { styled } from "@/stitches.config";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
-import { styled } from "../../stitches";
-import { Check as CheckIcon, Mail, User, Lock, X } from "react-feather";
+import { Check as CheckIcon, Lock, Mail, User, X } from "react-feather";
 
-import Input from "../Input";
-import { makeRequest } from "../../utils/Rest";
-import { addNotification, openModal } from "../../state/actions";
-import Button from "../Button";
-import { Logo } from "../Icons";
+import Button from "@/components/Button";
+import { Logo } from "@/components/Icons";
+import Input from "@/components/Input";
+import { addNotification, openModal } from "@/state/actions";
+import { makeRequest } from "@/utils/Rest";
 
 const StyledWrapper = styled(Wrapper, {
   width: "80%",

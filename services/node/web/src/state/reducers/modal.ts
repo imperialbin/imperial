@@ -1,4 +1,4 @@
-import { Modals } from "../../components/ModalManager";
+import { Modals } from "@/components/ModalManager";
 
 export interface ModalState {
   modal: Modals;

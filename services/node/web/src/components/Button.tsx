@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import type * as Stitches from "@stitches/react";
-import { styled } from "../stitches";
+import { styled } from "@/stitches.config";
 
 const StyledButton = styled("button", {
   padding: "8px 10px",
@@ -63,5 +63,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     );
   }
 );
+
+Button.displayName = "Button";
 
 export default Button;

@@ -1,14 +1,15 @@
 import { useState } from "react";
 import { Lock, User, X } from "react-feather";
-import { addNotification, openModal } from "../../state/actions";
-import { styled } from "../../stitches";
-import { makeRequest } from "../../utils/Rest";
-import Button from "../Button";
-import { Logo } from "../Icons";
-import Input from "../Input";
+import { addNotification, openModal, setUser } from "@/state/actions";
+import { styled } from "@/stitches.config";
+import { makeRequest } from "@/utils/Rest";
+import Button from "@/components/Button";
+import { Logo } from "@/components/Icons";
+import Input from "@/components/Input";
 import Header from "./base/Header";
 import { ModalProps } from "./base/modals";
 import { Content, Wrapper } from "./base/Styles";
+import { SelfUser } from "../../types";
 
 const StyledWrapper = styled(Wrapper, {
   width: "80%",
@@ -109,6 +110,25 @@ const Login = ({ dispatch, closeModal }: ModalProps) => {
         })
       );
 
+    setLoading(true);
+    const {
+      success: meSuccess,
+      data: me,
+      error: meError,
+    } = await makeRequest<SelfUser>("GET", "/users/@me");
+
+    setLoading(false);
+
+    if (!meSuccess)
+      return dispatch(
+        addNotification({
+          icon: <X />,
+          message: meError?.message ?? "An error occurred whilst logging in.",
+          type: "error",
+        })
+      );
+
+    dispatch(setUser(me ?? null));
     closeModal();
   };
 

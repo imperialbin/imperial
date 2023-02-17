@@ -15,29 +15,29 @@ import calender from "dayjs/plugin/calendar";
 import updateLocale from "dayjs/plugin/updateLocale";
 import { connect, ConnectedProps } from "react-redux";
 
-import Input from "../Input";
-import { UserIcon } from "../UserIcon";
+import Input from "@/components/Input";
+import { UserIcon } from "@/components/UserIcon";
 
 import Header from "./base/Header";
-import { SelfUser, UserSettings as UserSettingsType } from "../../types";
-import { getRole } from "../../utils/Permissions";
+import { SelfUser, UserSettings as UserSettingsType } from "@/types";
+import { getRole } from "@/utils/Permissions";
 import { ModalProps } from "./base/modals";
-import { Link } from "react-router-dom";
-import { makeRequest } from "../../utils/Rest";
-import { styled } from "../../stitches";
+import { makeRequest } from "@/utils/Rest";
+import { styled } from "@/stitches.config";
 import {
   addNotification,
   closeModal,
   openModal,
   setUser,
-} from "../../state/actions";
-import Tooltip from "../Tooltip";
-import { ImperialState } from "../../state/reducers";
-import Setting from "../Setting";
-import { useRecentDocuments } from "../../hooks/useRecentDocuments";
-import { DiscordLogo, GitHubLogo } from "../Icons";
-import Button from "../Button";
+} from "@/state/actions";
+import Tooltip from "@/components/Tooltip";
+import { ImperialState } from "@/state/reducers";
+import Setting from "@/components/Setting";
+import { useRecentDocuments } from "@/hooks/useRecentDocuments";
+import { DiscordLogo, GitHubLogo } from "@/components/Icons";
+import Button from "@/components/Button";
 import CopyToClipboard from "react-copy-to-clipboard";
+import Link from "next/link";
 
 const Wrapper = styled("div", {
   position: "relative",
@@ -321,13 +321,12 @@ const UserSettings = ({
             <Subtitle>Recent documents</Subtitle>
             <Tiles>
               {documents && documents.length > 0 ? (
-                documents.map((document, key) => {
+                documents.map((document) => {
                   return (
                     <Link
                       style={{ display: "flex" }}
-                      to={`/${document.id}`}
-                      state={document}
-                      key={key}
+                      href={`/${document.id}`}
+                      key={document.id}
                     >
                       <Tile
                         onClick={() => dispatch(closeModal())}
@@ -399,7 +398,7 @@ const UserSettings = ({
             </Button>
 
             <br />
-            <Link to="/logout">
+            <Link href="/logout">
               <Button
                 style={{
                   display: "flex",

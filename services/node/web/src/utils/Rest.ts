@@ -21,11 +21,15 @@ export interface ImperialError {
 export const makeRequest = async <T = any>(
   method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE" | "HEAD",
   endpoint: string,
-  body?: any
+  body?: any,
+  options?: {
+    headers?: Record<string, string>;
+  }
 ): Promise<ImperialAPIResponse<T>> => {
   try {
     const headers: Record<string, string> = {
       "Content-Type": "application/json",
+      ...options?.headers,
     };
 
     if (body && (method === "GET" || method === "HEAD")) {

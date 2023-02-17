@@ -3,8 +3,8 @@ import { editor } from "monaco-editor";
 import Skeleton from "react-loading-skeleton";
 import { connect, ConnectedProps } from "react-redux";
 import { ImperialState } from "../state/reducers";
-import { styled } from "../stitches";
-import { SupportedLanguagesID } from "../utils/Constants";
+import { config, getCssText, styled } from "@/stitches.config";
+import { SupportedLanguagesID } from "@/utils/Constants";
 
 const Container = styled("div", {
   display: "flex",
@@ -79,8 +79,8 @@ interface IEditorProps extends ReduxProps, EditorProps {
 
 const DEFAULT_EDITOR_OPTIONS: editor.IStandaloneEditorConstructionOptions = {
   minimap: {
-    enabled:false
-  }
+    enabled: false,
+  },
 };
 
 const Editor = ({
@@ -116,13 +116,13 @@ const Editor = ({
                 : "none",
               wordWrap: user.settings.word_wrap ? "on" : "off",
               tabSize: user.settings.tab_size,
-              fontFamily: "var(--font-mono)",
+              fontFamily: `${config.theme.fonts.mono}`,
               ...DEFAULT_EDITOR_OPTIONS,
             }
           : {
               readOnly: editor.readOnly,
               fontSize: 14,
-              fontFamily: "var(--font-mono)",
+              fontFamily: `${config.theme.fonts.mono}`,
               ...DEFAULT_EDITOR_OPTIONS,
             }
       }

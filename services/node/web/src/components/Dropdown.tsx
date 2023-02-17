@@ -2,7 +2,7 @@ import { Placement } from "@floating-ui/react-dom-interactions";
 import { CSSProperties } from "@stitches/react";
 import { useCallback, useEffect, useState } from "react";
 import { ChevronDown } from "react-feather";
-import { styled } from "../stitches";
+import { styled } from "@/stitches.config";
 import Popover from "./popover/Popover";
 
 const Wrapper = styled("ul", {

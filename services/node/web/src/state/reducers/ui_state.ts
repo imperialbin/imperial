@@ -1,4 +1,4 @@
-import { User } from "../../types";
+import { User } from "@/types";
 
 export interface UIState {
   disable_click_outside_modal: boolean;

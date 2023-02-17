@@ -1,7 +1,7 @@
 import { connect, ConnectedProps } from "react-redux";
 import { AnimatePresence, motion } from "framer-motion";
 import React, { useCallback, useRef } from "react";
-import { styled } from "@stitches/react";
+import { styled } from "@/stitches.config";
 import { closeModal } from "../state/actions";
 import { ImperialState } from "../state/reducers";
 import { useOutsideClick } from "../hooks/useOutsideClick";

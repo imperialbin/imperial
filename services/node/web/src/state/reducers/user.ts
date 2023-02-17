@@ -1,4 +1,4 @@
-import { SelfUser } from "../../types";
+import { SelfUser } from "@/types";
 
 type UserActions = {
   type: "SET_USER";

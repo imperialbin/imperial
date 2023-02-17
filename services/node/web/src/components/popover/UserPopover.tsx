@@ -1,11 +1,11 @@
 import { connect, ConnectedProps } from "react-redux";
-import { Link } from "react-router-dom";
-import { addNotification, openModal } from "../../state/actions";
-import { ImperialState } from "../../state/reducers";
-import { styled } from "../../stitches";
-import { getRole } from "../../utils/Permissions";
-import { C } from "../Icons";
+import { addNotification, openModal } from "@/state/actions";
+import { ImperialState } from "@/state/reducers";
+import { styled } from "@/stitches.config";
+import { getRole } from "@/utils/Permissions";
+import { C } from "@/components/Icons";
 import { PopoverBase } from "./base/popover";
+import Link from "next/link";
 
 const Wrapper = styled("div", {
   background: "$tertiary",
@@ -75,19 +75,19 @@ const UserPopover = ({ close, user, dispatch }: PopoverBase & ReduxProps) => {
               User profile
             </Item>
             <Item>
-              <Link to="/discord" target="_blank">
+              <Link href="/discord" target="_blank">
                 Discord
               </Link>
             </Item>
             <Item>
-              <Link to="/github" target="_blank">
+              <Link href="/github" target="_blank">
                 GitHub
               </Link>
             </Item>
             <Separator />
             {getRole(user.flags) === "Admin" ? <Item>Admin</Item> : null}
             <Item>
-              <Link to="/terms" target="_blank">
+              <Link href="/terms" target="_blank">
                 Terms
               </Link>
             </Item>
@@ -113,12 +113,12 @@ const UserPopover = ({ close, user, dispatch }: PopoverBase & ReduxProps) => {
             </Item>
             <Separator />
             <Item>
-              <Link to="/discord" target="_blank">
+              <Link href="/discord" target="_blank">
                 Discord
               </Link>
             </Item>
             <Item>
-              <Link to="/github" target="_blank">
+              <Link href="/github" target="_blank">
                 GitHub
               </Link>
             </Item>

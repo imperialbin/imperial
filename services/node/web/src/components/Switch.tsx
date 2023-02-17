@@ -1,5 +1,5 @@
 import { ChangeEvent, useState } from "react";
-import { styled } from "../stitches";
+import { styled } from "@/stitches.config";
 
 const SwitchElement = styled("label", {
   position: "relative",

@@ -1,9 +1,9 @@
 import { ReactNode } from "react";
 import { X } from "react-feather";
-import { store } from "../../../state";
-import { closeModal } from "../../../state/actions";
-import { styled } from "../../../stitches";
-import Tooltip from "../../Tooltip";
+import { store } from "@/state";
+import { closeModal } from "@/state/actions";
+import { styled } from "@/stitches.config";
+import Tooltip from "@/components/Tooltip";
 
 const Wrapper = styled("div", {
   width: "100%",
