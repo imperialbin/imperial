@@ -160,7 +160,7 @@ func Post(c *fiber.Ctx) error {
 	}
 
 	if document.DocumentSettings.ImageEmbed && !document.DocumentSettings.Encrypted && !document.DocumentSettings.InstantDelete {
-		go utils.ScreenshotDocument(document.ID, user.Flags)
+		go utils.ScreenshotDocument(document.ID, document.Content, user.Flags)
 	}
 
 	var editors = []models.UserPartial{}
