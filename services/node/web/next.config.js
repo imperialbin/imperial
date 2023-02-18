@@ -16,7 +16,7 @@ const nextConfig = {
       {
         source: "/link/discord",
         destination:
-          process.env.NODE_ENV !== "development"
+          process.env.NODE_ENV === "development"
             ? "http://localhost:8080/v1/oauth/discord"
             : "https://imperial.hop.sh/v1/oauth/discord",
         permanent: true,
@@ -24,7 +24,7 @@ const nextConfig = {
       {
         source: "/link/github",
         destination:
-          process.env.NODE_ENV !== "development"
+          process.env.NODE_ENV === "development"
             ? "http://localhost:8080/v1/oauth/github"
             : "https://imperial.hop.sh/v1/oauth/github",
         permanent: true,
