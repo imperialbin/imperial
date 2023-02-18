@@ -26,14 +26,12 @@ func ScreenshotDocument(documentID string, documentContent string, userFlag int)
 	var code = url.QueryEscape(documentContent)
 	url := "https://carbon.now.sh/?code=" + code
 
-	println(url)
 	if err := chromedp.Run(ctx, fullScreenshot(url, quality, &buf)); err != nil {
 		sentry.CaptureException(err)
 
 		return
 	}
 
-	println("SAVING IMAGE")
 	SaveImage(documentID, buf)
 }
 
