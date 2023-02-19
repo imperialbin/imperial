@@ -14,6 +14,8 @@ import "../App.css";
 import { setUser } from "../state/actions";
 import { SelfUser } from "../types";
 import { globalStyles } from "@/stitches.config";
+import { DefaultSeo } from "next-seo";
+import config from "../next-seo.config";
 
 export default function App({ Component, pageProps }: AppProps) {
   globalStyles();
@@ -41,6 +43,7 @@ export default function App({ Component, pageProps }: AppProps) {
             baseColor="var(--bg-contrast)"
             highlightColor="var(--bg-secondary)"
           >
+            <DefaultSeo {...config} />
             <NotificationsManager />
             <ModalManager />
             <Component {...pageProps} />
