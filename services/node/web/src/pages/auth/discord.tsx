@@ -55,7 +55,7 @@ const Discord = () => {
     };
 
     fetchCallback();
-  }, [router.query]);
+  }, []);
 
   return (
     <Wrapper>
