@@ -3,6 +3,10 @@ import { SelfUser, User } from "../../types";
 import { SupportedLanguagesID } from "../../utils/Constants";
 import { Notification } from "../reducers/notifications";
 
+export const logoutUser = () => {
+  return { type: "LOGOUT_USER" };
+};
+
 export const setUser = (user: SelfUser | null) => {
   return {
     type: "SET_USER",
@@ -70,9 +74,17 @@ export const setReadOnly = (read_only: boolean) => {
     payload: read_only,
   };
 };
+
 export const setLanguage = (language: SupportedLanguagesID) => {
   return {
     type: "SET_LANGUAGE",
     payload: language,
+  };
+};
+
+export const setForkedContent = (forked_content: string | undefined) => {
+  return {
+    type: "SET_FORKED_CONTENT",
+    payload: forked_content,
   };
 };

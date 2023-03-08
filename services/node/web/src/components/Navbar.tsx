@@ -2,6 +2,7 @@ import { useIsSmallDevice } from "@/hooks/useIsMobile";
 import {
   addNotification,
   openModal,
+  setForkedContent,
   setLanguage,
   setReadOnly,
 } from "@/state/actions";
@@ -218,11 +219,8 @@ const Nav = ({ user, document, language, dispatch, editors }: INavProps) => {
     if (!document) return;
 
     const content = document.content;
-    router.push("/", {
-      query: {
-        init_text: content,
-      },
-    });
+    dispatch(setForkedContent(content));
+    router.push("/");
   }, [document]);
 
   const prepareEdit = useCallback(() => {

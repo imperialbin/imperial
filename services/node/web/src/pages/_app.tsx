@@ -3,19 +3,19 @@ import ErrorBoundary from "@/components/ErrorBoundary";
 import ModalManager from "@/components/ModalManager";
 import NotificationsManager from "@/components/NotificationsManager";
 import { store } from "@/state";
+import { globalStyles } from "@/stitches.config";
 import { fetcher, makeRequest } from "@/utils/Rest";
 import { loader } from "@monaco-editor/react";
+import { DefaultSeo } from "next-seo";
 import type { AppProps } from "next/app";
 import { useEffect } from "react";
 import { SkeletonTheme } from "react-loading-skeleton";
 import { Provider } from "react-redux";
 import { SWRConfig } from "swr";
 import "../App.css";
+import config from "../next-seo.config";
 import { setUser } from "../state/actions";
 import { SelfUser } from "../types";
-import { globalStyles } from "@/stitches.config";
-import { DefaultSeo } from "next-seo";
-import config from "../next-seo.config";
 
 export default function App({ Component, pageProps }: AppProps) {
   globalStyles();

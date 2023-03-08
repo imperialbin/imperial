@@ -103,7 +103,7 @@ const UserID = styled("span", {
 
 const Settings = styled("div", {
   flex: 1,
-  padding: "10px 30px",
+  padding: "20px 25px",
   overflowY: "scroll",
 });
 
@@ -386,7 +386,7 @@ const UserSettings = ({
             </Tiles>
             <br />
 
-            <Subtitle style={{ margin: 0 }}>Devices</Subtitle>
+            {/*             <Subtitle style={{ margin: 0 }}>Devices</Subtitle>
             <HeaderParagraph>
               View all devices logged into your IMPERIAL account
             </HeaderParagraph>
@@ -395,7 +395,7 @@ const UserSettings = ({
               onClick={() => dispatch(openModal("devices"))}
             >
               View Devices
-            </Button>
+            </Button> */}
 
             <br />
             <Link href="/logout">
@@ -412,7 +412,6 @@ const UserSettings = ({
                 Logout
               </Button>
             </Link>
-            <br />
           </Overview>
 
           <Settings>

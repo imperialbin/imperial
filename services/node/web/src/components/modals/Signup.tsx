@@ -182,6 +182,7 @@ const Signup = ({ dispatch }: ModalProps) => {
                   gap: 10,
                   display: "flex",
                   flexDirection: "column",
+                  height: "auto",
                 }}
               >
                 <Input

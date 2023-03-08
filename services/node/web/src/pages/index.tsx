@@ -1,34 +1,35 @@
-import { useRouter } from "next/router";
-import { useEffect } from "react";
 import Editor from "@/components/Editor";
-import { store } from "../state";
-import { setReadOnly } from "../state/actions";
-import { styled } from "../stitches.config";
 import Navbar from "@/components/Navbar";
+import { useEffect } from "react";
+import { connect, ConnectedProps } from "react-redux";
+import { setReadOnly } from "../state/actions";
+import { ImperialState } from "../state/reducers";
+import { styled } from "../stitches.config";
 
 const Wrapper = styled("div", {
   width: "100vw",
   height: "100vh",
 });
 
-const Index = () => {
-  const router = useRouter();
-
+const Index = ({ forked_content, dispatch }: ReduxProps) => {
   useEffect(() => {
-    store.dispatch(setReadOnly(false));
-
-    /* Reset state if there is any */
-    if (router.query) {
-      router.replace(router.pathname, undefined, { shallow: true });
-    }
+    dispatch(setReadOnly(false));
   }, []);
 
   return (
     <Wrapper>
       <Navbar />
-      <Editor value={(router.query.init_text as string) ?? ""} />
+      <Editor value={forked_content ?? ""} />
     </Wrapper>
   );
 };
 
-export default Index;
+const mapStateToProps = ({ editor: { forked_content } }: ImperialState) => {
+  return {
+    forked_content,
+  };
+};
+const connector = connect(mapStateToProps);
+type ReduxProps = ConnectedProps<typeof connector>;
+
+export default connector(Index);

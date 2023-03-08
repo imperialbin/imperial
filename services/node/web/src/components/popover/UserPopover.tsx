@@ -1,11 +1,12 @@
-import { connect, ConnectedProps } from "react-redux";
-import { addNotification, openModal } from "@/state/actions";
+import { addNotification, logoutUser, openModal } from "@/state/actions";
 import { ImperialState } from "@/state/reducers";
 import { styled } from "@/stitches.config";
 import { getRole } from "@/utils/Permissions";
-import { C } from "@/components/Icons";
-import { PopoverBase } from "./base/popover";
 import Link from "next/link";
+import { X } from "react-feather";
+import { connect, ConnectedProps } from "react-redux";
+import { makeRequest } from "../../utils/Rest";
+import { PopoverBase } from "./base/popover";
 
 const Wrapper = styled("div", {
   background: "$tertiary",
@@ -91,7 +92,33 @@ const UserPopover = ({ close, user, dispatch }: PopoverBase & ReduxProps) => {
                 Terms
               </Link>
             </Item>
-            <Item danger>Logout</Item>
+            <Item
+              onClick={async () => {
+                const { success, error } = await makeRequest(
+                  "DELETE",
+                  "/auth/logout"
+                );
+
+                if (!success) {
+                  dispatch(
+                    addNotification({
+                      type: "error",
+                      icon: <X />,
+                      message:
+                        error?.message ??
+                        "An error occurred whilst logging out",
+                    })
+                  );
+
+                  return;
+                }
+
+                dispatch(logoutUser());
+              }}
+              danger
+            >
+              Logout
+            </Item>
           </>
         ) : (
           <>
