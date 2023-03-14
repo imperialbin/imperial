@@ -22,20 +22,19 @@ const StyledWrapper = styled(Wrapper, {
 const StyledContent = styled(Content, {
   flexDirection: "row",
   marginBottom: 0,
+  height: "unset",
 });
 
 const LogoContainer = styled("div", {
-  position: "absolute",
+  position: "fixed",
   background: "$tertiary",
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
   justifyContent: "center",
-  height: "100%",
-  width: "45%",
+  height: 300,
+  width: 270,
   gap: 10,
-  right: 0,
-  top: 0,
   borderBottomLeftRadius: "$medium",
   borderTopLeftRadius: "$medium",
 
@@ -182,7 +181,6 @@ const Signup = ({ dispatch }: ModalProps) => {
                   gap: 10,
                   display: "flex",
                   flexDirection: "column",
-                  height: "auto",
                 }}
               >
                 <Input
@@ -231,12 +229,20 @@ const Signup = ({ dispatch }: ModalProps) => {
                   Signup
                 </Button>
               </div>
-              <LogoContainer>
-                <Logo />
-                <Button onClick={() => dispatch(openModal("login"))}>
-                  Have an account?
-                </Button>
-              </LogoContainer>
+              <div
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  right: "45.5%",
+                }}
+              >
+                <LogoContainer>
+                  <Logo />
+                  <Button onClick={() => dispatch(openModal("login"))}>
+                    Have an account?
+                  </Button>
+                </LogoContainer>
+              </div>
             </>
           ) : (
             <SuccessContainer

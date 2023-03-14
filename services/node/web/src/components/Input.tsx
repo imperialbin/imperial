@@ -6,15 +6,15 @@ import React, {
 } from "react";
 import { styled } from "@/stitches.config";
 
-const Container = styled("div", {
+const Container = styled("label", {
   position: "relative",
-});
 
-const Label = styled("label", {
-  display: "block",
-  color: "$text-secondary",
-  marginBottom: 5,
-  fontSize: "0.9em",
+  "> span": {
+    display: "block",
+    color: "$text-secondary",
+    marginBottom: 5,
+    fontSize: "0.9em",
+  },
 });
 
 const Wrapper = styled("div", {
@@ -153,7 +153,7 @@ export interface IInputProps extends InputHTMLAttributes<HTMLInputElement> {
   type?: string;
 }
 
-const Input = React.forwardRef<HTMLDivElement, IInputProps>(
+const Input = React.forwardRef<HTMLLabelElement, IInputProps>(
   (
     {
       placeholder,
@@ -178,7 +178,7 @@ const Input = React.forwardRef<HTMLDivElement, IInputProps>(
 
     return (
       <Container ref={ref}>
-        {label ? <Label>{label}</Label> : null}
+        {label ? <span>{label}</span> : null}
         <Wrapper>
           <AnimatePresence>
             {icon && !hideIconUntilDifferent ? (
