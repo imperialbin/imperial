@@ -90,7 +90,6 @@ const Signup = ({ dispatch }: ModalProps) => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
@@ -125,28 +124,8 @@ const Signup = ({ dispatch }: ModalProps) => {
       );
     }
 
-    if (!confirmPassword) {
-      return dispatch(
-        addNotification({
-          icon: <X />,
-          message: "You need to confirm your password",
-          type: "error",
-        })
-      );
-    }
-
-    if (password !== confirmPassword) {
-      return dispatch(
-        addNotification({
-          icon: <X />,
-          message: "Passwords do not match",
-          type: "error",
-        })
-      );
-    }
-
     setLoading(true);
-    const { success, data, error } = await makeRequest("POST", "/auth/signup", {
+    const { success, error } = await makeRequest("POST", "/auth/signup", {
       username,
       email,
       password,
@@ -210,15 +189,7 @@ const Signup = ({ dispatch }: ModalProps) => {
                   iconDisabled
                   required
                 />
-                <Input
-                  label="Confirm password"
-                  icon={<Lock />}
-                  placeholder="Enter your password again"
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  type="password"
-                  iconDisabled
-                  required
-                />
+
                 <Button
                   style={{ alignSelf: "flex-start", marginTop: 15 }}
                   disabled={loading}
