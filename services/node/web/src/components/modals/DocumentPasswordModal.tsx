@@ -76,6 +76,7 @@ const DocumentPasswordModal = ({
             closeModal();
           }}
           disabled={password.length === 0}
+          clickOnEnter
         >
           Submit
         </Button>
