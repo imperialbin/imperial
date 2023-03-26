@@ -82,13 +82,12 @@ export const { styled, css, keyframes, getCssText, theme, config } = stitches;
 
 export const globalStyles = stitches.globalCss({
   "*, *::before, *::after": {
-    fontFamily: "$main",
-  },
-
-  body: {
     margin: 0,
     padding: 0,
     boxSizing: "border-box",
+  },
+
+  html: {
     fontFamily: "$main",
   },
 
