@@ -20,10 +20,15 @@ export const encrypt = (password: string, content: string) => {
  * null if password does not match
  */
 export const decrypt = (password: string, encryptedIV: string) => {
-  const decryptedValue = CryptoJS.AES.decrypt(
-    encryptedIV.split("IMPERIAL_ENCRYPTED")[1],
-    password
-  ).toString(CryptoJS.enc.Utf8);
+  try {
+    const decryptedValue = CryptoJS.AES.decrypt(
+      encryptedIV.split("IMPERIAL_ENCRYPTED")[1],
+      password
+    ).toString(CryptoJS.enc.Utf8);
 
-  return decryptedValue.length !== 0 ? decryptedValue : null;
+    return decryptedValue.length !== 0 ? decryptedValue : null;
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
 };

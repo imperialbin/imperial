@@ -22,20 +22,19 @@ const StyledWrapper = styled(Wrapper, {
 const StyledContent = styled(Content, {
   flexDirection: "row",
   marginBottom: 0,
+  height: "unset",
 });
 
 const LogoContainer = styled("div", {
-  position: "absolute",
+  position: "fixed",
   background: "$tertiary",
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
   justifyContent: "center",
-  height: "100%",
-  width: "45%",
+  height: 300,
+  width: 270,
   gap: 10,
-  right: 0,
-  top: 0,
   borderBottomLeftRadius: "$medium",
   borderTopLeftRadius: "$medium",
 
@@ -91,7 +90,6 @@ const Signup = ({ dispatch }: ModalProps) => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
@@ -126,28 +124,8 @@ const Signup = ({ dispatch }: ModalProps) => {
       );
     }
 
-    if (!confirmPassword) {
-      return dispatch(
-        addNotification({
-          icon: <X />,
-          message: "You need to confirm your password",
-          type: "error",
-        })
-      );
-    }
-
-    if (password !== confirmPassword) {
-      return dispatch(
-        addNotification({
-          icon: <X />,
-          message: "Passwords do not match",
-          type: "error",
-        })
-      );
-    }
-
     setLoading(true);
-    const { success, data, error } = await makeRequest("POST", "/auth/signup", {
+    const { success, error } = await makeRequest("POST", "/auth/signup", {
       username,
       email,
       password,
@@ -182,7 +160,6 @@ const Signup = ({ dispatch }: ModalProps) => {
                   gap: 10,
                   display: "flex",
                   flexDirection: "column",
-                  height: "auto",
                 }}
               >
                 <Input
@@ -212,15 +189,7 @@ const Signup = ({ dispatch }: ModalProps) => {
                   iconDisabled
                   required
                 />
-                <Input
-                  label="Confirm password"
-                  icon={<Lock />}
-                  placeholder="Enter your password again"
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  type="password"
-                  iconDisabled
-                  required
-                />
+
                 <Button
                   style={{ alignSelf: "flex-start", marginTop: 15 }}
                   disabled={loading}
@@ -231,12 +200,20 @@ const Signup = ({ dispatch }: ModalProps) => {
                   Signup
                 </Button>
               </div>
-              <LogoContainer>
-                <Logo />
-                <Button onClick={() => dispatch(openModal("login"))}>
-                  Have an account?
-                </Button>
-              </LogoContainer>
+              <div
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  right: "45.5%",
+                }}
+              >
+                <LogoContainer>
+                  <Logo />
+                  <Button onClick={() => dispatch(openModal("login"))}>
+                    Have an account?
+                  </Button>
+                </LogoContainer>
+              </div>
             </>
           ) : (
             <SuccessContainer

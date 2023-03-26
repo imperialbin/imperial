@@ -34,7 +34,6 @@ export const DocumentSettings = ({
   dispatch,
   closeModal,
 }: IDocumentSettings): JSX.Element => {
-  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
   const patchDocument = async <T extends keyof Document["settings"]>(
