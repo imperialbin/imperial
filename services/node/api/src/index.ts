@@ -1,18 +1,23 @@
 import fastify from "fastify";
 import { setupDB } from "./db";
+import { authRoutes } from "./routes/auth";
 import { documentRoutes } from "./routes/document";
 import { usersRoutes } from "./routes/users";
 import { env } from "./utils/env";
+import { setupRedis } from "./utils/redis";
 
 const server = fastify({
   bodyLimit: 5000000,
 });
 setupDB();
+setupRedis();
 
 const API_VERSION = "v1";
 
 server.register(usersRoutes, { prefix: `/${API_VERSION}/users` });
 server.register(documentRoutes, { prefix: `/${API_VERSION}/document` });
+server.register(authRoutes, { prefix: `/${API_VERSION}/auth` });
+
 server.setNotFoundHandler((request, reply) => {
   reply.code(404).send({
     success: false,

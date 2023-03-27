@@ -13,6 +13,18 @@
       "version": "5",
       "when": 1679888228703,
       "tag": "0001_known_albert_cleary"
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1679931817271,
+      "tag": "0002_wise_psynapse"
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1679933091651,
+      "tag": "0003_breezy_sentinel"
     }
   ]
 }

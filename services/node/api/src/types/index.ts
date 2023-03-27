@@ -15,8 +15,8 @@ type ImperialResponse<T = unknown> =
       error: APIError;
     };
 
-type FastifyImp<T = unknown, B = unknown> = (
-  req: FastifyRequest<{ Body: B }>,
+type FastifyImp<T = unknown, B = unknown, Q = unknown, P = unknown> = (
+  req: FastifyRequest<{ Body: B; Querystring: Q; Params: P }>,
   res: Omit<FastifyReply, "send"> & {
     send(data: ImperialResponse<T>): FastifyReply;
   }
@@ -27,11 +27,10 @@ interface SelfUser {
   username: string;
   email: string;
   icon: string | null;
-  confirmed_email: boolean;
+  confirmed: boolean;
   banned: boolean;
   documents_made: number;
   flags: number;
-  discord_id: string | null;
   api_token: string;
   discord: DiscordUser | null;
   github: GitHubUser | null;
@@ -91,29 +90,29 @@ interface User {
   id: number;
   documents_made: number;
   username: string;
-  icon: string;
-  flags: 0;
+  icon: string | null;
+  flags: number;
 }
 
 interface Document {
   id: string;
   content: string;
-  creator: User;
+  creator: User | null;
   views: number;
   links: {
     raw: string;
     formatted: string;
   };
   timestamps: {
-    creation: number;
-    expiration: number;
+    creation: string;
+    expiration: string | null;
   };
   settings: {
     language: string;
     image_embed: boolean;
     instant_delete: boolean;
     encrypted: boolean;
-    password: null | string;
+    password?: string | undefined;
     public: boolean;
     editors: User[];
   };
