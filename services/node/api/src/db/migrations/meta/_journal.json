@@ -1,0 +1,18 @@
+{
+  "version": "5",
+  "dialect": "pg",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1679888153965,
+      "tag": "0000_overconfident_jack_flag"
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1679888228703,
+      "tag": "0001_known_albert_cleary"
+    }
+  ]
+}

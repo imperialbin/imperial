@@ -131,7 +131,7 @@ const EditorsModal = ({
       <Content>
         <Popover
           active={searchedUsers.length > 0 && focused && input.length > 0}
-          setPopover={(boolean) => setFocused(false)}
+          setPopover={() => setFocused(false)}
           render={(defaultProps) => (
             <EditorsPopover users={searchedUsers} {...defaultProps} />
           )}

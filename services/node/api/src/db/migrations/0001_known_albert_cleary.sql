@@ -1,0 +1,1 @@
+ALTER TABLE documents ALTER COLUMN "id" SET DATA TYPE text;
