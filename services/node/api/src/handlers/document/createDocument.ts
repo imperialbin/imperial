@@ -107,11 +107,7 @@ export const createDocument: FastifyImp<
   // Gist configuration
   let gistId: string | null = null;
   if (body.data.settings?.create_gist) {
-    gistId = (await GitHub.createGist(
-      body.data.content,
-      id,
-      "fake_user_auth"
-    )) as string;
+    gistId = await GitHub.createGist(body.data.content, id, "fake_user_auth");
   }
 
   // Language configuration

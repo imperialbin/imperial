@@ -42,7 +42,7 @@ export const getDocument: FastifyImp<
   let { content } = document;
   if (document.settings.encrypted && password) {
     try {
-      content = await decrypt(password, document.content, "what");
+      content = decrypt(password, document.content, "what");
     } catch (e) {
       return reply.status(400).send({
         success: false,

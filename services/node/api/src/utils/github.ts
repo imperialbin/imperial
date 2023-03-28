@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+// eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class GitHub {
   public static async createGist(
     content: string,
@@ -19,6 +21,7 @@ export class GitHub {
         },
       }),
     }).then(async (res) => res.json());
-    return gist;
+
+    return gist as string;
   }
 }
