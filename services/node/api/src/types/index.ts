@@ -1,9 +1,10 @@
 import { FastifyReply, FastifyRequest } from "fastify";
+import { Id } from "../utils/pika";
 
-interface APIError {
+type APIError = {
   code: "BRUH";
   message: string;
-}
+};
 
 type ImperialResponse<T = unknown> =
   | {
@@ -22,8 +23,8 @@ type FastifyImp<T = unknown, B = unknown, Q = unknown, P = unknown> = (
   }
 ) => Promise<unknown>;
 
-interface SelfUser {
-  id: number;
+type SelfUser = {
+  id: Id<"user">;
   username: string;
   email: string;
   icon: string | null;
@@ -35,9 +36,9 @@ interface SelfUser {
   discord: DiscordUser | null;
   github: GitHubUser | null;
   settings: UserSettings;
-}
+};
 
-interface UserSettings {
+type UserSettings = {
   clipboard: boolean;
   long_urls: boolean;
   short_urls: boolean;
@@ -51,9 +52,9 @@ interface UserSettings {
   word_wrap: boolean;
   tab_size: number;
   create_gist: boolean;
-}
+};
 
-interface DiscordUser {
+type DiscordUser = {
   id: string;
   username: string;
   avatar: string;
@@ -67,9 +68,9 @@ interface DiscordUser {
   locale: string;
   mfa_enabled: boolean;
   premium_type: number | null;
-}
+};
 
-interface GitHubUser {
+type GitHubUser = {
   login: string;
   id: string;
   avatar_url: string;
@@ -84,21 +85,22 @@ interface GitHubUser {
   public_gists: number;
   private_gists: number;
   two_factor_authentication: boolean;
-}
+};
 
-interface User {
-  id: number;
+type User = {
+  id: Id<"user">;
   documents_made: number;
   username: string;
   icon: string | null;
   flags: number;
-}
+};
 
-interface Document {
+type Document = {
   id: string;
   content: string;
   creator: User | null;
   views: number;
+  gist_url: string | null;
   links: {
     raw: string;
     formatted: string;
@@ -116,9 +118,9 @@ interface Document {
     public: boolean;
     editors: User[];
   };
-}
+};
 
-export {
+export type {
   APIError,
   SelfUser,
   UserSettings,

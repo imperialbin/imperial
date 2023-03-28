@@ -7,9 +7,10 @@ import {
   text,
 } from "drizzle-orm/pg-core";
 import { DiscordUser, GitHubUser, UserSettings } from "../types";
+import { Id } from "../utils/pika";
 
 export const users = pgTable("users", {
-  id: serial("id").primaryKey(),
+  id: text("id").primaryKey().$type<Id<"user">>(),
   username: text("name").notNull(),
   email: text("email").notNull(),
   icon: text("icon"),
@@ -19,7 +20,7 @@ export const users = pgTable("users", {
   api_token: text("api_token").notNull(),
   banned: boolean("banned").notNull().default(false),
   flags: integer("flags").notNull().default(0),
-  settings: json("settings").$type<UserSettings>(),
+  settings: json("settings").$type<UserSettings>().notNull(),
   github: json("github").$type<GitHubUser>(),
   discord: json("discord").$type<DiscordUser>(),
 });
@@ -27,8 +28,10 @@ export const users = pgTable("users", {
 export const documents = pgTable("documents", {
   id: text("id").primaryKey(),
   content: text("content").notNull(),
-  gist_url: text("gist_url"),
-  creator: integer("creator").references(() => users.id),
+  gist_id: text("gist_id"),
+  creator: text("creator")
+    .references(() => users.id)
+    .$type<Id<"user">>(),
   views: integer("views").notNull().default(0),
   created_at: text("created_at").notNull().default(""),
   expires_at: text("expires_at"),
@@ -39,14 +42,14 @@ export const documents = pgTable("documents", {
       instant_delete: boolean;
       encrypted: boolean;
       public: boolean;
-      editors: number[];
+      editors: Array<Id<"user">>;
     }>()
     .notNull(),
 });
 
 export const devices = pgTable("devices", {
   id: text("id").primaryKey(),
-  user: integer("user").references(() => users.id),
+  user: text("user").references(() => users.id),
   user_agent: text("user_agent").notNull(),
   ip: text("ip").notNull(),
   auth_token: text("auth_token").notNull(),

@@ -4,7 +4,7 @@ import { env } from "./env";
 export let redis: ReturnType<typeof createClient>;
 
 export const setupRedis = async () => {
-  redis = await createClient({
+  redis = createClient({
     url: env.REDIS_URL,
   });
 

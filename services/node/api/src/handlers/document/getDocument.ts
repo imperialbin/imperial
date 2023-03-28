@@ -1,10 +1,13 @@
 import { eq } from "drizzle-orm/expressions";
 import { db } from "../../db";
-import { documents } from "../../db/schemas";
+import { documents, users } from "../../db/schemas";
 import { Document, FastifyImp } from "../../types";
 import { decrypt } from "../../utils/crypto";
-import { documentPublicObject } from "../../utils/publicObjects";
-
+import {
+  DOCUMENT_PUBLIC_OBJECT,
+  getEditorsByIds,
+  getLinksObject,
+} from "../../utils/publicObjects";
 export const getDocument: FastifyImp<
   Document,
   unknown,
@@ -15,11 +18,17 @@ export const getDocument: FastifyImp<
     id: string;
   }
 > = async (request, reply) => {
-  const id = request.params.id;
-  const password = request.query.password;
+  const { id } = request.params;
+  const { password } = request.query;
 
   const document =
-    (await db.select().from(documents).where(eq(documents.id, id)))[0] ?? null;
+    (
+      await db
+        .select(DOCUMENT_PUBLIC_OBJECT)
+        .from(documents)
+        .leftJoin(users, eq(users.id, documents.creator))
+        .where(eq(documents.id, id))
+    )[0] ?? null;
 
   if (!document) {
     return reply.status(404).send({
@@ -30,7 +39,7 @@ export const getDocument: FastifyImp<
     });
   }
 
-  let content = document.content;
+  let { content } = document;
   if (document.settings.encrypted && password) {
     try {
       content = await decrypt(password, document.content, "what");
@@ -44,8 +53,27 @@ export const getDocument: FastifyImp<
     }
   }
 
+  const editors = await getEditorsByIds(document.settings.editors);
+
+  await db
+    .update(documents)
+    .set({
+      views: document.views + 1,
+    })
+    .where(eq(documents.id, id));
+
   reply.send({
     success: true,
-    data: documentPublicObject({ ...document, content }, password),
+    data: {
+      ...document,
+      content,
+      links: getLinksObject(document.id),
+      views: document.views + 1,
+      settings: {
+        ...document.settings,
+        editors,
+      },
+      gist_url: document.gist_id,
+    },
   });
 };

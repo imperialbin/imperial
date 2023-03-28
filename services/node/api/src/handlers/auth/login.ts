@@ -4,14 +4,14 @@ import { z } from "zod";
 import { db } from "../../db";
 import { users } from "../../db/schemas";
 import { FastifyImp } from "../../types";
-import { Devices } from "../../utils/devices";
+import { AuthSessions } from "../../utils/authSessions";
 
 const loginSchema = z.object({
   username: z.string().min(1).or(z.string().email()),
   password: z.string().min(8),
 });
 
-export const login: FastifyImp<{ token: string }, {}> = async (
+export const login: FastifyImp<{ token: string }, Record<string, unknown>> = async (
   request,
   reply
 ) => {
@@ -51,11 +51,10 @@ export const login: FastifyImp<{ token: string }, {}> = async (
     });
   }
 
-  const token = await Devices.create(
+  const token = await AuthSessions.createDevice(
     user.id,
     request.headers["user-agent"] ?? "Unknown",
-    request.ip,
-    token
+    request.ip
   );
 
   reply.send({

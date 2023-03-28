@@ -6,7 +6,7 @@ import { APIError, SelfUser } from "./src/types";
 // if prop type is defined here, the value will be typechecked when you call decorate{,Request,Reply}
 declare module "fastify" {
   interface FastifyRequest {
-    //user: SelfUser; soon
+    user: SelfUser | null;
   }
   interface FastifyReply {
     error: (code: number, error: APIError) => FastifyReply;

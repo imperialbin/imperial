@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import { nanoid } from "nanoid";
 import { z } from "zod";
 import { db } from "../../db";
@@ -8,6 +9,11 @@ import { encrypt } from "../../utils/crypto";
 import { guessLanguage } from "../../utils/language";
 import { generateRandomSecureString } from "../../utils/strings";
 import { GitHub } from "../../utils/github";
+import {
+  DOCUMENT_PUBLIC_OBJECT,
+  getLinksObject,
+} from "../../utils/publicObjects";
+import { env } from "../../utils/env";
 
 const createDocumentSchema = z.object({
   content: z.string().min(1),
@@ -75,7 +81,7 @@ export const createDocument: FastifyImp<
   }
 
   let id = nanoid(8);
-  let content = body.data.content;
+  let { content } = body.data;
 
   // URL configuration
   if (body.data.settings?.short_urls) {
@@ -101,17 +107,21 @@ export const createDocument: FastifyImp<
   // Gist configuration
   let gistId: string | null = null;
   if (body.data.settings?.create_gist) {
-    gistId = await GitHub.createGist(body.data.content, id, "fake_user_auth");
+    gistId = (await GitHub.createGist(
+      body.data.content,
+      id,
+      "fake_user_auth"
+    )) as string;
   }
 
-  // language configuration
+  // Language configuration
   let language = body.data.settings?.language ?? "plaintext";
   if (body.data.settings?.language === "auto") {
-    language = await guessLanguage(body.data.content);
+    language = guessLanguage(body.data.content);
   }
 
   // Editors configuration
-  let editors: User[] = [];
+  const editors: User[] = [];
   if (body.data.settings?.editors) {
     for (const editor of body.data.settings.editors) {
       const user =
@@ -123,7 +133,9 @@ export const createDocument: FastifyImp<
             .limit(1)
         )[0] ?? null;
 
-      if (!user) continue;
+      if (!user) {
+        continue;
+      }
 
       editors.push({
         id: user.id,
@@ -142,19 +154,29 @@ export const createDocument: FastifyImp<
         .values({
           id,
           content,
+          creator: request.user?.id ?? null,
           created_at: new Date().toISOString(),
-          gist_url: gistId,
+          gist_id: gistId,
           settings: {
-            language: language,
-            editors: editors.map((user) => user.id),
+            language,
             image_embed: body.data.settings?.image_embed ?? false,
             instant_delete: body.data.settings?.instant_delete ?? false,
             encrypted: body.data.settings?.encrypted ?? false,
             public: body.data.settings?.public ?? false,
+            editors: editors.map((user) => user.id),
           },
         })
         .returning()
     )[0] ?? null;
+
+  if (request.user) {
+    await db
+      .update(users)
+      .set({
+        documents_made: request.user.documents_made + 1,
+      })
+      .where(eq(users.id, request.user.id));
+  }
 
   if (!createdDocument) {
     return reply.status(500).send({
@@ -169,21 +191,33 @@ export const createDocument: FastifyImp<
   reply.send({
     success: true,
     data: {
-      id,
-      content,
+      id: createdDocument.id,
+      content: createdDocument.content,
       password,
-      creator: null,
-      gist_url: gistId,
+      creator: request.user
+        ? {
+            id: request.user.id,
+            username: request.user.username,
+            documents_made: request.user.documents_made + 1,
+            flags: request.user.flags,
+            icon: request.user.icon ?? null,
+          }
+        : null,
+      gist_url: createdDocument.gist_id ?? null,
       views: 0,
-      links: {
-        raw: `https://imperialb.in/raw/${id}`,
-        formatted: `https://imperialb.in/${id}`,
-      },
       timestamps: {
         creation: createdDocument.created_at,
-        expiration: null,
+        expiration: createdDocument.expires_at,
       },
-      settings: { ...createdDocument.settings, editors },
+      links: getLinksObject(createdDocument.id),
+      settings: {
+        language: createdDocument.settings.language,
+        image_embed: createdDocument.settings.image_embed,
+        instant_delete: createdDocument.settings.instant_delete,
+        encrypted: createdDocument.settings.encrypted,
+        public: createdDocument.settings.public,
+        editors,
+      },
     },
   });
 };

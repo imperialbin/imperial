@@ -22,7 +22,7 @@ const decrypt = (
 const encrypt = (password: string, content: string): string => {
   const cipher = createCipheriv(
     "aes256",
-    // we're creating a hash here just in case password is under 32 characters long (it must be 32 characters long)
+    // We're creating a hash here just in case password is under 32 characters long (it must be 32 characters long)
     createHash("sha256").update(password).digest(),
     randomBytes(16).toString("hex")
   );

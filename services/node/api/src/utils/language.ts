@@ -1,5 +1,3 @@
-const guessLanguage = (text: string): string => {
-  return "typescript";
-};
+const guessLanguage = (text: string): string => "typescript";
 
 export { guessLanguage };

@@ -21,4 +21,7 @@ const pika = new Pika([
   },
 ]);
 
-export { pika };
+type PikaIDs = typeof pika.prefixes[number]["prefix"];
+type Id<T extends PikaIDs> = `${T}_${string}`;
+
+export { pika, type PikaIDs, type Id };

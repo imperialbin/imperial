@@ -18,7 +18,7 @@ export const usersRoutes = (
   fastify.get("/search/:username", searchUser);
   fastify.patch("/@me", patchMe);
 
-  // this is a post because we confirm the password
+  // This is a post because we confirm the password
   fastify.post("/@me/delete", deleteMe);
   fastify.post("/@me/regenerate_api_token", regenerateAPIToken);
 

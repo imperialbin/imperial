@@ -11,7 +11,7 @@ export const deleteDocument: FastifyImp<
     id: string;
   }
 > = async (request, reply) => {
-  const id = request.params.id;
+  const { id } = request.params;
   const document =
     (await db.select().from(documents).where(eq(documents.id, id)))[0] ?? null;
 
@@ -24,7 +24,14 @@ export const deleteDocument: FastifyImp<
     });
   }
 
-  // check if user is authorized and owns the document
+  if (request.user?.id !== document.creator) {
+    return reply.status(401).send({
+      success: false,
+      error: {
+        message: "You do not own this document",
+      },
+    });
+  }
 
   await db.delete(documents).where(eq(documents.id, id));
 

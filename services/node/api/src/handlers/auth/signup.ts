@@ -1,12 +1,11 @@
-import { FastifyImp, SelfUser } from "../../types";
+import bcrypt from "bcrypt";
+import { eq } from "drizzle-orm/expressions";
 import { z } from "zod";
 import { db } from "../../db";
 import { users } from "../../db/schemas";
-import { eq } from "drizzle-orm/expressions";
-import bcrypt from "bcrypt";
+import { FastifyImp, SelfUser } from "../../types";
+import { AuthSessions } from "../../utils/authSessions";
 import { pika } from "../../utils/pika";
-import { Devices } from "../../utils/devices";
-import { redis } from "../../utils/redis";
 
 const signupSchema = z.object({
   username: z.string().min(1),
@@ -14,7 +13,7 @@ const signupSchema = z.object({
   password: z.string().min(8),
 });
 
-export const signup: FastifyImp<{ token: string; user: SelfUser }, {}> = async (
+export const signup: FastifyImp<{ token: string; user: SelfUser }, Record<string, unknown>> = async (
   request,
   reply
 ) => {
@@ -63,6 +62,7 @@ export const signup: FastifyImp<{ token: string; user: SelfUser }, {}> = async (
       await db
         .insert(users)
         .values({
+          id: pika.gen("user"),
           username: body.data.username,
           email: body.data.email,
           password: hashedPassword,
@@ -86,7 +86,7 @@ export const signup: FastifyImp<{ token: string; user: SelfUser }, {}> = async (
         .returning()
     )[0] ?? null;
 
-  if (!user || !user.settings) {
+  if (!user) {
     return reply.status(500).send({
       success: false,
       error: {
@@ -95,26 +95,19 @@ export const signup: FastifyImp<{ token: string; user: SelfUser }, {}> = async (
     });
   }
 
-  // create auth token and device in db
-  const token = pika.gen("imperial_auth");
-  await Devices.create(
+  const token = await AuthSessions.createDevice(
     user.id,
     request.headers["user-agent"] ?? "Unknown",
-    request.ip,
-    token
+    request.ip
   );
 
-  await redis.set(token, user.id);
   const { password, ...userWithoutPassword } = user;
 
   reply.send({
     success: true,
     data: {
-      token: "what",
-      user: {
-        ...userWithoutPassword,
-        settings: user.settings,
-      },
+      token,
+      user: userWithoutPassword,
     },
   });
 };

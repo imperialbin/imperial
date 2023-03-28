@@ -1,8 +1,0 @@
-ALTER TABLE users RENAME COLUMN "confirmed_email" TO "confirmed";
-ALTER TABLE documents ALTER COLUMN "views" SET NOT NULL;
-ALTER TABLE documents ALTER COLUMN "created_at" SET NOT NULL;
-ALTER TABLE documents ALTER COLUMN "settings" SET NOT NULL;
-ALTER TABLE users ALTER COLUMN "documents_made" SET NOT NULL;
-ALTER TABLE users ALTER COLUMN "banned" SET NOT NULL;
-ALTER TABLE users ALTER COLUMN "flags" SET NOT NULL;
-ALTER TABLE users ALTER COLUMN "confirmed" SET NOT NULL;

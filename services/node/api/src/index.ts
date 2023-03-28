@@ -1,5 +1,6 @@
 import fastify from "fastify";
 import { setupDB } from "./db";
+import { middleware } from "./modules/middleware";
 import { authRoutes } from "./routes/auth";
 import { documentRoutes } from "./routes/document";
 import { usersRoutes } from "./routes/users";
@@ -14,6 +15,7 @@ setupRedis();
 
 const API_VERSION = "v1";
 
+server.register(middleware);
 server.register(usersRoutes, { prefix: `/${API_VERSION}/users` });
 server.register(documentRoutes, { prefix: `/${API_VERSION}/document` });
 server.register(authRoutes, { prefix: `/${API_VERSION}/auth` });
@@ -42,5 +44,6 @@ server.listen({ port: env.PORT }, (err, address) => {
     console.error(err);
     process.exit(1);
   }
+
   console.log(`Server listening at ${address}`);
 });

@@ -18,7 +18,7 @@ export class GitHub {
           },
         },
       }),
-    }).then((res) => res.json());
+    }).then(async (res) => res.json());
     return gist;
   }
 }
