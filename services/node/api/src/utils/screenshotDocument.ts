@@ -11,6 +11,7 @@ const screenshotDocument = async (
   code: string,
   memberPlus: boolean
 ) => {
+  console.log("Screenshotting document", documentId);
   const browser = await puppeteer.launch({
     args: ["--no-sandbox", "--disable-setuid-sandbox"],
   });
@@ -30,18 +31,13 @@ const screenshotDocument = async (
   await page.evaluate(WATER_MARK);
 
   const element = await page.$("#export-container");
-  const screenshot = await page.screenshot({
+  const screenshot = await element?.screenshot({
     type: "jpeg",
-    omitBackground: true,
     quality: memberPlus ? 100 : 75,
   });
 
   if (screenshot) {
-    await S3.uploadFile(
-      `${documentId}.jpeg`,
-      screenshot.toString(),
-      "image/jpeg"
-    );
+    await S3.uploadFile(`${documentId}.jpeg`, screenshot, "image/jpeg");
   }
 
   await browser.close();

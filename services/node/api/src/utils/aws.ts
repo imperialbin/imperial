@@ -19,7 +19,7 @@ const ses = new SESClient({
 class S3 {
   public static async uploadFile(
     key: string,
-    body: string,
+    body: string | Buffer,
     contentType: string
   ) {
     const uploadRequest = await s3
