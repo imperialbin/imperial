@@ -11,7 +11,7 @@ export const oAuthRoutes = (
   fastify.get("/github/callback", github);
   fastify.get("/discord/callback", discord);
 
-  // redirects
+  // Redirects
   fastify.get("/github", (_, reply) =>
     reply.redirect(
       302,
@@ -19,10 +19,10 @@ export const oAuthRoutes = (
     )
   );
 
-  fastify.get("discord", (_, reply) =>
+  fastify.get("/discord", (_, reply) =>
     reply.redirect(
       302,
-      `https://discord.com/api/oauth2/authorize?client_id=%${env.DISCORD_CLIENT_ID}&redirect_uri=${env.DISCORD_CALLBACK}&response_type=code&scope=guilds.join%20identify%20guilds`
+      `https://discord.com/api/oauth2/authorize?client_id=${env.DISCORD_CLIENT_ID}&redirect_uri=${env.DISCORD_CALLBACK}&response_type=code&scope=guilds.join%20identify%20guilds`
     )
   );
 
