@@ -3,6 +3,7 @@ import { db } from "../../db";
 import { documents, users } from "../../db/schemas";
 import { Document, FastifyImp } from "../../types";
 import { decrypt } from "../../utils/crypto";
+import { Logger } from "../../utils/logger";
 import {
   DOCUMENT_PUBLIC_OBJECT,
   getEditorsByIds,
@@ -40,10 +41,24 @@ export const getDocument: FastifyImp<
   }
 
   let { content } = document;
-  if (document.settings.encrypted && password) {
+  if (document.settings.encrypted) {
+    if (!password) {
+      return reply.status(400).send({
+        success: false,
+        data: {
+          message: "Invalid password",
+        },
+      });
+    }
+
     try {
-      content = decrypt(password, document.content, "what");
+      content = decrypt(password, document.content);
     } catch (e) {
+      // if its not a bad password log
+      if (!String(e).includes("routines:EVP_DecryptFinal_ex:bad")) {
+        Logger.error("crypto", "Failed to decrypt document " + String(e));
+      }
+
       return reply.status(400).send({
         success: false,
         data: {

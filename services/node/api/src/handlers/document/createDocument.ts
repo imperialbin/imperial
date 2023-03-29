@@ -121,7 +121,7 @@ export const createDocument: FastifyImp<
       password = generateRandomSecureString(16);
     }
 
-    content = encrypt(password, body.data.content);
+    content = "IMPERIAL_ENCRYPTED" + encrypt(password, body.data.content);
   }
 
   // Gist configuration
