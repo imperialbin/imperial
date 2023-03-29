@@ -40,8 +40,8 @@ const getEditorsByIds = async (ids: Array<Id<"user">>) => {
       .where(eq(users.id, id));
 
     if (editorPartial.length === 0) {
-continue;
-}
+      continue;
+    }
 
     editorPartials.push(editorPartial[0]);
   }
@@ -67,8 +67,8 @@ const getEditorsByUsername = async (usernames: string[]) => {
       .where(eq(users.username, username));
 
     if (editorPartial.length === 0) {
-continue;
-}
+      continue;
+    }
 
     editorPartials.push(editorPartial[0]);
   }
@@ -77,8 +77,8 @@ continue;
 };
 
 const getLinksObject = (id: string) => ({
-  formatted: `${env.FRONTEND_URL}/${id}`,
-  raw: `${env.FRONTEND_URL}/r/${id}`,
+  formatted: `${env.FRONTEND_URL}${id}`,
+  raw: `${env.FRONTEND_URL}r/${id}`,
 });
 
 export {
