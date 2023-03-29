@@ -1,20 +1,16 @@
 /* eslint-disable complexity */
+import { eq } from "drizzle-orm/expressions";
 import { nanoid } from "nanoid";
 import { z } from "zod";
 import { db } from "../../db";
 import { documents, users } from "../../db/schemas";
-import { eq } from "drizzle-orm/expressions";
 import { FastifyImp, User } from "../../types";
 import { encrypt } from "../../utils/crypto";
-import { guessLanguage } from "../../utils/language";
-import { generateRandomSecureString } from "../../utils/strings";
 import { GitHub } from "../../utils/github";
-import {
-  DOCUMENT_PUBLIC_OBJECT,
-  getLinksObject,
-} from "../../utils/publicObjects";
-import { env } from "../../utils/env";
+import { guessLanguage } from "../../utils/language";
+import { getLinksObject } from "../../utils/publicObjects";
 import { screenshotDocument } from "../../utils/screenshotDocument";
+import { generateRandomSecureString } from "../../utils/strings";
 
 const createDocumentSchema = z.object({
   content: z.string().min(1),
