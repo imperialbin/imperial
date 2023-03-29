@@ -1,8 +1,8 @@
 {
   "version": "5",
   "dialect": "pg",
-  "id": "202424fa-679e-4393-a9f8-22c56df30b2e",
-  "prevId": "7dbc7913-f9f8-494c-a6b0-8b00120b6443",
+  "id": "17fd6374-e708-46a5-a6b4-3f8858a1b147",
+  "prevId": "3707f5da-eb39-4643-9c9c-a54d5ae620ed",
   "tables": {
     "devices": {
       "name": "devices",
@@ -57,7 +57,7 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
+          "onDelete": "cascade",
           "onUpdate": "no action"
         }
       },
@@ -130,7 +130,7 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
+          "onDelete": "cascade",
           "onUpdate": "no action"
         }
       },
@@ -233,8 +233,6 @@
   "_meta": {
     "schemas": {},
     "tables": {},
-    "columns": {
-      "\"documents\".\"gist_url\"": "\"documents\".\"gist_id\""
-    }
+    "columns": {}
   }
 }

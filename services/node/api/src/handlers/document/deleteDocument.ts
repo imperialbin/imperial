@@ -35,5 +35,5 @@ export const deleteDocument: FastifyImp<
 
   await db.delete(documents).where(eq(documents.id, id));
 
-  reply.status(204);
+  reply.status(204).send();
 };

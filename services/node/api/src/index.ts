@@ -1,8 +1,9 @@
 import fastify from "fastify";
 import { setupDB } from "./db";
-import { middleware } from "./modules/middleware";
+import { checkAuthentication, middleware } from "./modules/middleware";
 import { authRoutes } from "./routes/auth";
 import { documentRoutes } from "./routes/document";
+import { oAuthRoutes } from "./routes/oauth";
 import { usersRoutes } from "./routes/users";
 import { env } from "./utils/env";
 import { setupRedis } from "./utils/redis";
@@ -19,6 +20,7 @@ server.register(middleware);
 server.register(usersRoutes, { prefix: `/${API_VERSION}/users` });
 server.register(documentRoutes, { prefix: `/${API_VERSION}/document` });
 server.register(authRoutes, { prefix: `/${API_VERSION}/auth` });
+server.register(oAuthRoutes, { prefix: `/${API_VERSION}/oauth` });
 
 server.setNotFoundHandler((request, reply) => {
   reply.code(404).send({

@@ -13,7 +13,7 @@ export const usersRoutes = (
   done: () => void
 ) => {
   fastify.get("/@me", getMe);
-  fastify.get("/@me/recent_documents", getRecentDocuments);
+  fastify.get("/@me/recent", getRecentDocuments);
   fastify.get("/:username", getUser);
   fastify.get("/search/:username", searchUser);
   fastify.patch("/@me", patchMe);

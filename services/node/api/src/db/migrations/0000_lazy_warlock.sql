@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS "devices" (
 CREATE TABLE IF NOT EXISTS "documents" (
 	"id" text PRIMARY KEY NOT NULL,
 	"content" text NOT NULL,
-	"gist_url" text,
+	"gist_id" text,
 	"creator" text,
 	"views" integer DEFAULT 0 NOT NULL,
 	"created_at" text DEFAULT '' NOT NULL,
@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS "users" (
 	"api_token" text NOT NULL,
 	"banned" boolean DEFAULT false NOT NULL,
 	"flags" integer DEFAULT 0 NOT NULL,
-	"settings" json,
+	"settings" json NOT NULL,
 	"github" json,
 	"discord" json
 );

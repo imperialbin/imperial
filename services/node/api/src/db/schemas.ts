@@ -30,7 +30,7 @@ export const documents = pgTable("documents", {
   content: text("content").notNull(),
   gist_id: text("gist_id"),
   creator: text("creator")
-    .references(() => users.id)
+    .references(() => users.id, { onDelete: "cascade" })
     .$type<Id<"user">>(),
   views: integer("views").notNull().default(0),
   created_at: text("created_at").notNull().default(""),
@@ -49,7 +49,9 @@ export const documents = pgTable("documents", {
 
 export const devices = pgTable("devices", {
   id: text("id").primaryKey(),
-  user: text("user").references(() => users.id),
+  user: text("user")
+    .references(() => users.id, { onDelete: "cascade" })
+    .$type<Id<"user">>(),
   user_agent: text("user_agent").notNull(),
   ip: text("ip").notNull(),
   auth_token: text("auth_token").notNull(),

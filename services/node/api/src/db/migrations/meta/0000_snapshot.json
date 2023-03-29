@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "pg",
-  "id": "7dbc7913-f9f8-494c-a6b0-8b00120b6443",
+  "id": "3707f5da-eb39-4643-9c9c-a54d5ae620ed",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "devices": {
@@ -79,8 +79,8 @@
           "primaryKey": false,
           "notNull": true
         },
-        "gist_url": {
-          "name": "gist_url",
+        "gist_id": {
+          "name": "gist_id",
           "type": "text",
           "primaryKey": false,
           "notNull": false
@@ -208,7 +208,7 @@
           "name": "settings",
           "type": "json",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "github": {
           "name": "github",
