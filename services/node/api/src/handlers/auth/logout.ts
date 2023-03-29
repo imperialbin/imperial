@@ -22,7 +22,7 @@ export const logout: FastifyImp = async (request, reply) => {
     });
   }
 
-  await AuthSessions.deleteDevice(token);
+  await AuthSessions.deleteDeviceByAuthToken(token);
 
   reply.status(204).send();
 };

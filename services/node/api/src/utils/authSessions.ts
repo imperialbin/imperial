@@ -29,9 +29,19 @@ export class AuthSessions {
     return token;
   }
 
-  public static async deleteDevice(token: string) {
+  public static async deleteDeviceByAuthToken(token: string) {
     await redis.del(token);
     await db.delete(devices).where(eq(devices.auth_token, token));
+  }
+
+  public static async deleteDeviceById(id: Id<"device">) {
+    const device =
+      (await db.delete(devices).where(eq(devices.id, id)).returning())[0] ??
+      null;
+
+    if (device) {
+      await redis.del(device.auth_token);
+    }
   }
 
   public static async findUserByToken(token: string) {
