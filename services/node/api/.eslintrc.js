@@ -28,5 +28,6 @@ module.exports = {
     "no-await-in-loop": "off",
     "@typescript-eslint/ban-types": "off",
     "@typescript-eslint/no-extraneous-class": "off",
+    "@typescript-eslint/non-nullable-type-assertion-style": "off",
   },
 };
