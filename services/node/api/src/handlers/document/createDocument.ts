@@ -69,8 +69,7 @@ export const createDocument: FastifyImp<
     });
   }
 
-  const body = createDocumentSchema.safeParse(request.body);
-
+  let body = createDocumentSchema.safeParse(request.body);
   if (!body.success) {
     return reply.status(400).send({
       success: false,
@@ -79,6 +78,26 @@ export const createDocument: FastifyImp<
         message: body.error.message,
       },
     });
+  }
+
+  // if they are not logged in dont allow any settings, but let them set the language
+  if (!request.user) {
+    const sevenDaysFromNow = new Date();
+    sevenDaysFromNow.setDate(sevenDaysFromNow.getDate() + 7);
+
+    body.data.settings = {
+      language: body.data.settings?.language ?? "plaintext",
+      expiration: sevenDaysFromNow.toISOString(),
+      short_urls: false,
+      long_urls: false,
+      image_embed: false,
+      instant_delete: false,
+      encrypted: false,
+      public: false,
+      create_gist: false,
+      password: undefined,
+      editors: [],
+    };
   }
 
   let id = nanoid(8);

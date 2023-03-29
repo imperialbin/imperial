@@ -6,6 +6,7 @@ import { documentRoutes } from "./routes/document";
 import { oAuthRoutes } from "./routes/oauth";
 import { usersRoutes } from "./routes/users";
 import { env } from "./utils/env";
+import { Logger } from "./utils/logger";
 import { setupRedis } from "./utils/redis";
 
 const server = fastify({
@@ -32,7 +33,7 @@ server.setNotFoundHandler((request, reply) => {
 });
 
 server.setErrorHandler((error, request, reply) => {
-  console.error(error);
+  Logger.error("SERVER", error.message);
   reply.code(500).send({
     success: false,
     error: {
@@ -43,9 +44,9 @@ server.setErrorHandler((error, request, reply) => {
 
 server.listen({ port: env.PORT }, (err, address) => {
   if (err) {
-    console.error(err);
+    Logger.error("INIT", err.message);
     process.exit(1);
   }
 
-  console.log(`Server listening at ${address}`);
+  Logger.info("INIT", `Server listening at ${address}`);
 });

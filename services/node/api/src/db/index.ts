@@ -2,6 +2,7 @@ import { drizzle } from "drizzle-orm/node-postgres";
 import { migrate } from "drizzle-orm/postgres-js/migrator";
 import { Pool } from "pg";
 import { env } from "../utils/env";
+import { Logger } from "../utils/logger";
 
 export let db: ReturnType<typeof drizzle>;
 
@@ -11,12 +12,12 @@ export const setupDB = async () => {
   })
     .connect()
     .then((client) => {
-      console.log("Connected to database");
+      Logger.info("INIT", "Connected to database");
 
       return client;
     })
     .catch((err) => {
-      console.error("Failed to connect to database", err);
+      Logger.error("INIT", "Failed to connect to database");
       process.exit(1);
     });
 
@@ -24,10 +25,10 @@ export const setupDB = async () => {
 
   await migrate(db, { migrationsFolder: "src/db/migrations" })
     .then(() => {
-      console.log("Migrated database");
+      Logger.info("INIT", "Migrated database");
     })
     .catch((err) => {
-      console.error("Failed to migrate database", err);
+      Logger.error("INIT", "Failed to migrate database " + err);
       process.exit(1);
     });
 };

@@ -1,5 +1,6 @@
 import { S3 as S3Client, SES as SESClient } from "aws-sdk";
 import { env } from "./env";
+import { Logger } from "./logger";
 
 const s3 = new S3Client({
   region: env.AWS_REGION,
@@ -31,7 +32,7 @@ class S3 {
       })
       .promise();
 
-    console.log(uploadRequest.Location);
+    Logger.success("S3", `Uploaded ${key} to S3`);
 
     return uploadRequest;
   }

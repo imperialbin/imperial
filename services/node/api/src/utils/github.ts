@@ -1,6 +1,18 @@
 import { GitHubUserResponse } from "../types";
 import { env } from "./env";
 
+type GitHubAccessTokenResponse =
+  | {
+      access_token: string;
+      scope: string;
+      token_type: string;
+    }
+  | {
+      error: string;
+      error_description: string;
+      error_uri: string;
+    };
+
 export class GitHub {
   public static async getAccessToken(code: string) {
     const accessTokenRequest = await fetch(
@@ -18,20 +30,7 @@ export class GitHub {
         }),
       }
     )
-      .then(
-        (res) =>
-          res.json() as unknown as
-            | {
-                access_token: string;
-                scope: string;
-                token_type: string;
-              }
-            | {
-                error: string;
-                error_description: string;
-                error_uri: string;
-              }
-      )
+      .then((res) => res.json() as unknown as GitHubAccessTokenResponse)
       .catch(() => ({
         error: "Internal server error",
         error_description: "Internal server error",

@@ -1,6 +1,7 @@
 /* eslint-disable new-cap */
 import puppeteer from "puppeteer";
 import { S3 } from "./aws";
+import { Logger } from "./logger";
 
 const CARBON_THEME = `[{"id":"theme:kk12asgoqee","name":"imperialv2","highlights":{"background":"rgba(31,31,31,1)","text":"#D4D4D4","variable":"rgba(226,237,252,1)","attribute":"rgba(255,255,255,1)","definition":"rgba(255,255,255,1)","keyword":"rgba(255,110,110,1)","operator":"#D4D4D4","property":"rgba(200,225,255,1)","number":"#B5CEA8","string":"rgba(121,184,255,1)","comment":"rgba(149,157,165,1)","meta":"#D4D4D4","tag":"#569cd6"},"custom":true}]`;
 const CARBON_STATE = (code: string) =>
@@ -11,36 +12,39 @@ const screenshotDocument = async (
   code: string,
   memberPlus: boolean
 ) => {
-  console.log("Screenshotting document", documentId);
-  const browser = await puppeteer.launch({
-    args: ["--no-sandbox", "--disable-setuid-sandbox"],
-  });
+  try {
+    const browser = await puppeteer.launch({
+      args: ["--no-sandbox", "--disable-setuid-sandbox"],
+    });
 
-  const page = await browser.newPage();
-  await page.goto("https://carbon.now.sh/");
+    const page = await browser.newPage();
+    await page.goto("https://carbon.now.sh/");
 
-  await page.evaluate(
-    (CARBON_THEME, CARBON_STATE) => {
-      localStorage.setItem("CARBON_THEMES", CARBON_THEME);
-      localStorage.setItem("CARBON_STATE", CARBON_STATE);
-    },
-    CARBON_THEME,
-    CARBON_STATE(JSON.stringify(code))
-  );
-  await page.reload();
-  await page.evaluate(WATER_MARK);
+    await page.evaluate(
+      (CARBON_THEME, CARBON_STATE) => {
+        localStorage.setItem("CARBON_THEMES", CARBON_THEME);
+        localStorage.setItem("CARBON_STATE", CARBON_STATE);
+      },
+      CARBON_THEME,
+      CARBON_STATE(JSON.stringify(code))
+    );
+    await page.reload();
+    await page.evaluate(WATER_MARK);
 
-  const element = await page.$("#export-container");
-  const screenshot = await element?.screenshot({
-    type: "jpeg",
-    quality: memberPlus ? 100 : 75,
-  });
+    const element = await page.$("#export-container");
+    const screenshot = await element?.screenshot({
+      type: "jpeg",
+      quality: memberPlus ? 100 : 75,
+    });
 
-  if (screenshot) {
-    await S3.uploadFile(`${documentId}.jpeg`, screenshot, "image/jpeg");
+    if (screenshot) {
+      await S3.uploadFile(`${documentId}.jpeg`, screenshot, "image/jpeg");
+    }
+
+    await browser.close();
+  } catch (err) {
+    Logger.error("SCREENSHOT", String(err));
   }
-
-  await browser.close();
 };
 
 const WATER_MARK =
