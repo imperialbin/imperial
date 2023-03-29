@@ -72,8 +72,8 @@ const getEditorsByUsername = async (usernames: string[]) => {
 };
 
 const getLinksObject = (id: string) => ({
-  formatted: `${env.FRONTEND_URL}/${id}`,
-  raw: `${env.FRONTEND_URL}/r/${id}`,
+  formatted: `${env.FRONTEND_URL}${id}`,
+  raw: `${env.FRONTEND_URL}r/${id}`,
 });
 
 export {
