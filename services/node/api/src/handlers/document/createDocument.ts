@@ -14,6 +14,7 @@ import {
   getLinksObject,
 } from "../../utils/publicObjects";
 import { env } from "../../utils/env";
+import { screenshotDocument } from "../../utils/screenshotDocument";
 
 const createDocumentSchema = z.object({
   content: z.string().min(1),
@@ -164,6 +165,15 @@ export const createDocument: FastifyImp<
         })
         .returning()
     )[0] ?? null;
+
+  if (
+    createdDocument.settings.image_embed &&
+    request.user &&
+    (!createdDocument.settings.instant_delete ||
+      !createdDocument.settings.encrypted)
+  ) {
+    screenshotDocument(createdDocument.id, createdDocument.content, false);
+  }
 
   if (request.user) {
     await db

@@ -59,7 +59,7 @@ export const env = envsafe({
     desc: "The sentry environment",
   }),
   FRONTEND_URL: str({
-    default: "http://localhost:3000/",
+    default: "http://localhost:3000",
     desc: "The frontend url",
   }),
   AWS_ACCESS_KEY: str({
