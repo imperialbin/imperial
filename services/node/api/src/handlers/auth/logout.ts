@@ -1,8 +1,3 @@
-import bcrypt from "bcrypt";
-import { eq } from "drizzle-orm/expressions";
-import { z } from "zod";
-import { db } from "../../db";
-import { users } from "../../db/schemas";
 import { FastifyImp } from "../../types";
 import { AuthSessions } from "../../utils/authSessions";
 

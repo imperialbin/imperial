@@ -6,7 +6,6 @@ import { env } from "../utils/env";
 export let db: ReturnType<typeof drizzle>;
 
 export const setupDB = async () => {
-  // Pool
   const pool = await new Pool({
     connectionString: env.DATABASE_URL,
   })
@@ -23,7 +22,6 @@ export const setupDB = async () => {
 
   db = drizzle(pool);
 
-  // Migrate
   await migrate(db, { migrationsFolder: "src/db/migrations" })
     .then(() => {
       console.log("Migrated database");

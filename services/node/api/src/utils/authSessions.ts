@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm/expressions";
+import { and, eq, ne } from "drizzle-orm/expressions";
 import { db } from "../db";
 import { devices, users } from "../db/schemas";
 import { Id, pika } from "./pika";
@@ -56,5 +56,29 @@ export class AuthSessions {
       null;
 
     return user;
+  }
+
+  public static async deleteAllSessionsForUser(
+    userId: Id<"user">,
+    except?: Id<"imperial_auth">
+  ) {
+    const usersDevices = await db
+      .select()
+      .from(devices)
+      .where(eq(devices.user, userId));
+
+    for (const device of usersDevices) {
+      if (device.auth_token === except) {
+        continue;
+      }
+
+      await redis.del(device.auth_token);
+    }
+
+    await db
+      .delete(devices)
+      .where(
+        and(eq(devices.user, userId), ne(devices.auth_token, except ?? ""))
+      );
   }
 }
