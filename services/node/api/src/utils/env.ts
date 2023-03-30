@@ -14,6 +14,10 @@ export const env = envsafe({
     default: "redis://127.0.0.1:6379/",
     desc: "The redis url",
   }),
+  DISCORD_INVITE: str({
+    default: "https://discord.gg/cTm85eW49D",
+    desc: "The discord invite url",
+  }),
   DISCORD_CLIENT_SECRET: str({
     default: "",
     desc: "The discord client secret",

@@ -5,16 +5,17 @@ import { db } from "../../db";
 import { users } from "../../db/schemas";
 import { FastifyImp } from "../../types";
 import { AuthSessions } from "../../utils/authSessions";
+import { SES } from "../../utils/aws";
 
 const loginSchema = z.object({
   username: z.string().min(1).or(z.string().email()),
   password: z.string().min(8),
 });
 
-export const login: FastifyImp<{ token: string }, Record<string, unknown>> = async (
-  request,
-  reply
-) => {
+export const login: FastifyImp<
+  { token: string },
+  Record<string, unknown>
+> = async (request, reply) => {
   const body = loginSchema.safeParse(request.body);
   if (!body.success) {
     return reply.status(400).send({
@@ -55,6 +56,18 @@ export const login: FastifyImp<{ token: string }, Record<string, unknown>> = asy
     user.id,
     request.headers["user-agent"] ?? "Unknown",
     request.ip
+  );
+
+  SES.sendEmail(
+    "new_login",
+    {
+      userAgent: {
+        ip: request.ip,
+        user_agent: request.headers["user-agent"] ?? "Unknown",
+      },
+    },
+    user.email,
+    "New Login"
   );
 
   reply.send({

@@ -5,6 +5,7 @@ import { db } from "../../db";
 import { users } from "../../db/schemas";
 import { FastifyImp, SelfUser } from "../../types";
 import { AuthSessions } from "../../utils/authSessions";
+import { SES } from "../../utils/aws";
 import { pika } from "../../utils/pika";
 
 const signupSchema = z.object({
@@ -13,10 +14,10 @@ const signupSchema = z.object({
   password: z.string().min(8),
 });
 
-export const signup: FastifyImp<{ token: string; user: SelfUser }, Record<string, unknown>> = async (
-  request,
-  reply
-) => {
+export const signup: FastifyImp<
+  { token: string; user: SelfUser },
+  Record<string, unknown>
+> = async (request, reply) => {
   const body = signupSchema.safeParse(request.body);
   if (!body.success) {
     return reply.status(400).send({
@@ -102,6 +103,15 @@ export const signup: FastifyImp<{ token: string; user: SelfUser }, Record<string
   );
 
   const { password, ...userWithoutPassword } = user;
+
+  await SES.sendEmail(
+    "confirm_email",
+    {
+      token,
+    },
+    user.email,
+    "Confirm Email"
+  );
 
   reply.send({
     success: true,

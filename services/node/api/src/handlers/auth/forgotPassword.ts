@@ -3,6 +3,7 @@ import { z } from "zod";
 import { db } from "../../db";
 import { users } from "../../db/schemas";
 import { FastifyImp } from "../../types";
+import { SES } from "../../utils/aws";
 import { redis } from "../../utils/redis";
 import { generateRandomSecureString } from "../../utils/strings";
 
@@ -33,7 +34,13 @@ export const forgotPassword: FastifyImp = async (request, reply) => {
 
   const token = generateRandomSecureString(32);
   await redis.set("resetPassword:" + token, user.id, { EX: 60 * 60 * 24 });
-  // Send Email with token
+
+  await SES.sendEmail(
+    "reset_password",
+    { token },
+    user.email,
+    "Reset Password"
+  );
 
   reply.status(204).send();
 };
