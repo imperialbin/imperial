@@ -13,6 +13,12 @@
       "version": "5",
       "when": 1680025858924,
       "tag": "0001_absent_overlord"
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1680184210355,
+      "tag": "0002_ancient_molten_man"
     }
   ]
 }

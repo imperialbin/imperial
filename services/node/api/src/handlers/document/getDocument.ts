@@ -88,7 +88,7 @@ export const getDocument: FastifyImp<
         ...document.settings,
         editors,
       },
-      gist_url: document.gist_id,
+      gist_url: document.gist_url,
     },
   });
 };

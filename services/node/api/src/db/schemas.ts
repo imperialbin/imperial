@@ -28,7 +28,7 @@ export const users = pgTable("users", {
 export const documents = pgTable("documents", {
   id: text("id").primaryKey(),
   content: text("content").notNull(),
-  gist_id: text("gist_id"),
+  gist_url: text("gist_url"),
   creator: text("creator")
     .references(() => users.id, { onDelete: "cascade" })
     .$type<Id<"user">>(),

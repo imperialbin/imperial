@@ -113,7 +113,7 @@ export const patchDocument: FastifyImp<Document> = async (request, reply) => {
             icon: request.user.icon,
           }
         : null,
-      gist_url: updatedDocument.gist_id,
+      gist_url: updatedDocument.gist_url,
       views: 0,
       timestamps: {
         creation: updatedDocument.created_at,

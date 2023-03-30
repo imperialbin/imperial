@@ -16,7 +16,7 @@ const DOCUMENT_PUBLIC_OBJECT = {
     icon: users.icon,
   },
   views: documents.views,
-  gist_id: documents.gist_id,
+  gist_url: documents.gist_url,
   timestamps: {
     creation: documents.created_at,
     expiration: documents.expires_at,

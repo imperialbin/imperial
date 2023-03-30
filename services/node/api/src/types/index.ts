@@ -85,6 +85,7 @@ type GitHubUser = {
   public_gists: number;
   private_gists: number;
   two_factor_authentication: boolean;
+  token: string;
 };
 
 type User = {

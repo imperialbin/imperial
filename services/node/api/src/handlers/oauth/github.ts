@@ -54,6 +54,7 @@ export const github: FastifyImp<
         public_gists: userInfo.public_gists,
         private_gists: userInfo.private_gists,
         two_factor_authentication: userInfo.two_factor_authentication,
+        token: accessToken.access_token,
       },
     })
     .where(eq(users.id, request.user.id));

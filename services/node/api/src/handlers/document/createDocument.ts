@@ -121,9 +121,16 @@ export const createDocument: FastifyImp<
   }
 
   // Gist configuration
-  let gistId: string | null = null;
-  if (body.data.settings?.create_gist) {
-    gistId = await GitHub.createGist(body.data.content, id, "fake_user_auth");
+  let gistURL: string | null = null;
+  if (body.data.settings?.create_gist && request.user?.github) {
+    gistURL =
+      (
+        await GitHub.createGist(
+          body.data.content,
+          id,
+          request.user.github.token
+        )
+      )?.html_url ?? null;
   }
 
   // Language configuration
@@ -168,7 +175,7 @@ export const createDocument: FastifyImp<
           content,
           creator: request.user?.id ?? null,
           created_at: new Date().toISOString(),
-          gist_id: gistId,
+          gist_url: gistURL,
           settings: {
             language,
             image_embed: body.data.settings?.image_embed ?? false,
@@ -225,7 +232,7 @@ export const createDocument: FastifyImp<
             icon: request.user.icon ?? null,
           }
         : null,
-      gist_url: createdDocument.gist_id ?? null,
+      gist_url: createdDocument.gist_url ?? null,
       views: 0,
       timestamps: {
         creation: createdDocument.created_at,

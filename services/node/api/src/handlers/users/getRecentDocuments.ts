@@ -27,7 +27,7 @@ export const getRecentDocuments: FastifyImp = async (request, reply) => {
     newDocuments.push({
       ...document,
       links: getLinksObject(document.id),
-      gist_url: document.gist_id,
+      gist_url: document.gist_url,
       settings: {
         ...document.settings,
         editors,
