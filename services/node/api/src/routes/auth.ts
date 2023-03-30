@@ -11,14 +11,74 @@ export const authRoutes = (
   _: unknown,
   done: () => void
 ) => {
-  fastify.post("/login", login);
-  fastify.post("/signup", signup);
-  fastify.delete("/logout", logout);
+  fastify.post(
+    "/login",
+    {
+      config: {
+        rateLimit: {
+          max: 10,
+        },
+      },
+    },
+    login
+  );
+  fastify.post(
+    "/signup",
+    {
+      config: {
+        rateLimit: {
+          max: 10,
+        },
+      },
+    },
+    signup
+  );
+  fastify.delete(
+    "/logout",
+    {
+      config: {
+        rateLimit: {
+          max: 10,
+        },
+      },
+    },
+    logout
+  );
 
   // Password reset
-  fastify.post("/forgot_password", forgotPassword);
-  fastify.post("/reset_password/:token", resetPasswordWithToken);
-  fastify.post("/reset_password", resetPassword);
+  fastify.post(
+    "/forgot_password",
+    {
+      config: {
+        rateLimit: {
+          max: 10,
+        },
+      },
+    },
+    forgotPassword
+  );
+  fastify.post(
+    "/reset_password/:token",
+    {
+      config: {
+        rateLimit: {
+          max: 10,
+        },
+      },
+    },
+    resetPasswordWithToken
+  );
+  fastify.post(
+    "/reset_password",
+    {
+      config: {
+        rateLimit: {
+          max: 10,
+        },
+      },
+    },
+    resetPassword
+  );
 
   done();
 };

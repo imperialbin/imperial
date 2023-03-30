@@ -22,10 +22,34 @@ export const usersRoutes = (
   // This is a post because we confirm the password
   fastify.post("/@me/delete", deleteMe);
   fastify.post("/@me/devices", deleteMeDevices);
-  fastify.post("/@me/regenerate_api_token", regenerateAPIToken);
+  fastify.post(
+    "/@me/regenerate_api_token",
+    {
+      config: {
+        rateLimit: { max: 10 },
+      },
+    },
+    regenerateAPIToken
+  );
 
-  fastify.get("/:username", getUser);
-  fastify.get("/search/:username", searchUser);
+  fastify.get(
+    "/:username",
+    {
+      config: {
+        rateLimit: { max: 50 },
+      },
+    },
+    getUser
+  );
+  fastify.get(
+    "/search/:username",
+    {
+      config: {
+        rateLimit: { max: 50 },
+      },
+    },
+    searchUser
+  );
 
   done();
 };
