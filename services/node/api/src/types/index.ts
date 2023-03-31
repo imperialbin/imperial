@@ -29,6 +29,7 @@ type SelfUser = {
   email: string;
   icon: string | null;
   confirmed: boolean;
+  early_adopter: boolean;
   banned: boolean;
   documents_made: number;
   flags: number;

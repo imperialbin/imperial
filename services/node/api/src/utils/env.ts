@@ -21,14 +21,17 @@ export const env = envsafe({
   DISCORD_CLIENT_SECRET: str({
     default: "",
     desc: "The discord client secret",
+    allowEmpty: true,
   }),
   DISCORD_GUILD: str({
     default: "",
     desc: "The discord guild id",
+    allowEmpty: true,
   }),
   DISCORD_CLIENT_ID: str({
     default: "",
     desc: "The discord client id",
+    allowEmpty: true,
   }),
   DISCORD_CALLBACK: str({
     default: "http://localhost:3000/auth/discord",
@@ -41,14 +44,17 @@ export const env = envsafe({
   DISCORD_BOT_TOKEN: str({
     default: "",
     desc: "The discord bot token",
+    allowEmpty: true,
   }),
   GITHUB_CLIENT_ID: str({
     default: "",
     desc: "The github client id",
+    allowEmpty: true,
   }),
   GITHUB_CLIENT_SECRET: str({
     default: "",
     desc: "The github client secret",
+    allowEmpty: true,
   }),
   GITHUB_CALLBACK: str({
     default: "http://localhost:3000/auth/github",
@@ -57,6 +63,7 @@ export const env = envsafe({
   SENTRY_DSN: str({
     default: "",
     desc: "The sentry dsn",
+    allowEmpty: true,
   }),
   SENTRY_ENVIRONMENT: str({
     default: "Local",
@@ -69,17 +76,21 @@ export const env = envsafe({
   AWS_ACCESS_KEY: str({
     default: "",
     desc: "The aws access key",
+    allowEmpty: true,
   }),
   AWS_SECRET_KEY: str({
     default: "",
     desc: "The aws secret key",
+    allowEmpty: true,
   }),
   AWS_REGION: str({
     default: "us-east-1",
     desc: "The aws region",
+    allowEmpty: true,
   }),
   AWS_SES_FROM: str({
     default: "noreply@imperialb.in",
     desc: "The aws ses from email",
+    allowEmpty: true,
   }),
 });

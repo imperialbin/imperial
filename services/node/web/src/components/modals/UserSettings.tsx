@@ -94,7 +94,7 @@ const Username = styled("span", {
   color: "$text-white",
 });
 
-const UserID = styled("span", {
+const UserRole = styled("span", {
   fontSize: "1.25em",
   fontWeight: "400",
   opacity: "0.6",
@@ -186,7 +186,6 @@ const HeaderParagraph = styled("p", {
 });
 
 const NotFoundSpan = styled("span", {
-  marginLeft: 12,
   color: "$text-muted",
 });
 
@@ -226,7 +225,7 @@ const UserSettings = ({
       setting: T,
       value: UserSettingsType[T]
     ) => {
-      const { success, error, data } = await makeRequest<{ user: SelfUser }>(
+      const { success, error, data } = await makeRequest<SelfUser>(
         "PATCH",
         "/users/@me",
         {
@@ -253,7 +252,7 @@ const UserSettings = ({
         })
       );
 
-      dispatch(setUser(data.user));
+      dispatch(setUser(data));
     },
     []
   );
@@ -273,7 +272,7 @@ const UserSettings = ({
               />
               <UserInfo>
                 <Username>{user.username}</Username>
-                <UserID>user #{user.id}</UserID>
+                <UserRole>Member</UserRole>
               </UserInfo>
             </UserOverview>
             <Tiles>
@@ -292,8 +291,8 @@ const UserSettings = ({
                   alignItems: "flex-start",
                 }}
               >
-                {getRole(user.flags)}
-                <TitleInfo>Role</TitleInfo>
+                {user.early_adopter ? "Early Adopter" : "Late Adopter"}
+                <TitleInfo>Status</TitleInfo>
               </Tile>
               <Tile
                 style={!user.discord ? { cursor: "pointer" } : {}}
@@ -318,6 +317,7 @@ const UserSettings = ({
                 </TitleInfo>
               </Tile>
             </Tiles>
+            <br />
             <Subtitle>Recent documents</Subtitle>
             <Tiles>
               {documents && documents.length > 0 ? (
@@ -384,18 +384,6 @@ const UserSettings = ({
                 <NotFoundSpan>You have no recent documents.</NotFoundSpan>
               )}
             </Tiles>
-            <br />
-
-            {/*             <Subtitle style={{ margin: 0 }}>Devices</Subtitle>
-            <HeaderParagraph>
-              View all devices logged into your IMPERIAL account
-            </HeaderParagraph>
-            <Button
-              style={{ marginBottom: 25 }}
-              onClick={() => dispatch(openModal("devices"))}
-            >
-              View Devices
-            </Button> */}
 
             <br />
             <Link href="/logout">

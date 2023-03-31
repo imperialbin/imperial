@@ -44,7 +44,8 @@ export const GitHubURL = "https://github.com/imperialbin";
 export const TwitterURL = "https://twitter.com/imperialbin";
 
 export type SupportedLanguages = typeof supportedLanguages[number]["name"];
-export type SupportedLanguagesID = typeof supportedLanguages[number]["id"];
+// for now
+export type SupportedLanguagesID = string;
 
 export const supportedLanguages = [
   {

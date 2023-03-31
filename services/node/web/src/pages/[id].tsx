@@ -1,8 +1,3 @@
-import dayjs from "dayjs";
-import { GetServerSideProps, InferGetServerSidePropsType } from "next";
-import Head from "next/head";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
 import Editor from "@/components/Editor";
 import Navbar from "@/components/Navbar";
 import { store } from "@/state";
@@ -11,8 +6,11 @@ import { styled } from "@/stitches.config";
 import { Document } from "@/types";
 import { CDN_URL } from "@/utils/Constants";
 import { makeRequest } from "@/utils/Rest";
-import FourOFour from "./404";
+import dayjs from "dayjs";
+import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { NextSeo } from "next-seo";
+import { useEffect, useState } from "react";
+import FourOFour from "./404";
 
 const Wrapper = styled("div", {
   width: "100vw",
@@ -34,6 +32,7 @@ export const getServerSideProps: GetServerSideProps<{
   return {
     props: {
       document: data ?? null,
+      error: error ?? null,
     },
   };
 };
@@ -70,13 +69,13 @@ const Document = ({ document }: InferProps) => {
             document?.settings?.encrypted ? " 🔐" : ""
           }`,
           siteName: document.timestamps.expiration
-            ? `Deletes on ${dayjs(document.timestamps.expiration).fromNow()}`
+            ? `Deletes on ${dayjs(document.timestamps.expiration).format("ll")}`
             : "Never expires",
           images: [
             {
-              url: CDN_URL + document.id + ".png",
+              url: CDN_URL + document.id + ".jpg",
               alt: `IMPERIAL ${document.id}`,
-              type: "image/png",
+              type: "image/jpeg",
             },
           ],
           type: "website",

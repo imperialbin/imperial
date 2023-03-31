@@ -29,6 +29,10 @@ export const makeRequest = async <T = any>(
   try {
     const headers: Record<string, string> = {
       "Content-Type": "application/json",
+      Authorization:
+        typeof window !== "undefined"
+          ? localStorage.getItem("imperial_token") ?? ""
+          : "",
       ...options?.headers,
     };
 
@@ -41,7 +45,6 @@ export const makeRequest = async <T = any>(
       {
         method,
         headers,
-        credentials: "include",
         body: body ? JSON.stringify(body) : null,
       }
     ).then(async (res) =>
@@ -51,7 +54,7 @@ export const makeRequest = async <T = any>(
             .json()
             .then((json) =>
               res.status >= 300
-                ? { ...json, error: { message: json.message } }
+                ? { ...json, error: { message: json.error.message } }
                 : json
             )
             .catch(() =>
@@ -83,6 +86,10 @@ export const fetcher = async <T = any>(
 ): Promise<ImperialAPIResponse<T>> => {
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
+    Authorization:
+      typeof window !== "undefined"
+        ? localStorage.getItem("imperial_token") ?? ""
+        : "",
   };
 
   if (body && (method === "GET" || method === "HEAD")) {
@@ -92,7 +99,6 @@ export const fetcher = async <T = any>(
   return await fetch(FULL_URI_V1 + endpoint, {
     method,
     headers,
-    credentials: "include",
     body: body ? JSON.stringify(body) : null,
   }).then(async (res) => {
     const parsedRes = await res.json();

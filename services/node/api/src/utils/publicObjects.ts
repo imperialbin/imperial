@@ -1,7 +1,8 @@
+import { InferModel } from "drizzle-orm";
 import { eq } from "drizzle-orm/expressions";
 import { db } from "../db";
 import { documents, users } from "../db/schemas";
-import { User } from "../types";
+import { SelfUser, User } from "../types";
 import { env } from "./env";
 import { Id } from "./pika";
 

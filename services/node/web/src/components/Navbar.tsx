@@ -161,8 +161,11 @@ const Nav = ({ user, document, language, dispatch, editors }: INavProps) => {
 
     setSaving(true);
     dispatch(setReadOnly(true));
-    const password = user?.settings.encrypted ? generateSecureString(12) : null;
-    const { success, data } = await makeRequest<
+
+    const password = user?.settings.encrypted
+      ? generateSecureString(12)
+      : undefined;
+    const { success, error, data } = await makeRequest<
       Document & { password?: string }
     >("POST", "/document", {
       content: user?.settings.encrypted
@@ -189,7 +192,8 @@ const Nav = ({ user, document, language, dispatch, editors }: INavProps) => {
       return dispatch(
         addNotification({
           icon: <X />,
-          message: "An error occurred whilst creating document",
+          message:
+            error?.message ?? "An error occurred whilst creating document",
           type: "error",
         })
       );
@@ -228,7 +232,7 @@ const Nav = ({ user, document, language, dispatch, editors }: INavProps) => {
     if (!document) return;
     if (
       !(
-        document.creator.username === user.username ||
+        document?.creator?.username === user.username ||
         document.settings.editors.find(
           (editor) => editor.username === user.username
         )
@@ -372,7 +376,7 @@ const Nav = ({ user, document, language, dispatch, editors }: INavProps) => {
           ) : (
             <>
               {user &&
-              (document.creator.id === user.id ||
+              (document?.creator?.id === user.id ||
                 document.settings.editors.find(
                   (editor) => editor.id === user.id
                 )) ? (
@@ -383,7 +387,7 @@ const Nav = ({ user, document, language, dispatch, editors }: INavProps) => {
                 </StyledTooltip>
               ) : null}
 
-              {user && document.creator.id === user.id ? (
+              {user && document?.creator?.id === user.id ? (
                 <StyledTooltip title="Edit document settings">
                   <Button
                     onClick={() =>

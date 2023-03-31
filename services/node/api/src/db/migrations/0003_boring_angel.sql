@@ -1,0 +1,1 @@
+ALTER TABLE users ADD COLUMN "early_adopter" boolean DEFAULT false NOT NULL;

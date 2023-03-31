@@ -15,6 +15,7 @@ export const users = pgTable("users", {
   email: text("email").notNull(),
   icon: text("icon"),
   confirmed: boolean("confirmed").notNull().default(false),
+  early_adopter: boolean("early_adopter").notNull().default(false),
   password: text("password").notNull(),
   documents_made: integer("documents_made").notNull().default(0),
   api_token: text("api_token").notNull(),

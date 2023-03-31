@@ -1,7 +1,6 @@
 /* Modules for encrypting and decrypting documents */
 import CryptoJS from "crypto-js";
 import cryptoRandomString from "crypto-random-string";
-import { Logger } from "../../../api/src/utils/logger";
 
 export const generateSecureString = (length: number) => {
   return cryptoRandomString({ length, type: "url-safe" });
@@ -29,7 +28,6 @@ export const decrypt = (password: string, encryptedIV: string) => {
 
     return decryptedValue.length !== 0 ? decryptedValue : null;
   } catch (err) {
-    Logger.error("CRYPTO", "Failed to decrypt document " + String(err));
     return null;
   }
 };

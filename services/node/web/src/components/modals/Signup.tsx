@@ -10,8 +10,9 @@ import { Check as CheckIcon, Lock, Mail, User, X } from "react-feather";
 import Button from "@/components/Button";
 import { Logo } from "@/components/Icons";
 import Input from "@/components/Input";
-import { addNotification, openModal } from "@/state/actions";
+import { addNotification, openModal, setUser } from "@/state/actions";
 import { makeRequest } from "@/utils/Rest";
+import { SelfUser } from "../../types";
 
 const StyledWrapper = styled(Wrapper, {
   width: "80%",
@@ -125,7 +126,10 @@ const Signup = ({ dispatch }: ModalProps) => {
     }
 
     setLoading(true);
-    const { success, error } = await makeRequest("POST", "/auth/signup", {
+    const { data, success, error } = await makeRequest<{
+      token: string;
+      user: SelfUser;
+    }>("POST", "/auth/signup", {
       username,
       email,
       password,
@@ -133,7 +137,7 @@ const Signup = ({ dispatch }: ModalProps) => {
 
     setLoading(false);
 
-    if (!success) {
+    if (!success || !data) {
       return dispatch(
         addNotification({
           icon: <X />,
@@ -143,7 +147,8 @@ const Signup = ({ dispatch }: ModalProps) => {
       );
     }
 
-    // fetchMe();
+    dispatch(setUser(data.user));
+    localStorage.setItem("imperial_token", data?.token);
     setSuccess(true);
   };
 

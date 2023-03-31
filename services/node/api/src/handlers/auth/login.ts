@@ -3,7 +3,7 @@ import { eq } from "drizzle-orm/expressions";
 import { z } from "zod";
 import { db } from "../../db";
 import { users } from "../../db/schemas";
-import { FastifyImp } from "../../types";
+import { FastifyImp, SelfUser } from "../../types";
 import { AuthSessions } from "../../utils/authSessions";
 import { SES } from "../../utils/aws";
 
@@ -13,7 +13,7 @@ const loginSchema = z.object({
 });
 
 export const login: FastifyImp<
-  { token: string },
+  { token: string; user: SelfUser },
   Record<string, unknown>
 > = async (request, reply) => {
   const body = loginSchema.safeParse(request.body);
@@ -55,7 +55,7 @@ export const login: FastifyImp<
   const token = await AuthSessions.createDevice(
     user.id,
     request.headers["user-agent"] ?? "Unknown",
-    request.ip
+    request.ip,
   );
 
   SES.sendEmail(
@@ -67,13 +67,16 @@ export const login: FastifyImp<
       },
     },
     user.email,
-    "New Login"
+    "New Login",
   );
+
+  const { password, ...userWithoutPassword } = user;
 
   reply.send({
     success: true,
     data: {
       token,
+      user,
     },
   });
 };

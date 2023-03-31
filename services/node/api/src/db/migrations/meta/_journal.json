@@ -19,6 +19,12 @@
       "version": "5",
       "when": 1680184210355,
       "tag": "0002_ancient_molten_man"
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1680228527355,
+      "tag": "0003_boring_angel"
     }
   ]
 }

@@ -1,15 +1,15 @@
-import { useState } from "react";
-import { Lock, User, X } from "react-feather";
-import { addNotification, openModal, setUser } from "@/state/actions";
-import { styled } from "@/stitches.config";
-import { makeRequest } from "@/utils/Rest";
 import Button from "@/components/Button";
 import { Logo } from "@/components/Icons";
 import Input from "@/components/Input";
+import { addNotification, openModal, setUser } from "@/state/actions";
+import { styled } from "@/stitches.config";
+import { makeRequest } from "@/utils/Rest";
+import { useState } from "react";
+import { Lock, User, X } from "react-feather";
+import { SelfUser } from "../../types";
 import Header from "./base/Header";
 import { ModalProps } from "./base/modals";
 import { Content, Wrapper } from "./base/Styles";
-import { SelfUser } from "../../types";
 
 const StyledWrapper = styled(Wrapper, {
   width: "80%",
@@ -94,14 +94,17 @@ const Login = ({ dispatch, closeModal }: ModalProps) => {
 
     setLoading(true);
 
-    const { success, error } = await makeRequest("POST", "/auth/login", {
+    const { data, success, error } = await makeRequest<{
+      token: string;
+      user: SelfUser;
+    }>("POST", "/auth/login", {
       username,
       password,
     });
 
     setLoading(false);
 
-    if (!success)
+    if (!success || !data)
       return dispatch(
         addNotification({
           icon: <X />,
@@ -110,25 +113,8 @@ const Login = ({ dispatch, closeModal }: ModalProps) => {
         })
       );
 
-    setLoading(true);
-    const {
-      success: meSuccess,
-      data: me,
-      error: meError,
-    } = await makeRequest<SelfUser>("GET", "/users/@me");
-
-    setLoading(false);
-
-    if (!meSuccess)
-      return dispatch(
-        addNotification({
-          icon: <X />,
-          message: meError?.message ?? "An error occurred whilst logging in.",
-          type: "error",
-        })
-      );
-
-    dispatch(setUser(me ?? null));
+    dispatch(setUser(data.user));
+    localStorage.setItem("imperial_token", data.token);
     closeModal();
   };
 

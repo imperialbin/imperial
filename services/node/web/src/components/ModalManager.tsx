@@ -12,7 +12,6 @@ import UserSettings from "./modals/UserSettings";
 import { DocumentSettings } from "./modals/DocumentSettings";
 import DocumentPasswordModal from "./modals/DocumentPasswordModal";
 import EditorsModal from "./modals/EditorsModal";
-import DevicesModal from "./modals/DevicesModal";
 
 const Wrapper = styled(motion.div, {
   top: 0,
@@ -63,7 +62,6 @@ const MODAL_MAP = {
   document_settings: DocumentSettings,
   document_password: DocumentPasswordModal,
   editors: EditorsModal,
-  devices: DevicesModal,
 };
 
 type GetComponentProps<T> = T extends

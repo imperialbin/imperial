@@ -1,5 +1,5 @@
 import { ModalData, Modals } from "../../components/ModalManager";
-import { SelfUser, User } from "../../types";
+import { Id, SelfUser, User } from "../../types";
 import { SupportedLanguagesID } from "../../utils/Constants";
 import { Notification } from "../reducers/notifications";
 
@@ -21,7 +21,7 @@ export const addEditor = (user: User) => {
   };
 };
 
-export const removeEditor = (id: number) => {
+export const removeEditor = (id: Id<"user">) => {
   return {
     type: "REMOVE_EDITOR",
     payload: id,

@@ -128,7 +128,7 @@ export const createDocument: FastifyImp<
         await GitHub.createGist(
           body.data.content,
           id,
-          request.user.github.token
+          request.user.github.token,
         )
       )?.html_url ?? null;
   }
