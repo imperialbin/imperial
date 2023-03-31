@@ -7,6 +7,7 @@ import { FastifyImp, SelfUser } from "../../types";
 import { AuthSessions } from "../../utils/authSessions";
 import { SES } from "../../utils/aws";
 import { pika } from "../../utils/pika";
+import { permer } from "../../utils/permissions";
 
 const signupSchema = z.object({
   username: z.string().min(1),
@@ -68,6 +69,7 @@ export const signup: FastifyImp<
           email: body.data.email,
           password: hashedPassword,
           api_token: pika.gen("imperial"),
+          flags: permer.calculate(["member"]),
           settings: {
             clipboard: false,
             long_urls: false,
@@ -99,7 +101,7 @@ export const signup: FastifyImp<
   const token = await AuthSessions.createDevice(
     user.id,
     request.headers["user-agent"] ?? "Unknown",
-    request.ip
+    request.ip,
   );
 
   const { password, ...userWithoutPassword } = user;
@@ -110,7 +112,7 @@ export const signup: FastifyImp<
       token,
     },
     user.email,
-    "Confirm Email"
+    "Confirm Email",
   );
 
   reply.send({
