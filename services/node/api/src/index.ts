@@ -9,6 +9,7 @@ import { usersRoutes } from "./routes/users";
 import { env } from "./utils/env";
 import { Logger } from "./utils/logger";
 import { redis, setupRedis } from "./utils/redis";
+import { adminRoutes } from "./routes/admin";
 
 const main = async () => {
   const server = fastify({
@@ -58,6 +59,7 @@ const main = async () => {
   server.register(documentRoutes, { prefix: `/${API_VERSION}/document` });
   server.register(authRoutes, { prefix: `/${API_VERSION}/auth` });
   server.register(oAuthRoutes, { prefix: `/${API_VERSION}/oauth` });
+  server.register(adminRoutes, { prefix: `/${API_VERSION}/admin` });
 
   server.setNotFoundHandler((request, reply) => {
     reply.code(404).send({
