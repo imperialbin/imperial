@@ -6,8 +6,9 @@ export default function Document() {
     <Html lang="en">
       <Head>
         <style
-          id="stitches"
+          // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{ __html: getCssText() }}
+          id="stitches"
         />
         <link
           rel="apple-touch-icon"

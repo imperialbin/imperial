@@ -1,7 +1,7 @@
 import { connect, ConnectedProps } from "react-redux";
 import { AnimatePresence, motion } from "framer-motion";
 import React, { useCallback, useRef } from "react";
-import { styled } from "@/stitches.config";
+import { styled } from "@web/stitches.config";
 import { closeModal } from "../state/actions";
 import { ImperialState } from "../state/reducers";
 import { useOutsideClick } from "../hooks/useOutsideClick";
@@ -78,16 +78,16 @@ export type ModalData<T extends Modals> = GetComponentProps<
   ? GetComponentProps<typeof MODAL_MAP[T]>["data"]
   : {} | never;
 
-const ModalManager = ({
+function ModalManager({
   modal,
   disable_click_outside_modal,
   dispatch,
-}: ReduxProps) => {
+}: ReduxProps) {
   const modalRef = useRef<HTMLDivElement | null>(null);
   const ActiveModal = modal ? MODAL_MAP[modal.modal] : null;
 
   useOutsideClick(modalRef, () =>
-    disable_click_outside_modal ? null : dispatch(closeModal())
+    disable_click_outside_modal ? null : dispatch(closeModal()),
   );
 
   const stableDispatch = useCallback(dispatch, []);
@@ -104,9 +104,9 @@ const ModalManager = ({
         >
           <Container
             ref={modalRef}
+            key={modal.modal}
             transition={{ duration: 0.15 }}
             variants={CONTAINER_ANIMATION}
-            key={modal.modal}
           >
             {ActiveModal ? (
               <ActiveModal
@@ -120,14 +120,13 @@ const ModalManager = ({
       ) : null}
     </AnimatePresence>
   );
-};
+}
 
-const mapStateToProps = ({ modal, ui_state }: ImperialState) => {
-  return {
-    modal,
-    disable_click_outside_modal: ui_state.disable_click_outside_modal,
-  };
-};
+const mapStateToProps = ({ modal, ui_state }: ImperialState) => ({
+  modal,
+  disable_click_outside_modal: ui_state.disable_click_outside_modal,
+});
+
 const connector = connect(mapStateToProps);
 type ReduxProps = ConnectedProps<typeof connector>;
 

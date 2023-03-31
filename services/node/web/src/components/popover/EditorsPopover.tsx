@@ -1,7 +1,7 @@
-import { store } from "@/state";
-import { addEditor } from "@/state/actions";
-import { styled } from "@/stitches.config";
-import { User } from "@/types";
+import { store } from "@web/state";
+import { addEditor } from "@web/state/actions";
+import { styled } from "@web/stitches.config";
+import { User } from "@web/types";
 import { PopoverBase } from "./base/popover";
 
 const List = styled("ul", {
@@ -67,7 +67,7 @@ interface IEditorsPopoverProps extends PopoverBase {
   users: User[];
 }
 
-const EditorsPopover = ({ close, users }: IEditorsPopoverProps) => {
+function EditorsPopover({ close, users }: IEditorsPopoverProps) {
   return (
     <div>
       <List>
@@ -79,7 +79,7 @@ const EditorsPopover = ({ close, users }: IEditorsPopoverProps) => {
               store.dispatch(addEditor(user));
             }}
           >
-            <img src={user.icon ?? "/img/pfp.png"} alt={user.username} />
+            <img src={user.icon ?? "/img/pfp.png"} alt={user.username}/>
             <div>
               <h1>{user.username}</h1>
               <span>{user.documents_made} documents made</span>
@@ -89,6 +89,6 @@ const EditorsPopover = ({ close, users }: IEditorsPopoverProps) => {
       </List>
     </div>
   );
-};
+}
 
 export default EditorsPopover;

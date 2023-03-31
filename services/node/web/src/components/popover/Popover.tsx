@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import {
   autoUpdate,
   flip,
@@ -17,7 +18,7 @@ import {
 } from "@floating-ui/react-dom-interactions";
 import { AnimatePresence, motion } from "framer-motion";
 import { cloneElement, useCallback, useEffect, useMemo } from "react";
-import { styled } from "@/stitches.config";
+import { styled } from "@web/stitches.config";
 import { PopoverBase } from "./base/popover";
 
 const Wrapper = styled(motion.div, {
@@ -37,7 +38,7 @@ interface IPopover {
   /* Children is the element we're targeting */
   children: JSX.Element;
 
-  /* render is the actual popover content */
+  /* Render is the actual popover content */
   render: (defaults: PopoverBase) => React.ReactNode;
 
   setPopover: (open: boolean) => void;
@@ -61,13 +62,13 @@ interface IPopover {
   positionStrategy?: Strategy;
 }
 
-const Popover = ({
+function Popover({
   children,
   active,
   setPopover,
   render,
 
-  /* options */
+  /* Options */
   clickToClose = true,
   placement = "bottom",
   toggleFocus = false,
@@ -75,16 +76,15 @@ const Popover = ({
   toggleOnTargetClick = true,
   widthAtTarget = false,
   positionStrategy = "absolute",
-}: IPopover) => {
-  const { x, y, reference, floating, strategy, refs, update, context } =
-    useFloating({
-      open: active,
-      onOpenChange: setPopover,
-      middleware: [offset(10), flip(), shift()],
-      /* Always have tooltips on the bottom for mobiles unless if the dev wants it on the top */
-      placement: placement ?? "bottom",
-      strategy: positionStrategy,
-    });
+}: IPopover) {
+  const { x, y, reference, floating, strategy, refs, update, context } = useFloating({
+    open: active,
+    onOpenChange: setPopover,
+    middleware: [offset(10), flip(), shift()],
+    /* Always have tooltips on the bottom for mobiles unless if the dev wants it on the top */
+    placement: placement ?? "bottom",
+    strategy: positionStrategy,
+  });
 
   const closePopover = useCallback(() => setPopover(false), [setPopover]);
 
@@ -134,7 +134,7 @@ const Popover = ({
         duration: 0.15,
       },
     }),
-    [placement]
+    [placement],
   );
 
   useEffect(() => {
@@ -204,14 +204,11 @@ const Popover = ({
 
   return (
     <>
-      {cloneElement(
-        children,
-        getReferenceProps({ ref: reference, ...children.props })
-      )}
+      {cloneElement(children, getReferenceProps({ ref: reference, ...children.props }))}
 
       <FloatingPortal id="popovers">{PopoverElement}</FloatingPortal>
     </>
   );
-};
+}
 
 export default Popover;

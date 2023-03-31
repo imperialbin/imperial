@@ -1,5 +1,5 @@
-import Editor from "@/components/Editor";
-import Navbar from "@/components/Navbar";
+import Editor from "@web/components/Editor";
+import Navbar from "@web/components/Navbar";
 import { useEffect } from "react";
 import { connect, ConnectedProps } from "react-redux";
 import { setReadOnly } from "../state/actions";
@@ -11,24 +11,23 @@ const Wrapper = styled("div", {
   height: "100vh",
 });
 
-const Index = ({ forked_content, dispatch }: ReduxProps) => {
+function Index({ forked_content, dispatch }: ReduxProps) {
   useEffect(() => {
     dispatch(setReadOnly(false));
   }, []);
 
   return (
     <Wrapper>
-      <Navbar />
-      <Editor value={forked_content ?? ""} />
+      <Navbar/>
+      <Editor value={forked_content ?? ""}/>
     </Wrapper>
   );
-};
+}
 
-const mapStateToProps = ({ editor: { forked_content } }: ImperialState) => {
-  return {
-    forked_content,
-  };
-};
+const mapStateToProps = ({ editor: { forked_content } }: ImperialState) => ({
+  forked_content,
+});
+
 const connector = connect(mapStateToProps);
 type ReduxProps = ConnectedProps<typeof connector>;
 

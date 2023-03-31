@@ -1,10 +1,10 @@
-import { IMPERIAL_THEME } from "@/components/editorthemes/Imperial";
-import ErrorBoundary from "@/components/ErrorBoundary";
-import ModalManager from "@/components/ModalManager";
-import NotificationsManager from "@/components/NotificationsManager";
-import { store } from "@/state";
-import { globalStyles } from "@/stitches.config";
-import { fetcher, makeRequest } from "@/utils/Rest";
+import { IMPERIAL_THEME } from "@web/components/editorthemes/Imperial";
+import ErrorBoundary from "@web/components/ErrorBoundary";
+import ModalManager from "@web/components/ModalManager";
+import NotificationsManager from "@web/components/NotificationsManager";
+import { store } from "@web/state";
+import { globalStyles } from "@web/stitches.config";
+import { fetcher, makeRequest } from "@web/utils/Rest";
 import { loader } from "@monaco-editor/react";
 import { DefaultSeo } from "next-seo";
 import type { AppProps } from "next/app";
@@ -21,7 +21,7 @@ export default function App({ Component, pageProps }: AppProps) {
   globalStyles();
 
   useEffect(() => {
-    /* fetch user */
+    /* Fetch user */
     makeRequest<SelfUser>("GET", "/users/@me").then(({ data }) => {
       store.dispatch(setUser(data ?? null));
     });
@@ -43,10 +43,10 @@ export default function App({ Component, pageProps }: AppProps) {
             baseColor="var(--bg-contrast)"
             highlightColor="var(--bg-secondary)"
           >
-            <DefaultSeo {...config} />
-            <NotificationsManager />
-            <ModalManager />
-            <Component {...pageProps} />
+            <DefaultSeo {...config}/>
+            <NotificationsManager/>
+            <ModalManager/>
+            <Component {...pageProps}/>
           </SkeletonTheme>
         </SWRConfig>
       </Provider>

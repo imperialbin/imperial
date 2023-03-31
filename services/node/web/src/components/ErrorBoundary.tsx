@@ -1,7 +1,8 @@
+/* eslint-disable react/state-in-constructor */
 import React from "react";
-import Button from "@/components/Button";
-import { Logo } from "@/components/Icons";
-import { styled } from "@/stitches.config";
+import Button from "@web/components/Button";
+import { Logo } from "@web/components/Icons";
+import { styled } from "@web/stitches.config";
 
 const Container = styled("div", {
   display: "flex",
@@ -37,7 +38,7 @@ const Paragraph = styled("p", {
   marginBottom: 20,
 });
 
-export const ErrorBoundaryUI = ({
+export function ErrorBoundaryUI({
   title,
   message,
   button,
@@ -45,7 +46,7 @@ export const ErrorBoundaryUI = ({
   title: string;
   message: string;
   button?: JSX.Element;
-}) => {
+}) {
   return (
     <Container>
       <Logo />
@@ -55,7 +56,7 @@ export const ErrorBoundaryUI = ({
       <span style={{ position: "absolute", bottom: 35 }}>© IMPERIAL</span>
     </Container>
   );
-};
+}
 
 class ErrorBoundary extends React.Component<
   {
@@ -79,9 +80,7 @@ class ErrorBoundary extends React.Component<
           title="Oops"
           message="You've encountered a client error. No worries though!
             We've sent the error to our developers."
-          button={
-            <Button onClick={() => window.location.reload()}>Reload</Button>
-          }
+          button={<Button onClick={() => window.location.reload()}>Reload</Button>}
         />
       );
     }

@@ -1,7 +1,7 @@
-import { addNotification, logoutUser, openModal } from "@/state/actions";
-import { ImperialState } from "@/state/reducers";
-import { styled } from "@/stitches.config";
-import { getRole } from "@/utils/Permissions";
+import { addNotification, logoutUser, openModal } from "@web/state/actions";
+import { ImperialState } from "@web/state/reducers";
+import { styled } from "@web/stitches.config";
+import { getRole } from "@web/utils/Permissions";
 import Link from "next/link";
 import { X } from "react-feather";
 import { connect, ConnectedProps } from "react-redux";
@@ -14,7 +14,7 @@ const Wrapper = styled("div", {
   borderRadius: "$medium",
 });
 
-const UserPopover = ({ close, user, dispatch }: PopoverBase & ReduxProps) => {
+function UserPopover({ close, user, dispatch }: PopoverBase & ReduxProps) {
   const logout = async () => {
     const { success, error } = await makeRequest("DELETE", "/auth/logout");
 
@@ -22,9 +22,9 @@ const UserPopover = ({ close, user, dispatch }: PopoverBase & ReduxProps) => {
       dispatch(
         addNotification({
           type: "error",
-          icon: <X />,
+          icon: <X/>,
           message: error?.message ?? "An error occurred whilst logging out",
-        })
+        }),
       );
 
       return;
@@ -56,14 +56,14 @@ const UserPopover = ({ close, user, dispatch }: PopoverBase & ReduxProps) => {
                 GitHub
               </Link>
             </Item>
-            <Separator />
+            <Separator/>
             {getRole(user.flags) === "Admin" ? <Item>Admin</Item> : null}
             <Item>
               <Link href="/terms" target="_blank">
                 Terms
               </Link>
             </Item>
-            <Item onClick={logout} danger>
+            <Item danger onClick={logout}>
               Logout
             </Item>
           </>
@@ -85,7 +85,7 @@ const UserPopover = ({ close, user, dispatch }: PopoverBase & ReduxProps) => {
             >
               Signup
             </Item>
-            <Separator />
+            <Separator/>
             <Item>
               <Link href="/discord" target="_blank">
                 Discord
@@ -101,11 +101,9 @@ const UserPopover = ({ close, user, dispatch }: PopoverBase & ReduxProps) => {
       </List>
     </Wrapper>
   );
-};
+}
 
-const mapStateToProps = ({ user }: ImperialState) => {
-  return { user };
-};
+const mapStateToProps = ({ user }: ImperialState) => ({ user });
 
 const connector = connect(mapStateToProps);
 type ReduxProps = ConnectedProps<typeof connector>;

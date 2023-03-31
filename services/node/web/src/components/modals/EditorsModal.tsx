@@ -3,16 +3,16 @@ import debounce from "lodash/debounce";
 import { useCallback, useState } from "react";
 import { User as UserIcon, X } from "react-feather";
 import { connect, ConnectedProps } from "react-redux";
-import { addNotification, removeEditor } from "@/state/actions";
-import { ImperialState } from "@/state/reducers";
-import { styled } from "@/stitches.config";
-import { User } from "@/types";
-import { makeRequest } from "@/utils/Rest";
-import Button from "@/components/Button";
-import Input from "@/components/Input";
-import EditorsPopover from "@/components/popover/EditorsPopover";
-import Popover from "@/components/popover/Popover";
-import Tooltip from "@/components/Tooltip";
+import { addNotification, removeEditor } from "@web/state/actions";
+import { ImperialState } from "@web/state/reducers";
+import { styled } from "@web/stitches.config";
+import { User } from "@web/types";
+import { makeRequest } from "@web/utils/Rest";
+import Button from "@web/components/Button";
+import Input from "@web/components/Input";
+import EditorsPopover from "@web/components/popover/EditorsPopover";
+import Popover from "@web/components/popover/Popover";
+import Tooltip from "@web/components/Tooltip";
 import Header from "./base/Header";
 import { ModalProps } from "./base/modals";
 import { Content, Footer, Paragraph, Wrapper } from "./base/Styles";
@@ -85,12 +85,12 @@ const EDITOR_ANIMATION = {
   },
 };
 
-const EditorsModal = ({
+function EditorsModal({
   dispatch,
   editors,
   user,
   closeModal,
-}: ModalProps & ReduxProps) => {
+}: ModalProps & ReduxProps) {
   const [searchedUsers, setSearchedUsers] = useState<User[]>([]);
   const [input, setInput] = useState("");
   const [focused, setFocused] = useState(false);
@@ -101,24 +101,24 @@ const EditorsModal = ({
 
       const { success, data, error } = await makeRequest<User[]>(
         "GET",
-        `/users/search/${search}`
+        `/users/search/${search}`,
       );
 
       if (!success || !data) {
         setSearchedUsers([]);
         return dispatch(
           addNotification({
-            icon: <X />,
+            icon: <X/>,
             message:
               error?.message ?? "An error occurred while searching for users",
             type: "error",
-          })
+          }),
         );
       }
 
       setSearchedUsers(data.filter((filterUser) => filterUser.id !== user?.id));
     }, 250),
-    []
+    [],
   );
 
   return (
@@ -130,35 +130,35 @@ const EditorsModal = ({
       </Paragraph>
       <Content>
         <Popover
+          widthAtTarget
           active={searchedUsers.length > 0 && focused && input.length > 0}
           setPopover={() => setFocused(false)}
           render={(defaultProps) => (
-            <EditorsPopover users={searchedUsers} {...defaultProps} />
+            <EditorsPopover users={searchedUsers} {...defaultProps}/>
           )}
-          widthAtTarget
           toggleOnTargetClick={false}
           clickToClose={false}
         >
           <Input
             value={input}
+            placeholder="Search by username"
+            icon={<UserIcon/>}
             onChange={({ target: { value } }) => {
               setInput(value);
               fetchUsers(value);
             }}
             onFocus={() => setFocused(true)}
             onBlur={() => setFocused(false)}
-            placeholder="Search by username"
-            icon={<UserIcon />}
           />
         </Popover>
         <EditorsWrapper>
           <AnimatePresence initial={false}>
             {editors.map((editor) => (
               <motion.div
+                key={editor.id}
                 animate={EDITOR_ANIMATION.animate}
                 initial={EDITOR_ANIMATION.initial}
                 exit={EDITOR_ANIMATION.initial}
-                key={editor.id}
                 style={{ overflow: "hidden" }}
               >
                 <Editor>
@@ -172,8 +172,8 @@ const EditorsModal = ({
                   </div>
                   <Tooltip title="Remove editor">
                     <X
-                      onClick={() => dispatch(removeEditor(editor.id))}
                       size={20}
+                      onClick={() => dispatch(removeEditor(editor.id))}
                     />
                   </Tooltip>
                 </Editor>
@@ -190,14 +190,13 @@ const EditorsModal = ({
       </Footer>
     </Wrapper>
   );
-};
+}
 
-const mapStateToProps = ({ user, ui_state: { editors } }: ImperialState) => {
-  return {
-    editors,
-    user,
-  };
-};
+const mapStateToProps = ({ user, ui_state: { editors } }: ImperialState) => ({
+  editors,
+  user,
+});
+
 const connector = connect(mapStateToProps);
 type ReduxProps = ConnectedProps<typeof connector>;
 

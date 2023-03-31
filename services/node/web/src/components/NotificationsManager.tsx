@@ -2,10 +2,10 @@ import { memo, useCallback, useEffect } from "react";
 import { connect, ConnectedProps } from "react-redux";
 import { Dispatch } from "redux";
 import { AnimatePresence, motion, Variants } from "framer-motion";
-import { styled } from "@/stitches.config";
-import { removeNotification } from "@/state/actions";
-import { ImperialState } from "@/state/reducers";
-import { Notification as NotificationType } from "@/state/reducers/notifications";
+import { styled } from "@web/stitches.config";
+import { removeNotification } from "@web/state/actions";
+import { ImperialState } from "@web/state/reducers";
+import { Notification as NotificationType } from "@web/state/reducers/notifications";
 
 const Wrapper = styled("div", {
   position: "fixed",
@@ -31,7 +31,6 @@ const NotificationWrapper = styled(motion.div, {
     height: "auto",
     width: 25,
     marginRight: 10,
-    color: "${({ theme, type }) => theme.system[type]}",
   },
 
   "> span": {
@@ -97,15 +96,15 @@ const Notification = memo(({ notification, dispatch }: INotificationProps) => {
 
   return (
     <NotificationWrapper
+      layout
       type={notification.type}
-      onClick={close}
       animate="animate"
       initial="initial"
       exit="exit"
       variants={NOTIFICATION_WRAPPER_ANIMATION}
       transition={{ duration: 0.3, type: "spring" }}
       whileHover={{ scale: 1.05 }}
-      layout
+      onClick={close}
     >
       {notification.icon}
       <span>{notification.message}</span>
@@ -115,7 +114,7 @@ const Notification = memo(({ notification, dispatch }: INotificationProps) => {
 
 Notification.displayName = "individual_notification";
 
-const NotificationManager = ({ notifications, dispatch }: ReduxProps) => {
+function NotificationManager({ notifications, dispatch }: ReduxProps) {
   useEffect(() => {
     if (notifications && notifications.length > 5) {
       dispatch(removeNotification(notifications[notifications.length - 1].id));
@@ -128,20 +127,18 @@ const NotificationManager = ({ notifications, dispatch }: ReduxProps) => {
         {notifications.length > 0
           ? notifications.map((notification) => (
               <Notification
+                key={notification.id}
                 notification={notification}
                 dispatch={dispatch}
-                key={notification.id}
               />
             ))
           : null}
       </AnimatePresence>
     </Wrapper>
   );
-};
+}
 
-const mapStateToProps = ({ notifications }: ImperialState) => {
-  return { notifications };
-};
+const mapStateToProps = ({ notifications }: ImperialState) => ({ notifications });
 
 const connector = connect(mapStateToProps);
 type ReduxProps = ConnectedProps<typeof connector>;

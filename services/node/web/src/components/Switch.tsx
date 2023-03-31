@@ -1,5 +1,6 @@
+/* eslint-disable no-unused-vars */
 import { ChangeEvent, useState } from "react";
-import { styled } from "@/stitches.config";
+import { styled } from "@web/stitches.config";
 
 const SwitchElement = styled("label", {
   position: "relative",
@@ -53,7 +54,7 @@ export interface ISwitchProps {
   disabled?: boolean;
 }
 
-const Switch = ({ toggled, onToggle, disabled }: ISwitchProps): JSX.Element => {
+function Switch({ toggled, onToggle, disabled }: ISwitchProps): JSX.Element {
   const [checked, setChecked] = useState(toggled);
 
   return (
@@ -61,15 +62,15 @@ const Switch = ({ toggled, onToggle, disabled }: ISwitchProps): JSX.Element => {
       <CheckBox
         type="checkbox"
         checked={checked}
+        disabled={disabled}
         onChange={() => {
           setChecked(!checked);
           onToggle();
         }}
-        disabled={disabled}
       />
       <Slider />
     </SwitchElement>
   );
-};
+}
 
 export default Switch;

@@ -4,7 +4,7 @@ import React, {
   InputHTMLAttributes,
   useState,
 } from "react";
-import { styled } from "@/stitches.config";
+import { styled } from "@web/stitches.config";
 
 const Container = styled("label", {
   position: "relative",
@@ -163,14 +163,13 @@ const Input = React.forwardRef<HTMLLabelElement, IInputProps>(
       iconClick,
       iconPosition = "left",
       secretValue = false,
-      iconHoverColor = null,
       hideIconUntilDifferent = false,
       inputDisabled = false,
       onChange,
       type = "",
       ...props
     },
-    ref
+    ref,
   ) => {
     const [inputValue, setInputValue] = useState(value);
 
@@ -182,7 +181,10 @@ const Input = React.forwardRef<HTMLLabelElement, IInputProps>(
         <Wrapper>
           <AnimatePresence>
             {icon && !hideIconUntilDifferent ? (
-              <IconContainer position={iconPosition} hasCallback={!!iconClick}>
+              <IconContainer
+                position={iconPosition}
+                hasCallback={Boolean(iconClick)}
+              >
                 <motion.div
                   style={{ position: "relative" }}
                   initial={
@@ -200,8 +202,8 @@ const Input = React.forwardRef<HTMLLabelElement, IInputProps>(
                       ? ICON_ANIMATION_LEFT.animate
                       : ICON_ANIMATION_RIGHT.animate
                   }
-                  onClick={iconClick}
                   transition={{ duration: 0.25 }}
+                  onClick={iconClick}
                 >
                   {icon}
                 </motion.div>
@@ -210,23 +212,23 @@ const Input = React.forwardRef<HTMLLabelElement, IInputProps>(
           </AnimatePresence>
           <InputElement
             value={inputValue}
+            placeholder={placeholder}
+            disabled={inputDisabled}
+            hasSecretValue={secretValue}
+            type={type}
+            hasIcon={Boolean(icon)}
+            iconPosition={iconPosition}
             onChange={(e) => {
               setInputValue(e.target.value);
 
               if (onChange) onChange(e);
             }}
-            placeholder={placeholder}
-            disabled={inputDisabled}
-            hasSecretValue={secretValue}
-            type={type}
-            hasIcon={!!icon}
-            iconPosition={iconPosition}
             {...props}
           />
         </Wrapper>
       </Container>
     );
-  }
+  },
 );
 
 Input.displayName = "Input";

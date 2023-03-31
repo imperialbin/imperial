@@ -1,16 +1,15 @@
-import { addNotification, setLanguage } from "@/state/actions";
-import { styled } from "@/stitches.config";
-import { Document } from "@/types";
-import { supportedLanguages } from "@/utils/Constants";
-import { makeRequest } from "@/utils/Rest";
-import { useState } from "react";
-import { Check, X } from "react-feather";
-import Button from "@/components/Button";
-import Setting from "@/components/Setting";
-import Header from "./base/Header";
-import { ModalProps } from "./base/modals";
-import { Content, Paragraph, Wrapper } from "./base/Styles";
+import Button from "@web/components/Button";
+import Setting from "@web/components/Setting";
+import { addNotification, setLanguage } from "@web/state/actions";
+import { styled } from "@web/stitches.config";
+import { Document } from "@web/types";
+import { supportedLanguages } from "@web/utils/Constants";
+import { makeRequest } from "@web/utils/Rest";
 import { useRouter } from "next/router";
+import { Check, X } from "react-feather";
+import Header from "./base/Header";
+import { Content, Paragraph, Wrapper } from "./base/Styles";
+import { ModalProps } from "./base/modals";
 
 const StyledWrapper = styled(Wrapper, {
   maxWidth: "80%",
@@ -29,16 +28,16 @@ interface IDocumentSettings extends ModalProps {
   data: { document: Document };
 }
 
-export const DocumentSettings = ({
+export function DocumentSettings({
   data: { document },
   dispatch,
   closeModal,
-}: IDocumentSettings): JSX.Element => {
+}: IDocumentSettings): JSX.Element {
   const router = useRouter();
 
   const patchDocument = async <T extends keyof Document["settings"]>(
     setting: T,
-    value: Document["settings"][T]
+    value: Document["settings"][T],
   ) => {
     const { success, error, data } = await makeRequest<{ document: Document }>(
       "PATCH",
@@ -48,24 +47,24 @@ export const DocumentSettings = ({
         settings: {
           [setting]: value,
         },
-      }
+      },
     );
 
     if (!success || !data)
       return dispatch(
         addNotification({
-          icon: <X />,
+          icon: <X/>,
           message: error?.message ?? "An unknown error occurred",
           type: "error",
-        })
+        }),
       );
 
     dispatch(
       addNotification({
-        icon: <Check />,
+        icon: <Check/>,
         message: "Successfully updated user settings",
         type: "success",
-      })
+      }),
     );
 
     document = data.document;
@@ -85,7 +84,7 @@ export const DocumentSettings = ({
           items={supportedLanguages.map((language) => ({
             value: language.id,
             title: language.name,
-            icon: language.icon ? <language.icon /> : undefined,
+            icon: language.icon ? <language.icon/> : undefined,
             selected: document.settings.language === language.id,
           }))}
           onSelect={async (item) => {
@@ -150,12 +149,12 @@ export const DocumentSettings = ({
           }}
         /> */}
         <Setting
+          disabled
           title="Encrypted"
           description="You can not edit the encryption after the document has been made."
           toggled={document.settings.encrypted}
-          onToggle={() => null}
           type="switch"
-          disabled
+          onToggle={() => null}
         />
         <Setting
           title="Image embed"
@@ -174,7 +173,7 @@ export const DocumentSettings = ({
           onToggle={async () => {
             await patchDocument(
               "instant_delete",
-              !document.settings.instant_delete
+              !document.settings.instant_delete,
             );
           }}
         />
@@ -198,18 +197,18 @@ export const DocumentSettings = ({
           onClick={async () => {
             const { success, error } = await makeRequest(
               "DELETE",
-              `/document/${document.id}`
+              `/document/${document.id}`,
             );
 
             if (!success) {
               return dispatch(
                 addNotification({
-                  icon: <X />,
+                  icon: <X/>,
                   message:
-                    error?.message ??
-                    "An error occurred whilst deleting document",
+                    error?.message
+                    ?? "An error occurred whilst deleting document",
                   type: "error",
-                })
+                }),
               );
             }
 
@@ -222,4 +221,4 @@ export const DocumentSettings = ({
       </Content>
     </StyledWrapper>
   );
-};
+}

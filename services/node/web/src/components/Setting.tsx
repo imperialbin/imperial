@@ -1,6 +1,7 @@
-import Switch, { ISwitchProps } from "./Switch";
+/* eslint-disable no-unused-vars */
+import { styled } from "@web/stitches.config";
 import Dropdown, { IDropdownProps } from "./Dropdown";
-import { styled } from "@/stitches.config";
+import Switch from "./Switch";
 
 const SettingContainer = styled("div", {
   display: "flex",
@@ -56,7 +57,7 @@ type SettingProps<T = "dropdown" | "switch", k = unknown> = T extends "switch"
       onToggle?: never;
     };
 
-const Setting = <T = "switch" | "dropdown", K = unknown>({
+function Setting<T = "switch" | "dropdown", K = unknown>({
   /* For the actual setting its self */
   title,
   description,
@@ -69,39 +70,38 @@ const Setting = <T = "switch" | "dropdown", K = unknown>({
 
   disabled = false,
 
-  /* onToggle method for all to do something */
+  /* OnToggle method for all to do something */
   onToggle,
   onSelect,
 
   items,
-}: SettingProps<T, K>): JSX.Element => (
-  <SettingContainer>
-    <InfoContainer>
-      <Title>{title}</Title>
-      <Description>{description}</Description>
-    </InfoContainer>
+}: SettingProps<T, K>): JSX.Element {
+  return (
+    <SettingContainer>
+      <InfoContainer>
+        <Title>{title}</Title>
+        <Description>{description}</Description>
+      </InfoContainer>
 
-    {/* Switches */}
-    {type === "switch" ? (
-      <Switch
-        toggled={toggled}
-        onToggle={() => {
-          if (!onToggle || toggled === undefined) return;
+      {/* Switches */}
+      {type === "switch" ? (
+        <Switch
+          toggled={toggled}
+          disabled={disabled}
+          onToggle={() => {
+            if (!onToggle || toggled === undefined) return;
 
-          onToggle(toggled);
-        }}
-        disabled={disabled}
-      />
-    ) : null}
+            onToggle(toggled);
+          }}
+        />
+      ) : null}
 
-    {/* Dropdowns */}
-    {type === "dropdown" ? (
-      <Dropdown
-        items={items ?? []}
-        onSelect={(item) => onSelect && onSelect(item)}
-      />
-    ) : null}
-  </SettingContainer>
-);
+      {/* Dropdowns */}
+      {type === "dropdown" ? (
+        <Dropdown items={items ?? []} onSelect={(item) => onSelect && onSelect(item)} />
+      ) : null}
+    </SettingContainer>
+  );
+}
 
 export default Setting;

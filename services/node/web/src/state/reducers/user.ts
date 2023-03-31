@@ -1,4 +1,4 @@
-import { SelfUser } from "@/types";
+import { SelfUser } from "@web/types";
 
 type UserActions =
   | {
@@ -11,13 +11,13 @@ type UserActions =
 
 const user = (state: SelfUser | null = null, action: UserActions) => {
   switch (action.type) {
-    case "SET_USER":
-      return action.payload;
+  case "SET_USER":
+    return action.payload;
 
-    case "LOGOUT_USER":
-      return null;
-    default:
-      return state;
+  case "LOGOUT_USER":
+    return null;
+  default:
+    return state;
   }
 };
 

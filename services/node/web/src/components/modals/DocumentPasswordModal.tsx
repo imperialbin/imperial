@@ -19,11 +19,11 @@ interface IDocumentPasswordModalProps extends ModalProps {
   };
 }
 
-const DocumentPasswordModal = ({
+function DocumentPasswordModal({
   closeModal,
   data: { encryptedContent, setDecryptedContent },
   dispatch,
-}: IDocumentPasswordModalProps) => {
+}: IDocumentPasswordModalProps) {
   const [password, setPassword] = useState(location.hash.split("#")[1] ?? "");
   const router = useRouter();
 
@@ -44,9 +44,9 @@ const DocumentPasswordModal = ({
       <Content>
         <Input
           value={password}
-          onChange={({ target: { value } }) => setPassword(value)}
-          icon={<Lock />}
+          icon={<Lock/>}
           placeholder="s3cur3 p@s5w0rd1"
+          onChange={({ target: { value } }) => setPassword(value)}
         />
       </Content>
       <Footer>
@@ -60,29 +60,29 @@ const DocumentPasswordModal = ({
           Go Home
         </Button>
         <Button
+          clickOnEnter
+          disabled={password.length === 0}
           onClick={() => {
             const decryptedContent = decrypt(password, encryptedContent);
 
             if (!decryptedContent)
               return dispatch(
                 addNotification({
-                  icon: <X />,
+                  icon: <X/>,
                   message: "Incorrect password!",
                   type: "error",
-                })
+                }),
               );
 
             setDecryptedContent(decryptedContent);
             closeModal();
           }}
-          disabled={password.length === 0}
-          clickOnEnter
         >
           Submit
         </Button>
       </Footer>
     </Wrapper>
   );
-};
+}
 
 export default DocumentPasswordModal;

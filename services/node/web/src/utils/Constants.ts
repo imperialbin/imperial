@@ -30,8 +30,8 @@ import {
 } from "../components/Icons";
 
 /* ENV and some static stuff */
-export const API_BASE =
-  process.env.NODE_ENV === "development"
+export const API_BASE
+  = process.env.NODE_ENV === "development"
     ? "http://127.0.0.1:8080/"
     : "https://imperial.hop.sh/";
 export const API_VERSION_V1 = "v1";
@@ -44,7 +44,7 @@ export const GitHubURL = "https://github.com/imperialbin";
 export const TwitterURL = "https://twitter.com/imperialbin";
 
 export type SupportedLanguages = typeof supportedLanguages[number]["name"];
-// for now
+// For now
 export type SupportedLanguagesID = string;
 
 export const supportedLanguages = [

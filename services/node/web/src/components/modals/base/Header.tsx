@@ -1,9 +1,9 @@
 import { ReactNode } from "react";
 import { X } from "react-feather";
-import { store } from "@/state";
-import { closeModal } from "@/state/actions";
-import { styled } from "@/stitches.config";
-import Tooltip from "@/components/Tooltip";
+import { store } from "@web/state";
+import { closeModal } from "@web/state/actions";
+import { styled } from "@web/stitches.config";
+import Tooltip from "@web/components/Tooltip";
 
 const Wrapper = styled("div", {
   width: "100%",
@@ -26,12 +26,10 @@ interface IHeaderProps {
   canClose?: boolean;
 }
 
-const Header = ({ children, canClose = true }: IHeaderProps) => {
+function Header({ children, canClose = true }: IHeaderProps) {
   return (
     <Wrapper
-      style={
-        !children ? { position: "absolute", top: 20, right: 20 } : undefined
-      }
+      style={!children ? { position: "absolute", top: 20, right: 20 } : undefined}
     >
       <Title>{children}</Title>
       {canClose ? (
@@ -45,6 +43,6 @@ const Header = ({ children, canClose = true }: IHeaderProps) => {
       ) : null}
     </Wrapper>
   );
-};
+}
 
 export default Header;

@@ -1,3 +1,6 @@
+import dayjs from "dayjs";
+import calender from "dayjs/plugin/calendar";
+import updateLocale from "dayjs/plugin/updateLocale";
 import { useCallback, useState } from "react";
 import {
   ArrowLeft,
@@ -10,34 +13,26 @@ import {
   Unlock,
   X,
 } from "react-feather";
-import dayjs from "dayjs";
-import calender from "dayjs/plugin/calendar";
-import updateLocale from "dayjs/plugin/updateLocale";
-import { connect, ConnectedProps } from "react-redux";
+import { ConnectedProps, connect } from "react-redux";
 
-import Input from "@/components/Input";
-import { UserIcon } from "@/components/UserIcon";
+import Input from "@web/components/Input";
+import { UserIcon } from "@web/components/UserIcon";
 
-import Header from "./base/Header";
-import { SelfUser, UserSettings as UserSettingsType } from "@/types";
-import { getRole } from "@/utils/Permissions";
-import { ModalProps } from "./base/modals";
-import { makeRequest } from "@/utils/Rest";
-import { styled } from "@/stitches.config";
-import {
-  addNotification,
-  closeModal,
-  openModal,
-  setUser,
-} from "@/state/actions";
-import Tooltip from "@/components/Tooltip";
-import { ImperialState } from "@/state/reducers";
-import Setting from "@/components/Setting";
-import { useRecentDocuments } from "@/hooks/useRecentDocuments";
-import { DiscordLogo, GitHubLogo } from "@/components/Icons";
-import Button from "@/components/Button";
-import CopyToClipboard from "react-copy-to-clipboard";
+import Button from "@web/components/Button";
+import { DiscordLogo, GitHubLogo } from "@web/components/Icons";
+import Setting from "@web/components/Setting";
+import Tooltip from "@web/components/Tooltip";
+import { useRecentDocuments } from "@web/hooks/useRecentDocuments";
+import { addNotification, closeModal, setUser } from "@web/state/actions";
+import { ImperialState } from "@web/state/reducers";
+import { styled } from "@web/stitches.config";
+import { SelfUser, UserSettings as UserSettingsType } from "@web/types";
+import { makeRequest } from "@web/utils/Rest";
 import Link from "next/link";
+import CopyToClipboard from "react-copy-to-clipboard";
+import Header from "./base/Header";
+import { ModalProps } from "./base/modals";
+import { getRole } from "../../utils/Permissions";
 
 const Wrapper = styled("div", {
   position: "relative",
@@ -50,7 +45,7 @@ const Wrapper = styled("div", {
   minHeight: "200px",
   height: "50%",
   maxHeight: "80%",
-  background: "$secondary", // needs to be changed to
+  background: "$secondary", // Needs to be changed to
   borderRadius: "10px",
   overflow: "hidden",
 });
@@ -178,13 +173,6 @@ const TitleInfo = styled("p", {
   color: "$text-secondary",
 });
 
-const HeaderParagraph = styled("p", {
-  fontSize: "1em",
-  margin: "0",
-  marginBottom: 10,
-  color: "$text-secondary",
-});
-
 const NotFoundSpan = styled("span", {
   color: "$text-muted",
 });
@@ -207,10 +195,7 @@ dayjs.updateLocale("en", {
   },
 });
 
-const UserSettings = ({
-  user,
-  dispatch,
-}: ReduxProps & ModalProps): JSX.Element => {
+function UserSettings({ user, dispatch }: ReduxProps & ModalProps): JSX.Element {
   const documents = useRecentDocuments();
 
   const [iconValue, setIconValue] = useState("");
@@ -221,10 +206,7 @@ const UserSettings = ({
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const patchUser = useCallback(
-    async <T extends keyof UserSettingsType>(
-      setting: T,
-      value: UserSettingsType[T]
-    ) => {
+    async <T extends keyof UserSettingsType>(setting: T, value: UserSettingsType[T]) => {
       const { success, error, data } = await makeRequest<SelfUser>(
         "PATCH",
         "/users/@me",
@@ -232,7 +214,7 @@ const UserSettings = ({
           settings: {
             [setting]: value,
           },
-        }
+        },
       );
 
       if (!success || !data)
@@ -241,7 +223,7 @@ const UserSettings = ({
             icon: <X />,
             message: error?.message ?? "An unknown error occurred",
             type: "error",
-          })
+          }),
         );
 
       dispatch(
@@ -249,12 +231,12 @@ const UserSettings = ({
           icon: <Check />,
           message: "Successfully updated user settings",
           type: "success",
-        })
+        }),
       );
 
       dispatch(setUser(data));
     },
-    []
+    [],
   );
 
   return (
@@ -272,7 +254,7 @@ const UserSettings = ({
               />
               <UserInfo>
                 <Username>{user.username}</Username>
-                <UserRole>Member</UserRole>
+                <UserRole>{getRole(user.flags)}</UserRole>
               </UserInfo>
             </UserOverview>
             <Tiles>
@@ -296,9 +278,7 @@ const UserSettings = ({
               </Tile>
               <Tile
                 style={!user.discord ? { cursor: "pointer" } : {}}
-                onClick={() =>
-                  !user.discord ? window.open("/link/discord") : null
-                }
+                onClick={() => (!user.discord ? window.open("/link/discord") : null)}
               >
                 <DiscordLogo />
                 <TitleInfo style={{ fontSize: "1em" }}>
@@ -307,9 +287,7 @@ const UserSettings = ({
               </Tile>
               <Tile
                 style={!user.github ? { cursor: "pointer" } : undefined}
-                onClick={() =>
-                  !user.github ? window.open("/link/github") : null
-                }
+                onClick={() => (!user.github ? window.open("/link/github") : null)}
               >
                 <GitHubLogo />
                 <TitleInfo style={{ fontSize: "1em" }}>
@@ -321,65 +299,56 @@ const UserSettings = ({
             <Subtitle>Recent documents</Subtitle>
             <Tiles>
               {documents && documents.length > 0 ? (
-                documents.map((document) => {
-                  return (
-                    <Link
-                      style={{ display: "flex" }}
-                      href={`/${document.id}`}
-                      key={document.id}
+                documents.map((document) => (
+                  <Link
+                    key={document.id}
+                    style={{ display: "flex" }}
+                    href={`/${document.id}`}
+                  >
+                    <Tile
+                      style={{
+                        display: "unset",
+                        padding: "17px 8px",
+                        minWidth: 160,
+                        cursor: "pointer",
+                      }}
+                      onClick={() => dispatch(closeModal())}
                     >
-                      <Tile
-                        onClick={() => dispatch(closeModal())}
-                        style={{
-                          display: "unset",
-                          padding: "17px 8px",
-                          minWidth: 160,
-                          cursor: "pointer",
-                        }}
-                      >
-                        <TileBtns>
-                          {document.settings.instant_delete ? (
-                            <Tooltip title="Instantly deletes after being viewed">
-                              <TileBtn>
-                                <Eye size={12} />
-                              </TileBtn>
-                            </Tooltip>
-                          ) : null}
-
-                          {document.settings.encrypted ? (
-                            <Tooltip title="Encrypted">
-                              <TileBtn>
-                                <Lock size={12} />
-                              </TileBtn>
-                            </Tooltip>
-                          ) : null}
-
-                          <Tooltip title="Delete document">
+                      <TileBtns>
+                        {document.settings.instant_delete ? (
+                          <Tooltip title="Instantly deletes after being viewed">
                             <TileBtn>
-                              <Trash size={15} />
+                              <Eye size={12} />
                             </TileBtn>
                           </Tooltip>
-                        </TileBtns>
-                        <span>{document.id}</span>
-                        <TitleInfo>
-                          {document.timestamps.expiration &&
-                          !isNaN(
-                            Date.parse(
-                              document.timestamps.expiration.toString()
-                            )
-                          ) ? (
-                            <>
-                              Deletes{" "}
-                              {dayjs(document.timestamps.expiration).calendar()}
-                            </>
-                          ) : (
-                            "Never expires"
-                          )}
-                        </TitleInfo>
-                      </Tile>
-                    </Link>
-                  );
-                })
+                        ) : null}
+
+                        {document.settings.encrypted ? (
+                          <Tooltip title="Encrypted">
+                            <TileBtn>
+                              <Lock size={12} />
+                            </TileBtn>
+                          </Tooltip>
+                        ) : null}
+
+                        <Tooltip title="Delete document">
+                          <TileBtn>
+                            <Trash size={15} />
+                          </TileBtn>
+                        </Tooltip>
+                      </TileBtns>
+                      <span>{document.id}</span>
+                      <TitleInfo>
+                        {document.timestamps.expiration &&
+                        !isNaN(Date.parse(document.timestamps.expiration.toString())) ? (
+                          <>Deletes {dayjs(document.timestamps.expiration).calendar()}</>
+                        ) : (
+                          "Never expires"
+                        )}
+                      </TitleInfo>
+                    </Tile>
+                  </Link>
+                ))
               ) : (
                 <NotFoundSpan>You have no recent documents.</NotFoundSpan>
               )}
@@ -393,10 +362,7 @@ const UserSettings = ({
                   alignItems: "center",
                 }}
               >
-                <ArrowLeft
-                  size={15}
-                  style={{ color: "var(--error)", marginRight: 10 }}
-                />
+                <ArrowLeft size={15} style={{ color: "var(--error)", marginRight: 10 }} />
                 Logout
               </Button>
             </Link>
@@ -406,6 +372,7 @@ const UserSettings = ({
             <Subtitle>Information</Subtitle>
             <InputWrapper>
               <Input
+                hideIconUntilDifferent
                 label="User Icon"
                 placeholder="GitHub username"
                 icon={<Check size={18} />}
@@ -415,7 +382,6 @@ const UserSettings = ({
                   .replace(".png", "")}
                 iconHoverColor="var(--success)"
                 tooltipTitle="Update icon"
-                onChange={(e) => setIconValue(e.target.value)}
                 iconPosition="right"
                 iconClick={async () => {
                   const { data, error, success } = await makeRequest<{
@@ -432,7 +398,7 @@ const UserSettings = ({
                           error?.message ??
                           "An unknown error occurred whilst saving your icon.",
                         type: "error",
-                      })
+                      }),
                     );
 
                   dispatch(
@@ -440,17 +406,17 @@ const UserSettings = ({
                       icon: <Check />,
                       message: "Successfully changes your icon",
                       type: "success",
-                    })
+                    }),
                   );
                   dispatch(setUser(data.user));
                 }}
-                hideIconUntilDifferent
+                onChange={(e) => setIconValue(e.target.value)}
               />
               <Input
+                hideIconUntilDifferent
                 label="Email"
                 placeholder="Your email"
                 value={user.email}
-                onChange={(e) => setEmail(e.target.value)}
                 icon={<StyledEditBtn />}
                 tooltipTitle="Update email"
                 iconPosition="right"
@@ -461,7 +427,7 @@ const UserSettings = ({
                         icon: <X />,
                         message: "Invalid email!",
                         type: "error",
-                      })
+                      }),
                     );
 
                   const { data, error } = await makeRequest<{ user: SelfUser }>(
@@ -469,17 +435,16 @@ const UserSettings = ({
                     "/users/@me",
                     {
                       email,
-                    }
+                    },
                   );
 
                   if (error || !data)
                     return dispatch(
                       addNotification({
                         icon: <X />,
-                        message:
-                          "An error occurred whilst changing your email.",
+                        message: "An error occurred whilst changing your email.",
                         type: "error",
-                      })
+                      }),
                     );
 
                   dispatch(
@@ -487,11 +452,11 @@ const UserSettings = ({
                       icon: <Check />,
                       message: "Successfully changed your email.",
                       type: "success",
-                    })
+                    }),
                   );
                   dispatch(setUser(data.user));
                 }}
-                hideIconUntilDifferent
+                onChange={(e) => setEmail(e.target.value)}
               />
               <CopyToClipboard
                 text={user.api_token}
@@ -501,15 +466,14 @@ const UserSettings = ({
                       icon: <Check />,
                       message: "Copied API Token",
                       type: "success",
-                    })
+                    }),
                   )
                 }
               >
-                <Tooltip
-                  title="Click to copy API Token"
-                  placement="bottom-start"
-                >
+                <Tooltip title="Click to copy API Token" placement="bottom-start">
                   <Input
+                    secretValue
+                    inputDisabled
                     label="API Token"
                     placeholder="API Token"
                     value={user.api_token}
@@ -527,7 +491,7 @@ const UserSettings = ({
                             message:
                               "An error occurred whilst regenerating your API token.",
                             type: "error",
-                          })
+                          }),
                         );
 
                       dispatch(
@@ -535,12 +499,10 @@ const UserSettings = ({
                           icon: <Check />,
                           message: "Successfully regenerated your API Token",
                           type: "success",
-                        })
+                        }),
                       );
                       dispatch(setUser({ ...user, api_token: data.token }));
                     }}
-                    secretValue
-                    inputDisabled
                   />
                 </Tooltip>
               </CopyToClipboard>
@@ -550,75 +512,67 @@ const UserSettings = ({
             <Setting
               title="Clipboard"
               type="switch"
-              onToggle={() => patchUser("clipboard", !user.settings.clipboard)}
               toggled={user.settings.clipboard}
               description="Let IMPERIAL automatically paste your clipboard."
+              onToggle={() => patchUser("clipboard", !user.settings.clipboard)}
             />
             <Setting
               title="Longer URLs"
               type="switch"
-              onToggle={() => patchUser("long_urls", !user.settings.long_urls)}
               toggled={user.settings.long_urls}
               description="Create 32 character URLs."
+              onToggle={() => patchUser("long_urls", !user.settings.long_urls)}
             />
             <Setting
               title="Short URLs"
               type="switch"
-              onToggle={() =>
-                patchUser("short_urls", !user.settings.short_urls)
-              }
               toggled={user.settings.short_urls}
               description="Create 4 character URLs."
+              onToggle={() => patchUser("short_urls", !user.settings.short_urls)}
             />
             <Setting
               title="Instant Delete"
               type="switch"
-              onToggle={() =>
-                patchUser("instant_delete", !user.settings.instant_delete)
-              }
               toggled={user.settings.instant_delete}
               description="Instantly delete the document after being viewed."
+              onToggle={() => patchUser("instant_delete", !user.settings.instant_delete)}
             />
             <Setting
               title="Encrypted"
               type="switch"
-              onToggle={() => patchUser("encrypted", !user.settings.encrypted)}
               toggled={user.settings.encrypted}
               description="Encrypt documents with AES256 encryption."
+              onToggle={() => patchUser("encrypted", !user.settings.encrypted)}
             />
             <Setting
               title="Image Embed"
               type="switch"
-              onToggle={() =>
-                patchUser("image_embed", !user.settings.image_embed)
-              }
               toggled={user.settings.image_embed}
               description="Have a sneak peak at a document's content with Open Graph embeds"
+              onToggle={() => patchUser("image_embed", !user.settings.image_embed)}
             />
             <Setting
               title="Font Ligatures"
               type="switch"
-              onToggle={() =>
-                patchUser("font_ligatures", !user.settings.font_ligatures)
-              }
               toggled={user.settings.font_ligatures}
               description="When enabled, the editor will have font ligatures"
+              onToggle={() => patchUser("font_ligatures", !user.settings.font_ligatures)}
             />
             <Setting
               title="White Space"
               type="switch"
+              toggled={user.settings.render_whitespace}
+              description="When enabled, the editor will render white space."
               onToggle={() =>
                 patchUser("render_whitespace", !user.settings.render_whitespace)
               }
-              toggled={user.settings.render_whitespace}
-              description="When enabled, the editor will render white space."
             />
             <Setting
               title="Word Wrapping"
               type="switch"
-              onToggle={() => patchUser("word_wrap", !user.settings.word_wrap)}
               toggled={user.settings.word_wrap}
               description="When enabled, the editor will wrap instead of enabling overflow."
+              onToggle={() => patchUser("word_wrap", !user.settings.word_wrap)}
             />
             <Setting
               type="dropdown"
@@ -630,8 +584,8 @@ const UserSettings = ({
                   value: i + 1,
                   selected: user.settings.font_size === i + 1,
                 }))}
-              onSelect={(item) => patchUser("font_size", item.value)}
               description="Change font size of the editor!"
+              onSelect={(item) => patchUser("font_size", item.value)}
             />
             <Setting
               title="Tab size"
@@ -643,8 +597,8 @@ const UserSettings = ({
                   value: i + 1,
                   selected: user.settings.tab_size === i + 1,
                 }))}
-              onSelect={(item) => patchUser("tab_size", item.value)}
               description="How big do you want your tabs?"
+              onSelect={(item) => patchUser("tab_size", item.value)}
             />
             <Setting
               title="Expiration"
@@ -691,8 +645,8 @@ const UserSettings = ({
                   selected: user.settings.expiration === 365,
                 },
               ]}
-              onSelect={(item) => patchUser("expiration", item.value)}
               description="How long (in days) a document takes to delete."
+              onSelect={(item) => patchUser("expiration", item.value)}
             />
             <br />
             <Subtitle>Reset password</Subtitle>
@@ -700,35 +654,39 @@ const UserSettings = ({
               <Input
                 label="Current password"
                 placeholder="Enter your current password"
-                onChange={(e) => setPassword(e.target.value)}
                 icon={<Unlock size={18} />}
                 type="password"
+                onChange={(e) => setPassword(e.target.value)}
               />
               <Input
                 label="New password"
                 placeholder="Enter your new password"
                 icon={<Lock size={18} />}
-                onChange={(e) => setNewPassword(e.target.value)}
                 type="password"
+                onChange={(e) => setNewPassword(e.target.value)}
               />
               <Input
                 label="Confirm password"
                 placeholder="Re-enter new password."
                 icon={<Lock size={18} />}
-                onChange={(e) => setConfirmPassword(e.target.value)}
                 type="password"
+                onChange={(e) => setConfirmPassword(e.target.value)}
               />
               <Button
                 style={{ alignSelf: "flex-start" }}
+                disabled={
+                  newPassword.length === 0 ||
+                  password.length === 0 ||
+                  confirmPassword.length === 0
+                }
                 onClick={async () => {
                   if (newPassword !== confirmPassword)
                     return dispatch(
                       addNotification({
                         icon: <X />,
-                        message:
-                          "Your new password does not match confirm password",
+                        message: "Your new password does not match confirm password",
                         type: "error",
-                      })
+                      }),
                     );
 
                   if (
@@ -741,28 +699,26 @@ const UserSettings = ({
                         icon: <X />,
                         message: "Password is not 8 characters long!",
                         type: "error",
-                      })
+                      }),
                     );
 
-                  const { error } = await makeRequest(
+                  const { success, error } = await makeRequest(
                     "PATCH",
                     "/auth/reset_password",
                     {
-                      password: password,
+                      password,
                       new_password: newPassword,
-                      confirm_password: confirmPassword,
-                    }
+                    },
                   );
 
-                  if (error)
+                  if (!success)
                     return dispatch(
                       addNotification({
                         icon: <X />,
                         message:
-                          error.message ??
-                          "An error occurred whilst resetting password",
+                          error?.message ?? "An error occurred whilst resetting password",
                         type: "error",
-                      })
+                      }),
                     );
 
                   return dispatch(
@@ -770,14 +726,9 @@ const UserSettings = ({
                       icon: <X />,
                       message: "Successfully changed your password.",
                       type: "success",
-                    })
+                    }),
                   );
                 }}
-                disabled={
-                  newPassword.length === 0 ||
-                  password.length === 0 ||
-                  confirmPassword.length === 0
-                }
               >
                 Reset password
               </Button>
@@ -787,13 +738,12 @@ const UserSettings = ({
       ) : null}
     </Wrapper>
   );
-};
+}
 
-const mapStateToProps = ({ user }: ImperialState) => {
-  return {
-    user,
-  };
-};
+const mapStateToProps = ({ user }: ImperialState) => ({
+  user,
+});
+
 const connector = connect(mapStateToProps);
 type ReduxProps = ConnectedProps<typeof connector>;
 

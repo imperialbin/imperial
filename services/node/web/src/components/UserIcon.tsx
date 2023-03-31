@@ -16,9 +16,9 @@ export interface IUserIconProps {
 export const UserIcon = forwardRef<HTMLDivElement, IUserIconProps>(
   ({ URL, width = 52, height = 52, pointer, ...rest }, ref) => (
     <div ref={ref} {...rest}>
-      <Icon width={width} height={height} src={URL} draggable={false} />
+      <Icon width={width} height={height} src={URL} draggable={false}/>
     </div>
-  )
+  ),
 );
 
 UserIcon.displayName = "UserIcon";

@@ -2,7 +2,7 @@ import { Placement } from "@floating-ui/react-dom-interactions";
 import { CSSProperties } from "@stitches/react";
 import { useCallback, useEffect, useState } from "react";
 import { ChevronDown } from "react-feather";
-import { styled } from "@/stitches.config";
+import { styled } from "@web/stitches.config";
 import Popover from "./popover/Popover";
 
 const Wrapper = styled("ul", {
@@ -101,6 +101,7 @@ export interface IDropdownProps<T> {
   placement?: Placement;
   items: Item<T>[];
 
+  // eslint-disable-next-line no-unused-vars
   onSelect: (item: Item<T>) => unknown;
   notSelectedOverride?: string;
 
@@ -116,7 +117,7 @@ export interface IDropdownProps<T> {
   disabled?: boolean;
 }
 
-const Dropdown = <T,>({
+function Dropdown<T>({
   placement = "bottom-start",
   items,
   onSelect,
@@ -126,18 +127,15 @@ const Dropdown = <T,>({
   className,
   style,
   disabled = false,
-}: IDropdownProps<T>) => {
+}: IDropdownProps<T>) {
   const [active, setActive] = useState(false);
   const [selected, setSelected] = useState<Item<T> | null>(
-    items.find((item) => item.selected) ?? null
+    items.find((item) => item.selected) ?? null,
   );
 
-  const stableSetSelected = useCallback(
-    (item: Item<T>) => setSelected(item),
-    []
-  );
+  const stableSetSelected = useCallback((item: Item<T>) => setSelected(item), []);
 
-  // update the selected item if items changes through props
+  // Update the selected item if items changes through props
   useEffect(() => {
     setSelected(items.find((item) => item.selected) ?? null);
   }, [items]);
@@ -149,6 +147,7 @@ const Dropdown = <T,>({
           {items.map((item) => (
             <button
               key={item.title}
+              type="button"
               onClick={() => {
                 onSelect(item);
                 stableSetSelected(item);
@@ -182,15 +181,13 @@ const Dropdown = <T,>({
           ) : (
             <img src={selected.icon} alt={selected.title} />
           )}
-          <span>
-            {selected?.title ?? notSelectedOverride ?? "Not selected"}
-          </span>
+          <span>{selected?.title ?? notSelectedOverride ?? "Not selected"}</span>
 
           <ChevronDown width={14} />
         </DropdownButton>
       )}
     </Popover>
   );
-};
+}
 
 export default Dropdown;

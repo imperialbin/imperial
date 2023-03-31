@@ -1,4 +1,4 @@
-import { Modals } from "@/components/ModalManager";
+import { Modals } from "@web/components/ModalManager";
 
 export interface ModalState {
   modal: Modals;
@@ -14,12 +14,12 @@ type ModalActions =
 
 const modal = (state: ModalState | null = null, action: ModalActions) => {
   switch (action.type) {
-    case "OPEN_MODAL":
-      return action.payload;
-    case "CLOSE_MODAL":
-      return null;
-    default:
-      return state;
+  case "OPEN_MODAL":
+    return action.payload;
+  case "CLOSE_MODAL":
+    return null;
+  default:
+    return state;
   }
 };
 

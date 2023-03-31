@@ -1,13 +1,12 @@
-import { motion } from "framer-motion";
+import { SearchIcon } from "@web/components/Icons";
+import Input from "@web/components/Input";
+import { setLanguage } from "@web/state/actions";
+import { styled } from "@web/stitches.config";
+import { SupportedLanguagesID, supportedLanguages } from "@web/utils/Constants";
 import { useEffect, useMemo, useState } from "react";
-import { setLanguage } from "@/state/actions";
-import { styled } from "@/stitches.config";
-import { supportedLanguages, SupportedLanguagesID } from "@/utils/Constants";
-import { SearchIcon } from "@/components/Icons";
-import Input from "@/components/Input";
 import Header from "./base/Header";
-import { ModalProps } from "./base/modals";
 import { Content, Wrapper } from "./base/Styles";
+import { ModalProps } from "./base/modals";
 
 const StyledWrapper = styled(Wrapper, {
   gap: 10,
@@ -52,75 +51,7 @@ const Language = styled("button", {
   },
 });
 
-const LanguageBtn = styled(motion.button, {
-  display: "inline-block",
-  marginRight: 5,
-  textAlign: "left",
-  fontSize: "1.1em",
-  padding: "10px 15px",
-  background: "transparent",
-  cursor: "pointer",
-  border: "1px solid var(--primary-700)",
-  color: "var(--primary-100)",
-  transition: "background-color 0.12s ease-in-out",
-
-  "&:hover": {
-    background: "light",
-  },
-});
-
-const UnsupportedLanguage = styled(motion.div, {
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-  justifyContent: "center",
-  height: "100%",
-  fontSize: "1.2em",
-  color: "$text-secondary",
-
-  "> svg": {
-    height: 30,
-  },
-});
-
-const Tip = styled("span", {
-  position: "absolute",
-  left: 15,
-  bottom: 10,
-  fontSize: "0.9em",
-  opacity: 0.8,
-});
-
-const TipAccent = styled("span", {
-  fontSize: "0.9em",
-  fontWeight: 700,
-  paddingRight: 8,
-  color: "$success",
-});
-
-const NOT_FOUND_ANIMATION = {
-  initial: {
-    opacity: 0,
-    scale: 0.98,
-    transform: "translateY(10px)",
-  },
-  animate: {
-    opacity: 1,
-    scale: 1,
-    transform: "translateY(0px)",
-  },
-};
-
-const ITEM_ANIMATION = {
-  initial: {
-    opacity: 0,
-  },
-  animate: {
-    opacity: 1,
-  },
-};
-
-export const LanguageSelector = ({ closeModal, dispatch }: ModalProps) => {
+export function LanguageSelector({ closeModal, dispatch }: ModalProps) {
   const [searchQuery, setSearchQuery] = useState<string>("");
 
   const changeLanguage = (language: SupportedLanguagesID) => {
@@ -146,9 +77,9 @@ export const LanguageSelector = ({ closeModal, dispatch }: ModalProps) => {
   const filteredLanguages = useMemo(
     () =>
       supportedLanguages.filter((language) =>
-        language.name.toLowerCase().includes(searchQuery.toLowerCase())
+        language.name.toLowerCase().includes(searchQuery.toLowerCase()),
       ),
-    [supportedLanguages, searchQuery]
+    [supportedLanguages, searchQuery],
   );
 
   return (
@@ -156,11 +87,11 @@ export const LanguageSelector = ({ closeModal, dispatch }: ModalProps) => {
       <Header>Select Language</Header>
       <StyledContent>
         <Input
+          autoFocus
           style={{ width: "100%" }}
           icon={<SearchIcon />}
           placeholder="Search Language"
           onChange={({ target: { value } }) => setSearchQuery(value)}
-          autoFocus
         />
         <Languages>
           {filteredLanguages.map((language) => (
@@ -179,4 +110,4 @@ export const LanguageSelector = ({ closeModal, dispatch }: ModalProps) => {
       </StyledContent>
     </StyledWrapper>
   );
-};
+}

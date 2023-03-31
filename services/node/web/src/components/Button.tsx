@@ -1,6 +1,7 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect } from "react";
 import type * as Stitches from "@stitches/react";
-import { styled } from "@/stitches.config";
+import { styled } from "@web/stitches.config";
 
 const StyledButton = styled("button", {
   padding: "8px 10px",
@@ -61,7 +62,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {children}
       </StyledButton>
     );
-  }
+  },
 );
 
 Button.displayName = "Button";

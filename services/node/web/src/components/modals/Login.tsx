@@ -1,9 +1,9 @@
-import Button from "@/components/Button";
-import { Logo } from "@/components/Icons";
-import Input from "@/components/Input";
-import { addNotification, openModal, setUser } from "@/state/actions";
-import { styled } from "@/stitches.config";
-import { makeRequest } from "@/utils/Rest";
+import Button from "@web/components/Button";
+import { Logo } from "@web/components/Icons";
+import Input from "@web/components/Input";
+import { addNotification, openModal, setUser } from "@web/state/actions";
+import { styled } from "@web/stitches.config";
+import { makeRequest } from "@web/utils/Rest";
 import { useState } from "react";
 import { Lock, User, X } from "react-feather";
 import { SelfUser } from "../../types";
@@ -46,7 +46,7 @@ const LogoContainer = styled("div", {
   },
 });
 
-const Login = ({ dispatch, closeModal }: ModalProps) => {
+function Login({ dispatch, closeModal }: ModalProps) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -55,40 +55,40 @@ const Login = ({ dispatch, closeModal }: ModalProps) => {
     if (!username) {
       return dispatch(
         addNotification({
-          icon: <X />,
+          icon: <X/>,
           message: "Please provide a username",
           type: "error",
-        })
+        }),
       );
     }
 
     if (username.length < 3) {
       return dispatch(
         addNotification({
-          icon: <X />,
+          icon: <X/>,
           message: "Username must be 3 characters",
           type: "error",
-        })
+        }),
       );
     }
 
     if (!password) {
       return dispatch(
         addNotification({
-          icon: <X />,
+          icon: <X/>,
           message: "Please provide a password",
           type: "error",
-        })
+        }),
       );
     }
 
     if (password.length < 8) {
       return dispatch(
         addNotification({
-          icon: <X />,
+          icon: <X/>,
           message: "Password must be 8 characters",
           type: "error",
-        })
+        }),
       );
     }
 
@@ -107,10 +107,10 @@ const Login = ({ dispatch, closeModal }: ModalProps) => {
     if (!success || !data)
       return dispatch(
         addNotification({
-          icon: <X />,
+          icon: <X/>,
           message: error?.message ?? "An error occurred whilst logging in.",
           type: "error",
-        })
+        }),
       );
 
     dispatch(setUser(data.user));
@@ -131,34 +131,34 @@ const Login = ({ dispatch, closeModal }: ModalProps) => {
           }}
         >
           <Input
+            iconDisabled
+            required
             label="Email or username"
-            icon={<User />}
+            icon={<User/>}
             placeholder="Enter your username or email"
             onChange={(e) => setUsername(e.target.value)}
-            iconDisabled
-            required
           />
           <Input
-            label="Password"
-            icon={<Lock />}
-            placeholder="Enter your password"
-            onChange={(e) => setPassword(e.target.value)}
-            type="password"
             iconDisabled
             required
+            label="Password"
+            icon={<Lock/>}
+            placeholder="Enter your password"
+            type="password"
+            onChange={(e) => setPassword(e.target.value)}
           />
           <Button
+            clickOnEnter
             style={{ alignSelf: "flex-start", marginTop: 15 }}
             disabled={loading}
             type="submit"
             onClick={submit}
-            clickOnEnter
           >
             Login
           </Button>
         </div>
         <LogoContainer>
-          <Logo />
+          <Logo/>
           <Button onClick={() => dispatch(openModal("signup"))}>
             No account?
           </Button>
@@ -166,6 +166,6 @@ const Login = ({ dispatch, closeModal }: ModalProps) => {
       </StyledContent>
     </StyledWrapper>
   );
-};
+}
 
 export default Login;

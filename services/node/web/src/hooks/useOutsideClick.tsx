@@ -2,7 +2,7 @@ import { MutableRefObject, useEffect } from "react";
 
 export const useOutsideClick = (
   ref: MutableRefObject<HTMLDivElement | null>,
-  handler: (_e: MouseEvent | TouchEvent | KeyboardEvent) => unknown
+  handler: (_e: MouseEvent | TouchEvent | KeyboardEvent) => unknown,
 ): void => {
   useEffect(() => {
     const listener = (e: MouseEvent | TouchEvent) => {

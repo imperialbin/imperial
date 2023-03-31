@@ -1,17 +1,17 @@
-import { useIsSmallDevice } from "@/hooks/useIsMobile";
+import { useIsSmallDevice } from "@web/hooks/useIsMobile";
 import {
   addNotification,
   openModal,
   setForkedContent,
   setLanguage,
   setReadOnly,
-} from "@/state/actions";
-import { ImperialState } from "@/state/reducers";
-import { styled } from "@/stitches.config";
-import { Document } from "@/types";
-import { supportedLanguages } from "@/utils/Constants";
-import { encrypt, generateSecureString } from "@/utils/Crypto";
-import { makeRequest } from "@/utils/Rest";
+} from "@web/state/actions";
+import { ImperialState } from "@web/state/reducers";
+import { styled } from "@web/stitches.config";
+import { Document } from "@web/types";
+import { supportedLanguages } from "@web/utils/Constants";
+import { encrypt, generateSecureString } from "@web/utils/Crypto";
+import { makeRequest } from "@web/utils/Rest";
 import { useMonaco } from "@monaco-editor/react";
 import { motion } from "framer-motion";
 import Link from "next/link";
@@ -140,7 +140,7 @@ const BRAND_ANIMATION = {
 interface INavProps extends ReduxProps {
   document?: Document;
 }
-const Nav = ({ user, document, language, dispatch, editors }: INavProps) => {
+function Nav({ user, document, language, dispatch, editors }: INavProps) {
   const [collapsed, setCollapsed] = useState(false);
   const [userPopover, setUserPopover] = useState(false);
   const [editing, setEditing] = useState(false);
@@ -162,28 +162,28 @@ const Nav = ({ user, document, language, dispatch, editors }: INavProps) => {
     setSaving(true);
     dispatch(setReadOnly(true));
 
-    const password = user?.settings.encrypted
-      ? generateSecureString(12)
-      : undefined;
-    const { success, error, data } = await makeRequest<
-      Document & { password?: string }
-    >("POST", "/document", {
-      content: user?.settings.encrypted
-        ? encrypt(password as string, content).toString()
-        : content,
-      settings: {
-        long_urls: user ? user.settings.long_urls : false,
-        short_urls: user ? user.settings.short_urls : false,
-        instant_delete: user ? user.settings.instant_delete : false,
-        encrypted: user ? user.settings.encrypted : false,
-        image_embed: user ? user.settings.image_embed : false,
-        expiration: user ? user.settings.expiration : 14,
-        public: false,
-        password: password,
-        editors: editors.map((user) => user.username),
-        language,
+    const password = user?.settings.encrypted ? generateSecureString(12) : undefined;
+    const { success, error, data } = await makeRequest<Document & { password?: string }>(
+      "POST",
+      "/document",
+      {
+        content: user?.settings.encrypted
+          ? encrypt(password as string, content).toString()
+          : content,
+        settings: {
+          long_urls: user ? user.settings.long_urls : false,
+          short_urls: user ? user.settings.short_urls : false,
+          instant_delete: user ? user.settings.instant_delete : false,
+          encrypted: user ? user.settings.encrypted : false,
+          image_embed: user ? user.settings.image_embed : false,
+          expiration: user ? user.settings.expiration : 14,
+          public: false,
+          password,
+          editors: editors.map((user) => user.username),
+          language,
+        },
       },
-    });
+    );
     setSaving(false);
 
     if (!success || !data) {
@@ -192,10 +192,9 @@ const Nav = ({ user, document, language, dispatch, editors }: INavProps) => {
       return dispatch(
         addNotification({
           icon: <X />,
-          message:
-            error?.message ?? "An error occurred whilst creating document",
+          message: error?.message ?? "An error occurred whilst creating document",
           type: "error",
-        })
+        }),
       );
     }
 
@@ -207,7 +206,7 @@ const Nav = ({ user, document, language, dispatch, editors }: INavProps) => {
         async onClick() {
           await navigator.clipboard.writeText(`${window.location}/${data.id}`);
         },
-      })
+      }),
     );
 
     dispatch(setLanguage(data.settings.language));
@@ -222,7 +221,7 @@ const Nav = ({ user, document, language, dispatch, editors }: INavProps) => {
   const forkDocument = useCallback(() => {
     if (!document) return;
 
-    const content = document.content;
+    const { content } = document;
     dispatch(setForkedContent(content));
     router.push("/");
   }, [document]);
@@ -233,9 +232,7 @@ const Nav = ({ user, document, language, dispatch, editors }: INavProps) => {
     if (
       !(
         document?.creator?.username === user.username ||
-        document.settings.editors.find(
-          (editor) => editor.username === user.username
-        )
+        document.settings.editors.find((editor) => editor.username === user.username)
       )
     )
       return;
@@ -266,10 +263,9 @@ const Nav = ({ user, document, language, dispatch, editors }: INavProps) => {
       return dispatch(
         addNotification({
           icon: <X />,
-          message:
-            error?.message ?? "There was an error updating this document",
+          message: error?.message ?? "There was an error updating this document",
           type: "error",
-        })
+        }),
       );
 
     setEditing(false);
@@ -279,18 +275,21 @@ const Nav = ({ user, document, language, dispatch, editors }: INavProps) => {
         icon: <Check />,
         message: "Successfully edited document.",
         type: "success",
-      })
+      }),
     );
   }, [monaco, document, user]);
 
   /* Keybinds */
   useEffect(() => {
     const keypress = (e: KeyboardEvent) => {
-      switch (true) {
-        case (e.ctrlKey || e.metaKey) && e.key === "s":
-          e.preventDefault();
-          !document ? saveDocument() : prepareEdit();
-          break;
+      if ((e.ctrlKey || e.metaKey) && e.key === "s") {
+        e.preventDefault();
+
+        if (!document) {
+          saveDocument();
+        } else {
+          prepareEdit();
+        }
       }
     };
 
@@ -300,7 +299,7 @@ const Nav = ({ user, document, language, dispatch, editors }: INavProps) => {
     };
   }, [document, saveDocument, prepareEdit]);
 
-  /* collapse navbar when its mobile */
+  /* Collapse navbar when its mobile */
   useEffect(() => {
     setCollapsed(isSmallDevice);
   }, [isSmallDevice]);
@@ -338,10 +337,7 @@ const Nav = ({ user, document, language, dispatch, editors }: INavProps) => {
                     : `https://imperialb.in/${document.id}`
                 }
               >
-                <DocumentID
-                  transition={{ duration: 0.3 }}
-                  variants={BRAND_ANIMATION}
-                >
+                <DocumentID transition={{ duration: 0.3 }} variants={BRAND_ANIMATION}>
                   {document.id}
                 </DocumentID>
               </Copy>
@@ -352,9 +348,7 @@ const Nav = ({ user, document, language, dispatch, editors }: INavProps) => {
           {!document ? (
             <>
               <StyledTooltip title="Change language">
-                <Button
-                  onClick={() => dispatch(openModal("language_selector"))}
-                >
+                <Button onClick={() => dispatch(openModal("language_selector"))}>
                   <SelectedLanguageIcon width={20} height={20} />
                 </Button>
               </StyledTooltip>
@@ -377,9 +371,7 @@ const Nav = ({ user, document, language, dispatch, editors }: INavProps) => {
             <>
               {user &&
               (document?.creator?.id === user.id ||
-                document.settings.editors.find(
-                  (editor) => editor.id === user.id
-                )) ? (
+                document.settings.editors.find((editor) => editor.id === user.id)) ? (
                 <StyledTooltip title="Edit document">
                   <Button onClick={prepareEdit}>
                     {editing ? <Check size={20} /> : <Edit2 size={20} />}
@@ -390,9 +382,7 @@ const Nav = ({ user, document, language, dispatch, editors }: INavProps) => {
               {user && document?.creator?.id === user.id ? (
                 <StyledTooltip title="Edit document settings">
                   <Button
-                    onClick={() =>
-                      dispatch(openModal("document_settings", { document }))
-                    }
+                    onClick={() => dispatch(openModal("document_settings", { document }))}
                   >
                     <Settings size={20} />
                   </Button>
@@ -421,21 +411,20 @@ const Nav = ({ user, document, language, dispatch, editors }: INavProps) => {
             placement="bottom-end"
             setPopover={setUserPopover}
           >
-            <StyledUserIcon URL={user?.icon ?? "/img/pfp.png"} pointer />
+            <StyledUserIcon pointer URL={user?.icon ?? "/img/pfp.png"} />
           </Popover>
         </Buttons>
       </Container>
     </Wrapper>
   );
-};
+}
 
 const mapStateToProps = ({
   user,
   editor: { language },
   ui_state: { editors },
-}: ImperialState) => {
-  return { user, language, editors };
-};
+}: ImperialState) => ({ user, language, editors });
+
 const connector = connect(mapStateToProps);
 type ReduxProps = ConnectedProps<typeof connector>;
 

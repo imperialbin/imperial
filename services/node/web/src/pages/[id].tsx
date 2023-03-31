@@ -1,11 +1,11 @@
-import Editor from "@/components/Editor";
-import Navbar from "@/components/Navbar";
-import { store } from "@/state";
-import { openModal, setLanguage, setReadOnly } from "@/state/actions";
-import { styled } from "@/stitches.config";
-import { Document } from "@/types";
-import { CDN_URL } from "@/utils/Constants";
-import { makeRequest } from "@/utils/Rest";
+import Editor from "@web/components/Editor";
+import Navbar from "@web/components/Navbar";
+import { store } from "@web/state";
+import { openModal, setLanguage, setReadOnly } from "@web/state/actions";
+import { styled } from "@web/stitches.config";
+import { Document as DocumentType } from "@web/types";
+import { CDN_URL } from "@web/utils/Constants";
+import { makeRequest } from "@web/utils/Rest";
 import dayjs from "dayjs";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { NextSeo } from "next-seo";
@@ -18,15 +18,15 @@ const Wrapper = styled("div", {
 });
 
 export const getServerSideProps: GetServerSideProps<{
-  document: Document | null;
+  document: DocumentType | null;
 }> = async (context) => {
   context.res.setHeader(
     "Cache-Control",
-    "public, s-maxage=10, stale-while-revalidate=59"
+    "public, s-maxage=10, stale-while-revalidate=59",
   );
-  const { success, data, error } = await makeRequest<Document>(
+  const { data, error } = await makeRequest<DocumentType>(
     "GET",
-    `/document/${context.params?.id}`
+    `/document/${context.params?.id}`,
   );
 
   return {
@@ -39,7 +39,7 @@ export const getServerSideProps: GetServerSideProps<{
 
 type InferProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
-const Document = ({ document }: InferProps) => {
+function Document({ document }: InferProps) {
   const [decryptedContent, setDecryptedContent] = useState("");
 
   useEffect(() => {
@@ -53,7 +53,7 @@ const Document = ({ document }: InferProps) => {
         openModal("document_password", {
           encryptedContent: document.content,
           setDecryptedContent,
-        })
+        }),
       );
     }
   }, [document]);
@@ -62,11 +62,11 @@ const Document = ({ document }: InferProps) => {
     <>
       <NextSeo
         title={`IMPERIAL – ${document.id} ${
-          document?.settings?.encrypted ? " 🔐" : ""
+          document?.settings?.encrypted && " 🔐"
         }`}
         openGraph={{
           title: `IMPERIAL – ${document.id} ${
-            document?.settings?.encrypted ? " 🔐" : ""
+            document?.settings?.encrypted && " 🔐"
           }`,
           siteName: document.timestamps.expiration
             ? `Deletes on ${dayjs(document.timestamps.expiration).format("ll")}`
@@ -82,22 +82,20 @@ const Document = ({ document }: InferProps) => {
         }}
       />
       <Wrapper>
-        <Navbar document={document} />
+        <Navbar document={document}/>
         <Editor
           isLoading={
             document.settings.encrypted && decryptedContent === ""
               ? true
               : !document
           }
-          value={
-            document.settings.encrypted ? decryptedContent : document.content
-          }
+          value={document.settings.encrypted ? decryptedContent : document.content}
         />
       </Wrapper>
     </>
   ) : (
-    <FourOFour />
+    <FourOFour/>
   );
-};
+}
 
 export default Document;

@@ -2,16 +2,16 @@ import Header from "./base/Header";
 import { ModalProps } from "./base/modals";
 import { Content, Wrapper } from "./base/Styles";
 
-import { styled } from "@/stitches.config";
+import { styled } from "@web/stitches.config";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import { Check as CheckIcon, Lock, Mail, User, X } from "react-feather";
 
-import Button from "@/components/Button";
-import { Logo } from "@/components/Icons";
-import Input from "@/components/Input";
-import { addNotification, openModal, setUser } from "@/state/actions";
-import { makeRequest } from "@/utils/Rest";
+import Button from "@web/components/Button";
+import { Logo } from "@web/components/Icons";
+import Input from "@web/components/Input";
+import { addNotification, openModal, setUser } from "@web/state/actions";
+import { makeRequest } from "@web/utils/Rest";
 import { SelfUser } from "../../types";
 
 const StyledWrapper = styled(Wrapper, {
@@ -87,7 +87,7 @@ const SUCCESS_ANIMATION = {
   },
 };
 
-const Signup = ({ dispatch }: ModalProps) => {
+function Signup({ dispatch }: ModalProps) {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -98,30 +98,30 @@ const Signup = ({ dispatch }: ModalProps) => {
     if (!username) {
       return dispatch(
         addNotification({
-          icon: <X />,
+          icon: <X/>,
           message: "You need an username",
           type: "error",
-        })
+        }),
       );
     }
 
     if (!email) {
       return dispatch(
         addNotification({
-          icon: <X />,
+          icon: <X/>,
           message: "You need an email",
           type: "error",
-        })
+        }),
       );
     }
 
     if (!password) {
       return dispatch(
         addNotification({
-          icon: <X />,
+          icon: <X/>,
           message: "You need a password",
           type: "error",
-        })
+        }),
       );
     }
 
@@ -140,10 +140,10 @@ const Signup = ({ dispatch }: ModalProps) => {
     if (!success || !data) {
       return dispatch(
         addNotification({
-          icon: <X />,
+          icon: <X/>,
           message: error?.message ?? "An error occurred whilst signing up",
           type: "error",
-        })
+        }),
       );
     }
 
@@ -168,39 +168,39 @@ const Signup = ({ dispatch }: ModalProps) => {
                 }}
               >
                 <Input
+                  iconDisabled
+                  required
                   label="Email"
-                  icon={<Mail />}
+                  icon={<Mail/>}
                   placeholder="Enter your email"
-                  onChange={(e) => setEmail(e.target.value)}
                   type="email"
-                  iconDisabled
-                  required
+                  onChange={(e) => setEmail(e.target.value)}
                 />
                 <Input
+                  iconDisabled
+                  required
                   label="Username"
-                  icon={<User />}
+                  icon={<User/>}
                   placeholder="Enter your username"
-                  onChange={(e) => setUsername(e.target.value)}
                   type="username"
-                  iconDisabled
-                  required
+                  onChange={(e) => setUsername(e.target.value)}
                 />
                 <Input
-                  label="Password"
-                  icon={<Lock />}
-                  placeholder="Enter your password"
-                  onChange={(e) => setPassword(e.target.value)}
-                  type="password"
                   iconDisabled
                   required
+                  label="Password"
+                  icon={<Lock/>}
+                  placeholder="Enter your password"
+                  type="password"
+                  onChange={(e) => setPassword(e.target.value)}
                 />
 
                 <Button
+                  clickOnEnter
                   style={{ alignSelf: "flex-start", marginTop: 15 }}
                   disabled={loading}
                   type="submit"
                   onClick={submit}
-                  clickOnEnter
                 >
                   Signup
                 </Button>
@@ -213,7 +213,7 @@ const Signup = ({ dispatch }: ModalProps) => {
                 }}
               >
                 <LogoContainer>
-                  <Logo />
+                  <Logo/>
                   <Button onClick={() => dispatch(openModal("login"))}>
                     Have an account?
                   </Button>
@@ -228,7 +228,7 @@ const Signup = ({ dispatch }: ModalProps) => {
               animate="animate"
               exit="initial"
             >
-              <CheckIcon size={40} />
+              <CheckIcon size={40}/>
               <h1>Successfully created your account!</h1>
               <span>Make sure to check your email ({email})</span>
             </SuccessContainer>
@@ -237,6 +237,6 @@ const Signup = ({ dispatch }: ModalProps) => {
       </StyledContent>
     </StyledWrapper>
   );
-};
+}
 
 export default Signup;

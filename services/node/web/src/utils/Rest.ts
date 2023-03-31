@@ -24,7 +24,7 @@ export const makeRequest = async <T = any>(
   body?: any,
   options?: {
     headers?: Record<string, string>;
-  }
+  },
 ): Promise<ImperialAPIResponse<T>> => {
   try {
     const headers: Record<string, string> = {
@@ -46,7 +46,7 @@ export const makeRequest = async <T = any>(
         method,
         headers,
         body: body ? JSON.stringify(body) : null,
-      }
+      },
     ).then(async (res) =>
       res.status === 204
         ? { success: true }
@@ -55,11 +55,11 @@ export const makeRequest = async <T = any>(
             .then((json) =>
               res.status >= 300
                 ? { ...json, error: { message: json.error.message } }
-                : json
+                : json,
             )
             .catch(() =>
-              res.status >= 300 ? { success: false } : { success: true }
-            )
+              res.status >= 300 ? { success: false } : { success: true },
+            ),
     );
 
     return (
@@ -82,7 +82,7 @@ export const makeRequest = async <T = any>(
 export const fetcher = async <T = any>(
   method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE" | "HEAD",
   endpoint: string,
-  body?: any
+  body?: any,
 ): Promise<ImperialAPIResponse<T>> => {
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
@@ -96,7 +96,7 @@ export const fetcher = async <T = any>(
     throw new Error("GET requests cannot have a body");
   }
 
-  return await fetch(FULL_URI_V1 + endpoint, {
+  return fetch(FULL_URI_V1 + endpoint, {
     method,
     headers,
     body: body ? JSON.stringify(body) : null,

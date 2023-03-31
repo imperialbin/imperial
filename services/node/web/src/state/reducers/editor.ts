@@ -5,7 +5,7 @@ export interface EditorState {
 }
 
 const initial: EditorState = {
-  // only camalcase because thats our monaco wants it
+  // Only camalcase because thats our monaco wants it
   readOnly: false,
   language: "auto",
   forked_content: undefined,
@@ -18,7 +18,7 @@ type EditorActions =
     }
   | {
       type: "SET_LANGUAGE";
-      payload: string; // todo: strictly type this
+      payload: string; // Todo: strictly type this
     }
   | {
       type: "SET_FORKED_CONTENT";
@@ -27,16 +27,16 @@ type EditorActions =
 
 const editor = (state: EditorState = initial, action: EditorActions) => {
   switch (action.type) {
-    case "SET_READONLY":
-      return { ...state, readOnly: action.payload };
-    case "SET_LANGUAGE":
-      return { ...state, language: action.payload };
+  case "SET_READONLY":
+    return { ...state, readOnly: action.payload };
+  case "SET_LANGUAGE":
+    return { ...state, language: action.payload };
 
-    case "SET_FORKED_CONTENT":
-      return { ...state, forked_content: action.payload };
+  case "SET_FORKED_CONTENT":
+    return { ...state, forked_content: action.payload };
 
-    default:
-      return state;
+  default:
+    return state;
   }
 };
 
