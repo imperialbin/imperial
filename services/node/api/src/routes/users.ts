@@ -8,6 +8,7 @@ import { getUser } from "../handlers/users/getUser";
 import { patchMe } from "../handlers/users/patchMe";
 import { regenerateAPIToken } from "../handlers/users/regenerateAPIToken";
 import { searchUser } from "../handlers/users/searchUser";
+import { upgradeMe } from "../handlers/users/upgrade";
 
 export const usersRoutes = (
   fastify: FastifyInstance,
@@ -15,9 +16,10 @@ export const usersRoutes = (
   done: () => void,
 ) => {
   fastify.get("/@me", getMe);
+  fastify.patch("/@me", patchMe);
   fastify.get("/@me/recent", getRecentDocuments);
   fastify.get("/@me/devices", getMeDevices);
-  fastify.patch("/@me", patchMe);
+  fastify.patch("/@me/upgrade", upgradeMe);
 
   // This is a post because we confirm the password
   fastify.post("/@me/delete", deleteMe);

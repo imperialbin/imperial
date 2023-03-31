@@ -19,6 +19,14 @@ const pika = new Pika([
     description: "imperial auth token",
     secure: true,
   },
+  {
+    prefix: "role",
+    description: "Role ID",
+  },
+  {
+    prefix: "member_plus",
+    description: "Member Plus Token",
+  },
 ]);
 
 type PikaIDs = (typeof pika.prefixes)[number]["prefix"];

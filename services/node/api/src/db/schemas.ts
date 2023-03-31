@@ -1,11 +1,4 @@
-import {
-  boolean,
-  integer,
-  json,
-  pgTable,
-  serial,
-  text,
-} from "drizzle-orm/pg-core";
+import { boolean, integer, json, pgTable, text } from "drizzle-orm/pg-core";
 import { DiscordUser, GitHubUser, UserSettings } from "../types";
 import { Id } from "../utils/pika";
 
@@ -57,4 +50,8 @@ export const devices = pgTable("devices", {
   ip: text("ip").notNull(),
   auth_token: text("auth_token").notNull(),
   created_at: text("created_at").notNull(),
+});
+
+export const memberPlusTokens = pgTable("member_plus_tokens", {
+  id: text("id").primaryKey().$type<Id<"member_plus">>(),
 });

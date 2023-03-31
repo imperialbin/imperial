@@ -25,6 +25,12 @@
       "version": "5",
       "when": 1680228527355,
       "tag": "0003_boring_angel"
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1680272258252,
+      "tag": "0004_parallel_golden_guardian"
     }
   ]
 }
