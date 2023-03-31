@@ -3240,6 +3240,11 @@ pend@~1.2.0:
   resolved "https://registry.yarnpkg.com/pend/-/pend-1.2.0.tgz#7a57eb550a6783f9115331fcf4663d5c8e007a50"
   integrity sha512-F3asv42UuXchdzt+xXqfW1OGlVBe+mxa2mqI0pg5yAHZPvFmY3Y6drSf/GQ1A86WgWEN9Kzh/WrgKa6iGcHXLg==
 
+permer@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/permer/-/permer-1.2.0.tgz#83a23ccabd5a7364fab7acf1890fee789b5c934e"
+  integrity sha512-XSN9WtyoKRhZJL4pigoXYOS3QNZm81MjQ1yb42cKcOrzkY/szC7D1dBrhr0K8HYvEjVUqToNJDMktGzDTXfCgQ==
+
 pg-connection-string@^2.5.0:
   version "2.5.0"
   resolved "https://registry.yarnpkg.com/pg-connection-string/-/pg-connection-string-2.5.0.tgz#538cadd0f7e603fc09a12590f3b8a452c2c0cf34"
