@@ -43,6 +43,15 @@ export const login: FastifyImp<
     });
   }
 
+  if (user.banned) {
+    return reply.status(400).send({
+      success: false,
+      error: {
+        message: "You are banned",
+      },
+    });
+  }
+
   if (!(await bcrypt.compare(body.data.password, user.password))) {
     return reply.status(400).send({
       success: false,
@@ -76,7 +85,7 @@ export const login: FastifyImp<
     success: true,
     data: {
       token,
-      user,
+      user: userWithoutPassword,
     },
   });
 };
