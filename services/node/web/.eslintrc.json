@@ -1,10 +1,26 @@
 {
-  "extends": "next/core-web-vitals",
+  "extends": ["next/core-web-vitals", "xo", "xo-react", "xo-react/space"],
   "rules": {
+    "react/react-in-jsx-scope": "off",
     "react-hooks/rules-of-hooks": "off",
     /* This rule has only helped once in my entire time of coding... */
     "react-hooks/exhaustive-deps": "off",
     /* im not falling for this propaganda */
-    "@next/next/no-img-element": "off"
+    "@next/next/no-img-element": "off",
+    "quotes": ["error", "double", { "avoidEscape": true }],
+    "indent": "off",
+    "object-curly-spacing": ["error", "always"],
+    "arrow-parens": ["error", "always"],
+    "curly": "off",
+    "no-negated-condition": "off",
+    "new-cap": "off",
+    "jsx-quotes": ["error", "prefer-double"],
+    "camelcase": "off",
+    "react/require-default-props": "off",
+    "no-undef": "off",
+    "react/jsx-tag-spacing": "off",
+    "operator-linebreak": "off",
+    "react/jsx-curly-newline": "off",
+    "react/jsx-indent": "off"
   }
 }
