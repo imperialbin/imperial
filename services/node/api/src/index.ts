@@ -27,10 +27,10 @@ const main = async () => {
     global: true,
     max: 500,
     timeWindow: "1 minute",
-    keyGenerator: function (request) {
-      return (request.headers["x-real-ip"] ||
-        request.headers["x-client-ip"] ||
-        request.headers["x-forwarded-for"] ||
+    keyGenerator(request) {
+      return (request.headers["x-real-ip"] ??
+        request.headers["x-client-ip"] ??
+        request.headers["x-forwarded-for"] ??
         request.ip) as string;
     },
   });

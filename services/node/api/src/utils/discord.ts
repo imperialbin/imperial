@@ -18,7 +18,7 @@ export class Discord {
           redirect_uri: env.DISCORD_CALLBACK,
           scope: "identify,guilds.join,guilds",
         }),
-      }
+      },
     )
       .then(
         (res) =>
@@ -33,7 +33,7 @@ export class Discord {
                 refresh_token: string;
                 scope: string;
                 token_type: string;
-              }
+              },
       )
       .catch(() => ({
         error: "Internal server error",

@@ -9,7 +9,9 @@ import {
 } from "../../utils/publicObjects";
 
 export const getRecentDocuments: FastifyImp = async (request, reply) => {
-  if (!request.user) return;
+  if (!request.user) {
+return;
+}
 
   const recentDocuments = await db
     .select(DOCUMENT_PUBLIC_OBJECT)

@@ -9,7 +9,7 @@ import { signup } from "../handlers/auth/signup";
 export const authRoutes = (
   fastify: FastifyInstance,
   _: unknown,
-  done: () => void
+  done: () => void,
 ) => {
   fastify.post(
     "/login",
@@ -20,7 +20,7 @@ export const authRoutes = (
         },
       },
     },
-    login
+    login,
   );
   fastify.post(
     "/signup",
@@ -31,7 +31,7 @@ export const authRoutes = (
         },
       },
     },
-    signup
+    signup,
   );
   fastify.delete(
     "/logout",
@@ -42,7 +42,7 @@ export const authRoutes = (
         },
       },
     },
-    logout
+    logout,
   );
 
   // Password reset
@@ -55,7 +55,7 @@ export const authRoutes = (
         },
       },
     },
-    forgotPassword
+    forgotPassword,
   );
   fastify.post(
     "/reset_password/:token",
@@ -66,7 +66,7 @@ export const authRoutes = (
         },
       },
     },
-    resetPasswordWithToken
+    resetPasswordWithToken,
   );
   fastify.post(
     "/reset_password",
@@ -77,7 +77,7 @@ export const authRoutes = (
         },
       },
     },
-    resetPassword
+    resetPassword,
   );
 
   done();

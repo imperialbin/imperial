@@ -8,7 +8,7 @@ export class AuthSessions {
   public static async createDevice(
     userId: Id<"user">,
     userAgent: string,
-    ip: string
+    ip: string,
   ) {
     const token = pika.gen("imperial_auth");
 
@@ -60,7 +60,7 @@ export class AuthSessions {
 
   public static async deleteAllSessionsForUser(
     userId: Id<"user">,
-    except?: Id<"imperial_auth">
+    except?: Id<"imperial_auth">,
   ) {
     const usersDevices = await db
       .select()
@@ -78,7 +78,7 @@ export class AuthSessions {
     await db
       .delete(devices)
       .where(
-        and(eq(devices.user, userId), ne(devices.auth_token, except ?? ""))
+        and(eq(devices.user, userId), ne(devices.auth_token, except ?? "")),
       );
   }
 }

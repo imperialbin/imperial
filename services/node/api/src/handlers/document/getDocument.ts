@@ -54,7 +54,7 @@ export const getDocument: FastifyImp<
     try {
       content = decrypt(password, document.content);
     } catch (e) {
-      // if its not a bad password log
+      // If its not a bad password log
       if (!String(e).includes("routines:EVP_DecryptFinal_ex:bad")) {
         Logger.error("crypto", "Failed to decrypt document " + String(e));
       }

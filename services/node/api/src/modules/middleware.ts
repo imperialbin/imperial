@@ -7,19 +7,19 @@ const middleware = fp(
     fastify.addHook("preHandler", async (req, reply) => {
       if (req.headers.authorization) {
         const user = await AuthSessions.findUserByToken(
-          req.headers.authorization
+          req.headers.authorization,
         );
 
         req.user = user;
       }
     });
     done();
-  }
+  },
 );
 
 const checkAuthentication = async (
   req: FastifyRequest,
-  reply: FastifyReply
+  reply: FastifyReply,
 ) => {
   if (!req.user) {
     reply.status(401).send({

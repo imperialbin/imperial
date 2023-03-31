@@ -34,14 +34,14 @@ class SES {
     email: T,
     data: EmailProps[T],
     to: string,
-    title: string
+    title: string,
   ) {
     const Element = (EMAILS[email] as FunctionComponent<EmailProps[T]>)(
-      data
+      data,
     ) as JSX.Element;
 
     const html = render(Element);
-    return await ses
+    return ses
       .sendEmail({
         Source: env.AWS_SES_FROM,
         Destination: {
@@ -62,7 +62,7 @@ class SES {
       })
       .promise()
       .catch((err) => {
-        Logger.error("SES", "Error sending email " + err);
+        Logger.error("SES", `Error sending email ${String(err)}`);
       });
   }
 }
@@ -71,7 +71,7 @@ class S3 {
   public static async uploadFile(
     key: string,
     body: string | Buffer,
-    contentType: string
+    contentType: string,
   ) {
     const uploadRequest = await s3
       .upload({

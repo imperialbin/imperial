@@ -28,7 +28,7 @@ export const setupDB = async () => {
       Logger.info("INIT", "Migrated database");
     })
     .catch((err) => {
-      Logger.error("INIT", "Failed to migrate database " + err);
+      Logger.error("INIT", `Failed to migrate database ${String(err)}`);
       process.exit(1);
     });
 };

@@ -1,7 +1,7 @@
 import { InferModel } from "drizzle-orm";
 import { devices } from "../../db/schemas";
 
-export type EmailProps = {
+type EmailProps = {
   confirm_email: {
     token: string;
   };
@@ -18,4 +18,4 @@ export type EmailProps = {
 
 type Emails = keyof EmailProps;
 
-export { EmailProps, Emails };
+export type { EmailProps, Emails };

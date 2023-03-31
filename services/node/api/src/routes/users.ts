@@ -12,7 +12,7 @@ import { searchUser } from "../handlers/users/searchUser";
 export const usersRoutes = (
   fastify: FastifyInstance,
   _: unknown,
-  done: () => void
+  done: () => void,
 ) => {
   fastify.get("/@me", getMe);
   fastify.get("/@me/recent", getRecentDocuments);
@@ -29,7 +29,7 @@ export const usersRoutes = (
         rateLimit: { max: 10 },
       },
     },
-    regenerateAPIToken
+    regenerateAPIToken,
   );
 
   fastify.get(
@@ -39,7 +39,7 @@ export const usersRoutes = (
         rateLimit: { max: 50 },
       },
     },
-    getUser
+    getUser,
   );
   fastify.get(
     "/search/:username",
@@ -48,7 +48,7 @@ export const usersRoutes = (
         rateLimit: { max: 50 },
       },
     },
-    searchUser
+    searchUser,
   );
 
   done();

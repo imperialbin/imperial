@@ -65,7 +65,7 @@ export const createDocument: FastifyImp<
     });
   }
 
-  let body = createDocumentSchema.safeParse(request.body);
+  const body = createDocumentSchema.safeParse(request.body);
   if (!body.success) {
     return reply.status(400).send({
       success: false,
@@ -76,7 +76,7 @@ export const createDocument: FastifyImp<
     });
   }
 
-  // if they are not logged in dont allow any settings, but let them set the language
+  // If they are not logged in dont allow any settings, but let them set the language
   if (!request.user) {
     const sevenDaysFromNow = new Date();
     sevenDaysFromNow.setDate(sevenDaysFromNow.getDate() + 7);
@@ -220,7 +220,7 @@ export const createDocument: FastifyImp<
     success: true,
     data: {
       id: createdDocument.id,
-      // use the content from the body, not the database, as the database content is (sometimes) encrypted
+      // Use the content from the body, not the database, as the database content is (sometimes) encrypted
       content: body.data.content,
       password,
       creator: request.user

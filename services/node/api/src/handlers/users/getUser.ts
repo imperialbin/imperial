@@ -12,7 +12,7 @@ export const getUser: FastifyImp<
     username: string;
   }
 > = async (request, reply) => {
-  const username = request.params.username;
+  const { username } = request.params;
 
   const user: User =
     (

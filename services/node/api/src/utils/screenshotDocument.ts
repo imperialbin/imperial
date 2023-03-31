@@ -10,7 +10,7 @@ const CARBON_STATE = (code: string) =>
 const screenshotDocument = async (
   documentId: string,
   code: string,
-  memberPlus: boolean
+  memberPlus: boolean,
 ) => {
   try {
     const browser = await puppeteer.launch({
@@ -26,7 +26,7 @@ const screenshotDocument = async (
         localStorage.setItem("CARBON_STATE", CARBON_STATE);
       },
       CARBON_THEME,
-      CARBON_STATE(JSON.stringify(code))
+      CARBON_STATE(JSON.stringify(code)),
     );
     await page.reload();
     await page.evaluate(WATER_MARK);

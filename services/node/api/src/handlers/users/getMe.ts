@@ -5,7 +5,9 @@ import { FastifyImp } from "../../types";
 export const getMe: FastifyImp<
   Omit<InferModel<typeof users>, "password">
 > = async (request, reply) => {
-  if (!request.user) return;
+  if (!request.user) {
+return;
+}
 
   const { password, ...userWithoutPassword } = request.user;
 

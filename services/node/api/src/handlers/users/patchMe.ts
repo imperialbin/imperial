@@ -27,7 +27,9 @@ const patchMeSchema = z.object({
 });
 
 export const patchMe: FastifyImp = async (request, reply) => {
-  if (!request.user) return;
+  if (!request.user) {
+    return;
+  }
 
   const body = patchMeSchema.safeParse(request.body);
   if (!body.success) {

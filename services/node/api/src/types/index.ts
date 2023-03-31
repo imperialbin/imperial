@@ -20,7 +20,7 @@ type FastifyImp<T = unknown, B = unknown, Q = unknown, P = unknown> = (
   req: FastifyRequest<{ Body: B; Querystring: Q; Params: P }>,
   res: Omit<FastifyReply, "send"> & {
     send(data: ImperialResponse<T>): FastifyReply;
-  }
+  },
 ) => Promise<unknown>;
 
 type SelfUser = {

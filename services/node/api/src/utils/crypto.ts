@@ -13,7 +13,7 @@ const decrypt = (password: string, cipherText: string): string => {
   const decipher = createDecipheriv(
     "aes256",
     hashedPassword,
-    Buffer.from(initVector, "hex")
+    Buffer.from(initVector, "hex"),
   );
 
   return decipher.update(text, "hex", "utf-8") + decipher.final("utf-8");

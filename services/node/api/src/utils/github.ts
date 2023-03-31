@@ -14,7 +14,7 @@ type GitHubAccessTokenResponse =
       error_uri: string;
     };
 
-interface GitHubGistResponse {
+type GitHubGistResponse = {
   url: string;
   forks_url: string;
   commits_url: string;
@@ -43,7 +43,7 @@ interface GitHubGistResponse {
   comments_url: string;
   owner: GitHubUser;
   truncated: boolean;
-}
+};
 
 export class GitHub {
   public static async getAccessToken(code: string) {
@@ -60,7 +60,7 @@ export class GitHub {
           client_secret: env.GITHUB_CLIENT_SECRET,
           code,
         }),
-      }
+      },
     )
       .then((res) => res.json() as unknown as GitHubAccessTokenResponse)
       .catch(() => ({
@@ -87,9 +87,8 @@ export class GitHub {
   public static async createGist(
     content: string,
     documentId: string,
-    userAuth: string
+    userAuth: string,
   ) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const gist = await fetch("https://api.github.com/gists", {
       method: "POST",
       headers: {
@@ -106,7 +105,7 @@ export class GitHub {
     })
       .then((res) => res.json() as unknown as GitHubGistResponse)
       .catch((err) => {
-        Logger.error("GitHub", "Error creating Gist " + err);
+        Logger.error("GitHub", `Error creating Gist ${String(err)}`);
         return null;
       });
 

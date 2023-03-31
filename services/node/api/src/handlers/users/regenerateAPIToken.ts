@@ -5,7 +5,9 @@ import { FastifyImp } from "../../types";
 import { pika } from "../../utils/pika";
 
 export const regenerateAPIToken: FastifyImp = async (request, reply) => {
-  if (!request.user) return;
+  if (!request.user) {
+    return;
+  }
 
   const updatedUser =
     (

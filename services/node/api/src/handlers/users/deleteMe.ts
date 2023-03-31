@@ -11,7 +11,9 @@ const deleteMeSchema = z.object({
 });
 
 export const deleteMe: FastifyImp<unknown, {}> = async (request, reply) => {
-  if (!request.user) return;
+  if (!request.user) {
+    return;
+  }
 
   const body = deleteMeSchema.safeParse(request.body);
   if (!body.success) {

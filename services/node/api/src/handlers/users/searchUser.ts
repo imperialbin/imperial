@@ -13,7 +13,7 @@ export const searchUser: FastifyImp<
     username: string;
   }
 > = async (request, reply) => {
-  const username = request.params.username;
+  const { username } = request.params;
 
   const likeUsers: User[] = await db
     .select(USER_PUBLIC_OBJECT)

@@ -7,7 +7,7 @@ import { patchDocument } from "../handlers/document/patchDocument";
 export const documentRoutes = (
   fastify: FastifyInstance,
   _: unknown,
-  done: () => void
+  done: () => void,
 ) => {
   fastify.post("/", createDocument);
   fastify.get("/:id", getDocument);
