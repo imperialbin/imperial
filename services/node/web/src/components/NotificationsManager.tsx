@@ -104,7 +104,10 @@ const Notification = memo(({ notification, dispatch }: INotificationProps) => {
       variants={NOTIFICATION_WRAPPER_ANIMATION}
       transition={{ duration: 0.3, type: "spring" }}
       whileHover={{ scale: 1.05 }}
-      onClick={close}
+      onClick={() => {
+        close();
+        notification.onClick?.();
+      }}
     >
       {notification.icon}
       <span>{notification.message}</span>
