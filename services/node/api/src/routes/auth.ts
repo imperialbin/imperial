@@ -47,7 +47,7 @@ export const authRoutes = (
 
   // Password reset
   fastify.post(
-    "/forgot_password",
+    "/forgot",
     {
       config: {
         rateLimit: {
@@ -58,7 +58,7 @@ export const authRoutes = (
     forgotPassword,
   );
   fastify.post(
-    "/reset_password/:token",
+    "/reset_password/token",
     {
       config: {
         rateLimit: {

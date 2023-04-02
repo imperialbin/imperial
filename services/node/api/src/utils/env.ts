@@ -1,7 +1,11 @@
-import { envsafe, num, str } from "envsafe";
+import { bool, envsafe, num, str } from "envsafe";
 import "dotenv/config";
 
 export const env = envsafe({
+  PRODUCTION: bool({
+    default: false,
+    desc: "Whether the server is running in production",
+  }),
   PORT: num({
     default: 8080,
     desc: "The port to run the server on",
@@ -92,5 +96,9 @@ export const env = envsafe({
     default: "noreply@imperialb.in",
     desc: "The aws ses from email",
     allowEmpty: true,
+  }),
+  COOKIE_SIGNER: str({
+    default: "imperial",
+    desc: "The cookie signer",
   }),
 });

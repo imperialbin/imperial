@@ -1,4 +1,5 @@
 import { SelfUser } from "@web/types";
+import { deleteCookie } from "cookies-next";
 
 type UserActions =
   | {
@@ -11,13 +12,14 @@ type UserActions =
 
 const user = (state: SelfUser | null = null, action: UserActions) => {
   switch (action.type) {
-  case "SET_USER":
-    return action.payload;
+    case "SET_USER":
+      return action.payload;
 
-  case "LOGOUT_USER":
-    return null;
-  default:
-    return state;
+    case "LOGOUT_USER":
+      deleteCookie("imperial-auth");
+      return null;
+    default:
+      return state;
   }
 };
 

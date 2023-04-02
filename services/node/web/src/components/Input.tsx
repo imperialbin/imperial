@@ -1,9 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-import React, {
-  ChangeEventHandler,
-  InputHTMLAttributes,
-  useState,
-} from "react";
+import React, { ChangeEventHandler, InputHTMLAttributes, useState } from "react";
 import { styled } from "@web/stitches.config";
 
 const Container = styled("label", {
@@ -12,7 +8,6 @@ const Container = styled("label", {
   "> span": {
     display: "block",
     color: "$text-secondary",
-    marginBottom: 5,
     fontSize: "0.9em",
   },
 });
@@ -181,10 +176,7 @@ const Input = React.forwardRef<HTMLLabelElement, IInputProps>(
         <Wrapper>
           <AnimatePresence>
             {icon && !hideIconUntilDifferent ? (
-              <IconContainer
-                position={iconPosition}
-                hasCallback={Boolean(iconClick)}
-              >
+              <IconContainer position={iconPosition} hasCallback={Boolean(iconClick)}>
                 <motion.div
                   style={{ position: "relative" }}
                   initial={

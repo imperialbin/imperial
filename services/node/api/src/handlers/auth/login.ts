@@ -81,7 +81,7 @@ export const login: FastifyImp<
 
   const { password, ...userWithoutPassword } = user;
 
-  reply.send({
+  reply.setCookie("imperial-auth", token).send({
     success: true,
     data: {
       token,

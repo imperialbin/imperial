@@ -30,10 +30,10 @@ import {
 } from "../components/Icons";
 
 /* ENV and some static stuff */
-export const API_BASE
-  = process.env.NODE_ENV === "development"
+export const API_BASE =
+  process.env.NODE_ENV === "development"
     ? "http://127.0.0.1:8080/"
-    : "https://imperial.hop.sh/";
+    : "http://127.0.0.1:8080/";
 export const API_VERSION_V1 = "v1";
 export const FULL_URI_V1 = API_BASE + API_VERSION_V1;
 export const CDN_URL = "https://cdn.impb.in/";

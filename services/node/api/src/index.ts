@@ -20,8 +20,18 @@ const main = async () => {
 
   const API_VERSION = "v1";
 
-  server.register(cors, {
-    origin: "*",
+  server.register(cors, { maxAge: 600, origin: true, credentials: true });
+
+  server.register(import("@fastify/cookie"), {
+    secret: env.COOKIE_SIGNER,
+    parseOptions: {
+      httpOnly: true,
+      secure: env.PRODUCTION,
+      sameSite: env.PRODUCTION,
+      path: "/",
+      // New date 6 months from now
+      expires: new Date(Date.now() + 15778476000),
+    },
   });
 
   await server.register(import("@fastify/rate-limit"), {

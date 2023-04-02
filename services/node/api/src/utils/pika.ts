@@ -20,10 +20,6 @@ const pika = new Pika([
     secure: true,
   },
   {
-    prefix: "role",
-    description: "Role ID",
-  },
-  {
     prefix: "member_plus",
     description: "Member Plus Token",
   },

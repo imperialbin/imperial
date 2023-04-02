@@ -1,3 +1,4 @@
+import { getCookie } from "cookies-next";
 import { FULL_URI_V1 } from "./Constants";
 
 export interface ImperialAPIResponse<T = any> {
@@ -29,10 +30,6 @@ export const makeRequest = async <T = any>(
   try {
     const headers: Record<string, string> = {
       "Content-Type": "application/json",
-      Authorization:
-        typeof window !== "undefined"
-          ? localStorage.getItem("imperial_token") ?? ""
-          : "",
       ...options?.headers,
     };
 
@@ -40,14 +37,12 @@ export const makeRequest = async <T = any>(
       throw new Error("GET requests cannot have a body");
     }
 
-    const response: ImperialAPIResponse<T> = await fetch(
-      FULL_URI_V1 + endpoint,
-      {
-        method,
-        headers,
-        body: body ? JSON.stringify(body) : null,
-      },
-    ).then(async (res) =>
+    const response: ImperialAPIResponse<T> = await fetch(FULL_URI_V1 + endpoint, {
+      method,
+      headers,
+      credentials: "include",
+      body: body ? JSON.stringify(body ?? {}) : null,
+    }).then(async (res) =>
       res.status === 204
         ? { success: true }
         : res
@@ -57,14 +52,10 @@ export const makeRequest = async <T = any>(
                 ? { ...json, error: { message: json.error.message } }
                 : json,
             )
-            .catch(() =>
-              res.status >= 300 ? { success: false } : { success: true },
-            ),
+            .catch(() => (res.status >= 300 ? { success: false } : { success: true })),
     );
 
-    return (
-      response || { success: false, error: { code: "internal_scoped_error" } }
-    );
+    return response || { success: false, error: { code: "internal_scoped_error" } };
   } catch (error) {
     console.error(error);
 
@@ -87,9 +78,7 @@ export const fetcher = async <T = any>(
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
     Authorization:
-      typeof window !== "undefined"
-        ? localStorage.getItem("imperial_token") ?? ""
-        : "",
+      typeof window !== "undefined" ? localStorage.getItem("imperial_token") ?? "" : "",
   };
 
   if (body && (method === "GET" || method === "HEAD")) {

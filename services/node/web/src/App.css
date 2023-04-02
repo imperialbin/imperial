@@ -61,3 +61,11 @@ a {
 ::-webkit-scrollbar-corner {
   background: transparent;
 }
+
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  color: var(--text-secondary);
+  font-size: 0.9em;
+}

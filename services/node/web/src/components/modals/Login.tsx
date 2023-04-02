@@ -8,8 +8,8 @@ import { useState } from "react";
 import { Lock, User, X } from "react-feather";
 import { SelfUser } from "../../types";
 import Header from "./base/Header";
-import { ModalProps } from "./base/modals";
 import { Content, Wrapper } from "./base/Styles";
+import { ModalProps } from "./base/modals";
 
 const StyledWrapper = styled(Wrapper, {
   width: "80%",
@@ -55,7 +55,7 @@ function Login({ dispatch, closeModal }: ModalProps) {
     if (!username) {
       return dispatch(
         addNotification({
-          icon: <X/>,
+          icon: <X />,
           message: "Please provide a username",
           type: "error",
         }),
@@ -65,7 +65,7 @@ function Login({ dispatch, closeModal }: ModalProps) {
     if (username.length < 3) {
       return dispatch(
         addNotification({
-          icon: <X/>,
+          icon: <X />,
           message: "Username must be 3 characters",
           type: "error",
         }),
@@ -75,7 +75,7 @@ function Login({ dispatch, closeModal }: ModalProps) {
     if (!password) {
       return dispatch(
         addNotification({
-          icon: <X/>,
+          icon: <X />,
           message: "Please provide a password",
           type: "error",
         }),
@@ -85,7 +85,7 @@ function Login({ dispatch, closeModal }: ModalProps) {
     if (password.length < 8) {
       return dispatch(
         addNotification({
-          icon: <X/>,
+          icon: <X />,
           message: "Password must be 8 characters",
           type: "error",
         }),
@@ -107,14 +107,14 @@ function Login({ dispatch, closeModal }: ModalProps) {
     if (!success || !data)
       return dispatch(
         addNotification({
-          icon: <X/>,
+          icon: <X />,
           message: error?.message ?? "An error occurred whilst logging in.",
           type: "error",
         }),
       );
 
     dispatch(setUser(data.user));
-    localStorage.setItem("imperial_token", data.token);
+
     closeModal();
   };
 
@@ -134,7 +134,7 @@ function Login({ dispatch, closeModal }: ModalProps) {
             iconDisabled
             required
             label="Email or username"
-            icon={<User/>}
+            icon={<User />}
             placeholder="Enter your username or email"
             onChange={(e) => setUsername(e.target.value)}
           />
@@ -142,7 +142,7 @@ function Login({ dispatch, closeModal }: ModalProps) {
             iconDisabled
             required
             label="Password"
-            icon={<Lock/>}
+            icon={<Lock />}
             placeholder="Enter your password"
             type="password"
             onChange={(e) => setPassword(e.target.value)}
@@ -158,10 +158,8 @@ function Login({ dispatch, closeModal }: ModalProps) {
           </Button>
         </div>
         <LogoContainer>
-          <Logo/>
-          <Button onClick={() => dispatch(openModal("signup"))}>
-            No account?
-          </Button>
+          <Logo />
+          <Button onClick={() => dispatch(openModal("signup"))}>No account?</Button>
         </LogoContainer>
       </StyledContent>
     </StyledWrapper>

@@ -14,6 +14,8 @@ import { addNotification, openModal, setUser } from "@web/state/actions";
 import { makeRequest } from "@web/utils/Rest";
 import { SelfUser } from "../../types";
 
+import { setCookie } from "cookies-next";
+
 const StyledWrapper = styled(Wrapper, {
   width: "80%",
   maxWidth: 600,
@@ -98,7 +100,7 @@ function Signup({ dispatch }: ModalProps) {
     if (!username) {
       return dispatch(
         addNotification({
-          icon: <X/>,
+          icon: <X />,
           message: "You need an username",
           type: "error",
         }),
@@ -108,7 +110,7 @@ function Signup({ dispatch }: ModalProps) {
     if (!email) {
       return dispatch(
         addNotification({
-          icon: <X/>,
+          icon: <X />,
           message: "You need an email",
           type: "error",
         }),
@@ -118,7 +120,7 @@ function Signup({ dispatch }: ModalProps) {
     if (!password) {
       return dispatch(
         addNotification({
-          icon: <X/>,
+          icon: <X />,
           message: "You need a password",
           type: "error",
         }),
@@ -140,7 +142,7 @@ function Signup({ dispatch }: ModalProps) {
     if (!success || !data) {
       return dispatch(
         addNotification({
-          icon: <X/>,
+          icon: <X />,
           message: error?.message ?? "An error occurred whilst signing up",
           type: "error",
         }),
@@ -148,7 +150,9 @@ function Signup({ dispatch }: ModalProps) {
     }
 
     dispatch(setUser(data.user));
-    localStorage.setItem("imperial_token", data?.token);
+    setCookie("imperial-auth", data.token, {
+      sameSite: "lax",
+    });
     setSuccess(true);
   };
 
@@ -171,7 +175,7 @@ function Signup({ dispatch }: ModalProps) {
                   iconDisabled
                   required
                   label="Email"
-                  icon={<Mail/>}
+                  icon={<Mail />}
                   placeholder="Enter your email"
                   type="email"
                   onChange={(e) => setEmail(e.target.value)}
@@ -180,7 +184,7 @@ function Signup({ dispatch }: ModalProps) {
                   iconDisabled
                   required
                   label="Username"
-                  icon={<User/>}
+                  icon={<User />}
                   placeholder="Enter your username"
                   type="username"
                   onChange={(e) => setUsername(e.target.value)}
@@ -189,7 +193,7 @@ function Signup({ dispatch }: ModalProps) {
                   iconDisabled
                   required
                   label="Password"
-                  icon={<Lock/>}
+                  icon={<Lock />}
                   placeholder="Enter your password"
                   type="password"
                   onChange={(e) => setPassword(e.target.value)}
@@ -213,7 +217,7 @@ function Signup({ dispatch }: ModalProps) {
                 }}
               >
                 <LogoContainer>
-                  <Logo/>
+                  <Logo />
                   <Button onClick={() => dispatch(openModal("login"))}>
                     Have an account?
                   </Button>
@@ -228,7 +232,7 @@ function Signup({ dispatch }: ModalProps) {
               animate="animate"
               exit="initial"
             >
-              <CheckIcon size={40}/>
+              <CheckIcon size={40} />
               <h1>Successfully created your account!</h1>
               <span>Make sure to check your email ({email})</span>
             </SuccessContainer>
