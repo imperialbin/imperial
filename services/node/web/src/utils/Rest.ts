@@ -1,4 +1,3 @@
-import { getCookie } from "cookies-next";
 import { FULL_URI_V1 } from "./Constants";
 
 export interface ImperialAPIResponse<T = any> {
