@@ -1,23 +1,24 @@
-FROM golang:1.18-buster as uwu
-WORKDIR /services/go/api
+FROM node:slim AS app
 
-COPY /services/go/api/go.mod .
-COPY /services/go/api/go.sum .
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
 
-RUN go mod download
+RUN apt-get update && apt-get install curl gnupg -y \
+  && curl --location --silent https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
+  && sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' \
+  && apt-get update \
+  && apt-get install google-chrome-stable -y --no-install-recommends \
+  && rm -rf /var/lib/apt/lists/*
 
-COPY /services/go/api .
 
-RUN go mod download github.com/orisano/pixelmatch
+WORKDIR /app
 
-RUN go build
+COPY /services/node/api/package.json .
+COPY /services/node/api/yarn.lock .
 
-FROM chromedp/headless-shell:latest
+RUN yarn install
 
-RUN apt-get update
-RUN apt install tini
-ENTRYPOINT ["tini", "--"]
-RUN apt install -y ca-certificates && rm -rf /var/cache/apk/*
+COPY /services/node/api .
+RUN yarn build
 
-COPY --from=uwu /services/go/api .
-CMD ["./api"]
+CMD [ "yarn", "start" ]
+EXPOSE 8080

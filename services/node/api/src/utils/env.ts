@@ -6,6 +6,10 @@ export const env = envsafe({
     default: false,
     desc: "Whether the server is running in production",
   }),
+  HOST: str({
+    default: "localhost",
+    desc: "The host to run the server on",
+  }),
   PORT: num({
     default: 8080,
     desc: "The port to run the server on",

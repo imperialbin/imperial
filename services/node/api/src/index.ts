@@ -93,7 +93,7 @@ const main = async () => {
     });
   });
 
-  server.listen({ port: env.PORT }, (err, address) => {
+  server.listen({ host: env.HOST, port: env.PORT }, (err, address) => {
     if (err) {
       Logger.error("INIT", err.message);
       process.exit(1);
