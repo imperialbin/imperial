@@ -16,7 +16,7 @@ export interface ImperialError {
  * @param endpoint The API route to call excluding the version discriminator (e.g. auth/login)
  * @param options HTTP Method, request body and other options
 
- * @returns ImperialAPIResponse object
+ * @returns ImperialAPIResponse object with the data or error
  */
 export const makeRequest = async <T = any>(
   method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE" | "HEAD",
