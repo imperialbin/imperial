@@ -1,12 +1,25 @@
 {
-  "author": "devlooskie",
-  "license": "MPL-2.0",
+  "name": "imp",
+  "version": "0.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
-    "dev-start-node-docker": "docker compose up -d && yarn --cwd services/node/packages/app/ run dev",
-    "services-up": "docker compose up -d"
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
-  "dependencies": {
-    "@floating-ui/react-dom-interactions": "^0.6.3",
-    "@types/amqp": "^0.2.4"
-  }
+  "devDependencies": {
+    "eslint-config-custom": "*",
+    "prettier": "latest",
+    "turbo": "latest"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "dependencies": {},
+  "packageManager": "yarn@1.22.19"
 }

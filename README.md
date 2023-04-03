@@ -1,45 +1,73 @@
-# imperialb.in
+# Turborepo starter
 
-[![Deploy](https://github.com/imperialbin/imperial/actions/workflows/deploy.yml/badge.svg)](https://github.com/imperialbin/imperial/actions/workflows/deploy.yml)
+This is an official Yarn v1 starter turborepo.
 
-#### Imperial is a code/text sharing site with the user experience in mind, it has feautures such as editing, encryption and integration with github gists and discord.
+## What's inside?
 
-[![BUILT WITH SWAG](https://forthebadge.com/images/badges/built-with-swag.svg)](https://forthebadge.com) [![MADE WITH TYPESCRIPT](https://forthebadge.com/images/badges/made-with-typescript.svg)](https://forthebadge.com)
+This turborepo uses [Yarn](https://classic.yarnpkg.com/) as a package manager. It includes the following packages/apps:
 
-# Contributing
+### Apps and Packages
 
-1. Fork the repo on GitHub
-2. Clone the project to your own machine
-3. Commit changes to your own branch
-4. Push your work to your fork
-5. Submit a Pull request so that I can review your changes
+- `docs`: a [Next.js](https://nextjs.org/) app
+- `web`: another [Next.js](https://nextjs.org/) app
+- `ui`: a stub React component library shared by both `web` and `docs` applications
+- `eslint-config-custom`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
+- `tsconfig`: `tsconfig.json`s used throughout the monorepo
 
-NOTE: Be sure to merge the latest from "upstream" before making a pull request!
+Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
 
-# Running Locally
-```bash
-# Install Web App Dependencies
-$ cd services/node/app
-$ yarn
+### Utilities
 
-# Docker Compose (run in root of project)
-$ docker-compose up -d
+This turborepo has some additional tools already setup for you:
 
-# Install API Dependencies
-$ cd services/go/packages/api
-$ go get
+- [TypeScript](https://www.typescriptlang.org/) for static type checking
+- [ESLint](https://eslint.org/) for code linting
+- [Prettier](https://prettier.io) for code formatting
 
-# Copy env files
-# There should also be a .env file in the prisma folder containing DATABASE_URL
-$ cd cd services/go/packages/api
-$ cp .env.example .env 
+### Build
 
-# Sync the Database
-$ cd prisma
-$ go run github.com/prisma/prisma-client-go db push
+To build all apps and packages, run the following command:
+
+```
+cd my-turborepo
+yarn run build
 ```
 
-# License
+### Develop
 
-Licensed under the Mozilla Public License, Version 2.0 (the "License"); you may not use this code except in compliance with the License. \
-You may obtain a copy of the License [here](https://www.mozilla.org/en-US/MPL/2.0/).
+To develop all apps and packages, run the following command:
+
+```
+cd my-turborepo
+yarn run dev
+```
+
+### Remote Caching
+
+Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
+
+By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup), then enter the following commands:
+
+```
+cd my-turborepo
+npx turbo login
+```
+
+This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+
+Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your turborepo:
+
+```
+npx turbo link
+```
+
+## Useful Links
+
+Learn more about the power of Turborepo:
+
+- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
+- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
+- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
+- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
+- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
+- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
