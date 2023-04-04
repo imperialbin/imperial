@@ -703,10 +703,10 @@ function UserSettings({ user, dispatch }: ReduxProps & ModalProps): JSX.Element 
                     );
 
                   const { success, error } = await makeRequest(
-                    "PATCH",
+                    "POST",
                     "/auth/reset_password",
                     {
-                      password,
+                      old_password: password,
                       new_password: newPassword,
                     },
                   );
@@ -721,13 +721,17 @@ function UserSettings({ user, dispatch }: ReduxProps & ModalProps): JSX.Element 
                       }),
                     );
 
-                  return dispatch(
+                  dispatch(
                     addNotification({
-                      icon: <X />,
+                      icon: <Check />,
                       message: "Successfully changed your password.",
                       type: "success",
                     }),
                   );
+
+                  setPassword("");
+                  setNewPassword("");
+                  setConfirmPassword("");
                 }}
               >
                 Reset password

@@ -5,11 +5,11 @@ import { styled } from "@web/stitches.config";
 import { closeModal } from "../state/actions";
 import { ImperialState } from "../state/reducers";
 import { useOutsideClick } from "../hooks/useOutsideClick";
-import Login from "./modals/Login";
-import Signup from "./modals/Signup";
-import { LanguageSelector } from "./modals/LanguageSelector";
-import UserSettings from "./modals/UserSettings";
-import { DocumentSettings } from "./modals/DocumentSettings";
+import Login from "./modals/LoginModal";
+import Signup from "./modals/SignupModal";
+import { LanguageSelector } from "./modals/LanguageSelectorModal";
+import UserSettings from "./modals/UserSettingsModal";
+import { DocumentSettings } from "./modals/DocumentSettingsModal";
 import DocumentPasswordModal from "./modals/DocumentPasswordModal";
 import EditorsModal from "./modals/EditorsModal";
 
