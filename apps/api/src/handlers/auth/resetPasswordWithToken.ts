@@ -10,7 +10,7 @@ import { redis } from "../../utils/redis";
 
 const resetPasswordWithTokenBody = z.object({
   token: z.string().length(32),
-  newPassword: z.string().min(8),
+  new_password: z.string().min(8),
 });
 
 export const resetPasswordWithToken: FastifyImp = async (request, reply) => {
@@ -50,7 +50,7 @@ export const resetPasswordWithToken: FastifyImp = async (request, reply) => {
   }
 
   await db.update(users).set({
-    password: await bcrypt.hash(body.data.newPassword, 10),
+    password: await bcrypt.hash(body.data.new_password, 10),
   });
 
   await redis.del("resetPassword:" + body.data.token);

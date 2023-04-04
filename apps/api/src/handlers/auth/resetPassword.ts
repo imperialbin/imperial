@@ -7,8 +7,8 @@ import { AuthSessions } from "../../utils/authSessions";
 import { Id } from "@imperial/commons";
 
 const resetPasswordBody = z.object({
-  oldPassword: z.string().min(8),
-  newPassword: z.string().min(8),
+  old_password: z.string().min(8),
+  new_password: z.string().min(8),
 });
 
 export const resetPassword: FastifyImp = async (request, reply) => {
@@ -26,7 +26,7 @@ export const resetPassword: FastifyImp = async (request, reply) => {
     });
   }
 
-  if (!(await bcrypt.compare(body.data.oldPassword, request.user.password))) {
+  if (!(await bcrypt.compare(body.data.old_password, request.user.password))) {
     return reply.status(400).send({
       success: false,
       error: {
@@ -36,12 +36,12 @@ export const resetPassword: FastifyImp = async (request, reply) => {
   }
 
   await db.update(users).set({
-    password: await bcrypt.hash(body.data.newPassword, 10),
+    password: await bcrypt.hash(body.data.new_password, 10),
   });
 
   await AuthSessions.deleteAllSessionsForUser(
     request.user.id,
-    request.headers.authorization as Id<"imperial_auth">
+    request.headers.authorization as Id<"imperial_auth">,
   );
 
   reply.status(204).send();
