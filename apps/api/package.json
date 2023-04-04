@@ -5,12 +5,14 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "auto-migrate": "drizzle-kit generate:pg",
+    "migrate": "drizzle-kit generate:pg",
     "dev": "tsx watch --clear-screen=false src/index.ts",
     "dev:email": "email dev -d ./src/utils/emails",
     "lint": "eslint --ext .ts src",
     "pretty": "prettier --write src/**/*.{ts,tsx}",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "seed": "tsx src/db/seed.ts",
+    "migrate-from-mongo": "tsx src/db/migrate-from-mongo.ts"
   },
   "keywords": [],
   "author": "",
@@ -41,7 +43,8 @@
     "react": "^18.2.0",
     "react-email": "^1.9.0",
     "redis": "^4.6.5",
-    "tsx": "^3.12.6"
+    "tsx": "^3.12.6",
+    "unique-names-generator": "^4.7.1"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
