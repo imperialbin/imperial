@@ -198,7 +198,12 @@ dayjs.updateLocale("en", {
 function UserSettings({ user, dispatch }: ReduxProps & ModalProps): JSX.Element {
   const documents = useRecentDocuments();
 
-  const [iconValue, setIconValue] = useState("");
+  const [iconValue, setIconValue] = useState(
+    user?.icon
+      ?.match(/[^/]*.png/g)
+      ?.toString()
+      .replace(".png", ""),
+  );
   const [email, setEmail] = useState("");
 
   const [password, setPassword] = useState("");
@@ -376,19 +381,18 @@ function UserSettings({ user, dispatch }: ReduxProps & ModalProps): JSX.Element 
                 label="User Icon"
                 placeholder="GitHub username"
                 icon={<Check size={18} />}
-                value={user.icon
-                  ?.match(/[^/]*.png/g)
-                  ?.toString()
-                  .replace(".png", "")}
+                value={iconValue}
                 iconHoverColor="var(--success)"
                 tooltipTitle="Update icon"
                 iconPosition="right"
                 iconClick={async () => {
-                  const { data, error, success } = await makeRequest<{
-                    user: SelfUser;
-                  }>("PATCH", "/users/@me", {
-                    icon: `https://github.com/${iconValue}.png`,
-                  });
+                  const { data, error, success } = await makeRequest<SelfUser>(
+                    "PATCH",
+                    "/users/@me",
+                    {
+                      icon: `https://github.com/${iconValue}.png`,
+                    },
+                  );
 
                   if (!success || !data)
                     return dispatch(
@@ -408,15 +412,17 @@ function UserSettings({ user, dispatch }: ReduxProps & ModalProps): JSX.Element 
                       type: "success",
                     }),
                   );
-                  dispatch(setUser(data.user));
+                  dispatch(setUser(data));
                 }}
-                onChange={(e) => setIconValue(e.target.value)}
+                onChange={(e) => {
+                  setIconValue(e.target.value);
+                }}
               />
               <Input
                 hideIconUntilDifferent
                 label="Email"
                 placeholder="Your email"
-                value={user.email}
+                value={email}
                 icon={<StyledEditBtn />}
                 tooltipTitle="Update email"
                 iconPosition="right"
@@ -430,7 +436,7 @@ function UserSettings({ user, dispatch }: ReduxProps & ModalProps): JSX.Element 
                       }),
                     );
 
-                  const { data, error } = await makeRequest<{ user: SelfUser }>(
+                  const { data, error } = await makeRequest<SelfUser>(
                     "PATCH",
                     "/users/@me",
                     {
@@ -454,7 +460,7 @@ function UserSettings({ user, dispatch }: ReduxProps & ModalProps): JSX.Element 
                       type: "success",
                     }),
                   );
-                  dispatch(setUser(data.user));
+                  dispatch(setUser(data));
                 }}
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -480,9 +486,11 @@ function UserSettings({ user, dispatch }: ReduxProps & ModalProps): JSX.Element 
                     icon={<RefreshCw size={18} />}
                     iconPosition="right"
                     iconClick={async () => {
-                      const { data, error } = await makeRequest<{
-                        token: string;
-                      }>("POST", "/users/@me/regenAPIToken");
+                      const { data, error } = await makeRequest<SelfUser>(
+                        "POST",
+                        "/users/@me/regenerate_api_token",
+                        {},
+                      );
 
                       if (error || !data)
                         return dispatch(
@@ -501,7 +509,7 @@ function UserSettings({ user, dispatch }: ReduxProps & ModalProps): JSX.Element 
                           type: "success",
                         }),
                       );
-                      dispatch(setUser({ ...user, api_token: data.token }));
+                      dispatch(setUser(data));
                     }}
                   />
                 </Tooltip>

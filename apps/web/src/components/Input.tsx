@@ -1,6 +1,6 @@
-import { AnimatePresence, motion } from "framer-motion";
-import React, { ChangeEventHandler, InputHTMLAttributes, useState } from "react";
 import { styled } from "@web/stitches.config";
+import { AnimatePresence, motion } from "framer-motion";
+import React, { InputHTMLAttributes, useMemo } from "react";
 
 const Container = styled("label", {
   position: "relative",
@@ -142,16 +142,13 @@ export interface IInputProps extends InputHTMLAttributes<HTMLInputElement> {
   iconDisabled?: boolean;
   iconHoverColor?: string | null;
   hideIconUntilDifferent?: boolean;
-  onChange?: ChangeEventHandler<HTMLInputElement> | undefined;
   inputDisabled?: boolean;
   tooltipTitle?: string | undefined;
-  type?: string;
 }
 
 const Input = React.forwardRef<HTMLLabelElement, IInputProps>(
   (
     {
-      placeholder,
       label,
       value = "",
       icon,
@@ -159,16 +156,14 @@ const Input = React.forwardRef<HTMLLabelElement, IInputProps>(
       iconPosition = "left",
       secretValue = false,
       hideIconUntilDifferent = false,
-      inputDisabled = false,
-      onChange,
-      type = "",
       ...props
     },
     ref,
   ) => {
-    const [inputValue, setInputValue] = useState(value);
+    const inputRef = React.useRef<HTMLInputElement>(null);
+    const initialValue = useMemo(() => value, []);
 
-    if (inputValue !== value) hideIconUntilDifferent = false;
+    if (value !== initialValue) hideIconUntilDifferent = false;
 
     return (
       <Container ref={ref}>
@@ -203,18 +198,11 @@ const Input = React.forwardRef<HTMLLabelElement, IInputProps>(
             ) : null}
           </AnimatePresence>
           <InputElement
-            value={inputValue}
-            placeholder={placeholder}
-            disabled={inputDisabled}
+            ref={inputRef}
             hasSecretValue={secretValue}
-            type={type}
             hasIcon={Boolean(icon)}
             iconPosition={iconPosition}
-            onChange={(e) => {
-              setInputValue(e.target.value);
-
-              if (onChange) onChange(e);
-            }}
+            value={value}
             {...props}
           />
         </Wrapper>
