@@ -3,8 +3,6 @@ name: push
 on:
   push:
     branches: [next-next]
-    paths:
-      - "services/node/**"
 
 jobs:
   build:
