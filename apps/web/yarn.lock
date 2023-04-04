@@ -1281,6 +1281,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"colorette@npm:^2.0.19":
+  version: 2.0.19
+  resolution: "colorette@npm:2.0.19"
+  checksum: 888cf5493f781e5fcf54ce4d49e9d7d698f96ea2b2ef67906834bb319a392c667f9ec69f4a10e268d2946d13a9503d2d19b3abaaaf174e3451bfe91fb9d82427
+  languageName: node
+  linkType: hard
+
 "commondir@npm:^1.0.1":
   version: 1.0.1
   resolution: "commondir@npm:1.0.1"
@@ -4441,6 +4448,8 @@ __metadata:
     tsconfig: "*"
     typescript: 4.9.5
     ua-parser-js: ^1.0.33
+    znv: ^0.3.2
+    zod: ^3.21.4
   languageName: unknown
   linkType: soft
 
@@ -4552,5 +4561,23 @@ __metadata:
   version: 0.1.0
   resolution: "yocto-queue@npm:0.1.0"
   checksum: f77b3d8d00310def622123df93d4ee654fc6a0096182af8bd60679ddcdfb3474c56c6c7190817c84a2785648cdee9d721c0154eb45698c62176c322fb46fc700
+  languageName: node
+  linkType: hard
+
+"znv@npm:^0.3.2":
+  version: 0.3.2
+  resolution: "znv@npm:0.3.2"
+  dependencies:
+    colorette: ^2.0.19
+  peerDependencies:
+    zod: ^3.11.6
+  checksum: 8e392664de5eabd2bdbc3ed17cce8be35fd8246134015b2f179466dc63746112a5324f740c3c40e6b7d88975292ef0b9f953ae276d4946f09aefe9e4525b9268
+  languageName: node
+  linkType: hard
+
+"zod@npm:^3.21.4":
+  version: 3.21.4
+  resolution: "zod@npm:3.21.4"
+  checksum: f185ba87342ff16f7a06686767c2b2a7af41110c7edf7c1974095d8db7a73792696bcb4a00853de0d2edeb34a5b2ea6a55871bc864227dace682a0a28de33e1f
   languageName: node
   linkType: hard
