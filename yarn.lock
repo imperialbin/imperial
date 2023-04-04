@@ -8966,7 +8966,7 @@ eslint-config-turbo@latest:
   languageName: node
   linkType: hard
 
-"tsconfig@workspace:packages/tsconfig":
+"tsconfig@*, tsconfig@workspace:packages/tsconfig":
   version: 0.0.0-use.local
   resolution: "tsconfig@workspace:packages/tsconfig"
   languageName: unknown
@@ -9416,6 +9416,7 @@ turbo@latest:
     react-redux: ^8.0.5
     redux: ^4.2.1
     swr: ^2.0.3
+    tsconfig: "*"
     typescript: 4.9.5
     ua-parser-js: ^1.0.33
   languageName: unknown
