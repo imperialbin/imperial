@@ -1,5 +1,5 @@
 import { getCookie } from "cookies-next";
-import { FULL_URI_V1 } from "./Constants";
+import { env } from "./Env";
 
 export interface ImperialAPIResponse<T = any> {
   success: boolean;
@@ -38,7 +38,7 @@ export const makeRequest = async <T = any>(
       throw new Error("GET requests cannot have a body");
     }
 
-    const response: ImperialAPIResponse<T> = await fetch(FULL_URI_V1 + endpoint, {
+    const response: ImperialAPIResponse<T> = await fetch(env.API_URL_V1 + endpoint, {
       method,
       headers,
       credentials: "include",
@@ -86,7 +86,7 @@ export const fetcher = async <T = any>(
     throw new Error("GET requests cannot have a body");
   }
 
-  return fetch(FULL_URI_V1 + endpoint, {
+  return fetch(env.API_URL_V1 + endpoint, {
     method,
     headers,
     body: body ? JSON.stringify(body) : null,

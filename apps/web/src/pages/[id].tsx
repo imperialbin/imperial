@@ -4,12 +4,12 @@ import { store } from "@web/state";
 import { openModal, setLanguage, setReadOnly } from "@web/state/actions";
 import { styled } from "@web/stitches.config";
 import { Document as DocumentType } from "@web/types";
-import { CDN_URL } from "@web/utils/Constants";
 import { makeRequest } from "@web/utils/Rest";
 import dayjs from "dayjs";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { NextSeo } from "next-seo";
 import { useEffect, useState } from "react";
+import { env } from "../utils/Env";
 import FourOFour from "./404";
 
 const Wrapper = styled("div", {
@@ -73,7 +73,7 @@ function Document({ document }: InferProps) {
             : "Never expires",
           images: [
             {
-              url: CDN_URL + document.id + ".jpg",
+              url: env.CDN_URL + document.id + ".jpg",
               alt: `IMPERIAL ${document.id}`,
               type: "image/jpeg",
             },
