@@ -1,7 +1,7 @@
 // This file sets a custom webpack configuration to use your Next.js app
 // with Sentry.
 // https://nextjs.org/docs/api-reference/next.config.js/introduction
-// https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup :3 /
+// https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup :3 deploy /
 const { withSentryConfig } = require('@sentry/nextjs');
 
 /** @type {import('next').NextConfig} */
