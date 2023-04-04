@@ -11,7 +11,6 @@ import { env } from "./utils/env";
 import { Logger } from "./utils/logger";
 import { setupRedis } from "./utils/redis";
 import * as Sentry from "@sentry/node";
-import { migrateFromMongo } from "./db/migrate-from-mongo";
 
 Sentry.init({
   dsn: env.SENTRY_DSN,
@@ -26,7 +25,6 @@ const main = async () => {
 
   setupDB();
   setupRedis();
-  migrateFromMongo();
 
   const API_VERSION = "v1";
 
