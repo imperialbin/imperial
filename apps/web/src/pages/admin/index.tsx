@@ -83,8 +83,6 @@ export const getServerSideProps: GetServerSideProps<{
   );
   const recentDocuments = await API.getRecentDocumentsAdmin();
 
-  console.log(recentDocuments);
-
   if (!recentDocuments.success) {
     context.res.writeHead(401, {
       location: "/",

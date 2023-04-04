@@ -13,6 +13,7 @@
     "@monaco-editor/react": "^4.4.6",
     "@next/font": "13.1.6",
     "@reduxjs/toolkit": "^1.9.2",
+    "@sentry/nextjs": "^7.46.0",
     "@sentry/react": "^7.37.2",
     "@sentry/tracing": "^7.37.2",
     "@stitches/react": "^1.2.8",

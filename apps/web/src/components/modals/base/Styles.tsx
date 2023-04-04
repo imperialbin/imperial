@@ -32,7 +32,6 @@ export const Content = styled("div", {
   display: "flex",
   flexDirection: "column",
   width: "100%",
-  height: "100%",
   margin: "10px 0",
 });
 

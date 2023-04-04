@@ -3,7 +3,7 @@ import "dotenv/config";
 
 export const env = envsafe({
   PRODUCTION: bool({
-    default: false,
+    default: true,
     desc: "Whether the server is running in production",
   }),
   HOST: str({

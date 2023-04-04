@@ -1,3 +1,4 @@
+import { getCookie } from "cookies-next";
 import { FULL_URI_V1 } from "./Constants";
 
 export interface ImperialAPIResponse<T = any> {
@@ -28,6 +29,7 @@ export const makeRequest = async <T = any>(
 ): Promise<ImperialAPIResponse<T>> => {
   try {
     const headers: Record<string, string> = {
+      Authorization: (getCookie("imperial-auth") as string) ?? "",
       "Content-Type": "application/json",
       ...options?.headers,
     };

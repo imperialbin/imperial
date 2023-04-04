@@ -1,5 +1,5 @@
-import { InferModel } from "drizzle-orm";
 import "fastify";
+import { InferModel } from "drizzle-orm";
 import { users } from "./src/db/schemas";
 import { APIError } from "./src/types";
 

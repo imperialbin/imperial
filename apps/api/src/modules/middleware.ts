@@ -5,10 +5,11 @@ import { AuthSessions } from "../utils/authSessions";
 const middleware = fp(
   async (fastify: FastifyInstance, _opts: unknown, done: () => void) => {
     fastify.addHook("preHandler", async (req, reply) => {
-      if (req.headers.authorization) {
-        const user = await AuthSessions.findUserByToken(
-          req.headers.authorization,
-        );
+      const auth =
+        req.headers.authorization || req.cookies["imperial-auth"] || "";
+
+      if (auth) {
+        const user = await AuthSessions.findUserByToken(auth);
 
         req.user = user;
       }

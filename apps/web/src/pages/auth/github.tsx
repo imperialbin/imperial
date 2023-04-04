@@ -113,7 +113,7 @@ function GitHub() {
     }
 
     const fetchCallback = async () => {
-      const { success } = await makeRequest(
+      const { success, error } = await makeRequest(
         "GET",
         `/oauth/github/callback?code=${code}`,
       );
@@ -138,16 +138,16 @@ function GitHub() {
   return (
     <Wrapper>
       <LogoContainer>
-        <Logo/>
+        <Logo />
       </LogoContainer>
       <ContentWrapper
         animate={CONTAINER_ANIMATION.animate}
         initial={CONTAINER_ANIMATION.initial}
       >
         <BrandContainer>
-          <StyledGitHubLogo/>
-          <StyledX type={error ? "error" : success ? "success" : "loading"}/>
-          <Logo/>
+          <StyledGitHubLogo />
+          <StyledX type={error ? "error" : success ? "success" : "loading"} />
+          <Logo />
         </BrandContainer>
         <Title>Connecting your GitHub</Title>
         <Paragraph>{paragraphText}</Paragraph>

@@ -7,7 +7,10 @@ export const logout: FastifyImp = async (request, reply) => {
   }
 
   // This is for sure going to be not undefined/null because they wouldn't be able to get passed the checkAuth middleware
-  const token = request.headers.authorization as string;
+  const token =
+    request.headers.authorization ??
+    request.cookies["imperial-auth"] ??
+    ("" as string);
   if (!token.startsWith("imperial_auth_")) {
     reply.status(400).send({
       success: false,

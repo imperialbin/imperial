@@ -2,38 +2,45 @@ import cors from "@fastify/cors";
 import fastify from "fastify";
 import { setupDB } from "./db";
 import { middleware } from "./modules/middleware";
+import { adminRoutes } from "./routes/admin";
 import { authRoutes } from "./routes/auth";
 import { documentRoutes } from "./routes/document";
 import { oAuthRoutes } from "./routes/oauth";
 import { usersRoutes } from "./routes/users";
 import { env } from "./utils/env";
 import { Logger } from "./utils/logger";
-import { redis, setupRedis } from "./utils/redis";
-import { adminRoutes } from "./routes/admin";
+import { setupRedis } from "./utils/redis";
+import * as Sentry from "@sentry/node";
+
+Sentry.init({
+  dsn: env.SENTRY_DSN,
+  tracesSampleRate: 1.0,
+  environment: env.SENTRY_ENVIRONMENT,
+});
 
 const main = async () => {
   const server = fastify({
     bodyLimit: 5000000,
   });
+
   setupDB();
   setupRedis();
 
   const API_VERSION = "v1";
 
   server.register(cors, { maxAge: 600, origin: true, credentials: true });
-
   server.register(import("@fastify/cookie"), {
     secret: env.COOKIE_SIGNER,
     parseOptions: {
       httpOnly: true,
       secure: env.PRODUCTION,
-      sameSite: env.PRODUCTION,
+      sameSite: "none",
       path: "/",
+      domain: ".ngrok.io",
       // New date 6 months from now
       expires: new Date(Date.now() + 15778476000),
     },
   });
-
   await server.register(import("@fastify/rate-limit"), {
     global: true,
     max: 500,
@@ -81,7 +88,11 @@ const main = async () => {
   });
 
   server.setErrorHandler((error, request, reply) => {
-    Logger.error("SERVER", error.message);
+    if ((error.statusCode ?? 500) >= 500) {
+      Logger.error("SERVER", error.message);
+      Sentry.captureException(error);
+    }
+
     reply.code(error.statusCode ?? 500).send({
       success: false,
       error: {

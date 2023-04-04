@@ -10,6 +10,7 @@ import { SelfUser } from "../../types";
 import Header from "./base/Header";
 import { Content, Wrapper } from "./base/Styles";
 import { ModalProps } from "./base/modals";
+import { setCookie } from "cookies-next";
 
 const StyledWrapper = styled(Wrapper, {
   width: "80%",
@@ -114,6 +115,13 @@ function Login({ dispatch, closeModal }: ModalProps) {
       );
 
     dispatch(setUser(data.user));
+
+    // manually set cookie (the prod version would be set by the server)
+    if (process.env.NODE_ENV !== "production") {
+      setCookie("imperial-auth", data.token, {
+        sameSite: "lax",
+      });
+    }
 
     closeModal();
   };

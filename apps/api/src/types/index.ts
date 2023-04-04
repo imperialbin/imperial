@@ -5,7 +5,7 @@ import {
   SelfUser,
   User,
   UserSettings,
-} from "@imperial/commons";
+} from "@imperial/commons/types";
 import { FastifyReply, FastifyRequest } from "fastify";
 
 type APIError = {

@@ -4,7 +4,7 @@ import { db } from "../db";
 import { documents, users } from "../db/schemas";
 import { SelfUser, User } from "../types";
 import { env } from "./env";
-import { Id } from "@imperial/commons";
+import { Id } from "@imperial/commons/utils/pika";
 
 const DOCUMENT_PUBLIC_OBJECT = {
   id: documents.id,

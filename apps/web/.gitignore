@@ -5,6 +5,10 @@
 /.pnp
 .pnp.js
 
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
+
 # testing
 /coverage
 
@@ -34,3 +38,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Sentry
+.sentryclirc
+
+# Sentry
+next.config.original.js

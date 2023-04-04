@@ -69,8 +69,8 @@ App.getInitialProps = async (context: AppContext) => {
   const request = context.ctx.req as IncomingMessage & {
     cookies: Record<"imperial-auth", Id<"imperial_auth">>;
   };
-  console.log(request.cookies);
-  if (request.cookies["imperial-auth"]) {
+
+  if (request?.cookies?.["imperial-auth"]) {
     const response = await makeRequest("GET", "/users/@me", undefined, {
       headers: {
         Authorization: request.cookies["imperial-auth"],
