@@ -1,11 +1,31 @@
+/* eslint-disable turbo/no-undeclared-env-vars */
+/**
+ * Migration scripts to migrate from MongoDB to PostgreSQL
+ *
+ * Run `yarn migrate-from-mongo`
+ */
+
 import { permer, pika } from "@imperial/commons";
-import mongoose from "mongoose";
-const uri = "";
+import mongoose, { Document, Schema } from "mongoose";
+import { db, setupDB } from ".";
+import { documents, users } from "./schemas";
+import { Logger } from "../utils/logger";
+import { InferModel } from "drizzle-orm";
 
-export const migrateFromMongo = async () => {
-  const mongo = await mongoose.connect(uri);
+const usermongo = process.env.USER_MONGO ?? "";
+const documentmongo = process.env.DOCUMENTS_MONGO ?? "";
 
-  const Users = mongo.model<IUser & Document>(
+const migrate = async () => {
+  await setupDB();
+  const userCount = await migrateUsersFromMongo();
+  Logger.info("MONGO", `Migrated ${userCount} users from MongoDB`);
+  const documentCount = await migrateDocumentsFromMongo();
+  Logger.info("MONGO", `Migrated ${documentCount} documents from MongoDB`);
+};
+
+const migrateUsersFromMongo = async () => {
+  const usersDB = await mongoose.connect(usermongo);
+  const Users = usersDB.model<IUser & Document>(
     "Users",
     new Schema({
       userId: Number,
@@ -40,16 +60,19 @@ export const migrateFromMongo = async () => {
   );
 
   const usersInMongo = await Users.find();
+  const newUsers: Array<InferModel<typeof users>> = [];
   for (const mongoUser of usersInMongo) {
-    const permlist = ["member"];
+    const permlist: ReturnType<(typeof permer)["list"]> = ["member"];
 
     if (mongoUser.memberPlus) {
-      permlist.push("member_plus");
+      permlist.push("member-plus");
     }
+
     if (mongoUser.admin) {
       permlist.push("admin");
     }
-    await db.insert(users).values({
+
+    newUsers.push({
       id: pika.gen("user"),
       api_token: pika.gen("imperial_auth"),
       email: mongoUser.email,
@@ -60,8 +83,9 @@ export const migrateFromMongo = async () => {
       confirmed: mongoUser.confirmed,
       documents_made: mongoUser.documentsMade,
       early_adopter: true,
-      // @ts-ignore
       flags: permer.calculate(permlist),
+      discord: null,
+      github: null,
       settings: {
         clipboard: mongoUser.settings.clipboard,
         long_urls: mongoUser.settings.longerUrls,
@@ -79,23 +103,66 @@ export const migrateFromMongo = async () => {
       },
     });
   }
+
+  const documentsInserted = await db.insert(users).values(newUsers).returning();
+
+  return documentsInserted.length;
 };
 
-import { Document, Schema } from "mongoose";
-import { db } from ".";
-import { users } from "./schemas";
+const migrateDocumentsFromMongo = async () => {
+  const documentsDB = await mongoose.connect(documentmongo);
 
-export interface UserSettings {
-  clipboard: boolean;
-  longerUrls: boolean;
-  shortUrls: boolean;
-  instantDelete: boolean;
-  encrypted: boolean;
-  expiration: number;
-  imageEmbed: boolean;
-}
+  const Documents = documentsDB.model<IDocument>(
+    "Documents",
+    new Schema({
+      URL: String,
+      language: String,
+      imageEmbed: Boolean,
+      instantDelete: Boolean,
+      creator: String,
+      code: String,
+      dateCreated: Number,
+      deleteDate: Number,
+      allowedEditors: Array,
+      encrypted: Boolean,
+      encryptedIv: String,
+      public: Boolean,
+      gist: String || null,
+      views: Number,
+    }),
+  );
 
-export interface IUser {
+  const documentsInMongo = await Documents.find();
+  const newDocuments: Array<InferModel<typeof documents>> = [];
+  for (const mongoDocument of documentsInMongo) {
+    newDocuments.push({
+      id: mongoDocument.URL,
+      content: mongoDocument.code,
+      created_at: new Date(mongoDocument.dateCreated).toISOString(),
+      expires_at: new Date(mongoDocument.deleteDate).toISOString(),
+      creator: null,
+      gist_url: mongoDocument.gist,
+      views: mongoDocument.views,
+      settings: {
+        public: mongoDocument.public,
+        encrypted: mongoDocument.encrypted,
+        editors: [],
+        language: mongoDocument.language ?? "plaintext",
+        image_embed: mongoDocument.imageEmbed,
+        instant_delete: mongoDocument.instantDelete,
+      },
+    });
+  }
+
+  const documentsInserted = await db
+    .insert(documents)
+    .values(newDocuments)
+    .returning();
+
+  return documentsInserted.length;
+};
+
+type IUser = {
   _id: string;
   userId: number;
   name: string;
@@ -108,7 +175,7 @@ export interface IUser {
   icon: string;
   password: string;
   memberPlus: boolean;
-  codes: Array<string>;
+  codes: string[];
   apiToken: string;
   documentsMade: number;
   activeUnlimitedDocuments: number;
@@ -116,5 +183,32 @@ export interface IUser {
   githubAccess: string | null;
   admin: boolean;
   opt: string | null;
-  settings: UserSettings;
-}
+  settings: {
+    clipboard: boolean;
+    longerUrls: boolean;
+    shortUrls: boolean;
+    instantDelete: boolean;
+    encrypted: boolean;
+    expiration: number;
+    imageEmbed: boolean;
+  };
+};
+
+type IDocument = {
+  URL: string;
+  language: string | null;
+  imageEmbed: boolean;
+  instantDelete: boolean;
+  creator: string | null;
+  code: string;
+  dateCreated: number;
+  deleteDate: number;
+  allowedEditors: string[];
+  encrypted: boolean;
+  encryptedIv: string | null;
+  public: boolean;
+  gist: string | null;
+  views: number;
+};
+
+migrate();
