@@ -142,6 +142,7 @@ function Login({ dispatch, closeModal }: ModalProps) {
             iconDisabled
             required
             label="Email or username"
+            value={username}
             icon={<User />}
             placeholder="Enter your username or email"
             onChange={(e) => setUsername(e.target.value)}
@@ -151,6 +152,7 @@ function Login({ dispatch, closeModal }: ModalProps) {
             required
             label="Password"
             icon={<Lock />}
+            value={password}
             placeholder="Enter your password"
             type="password"
             onChange={(e) => setPassword(e.target.value)}

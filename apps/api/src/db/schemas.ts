@@ -1,5 +1,5 @@
 import { boolean, integer, json, pgTable, text } from "drizzle-orm/pg-core";
-import { DiscordUser, GitHubUser, UserSettings } from "../types";
+import { DiscordUser, GitHubUser, UserSettings } from "@imperial/commons";
 import { Id } from "@imperial/commons";
 
 export const users = pgTable("users", {

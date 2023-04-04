@@ -16,6 +16,7 @@ import Tooltip from "@web/components/Tooltip";
 import Header from "./base/Header";
 import { ModalProps } from "./base/modals";
 import { Content, Footer, Paragraph, Wrapper } from "./base/Styles";
+import useKeyAction from "../../hooks/useKeyAction";
 
 const EditorsWrapper = styled("div", {
   display: "flex",
@@ -85,12 +86,7 @@ const EDITOR_ANIMATION = {
   },
 };
 
-function EditorsModal({
-  dispatch,
-  editors,
-  user,
-  closeModal,
-}: ModalProps & ReduxProps) {
+function EditorsModal({ dispatch, editors, user, closeModal }: ModalProps & ReduxProps) {
   const [searchedUsers, setSearchedUsers] = useState<User[]>([]);
   const [input, setInput] = useState("");
   const [focused, setFocused] = useState(false);
@@ -108,9 +104,8 @@ function EditorsModal({
         setSearchedUsers([]);
         return dispatch(
           addNotification({
-            icon: <X/>,
-            message:
-              error?.message ?? "An error occurred while searching for users",
+            icon: <X />,
+            message: error?.message ?? "An error occurred while searching for users",
             type: "error",
           }),
         );
@@ -125,8 +120,8 @@ function EditorsModal({
     <Wrapper>
       <Header>Editors</Header>
       <Paragraph>
-        Add and remove editors for your documents, you can change them at any
-        time, just search by their username!
+        Add and remove editors for your documents, you can change them at any time, just
+        search by their username!
       </Paragraph>
       <Content>
         <Popover
@@ -134,7 +129,11 @@ function EditorsModal({
           active={searchedUsers.length > 0 && focused && input.length > 0}
           setPopover={() => setFocused(false)}
           render={(defaultProps) => (
-            <EditorsPopover users={searchedUsers} {...defaultProps}/>
+            <EditorsPopover
+              onClick={() => setInput("")}
+              users={searchedUsers}
+              {...defaultProps}
+            />
           )}
           toggleOnTargetClick={false}
           clickToClose={false}
@@ -142,7 +141,7 @@ function EditorsModal({
           <Input
             value={input}
             placeholder="Search by username"
-            icon={<UserIcon/>}
+            icon={<UserIcon />}
             onChange={({ target: { value } }) => {
               setInput(value);
               fetchUsers(value);
@@ -162,19 +161,13 @@ function EditorsModal({
                 style={{ overflow: "hidden" }}
               >
                 <Editor>
-                  <img
-                    src={editor.icon ?? "/img/pfp.png"}
-                    alt={editor.username}
-                  />
+                  <img src={editor.icon ?? "/img/pfp.png"} alt={editor.username} />
                   <div>
                     <h1>{editor.username}</h1>
                     <span>{editor.documents_made} documents made</span>
                   </div>
                   <Tooltip title="Remove editor">
-                    <X
-                      size={20}
-                      onClick={() => dispatch(removeEditor(editor.id))}
-                    />
+                    <X size={20} onClick={() => dispatch(removeEditor(editor.id))} />
                   </Tooltip>
                 </Editor>
               </motion.div>

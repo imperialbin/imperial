@@ -65,9 +65,10 @@ const Item = styled("button", {
 
 interface IEditorsPopoverProps extends PopoverBase {
   users: User[];
+  onClick: () => void;
 }
 
-function EditorsPopover({ close, users }: IEditorsPopoverProps) {
+function EditorsPopover({ close, users, onClick }: IEditorsPopoverProps) {
   return (
     <div>
       <List>
@@ -76,10 +77,11 @@ function EditorsPopover({ close, users }: IEditorsPopoverProps) {
             key={user.id}
             onClick={() => {
               close();
+              onClick();
               store.dispatch(addEditor(user));
             }}
           >
-            <img src={user.icon ?? "/img/pfp.png"} alt={user.username}/>
+            <img src={user.icon ?? "/img/pfp.png"} alt={user.username} />
             <div>
               <h1>{user.username}</h1>
               <span>{user.documents_made} documents made</span>
