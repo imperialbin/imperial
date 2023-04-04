@@ -1,10 +1,9 @@
-import { InferModel } from "drizzle-orm";
+import { Id } from "@imperial/commons";
 import { eq } from "drizzle-orm/expressions";
 import { db } from "../db";
 import { documents, users } from "../db/schemas";
-import { SelfUser, User } from "../types";
+import { User } from "../types";
 import { env } from "./env";
-import { Id } from "@imperial/commons/utils/pika";
 
 const DOCUMENT_PUBLIC_OBJECT = {
   id: documents.id,
