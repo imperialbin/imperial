@@ -5,11 +5,11 @@ import { styled } from "@web/stitches.config";
 import { closeModal } from "../state/actions";
 import { ImperialState } from "../state/reducers";
 import { useOutsideClick } from "../hooks/useOutsideClick";
-import Login from "./modals/LoginModal";
-import Signup from "./modals/SignupModal";
-import { LanguageSelector } from "./modals/LanguageSelectorModal";
-import UserSettings from "./modals/UserSettingsModal";
-import { DocumentSettings } from "./modals/DocumentSettingsModal";
+import LoginModal from "./modals/LoginModal";
+import SignupModal from "./modals/SignupModal";
+import LanguageSelectorModal from "./modals/LanguageSelectorModal";
+import UserSettingsModal from "./modals/UserSettingsModal";
+import DocumentSettingsModal from "./modals/DocumentSettingsModal";
 import DocumentPasswordModal from "./modals/DocumentPasswordModal";
 import EditorsModal from "./modals/EditorsModal";
 
@@ -55,11 +55,11 @@ const CONTAINER_ANIMATION = {
 };
 
 const MODAL_MAP = {
-  login: Login,
-  signup: Signup,
-  user_settings: UserSettings,
-  language_selector: LanguageSelector,
-  document_settings: DocumentSettings,
+  login: LoginModal,
+  signup: SignupModal,
+  user_settings: UserSettingsModal,
+  language_selector: LanguageSelectorModal,
+  document_settings: DocumentSettingsModal,
   document_password: DocumentPasswordModal,
   editors: EditorsModal,
 };
@@ -71,18 +71,14 @@ type GetComponentProps<T> = T extends
   : never;
 export type Modals = keyof typeof MODAL_MAP;
 export type ModalData<T extends Modals> = GetComponentProps<
-  typeof MODAL_MAP[T]
+  (typeof MODAL_MAP)[T]
 > extends {
   data: unknown;
 }
-  ? GetComponentProps<typeof MODAL_MAP[T]>["data"]
+  ? GetComponentProps<(typeof MODAL_MAP)[T]>["data"]
   : {} | never;
 
-function ModalManager({
-  modal,
-  disable_click_outside_modal,
-  dispatch,
-}: ReduxProps) {
+function ModalManager({ modal, disable_click_outside_modal, dispatch }: ReduxProps) {
   const modalRef = useRef<HTMLDivElement | null>(null);
   const ActiveModal = modal ? MODAL_MAP[modal.modal] : null;
 

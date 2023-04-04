@@ -51,7 +51,7 @@ const Language = styled("button", {
   },
 });
 
-export function LanguageSelector({ closeModal, dispatch }: ModalProps) {
+export default function LanguageSelector({ closeModal, dispatch }: ModalProps) {
   const [searchQuery, setSearchQuery] = useState<string>("");
 
   const changeLanguage = (language: SupportedLanguagesID) => {

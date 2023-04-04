@@ -28,7 +28,7 @@ interface IDocumentSettings extends ModalProps {
   data: { document: Document };
 }
 
-export function DocumentSettings({
+export default function DocumentSettings({
   data: { document },
   dispatch,
   closeModal,
