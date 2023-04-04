@@ -8,4 +8,5 @@ import { env } from "./src/utils/Env";
 Sentry.init({
   dsn: env.SENTRY_DSN,
   tracesSampleRate: 1.0,
+  environment: env.SENTRY_ENVIRONMENT,
 });

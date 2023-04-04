@@ -5,10 +5,6 @@ export const env = envsafe({
     default: false,
     desc: "Whether the website is running in production",
   }),
-  API_URL: str({
-    default: "http://127.0.0.1:8080/",
-    desc: "The api url",
-  }),
   API_URL_V1: str({
     default: "http://127.0.0.1:8080/v1",
     desc: "The api url v1",
