@@ -115,7 +115,7 @@ export const signup: FastifyImp<
     "Confirm Email",
   );
 
-  reply.send({
+  reply.setCookie("imperial-auth", token).send({
     success: true,
     data: {
       token,
