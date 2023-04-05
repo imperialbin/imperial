@@ -27,4 +27,4 @@ WORKDIR /app
 
 COPY --from=installer /app .
 
-CMD [ "yarn", "start" ]
+CMD cd apps/api && yarn start
