@@ -19,5 +19,3 @@ export const env = env_schema.parse({
   SENTRY_DSN: process.env.NEXT_PUBLIC_SENTRY_DSN,
   SENTRY_ENVIRONMENT: process.env.NEXT_PUBLIC_SENTRY_ENVIRONMENT,
 });
-
-console.log(env);
