@@ -36,7 +36,6 @@ const main = async () => {
       secure: env.PRODUCTION,
       sameSite: "none",
       path: "/",
-      domain: ".ngrok.io",
       // New date 6 months from now
       expires: new Date(Date.now() + 15778476000),
     },
