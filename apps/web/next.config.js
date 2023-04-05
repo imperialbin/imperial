@@ -37,15 +37,6 @@ const nextConfig = {
       },
     ];
   },
-  env: {
-    API_URL_V1: process.env.API_URL_V1,
-    CDN_URL: process.env.CDN_URL,
-    DISCORD_INVITE: process.env.DISCORD_INVITE,
-    GITHUB_URL: process.env.GITHUB_URL,
-    TWITTER_URL: process.env.TWITTER_URL,
-    SENTRY_DSN: process.env.SENTRY_DSN,
-    SENTRY_ENVIRONMENT: process.env.SENTRY_ENVIRONMENT,
-  },
   transpilePackages: ["commons"],
 };
 

@@ -7,7 +7,17 @@ const env_schema = z.object({
   GITHUB_URL: z.string().default("https://github.com/imperialbin"),
   TWITTER_URL: z.string().default("https://twitter.com/imperialbin"),
   SENTRY_DSN: z.string().default(""),
-  SENTRY_ENVIRONMENT: z.string().default(""),
+  SENTRY_ENVIRONMENT: z.string().default("Local"),
 });
 
-export const env = env_schema.parse(process.env);
+export const env = env_schema.parse({
+  API_URL_V1: process.env.NEXT_PUBLIC_API_URL_V1,
+  CDN_URL: process.env.NEXT_PUBLIC_CDN_URL,
+  DISCORD_INVITE: process.env.NEXT_PUBLIC_DISCORD_INVITE,
+  GITHUB_URL: process.env.NEXT_PUBLIC_GITHUB_URL,
+  TWITTER_URL: process.env.NEXT_PUBLIC_TWITTER_URL,
+  SENTRY_DSN: process.env.NEXT_PUBLIC_SENTRY_DSN,
+  SENTRY_ENVIRONMENT: process.env.NEXT_PUBLIC_SENTRY_ENVIRONMENT,
+});
+
+console.log(env);
