@@ -183,6 +183,7 @@ function Signup({ dispatch }: ModalProps) {
                   icon={<Mail />}
                   placeholder="Enter your email"
                   type="email"
+                  value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
                 <Input
@@ -192,6 +193,7 @@ function Signup({ dispatch }: ModalProps) {
                   icon={<User />}
                   placeholder="Enter your username"
                   type="username"
+                  value={username}
                   onChange={(e) => setUsername(e.target.value)}
                 />
                 <Input
@@ -201,6 +203,7 @@ function Signup({ dispatch }: ModalProps) {
                   icon={<Lock />}
                   placeholder="Enter your password"
                   type="password"
+                  value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
 

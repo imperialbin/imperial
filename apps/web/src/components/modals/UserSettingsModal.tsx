@@ -664,6 +664,7 @@ function UserSettings({ user, dispatch }: ReduxProps & ModalProps): JSX.Element 
                 placeholder="Enter your current password"
                 icon={<Unlock size={18} />}
                 type="password"
+                value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
               <Input
@@ -671,6 +672,7 @@ function UserSettings({ user, dispatch }: ReduxProps & ModalProps): JSX.Element 
                 placeholder="Enter your new password"
                 icon={<Lock size={18} />}
                 type="password"
+                value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
               />
               <Input
@@ -678,6 +680,7 @@ function UserSettings({ user, dispatch }: ReduxProps & ModalProps): JSX.Element 
                 placeholder="Re-enter new password."
                 icon={<Lock size={18} />}
                 type="password"
+                value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
               />
               <Button

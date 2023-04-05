@@ -91,6 +91,7 @@ export default function LanguageSelector({ closeModal, dispatch }: ModalProps) {
           style={{ width: "100%" }}
           icon={<SearchIcon />}
           placeholder="Search Language"
+          value={searchQuery}
           onChange={({ target: { value } }) => setSearchQuery(value)}
         />
         <Languages>
