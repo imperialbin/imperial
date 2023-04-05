@@ -2,7 +2,7 @@
 // with Sentry.
 // https://nextjs.org/docs/api-reference/next.config.js/introduction
 // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup :3 deploy /
-const { withSentryConfig } = require('@sentry/nextjs');
+const { withSentryConfig } = require("@sentry/nextjs");
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -36,6 +36,15 @@ const nextConfig = {
         permanent: true,
       },
     ];
+  },
+  env: {
+    API_URL_V1: process.env.API_URL_V1,
+    CDN_URL: process.env.CDN_URL,
+    DISCORD_INVITE: process.env.DISCORD_INVITE,
+    GITHUB_URL: process.env.GITHUB_URL,
+    TWITTER_URL: process.env.TWITTER_URL,
+    SENTRY_DSN: process.env.SENTRY_DSN,
+    SENTRY_ENVIRONMENT: process.env.SENTRY_ENVIRONMENT,
   },
   transpilePackages: ["commons"],
 };
