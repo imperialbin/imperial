@@ -12,12 +12,12 @@ RUN apt-get update && apt-get install curl gnupg -y \
 
 WORKDIR /app
 
-COPY /services/node/api/package.json .
-COPY /services/node/api/yarn.lock .
+COPY /apps/api/package.json .
+COPY /apps/api/yarn.lock .
 
 RUN yarn install
 
-COPY /services/node/api .
+COPY /apps/api .
 RUN yarn build
 
 CMD [ "yarn", "start" ]
