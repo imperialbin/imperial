@@ -30,7 +30,7 @@ import {
 } from "../components/Icons";
 
 export type SupportedLanguages = (typeof supportedLanguages)[number]["name"];
-// For now
+// For now meow
 export type SupportedLanguagesID = string;
 
 export const supportedLanguages = [
