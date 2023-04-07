@@ -1,18 +1,21 @@
-import { permer } from "@imperial/commons";
+import { User, permer } from "@imperial/commons";
 import Button from "@web/components/Button";
+import debounce from "lodash/debounce";
+import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { useRouter } from "next/navigation";
+import { useCallback, useState } from "react";
 import { Check, X } from "react-feather";
 import { ConnectedProps, connect } from "react-redux";
 import { SearchIcon } from "../../components/Icons";
 import Input from "../../components/Input";
+import Popover from "../../components/popover/Popover";
+import SelectUsersPopover from "../../components/popover/SelectUsersPopover";
 import { addNotification } from "../../state/actions";
 import { ImperialState } from "../../state/reducers";
 import { styled } from "../../stitches.config";
-import { API } from "../../utils/Api";
+import { Document } from "../../types";
 import { makeRequest } from "../../utils/Rest";
 import FourOFour from "../404";
-import { GetServerSideProps, InferGetServerSidePropsType } from "next";
-import { Document } from "../../types";
 
 const Wrapper = styled("div", {
   display: "flex",
@@ -77,21 +80,24 @@ const Documents = styled("div", {
 export const getServerSideProps: GetServerSideProps<{
   recentDocuments: Document[] | null;
 }> = async (context) => {
-  context.res.setHeader(
-    "Cache-Control",
-    "public, s-maxage=10, stale-while-revalidate=59",
-  );
-  const recentDocuments = await API.getRecentDocumentsAdmin();
-
-  if (!recentDocuments.success) {
-    context.res.writeHead(401, {
-      location: "/",
-    });
+  if (!context.req.cookies["imperial-auth"]) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
   }
+
+  const response = await makeRequest<Document[]>("GET", "/admin/recent", undefined, {
+    headers: {
+      Authorization: context.req.cookies["imperial-auth"],
+    },
+  });
 
   return {
     props: {
-      recentDocuments: recentDocuments.success ? recentDocuments.data : null,
+      recentDocuments: response.data ?? null,
     },
   };
 };
@@ -99,6 +105,10 @@ export const getServerSideProps: GetServerSideProps<{
 type InferProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
 function Admin({ user, dispatch, recentDocuments }: ReduxProps & InferProps) {
+  const [usersQuery, setUsersQuery] = useState("");
+  const [searchedUsers, setSearchedUsers] = useState<User[]>([]);
+  const [popoverOpen, setPopoverOpen] = useState(false);
+
   const router = useRouter();
   const isAdmin = permer.test(user?.flags ?? 0, "admin");
 
@@ -122,7 +132,7 @@ function Admin({ user, dispatch, recentDocuments }: ReduxProps & InferProps) {
     dispatch(
       addNotification({
         message: "Created Member+ Invite (click to copy)",
-        type: "warning",
+        type: "success",
         icon: <Check />,
         onClick() {
           navigator.clipboard.writeText(data.token);
@@ -130,6 +140,28 @@ function Admin({ user, dispatch, recentDocuments }: ReduxProps & InferProps) {
       }),
     );
   };
+
+  const searchUsers = useCallback(
+    debounce(async (query: string) => {
+      const { success, data, error } = await makeRequest<User[]>(
+        "GET",
+        `/users/search/${query}`,
+      );
+
+      if (!success || !data) {
+        return dispatch(
+          addNotification({
+            message: error?.message ?? "an error occurred searching users",
+            type: "error",
+            icon: <X />,
+          }),
+        );
+      }
+
+      setSearchedUsers(data);
+    }, 500),
+    [],
+  );
 
   return (
     <Wrapper>
@@ -142,11 +174,32 @@ function Admin({ user, dispatch, recentDocuments }: ReduxProps & InferProps) {
 
             <Options>
               <Button onClick={createMemberPlusInvite}>Create Member+ Invite</Button>
-              <Input
-                icon={<SearchIcon />}
-                label="Search Users"
-                placeholder="Search Users"
-              />
+              <Popover
+                active={searchedUsers.length > 0 && popoverOpen}
+                setPopover={() => setPopoverOpen(!popoverOpen)}
+                render={(defaultProps) => (
+                  <SelectUsersPopover
+                    onClick={(user) => {
+                      router.push(`/admin/${user.id}`);
+                    }}
+                    users={searchedUsers}
+                    {...defaultProps}
+                  />
+                )}
+                clickToClose={false}
+              >
+                <Input
+                  icon={<SearchIcon />}
+                  label="Search Users"
+                  placeholder="Search Users"
+                  value={usersQuery}
+                  onBlur={() => setPopoverOpen(false)}
+                  onChange={(e) => {
+                    setUsersQuery(e.target.value);
+                    searchUsers(e.target.value);
+                  }}
+                />
+              </Popover>
               <label>
                 <span>Recent Documents</span>
                 <Documents>
