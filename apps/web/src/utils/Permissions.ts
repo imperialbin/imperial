@@ -7,7 +7,7 @@ export const getRole = (bitfield: number) => {
     case permer.test(bitfield, "beta-tester"):
       return "Beta Tester";
     case permer.test(bitfield, "member-plus"):
-      return "Member Plus";
+      return "Member+";
     case permer.test(bitfield, "member"):
       return "Member";
     default:
