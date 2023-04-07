@@ -22,7 +22,9 @@ RUN yarn build --scope=api
 RUN ls
 RUN cd apps/api && ls
 
-FROM node:alpine AS runner
+FROM zenika/alpine-chrome:with-node as runner
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD 1
+
 WORKDIR /app
 
 COPY --from=installer /app .
