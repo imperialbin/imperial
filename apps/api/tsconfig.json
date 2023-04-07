@@ -1,8 +1,19 @@
 {
-  "extends": "tsconfig/api.json",
-  "include": ["."],
-  "exclude": ["node_modules", "dist/**/*"],
+  "extends": "tsconfig/base.json",
   "compilerOptions": {
-    "outDir": "./dist"
-  }
+    "target": "ESNext",
+    "jsx": "react",
+    "module": "commonjs",
+    "outDir": "./dist",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "baseUrl": "./",
+    "paths": {
+      "@imperial/commons": ["../../packages/commons"]
+    }
+  },
+  "include": ["."],
+  "exclude": ["node_modules"]
 }
