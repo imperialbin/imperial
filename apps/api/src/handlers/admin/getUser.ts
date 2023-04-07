@@ -1,16 +1,15 @@
+import { Id, permer } from "@imperial/commons";
 import { eq } from "drizzle-orm/expressions";
 import { db } from "../../db";
 import { users } from "../../db/schemas";
-import { FastifyImp, User } from "../../types";
-import { USER_PUBLIC_OBJECT } from "../../utils/publicObjects";
-import { permer } from "@imperial/commons";
+import { FastifyImp } from "../../types";
 
 export const getUserAdmin: FastifyImp<
   {},
   unknown,
   unknown,
   {
-    username: string;
+    id: Id<"user">;
   }
 > = async (request, reply) => {
   if (!request.user || !permer.test(request.user.flags, "admin")) {
@@ -22,10 +21,9 @@ export const getUserAdmin: FastifyImp<
     });
   }
 
-  const { username } = request.params;
+  const { id } = request.params;
   const user =
-    (await db.select().from(users).where(eq(users.username, username)))[0] ??
-    null;
+    (await db.select().from(users).where(eq(users.id, id)))[0] ?? null;
 
   if (!user) {
     reply.status(404).send({
@@ -36,8 +34,10 @@ export const getUserAdmin: FastifyImp<
     });
   }
 
+  const { password, ...userWithoutPassword } = user;
+
   reply.send({
     success: true,
-    data: user,
+    data: userWithoutPassword,
   });
 };

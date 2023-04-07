@@ -10,11 +10,11 @@ export const adminRoutes = (
   _: unknown,
   done: () => void,
 ) => {
-  fastify.get("/:username", getUserAdmin);
+  fastify.get("/:id", getUserAdmin);
   fastify.get("/recent", getRecentDocuments);
-  fastify.patch("/:username", patchUser);
+  fastify.patch("/:id", patchUser);
   fastify.post("/member_plus", createMemberPlusToken);
-  fastify.delete("/ban/:username", banUser);
+  fastify.delete("/ban/:id", banUser);
 
   done();
 };

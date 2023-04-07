@@ -2,7 +2,7 @@ import { eq } from "drizzle-orm/expressions";
 import { db } from "../../db";
 import { users } from "../../db/schemas";
 import { FastifyImp } from "../../types";
-import { permer } from "@imperial/commons";
+import { Id, permer } from "@imperial/commons";
 import { AuthSessions } from "../../utils/authSessions";
 
 export const banUser: FastifyImp<
@@ -10,7 +10,7 @@ export const banUser: FastifyImp<
   unknown,
   unknown,
   {
-    username: string;
+    id: Id<"user">;
   }
 > = async (request, reply) => {
   if (!request.user || !permer.test(request.user.flags, "admin")) {
@@ -22,10 +22,9 @@ export const banUser: FastifyImp<
     });
   }
 
-  const { username } = request.params;
+  const { id } = request.params;
   const user =
-    (await db.select().from(users).where(eq(users.username, username)))[0] ??
-    null;
+    (await db.select().from(users).where(eq(users.id, id)))[0] ?? null;
 
   if (!user) {
     reply.status(404).send({
@@ -41,7 +40,7 @@ export const banUser: FastifyImp<
     .set({
       banned: true,
     })
-    .where(eq(users.username, username));
+    .where(eq(users.id, id));
 
   await AuthSessions.deleteAllSessionsForUser(user.id);
 
