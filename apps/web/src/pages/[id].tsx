@@ -61,12 +61,10 @@ function Document({ document }: InferProps) {
   return document ? (
     <>
       <NextSeo
-        title={`IMPERIAL – ${document.id} ${
-          document?.settings?.encrypted && " 🔐"
-        }`}
+        title={`IMPERIAL – ${document.id} ${document?.settings?.encrypted ? " 🔐" : ""}`}
         openGraph={{
           title: `IMPERIAL – ${document.id} ${
-            document?.settings?.encrypted && " 🔐"
+            document?.settings?.encrypted ? " 🔐" : ""
           }`,
           siteName: document.timestamps.expiration
             ? `Deletes on ${dayjs(document.timestamps.expiration).format("ll")}`
@@ -82,19 +80,17 @@ function Document({ document }: InferProps) {
         }}
       />
       <Wrapper>
-        <Navbar document={document}/>
+        <Navbar document={document} />
         <Editor
           isLoading={
-            document.settings.encrypted && decryptedContent === ""
-              ? true
-              : !document
+            document.settings.encrypted && decryptedContent === "" ? true : !document
           }
           value={document.settings.encrypted ? decryptedContent : document.content}
         />
       </Wrapper>
     </>
   ) : (
-    <FourOFour/>
+    <FourOFour />
   );
 }
 
