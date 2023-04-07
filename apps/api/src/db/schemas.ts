@@ -1,5 +1,11 @@
 import { boolean, integer, json, pgTable, text } from "drizzle-orm/pg-core";
-import { DiscordUser, GitHubUser, UserSettings, Id } from "@imperial/commons";
+import {
+  DiscordUser,
+  GitHubUser,
+  UserSettings,
+  Id,
+  SupportedLanguagesID,
+} from "@imperial/commons";
 
 export const users = pgTable("users", {
   id: text("id").primaryKey().$type<Id<"user">>(),
@@ -30,7 +36,7 @@ export const documents = pgTable("documents", {
   expires_at: text("expires_at"),
   settings: json("settings")
     .$type<{
-      language: string;
+      language: SupportedLanguagesID;
       image_embed: boolean;
       instant_delete: boolean;
       encrypted: boolean;

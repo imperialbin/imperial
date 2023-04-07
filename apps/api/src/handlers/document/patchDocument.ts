@@ -8,13 +8,14 @@ import {
   getEditorsByUsername,
   getLinksObject,
 } from "../../utils/publicObjects";
+import { languageSchema } from "../../utils/schemas";
 
 const patchDocumentSchema = z.object({
   id: z.string().min(4).max(36),
   content: z.string().min(1).optional(),
   settings: z
     .object({
-      language: z.string().min(1).max(100).optional(),
+      language: languageSchema.optional(),
       expiration: z.string().or(z.null()).optional(),
       image_embed: z.boolean().optional(),
       instant_delete: z.boolean().optional(),

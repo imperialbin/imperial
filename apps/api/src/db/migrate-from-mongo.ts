@@ -5,7 +5,7 @@
  * Run `yarn migrate-from-mongo`
  */
 
-import { permer, pika } from "@imperial/commons";
+import { SupportedLanguagesID, permer, pika } from "@imperial/commons";
 import mongoose, { Document, Schema } from "mongoose";
 import { db, setupDB } from ".";
 import { documents, users } from "./schemas";
@@ -147,7 +147,8 @@ const migrateDocumentsFromMongo = async () => {
         public: mongoDocument.public,
         encrypted: mongoDocument.encrypted,
         editors: [],
-        language: mongoDocument.language ?? "plaintext",
+        language: (mongoDocument.language ??
+          "plaintext") as SupportedLanguagesID,
         image_embed: mongoDocument.imageEmbed,
         instant_delete: mongoDocument.instantDelete,
       },

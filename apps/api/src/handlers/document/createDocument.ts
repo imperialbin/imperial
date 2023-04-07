@@ -11,12 +11,13 @@ import { guessLanguage } from "../../utils/language";
 import { getLinksObject } from "../../utils/publicObjects";
 import { screenshotDocument } from "../../utils/screenshotDocument";
 import { generateRandomSecureString } from "../../utils/strings";
+import { languageSchema } from "../../utils/schemas";
 
 const createDocumentSchema = z.object({
   content: z.string().min(1),
   settings: z
     .object({
-      language: z.string().min(1).max(100).optional().default("plaintext"),
+      language: languageSchema.optional().default("plaintext"),
       expiration: z.string().or(z.null()).optional().default(null),
       short_urls: z.boolean().optional().default(false),
       long_urls: z.boolean().optional().default(false),

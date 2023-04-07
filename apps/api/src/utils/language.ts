@@ -1,6 +1,7 @@
 import hljs from "highlight.js";
+import { SupportedLanguagesID } from "@imperial/commons";
 
-const guessLanguage = (text: string): string => {
+const guessLanguage = (text: string) => {
   hljs.configure({
     languages: [
       "Bash",
@@ -31,7 +32,8 @@ const guessLanguage = (text: string): string => {
   });
   const getLanguage = hljs.highlightAuto(text);
 
-  return getLanguage.language ?? "plaintext";
+  return (getLanguage.language?.toLowerCase() ??
+    "plaintext") as SupportedLanguagesID;
 };
 
 export { guessLanguage };

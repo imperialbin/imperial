@@ -8,6 +8,11 @@ import {
   UserSettings,
 } from "./types";
 import { permer } from "./utils/permissions";
+import {
+  SupportedLanguages,
+  SupportedLanguagesID,
+  supportedLanguages,
+} from "./utils/languages";
 
 export type {
   Id,
@@ -18,6 +23,8 @@ export type {
   GitHubUser,
   User,
   Document,
+  SupportedLanguages,
+  SupportedLanguagesID,
 };
 
-export { pika, permer };
+export { pika, permer, supportedLanguages };

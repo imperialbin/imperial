@@ -7,6 +7,7 @@ import { useEffect, useMemo, useState } from "react";
 import Header from "./base/Header";
 import { Content, Wrapper } from "./base/Styles";
 import { ModalProps } from "./base/modals";
+import { LanguageIcon } from "../../utils/Languages";
 
 const StyledWrapper = styled(Wrapper, {
   gap: 10,
@@ -103,7 +104,7 @@ export default function LanguageSelector({ closeModal, dispatch }: ModalProps) {
                 closeModal();
               }}
             >
-              {language.icon ? <language.icon /> : null}
+              {language.icon ? <LanguageIcon language={language.id} /> : null}
               {language.name}
             </Language>
           ))}

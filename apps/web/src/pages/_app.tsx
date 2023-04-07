@@ -33,8 +33,6 @@ export default function App({
   }, [user]);
 
   useEffect(() => {
-    /* Fetch user */
-
     loader.init().then(async (monaco) => {
       monaco.editor.defineTheme("imperial", IMPERIAL_THEME);
     });
@@ -64,6 +62,10 @@ export default function App({
 }
 
 App.getInitialProps = async (context: AppContext) => {
+  context?.ctx?.res?.setHeader(
+    "Cache-Control",
+    "public, s-maxage=10, stale-while-revalidate=59",
+  );
   const ctx = await NextApp.getInitialProps(context);
 
   const request = context.ctx.req as IncomingMessage & {

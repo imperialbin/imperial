@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "rm -rf ./dist && tsc -p tsconfig.json && tsc-alias",
+    "build": "tsc -p tsconfig.json && tsc-alias",
     "migrate": "drizzle-kit generate:pg",
     "dev": "tsx watch --clear-screen=false src/index.ts",
     "dev:email": "email dev -d ./src/utils/emails",

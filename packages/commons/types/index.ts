@@ -1,3 +1,4 @@
+import { SupportedLanguagesID } from "../utils/languages";
 import { Id } from "../utils/pika";
 
 type SelfUser = {
@@ -89,7 +90,7 @@ type Document = {
     expiration: string | null;
   };
   settings: {
-    language: string;
+    language: SupportedLanguagesID;
     image_embed: boolean;
     instant_delete: boolean;
     encrypted: boolean;
