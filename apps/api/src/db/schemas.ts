@@ -3,7 +3,7 @@ import { DiscordUser, GitHubUser, UserSettings, Id } from "@imperial/commons";
 
 export const users = pgTable("users", {
   id: text("id").primaryKey().$type<Id<"user">>(),
-  username: text("name").notNull(),
+  username: text("username").notNull(),
   email: text("email").notNull(),
   icon: text("icon"),
   confirmed: boolean("confirmed").notNull().default(false),
