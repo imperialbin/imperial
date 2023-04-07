@@ -3,14 +3,14 @@ import debounce from "lodash/debounce";
 import { useCallback, useState } from "react";
 import { User as UserIcon, X } from "react-feather";
 import { connect, ConnectedProps } from "react-redux";
-import { addNotification, removeEditor } from "@web/state/actions";
+import { addEditor, addNotification, removeEditor } from "@web/state/actions";
 import { ImperialState } from "@web/state/reducers";
 import { styled } from "@web/stitches.config";
 import { User } from "@web/types";
 import { makeRequest } from "@web/utils/Rest";
 import Button from "@web/components/Button";
 import Input from "@web/components/Input";
-import EditorsPopover from "@web/components/popover/EditorsPopover";
+import SelectUsersPopover from "@web/components/popover/SelectUsersPopover";
 import Popover from "@web/components/popover/Popover";
 import Tooltip from "@web/components/Tooltip";
 import Header from "./base/Header";
@@ -129,8 +129,11 @@ function EditorsModal({ dispatch, editors, user, closeModal }: ModalProps & Redu
           active={searchedUsers.length > 0 && focused && input.length > 0}
           setPopover={() => setFocused(false)}
           render={(defaultProps) => (
-            <EditorsPopover
-              onClick={() => setInput("")}
+            <SelectUsersPopover
+              onClick={(user) => {
+                setInput("");
+                dispatch(addEditor(user));
+              }}
               users={searchedUsers}
               {...defaultProps}
             />
