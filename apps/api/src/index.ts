@@ -34,8 +34,9 @@ const main = async () => {
     parseOptions: {
       httpOnly: true,
       secure: env.PRODUCTION,
-      sameSite: "none",
+      sameSite: env.PRODUCTION ? "lax" : "none",
       path: "/",
+      domain: ".impb.in",
       // New date 6 months from now
       expires: new Date(Date.now() + 15778476000),
     },
