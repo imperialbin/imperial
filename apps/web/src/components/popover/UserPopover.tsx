@@ -22,7 +22,7 @@ function UserPopover({ close, user, dispatch }: PopoverBase & ReduxProps) {
       dispatch(
         addNotification({
           type: "error",
-          icon: <X/>,
+          icon: <X />,
           message: error?.message ?? "An error occurred whilst logging out",
         }),
       );
@@ -56,8 +56,12 @@ function UserPopover({ close, user, dispatch }: PopoverBase & ReduxProps) {
                 GitHub
               </Link>
             </Item>
-            <Separator/>
-            {getRole(user.flags) === "Admin" ? <Item>Admin</Item> : null}
+            <Separator />
+            {getRole(user.flags) === "Admin" ? (
+              <Item>
+                <Link href="/admin">Admin</Link>
+              </Item>
+            ) : null}
             <Item>
               <Link href="/terms" target="_blank">
                 Terms
@@ -85,7 +89,7 @@ function UserPopover({ close, user, dispatch }: PopoverBase & ReduxProps) {
             >
               Signup
             </Item>
-            <Separator/>
+            <Separator />
             <Item>
               <Link href="/discord" target="_blank">
                 Discord
