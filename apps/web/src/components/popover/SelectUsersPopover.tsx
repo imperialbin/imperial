@@ -1,5 +1,3 @@
-import { store } from "@web/state";
-import { addEditor } from "@web/state/actions";
 import { styled } from "@web/stitches.config";
 import { User } from "@web/types";
 import { PopoverBase } from "./base/popover";
@@ -63,12 +61,16 @@ const Item = styled("button", {
   },
 });
 
-interface IEditorsPopoverProps extends PopoverBase {
-  users: User[];
-  onClick: () => void;
+interface IEditorsPopoverProps<T extends User> extends PopoverBase {
+  users: T[];
+  onClick: (user: T) => void;
 }
 
-function EditorsPopover({ close, users, onClick }: IEditorsPopoverProps) {
+function SelectUsersPopover<T extends User>({
+  close,
+  users,
+  onClick,
+}: IEditorsPopoverProps<T>) {
   return (
     <div>
       <List>
@@ -77,8 +79,7 @@ function EditorsPopover({ close, users, onClick }: IEditorsPopoverProps) {
             key={user.id}
             onClick={() => {
               close();
-              onClick();
-              store.dispatch(addEditor(user));
+              onClick(user);
             }}
           >
             <img src={user.icon ?? "/img/pfp.png"} alt={user.username} />
@@ -93,4 +94,4 @@ function EditorsPopover({ close, users, onClick }: IEditorsPopoverProps) {
   );
 }
 
-export default EditorsPopover;
+export default SelectUsersPopover;
