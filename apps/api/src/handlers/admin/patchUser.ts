@@ -1,14 +1,15 @@
+/* eslint-disable no-negated-condition */
 import { FastifyImp } from "../../types";
 import { z } from "zod";
 import { db } from "../../db";
 import { users } from "../../db/schemas";
 import { eq } from "drizzle-orm/expressions";
-import { permer } from "@imperial/commons";
+import { Id, permer } from "@imperial/commons";
 
 const patchUserSchema = z.object({
   email: z.string().email().optional(),
   icon: z.string().url().or(z.null()).optional(),
-  memberPlus: z.boolean().optional(),
+  member_plus: z.boolean().optional(),
   banned: z.boolean().optional(),
   username: z.string().optional(),
   confirmed: z.boolean().optional(),
@@ -17,8 +18,9 @@ const patchUserSchema = z.object({
 export const patchUser: FastifyImp<
   unknown,
   unknown,
+  unknown,
   {
-    username: string;
+    id: Id<"user">;
   }
 > = async (request, reply) => {
   if (!request.user || !permer.test(request.user.flags, "admin")) {
@@ -60,21 +62,37 @@ export const patchUser: FastifyImp<
     }
   }
 
+  const originalUser =
+    (await db.select().from(users).where(eq(users.id, request.params.id)))[0] ??
+    null;
+
+  if (!originalUser) {
+    return reply.status(404).send({
+      success: false,
+      error: {
+        message: "User not found",
+      },
+    });
+  }
+
   const updatedUser =
     (
       await db
         .update(users)
         .set({
-          email: body.data.email ?? request.user.email,
-          icon: body.data.icon ?? request.user.icon,
-          banned: body.data.banned ?? request.user.banned,
-          flags: body.data.memberPlus
-            ? permer.add(request.user.flags, ["member-plus"])
-            : request.user.flags,
-          username: body.data.username ?? request.user.username,
-          confirmed: body.data.confirmed ?? request.user.confirmed,
+          email: body.data.email ?? originalUser.email,
+          icon: body.data.icon ?? originalUser.icon,
+          banned: body.data.banned ?? originalUser.banned,
+          flags:
+            body.data.member_plus !== undefined
+              ? body.data.member_plus
+                ? permer.add(originalUser.flags, ["member-plus"])
+                : permer.subtract(originalUser.flags, ["member-plus"])
+              : originalUser.flags,
+          username: body.data.username ?? originalUser.username,
+          confirmed: body.data.confirmed ?? originalUser.confirmed,
         })
-        .where(eq(users.id, request.user.id))
+        .where(eq(users.id, request.params.id))
         .returning()
     )[0] ?? null;
 
