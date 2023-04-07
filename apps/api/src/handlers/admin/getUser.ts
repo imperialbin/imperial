@@ -14,7 +14,7 @@ export const getUserAdmin: FastifyImp<
   }
 > = async (request, reply) => {
   if (!request.user || !permer.test(request.user.flags, "admin")) {
-    reply.status(403).send({
+    return reply.status(403).send({
       success: false,
       error: {
         message: "You are not an admin",
