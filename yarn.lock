@@ -2149,6 +2149,7 @@ __metadata:
     react: ^18.2.0
     react-email: ^1.9.0
     redis: ^4.6.5
+    tsc-alias: ^1.8.5
     tsconfig: "*"
     tsx: ^3.12.6
     typescript: ">=4.4"
@@ -2830,7 +2831,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"commander@npm:^9.4.1":
+"commander@npm:^9.0.0, commander@npm:^9.4.1":
   version: 9.5.0
   resolution: "commander@npm:9.5.0"
   checksum: c7a3e27aa59e913b54a1bafd366b88650bc41d6651f0cbe258d4ff09d43d6a7394232a4dadd0bf518b3e696fdf595db1028a0d82c785b88bd61f8a440cecfade
@@ -5212,7 +5213,7 @@ eslint-config-turbo@latest:
   languageName: node
   linkType: hard
 
-"globby@npm:^11.0.0, globby@npm:^11.1.0":
+"globby@npm:^11.0.0, globby@npm:^11.0.4, globby@npm:^11.1.0":
   version: 11.1.0
   resolution: "globby@npm:11.1.0"
   dependencies:
@@ -6673,6 +6674,13 @@ eslint-config-turbo@latest:
   languageName: node
   linkType: hard
 
+"mylas@npm:^2.1.9":
+  version: 2.1.13
+  resolution: "mylas@npm:2.1.13"
+  checksum: f861d092137a9ac268cba88042392a5dc2a290eed5c8543954eae849d85e5961332211161d2c08c3644ad893f20dbe9de89b07f5dc027f1f92f13f2d38f4b81f
+  languageName: node
+  linkType: hard
+
 "nanoid@npm:^3.3.4, nanoid@npm:^3.3.6":
   version: 3.3.6
   resolution: "nanoid@npm:3.3.6"
@@ -7378,6 +7386,15 @@ eslint-config-turbo@latest:
   languageName: node
   linkType: hard
 
+"plimit-lit@npm:^1.2.6":
+  version: 1.5.0
+  resolution: "plimit-lit@npm:1.5.0"
+  dependencies:
+    queue-lit: ^1.5.0
+  checksum: a956e4e5e515a980403ca840b00c9e2381710a3a30e60e0e38f76b7842b24a345c9e59ef03568cb5925b4e9cdf67c088008148febec59e55bd47d1cb4003b024
+  languageName: node
+  linkType: hard
+
 "postcss-css-variables@npm:0.18.0":
   version: 0.18.0
   resolution: "postcss-css-variables@npm:0.18.0"
@@ -7699,6 +7716,13 @@ eslint-config-turbo@latest:
   version: 0.2.0
   resolution: "querystring@npm:0.2.0"
   checksum: 8258d6734f19be27e93f601758858c299bdebe71147909e367101ba459b95446fbe5b975bf9beb76390156a592b6f4ac3a68b6087cea165c259705b8b4e56a69
+  languageName: node
+  linkType: hard
+
+"queue-lit@npm:^1.5.0":
+  version: 1.5.0
+  resolution: "queue-lit@npm:1.5.0"
+  checksum: 2e714b74072e1be9bd76356710af1d3b03763859f466a10ed74f36b5ccc524dbd0d299239adfc5cbd3a4a416c5fc69cf4af34f13ef4f95f6da70cad12cb79771
   languageName: node
   linkType: hard
 
@@ -8952,6 +8976,22 @@ eslint-config-turbo@latest:
     tree: bin/tree.js
     treee: bin/tree.js
   checksum: 205422cccad02d3c5f74c000785be0ea0b3ff43ca66aab95a301440865b55d137d5c61d93943b09bfb591524043dc82001cb109680a7589b0df0087f70ddc243
+  languageName: node
+  linkType: hard
+
+"tsc-alias@npm:^1.8.5":
+  version: 1.8.5
+  resolution: "tsc-alias@npm:1.8.5"
+  dependencies:
+    chokidar: ^3.5.3
+    commander: ^9.0.0
+    globby: ^11.0.4
+    mylas: ^2.1.9
+    normalize-path: ^3.0.0
+    plimit-lit: ^1.2.6
+  bin:
+    tsc-alias: dist/bin/index.js
+  checksum: 9b92f4141e2d388bd248d3bb362fa48e1bab7a350004ec000016375ca779632d6c6eac53f2a2d92284152cc42dabdf1d9e70162da5a5eb691d93e161d5ed65d2
   languageName: node
   linkType: hard
 
