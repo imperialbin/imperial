@@ -15,12 +15,21 @@ import { SWRConfig } from "swr";
 import "../App.css";
 import { useUser } from "../hooks/useUser";
 import config from "../next-seo.config";
+import { setUser } from "../state/actions";
+import { SelfUser } from "../types";
 
 export default function App({ Component, pageProps }: AppProps) {
-  useUser();
   globalStyles();
 
   useEffect(() => {
+    makeRequest<SelfUser>("GET", "/users/@me")
+      .then((data) => {
+        if (data.data) store.dispatch(setUser(data.data));
+      })
+      .catch(() => {
+        // ok fine
+      });
+
     loader.init().then(async (monaco) => {
       monaco.editor.defineTheme("imperial", IMPERIAL_THEME);
     });
