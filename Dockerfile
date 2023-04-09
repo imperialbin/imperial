@@ -24,6 +24,7 @@ RUN cd apps/api && ls
 
 FROM zenika/alpine-chrome:with-node as runner
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD 1
+ENV PUPPETEER_EXECUTABLE_PATH /app/bin/chromium-browser
 
 WORKDIR /app
 
