@@ -1,36 +1,24 @@
 import { loader } from "@monaco-editor/react";
-import { IMPERIAL_THEME } from "@web/components/editorthemes/Imperial";
 import ErrorBoundary from "@web/components/ErrorBoundary";
 import ModalManager from "@web/components/ModalManager";
 import NotificationsManager from "@web/components/NotificationsManager";
+import { IMPERIAL_THEME } from "@web/components/editorthemes/Imperial";
 import { store } from "@web/state";
 import { globalStyles } from "@web/stitches.config";
 import { makeRequest } from "@web/utils/Rest";
-import { IncomingMessage } from "http";
 import { DefaultSeo } from "next-seo";
-import type { AppContext, AppProps } from "next/app";
-import NextApp from "next/app";
+import type { AppProps } from "next/app";
 import { useEffect } from "react";
 import { SkeletonTheme } from "react-loading-skeleton";
 import { Provider } from "react-redux";
 import { SWRConfig } from "swr";
 import "../App.css";
+import { useUser } from "../hooks/useUser";
 import config from "../next-seo.config";
-import { setUser } from "../state/actions";
-import { Id, SelfUser } from "../types";
 
-export default function App({
-  Component,
-  pageProps,
-  user,
-}: AppProps & { user: SelfUser | null }) {
+export default function App({ Component, pageProps }: AppProps) {
+  useUser();
   globalStyles();
-
-  useEffect(() => {
-    if (user) {
-      store.dispatch(setUser(user));
-    }
-  }, [user]);
 
   useEffect(() => {
     loader.init().then(async (monaco) => {
@@ -60,31 +48,3 @@ export default function App({
     </ErrorBoundary>
   );
 }
-
-App.getInitialProps = async (context: AppContext) => {
-  context?.ctx?.res?.setHeader(
-    "Cache-Control",
-    "public, s-maxage=10, stale-while-revalidate=59",
-  );
-  const ctx = await NextApp.getInitialProps(context);
-
-  const request = context.ctx.req as IncomingMessage & {
-    cookies: Record<"imperial-auth", Id<"imperial_auth">>;
-  };
-
-  console.log(request.cookies);
-
-  if (request?.cookies?.["imperial-auth"]) {
-    const response = await makeRequest("GET", "/users/@me", undefined, {
-      headers: {
-        Authorization: request.cookies["imperial-auth"],
-      },
-    });
-
-    console.log(response);
-
-    return { ...ctx, user: response?.success ? response?.data ?? null : null };
-  }
-
-  return { ...ctx };
-};
