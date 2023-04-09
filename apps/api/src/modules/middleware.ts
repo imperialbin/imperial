@@ -2,13 +2,18 @@
 import fp from "fastify-plugin";
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import { AuthSessions } from "../utils/authSessions";
-import { permer } from "@imperial/commons";
+import { Id, permer } from "@imperial/commons";
 
 const middleware = fp(
   async (fastify: FastifyInstance, _opts: unknown, done: () => void) => {
     fastify.addHook("preHandler", async (req, reply) => {
       const auth =
-        req.headers.authorization || req.cookies["imperial-auth"] || "";
+        req.headers.authorization || req.cookies["imperial-auth"] || null;
+
+      req.authentication_token = auth as
+        | Id<"imperial_auth">
+        | Id<"imperial">
+        | null;
 
       if (auth) {
         const user = await AuthSessions.findUserByToken(auth);
