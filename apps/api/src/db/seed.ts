@@ -7,7 +7,7 @@
 import { uniqueNamesGenerator, names } from "unique-names-generator";
 import { db, setupDB } from ".";
 import { documents, users } from "./schemas";
-import { pika } from "commons";
+import { pika } from "@imperial/commons";
 import { exit } from "process";
 import { Logger } from "../utils/logger";
 import { nanoid } from "nanoid";
