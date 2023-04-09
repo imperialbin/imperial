@@ -18,7 +18,7 @@ const createDocumentSchema = z.object({
   settings: z
     .object({
       language: languageSchema.optional().default("plaintext"),
-      expiration: z.string().or(z.null()).optional().default(null),
+      expiration: z.number().or(z.null()).optional().default(null),
       short_urls: z.boolean().optional().default(false),
       long_urls: z.boolean().optional().default(false),
       image_embed: z.boolean().optional().default(false),
@@ -60,12 +60,9 @@ export const createDocument: FastifyImp<
 
   // If they are not logged in dont allow any settings, but let them set the language
   if (!request.user) {
-    const sevenDaysFromNow = new Date();
-    sevenDaysFromNow.setDate(sevenDaysFromNow.getDate() + 7);
-
     body.data.settings = {
       language: body.data.settings?.language ?? "plaintext",
-      expiration: sevenDaysFromNow.toISOString(),
+      expiration: 7,
       short_urls: false,
       long_urls: false,
       image_embed: false,
@@ -148,6 +145,13 @@ export const createDocument: FastifyImp<
     }
   }
 
+  let expires_at: string | null = null;
+  if (body.data.settings?.expiration) {
+    const date = new Date();
+    date.setDate(date.getDate() + body.data.settings.expiration);
+    expires_at = date.toISOString();
+  }
+
   const createdDocument =
     (
       await db
@@ -156,8 +160,9 @@ export const createDocument: FastifyImp<
           id,
           content,
           creator: request.user?.id ?? null,
-          created_at: new Date().toISOString(),
           gist_url: gistURL,
+          created_at: new Date().toISOString(),
+          expires_at,
           settings: {
             language,
             image_embed: body.data.settings?.image_embed ?? false,
