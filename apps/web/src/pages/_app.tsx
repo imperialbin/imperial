@@ -72,7 +72,7 @@ App.getInitialProps = async (context: AppContext) => {
     cookies: Record<"imperial-auth", Id<"imperial_auth">>;
   };
 
-  console.log(request);
+  console.log(request.cookies);
 
   if (request?.cookies?.["imperial-auth"]) {
     const response = await makeRequest("GET", "/users/@me", undefined, {
@@ -80,6 +80,8 @@ App.getInitialProps = async (context: AppContext) => {
         Authorization: request.cookies["imperial-auth"],
       },
     });
+
+    console.log(response);
 
     return { ...ctx, user: response?.success ? response?.data ?? null : null };
   }
