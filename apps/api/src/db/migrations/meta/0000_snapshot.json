@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "pg",
-  "id": "3707f5da-eb39-4643-9c9c-a54d5ae620ed",
+  "id": "96c6a390-3594-4985-8955-11009051e455",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "devices": {
@@ -57,7 +57,7 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
+          "onDelete": "cascade",
           "onUpdate": "no action"
         }
       },
@@ -79,8 +79,8 @@
           "primaryKey": false,
           "notNull": true
         },
-        "gist_id": {
-          "name": "gist_id",
+        "gist_url": {
+          "name": "gist_url",
           "type": "text",
           "primaryKey": false,
           "notNull": false
@@ -100,14 +100,14 @@
         },
         "created_at": {
           "name": "created_at",
-          "type": "text",
+          "type": "date",
           "primaryKey": false,
           "notNull": true,
-          "default": "''"
+          "default": "now()"
         },
         "expires_at": {
           "name": "expires_at",
-          "type": "text",
+          "type": "date",
           "primaryKey": false,
           "notNull": false
         },
@@ -130,10 +130,25 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
+          "onDelete": "cascade",
           "onUpdate": "no action"
         }
       },
+      "compositePrimaryKeys": {}
+    },
+    "member_plus_tokens": {
+      "name": "member_plus_tokens",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
       "compositePrimaryKeys": {}
     },
     "users": {
@@ -146,8 +161,8 @@
           "primaryKey": true,
           "notNull": true
         },
-        "name": {
-          "name": "name",
+        "username": {
+          "name": "username",
           "type": "text",
           "primaryKey": false,
           "notNull": true
@@ -166,6 +181,13 @@
         },
         "confirmed": {
           "name": "confirmed",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "early_adopter": {
+          "name": "early_adopter",
           "type": "boolean",
           "primaryKey": false,
           "notNull": true,

@@ -1,4 +1,11 @@
-import { boolean, integer, json, pgTable, text } from "drizzle-orm/pg-core";
+import {
+  boolean,
+  integer,
+  json,
+  pgTable,
+  text,
+  date,
+} from "drizzle-orm/pg-core";
 import {
   DiscordUser,
   GitHubUser,
@@ -32,8 +39,14 @@ export const documents = pgTable("documents", {
     .references(() => users.id, { onDelete: "cascade" })
     .$type<Id<"user">>(),
   views: integer("views").notNull().default(0),
-  created_at: text("created_at").notNull().default(""),
-  expires_at: text("expires_at"),
+  created_at: date("created_at", {
+    mode: "string",
+  })
+    .notNull()
+    .defaultNow(),
+  expires_at: date("expires_at", {
+    mode: "string",
+  }),
   settings: json("settings")
     .$type<{
       language: SupportedLanguagesID;

@@ -5,38 +5,8 @@
     {
       "idx": 0,
       "version": "5",
-      "when": 1680023416737,
-      "tag": "0000_lazy_warlock"
-    },
-    {
-      "idx": 1,
-      "version": "5",
-      "when": 1680025858924,
-      "tag": "0001_absent_overlord"
-    },
-    {
-      "idx": 2,
-      "version": "5",
-      "when": 1680184210355,
-      "tag": "0002_ancient_molten_man"
-    },
-    {
-      "idx": 3,
-      "version": "5",
-      "when": 1680228527355,
-      "tag": "0003_boring_angel"
-    },
-    {
-      "idx": 4,
-      "version": "5",
-      "when": 1680272258252,
-      "tag": "0004_parallel_golden_guardian"
-    },
-    {
-      "idx": 5,
-      "version": "5",
-      "when": 1680880640193,
-      "tag": "0005_wet_microbe"
+      "when": 1681050057355,
+      "tag": "0000_polite_loa"
     }
   ]
 }
