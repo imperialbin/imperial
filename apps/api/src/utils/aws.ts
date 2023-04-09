@@ -75,7 +75,7 @@ class S3 {
   ) {
     const uploadRequest = await s3
       .upload({
-        Bucket: "imperial",
+        Bucket: "cdn.impb.in",
         Key: key,
         Body: body,
         ContentType: contentType,
