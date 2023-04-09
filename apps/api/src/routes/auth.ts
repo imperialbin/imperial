@@ -10,21 +10,39 @@ import {
   checkNoAuthentication,
 } from "../modules/middleware";
 import { RP } from "../types";
+import { confirmEmail } from "../handlers/auth/confirmEmail";
+import { resendConfirmEmail } from "../handlers/auth/resendConfirmEmail";
+
+const COMMON_CONFIG = {
+  config: {
+    rateLimit: {
+      max: 10,
+    },
+  },
+};
 
 export const authRoutes = (
   fastify: FastifyInstance,
   _: unknown,
   done: () => void,
 ) => {
+  fastify.post<RP<typeof confirmEmail>>(
+    "/confirm",
+    COMMON_CONFIG,
+    confirmEmail,
+  );
+
+  fastify.post<RP<typeof resendConfirmEmail>>(
+    "/resend_confirm",
+    COMMON_CONFIG,
+    resendConfirmEmail,
+  );
+
   fastify.post<RP<typeof login>>(
     "/login",
     {
       preHandler: checkNoAuthentication,
-      config: {
-        rateLimit: {
-          max: 10,
-        },
-      },
+      config: COMMON_CONFIG.config,
     },
     login,
   );
@@ -33,11 +51,7 @@ export const authRoutes = (
     "/signup",
     {
       preHandler: checkNoAuthentication,
-      config: {
-        rateLimit: {
-          max: 10,
-        },
-      },
+      config: COMMON_CONFIG.config,
     },
     signup,
   );
@@ -46,11 +60,7 @@ export const authRoutes = (
     "/logout",
     {
       preHandler: checkAuthentication,
-      config: {
-        rateLimit: {
-          max: 10,
-        },
-      },
+      config: COMMON_CONFIG.config,
     },
     logout,
   );
@@ -58,25 +68,13 @@ export const authRoutes = (
   // Password reset
   fastify.post<RP<typeof forgotPassword>>(
     "/forgot",
-    {
-      config: {
-        rateLimit: {
-          max: 10,
-        },
-      },
-    },
+    COMMON_CONFIG,
     forgotPassword,
   );
 
   fastify.post<RP<typeof resetPasswordWithToken>>(
     "/reset_password/token",
-    {
-      config: {
-        rateLimit: {
-          max: 10,
-        },
-      },
-    },
+    COMMON_CONFIG,
     resetPasswordWithToken,
   );
 
@@ -84,11 +82,7 @@ export const authRoutes = (
     "/reset_password",
     {
       preHandler: checkAuthentication,
-      config: {
-        rateLimit: {
-          max: 10,
-        },
-      },
+      config: COMMON_CONFIG.config,
     },
     resetPassword,
   );
