@@ -53,7 +53,7 @@ export const devices = pgTable("devices", {
     .$type<Id<"user">>(),
   user_agent: text("user_agent").notNull(),
   ip: text("ip").notNull(),
-  auth_token: text("auth_token").notNull(),
+  auth_token: text("auth_token").notNull().$type<Id<"imperial_auth">>(),
   created_at: text("created_at").notNull(),
 });
 

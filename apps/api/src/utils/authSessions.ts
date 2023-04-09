@@ -29,7 +29,7 @@ export class AuthSessions {
     return token;
   }
 
-  public static async deleteDeviceByAuthToken(token: string) {
+  public static async deleteDeviceByAuthToken(token: Id<"imperial_auth">) {
     await redis.del(token);
     await db.delete(devices).where(eq(devices.auth_token, token));
   }
@@ -78,7 +78,10 @@ export class AuthSessions {
     await db
       .delete(devices)
       .where(
-        and(eq(devices.user, userId), ne(devices.auth_token, except ?? "")),
+        and(
+          eq(devices.user, userId),
+          ne(devices.auth_token, except ?? "imperial_auth_"),
+        ),
       );
   }
 }
