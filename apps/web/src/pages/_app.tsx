@@ -9,13 +9,13 @@ import { makeRequest } from "@web/utils/Rest";
 import { DefaultSeo } from "next-seo";
 import type { AppProps } from "next/app";
 import { useEffect } from "react";
+import { Info } from "react-feather";
 import { SkeletonTheme } from "react-loading-skeleton";
 import { Provider } from "react-redux";
 import { SWRConfig } from "swr";
 import "../App.css";
-import { useUser } from "../hooks/useUser";
 import config from "../next-seo.config";
-import { setUser } from "../state/actions";
+import { addNotification, openModal, setUser } from "../state/actions";
 import { SelfUser } from "../types";
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -24,7 +24,30 @@ export default function App({ Component, pageProps }: AppProps) {
   useEffect(() => {
     makeRequest<SelfUser>("GET", "/users/@me")
       .then((data) => {
-        if (data.data) store.dispatch(setUser(data.data));
+        if (data.data) {
+          store.dispatch(setUser(data.data));
+
+          // Note: this will run twice ONLY in dev because of strict mode
+          if (
+            !data.data.confirmed &&
+            !window.location.pathname.includes("/auth/confirm")
+          ) {
+            store.dispatch(
+              addNotification({
+                icon: <Info />,
+                message: "Please confirm your email address",
+                type: "warning",
+                onClick() {
+                  store.dispatch(
+                    openModal("resend_confirm_email", {
+                      email: data?.data?.email ?? "",
+                    }),
+                  );
+                },
+              }),
+            );
+          }
+        }
       })
       .catch(() => {
         // ok fine

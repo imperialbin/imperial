@@ -4,10 +4,10 @@ import { styled } from "@web/stitches.config";
 import { getRole } from "@web/utils/Permissions";
 import Link from "next/link";
 import { X } from "react-feather";
-import { connect, ConnectedProps } from "react-redux";
+import { ConnectedProps, connect } from "react-redux";
 import { makeRequest } from "../../utils/Rest";
-import { PopoverBase } from "./base/popover";
 import { Item, List, Separator } from "./base/Styles";
+import { PopoverBase } from "./base/popover";
 
 const Wrapper = styled("div", {
   background: "$tertiary",
@@ -45,6 +45,14 @@ function UserPopover({ close, user, dispatch }: PopoverBase & ReduxProps) {
               }}
             >
               User profile
+            </Item>
+            <Item
+              onClick={() => {
+                dispatch(openModal("resend_confirm_email", { email: user.email }));
+                close();
+              }}
+            >
+              Confirm Email
             </Item>
             <Item>
               <Link href="/discord" target="_blank">
