@@ -43,16 +43,7 @@ export const getDocument: FastifyImp<
   }
 
   let { content } = document;
-  if (document.settings.encrypted) {
-    if (!password) {
-      return reply.status(400).send({
-        success: false,
-        data: {
-          message: "Invalid password",
-        },
-      });
-    }
-
+  if (document.settings.encrypted && password) {
     try {
       content = decrypt(password, document.content);
     } catch (e) {
