@@ -43,7 +43,7 @@ export const resetPassword: FastifyImp<
 
   await AuthSessions.deleteAllSessionsForUser(
     request.user.id,
-    request.headers.authorization as Id<"imperial_auth">,
+    request.authentication_token as Id<"imperial_auth">,
   );
 
   reply.status(204).send();
