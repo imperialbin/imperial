@@ -370,6 +370,7 @@ function Nav({ user, document, language, dispatch, editors }: INavProps) {
           ) : (
             <>
               {user &&
+              !document.settings.encrypted &&
               (document?.creator?.id === user.id ||
                 document.settings.editors.find((editor) => editor.id === user.id)) ? (
                 <StyledTooltip title="Edit document">
