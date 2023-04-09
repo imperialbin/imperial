@@ -11,6 +11,7 @@ import { usersRoutes } from "./routes/users";
 import { env } from "./utils/env";
 import { Logger } from "./utils/logger";
 import { setupRedis } from "./utils/redis";
+import { deleteExpiredDocuments } from "./utils/crons";
 
 Sentry.init({
   dsn: env.SENTRY_DSN,
@@ -24,8 +25,8 @@ const main = async () => {
     trustProxy: true,
   });
 
-  setupDB();
-  setupRedis();
+  await setupDB();
+  await setupRedis();
 
   const API_VERSION = "v1";
 
@@ -116,3 +117,6 @@ const main = async () => {
 };
 
 main();
+
+// Crons
+deleteExpiredDocuments.start();

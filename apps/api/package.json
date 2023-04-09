@@ -28,6 +28,7 @@
     "bcrypt": "^5.1.0",
     "cli-color": "^2.0.3",
     "commons": "*",
+    "cron": "^2.3.0",
     "dotenv": "^16.0.3",
     "drizzle-orm": "^0.23.1",
     "envsafe": "^2.0.3",
@@ -49,6 +50,7 @@
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
     "@types/cli-color": "^2.0.2",
+    "@types/cron": "^2.0.1",
     "@types/node": "^18.15.10",
     "@types/pg": "^8.6.6",
     "@types/react": "^18.0.31",
