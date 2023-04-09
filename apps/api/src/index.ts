@@ -21,6 +21,7 @@ Sentry.init({
 const main = async () => {
   const server = fastify({
     bodyLimit: 5000000,
+    trustProxy: true,
   });
 
   setupDB();
