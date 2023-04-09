@@ -173,8 +173,8 @@ export const createDocument: FastifyImp<
   if (
     createdDocument.settings.image_embed &&
     request.user &&
-    (!createdDocument.settings.instant_delete ||
-      !createdDocument.settings.encrypted)
+    !createdDocument.settings.instant_delete &&
+    !createdDocument.settings.encrypted
   ) {
     screenshotDocument(createdDocument.id, createdDocument.content, false);
   }
