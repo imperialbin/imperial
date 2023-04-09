@@ -1,12 +1,11 @@
+import { Id } from "@imperial/commons";
 import { FastifyImp } from "../../types";
 import { AuthSessions } from "../../utils/authSessions";
 
 export const logout: FastifyImp = async (request, reply) => {
-  const token =
-    request.headers.authorization ??
-    request.cookies["imperial-auth"] ??
-    ("" as string);
-  if (!token.startsWith("imperial_auth_")) {
+  const token = request.authentication_token;
+
+  if (!token?.startsWith("imperial_auth_")) {
     reply.status(400).send({
       success: false,
       error: {
@@ -15,7 +14,7 @@ export const logout: FastifyImp = async (request, reply) => {
     });
   }
 
-  await AuthSessions.deleteDeviceByAuthToken(token);
+  await AuthSessions.deleteDeviceByAuthToken(token as Id<"imperial_auth">);
 
   reply.status(204).send();
 };
