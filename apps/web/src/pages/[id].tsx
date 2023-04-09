@@ -71,7 +71,7 @@ function Document({ document }: InferProps) {
             : "Never expires",
           images: [
             {
-              url: env.CDN_URL + document.id + ".jpg",
+              url: env.CDN_URL + document.id + ".jpeg",
               alt: `IMPERIAL ${document.id}`,
               type: "image/jpeg",
             },
