@@ -1,13 +1,11 @@
-import { InferModel } from "drizzle-orm";
-import { users } from "../../db/schemas";
-import { FastifyImp } from "../../types";
-import { Redis } from "../../utils/redis";
-import { Id } from "@imperial/commons";
-import { db } from "../../db";
 import { eq } from "drizzle-orm/expressions";
 import { z } from "zod";
-import { generateRandomSecureString } from "../../utils/strings";
+import { db } from "../../db";
+import { users } from "../../db/schemas";
+import { FastifyImp } from "../../types";
 import { SES } from "../../utils/aws";
+import { Redis } from "../../utils/redis";
+import { generateRandomSecureString } from "../../utils/strings";
 
 const resendConfirmEmailBody = z.object({
   email: z.string().email(),
