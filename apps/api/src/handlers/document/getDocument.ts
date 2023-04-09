@@ -33,7 +33,11 @@ export const getDocument: FastifyImp<
         .where(eq(documents.id, id))
     )[0] ?? null;
 
-  if (!document) {
+  if (
+    !document ||
+    (document.timestamps.expiration &&
+      new Date(document?.timestamps?.expiration) < new Date())
+  ) {
     return reply.status(404).send({
       success: false,
       data: {
