@@ -4,7 +4,7 @@ import { db } from "../../db";
 import { users } from "../../db/schemas";
 import { FastifyImp } from "../../types";
 import { SES } from "../../utils/aws";
-import { redis } from "../../utils/redis";
+import { Redis } from "../../utils/redis";
 import { generateRandomSecureString } from "../../utils/strings";
 
 const forgotPasswordBody = z.object({
@@ -35,7 +35,9 @@ export const forgotPassword: FastifyImp<{
   }
 
   const token = generateRandomSecureString(32);
-  await redis.set("resetPassword:" + token, user.id, { EX: 60 * 60 * 24 });
+  await Redis.set("reset_token", token, user.id, {
+    EX: 60 * 60 * 24,
+  });
 
   await SES.sendEmail(
     "reset_password",

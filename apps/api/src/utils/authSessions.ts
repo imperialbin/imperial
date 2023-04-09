@@ -1,8 +1,8 @@
+import { Id, pika } from "@imperial/commons";
 import { and, eq, ne } from "drizzle-orm/expressions";
 import { db } from "../db";
 import { devices, users } from "../db/schemas";
-import { Id, pika } from "@imperial/commons";
-import { redis } from "./redis";
+import { Redis } from "./redis";
 
 export class AuthSessions {
   public static async createDevice(
@@ -24,13 +24,13 @@ export class AuthSessions {
       })
       .returning();
 
-    await redis.set(token, userId);
+    await Redis.set("auth_token", token, userId);
 
     return token;
   }
 
   public static async deleteDeviceByAuthToken(token: Id<"imperial_auth">) {
-    await redis.del(token);
+    await Redis.del("auth_token", token);
     await db.delete(devices).where(eq(devices.auth_token, token));
   }
 
@@ -40,19 +40,42 @@ export class AuthSessions {
       null;
 
     if (device) {
-      await redis.del(device.auth_token);
+      await Redis.del("auth_token", device.auth_token);
     }
   }
 
   public static async findUserByToken(token: string) {
-    const tokenInRedis = (await redis.get(token)) as Id<"user"> | undefined;
+    const maybeToken = await Redis.get<Id<"user">>("auth_token", token);
 
-    if (!tokenInRedis) {
+    if (!maybeToken) {
       return null;
     }
 
     const user =
-      (await db.select().from(users).where(eq(users.id, tokenInRedis)))[0] ??
+      (await db.select().from(users).where(eq(users.id, maybeToken)))[0] ??
+      null;
+
+    return user;
+  }
+
+  public static async findUserByAPIToken(token: string) {
+    const maybeToken = await Redis.get<Id<"user">>("api_token", token);
+
+    if (!maybeToken) {
+      const user =
+        (await db.select().from(users).where(eq(users.api_token, token)))[0] ??
+        null;
+
+      // If somehow the user has an api token but it's not in redis, add it
+      if (user) {
+        await Redis.set("api_token", token, user.id);
+      } else {
+        return null;
+      }
+    }
+
+    const user =
+      (await db.select().from(users).where(eq(users.api_token, token)))[0] ??
       null;
 
     return user;
@@ -72,7 +95,7 @@ export class AuthSessions {
         continue;
       }
 
-      await redis.del(device.auth_token);
+      await Redis.del("auth_token", device.auth_token);
     }
 
     await db

@@ -1,3 +1,4 @@
+import { Id } from "@imperial/commons";
 import bcrypt from "bcrypt";
 import { eq } from "drizzle-orm/expressions";
 import { z } from "zod";
@@ -5,8 +6,7 @@ import { db } from "../../db";
 import { users } from "../../db/schemas";
 import { FastifyImp } from "../../types";
 import { AuthSessions } from "../../utils/authSessions";
-import { Id } from "@imperial/commons";
-import { redis } from "../../utils/redis";
+import { Redis } from "../../utils/redis";
 
 const resetPasswordWithTokenBody = z.object({
   token: z.string().length(32),
@@ -30,10 +30,12 @@ export const resetPasswordWithToken: FastifyImp<
     });
   }
 
-  const tokenInRedis = (await redis.get(
-    "resetPassword:" + body.data.token,
-  )) as Id<"user"> | null;
-  if (!tokenInRedis) {
+  const maybeUserId = await Redis.get<Id<"user">>(
+    "reset_token",
+    body.data.token,
+  );
+
+  if (!maybeUserId) {
     return reply.status(400).send({
       success: false,
       error: {
@@ -43,8 +45,7 @@ export const resetPasswordWithToken: FastifyImp<
   }
 
   const user =
-    (await db.select().from(users).where(eq(users.id, tokenInRedis)))[0] ??
-    null;
+    (await db.select().from(users).where(eq(users.id, maybeUserId)))[0] ?? null;
 
   if (!user) {
     return reply.status(400).send({
@@ -59,7 +60,7 @@ export const resetPasswordWithToken: FastifyImp<
     password: await bcrypt.hash(body.data.new_password, 10),
   });
 
-  await redis.del("resetPassword:" + body.data.token);
+  await Redis.del("reset_token", body.data.token);
   await AuthSessions.deleteAllSessionsForUser(user.id);
 
   reply.status(204).send();

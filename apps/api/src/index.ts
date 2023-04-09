@@ -8,10 +8,10 @@ import { authRoutes } from "./routes/auth";
 import { documentRoutes } from "./routes/document";
 import { oAuthRoutes } from "./routes/oauth";
 import { usersRoutes } from "./routes/users";
+import { deleteExpiredDocuments } from "./utils/crons";
 import { env } from "./utils/env";
 import { Logger } from "./utils/logger";
-import { setupRedis } from "./utils/redis";
-import { deleteExpiredDocuments } from "./utils/crons";
+import { Redis } from "./utils/redis";
 
 Sentry.init({
   dsn: env.SENTRY_DSN,
@@ -26,7 +26,7 @@ const main = async () => {
   });
 
   await setupDB();
-  await setupRedis();
+  await Redis.initialize();
 
   const API_VERSION = "v1";
 

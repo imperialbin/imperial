@@ -8,6 +8,8 @@ import { AuthSessions } from "../../utils/authSessions";
 import { SES } from "../../utils/aws";
 import { pika } from "@imperial/commons";
 import { permer } from "@imperial/commons";
+import { generateRandomSecureString } from "../../utils/strings";
+import { Redis } from "../../utils/redis";
 
 const signupSchema = z.object({
   username: z.string().min(1),
@@ -109,10 +111,14 @@ export const signup: FastifyImp<
 
   const { password, ...userWithoutPassword } = user;
 
+  const confirmToken = generateRandomSecureString(32);
+  await Redis.set("confirm_email_token", confirmToken, user.id, {
+    EX: 60 * 60 * 24 * 7,
+  });
   await SES.sendEmail(
     "confirm_email",
     {
-      token,
+      token: confirmToken,
     },
     user.email,
     "Confirm Email",
