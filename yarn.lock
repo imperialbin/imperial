@@ -2125,7 +2125,7 @@ __metadata:
     "@types/react": ^18.0.31
     "@typescript-eslint/eslint-plugin": ">=5.43.0"
     "@typescript-eslint/parser": ">=5.43.0"
-    aws-sdk: ^2.1345.0
+    aws-sdk: ^2.1353.0
     bcrypt: ^5.1.0
     cli-color: ^2.0.3
     commons: "*"
@@ -2338,9 +2338,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"aws-sdk@npm:^2.1345.0":
-  version: 2.1349.0
-  resolution: "aws-sdk@npm:2.1349.0"
+"aws-sdk@npm:^2.1353.0":
+  version: 2.1353.0
+  resolution: "aws-sdk@npm:2.1353.0"
   dependencies:
     buffer: 4.9.2
     events: 1.1.1
@@ -2352,7 +2352,7 @@ __metadata:
     util: ^0.12.4
     uuid: 8.0.0
     xml2js: 0.4.19
-  checksum: 8a10071a185315158d6a5dc7cec441bc3284ca6c33166d9f5b5053fcccde5c1b1944bec4f8e7c9f1f8138bf5f10cd4863ac1a55c048e22db75e1d12f9f71c1f9
+  checksum: 099efb3148249bc66870360a28a6d9c940b5443dd060c1c7e0806595dae16488a99b58f66b317b0281d98792633fd154add1a29dbfe28d25935cf7cee072d1bb
   languageName: node
   linkType: hard
 

@@ -5,12 +5,13 @@ import { FastifyImp, User } from "../../types";
 import { USER_PUBLIC_OBJECT } from "../../utils/publicObjects";
 
 export const getUser: FastifyImp<
-  {},
-  unknown,
-  unknown,
   {
-    username: string;
-  }
+    Params: {
+      username: string;
+    };
+  },
+  unknown,
+  true
 > = async (request, reply) => {
   const { username } = request.params;
 

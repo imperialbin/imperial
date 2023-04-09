@@ -8,11 +8,10 @@ import {
   getLinksObject,
 } from "../../utils/publicObjects";
 
-export const getRecentDocuments: FastifyImp = async (request, reply) => {
-  if (!request.user) {
-return;
-}
-
+export const getRecentDocuments: FastifyImp<{}, unknown, true> = async (
+  request,
+  reply,
+) => {
   const recentDocuments = await db
     .select(DOCUMENT_PUBLIC_OBJECT)
     .from(documents)

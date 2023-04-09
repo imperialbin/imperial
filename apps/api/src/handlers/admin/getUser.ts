@@ -5,22 +5,14 @@ import { users } from "../../db/schemas";
 import { FastifyImp } from "../../types";
 
 export const getUserAdmin: FastifyImp<
-  {},
-  unknown,
-  unknown,
   {
-    id: Id<"user">;
-  }
+    Params: {
+      id: Id<"user">;
+    };
+  },
+  {},
+  true
 > = async (request, reply) => {
-  if (!request.user || !permer.test(request.user.flags, "admin")) {
-    return reply.status(403).send({
-      success: false,
-      error: {
-        message: "You are not an admin",
-      },
-    });
-  }
-
   const { id } = request.params;
   const user =
     (await db.select().from(users).where(eq(users.id, id)))[0] ?? null;

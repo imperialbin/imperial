@@ -1,4 +1,5 @@
 import cors from "@fastify/cors";
+import * as Sentry from "@sentry/node";
 import fastify from "fastify";
 import { setupDB } from "./db";
 import { middleware } from "./modules/middleware";
@@ -10,7 +11,6 @@ import { usersRoutes } from "./routes/users";
 import { env } from "./utils/env";
 import { Logger } from "./utils/logger";
 import { setupRedis } from "./utils/redis";
-import * as Sentry from "@sentry/node";
 
 Sentry.init({
   dsn: env.SENTRY_DSN,
@@ -28,6 +28,7 @@ const main = async () => {
 
   const API_VERSION = "v1";
 
+  server.register(middleware);
   server.register(cors, { maxAge: 600, origin: true, credentials: true });
   server.register(import("@fastify/cookie"), {
     secret: env.COOKIE_SIGNER,
@@ -53,7 +54,6 @@ const main = async () => {
     },
   });
 
-  server.register(middleware);
   server.get("/", async (_, reply) => {
     reply.send({
       success: true,
@@ -78,7 +78,7 @@ const main = async () => {
   server.register(oAuthRoutes, { prefix: `/${API_VERSION}/oauth` });
   server.register(adminRoutes, { prefix: `/${API_VERSION}/admin` });
 
-  server.setNotFoundHandler((request, reply) => {
+  server.setNotFoundHandler((_, reply) => {
     reply.code(404).send({
       success: false,
       error: {
@@ -87,7 +87,7 @@ const main = async () => {
     });
   });
 
-  server.setErrorHandler((error, request, reply) => {
+  server.setErrorHandler((error, _, reply) => {
     if ((error.statusCode ?? 500) >= 500) {
       Logger.error("SERVER", error.message);
       Sentry.captureException(error);

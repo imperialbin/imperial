@@ -1,21 +1,23 @@
+import { Id } from "@imperial/commons";
 import bcrypt from "bcrypt";
 import { z } from "zod";
 import { db } from "../../db";
 import { users } from "../../db/schemas";
 import { FastifyImp } from "../../types";
 import { AuthSessions } from "../../utils/authSessions";
-import { Id } from "@imperial/commons";
 
 const resetPasswordBody = z.object({
   old_password: z.string().min(8),
   new_password: z.string().min(8),
 });
 
-export const resetPassword: FastifyImp = async (request, reply) => {
-  if (!request.user) {
-    return;
-  }
-
+export const resetPassword: FastifyImp<
+  {
+    Body: z.infer<typeof resetPasswordBody>;
+  },
+  unknown,
+  true
+> = async (request, reply) => {
   const body = resetPasswordBody.safeParse(request.body);
   if (!body.success) {
     return reply.status(400).send({

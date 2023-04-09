@@ -5,7 +5,7 @@ import { AuthSessions } from "../../utils/authSessions";
 import { Id } from "@imperial/commons";
 
 const deviceSchema = z.custom<Id<"device">>(
-  (value) => typeof value === "string" && value.startsWith("device_")
+  (value) => typeof value === "string" && value.startsWith("device_"),
 );
 
 const deleteDeviceBody = z.object({
@@ -14,8 +14,9 @@ const deleteDeviceBody = z.object({
 });
 
 export const deleteMeDevices: FastifyImp<
+  { Body: z.infer<typeof deleteDeviceBody> },
   unknown,
-  z.infer<typeof deleteDeviceBody>
+  true
 > = async (request, reply) => {
   if (!request.user) {
     return;

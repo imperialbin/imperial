@@ -11,7 +11,9 @@ const forgotPasswordBody = z.object({
   email: z.string().email(),
 });
 
-export const forgotPassword: FastifyImp = async (request, reply) => {
+export const forgotPassword: FastifyImp<{
+  Body: z.infer<typeof forgotPasswordBody>;
+}> = async (request, reply) => {
   const body = forgotPasswordBody.safeParse(request.body);
   if (!body.success) {
     return reply.status(400).send({
@@ -39,7 +41,7 @@ export const forgotPassword: FastifyImp = async (request, reply) => {
     "reset_password",
     { token },
     user.email,
-    "Reset Password"
+    "Reset Password",
   );
 
   reply.status(204).send();

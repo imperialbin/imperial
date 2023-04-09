@@ -6,15 +6,12 @@ import { permer } from "@imperial/commons";
 import { Id } from "@imperial/commons";
 
 export const upgradeMe: FastifyImp<
-  unknown,
   {
-    token: Id<"member_plus">;
-  }
+    Body: { token: Id<"member_plus"> };
+  },
+  unknown,
+  true
 > = async (request, reply) => {
-  if (!request.user) {
-    return;
-  }
-
   if (!request.body.token) {
     reply.status(400).send({
       success: false,

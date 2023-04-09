@@ -1,4 +1,5 @@
 import { S3 as S3Client, SES as SESClient } from "aws-sdk";
+
 import { env } from "./env";
 import { Logger } from "./logger";
 import { render } from "@react-email/render";
@@ -10,7 +11,6 @@ import { FunctionComponent } from "react";
 
 const s3 = new S3Client({
   region: env.AWS_REGION,
-
   accessKeyId: env.AWS_ACCESS_KEY,
   secretAccessKey: env.AWS_SECRET_KEY,
 });

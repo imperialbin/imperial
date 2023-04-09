@@ -4,12 +4,13 @@ import { documents } from "../../db/schemas";
 import { FastifyImp } from "../../types";
 
 export const deleteDocument: FastifyImp<
-  unknown,
-  unknown,
-  unknown,
   {
-    id: string;
-  }
+    Params: {
+      id: string;
+    };
+  },
+  unknown,
+  true
 > = async (request, reply) => {
   const { id } = request.params;
   const document =
@@ -24,7 +25,7 @@ export const deleteDocument: FastifyImp<
     });
   }
 
-  if (request.user?.id !== document.creator) {
+  if (request.user.id !== document.creator) {
     return reply.status(401).send({
       success: false,
       error: {

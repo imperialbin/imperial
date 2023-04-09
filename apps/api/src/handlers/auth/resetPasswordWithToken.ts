@@ -13,7 +13,13 @@ const resetPasswordWithTokenBody = z.object({
   new_password: z.string().min(8),
 });
 
-export const resetPasswordWithToken: FastifyImp = async (request, reply) => {
+export const resetPasswordWithToken: FastifyImp<
+  {
+    Body: z.infer<typeof resetPasswordWithTokenBody>;
+  },
+  unknown,
+  false
+> = async (request, reply) => {
   const body = resetPasswordWithTokenBody.safeParse(request.body);
   if (!body.success) {
     return reply.status(400).send({
@@ -25,7 +31,7 @@ export const resetPasswordWithToken: FastifyImp = async (request, reply) => {
   }
 
   const tokenInRedis = (await redis.get(
-    "resetPassword:" + body.data.token
+    "resetPassword:" + body.data.token,
   )) as Id<"user"> | null;
   if (!tokenInRedis) {
     return reply.status(400).send({

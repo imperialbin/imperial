@@ -4,14 +4,14 @@ import { nanoid } from "nanoid";
 import { z } from "zod";
 import { db } from "../../db";
 import { documents, users } from "../../db/schemas";
-import { FastifyImp, User } from "../../types";
+import { Document, FastifyImp, User } from "../../types";
 import { encrypt } from "../../utils/crypto";
 import { GitHub } from "../../utils/github";
 import { guessLanguage } from "../../utils/language";
 import { getLinksObject } from "../../utils/publicObjects";
+import { languageSchema } from "../../utils/schemas";
 import { screenshotDocument } from "../../utils/screenshotDocument";
 import { generateRandomSecureString } from "../../utils/strings";
-import { languageSchema } from "../../utils/schemas";
 
 const createDocumentSchema = z.object({
   content: z.string().min(1),
@@ -34,30 +34,11 @@ const createDocumentSchema = z.object({
 
 export const createDocument: FastifyImp<
   {
-    id: string;
-    content: string;
-    password?: string | undefined;
-    creator: User | null;
-    gist_url: string | null;
-    views: number;
-    timestamps: {
-      creation: string;
-      expiration: string | null;
-    };
-    links: {
-      raw: string;
-      formatted: string;
-    };
-    settings: {
-      language: string;
-      image_embed: boolean;
-      instant_delete: boolean;
-      encrypted: boolean;
-      public: boolean;
-      editors: User[];
-    };
+    Body: z.infer<typeof createDocumentSchema>;
   },
-  z.infer<typeof createDocumentSchema>
+  Document & {
+    password?: string;
+  }
 > = async (request, reply) => {
   if (!request.body) {
     return reply.status(400).send({

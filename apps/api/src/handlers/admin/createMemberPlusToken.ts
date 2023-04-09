@@ -1,19 +1,15 @@
+import { Id, pika } from "@imperial/commons";
 import { db } from "../../db";
 import { memberPlusTokens } from "../../db/schemas";
 import { FastifyImp } from "../../types";
-import { permer } from "@imperial/commons";
-import { pika } from "@imperial/commons";
 
-export const createMemberPlusToken: FastifyImp = async (request, reply) => {
-  if (!request.user || !permer.test(request.user.flags, "admin")) {
-    return reply.status(403).send({
-      success: false,
-      error: {
-        message: "You are not an admin",
-      },
-    });
-  }
-
+export const createMemberPlusToken: FastifyImp<
+  {},
+  {
+    token: Id<"member_plus">;
+  },
+  true
+> = async (request, reply) => {
   const token = pika.gen("member_plus");
 
   await db.insert(memberPlusTokens).values({

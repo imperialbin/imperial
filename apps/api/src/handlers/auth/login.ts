@@ -13,8 +13,10 @@ const loginSchema = z.object({
 });
 
 export const login: FastifyImp<
-  { token: string; user: SelfUser },
-  Record<string, unknown>
+  {
+    Body: z.infer<typeof loginSchema>;
+  },
+  { token: string; user: SelfUser }
 > = async (request, reply) => {
   const body = loginSchema.safeParse(request.body);
   if (!body.success) {

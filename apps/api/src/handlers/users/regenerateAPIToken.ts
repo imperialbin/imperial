@@ -4,11 +4,10 @@ import { users } from "../../db/schemas";
 import { FastifyImp } from "../../types";
 import { pika } from "@imperial/commons";
 
-export const regenerateAPIToken: FastifyImp = async (request, reply) => {
-  if (!request.user) {
-    return;
-  }
-
+export const regenerateAPIToken: FastifyImp<{}, unknown, true> = async (
+  request,
+  reply,
+) => {
   const updatedUser =
     (
       await db

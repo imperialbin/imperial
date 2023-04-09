@@ -6,16 +6,14 @@ import { FastifyImp } from "../../types";
 import { Discord } from "../../utils/discord";
 
 export const discord: FastifyImp<
-  unknown,
-  unknown,
   {
-    code: string;
-  }
+    Querystring: {
+      code: string;
+    };
+  },
+  unknown,
+  true
 > = async (request, reply) => {
-  if (!request.user) {
-    return;
-  }
-
   const { code } = request.query;
   const accessToken = await Discord.getAccessToken(code);
 
@@ -29,7 +27,7 @@ export const discord: FastifyImp<
   }
 
   const userInfo = await Discord.getUserWithToken(
-    `${accessToken.token_type} ${accessToken.access_token}`
+    `${accessToken.token_type} ${accessToken.access_token}`,
   );
 
   if (!userInfo) {

@@ -1,7 +1,7 @@
 import { eq } from "drizzle-orm/expressions";
 import { z } from "zod";
 import { db } from "../../db";
-import { documents } from "../../db/schemas";
+import { documents, users } from "../../db/schemas";
 import { Document, FastifyImp, User } from "../../types";
 import {
   getEditorsByIds,
@@ -9,6 +9,7 @@ import {
   getLinksObject,
 } from "../../utils/publicObjects";
 import { languageSchema } from "../../utils/schemas";
+import { DOCUMENT_PUBLIC_OBJECT } from "../../utils/publicObjects";
 
 const patchDocumentSchema = z.object({
   id: z.string().min(4).max(36),
@@ -25,7 +26,13 @@ const patchDocumentSchema = z.object({
     .optional(),
 });
 
-export const patchDocument: FastifyImp<Document> = async (request, reply) => {
+export const patchDocument: FastifyImp<
+  {
+    Body: z.infer<typeof patchDocumentSchema>;
+  },
+  Document,
+  true
+> = async (request, reply) => {
   const body = patchDocumentSchema.safeParse(request.body);
   if (!body.success) {
     return reply.status(400).send({
@@ -38,7 +45,13 @@ export const patchDocument: FastifyImp<Document> = async (request, reply) => {
 
   const { id } = body.data;
   const document =
-    (await db.select().from(documents).where(eq(documents.id, id)))[0] ?? null;
+    (
+      await db
+        .select(DOCUMENT_PUBLIC_OBJECT)
+        .from(documents)
+        .where(eq(documents.id, id))
+        .leftJoin(users, eq(users.id, documents.creator))
+    )[0] ?? null;
 
   if (!document) {
     return reply.status(404).send({
@@ -50,9 +63,8 @@ export const patchDocument: FastifyImp<Document> = async (request, reply) => {
   }
 
   if (
-    !request.user ||
-    (request?.user?.id !== document.creator &&
-      !document.settings.editors.includes(request?.user?.id))
+    request.user.id !== document.creator?.id &&
+    !document.settings.editors.includes(request.user.id)
   ) {
     return reply.status(403).send({
       success: false,
@@ -82,7 +94,8 @@ export const patchDocument: FastifyImp<Document> = async (request, reply) => {
         .update(documents)
         .set({
           content: body.data.content ?? document.content,
-          expires_at: body.data?.settings?.expiration ?? document.expires_at,
+          expires_at:
+            body.data?.settings?.expiration ?? document.timestamps.expiration,
           settings: {
             language:
               body.data?.settings?.language ?? document.settings.language,
@@ -105,15 +118,7 @@ export const patchDocument: FastifyImp<Document> = async (request, reply) => {
     data: {
       id: updatedDocument.id,
       content: updatedDocument.content,
-      creator: request.user
-        ? {
-            id: request.user.id,
-            username: request.user.username,
-            documents_made: request.user.documents_made,
-            flags: request.user.flags,
-            icon: request.user.icon,
-          }
-        : null,
+      creator: document.creator,
       gist_url: updatedDocument.gist_url,
       views: 0,
       timestamps: {

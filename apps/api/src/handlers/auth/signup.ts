@@ -16,8 +16,11 @@ const signupSchema = z.object({
 });
 
 export const signup: FastifyImp<
+  {
+    Body: z.infer<typeof signupSchema>;
+  },
   { token: string; user: SelfUser },
-  Record<string, unknown>
+  false
 > = async (request, reply) => {
   const body = signupSchema.safeParse(request.body);
   if (!body.success) {

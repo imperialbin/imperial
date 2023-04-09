@@ -2,14 +2,28 @@ import { FastifyInstance } from "fastify";
 import { discord } from "../handlers/oauth/discord";
 import { github } from "../handlers/oauth/github";
 import { env } from "../utils/env";
+import { RP } from "../types";
+import { checkAuthentication } from "../modules/middleware";
 
 export const oAuthRoutes = (
   fastify: FastifyInstance,
   _: unknown,
   done: () => void,
 ) => {
-  fastify.get("/github/callback", github);
-  fastify.get("/discord/callback", discord);
+  fastify.get<RP<typeof github>>(
+    "/github/callback",
+    {
+      preHandler: checkAuthentication,
+    },
+    github,
+  );
+  fastify.get<RP<typeof discord>>(
+    "/discord/callback",
+    {
+      preHandler: checkAuthentication,
+    },
+    discord,
+  );
 
   // Redirects
   fastify.get("/github", (_, reply) =>

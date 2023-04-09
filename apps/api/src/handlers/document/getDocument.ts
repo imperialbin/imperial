@@ -9,15 +9,17 @@ import {
   getEditorsByIds,
   getLinksObject,
 } from "../../utils/publicObjects";
+
 export const getDocument: FastifyImp<
-  Document,
-  unknown,
   {
-    password?: string;
+    Querystring: {
+      password?: string;
+    };
+    Params: {
+      id: string;
+    };
   },
-  {
-    id: string;
-  }
+  Document
 > = async (request, reply) => {
   const { id } = request.params;
   const { password } = request.query;

@@ -26,11 +26,13 @@ const patchMeSchema = z.object({
     .optional(),
 });
 
-export const patchMe: FastifyImp = async (request, reply) => {
-  if (!request.user) {
-    return;
-  }
-
+export const patchMe: FastifyImp<
+  {
+    Body: z.infer<typeof patchMeSchema>;
+  },
+  unknown,
+  true
+> = async (request, reply) => {
   const body = patchMeSchema.safeParse(request.body);
   if (!body.success) {
     return reply.status(400).send({

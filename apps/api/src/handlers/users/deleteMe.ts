@@ -4,17 +4,16 @@ import { FastifyImp } from "../../types";
 import { eq } from "drizzle-orm/expressions";
 import { z } from "zod";
 import { db } from "../../db";
-import { devices, users } from "../../db/schemas";
+import { users } from "../../db/schemas";
 
 const deleteMeSchema = z.object({
   password: z.string().min(8),
 });
 
-export const deleteMe: FastifyImp<unknown, {}> = async (request, reply) => {
-  if (!request.user) {
-    return;
-  }
-
+export const deleteMe: FastifyImp<{}, unknown, true> = async (
+  request,
+  reply,
+) => {
   const body = deleteMeSchema.safeParse(request.body);
   if (!body.success) {
     return reply.status(400).send({

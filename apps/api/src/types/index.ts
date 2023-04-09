@@ -6,7 +6,9 @@ import {
   User,
   UserSettings,
 } from "@imperial/commons";
-import { FastifyReply, FastifyRequest } from "fastify";
+import { InferModel } from "drizzle-orm";
+import { FastifyReply, FastifyRequest, RequestGenericInterface } from "fastify";
+import { users } from "../db/schemas";
 
 type APIError = {
   code: "BRUH";
@@ -23,10 +25,28 @@ type ImperialResponse<T = unknown> =
       error: APIError;
     };
 
-type FastifyImp<T = unknown, B = unknown, Q = unknown, P = unknown> = (
-  req: FastifyRequest<{ Body: B; Querystring: Q; Params: P }>,
+type GetRequestType<T extends (...args: any[]) => any> = Parameters<T>[0];
+type RP<T extends (...args: any[]) => any> = {
+  Body: GetRequestType<T>["body"];
+  Querystring: GetRequestType<T>["query"];
+  Params: GetRequestType<T>["params"];
+  Headers: GetRequestType<T>["headers"];
+};
+
+type FastifyImp<
+  RouteGeneric extends RequestGenericInterface = RequestGenericInterface,
+  K = unknown,
+  V extends boolean | undefined = undefined,
+> = (
+  req: Omit<FastifyRequest<RouteGeneric>, "user"> & {
+    user: V extends undefined
+      ? InferModel<typeof users> | null
+      : V extends true
+      ? InferModel<typeof users>
+      : null;
+  },
   res: Omit<FastifyReply, "send"> & {
-    send(data: ImperialResponse<T>): FastifyReply;
+    send(data: ImperialResponse<K>): FastifyReply;
   },
 ) => Promise<unknown>;
 
@@ -88,4 +108,6 @@ export type {
   User,
   Document,
   GitHubUserResponse,
+  GetRequestType,
+  RP,
 };

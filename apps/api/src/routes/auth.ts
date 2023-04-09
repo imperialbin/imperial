@@ -5,15 +5,21 @@ import { logout } from "../handlers/auth/logout";
 import { resetPassword } from "../handlers/auth/resetPassword";
 import { resetPasswordWithToken } from "../handlers/auth/resetPasswordWithToken";
 import { signup } from "../handlers/auth/signup";
+import {
+  checkAuthentication,
+  checkNoAuthentication,
+} from "../modules/middleware";
+import { RP } from "../types";
 
 export const authRoutes = (
   fastify: FastifyInstance,
   _: unknown,
   done: () => void,
 ) => {
-  fastify.post(
+  fastify.post<RP<typeof login>>(
     "/login",
     {
+      preHandler: checkNoAuthentication,
       config: {
         rateLimit: {
           max: 10,
@@ -22,9 +28,11 @@ export const authRoutes = (
     },
     login,
   );
-  fastify.post(
+
+  fastify.post<RP<typeof signup>>(
     "/signup",
     {
+      preHandler: checkNoAuthentication,
       config: {
         rateLimit: {
           max: 10,
@@ -33,9 +41,11 @@ export const authRoutes = (
     },
     signup,
   );
-  fastify.delete(
+
+  fastify.delete<RP<typeof logout>>(
     "/logout",
     {
+      preHandler: checkAuthentication,
       config: {
         rateLimit: {
           max: 10,
@@ -46,7 +56,7 @@ export const authRoutes = (
   );
 
   // Password reset
-  fastify.post(
+  fastify.post<RP<typeof forgotPassword>>(
     "/forgot",
     {
       config: {
@@ -57,7 +67,8 @@ export const authRoutes = (
     },
     forgotPassword,
   );
-  fastify.post(
+
+  fastify.post<RP<typeof resetPasswordWithToken>>(
     "/reset_password/token",
     {
       config: {
@@ -68,9 +79,11 @@ export const authRoutes = (
     },
     resetPasswordWithToken,
   );
-  fastify.post(
+
+  fastify.post<RP<typeof resetPassword>>(
     "/reset_password",
     {
+      preHandler: checkAuthentication,
       config: {
         rateLimit: {
           max: 10,

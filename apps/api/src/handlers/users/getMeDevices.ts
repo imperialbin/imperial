@@ -3,11 +3,10 @@ import { db } from "../../db";
 import { devices } from "../../db/schemas";
 import { FastifyImp } from "../../types";
 
-export const getMeDevices: FastifyImp = async (request, reply) => {
-  if (!request.user) {
-    return;
-  }
-
+export const getMeDevices: FastifyImp<{}, unknown, true> = async (
+  request,
+  reply,
+) => {
   const usersDevices = await db
     .select()
     .from(devices)

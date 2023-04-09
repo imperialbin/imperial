@@ -16,22 +16,14 @@ const patchUserSchema = z.object({
 });
 
 export const patchUser: FastifyImp<
-  unknown,
-  unknown,
-  unknown,
   {
-    id: Id<"user">;
-  }
+    Params: {
+      id: Id<"user">;
+    };
+  },
+  unknown,
+  true
 > = async (request, reply) => {
-  if (!request.user || !permer.test(request.user.flags, "admin")) {
-    return reply.status(403).send({
-      success: false,
-      error: {
-        message: "You are not an admin",
-      },
-    });
-  }
-
   const body = patchUserSchema.safeParse(request.body);
   if (!body.success) {
     return reply.status(400).send({

@@ -3,12 +3,10 @@ import { users } from "../../db/schemas";
 import { FastifyImp } from "../../types";
 
 export const getMe: FastifyImp<
-  Omit<InferModel<typeof users>, "password">
+  {},
+  Omit<InferModel<typeof users>, "password">,
+  true
 > = async (request, reply) => {
-  if (!request.user) {
-return;
-}
-
   const { password, ...userWithoutPassword } = request.user;
 
   reply.send({

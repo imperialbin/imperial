@@ -9,22 +9,26 @@ import { patchMe } from "../handlers/users/patchMe";
 import { regenerateAPIToken } from "../handlers/users/regenerateAPIToken";
 import { searchUser } from "../handlers/users/searchUser";
 import { upgradeMe } from "../handlers/users/upgrade";
+import { RP } from "../types";
+import { checkAuthentication } from "../modules/middleware";
 
 export const usersRoutes = (
   fastify: FastifyInstance,
   _: unknown,
   done: () => void,
 ) => {
-  fastify.get("/@me", getMe);
-  fastify.patch("/@me", patchMe);
-  fastify.get("/@me/recent", getRecentDocuments);
-  fastify.get("/@me/devices", getMeDevices);
-  fastify.patch("/@me/upgrade", upgradeMe);
+  fastify.addHook("preHandler", checkAuthentication);
+
+  fastify.get<RP<typeof getMe>>("/@me", getMe);
+  fastify.patch<RP<typeof patchMe>>("/@me", patchMe);
+  fastify.get<RP<typeof getRecentDocuments>>("/@me/recent", getRecentDocuments);
+  fastify.get<RP<typeof getMeDevices>>("/@me/devices", getMeDevices);
+  fastify.patch<RP<typeof upgradeMe>>("/@me/upgrade", upgradeMe);
 
   // This is a post because we confirm the password
-  fastify.post("/@me/delete", deleteMe);
-  fastify.post("/@me/devices", deleteMeDevices);
-  fastify.post(
+  fastify.post<RP<typeof deleteMe>>("/@me/delete", deleteMe);
+  fastify.post<RP<typeof deleteMeDevices>>("/@me/devices", deleteMeDevices);
+  fastify.post<RP<typeof regenerateAPIToken>>(
     "/@me/regenerate_api_token",
     {
       config: {
@@ -34,7 +38,7 @@ export const usersRoutes = (
     regenerateAPIToken,
   );
 
-  fastify.get(
+  fastify.get<RP<typeof getUser>>(
     "/:username",
     {
       config: {
@@ -43,7 +47,7 @@ export const usersRoutes = (
     },
     getUser,
   );
-  fastify.get(
+  fastify.get<RP<typeof searchUser>>(
     "/search/:username",
     {
       config: {

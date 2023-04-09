@@ -5,16 +5,14 @@ import { FastifyImp } from "../../types";
 import { GitHub } from "../../utils/github";
 
 export const github: FastifyImp<
-  unknown,
-  unknown,
   {
-    code: string;
-  }
+    Querystring: {
+      code: string;
+    };
+  },
+  unknown,
+  true
 > = async (request, reply) => {
-  if (!request.user) {
-    return;
-  }
-
   const { code } = request.query;
   const accessToken = await GitHub.getAccessToken(code);
   if ("error" in accessToken) {
