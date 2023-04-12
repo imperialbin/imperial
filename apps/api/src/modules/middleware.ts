@@ -6,7 +6,7 @@ import { Id, permer } from "@imperial/commons";
 
 const middleware = fp(
   async (fastify: FastifyInstance, _opts: unknown, done: () => void) => {
-    fastify.addHook("preHandler", async (req, reply) => {
+    fastify.addHook("preHandler", async (req) => {
       const auth =
         req.headers.authorization || req.cookies["imperial-auth"] || null;
 

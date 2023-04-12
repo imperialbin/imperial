@@ -1,4 +1,3 @@
-import { InferModel } from "drizzle-orm";
 import { eq } from "drizzle-orm/expressions";
 import { db } from "../../db";
 import { users } from "../../db/schemas";

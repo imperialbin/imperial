@@ -17,7 +17,7 @@ export const setupDB = async () => {
       return client;
     })
     .catch((err) => {
-      Logger.error("INIT", "Failed to connect to database");
+      Logger.error("INIT", `Failed to connect to database ${String(err)}}`);
       process.exit(1);
     });
 

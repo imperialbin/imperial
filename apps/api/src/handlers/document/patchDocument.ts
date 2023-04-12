@@ -2,14 +2,14 @@ import { eq } from "drizzle-orm/expressions";
 import { z } from "zod";
 import { db } from "../../db";
 import { documents, users } from "../../db/schemas";
-import { Document, FastifyImp, User } from "../../types";
+import { Document, FastifyImp } from "../../types";
 import {
+  DOCUMENT_PUBLIC_OBJECT,
   getEditorsByIds,
   getEditorsByUsername,
   getLinksObject,
 } from "../../utils/publicObjects";
 import { languageSchema } from "../../utils/schemas";
-import { DOCUMENT_PUBLIC_OBJECT } from "../../utils/publicObjects";
 
 const patchDocumentSchema = z.object({
   id: z.string().min(4).max(36),
