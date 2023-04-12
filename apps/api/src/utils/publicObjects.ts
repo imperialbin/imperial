@@ -1,7 +1,7 @@
 import { Id } from "@imperial/commons";
 import { eq } from "drizzle-orm/expressions";
 import { db } from "../db";
-import { documents, users } from "../db/schemas";
+import { devices, documents, users } from "../db/schemas";
 import { User } from "../types";
 import { env } from "./env";
 
@@ -30,6 +30,14 @@ const USER_PUBLIC_OBJECT = {
   documents_made: users.documents_made,
   flags: users.flags,
   icon: users.icon,
+};
+
+const DEVICES_PUBLIC_OBJECT = {
+  id: devices.id,
+  user: devices.user,
+  user_agent: devices.user_agent,
+  ip: devices.ip,
+  created_at: devices.created_at,
 };
 
 const getEditorsByIds = async (ids: Array<Id<"user">>) => {
@@ -82,4 +90,5 @@ export {
   getEditorsByIds,
   getLinksObject,
   getEditorsByUsername,
+  DEVICES_PUBLIC_OBJECT,
 };
