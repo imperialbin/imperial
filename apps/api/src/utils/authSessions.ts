@@ -42,12 +42,21 @@ export class AuthSessions {
     if (device) {
       await Redis.del("auth_token", device.auth_token);
     }
+
+    return Boolean(device);
   }
 
   public static async findUserByToken(token: string) {
     const maybeToken = await Redis.get<Id<"user">>("auth_token", token);
 
     if (!maybeToken) {
+      if (
+        token.startsWith("imperial_") &&
+        !token.startsWith("imperial_auth_")
+      ) {
+        return this.findUserByAPIToken(token);
+      }
+
       return null;
     }
 

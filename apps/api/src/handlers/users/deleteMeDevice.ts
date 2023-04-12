@@ -41,7 +41,15 @@ export const deleteMeDevices: FastifyImp<
     });
   }
 
-  await AuthSessions.deleteDeviceById(body.data.device_id);
+  const success = await AuthSessions.deleteDeviceById(body.data.device_id);
+  if (!success) {
+    return reply.status(404).send({
+      success: false,
+      error: {
+        message: "Device not found",
+      },
+    });
+  }
 
   reply.status(204).send();
 };

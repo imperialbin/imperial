@@ -29,13 +29,9 @@ export const resendConfirmEmail: FastifyImp<{
       await db.select().from(users).where(eq(users.email, body.data.email))
     )[0] ?? null;
 
+  // If user doesn't exist, still send 204 to prevent email enumeration :3
   if (!user) {
-    return reply.status(400).send({
-      success: false,
-      error: {
-        message: "User not found",
-      },
-    });
+    return reply.status(204).send();
   }
 
   if (user.confirmed) {

@@ -10,6 +10,7 @@ module.exports = {
   },
   rules: {
     "@typescript-eslint/consistent-type-imports": "off",
+    "import/no-anonymous-default-export": "off",
 
     "no-tabs": ["error"],
     "jsx-quotes": ["error", "prefer-double"],
