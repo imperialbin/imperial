@@ -3,6 +3,8 @@ name: push
 on:
   push:
     branches: [next-next]
+    paths:
+      - apps/web/**
 
 jobs:
   build:
