@@ -40,8 +40,9 @@ import upgradeMe from "./users/upgradeMe";
  *
  */
 
-export const ADMIN_AUTH_TOKEN =
-  "imperial_auth_c19hNDQ0OWM5ZDkyMThjMzA1MmE4NWRkOTIwNGU4ZDJlZF8xNjg3NDAxMDEzNDM3Mjc2MTk";
+// eslint-disable-next-line turbo/no-undeclared-env-vars
+export const ADMIN_AUTH_TOKEN = process.env.ADMIN_AUTH_TOKEN ?? "";
+
 export let server: Awaited<ReturnType<typeof main>>;
 
 beforeAll(async () => {
