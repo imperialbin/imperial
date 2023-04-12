@@ -39,4 +39,4 @@ jobs:
         run: yarn install --immutable
 
       - name: Run tests
-        run: cd /apps/api && yarn install --immutable && yarn test
+        run: cd ./apps/api && yarn install --immutable && yarn test
