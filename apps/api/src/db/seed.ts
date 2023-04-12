@@ -1,5 +1,5 @@
 /**
- * Get started really quickly with fake data. (meow)
+ * Get started really quickly with fake data. (meow rerun flow)
  *
  * Run `yarn seed`
  *
