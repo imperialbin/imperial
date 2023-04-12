@@ -2,6 +2,7 @@
  * Get started really quickly with fake data.
  *
  * Run `yarn seed`
+ *
  */
 
 import { uniqueNamesGenerator, names } from "unique-names-generator";
