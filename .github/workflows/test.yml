@@ -36,7 +36,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install --immutable
 
       - name: Run tests
-        run: cd /apps/api && yarn install --frozen-lockfile && yarn test
+        run: cd /apps/api && yarn install --immutable && yarn test
