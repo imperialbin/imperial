@@ -6,7 +6,7 @@ export const logout: FastifyImp = async (request, reply) => {
   const token = request.authentication_token;
 
   if (!token?.startsWith("imperial_auth_")) {
-    reply.status(400).send({
+    return reply.status(400).send({
       success: false,
       error: {
         message: "You can not log out an API token",
