@@ -17,6 +17,7 @@ jobs:
           POSTGRES_PASSWORD: imperial
           POSTGRES_USER: imperial
           POSTGRES_DB: postgres
+          POSTGRES_HOST: localhost
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -25,6 +26,8 @@ jobs:
 
       redis:
         image: redis
+        env:
+          REDIS_HOST: localhost
         options: >-
           --health-cmd "redis-cli ping"
           --health-interval 10s
