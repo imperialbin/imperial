@@ -1,6 +1,3 @@
-import { InferModel } from "drizzle-orm";
-import { devices } from "../../db/schemas";
-
 type EmailProps = {
   confirm_email: {
     token: string;

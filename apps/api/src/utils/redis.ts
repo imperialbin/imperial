@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/member-ordering */
 import { SetOptions, createClient } from "redis";
 import { env } from "./env";
 import { Logger } from "./logger";

@@ -12,6 +12,8 @@ module.exports = {
     "@typescript-eslint/consistent-type-imports": "off",
 
     "no-tabs": ["error"],
+    "jsx-quotes": ["error", "prefer-double"],
+    "no-warning-comments": "off",
 
     /* must be a space for object curly spacing */
     "@typescript-eslint/object-curly-spacing": ["error", "always"],

@@ -2,7 +2,7 @@ import PageBase from "./components/PageBase";
 import React from "react";
 import Header from "./components/Header";
 import Button from "./components/Button";
-import { EmailProps as EmailProps } from "./emails";
+import { EmailProps } from "./emails";
 
 export default function NewLogin({
   userAgent = { ip: "0.0.0.0", user_agent: "Chrome :3" },

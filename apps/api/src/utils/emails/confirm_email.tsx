@@ -11,7 +11,7 @@ export default function ConfirmEmail({
     <PageBase title="Welcome Aboard!">
       <Header header="Confirm Email" subHeader="ONBOARDING" />
       <p>
-        Welcome aboard! We're glad to see you signup on IMPERIAL, click the
+        Welcome aboard! We&apos;re glad to see you signup on IMPERIAL, click the
         button below to confirm your email address and get access to features
         like encrypted documents, screenshot embeds, and more!
       </p>
