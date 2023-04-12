@@ -40,7 +40,7 @@ export const getDocument: FastifyImp<
   ) {
     return reply.status(404).send({
       success: false,
-      data: {
+      error: {
         message: "Document not found",
       },
     });
@@ -58,7 +58,7 @@ export const getDocument: FastifyImp<
 
       return reply.status(400).send({
         success: false,
-        data: {
+        error: {
           message: "Invalid password",
         },
       });
