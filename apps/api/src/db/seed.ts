@@ -1,5 +1,5 @@
 /**
- * Get started really quickly with fake data.
+ * Get started really quickly with fake data. (meow)
  *
  * Run `yarn seed`
  *
