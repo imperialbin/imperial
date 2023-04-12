@@ -113,10 +113,7 @@ function GitHub() {
     }
 
     const fetchCallback = async () => {
-      const { success, error } = await makeRequest(
-        "GET",
-        `/oauth/github/callback?code=${code}`,
-      );
+      const { success } = await makeRequest("GET", `/oauth/github/callback?code=${code}`);
 
       if (!success) {
         setError(true);

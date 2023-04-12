@@ -179,10 +179,10 @@ function Admin({ user, dispatch, recentDocuments }: ReduxProps & InferProps) {
                 setPopover={() => setPopoverOpen(!popoverOpen)}
                 render={(defaultProps) => (
                   <SelectUsersPopover
+                    users={searchedUsers}
                     onClick={(user) => {
                       router.push(`/admin/${user.id}`);
                     }}
-                    users={searchedUsers}
                     {...defaultProps}
                   />
                 )}

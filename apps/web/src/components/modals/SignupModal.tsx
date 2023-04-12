@@ -151,7 +151,7 @@ function Signup({ dispatch }: ModalProps) {
 
     dispatch(setUser(data.user));
 
-    // manually set cookie (the prod version would be set by the server)
+    // Manually set cookie (the prod version would be set by the server)
     if (process.env.NODE_ENV !== "production") {
       setCookie("imperial-auth", data.token, {
         sameSite: "lax",

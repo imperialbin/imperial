@@ -174,32 +174,32 @@ function User({ selfUser, user: fetchedUser, dispatch }: ReduxProps & InferProps
               </Button>
             </ButtonList>
             <Input
+              hideIconUntilDifferent
               label="Update Username"
               icon={<Check />}
               placeholder="Update Username"
               value={username}
               iconPosition="right"
-              onChange={(e) => {
-                setUsername(e.target.value);
-              }}
               iconClick={() => {
                 patchUser({ username });
               }}
-              hideIconUntilDifferent
+              onChange={(e) => {
+                setUsername(e.target.value);
+              }}
             />
             <Input
+              hideIconUntilDifferent
               label="Update Email"
               icon={<Check />}
               placeholder="Update Email"
               value={email}
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
               iconPosition="right"
               iconClick={() => {
                 patchUser({ email });
               }}
-              hideIconUntilDifferent
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
             />
           </>
         )}

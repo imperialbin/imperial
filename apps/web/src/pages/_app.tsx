@@ -50,7 +50,7 @@ export default function App({ Component, pageProps }: AppProps) {
         }
       })
       .catch(() => {
-        // ok fine
+        // Ok fine
       });
 
     loader.init().then(async (monaco) => {

@@ -29,7 +29,6 @@ import {
   Swift as SwiftIcon,
   TypeScript as TypeScriptIcon,
 } from "../components/Icons";
-import { SVGProps } from "react";
 
 const languageIcons: Record<SupportedLanguagesID, typeof TypeScriptIcon | undefined> = {
   auto: undefined,
@@ -91,10 +90,10 @@ const languageIcons: Record<SupportedLanguagesID, typeof TypeScriptIcon | undefi
   yaml: undefined,
 };
 
-const LanguageIcon = ({ language }: { language: SupportedLanguagesID }) => {
+function LanguageIcon({ language }: { language: SupportedLanguagesID }) {
   const Icon = languageIcons[language] ?? null;
 
   return Icon ? <Icon /> : null;
-};
+}
 
 export { LanguageIcon };

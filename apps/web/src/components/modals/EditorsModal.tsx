@@ -1,22 +1,21 @@
-import { AnimatePresence, motion } from "framer-motion";
-import debounce from "lodash/debounce";
-import { useCallback, useState } from "react";
-import { User as UserIcon, X } from "react-feather";
-import { connect, ConnectedProps } from "react-redux";
+import Button from "@web/components/Button";
+import Input from "@web/components/Input";
+import Tooltip from "@web/components/Tooltip";
+import Popover from "@web/components/popover/Popover";
+import SelectUsersPopover from "@web/components/popover/SelectUsersPopover";
 import { addEditor, addNotification, removeEditor } from "@web/state/actions";
 import { ImperialState } from "@web/state/reducers";
 import { styled } from "@web/stitches.config";
 import { User } from "@web/types";
 import { makeRequest } from "@web/utils/Rest";
-import Button from "@web/components/Button";
-import Input from "@web/components/Input";
-import SelectUsersPopover from "@web/components/popover/SelectUsersPopover";
-import Popover from "@web/components/popover/Popover";
-import Tooltip from "@web/components/Tooltip";
+import { AnimatePresence, motion } from "framer-motion";
+import debounce from "lodash/debounce";
+import { useCallback, useState } from "react";
+import { User as UserIcon, X } from "react-feather";
+import { ConnectedProps, connect } from "react-redux";
 import Header from "./base/Header";
-import { ModalProps } from "./base/modals";
 import { Content, Footer, Paragraph, Wrapper } from "./base/Styles";
-import useKeyAction from "../../hooks/useKeyAction";
+import { ModalProps } from "./base/modals";
 
 const EditorsWrapper = styled("div", {
   display: "flex",
@@ -130,11 +129,11 @@ function EditorsModal({ dispatch, editors, user, closeModal }: ModalProps & Redu
           setPopover={() => setFocused(false)}
           render={(defaultProps) => (
             <SelectUsersPopover
+              users={searchedUsers}
               onClick={(user) => {
                 setInput("");
                 dispatch(addEditor(user));
               }}
-              users={searchedUsers}
               {...defaultProps}
             />
           )}

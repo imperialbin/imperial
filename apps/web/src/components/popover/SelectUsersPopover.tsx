@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { styled } from "@web/stitches.config";
 import { User } from "@web/types";
 import { PopoverBase } from "./base/popover";

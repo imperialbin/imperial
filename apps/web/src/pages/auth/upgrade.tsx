@@ -64,7 +64,7 @@ function Upgrade({ user, dispatch }: ReduxProps) {
         <div>
           <h1>Upgrade to Member+</h1>
           <p>
-            If you haven't yet purchased a token, you can do so here. Thanks for your
+            If you haven&apos;t yet purchased a token, you can do so here. Thanks for your
             support!{" "}
           </p>
         </div>

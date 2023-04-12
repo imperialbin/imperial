@@ -1,4 +1,4 @@
-// useKeyAction - a hook that does a callback on a specific key press
+// UseKeyAction - a hook that does a callback on a specific key press
 
 import { useEffect } from "react";
 
