@@ -1,5 +1,4 @@
 import { FastifyInstance } from "fastify";
-import { banUser } from "../handlers/admin/banUser";
 import { createMemberPlusToken } from "../handlers/admin/createMemberPlusToken";
 import { getUserAdmin } from "../handlers/admin/getUser";
 import { patchUser } from "../handlers/admin/patchUser";
@@ -21,7 +20,6 @@ export const adminRoutes = (
     "/member_plus",
     createMemberPlusToken,
   );
-  fastify.delete<RP<typeof banUser>>("/ban/:id", banUser);
 
   done();
 };
