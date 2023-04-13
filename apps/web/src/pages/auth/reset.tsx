@@ -4,7 +4,7 @@ import { Lock, Mail, X } from "react-feather";
 import Input from "../../components/Input";
 import { Container, StyledButton, Wrapper } from "../../components/AuthStyles";
 import { store } from "../../state";
-import { makeRequest } from "../../utils/Rest";
+import { makeRequest } from "../../utils/rest";
 import { addNotification } from "../../state/actions";
 
 function Reset() {
@@ -74,7 +74,7 @@ function Reset() {
         <Input
           value={newPassword}
           placeholder="New Password"
-          icon={<Lock />}
+          icon={{ svg: <Lock /> }}
           type="password"
           onChange={({ target: { value } }) => setNewPassword(value)}
         />
@@ -82,7 +82,7 @@ function Reset() {
           value={confirmPassword}
           placeholder="Confirm Password"
           type="password"
-          icon={<Lock />}
+          icon={{ svg: <Lock /> }}
           onChange={({ target: { value } }) => setConfirmPassword(value)}
         />
 

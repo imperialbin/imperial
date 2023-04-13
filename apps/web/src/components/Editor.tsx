@@ -1,7 +1,6 @@
 /* eslint-disable react/no-array-index-key */
 import Monaco, { EditorProps } from "@monaco-editor/react";
 import { config, styled } from "@web/stitches.config";
-import { SupportedLanguagesID } from "@web/utils/Constants";
 import { editor } from "monaco-editor";
 import Skeleton from "react-loading-skeleton";
 import { connect, ConnectedProps } from "react-redux";
@@ -61,7 +60,6 @@ function EditorSkeleton(): JSX.Element {
 
 interface IEditorProps extends ReduxProps, EditorProps {
   readonly?: boolean;
-  language?: SupportedLanguagesID;
   isLoading?: boolean;
 }
 

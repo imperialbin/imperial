@@ -5,7 +5,7 @@ import { Container, StyledButton, Wrapper } from "../../components/AuthStyles";
 import Input from "../../components/Input";
 import { addNotification } from "../../state/actions";
 import { ImperialState } from "../../state/reducers";
-import { makeRequest } from "../../utils/Rest";
+import { makeRequest } from "../../utils/rest";
 
 function Upgrade({ user, dispatch }: ReduxProps) {
   const [token, setToken] = useState("");
@@ -72,7 +72,7 @@ function Upgrade({ user, dispatch }: ReduxProps) {
         <Input
           value={token}
           placeholder="Member+ Token"
-          icon={<ArrowUp />}
+          icon={{ svg: <ArrowUp /> }}
           onChange={({ target: { value } }) => setToken(value)}
         />
 

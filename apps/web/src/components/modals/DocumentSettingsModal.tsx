@@ -3,8 +3,8 @@ import Setting from "@web/components/Setting";
 import { addNotification, setLanguage } from "@web/state/actions";
 import { styled } from "@web/stitches.config";
 import { Document } from "@web/types";
-import { supportedLanguages } from "@web/utils/Constants";
-import { makeRequest } from "@web/utils/Rest";
+import { supportedLanguages } from "@web/utils/constants";
+import { makeRequest } from "@web/utils/rest";
 import { useRouter } from "next/router";
 import { Check, X } from "react-feather";
 import Header from "./base/Header";
@@ -53,7 +53,7 @@ export default function DocumentSettings({
     if (!success || !data)
       return dispatch(
         addNotification({
-          icon: <X/>,
+          icon: <X />,
           message: error?.message ?? "An unknown error occurred",
           type: "error",
         }),
@@ -61,7 +61,7 @@ export default function DocumentSettings({
 
     dispatch(
       addNotification({
-        icon: <Check/>,
+        icon: <Check />,
         message: "Successfully updated user settings",
         type: "success",
       }),
@@ -84,7 +84,7 @@ export default function DocumentSettings({
           items={supportedLanguages.map((language) => ({
             value: language.id,
             title: language.name,
-            icon: language.icon ? <language.icon/> : undefined,
+            icon: language.icon ? <language.icon /> : undefined,
             selected: document.settings.language === language.id,
           }))}
           onSelect={async (item) => {
@@ -171,10 +171,7 @@ export default function DocumentSettings({
           toggled={document.settings.instant_delete}
           type="switch"
           onToggle={async () => {
-            await patchDocument(
-              "instant_delete",
-              !document.settings.instant_delete,
-            );
+            await patchDocument("instant_delete", !document.settings.instant_delete);
           }}
         />
         <Setting
@@ -203,10 +200,8 @@ export default function DocumentSettings({
             if (!success) {
               return dispatch(
                 addNotification({
-                  icon: <X/>,
-                  message:
-                    error?.message
-                    ?? "An error occurred whilst deleting document",
+                  icon: <X />,
+                  message: error?.message ?? "An error occurred whilst deleting document",
                   type: "error",
                 }),
               );

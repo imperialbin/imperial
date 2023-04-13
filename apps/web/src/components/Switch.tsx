@@ -30,7 +30,6 @@ const Slider = styled("span", {
   },
 });
 
-// .attrs({ type: "checkbox" })
 const CheckBox = styled("input", {
   height: "0",
   width: "0",

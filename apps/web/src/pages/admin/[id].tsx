@@ -8,7 +8,7 @@ import Input from "../../components/Input";
 import { addNotification } from "../../state/actions";
 import { ImperialState } from "../../state/reducers";
 import { styled } from "../../stitches.config";
-import { makeRequest } from "../../utils/Rest";
+import { makeRequest } from "../../utils/rest";
 import FourOFour from "../404";
 
 const Wrapper = styled("div", {
@@ -174,29 +174,31 @@ function User({ selfUser, user: fetchedUser, dispatch }: ReduxProps & InferProps
               </Button>
             </ButtonList>
             <Input
-              hideIconUntilDifferent
               label="Update Username"
-              icon={<Check />}
+              button={{
+                svg: <Check />,
+                hideUntilChanged: true,
+                onClick() {
+                  patchUser({ username });
+                },
+              }}
               placeholder="Update Username"
               value={username}
-              iconPosition="right"
-              iconClick={() => {
-                patchUser({ username });
-              }}
               onChange={(e) => {
                 setUsername(e.target.value);
               }}
             />
             <Input
-              hideIconUntilDifferent
               label="Update Email"
-              icon={<Check />}
+              button={{
+                svg: <Check />,
+                hideUntilChanged: true,
+                onClick() {
+                  patchUser({ email });
+                },
+              }}
               placeholder="Update Email"
               value={email}
-              iconPosition="right"
-              iconClick={() => {
-                patchUser({ email });
-              }}
               onChange={(e) => {
                 setEmail(e.target.value);
               }}

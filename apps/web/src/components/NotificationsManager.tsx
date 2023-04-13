@@ -1,11 +1,11 @@
-import { memo, useCallback, useEffect } from "react";
-import { connect, ConnectedProps } from "react-redux";
-import { Dispatch } from "redux";
-import { AnimatePresence, motion, Variants } from "framer-motion";
-import { styled } from "@web/stitches.config";
 import { removeNotification } from "@web/state/actions";
 import { ImperialState } from "@web/state/reducers";
 import { Notification as NotificationType } from "@web/state/reducers/notifications";
+import { styled } from "@web/stitches.config";
+import { AnimatePresence, motion } from "framer-motion";
+import { memo, useEffect } from "react";
+import { ConnectedProps, connect } from "react-redux";
+import { Dispatch } from "redux";
 
 const Wrapper = styled("div", {
   position: "fixed",
@@ -63,7 +63,7 @@ interface INotificationProps {
   notification: NotificationType;
 }
 
-const NOTIFICATION_WRAPPER_ANIMATION: Variants = {
+const NOTIFICATION_WRAPPER_ANIMATION = {
   initial: {
     opacity: 0.5,
     y: 10,
@@ -79,12 +79,19 @@ const NOTIFICATION_WRAPPER_ANIMATION: Variants = {
     y: 10,
     scale: 0.95,
   },
+  transition: {
+    duration: 0.3,
+    type: "spring",
+  },
+  whileHover: {
+    scale: 1.05,
+  },
 };
 
 const Notification = memo(({ notification, dispatch }: INotificationProps) => {
-  const close = useCallback(() => {
+  const close = () => {
     dispatch(removeNotification(notification.id));
-  }, []);
+  };
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -102,8 +109,8 @@ const Notification = memo(({ notification, dispatch }: INotificationProps) => {
       initial="initial"
       exit="exit"
       variants={NOTIFICATION_WRAPPER_ANIMATION}
-      transition={{ duration: 0.3, type: "spring" }}
-      whileHover={{ scale: 1.05 }}
+      transition={NOTIFICATION_WRAPPER_ANIMATION.transition}
+      whileHover={NOTIFICATION_WRAPPER_ANIMATION.whileHover}
       onClick={() => {
         close();
         notification.onClick?.();
@@ -119,23 +126,21 @@ Notification.displayName = "individual_notification";
 
 function NotificationManager({ notifications, dispatch }: ReduxProps) {
   useEffect(() => {
-    if (notifications && notifications.length > 5) {
+    if (notifications?.length > 5) {
       dispatch(removeNotification(notifications[notifications.length - 1].id));
     }
-  }, [notifications]);
+  }, [notifications?.length]);
 
   return (
     <Wrapper>
       <AnimatePresence>
-        {notifications.length > 0
-          ? notifications.map((notification) => (
-              <Notification
-                key={notification.id}
-                notification={notification}
-                dispatch={dispatch}
-              />
-            ))
-          : null}
+        {notifications.map((notification) => (
+          <Notification
+            key={notification.id}
+            notification={notification}
+            dispatch={dispatch}
+          />
+        ))}
       </AnimatePresence>
     </Wrapper>
   );

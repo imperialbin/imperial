@@ -1,11 +1,8 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Lock, X } from "react-feather";
-import {
-  addNotification,
-  setDisableClickOutsideModal,
-} from "../../state/actions";
-import { decrypt } from "../../utils/Crypto";
+import { addNotification, setDisableClickOutsideModal } from "../../state/actions";
+import { decrypt } from "../../utils/crypto";
 import Button from "../Button";
 import Input from "../Input";
 import Header from "./base/Header";
@@ -38,13 +35,11 @@ function DocumentPasswordModal({
   return (
     <Wrapper>
       <Header canClose={false}>Document is encrypted</Header>
-      <Paragraph>
-        To access this document, you will need to provide a password.
-      </Paragraph>
+      <Paragraph>To access this document, you will need to provide a password.</Paragraph>
       <Content>
         <Input
           value={password}
-          icon={<Lock/>}
+          icon={{ svg: <Lock /> }}
           placeholder="s3cur3 p@s5w0rd1"
           onChange={({ target: { value } }) => setPassword(value)}
         />
@@ -68,7 +63,7 @@ function DocumentPasswordModal({
             if (!decryptedContent)
               return dispatch(
                 addNotification({
-                  icon: <X/>,
+                  icon: <X />,
                   message: "Incorrect password!",
                   type: "error",
                 }),

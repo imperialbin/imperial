@@ -8,17 +8,17 @@ const Icon = styled("img", {
 
 export interface IUserIconProps {
   URL: string;
-  width?: number;
-  height?: number;
+  size?: number;
   pointer?: boolean;
   style?: CSSProperties;
 }
-export const UserIcon = forwardRef<HTMLDivElement, IUserIconProps>(
-  ({ URL, width = 52, height = 52, pointer, ...rest }, ref) => (
-    <div ref={ref} {...rest}>
-      <Icon width={width} height={height} src={URL} draggable={false}/>
-    </div>
+
+const UserIcon = forwardRef<HTMLImageElement, IUserIconProps>(
+  ({ URL, size = 52, pointer, ...rest }, ref) => (
+    <Icon ref={ref} width={size} height={size} src={URL} draggable={false} {...rest} />
   ),
 );
+
+export default UserIcon;
 
 UserIcon.displayName = "UserIcon";

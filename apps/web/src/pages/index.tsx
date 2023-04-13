@@ -2,8 +2,8 @@ import Editor from "@web/components/Editor";
 import Navbar from "@web/components/Navbar";
 import { useEffect } from "react";
 import { connect, ConnectedProps } from "react-redux";
-import { setReadOnly } from "../state/actions";
-import { ImperialState } from "../state/reducers";
+import { setReadOnly } from "@web/state/actions";
+import { ImperialState } from "@web/state/reducers";
 import { styled } from "../stitches.config";
 
 const Wrapper = styled("div", {
@@ -18,8 +18,8 @@ function Index({ forked_content, dispatch }: ReduxProps) {
 
   return (
     <Wrapper>
-      <Navbar/>
-      <Editor value={forked_content ?? ""}/>
+      <Navbar />
+      <Editor value={forked_content ?? ""} />
     </Wrapper>
   );
 }

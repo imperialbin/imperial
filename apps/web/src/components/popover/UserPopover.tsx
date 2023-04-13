@@ -1,11 +1,11 @@
 import { addNotification, logoutUser, openModal } from "@web/state/actions";
 import { ImperialState } from "@web/state/reducers";
 import { styled } from "@web/stitches.config";
-import { getRole } from "@web/utils/Permissions";
+import { getRole } from "@web/utils/permissions";
 import Link from "next/link";
 import { X } from "react-feather";
 import { ConnectedProps, connect } from "react-redux";
-import { makeRequest } from "../../utils/Rest";
+import { makeRequest } from "../../utils/rest";
 import { Item, List, Separator } from "./base/Styles";
 import { PopoverBase } from "./base/popover";
 

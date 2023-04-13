@@ -1,16 +1,16 @@
 import Editor from "@web/components/Editor";
 import Navbar from "@web/components/Navbar";
+import FourOFour from "@web/pages/404";
 import { store } from "@web/state";
 import { openModal, setLanguage, setReadOnly } from "@web/state/actions";
 import { styled } from "@web/stitches.config";
 import { Document as DocumentType } from "@web/types";
-import { makeRequest } from "@web/utils/Rest";
+import { env } from "@web/utils/env";
+import { makeRequest } from "@web/utils/rest";
 import dayjs from "dayjs";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { NextSeo } from "next-seo";
 import { useEffect, useState } from "react";
-import { env } from "../utils/Env";
-import FourOFour from "./404";
 
 const Wrapper = styled("div", {
   width: "100vw",

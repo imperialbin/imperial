@@ -1,55 +1,50 @@
-import { useEffect, useState } from "react";
 import { DiscordLogo, Logo } from "@web/components/Icons";
 import { styled } from "@web/stitches.config";
-import { makeRequest } from "@web/utils/Rest";
+import { makeRequest } from "@web/utils/rest";
+import { useEffect, useState } from "react";
 import {
   BrandContainer,
-  CONTAINER_ANIMATION,
-  ContentWrapper,
-  LogoContainer,
+  CallbackWrapper,
   Paragraph,
   StyledX,
   Title,
-  Wrapper,
-} from "./github";
-import { useRouter } from "next/router";
+} from "../../components/CallbackStyles";
 
 const StyledDiscordLogo = styled(DiscordLogo, {
   color: "$text-secondary",
 });
 
 function Discord() {
-  const [paragraphText, setParagraphText] = useState(
+  const [success, setSuccess] = useState<boolean | undefined>(undefined);
+  const [message, setMessage] = useState(
     "We're linking your discord with your IMPERIAL account.",
   );
-  const [error, setError] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const router = useRouter();
 
   useEffect(() => {
     const code = new URLSearchParams(window.location.search).get("code");
 
     if (!code) {
-      router.push("/");
+      setMessage("Invalid Code");
+      setSuccess(false);
       return;
     }
 
     const fetchCallback = async () => {
-      const { success } = await makeRequest(
+      const { success, error } = await makeRequest(
         "GET",
         `/oauth/discord/callback?code=${code}`,
       );
 
       if (!success) {
-        setError(true);
-        return setParagraphText(
-          "There was an error connecting your Discord account with your IMPERIAL account.",
+        setSuccess(false);
+        return setMessage(
+          error?.message ??
+            "There was an error connecting your Discord account with your IMPERIAL account.",
         );
       }
 
-      setError(false);
       setSuccess(true);
-      setParagraphText(
+      setMessage(
         "Successfully connected your Discord account with your IMPERIAL account. You can close this tab.",
       );
     };
@@ -58,23 +53,23 @@ function Discord() {
   }, []);
 
   return (
-    <Wrapper>
-      <LogoContainer>
-        <Logo/>
-      </LogoContainer>
-      <ContentWrapper
-        animate={CONTAINER_ANIMATION.animate}
-        initial={CONTAINER_ANIMATION.initial}
-      >
-        <BrandContainer>
-          <StyledDiscordLogo/>
-          <StyledX type={error ? "error" : success ? "success" : "loading"}/>
-          <Logo/>
-        </BrandContainer>
-        <Title>Connecting your Discord</Title>
-        <Paragraph>{paragraphText}</Paragraph>
-      </ContentWrapper>
-    </Wrapper>
+    <CallbackWrapper>
+      <BrandContainer>
+        <StyledDiscordLogo />
+        <StyledX
+          type={success === undefined ? "loading" : success ? "success" : "error"}
+        />
+        <Logo />
+      </BrandContainer>
+      <Title>
+        {success === undefined
+          ? "Connecting your Discord"
+          : success
+          ? "Connected!"
+          : "Uh Oh..."}
+      </Title>
+      <Paragraph>{message}</Paragraph>
+    </CallbackWrapper>
   );
 }
 

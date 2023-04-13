@@ -58,19 +58,19 @@ type SettingProps<T = "dropdown" | "switch", k = unknown> = T extends "switch"
     };
 
 function Setting<T = "switch" | "dropdown", K = unknown>({
-  /* For the actual setting its self */
+  // For the actual setting its self
   title,
   description,
 
-  /* Type default switch */
+  // Type default switch
   type,
 
-  /* For switches */
+  // For switches
   toggled,
 
   disabled = false,
 
-  /* OnToggle method for all to do something */
+  // OnToggle method for all to do something
   onToggle,
   onSelect,
 

@@ -14,7 +14,7 @@ import { addNotification } from "../../state/actions";
 import { ImperialState } from "../../state/reducers";
 import { styled } from "../../stitches.config";
 import { Document } from "../../types";
-import { makeRequest } from "../../utils/Rest";
+import { makeRequest } from "../../utils/rest";
 import FourOFour from "../404";
 
 const Wrapper = styled("div", {
@@ -189,7 +189,7 @@ function Admin({ user, dispatch, recentDocuments }: ReduxProps & InferProps) {
                 clickToClose={false}
               >
                 <Input
-                  icon={<SearchIcon />}
+                  icon={{ svg: <SearchIcon /> }}
                   label="Search Users"
                   placeholder="Search Users"
                   value={usersQuery}

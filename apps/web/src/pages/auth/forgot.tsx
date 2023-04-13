@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Mail, X } from "react-feather";
-import { makeRequest } from "../../utils/Rest";
+import { makeRequest } from "../../utils/rest";
 import { store } from "../../state";
 import { addNotification } from "../../state/actions";
 import { Container, StyledButton, Wrapper } from "../../components/AuthStyles";
@@ -46,7 +46,7 @@ function Forgot() {
         <Input
           value={email}
           placeholder="Email"
-          icon={<Mail />}
+          icon={{ svg: <Mail /> }}
           onChange={({ target: { value } }) => setEmail(value)}
         />
         <StyledButton

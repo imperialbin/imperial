@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Check, X } from "react-feather";
 import { addNotification } from "../../state/actions";
-import { makeRequest } from "../../utils/Rest";
+import { makeRequest } from "../../utils/rest";
 import Button from "../Button";
 import Header from "./base/Header";
 import { Footer, Paragraph, Wrapper } from "./base/Styles";

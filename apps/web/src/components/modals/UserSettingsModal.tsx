@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import calender from "dayjs/plugin/calendar";
 import updateLocale from "dayjs/plugin/updateLocale";
-import { useCallback, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   ArrowLeft,
   Check,
@@ -16,23 +16,22 @@ import {
 import { ConnectedProps, connect } from "react-redux";
 
 import Input from "@web/components/Input";
-import { UserIcon } from "@web/components/UserIcon";
+import UserIcon from "@web/components/UserIcon";
 
 import Button from "@web/components/Button";
 import { DiscordLogo, GitHubLogo } from "@web/components/Icons";
 import Setting from "@web/components/Setting";
 import Tooltip from "@web/components/Tooltip";
-import { useRecentDocuments } from "@web/hooks/useRecentDocuments";
 import { addNotification, closeModal, setUser } from "@web/state/actions";
 import { ImperialState } from "@web/state/reducers";
 import { styled } from "@web/stitches.config";
-import { SelfUser, UserSettings as UserSettingsType } from "@web/types";
-import { makeRequest } from "@web/utils/Rest";
+import { Document, SelfUser, UserSettings as UserSettingsType } from "@web/types";
+import { makeRequest } from "@web/utils/rest";
 import Link from "next/link";
 import CopyToClipboard from "react-copy-to-clipboard";
+import { getRole } from "../../utils/permissions";
 import Header from "./base/Header";
 import { ModalProps } from "./base/modals";
-import { getRole } from "../../utils/Permissions";
 
 const Wrapper = styled("div", {
   position: "relative",
@@ -196,7 +195,7 @@ dayjs.updateLocale("en", {
 });
 
 function UserSettings({ user, dispatch }: ReduxProps & ModalProps): JSX.Element {
-  const documents = useRecentDocuments();
+  const [recentDocuments, setRecentDocuments] = useState<Document[]>([]);
 
   const [iconValue, setIconValue] = useState(
     user?.icon
@@ -204,25 +203,50 @@ function UserSettings({ user, dispatch }: ReduxProps & ModalProps): JSX.Element 
       ?.toString()
       .replace(".png", ""),
   );
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(user?.email ?? "");
 
   const [password, setPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const patchUser = useCallback(
-    async <T extends keyof UserSettingsType>(setting: T, value: UserSettingsType[T]) => {
-      const { success, error, data } = await makeRequest<SelfUser>(
-        "PATCH",
-        "/users/@me",
-        {
-          settings: {
-            [setting]: value,
-          },
-        },
+  const patchUser = async <T extends keyof UserSettingsType>(
+    setting: T,
+    value: UserSettingsType[T],
+  ) => {
+    const { success, error, data } = await makeRequest<SelfUser>("PATCH", "/users/@me", {
+      settings: {
+        [setting]: value,
+      },
+    });
+
+    if (!success || !data)
+      return dispatch(
+        addNotification({
+          icon: <X />,
+          message: error?.message ?? "An unknown error occurred",
+          type: "error",
+        }),
       );
 
-      if (!success || !data)
+    dispatch(
+      addNotification({
+        icon: <Check />,
+        message: "Successfully updated user settings",
+        type: "success",
+      }),
+    );
+
+    dispatch(setUser(data));
+  };
+
+  useEffect(() => {
+    const fetchRecentDocuments = async () => {
+      const { data, error, success } = await makeRequest<Document[]>(
+        "GET",
+        "/users/@me/recent",
+      );
+
+      if (!success || !data) {
         return dispatch(
           addNotification({
             icon: <X />,
@@ -230,19 +254,13 @@ function UserSettings({ user, dispatch }: ReduxProps & ModalProps): JSX.Element 
             type: "error",
           }),
         );
+      }
 
-      dispatch(
-        addNotification({
-          icon: <Check />,
-          message: "Successfully updated user settings",
-          type: "success",
-        }),
-      );
+      setRecentDocuments(data);
+    };
 
-      dispatch(setUser(data));
-    },
-    [],
-  );
+    fetchRecentDocuments();
+  }, [user]);
 
   return (
     <Wrapper>
@@ -253,8 +271,7 @@ function UserSettings({ user, dispatch }: ReduxProps & ModalProps): JSX.Element 
             <UserOverview>
               <UserIcon
                 URL={user.icon ?? "/img/pfp.png"}
-                width={70}
-                height={70}
+                size={70}
                 style={{ margin: "0 15px 0 0" }}
               />
               <UserInfo>
@@ -303,8 +320,8 @@ function UserSettings({ user, dispatch }: ReduxProps & ModalProps): JSX.Element 
             <br />
             <Subtitle>Recent documents</Subtitle>
             <Tiles>
-              {documents && documents.length > 0 ? (
-                documents.map((document) => (
+              {recentDocuments.length > 0 ? (
+                recentDocuments.map((document) => (
                   <Link
                     key={document.id}
                     style={{ display: "flex" }}
@@ -377,90 +394,94 @@ function UserSettings({ user, dispatch }: ReduxProps & ModalProps): JSX.Element 
             <Subtitle>Information</Subtitle>
             <InputWrapper>
               <Input
-                hideIconUntilDifferent
+                key={user.icon}
                 label="User Icon"
                 placeholder="GitHub username"
-                icon={<Check size={18} />}
-                value={iconValue}
-                iconHoverColor="var(--success)"
-                tooltipTitle="Update icon"
-                iconPosition="right"
-                iconClick={async () => {
-                  const { data, error, success } = await makeRequest<SelfUser>(
-                    "PATCH",
-                    "/users/@me",
-                    {
-                      icon: `https://github.com/${iconValue}.png`,
-                    },
-                  );
-
-                  if (!success || !data)
-                    return dispatch(
-                      addNotification({
-                        icon: <X />,
-                        message:
-                          error?.message ??
-                          "An unknown error occurred whilst saving your icon.",
-                        type: "error",
-                      }),
+                button={{
+                  svg: <Check size={18} />,
+                  hideUntilChanged: true,
+                  hoverColor: "var(--success)",
+                  tooltip: "Update icon",
+                  async onClick() {
+                    const { data, error, success } = await makeRequest<SelfUser>(
+                      "PATCH",
+                      "/users/@me",
+                      {
+                        icon: `https://github.com/${iconValue}.png`,
+                      },
                     );
 
-                  dispatch(
-                    addNotification({
-                      icon: <Check />,
-                      message: "Successfully changes your icon",
-                      type: "success",
-                    }),
-                  );
-                  dispatch(setUser(data));
+                    if (!success || !data)
+                      return dispatch(
+                        addNotification({
+                          icon: <X />,
+                          message:
+                            error?.message ??
+                            "An unknown error occurred whilst saving your icon.",
+                          type: "error",
+                        }),
+                      );
+
+                    dispatch(
+                      addNotification({
+                        icon: <Check />,
+                        message: "Successfully changes your icon",
+                        type: "success",
+                      }),
+                    );
+                    dispatch(setUser(data));
+                  },
                 }}
+                value={iconValue}
                 onChange={(e) => {
                   setIconValue(e.target.value);
                 }}
               />
               <Input
-                hideIconUntilDifferent
                 label="Email"
                 placeholder="Your email"
                 value={email}
-                icon={<StyledEditBtn />}
-                tooltipTitle="Update email"
-                iconPosition="right"
-                iconClick={async () => {
-                  if (!/^\S+@\S+\.\S+$/.test(email))
-                    return dispatch(
-                      addNotification({
-                        icon: <X />,
-                        message: "Invalid email!",
-                        type: "error",
-                      }),
+                button={{
+                  svg: <StyledEditBtn />,
+                  tooltip: "Update email",
+                  hideUntilChanged: true,
+                  hoverColor: "var(--success)",
+                  async onClick() {
+                    if (!/^\S+@\S+\.\S+$/.test(email))
+                      return dispatch(
+                        addNotification({
+                          icon: <X />,
+                          message: "Invalid email!",
+                          type: "error",
+                        }),
+                      );
+
+                    const { data, error } = await makeRequest<SelfUser>(
+                      "PATCH",
+                      "/users/@me",
+                      {
+                        email,
+                      },
                     );
 
-                  const { data, error } = await makeRequest<SelfUser>(
-                    "PATCH",
-                    "/users/@me",
-                    {
-                      email,
-                    },
-                  );
+                    if (error || !data)
+                      return dispatch(
+                        addNotification({
+                          icon: <X />,
+                          message: "An error occurred whilst changing your email.",
+                          type: "error",
+                        }),
+                      );
 
-                  if (error || !data)
-                    return dispatch(
+                    dispatch(
                       addNotification({
-                        icon: <X />,
-                        message: "An error occurred whilst changing your email.",
-                        type: "error",
+                        icon: <Check />,
+                        message: "Successfully changed your email.",
+                        type: "success",
                       }),
                     );
-
-                  dispatch(
-                    addNotification({
-                      icon: <Check />,
-                      message: "Successfully changed your email.",
-                      type: "success",
-                    }),
-                  );
-                  dispatch(setUser(data));
+                    dispatch(setUser(data));
+                  },
                 }}
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -479,37 +500,39 @@ function UserSettings({ user, dispatch }: ReduxProps & ModalProps): JSX.Element 
                 <Tooltip title="Click to copy API Token" placement="bottom-start">
                   <Input
                     secretValue
-                    inputDisabled
+                    disabled
                     label="API Token"
                     placeholder="API Token"
                     value={user.api_token}
-                    icon={<RefreshCw size={18} />}
-                    iconPosition="right"
-                    iconClick={async () => {
-                      const { data, error } = await makeRequest<SelfUser>(
-                        "POST",
-                        "/users/@me/regenerate_api_token",
-                        {},
-                      );
-
-                      if (error || !data)
-                        return dispatch(
-                          addNotification({
-                            icon: <X />,
-                            message:
-                              "An error occurred whilst regenerating your API token.",
-                            type: "error",
-                          }),
+                    button={{
+                      svg: <RefreshCw size={18} />,
+                      tooltip: "Regenerate API Token",
+                      async onClick() {
+                        const { data, error } = await makeRequest<SelfUser>(
+                          "POST",
+                          "/users/@me/regenerate_api_token",
+                          {},
                         );
 
-                      dispatch(
-                        addNotification({
-                          icon: <Check />,
-                          message: "Successfully regenerated your API Token",
-                          type: "success",
-                        }),
-                      );
-                      dispatch(setUser(data));
+                        if (error || !data)
+                          return dispatch(
+                            addNotification({
+                              icon: <X />,
+                              message:
+                                "An error occurred whilst regenerating your API token.",
+                              type: "error",
+                            }),
+                          );
+
+                        dispatch(
+                          addNotification({
+                            icon: <Check />,
+                            message: "Successfully regenerated your API Token",
+                            type: "success",
+                          }),
+                        );
+                        dispatch(setUser(data));
+                      },
                     }}
                   />
                 </Tooltip>
@@ -662,7 +685,9 @@ function UserSettings({ user, dispatch }: ReduxProps & ModalProps): JSX.Element 
               <Input
                 label="Current password"
                 placeholder="Enter your current password"
-                icon={<Unlock size={18} />}
+                icon={{
+                  svg: <Unlock size={18} />,
+                }}
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -670,7 +695,9 @@ function UserSettings({ user, dispatch }: ReduxProps & ModalProps): JSX.Element 
               <Input
                 label="New password"
                 placeholder="Enter your new password"
-                icon={<Lock size={18} />}
+                icon={{
+                  svg: <Lock size={18} />,
+                }}
                 type="password"
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
@@ -678,7 +705,9 @@ function UserSettings({ user, dispatch }: ReduxProps & ModalProps): JSX.Element 
               <Input
                 label="Confirm password"
                 placeholder="Re-enter new password."
-                icon={<Lock size={18} />}
+                icon={{
+                  svg: <Lock size={18} />,
+                }}
                 type="password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}

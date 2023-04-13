@@ -2,7 +2,7 @@ import { SearchIcon } from "@web/components/Icons";
 import Input from "@web/components/Input";
 import { setLanguage } from "@web/state/actions";
 import { styled } from "@web/stitches.config";
-import { SupportedLanguagesID, supportedLanguages } from "@web/utils/Constants";
+import { SupportedLanguagesID, supportedLanguages } from "@web/utils/constants";
 import { useEffect, useMemo, useState } from "react";
 import Header from "./base/Header";
 import { Content, Wrapper } from "./base/Styles";
@@ -90,7 +90,7 @@ export default function LanguageSelector({ closeModal, dispatch }: ModalProps) {
         <Input
           autoFocus
           style={{ width: "100%" }}
-          icon={<SearchIcon />}
+          icon={{ svg: <SearchIcon /> }}
           placeholder="Search Language"
           value={searchQuery}
           onChange={({ target: { value } }) => setSearchQuery(value)}

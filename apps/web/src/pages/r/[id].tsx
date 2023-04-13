@@ -1,10 +1,6 @@
 import { GetServerSideProps } from "next";
 import { Document } from "../../types";
-import { makeRequest } from "../../utils/Rest";
-
-function Raw() {
-  return null;
-}
+import { makeRequest } from "../../utils/rest";
 
 export const getServerSideProps: GetServerSideProps = async ({ res, params }) => {
   if (res) {
@@ -21,5 +17,9 @@ export const getServerSideProps: GetServerSideProps = async ({ res, params }) =>
     props: {},
   };
 };
+
+function Raw() {
+  return null;
+}
 
 export default Raw;

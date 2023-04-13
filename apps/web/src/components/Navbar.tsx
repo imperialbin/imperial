@@ -1,3 +1,9 @@
+import { useMonaco } from "@monaco-editor/react";
+import Button from "@web/components/Button";
+import Tooltip from "@web/components/Tooltip";
+import UserIcon from "@web/components/UserIcon";
+import Popover from "@web/components/popover/Popover";
+import UserPopover from "@web/components/popover/UserPopover";
 import { useIsSmallDevice } from "@web/hooks/useIsMobile";
 import {
   addNotification,
@@ -9,15 +15,14 @@ import {
 import { ImperialState } from "@web/state/reducers";
 import { styled } from "@web/stitches.config";
 import { Document } from "@web/types";
-import { supportedLanguages } from "@web/utils/Constants";
-import { encrypt, generateSecureString } from "@web/utils/Crypto";
-import { makeRequest } from "@web/utils/Rest";
-import { useMonaco } from "@monaco-editor/react";
+import { supportedLanguages } from "@web/utils/constants";
+import { encrypt, generateSecureString } from "@web/utils/crypto";
+import { makeRequest } from "@web/utils/rest";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import Copy from "react-copy-to-clipboard";
+import CopyToClipboard from "react-copy-to-clipboard";
 import {
   AlignLeft,
   ArrowRight,
@@ -31,12 +36,7 @@ import {
   Users,
   X,
 } from "react-feather";
-import { connect, ConnectedProps } from "react-redux";
-import Button from "./Button";
-import Popover from "./popover/Popover";
-import UserPopover from "./popover/UserPopover";
-import Tooltip from "./Tooltip";
-import { UserIcon } from "./UserIcon";
+import { ConnectedProps, connect } from "react-redux";
 
 const Wrapper = styled(motion.div, {
   position: "fixed",
@@ -98,6 +98,8 @@ const DocumentID = styled(motion.h1, {
   overflow: "hidden",
   cursor: "pointer",
   color: "$text-muted",
+  maxWidth: 150,
+  textOverflow: "ellipsis",
 });
 
 const Buttons = styled("div", {
@@ -122,6 +124,23 @@ const NAV_ANIMATION = {
   collapsed: {
     x: "90%",
   },
+  transition: {
+    type: "spring",
+    duration: 0.5,
+    bounce: 0.2,
+  },
+};
+
+const HIDE_NAV_BUTTON_ANIMATION = {
+  transition: {
+    duration: 0.3,
+  },
+  initial: {
+    rotate: 0,
+  },
+  animate: {
+    rotate: 180,
+  },
 };
 
 const BRAND_ANIMATION = {
@@ -140,6 +159,7 @@ const BRAND_ANIMATION = {
 interface INavProps extends ReduxProps {
   document?: Document;
 }
+
 function Nav({ user, document, language, dispatch, editors }: INavProps) {
   const [collapsed, setCollapsed] = useState(false);
   const [userPopover, setUserPopover] = useState(false);
@@ -224,11 +244,10 @@ function Nav({ user, document, language, dispatch, editors }: INavProps) {
     const { content } = document;
     dispatch(setForkedContent(content));
     router.push("/");
-  }, [document]);
+  }, [document?.content]);
 
   const prepareEdit = useCallback(() => {
-    if (!user) return;
-    if (!document) return;
+    if (!document || !user) return;
     if (
       !(
         document?.creator?.username === user.username ||
@@ -313,14 +332,18 @@ function Nav({ user, document, language, dispatch, editors }: INavProps) {
   return (
     <Wrapper
       initial="initial"
-      transition={{ type: "spring", duration: 0.5, bounce: 0.2 }}
+      transition={NAV_ANIMATION.transition}
       animate={collapsed ? "collapsed" : "initial"}
       variants={NAV_ANIMATION}
     >
       <HideNavContainer onClick={() => setCollapsed(!collapsed)}>
         <motion.div
-          transition={{ duration: 0.3 }}
-          animate={collapsed ? { rotate: 180 } : { rotate: 0 }}
+          transition={HIDE_NAV_BUTTON_ANIMATION.transition}
+          animate={
+            collapsed
+              ? HIDE_NAV_BUTTON_ANIMATION.animate
+              : HIDE_NAV_BUTTON_ANIMATION.initial
+          }
         >
           <ArrowRight size={20} />
         </motion.div>
@@ -329,30 +352,45 @@ function Nav({ user, document, language, dispatch, editors }: INavProps) {
         <BrandContainer initial="initial" whileHover="hover">
           <Brand href="/">IMPERIAL</Brand>
           {document ? (
-            <Tooltip title="Click to copy URL">
-              <Copy
-                text={
-                  process.env.NODE_ENV === "development"
-                    ? `localhost:3000/${document.id}`
-                    : `https://imperialb.in/${document.id}`
-                }
-              >
-                <DocumentID transition={{ duration: 0.3 }} variants={BRAND_ANIMATION}>
-                  {document.id}
-                </DocumentID>
-              </Copy>
-            </Tooltip>
+            <CopyToClipboard
+              text={
+                process.env.NODE_ENV === "development"
+                  ? `localhost:3000/${document.id}`
+                  : `https://imperialb.in/${document.id}`
+              }
+              onCopy={() =>
+                dispatch(
+                  addNotification({
+                    icon: <Check />,
+                    message: "Copied document URL to clipboard",
+                    type: "success",
+                  }),
+                )
+              }
+            >
+              <div>
+                <Tooltip title="Click to copy URL">
+                  <DocumentID
+                    transition={HIDE_NAV_BUTTON_ANIMATION.transition}
+                    variants={BRAND_ANIMATION}
+                  >
+                    {document.id}
+                  </DocumentID>
+                </Tooltip>
+              </div>
+            </CopyToClipboard>
           ) : null}
         </BrandContainer>
         <Buttons>
           {!document ? (
             <>
+              {/* Change language button */}
               <StyledTooltip title="Change language">
                 <Button onClick={() => dispatch(openModal("language_selector"))}>
                   <SelectedLanguageIcon width={20} height={20} />
                 </Button>
               </StyledTooltip>
-
+              {/* Add editors button */}
               {user ? (
                 <StyledTooltip title="Add editors">
                   <Button onClick={() => dispatch(openModal("editors"))}>
@@ -360,7 +398,7 @@ function Nav({ user, document, language, dispatch, editors }: INavProps) {
                   </Button>
                 </StyledTooltip>
               ) : null}
-
+              {/* Save document button */}
               <StyledTooltip title="Save document">
                 <Button onClick={saveDocument}>
                   <Save size={20} />
@@ -369,6 +407,7 @@ function Nav({ user, document, language, dispatch, editors }: INavProps) {
             </>
           ) : (
             <>
+              {/* Edit document settings button */}
               {user &&
               !document.settings.encrypted &&
               (document?.creator?.id === user.id ||
@@ -380,6 +419,7 @@ function Nav({ user, document, language, dispatch, editors }: INavProps) {
                 </StyledTooltip>
               ) : null}
 
+              {/* Document settings button */}
               {user && document?.creator?.id === user.id ? (
                 <StyledTooltip title="Edit document settings">
                   <Button
@@ -389,11 +429,15 @@ function Nav({ user, document, language, dispatch, editors }: INavProps) {
                   </Button>
                 </StyledTooltip>
               ) : null}
+
+              {/* Raw document button */}
               <StyledTooltip title="View raw">
                 <Button onClick={() => router.push(`/r/${document.id}`)}>
                   <AlignLeft size={20} />
                 </Button>
               </StyledTooltip>
+
+              {/* Clone document button */}
               <StyledTooltip title="Duplicate document">
                 <Button onClick={forkDocument}>
                   <CopyIcon size={20} />
@@ -401,11 +445,15 @@ function Nav({ user, document, language, dispatch, editors }: INavProps) {
               </StyledTooltip>
             </>
           )}
+
+          {/* New document button */}
           <StyledTooltip title="New document">
             <Button onClick={newDocument}>
               <FileText size={20} />
             </Button>
           </StyledTooltip>
+
+          {/* User icon */}
           <Popover
             active={userPopover}
             render={(defaults) => <UserPopover {...defaults} />}

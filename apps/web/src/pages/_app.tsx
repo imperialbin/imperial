@@ -1,27 +1,27 @@
 import { loader } from "@monaco-editor/react";
+import "@web/App.css";
 import ErrorBoundary from "@web/components/ErrorBoundary";
 import ModalManager from "@web/components/ModalManager";
 import NotificationsManager from "@web/components/NotificationsManager";
-import { IMPERIAL_THEME } from "@web/components/editorthemes/Imperial";
+import { IMPERIAL_THEME } from "@web/components/editorthemes/imperial";
 import { store } from "@web/state";
+import { addNotification, openModal, setUser } from "@web/state/actions";
 import { globalStyles } from "@web/stitches.config";
-import { makeRequest } from "@web/utils/Rest";
+import { SelfUser } from "@web/types";
+import { makeRequest } from "@web/utils/rest";
 import { DefaultSeo } from "next-seo";
 import type { AppProps } from "next/app";
 import { useEffect } from "react";
 import { Info } from "react-feather";
 import { SkeletonTheme } from "react-loading-skeleton";
 import { Provider } from "react-redux";
-import { SWRConfig } from "swr";
-import "../App.css";
 import config from "../next-seo.config";
-import { addNotification, openModal, setUser } from "../state/actions";
-import { SelfUser } from "../types";
 
 export default function App({ Component, pageProps }: AppProps) {
   globalStyles();
 
   useEffect(() => {
+    // Fetch User
     makeRequest<SelfUser>("GET", "/users/@me")
       .then((data) => {
         if (data.data) {
@@ -61,21 +61,15 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <ErrorBoundary>
       <Provider store={store}>
-        <SWRConfig
-          value={{
-            fetcher: (url: string) => makeRequest("GET", url),
-          }}
+        <SkeletonTheme
+          baseColor="var(--bg-contrast)"
+          highlightColor="var(--bg-secondary)"
         >
-          <SkeletonTheme
-            baseColor="var(--bg-contrast)"
-            highlightColor="var(--bg-secondary)"
-          >
-            <DefaultSeo {...config} />
-            <NotificationsManager />
-            <ModalManager />
-            <Component {...pageProps} />
-          </SkeletonTheme>
-        </SWRConfig>
+          <DefaultSeo {...config} />
+          <NotificationsManager />
+          <ModalManager />
+          <Component {...pageProps} />
+        </SkeletonTheme>
       </Provider>
     </ErrorBoundary>
   );

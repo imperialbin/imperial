@@ -1,4 +1,4 @@
-import { generateString } from "@web/utils/Strings";
+import { generateString } from "@web/utils/strings";
 
 export type NotificationType = "success" | "warning" | "error";
 export type Notification = {
@@ -29,21 +29,17 @@ const pop_notifications = (
   action: PopNotificationActions,
 ): NotificationState => {
   switch (action.type) {
-  case "ADD_NOTIFICATION":
-    return [{ ...action.payload, id: generateString() }, ...state];
+    case "ADD_NOTIFICATION":
+      return [{ ...action.payload, id: generateString() }, ...state];
 
-  case "REMOVE_NOTIFICATION":
-    return [
-      ...state.filter(
-        (notification) => notification.id !== action.payload.id,
-      ),
-    ];
+    case "REMOVE_NOTIFICATION":
+      return [...state.filter((notification) => notification.id !== action.payload.id)];
 
-  case "REMOVE_ALL_NOTIFICATIONS":
-    return [];
+    case "REMOVE_ALL_NOTIFICATIONS":
+      return [];
 
-  default:
-    return state;
+    default:
+      return state;
   }
 };
 

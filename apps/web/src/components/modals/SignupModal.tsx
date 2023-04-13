@@ -11,7 +11,7 @@ import Button from "@web/components/Button";
 import { Logo } from "@web/components/Icons";
 import Input from "@web/components/Input";
 import { addNotification, openModal, setUser } from "@web/state/actions";
-import { makeRequest } from "@web/utils/Rest";
+import { makeRequest } from "@web/utils/rest";
 import { SelfUser } from "../../types";
 
 import { setCookie } from "cookies-next";
@@ -177,30 +177,27 @@ function Signup({ dispatch }: ModalProps) {
                 }}
               >
                 <Input
-                  iconDisabled
                   required
                   label="Email"
-                  icon={<Mail />}
+                  icon={{ svg: <Mail /> }}
                   placeholder="Enter your email"
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
                 <Input
-                  iconDisabled
                   required
                   label="Username"
-                  icon={<User />}
+                  icon={{ svg: <User /> }}
                   placeholder="Enter your username"
                   type="username"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                 />
                 <Input
-                  iconDisabled
                   required
                   label="Password"
-                  icon={<Lock />}
+                  icon={{ svg: <Lock /> }}
                   placeholder="Enter your password"
                   type="password"
                   value={password}

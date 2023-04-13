@@ -1,6 +1,6 @@
 import { ModalData, Modals } from "../../components/ModalManager";
 import { Id, SelfUser, User } from "../../types";
-import { SupportedLanguagesID } from "../../utils/Constants";
+import { SupportedLanguagesID } from "../../utils/constants";
 import { Notification } from "../reducers/notifications";
 
 export const logoutUser = () => ({ type: "LOGOUT_USER" });

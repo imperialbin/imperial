@@ -7,7 +7,7 @@ import { addEditor, addNotification, removeEditor } from "@web/state/actions";
 import { ImperialState } from "@web/state/reducers";
 import { styled } from "@web/stitches.config";
 import { User } from "@web/types";
-import { makeRequest } from "@web/utils/Rest";
+import { makeRequest } from "@web/utils/rest";
 import { AnimatePresence, motion } from "framer-motion";
 import debounce from "lodash/debounce";
 import { useCallback, useState } from "react";
@@ -143,7 +143,7 @@ function EditorsModal({ dispatch, editors, user, closeModal }: ModalProps & Redu
           <Input
             value={input}
             placeholder="Search by username"
-            icon={<UserIcon />}
+            icon={{ svg: <UserIcon /> }}
             onChange={({ target: { value } }) => {
               setInput(value);
               fetchUsers(value);
@@ -181,7 +181,7 @@ function EditorsModal({ dispatch, editors, user, closeModal }: ModalProps & Redu
         <Button btnType="secondary" onClick={closeModal}>
           Close
         </Button>
-        <Button onClick={() => closeModal()}>Save</Button>
+        <Button onClick={closeModal}>Save</Button>
       </Footer>
     </Wrapper>
   );

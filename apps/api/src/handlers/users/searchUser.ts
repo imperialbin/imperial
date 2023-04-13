@@ -19,6 +19,7 @@ export const searchUser: FastifyImp<
   const likeUsers: User[] = await db
     .select(USER_PUBLIC_OBJECT)
     .from(users)
+    .limit(10)
     .where(sql`${ilike(users.username, `%${username}%`)}`);
 
   reply.send({

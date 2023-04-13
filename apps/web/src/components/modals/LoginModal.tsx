@@ -3,7 +3,7 @@ import { Logo } from "@web/components/Icons";
 import Input from "@web/components/Input";
 import { addNotification, openModal, setUser } from "@web/state/actions";
 import { styled } from "@web/stitches.config";
-import { makeRequest } from "@web/utils/Rest";
+import { makeRequest } from "@web/utils/rest";
 import { useState } from "react";
 import { Lock, User, X } from "react-feather";
 import { SelfUser } from "../../types";
@@ -139,19 +139,17 @@ function Login({ dispatch, closeModal }: ModalProps) {
           }}
         >
           <Input
-            iconDisabled
             required
             label="Email or username"
             value={username}
-            icon={<User />}
+            icon={{ svg: <User /> }}
             placeholder="Enter your username or email"
             onChange={(e) => setUsername(e.target.value)}
           />
           <Input
-            iconDisabled
             required
             label="Password"
-            icon={<Lock />}
+            icon={{ svg: <Lock /> }}
             value={password}
             placeholder="Enter your password"
             type="password"
