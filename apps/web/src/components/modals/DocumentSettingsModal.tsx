@@ -39,16 +39,12 @@ export default function DocumentSettings({
     setting: T,
     value: Document["settings"][T],
   ) => {
-    const { success, error, data } = await makeRequest<{ document: Document }>(
-      "PATCH",
-      "/document",
-      {
-        id: document.id,
-        settings: {
-          [setting]: value,
-        },
+    const { success, error, data } = await makeRequest<Document>("PATCH", "/document", {
+      id: document.id,
+      settings: {
+        [setting]: value,
       },
-    );
+    });
 
     if (!success || !data)
       return dispatch(
@@ -67,7 +63,7 @@ export default function DocumentSettings({
       }),
     );
 
-    document = data.document;
+    document = data;
   };
 
   return (
