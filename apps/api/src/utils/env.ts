@@ -41,10 +41,6 @@ export const env = envsafe({
     desc: "The discord client id",
     allowEmpty: true,
   }),
-  DISCORD_CALLBACK: str({
-    default: "http://localhost:3000/auth/discord",
-    desc: "The discord callback url",
-  }),
   DISCORD_ROLE_MEMBER: str({
     default: "774213066245931039",
     desc: "The discord member role id",
@@ -63,10 +59,6 @@ export const env = envsafe({
     default: "",
     desc: "The github client secret",
     allowEmpty: true,
-  }),
-  GITHUB_CALLBACK: str({
-    default: "http://localhost:3000/auth/github",
-    desc: "The github callback url",
   }),
   SENTRY_DSN: str({
     default: "",

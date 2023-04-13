@@ -15,7 +15,7 @@ export class Discord {
           client_secret: env.DISCORD_CLIENT_SECRET,
           code,
           grant_type: "authorization_code",
-          redirect_uri: env.DISCORD_CALLBACK,
+          redirect_uri: `${env.FRONTEND_URL}/auth/discord`,
           scope: "identify,guilds.join,guilds",
         }),
       },
