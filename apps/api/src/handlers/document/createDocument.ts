@@ -59,7 +59,7 @@ export const createDocument: FastifyImp<
   }
 
   // If they are not logged in dont allow any settings, but let them set the language
-  if (!request.user) {
+  if (!request.user?.confirmed) {
     body.data.settings = {
       language: body.data.settings?.language ?? "plaintext",
       expiration: 7,
