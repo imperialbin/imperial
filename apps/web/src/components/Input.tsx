@@ -21,6 +21,10 @@ const IconContainer = styled(motion.div, {
   top: 2,
   bottom: 2,
 
+  "> svg": {
+    width: 20,
+  },
+
   variants: {
     position: {
       left: {
