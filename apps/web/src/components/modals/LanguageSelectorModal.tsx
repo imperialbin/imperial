@@ -73,7 +73,7 @@ export default function LanguageSelector({ closeModal, dispatch }: ModalProps) {
     return () => {
       window.removeEventListener("keydown", enterHandler);
     };
-  });
+  }, []);
 
   const filteredLanguages = useMemo(
     () =>
