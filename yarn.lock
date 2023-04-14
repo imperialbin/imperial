@@ -10635,17 +10635,6 @@ eslint-config-turbo@latest:
   languageName: node
   linkType: hard
 
-"swr@npm:^2.0.3":
-  version: 2.1.2
-  resolution: "swr@npm:2.1.2"
-  dependencies:
-    use-sync-external-store: ^1.2.0
-  peerDependencies:
-    react: ^16.11.0 || ^17.0.0 || ^18.0.0
-  checksum: 90010a1a1ba3ecd699f64ef5e3de9a40c291e220803e811c46fabb858d908fd74039f4a2c668cf8fd21dbb3f9d9b3d8300915292ed9933d0e4bdac1193ba8fb8
-  languageName: node
-  linkType: hard
-
 "synckit@npm:^0.8.5":
   version: 0.8.5
   resolution: "synckit@npm:0.8.5"
@@ -11319,7 +11308,7 @@ turbo@latest:
   languageName: node
   linkType: hard
 
-"use-sync-external-store@npm:^1.0.0, use-sync-external-store@npm:^1.2.0":
+"use-sync-external-store@npm:^1.0.0":
   version: 1.2.0
   resolution: "use-sync-external-store@npm:1.2.0"
   peerDependencies:
@@ -11444,7 +11433,6 @@ turbo@latest:
     react-loading-skeleton: ^3.1.1
     react-redux: ^8.0.5
     redux: ^4.2.1
-    swr: ^2.0.3
     tsconfig: "*"
     typescript: 4.9.5
     ua-parser-js: ^1.0.33
