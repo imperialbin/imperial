@@ -24,10 +24,10 @@ export default {
           IMPERIAL
         </a>
 
-        <div style={{display:"flex",alignItems:"center",gap:10,marginTop:15}}>
+        <a href="https://vercel.com?utm_source=imperialbin&utm_campaign=oss" style={{display:"flex",alignItems:"center",gap:10,marginTop:15}}>
 Powered By
         <PoweredByVercel />
-        </div>
+        </a>
       </span>
     ),
   },
