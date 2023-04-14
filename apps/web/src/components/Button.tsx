@@ -4,6 +4,9 @@ import type * as Stitches from "@stitches/react";
 import { styled } from "@web/stitches.config";
 
 const StyledButton = styled("button", {
+  display: "flex",
+  alignItems: "center",
+  gap: 5,
   padding: "8px 10px",
   borderRadius: "$tiny",
   background: "$tertiary",
@@ -20,6 +23,10 @@ const StyledButton = styled("button", {
     opacity: 0.8,
     color: "$text-muted",
     cursor: "not-allowed",
+  },
+
+  "> svg": {
+    height: 18,
   },
 
   variants: {
