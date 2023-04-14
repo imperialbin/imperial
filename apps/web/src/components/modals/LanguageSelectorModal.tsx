@@ -60,16 +60,15 @@ export default function LanguageSelector({ closeModal, dispatch }: ModalProps) {
     closeModal();
   };
 
-  const enterHandler = ({ key }: KeyboardEvent) => {
-    if (key === "Enter" && searchQuery.length > 0) {
-      changeLanguage(filteredLanguages[0].id);
-      window.removeEventListener("keydown", enterHandler);
-    }
-  };
-
   useEffect(() => {
-    window.addEventListener("keydown", enterHandler);
+    const enterHandler = ({ key }: KeyboardEvent) => {
+      if (key === "Enter" && searchQuery.length > 0) {
+        changeLanguage(filteredLanguages[0].id);
+        window.removeEventListener("keydown", enterHandler);
+      }
+    };
 
+    window.addEventListener("keydown", enterHandler);
     return () => {
       window.removeEventListener("keydown", enterHandler);
     };
