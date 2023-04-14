@@ -83,6 +83,7 @@ export default function DocumentSettings({
             icon: language.icon ? <language.icon /> : undefined,
             selected: document.settings.language === language.id,
           }))}
+          disabled={document.settings.encrypted}
           onSelect={async (item) => {
             await patchDocument("language", item.value);
 
@@ -157,6 +158,7 @@ export default function DocumentSettings({
           description="Toggle image embed on the document. This will generate an image of the document and will support rich embeds."
           toggled={document.settings.image_embed}
           type="switch"
+          disabled={document.settings.encrypted}
           onToggle={async () => {
             await patchDocument("image_embed", !document.settings.image_embed);
           }}
@@ -166,6 +168,7 @@ export default function DocumentSettings({
           description="Toggle instant delete on the document. After someone viewing the document, it will instantly delete."
           toggled={document.settings.instant_delete}
           type="switch"
+          disabled={document.settings.encrypted}
           onToggle={async () => {
             await patchDocument("instant_delete", !document.settings.instant_delete);
           }}
@@ -175,6 +178,7 @@ export default function DocumentSettings({
           type="switch"
           description="Toggle public status on the document. After enabled, the document will be public on our discovery page."
           toggled={document.settings.public}
+          disabled={document.settings.encrypted}
           onToggle={async () => {
             await patchDocument("public", !document.settings.public);
           }}
