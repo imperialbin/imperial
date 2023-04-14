@@ -113,8 +113,14 @@ const StyledTooltip = styled(Tooltip, {
   margin: "0 10px",
 });
 
-const StyledUserIcon = styled(UserIcon, {
-  marginLeft: "20px",
+const UserIconWrapper = styled("button", {
+  background: "none",
+  border: "none",
+  padding: 0,
+  margin: 0,
+  cursor: "pointer",
+  marginLeft: 20,
+  borderRadius: "50%",
 });
 
 const NAV_ANIMATION = {
@@ -187,9 +193,10 @@ function Nav({ user, document, language, dispatch, editors }: INavProps) {
       "POST",
       "/document",
       {
-        content: user?.settings.encrypted
-          ? encrypt(password as string, content).toString()
-          : content,
+        content:
+          user?.settings.encrypted && user.confirmed
+            ? encrypt(password as string, content).toString()
+            : content,
         settings: {
           long_urls: user ? user.settings.long_urls : false,
           short_urls: user ? user.settings.short_urls : false,
@@ -460,7 +467,9 @@ function Nav({ user, document, language, dispatch, editors }: INavProps) {
             placement="bottom-end"
             setPopover={setUserPopover}
           >
-            <StyledUserIcon pointer URL={user?.icon ?? "/img/pfp.png"} />
+            <UserIconWrapper>
+              <UserIcon pointer URL={user?.icon ?? "/img/pfp.png"} />
+            </UserIconWrapper>
           </Popover>
         </Buttons>
       </Container>
