@@ -4,14 +4,14 @@ import Input from "@web/components/Input";
 import { addNotification, openModal, setUser } from "@web/state/actions";
 import { styled } from "@web/stitches.config";
 import { makeRequest } from "@web/utils/rest";
+import { setCookie } from "cookies-next";
+import Link from "next/link";
 import { useState } from "react";
 import { Lock, User, X } from "react-feather";
 import { SelfUser } from "../../types";
 import Header from "./base/Header";
 import { Content, Wrapper } from "./base/Styles";
 import { ModalProps } from "./base/modals";
-import { setCookie } from "cookies-next";
-import Link from "next/link";
 
 const StyledWrapper = styled(Wrapper, {
   width: "80%",
@@ -21,6 +21,13 @@ const StyledWrapper = styled(Wrapper, {
 const StyledContent = styled(Content, {
   flexDirection: "row",
   marginBottom: 0,
+});
+
+const FormContainer = styled("div", {
+  width: "50%",
+  gap: 10,
+  display: "flex",
+  flexDirection: "column",
 });
 
 const LogoContainer = styled("div", {
@@ -57,6 +64,11 @@ const ForgotLink = styled(Link, {
   "&:hover": {
     color: "$text-primary",
   },
+});
+
+const StyledButton = styled(Button, {
+  marginTop: 10,
+  alignSelf: "flex-start",
 });
 
 function Login({ dispatch, closeModal }: ModalProps) {
@@ -142,14 +154,7 @@ function Login({ dispatch, closeModal }: ModalProps) {
     <StyledWrapper>
       <Header>Login</Header>
       <StyledContent>
-        <div
-          style={{
-            width: "50%",
-            gap: 10,
-            display: "flex",
-            flexDirection: "column",
-          }}
-        >
+        <FormContainer>
           <Input
             required
             label="Email or username"
@@ -170,16 +175,10 @@ function Login({ dispatch, closeModal }: ModalProps) {
           <ForgotLink href="/auth/forgot" onClick={closeModal}>
             Forgot Password?
           </ForgotLink>
-          <Button
-            clickOnEnter
-            style={{ alignSelf: "flex-start", marginTop: 15 }}
-            disabled={loading}
-            type="submit"
-            onClick={submit}
-          >
+          <StyledButton clickOnEnter disabled={loading} type="submit" onClick={submit}>
             Login
-          </Button>
-        </div>
+          </StyledButton>
+        </FormContainer>
         <LogoContainer>
           <Logo />
           <Button onClick={() => dispatch(openModal("signup"))}>No account?</Button>

@@ -28,6 +28,13 @@ const StyledContent = styled(Content, {
   height: "unset",
 });
 
+const FormContainer = styled("div", {
+  width: "50%",
+  gap: 10,
+  display: "flex",
+  flexDirection: "column",
+});
+
 const LogoContainer = styled("div", {
   position: "fixed",
   background: "$tertiary",
@@ -171,14 +178,7 @@ function Signup({ dispatch }: ModalProps) {
         <AnimatePresence>
           {!success ? (
             <>
-              <div
-                style={{
-                  width: "50%",
-                  gap: 10,
-                  display: "flex",
-                  flexDirection: "column",
-                }}
-              >
+              <FormContainer>
                 <Input
                   required
                   label="Email"
@@ -216,7 +216,7 @@ function Signup({ dispatch }: ModalProps) {
                 >
                   Signup
                 </Button>
-              </div>
+              </FormContainer>
               <div
                 style={{
                   position: "absolute",
