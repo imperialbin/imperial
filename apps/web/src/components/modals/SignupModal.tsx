@@ -87,6 +87,9 @@ const SUCCESS_ANIMATION = {
     opacity: 1,
     transform: "scale(1)",
   },
+  transition: {
+    duration: 0.2,
+  },
 };
 
 function Signup({ dispatch }: ModalProps) {
@@ -231,11 +234,10 @@ function Signup({ dispatch }: ModalProps) {
             </>
           ) : (
             <SuccessContainer
-              transition={{ duration: 0.25 }}
-              variants={SUCCESS_ANIMATION}
-              initial="initial"
-              animate="animate"
-              exit="initial"
+              transition={SUCCESS_ANIMATION.transition}
+              initial={SUCCESS_ANIMATION.initial}
+              animate={SUCCESS_ANIMATION.animate}
+              exit={SUCCESS_ANIMATION.initial}
             >
               <CheckIcon size={40} />
               <h1>Successfully created your account!</h1>
