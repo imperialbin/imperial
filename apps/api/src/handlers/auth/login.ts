@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-import { eq } from "drizzle-orm/expressions";
+import { eq, or } from "drizzle-orm/expressions";
 import { z } from "zod";
 import { db } from "../../db";
 import { users } from "../../db/schemas";
@@ -33,7 +33,12 @@ export const login: FastifyImp<
       await db
         .select()
         .from(users)
-        .where(eq(users.username, body.data.username))
+        .where(
+          or(
+            eq(users.username, body.data.username),
+            eq(users.email, body.data.username),
+          ),
+        )
     )[0] ?? null;
 
   if (!user) {
