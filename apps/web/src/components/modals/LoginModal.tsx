@@ -11,6 +11,7 @@ import Header from "./base/Header";
 import { Content, Wrapper } from "./base/Styles";
 import { ModalProps } from "./base/modals";
 import { setCookie } from "cookies-next";
+import Link from "next/link";
 
 const StyledWrapper = styled(Wrapper, {
   width: "80%",
@@ -44,6 +45,17 @@ const LogoContainer = styled("div", {
   "> button": {
     position: "absolute",
     bottom: 20,
+  },
+});
+
+const ForgotLink = styled(Link, {
+  color: "$text-secondary",
+  fontSize: "0.8em",
+  marginTop: -5, // Minus gap
+  transition: "color 0.15s ease-in-out",
+
+  "&:hover": {
+    color: "$text-primary",
   },
 });
 
@@ -155,6 +167,9 @@ function Login({ dispatch, closeModal }: ModalProps) {
             type="password"
             onChange={(e) => setPassword(e.target.value)}
           />
+          <ForgotLink href="/auth/forgot" onClick={closeModal}>
+            Forgot Password?
+          </ForgotLink>
           <Button
             clickOnEnter
             style={{ alignSelf: "flex-start", marginTop: 15 }}
