@@ -1,0 +1,179 @@
+import { Steps, Tabs, Tab } from "nextra-theme-docs";
+
+# API Documentation
+
+IMPERIAL has a RESTful API that allows you to interact with IMPERIAL from virtually any application.
+
+Heres a quick-start guide
+
+<Steps>
+ 
+### Authentication (optional)
+ 
+Whilst you can use IMPERIAL's API unauthenticated, you will NOT have any options besides changing the language. There are two different ways to authenticate yourself with IMPERIAL's API, either by a user auth token, or an API token (which is assigned to a user).
+
+They look like this
+
+API Token:
+
+```
+imperial_c181MzFhNWFiYTVkM2MwNGU3Y2U4MTRmMTViODNiNjgwYV8xNjc4NTgxNTkwMzQzNzIwOTg
+```
+
+Authentication Token:
+
+```
+imperial_auth_c18wMGU0MjVlODM0ZDI1ODNjNmU3YjYxM2Y5OTAxYzhjM18xNjk0OTE5MzQzODE5ODE3MDM
+```
+
+### Create a Document
+
+Creating a document with IMPERIAL's API is really easy, you can either use IMPERIAL's JavaScript SDK, or you can interact with the API directly.
+
+#### Using the SDK
+
+<Tabs items={["js", "py", "rs"]}>
+  <Tab>
+    **JavaScript**: 
+```js
+import { Imperial } from "imperial.js";
+
+const client = new Imperial(/_ token _/);
+client.createDocument("hello world!").then(console.log, console.error);
+
+````
+  </Tab>
+  <Tab>
+    **Python**:
+```python
+from imperial import Imperial
+
+imp = Imperial("imperial_000000000000000000000000")
+document = imp.create_document("Hello, World!")
+````
+
+  </Tab>
+  <Tab>
+    **Rust**:
+Coming soon
+  
+    </Tab>
+</Tabs>
+
+#### Using the API
+
+<Tabs items={['JavaScript', 'Python', 'Rust']}>
+  <Tab>
+    **JavaScript**: 
+```js
+fetch("https://api.imperialb.in/v1/document", {
+  method: "POST",
+  body: JSON.stringify({
+    content: "hello world!",
+  }),
+});
+```
+  </Tab>
+  <Tab>
+    **Python**:
+```python
+import requests
+
+response = requests.post("https://api.imperialb.in/v1/document", json={
+"content": "hello world!"
+})
+
+````
+
+  </Tab>
+  <Tab>
+    **Rust**:
+```rust
+use reqwest::Client;
+
+let client = Client::new();
+
+let response = client.post("https://api.imperialb.in/v1/document")
+    .json(&json!({
+        "content": "hello world!"
+    }))
+    .send()
+    .await?;
+````
+
+  </Tab>
+</Tabs>
+
+### Get a Document
+
+Getting a document with IMPERIAL's API is really easy, you can either use IMPERIAL's JavaScript SDK, or you can interact with the API directly.
+
+#### Using the SDK
+
+<Tabs items={["js", "py", "rs"]}>
+  <Tab>
+    **JavaScript**: 
+```js
+import { Imperial } from "imperial.js";
+
+const client = new Imperial(/_ token _/);
+client.getDocument("document_id").then(console.log, console.error);
+
+````
+  </Tab>
+  <Tab>
+    **Python**:
+```python
+from imperial import Imperial
+
+imp = Imperial("imperial_000000000000000000000000")
+document = imp.get_document("document_id")
+````
+
+  </Tab>
+  <Tab>
+    **Rust**:
+Coming soon
+    
+      </Tab>
+</Tabs>
+
+#### Using the API
+
+<Tabs items={['JavaScript', 'Python', 'Rust']}>
+  <Tab>
+    **JavaScript**: 
+```js
+fetch("https://api.imperialb.in/v1/document/:id");
+```
+  </Tab>
+  <Tab>
+    **Python**:
+```python
+import requests
+
+response = requests.get("https://api.imperialb.in/v1/document/:id")
+
+````
+
+  </Tab>
+  <Tab>
+    **Rust**:
+```rust
+use reqwest::Client;
+
+let client = Client::new();
+
+let response = client.get("https://api.imperialb.in/v1/document/:id")
+    .send()
+    .await?;
+````
+
+  </Tab>
+</Tabs>
+
+</Steps>
+
+### Learn More
+
+If you want to learn more about the API, you can check out the other tabs on the sidebar.
