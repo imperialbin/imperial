@@ -6,6 +6,41 @@ IMPERIAL has a RESTful API that allows you to interact with IMPERIAL from virtua
 
 Heres a quick-start guide
 
+IMPERIAL owns two domains
+
+- [imperialb.in](https://imperialb.in) - The main domain
+- [impb.in](https://impb.in) - The secondary domain
+
+API endpoints are available on both domains.
+
+- [api.imperialb.in](https://api.imperialb.in)
+- [api.impb.in](https://api.impb.in)
+
+## Responses
+
+A response can look like this
+
+```json
+{
+  "success": true,
+  "data": {
+    "test": "fields"
+  }
+}
+```
+
+Or if a failed request happened
+
+```json
+{
+  "success": false,
+  "error": {
+    "message": "Bad Request",
+    "errors"?: ZodErrors[]
+  }
+}
+```
+
 <Steps>
  
 ### Authentication (optional)

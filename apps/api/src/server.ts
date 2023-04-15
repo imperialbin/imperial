@@ -75,6 +75,7 @@ export const main = async () => {
   });
   server.register(usersRoutes, { prefix: `/${API_VERSION}/users` });
   server.register(documentRoutes, { prefix: `/${API_VERSION}/document` });
+  server.register(documentRoutes, { prefix: `/${API_VERSION}/documents` }); // Alias
   server.register(authRoutes, { prefix: `/${API_VERSION}/auth` });
   server.register(oAuthRoutes, { prefix: `/${API_VERSION}/oauth` });
   server.register(adminRoutes, { prefix: `/${API_VERSION}/admin` });

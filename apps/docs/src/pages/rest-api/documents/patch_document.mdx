@@ -1,0 +1,172 @@
+import { Callout } from "nextra-theme-docs";
+
+# PATCH /v1/document
+
+Edit a document.
+
+## Request Body (possible options)
+
+```json
+{
+  "id": "MO0lJElX",
+  "content": "hello world!",
+  "settings": {
+    "language": "plaintext",
+    "expiration": null,
+    "image_embed": false,
+    "instant_delete": false,
+    "public": false,
+    "editors": ["username"]
+  }
+}
+```
+
+<Callout type="info" emoji="ℹ️">
+  All fields except <code>id</code> are optional.
+</Callout>
+
+<Callout type="warning" emoji="⚠️">
+  You must be authenticated and own or have edit access to the document to edit
+  it.
+</Callout>
+
+<Callout type="warning" emoji="⚠️">
+  Editors do not have access to edit the editors list.
+</Callout>
+
+## Example
+
+Minimal Example:
+
+```ts
+fetch("https://api.impb.in/v1/document", {
+  method: "PATCH",
+  headers: {
+    Authorization: "imperial_123456789",
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    id: "MO0lJElX",
+    content: "hello world!",
+  }),
+})
+  .then((res) => res.json())
+  .then(console.log)
+  .catch((err) => console.error(err));
+```
+
+Options:
+
+```ts
+fetch("https://api.impb.in/v1/document", {
+  method: "PATCH",
+  headers: {
+    Authorization: "imperial_123456789",
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    id: "MO0lJElX",
+    content: "hello world edited!",
+    settings: {
+      language: "plaintext",
+      expiration: null,
+      image_embed: false,
+      instant_delete: false,
+      public: false,
+      editors: ["username"],
+    },
+  }),
+})
+  .then((res) => res.json())
+  .then(console.log)
+  .catch((err) => console.error(err));
+```
+
+## Responses
+
+### 200 OK
+
+```json
+{
+  "success": true,
+  "data": {
+    "id": "MO0lJElX",
+    "content": "hello world edited!",
+    "creator": null,
+    "gist_url": null,
+    "views": 0,
+    "timestamps": {
+      "creation": "2023-04-15T20:40:45.045Z",
+      "expiration": "2023-04-22T20:40:45.045Z"
+    },
+    "links": {
+      "formatted": "https://impb.in/MO0lJElX",
+      "raw": "https://impb.in/r/MO0lJElX"
+    },
+    "settings": {
+      "language": "plaintext",
+      "image_embed": false,
+      "instant_delete": false,
+      "encrypted": false,
+      "public": false,
+      "editors": []
+    }
+  }
+}
+```
+
+### 400 Bad Request
+
+```json
+{
+  "success": false,
+  "error": {
+    "message": "Invalid request body",
+    "errors"?: ZodErrors
+  }
+}
+```
+
+### 401 Unauthorized
+
+```json
+{
+  "success": false,
+  "error": {
+    "message": "Unauthorized"
+  }
+}
+```
+
+### 403 Forbidden
+
+```json
+{
+  "success": false,
+  "error": {
+    "message": "You are not allowed to edit this document"
+  }
+}
+```
+
+### 404 Not Found
+
+```json
+{
+  "success": false,
+  "error": {
+    "message": "Document not found"
+  }
+}
+```
+
+### 5xx Internal Server Error
+
+```json
+{
+  "success": false,
+  "error": {
+    "message": "Internal server error"
+  }
+}
+```

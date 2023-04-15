@@ -39,6 +39,7 @@ export const patchDocument: FastifyImp<
       success: false,
       error: {
         message: body.error.message,
+        errors: body.error.errors,
       },
     });
   }

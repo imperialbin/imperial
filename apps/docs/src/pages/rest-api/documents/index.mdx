@@ -1,0 +1,60 @@
+# /v1/document
+
+## The document object
+
+IMPERIAL's main shtick is documents, documents contain information, meta data, and sometimes encrypted data.
+
+We've engineered the document object to be as specific whilst being simple and easy to read.
+
+The document object is a JSON object that contains the following properties:
+
+```ts
+// Note Id<"user"> is a type that refereneces a Pika ID (prefix_${string}), the ID system we use behind the scenes for anything thats not a document.
+
+type Document = {
+  id: string;
+  content: string;
+  creator: {
+    id: Id<"user">;
+    documents_made: number;
+    username: string;
+    icon: string | null;
+    flags: number;
+  } | null;
+  views: number;
+  gist_url: string | null;
+  links: {
+    raw: string;
+    formatted: string;
+  };
+  timestamps: {
+    creation: string;
+    expiration: string | null;
+  };
+  settings: {
+    language: string;
+    image_embed: boolean;
+    instant_delete: boolean;
+    encrypted: boolean;
+    password?: string | undefined;
+    public: boolean;
+    editors: {
+      id: Id<"user">;
+      documents_made: number;
+      username: string;
+      icon: string | null;
+      flags: number;
+    }[];
+  };
+};
+```
+
+## Things to know before getting started
+
+### Settings
+
+Settings in IMPERIAL is a way to control how a document is made and how you want it to be. HOWEVER, if you are not authenticated, OR you don't have a confirmed email, all settings except the `language` field will be ignored and set to back to the default setting.
+
+### Unconfirmed accounts
+
+Whilst you can use an unconfirmed account on IMPERIAL, it defeats the purpose. You won't be able to take advantage of any of the special document settings, and you will only be able to have ownership and edit access to a document.
