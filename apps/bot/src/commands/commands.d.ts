@@ -1,6 +1,6 @@
 import {
-  ChatInputCommandInteraction,
   ChatInputApplicationCommandData,
+  ChatInputCommandInteraction,
   Client,
 } from "discord.js";
 

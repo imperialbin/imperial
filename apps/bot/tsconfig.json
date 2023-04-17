@@ -12,7 +12,8 @@
     "baseUrl": "./",
     "paths": {
       "@imperial/commons": ["../../packages/commons"],
-      "@imperial/internal": ["../../packages/internal"]
+      "@imperial/internal": ["../../packages/internal"],
+      "@bot/*": ["./src/*"]
     }
   },
   "include": ["."],

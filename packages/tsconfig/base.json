@@ -18,7 +18,8 @@
     "baseUrl": ".",
     "paths": {
       "@imperial/commons": ["../commons"],
-      "@web/*": ["../../apps/web/src/*"]
+      "@web/*": ["../../apps/web/src/*"],
+      "@bot/*": ["../../apps/bot/src/*"]
     }
   },
   "exclude": ["node_modules"]

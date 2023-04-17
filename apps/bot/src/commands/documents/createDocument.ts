@@ -1,6 +1,7 @@
-import { API } from "../../utils/api";
-import { createEmbed } from "../../utils/embeds";
-import { Command } from "../commands";
+import { Command } from "@bot/commands/commands";
+import { API } from "@bot/utils/api";
+import { createEmbed } from "@bot/utils/embeds";
+import { Document } from "@imperial/commons";
 import { ApplicationCommandOptionType } from "discord.js";
 
 export const createDocument: Command = {
@@ -87,7 +88,7 @@ export const createDocument: Command = {
       long_urls: interaction.options.getBoolean("long_urls") ?? false,
       short_urls: interaction.options.getBoolean("short_urls") ?? false,
       create_gist: interaction.options.getBoolean("create_gist") ?? false,
-    };
+    } as Partial<Document["settings"]>;
 
     const document = await API.createDocument(
       interaction.options.getString("content", true),

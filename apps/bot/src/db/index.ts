@@ -1,8 +1,8 @@
+import { env } from "@bot/utils/env";
+import { Logger } from "@imperial/commons";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { migrate } from "drizzle-orm/postgres-js/migrator";
 import { Pool } from "pg";
-import { env } from "../utils/env";
-import { Logger } from "@imperial/commons";
 
 export let db: ReturnType<typeof drizzle>;
 

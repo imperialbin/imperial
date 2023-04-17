@@ -1,6 +1,6 @@
-import { API } from "../../utils/api";
-import { createEmbed } from "../../utils/embeds";
-import { Command } from "../commands";
+import { Command } from "@bot/commands/commands";
+import { API } from "@bot/utils/api";
+import { createEmbed } from "@bot/utils/embeds";
 import { ApplicationCommandOptionType, codeBlock } from "discord.js";
 
 export const getDocument: Command = {

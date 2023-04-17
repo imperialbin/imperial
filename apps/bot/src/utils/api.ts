@@ -1,5 +1,4 @@
-import { Document, PossibleDocumentSettings } from "../types";
-import { Logger } from "@imperial/commons";
+import { Document, Logger } from "@imperial/commons";
 import { ZodError } from "zod";
 
 class API {
@@ -64,7 +63,7 @@ class API {
 
   public static async createDocument(
     content: string,
-    settings: PossibleDocumentSettings,
+    settings: Partial<Document["settings"]>,
     token: string
   ) {
     const document = await this.req<Document>(

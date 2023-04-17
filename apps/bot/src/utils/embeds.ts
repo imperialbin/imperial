@@ -1,5 +1,5 @@
+import { env } from "@bot/utils/env";
 import { CommandInteraction, EmbedBuilder, EmbedField } from "discord.js";
-import { env } from "./env";
 
 export const createEmbed = (
   title: string,

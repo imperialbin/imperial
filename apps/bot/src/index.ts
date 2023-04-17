@@ -1,8 +1,8 @@
-import { ChatInputCommandInteraction, Client, Interaction } from "discord.js";
+import { COMMANDS } from "@bot/commands";
+import { setupDB } from "@bot/db";
+import { env } from "@bot/utils/env";
 import { Logger } from "@imperial/commons";
-import { env } from "./utils/env";
-import { COMMANDS } from "./commands";
-import { setupDB } from "./db";
+import { ChatInputCommandInteraction, Client, Interaction } from "discord.js";
 
 const client = new Client({
   intents: [],

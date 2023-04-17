@@ -1,10 +1,6 @@
-import { db } from "../../db";
-import { users } from "@imperial/internal";
-import { Command } from "../commands";
-import { sql } from "drizzle-orm";
-import { eq } from "drizzle-orm/expressions";
-import { createEmbed } from "../../utils/embeds";
-import { env } from "../../utils/env";
+import { Command } from "@bot/commands/commands";
+import { createEmbed } from "@bot/utils/embeds";
+import { env } from "@bot/utils/env";
 
 export const link: Command = {
   name: "link",
@@ -12,15 +8,13 @@ export const link: Command = {
   run: async (client, interaction) => {
     const userID = interaction.user.id;
 
-    console.log(sql`eq(discord->>'id' = ${userID}`.queryChunks);
-
-    /* const connectedUser =
+    /*     const connectedUser =
       (
         await db
           .select()
           .from(users)
           .where(sql`discord->>'id' = '${userID}'`)
-      )?.[0] ?? null; */
+      )?.[0] ?? null;
 
     if (connectedUser) {
       return interaction.reply({
@@ -28,7 +22,7 @@ export const link: Command = {
           createEmbed("Oopsie", "You're already connected!", interaction, true),
         ],
       });
-    }
+    } */
 
     interaction.reply({
       embeds: [
