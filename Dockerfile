@@ -19,8 +19,6 @@ COPY turbo.json turbo.json
 
 RUN cd apps/api && yarn install
 RUN yarn build --scope=api
-RUN ls
-RUN cd apps/api && ls
 
 FROM zenika/alpine-chrome:with-node as runner
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD 1
