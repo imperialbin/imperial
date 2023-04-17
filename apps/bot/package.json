@@ -1,0 +1,25 @@
+{
+  "name": "imperial-bot",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/imperialbin/imperial-bot.git",
+  "author": "Cody Miller <hello@looskie.com>",
+  "license": "GPT-3",
+  "scripts": {
+    "start": "node dist/index.js",
+    "dev": "tsx watch --clear-screen=false src/index.ts",
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "@types/node": "^18.15.11",
+    "tsx": "^3.12.6",
+    "typescript": "^5.0.4"
+  },
+  "dependencies": {
+    "discord.js": "^14.9.0",
+    "dotenv": "^16.0.3",
+    "drizzle-orm": "^0.23.13",
+    "pg": "^8.10.0",
+    "zod": "^3.21.4"
+  }
+}
