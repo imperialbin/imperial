@@ -23,7 +23,9 @@ export const setupDB = async () => {
 
   db = drizzle(pool);
 
-  await migrate(db, { migrationsFolder: "src/db/migrations" })
+  await migrate(db, {
+    migrationsFolder: "../../packages/internal/db/migrations",
+  })
     .then(() => {
       Logger.info("INIT", "Migrated database");
     })

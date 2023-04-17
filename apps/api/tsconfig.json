@@ -11,7 +11,8 @@
     "skipLibCheck": true,
     "baseUrl": "./",
     "paths": {
-      "@imperial/commons": ["../../packages/commons"]
+      "@imperial/commons": ["../../packages/commons"],
+      "@imperial/internal": ["../../packages/internal"]
     }
   },
   "include": ["."],
