@@ -25,7 +25,8 @@ export const resetPasswordWithToken: FastifyImp<
     return reply.status(400).send({
       success: false,
       error: {
-        message: body.error.message,
+        message: "Invalid body",
+        errors: body.error.errors,
       },
     });
   }
