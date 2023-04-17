@@ -13,6 +13,7 @@ import {
   SupportedLanguagesID,
   supportedLanguages,
 } from "./utils/languages";
+import { Logger } from "./utils/logger";
 
 export type {
   Id,
@@ -27,4 +28,4 @@ export type {
   SupportedLanguagesID,
 };
 
-export { pika, permer, supportedLanguages };
+export { pika, permer, supportedLanguages, Logger };
