@@ -7686,10 +7686,11 @@ eslint-config-turbo@latest:
   version: 0.0.0-use.local
   resolution: "imperial-bot@workspace:apps/bot"
   dependencies:
-    "@types/cli-color": ^2.0.2
     "@types/node": ^18.15.11
     discord.js: ^14.9.0
     dotenv: ^16.0.3
+    drizzle-orm: ^0.23.13
+    pg: ^8.10.0
     tsx: ^3.12.6
     typescript: ^5.0.4
     zod: ^3.21.4

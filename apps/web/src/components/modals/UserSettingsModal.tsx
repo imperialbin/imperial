@@ -424,7 +424,7 @@ function UserSettings({ user, dispatch }: ReduxProps & ModalProps) {
             <Tile
               centered
               clickable
-              onClick={() => (!user.discord ? window.open("/link/github") : null)}
+              onClick={() => (!user.github ? window.open("/link/github") : null)}
             >
               <div>
                 <GitHubLogo />
