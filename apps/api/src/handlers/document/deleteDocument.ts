@@ -20,6 +20,7 @@ export const deleteDocument: FastifyImp<
     return reply.status(404).send({
       success: false,
       error: {
+        code: "not_found",
         message: "Document not found",
       },
     });
@@ -29,6 +30,7 @@ export const deleteDocument: FastifyImp<
     return reply.status(401).send({
       success: false,
       error: {
+        code: "bad_auth",
         message: "You do not own this document",
       },
     });

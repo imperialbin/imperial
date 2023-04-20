@@ -12,6 +12,7 @@ import { getLinksObject } from "../../utils/publicObjects";
 import { languageSchema } from "../../utils/schemas";
 import { screenshotDocument } from "../../utils/screenshotDocument";
 import { generateRandomSecureString } from "../../utils/strings";
+import { fromZodError } from "zod-validation-error";
 
 const createDocumentSchema = z.object({
   content: z.string().min(1),
@@ -40,19 +41,13 @@ export const createDocument: FastifyImp<
     password?: string;
   }
 > = async (request, reply) => {
-  if (!request.body) {
-    return reply.status(400).send({
-      success: false,
-      error: "No body provided",
-    });
-  }
-
   const body = createDocumentSchema.safeParse(request.body);
   if (!body.success) {
     return reply.status(400).send({
       success: false,
       error: {
-        message: "Invalid body",
+        code: "bad_request",
+        message: fromZodError(body.error).toString(),
         errors: body.error.errors,
       },
     });

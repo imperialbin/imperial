@@ -3,6 +3,7 @@ import { z } from "zod";
 import { db } from "../../db";
 import { users } from "../../db/schemas";
 import { eq } from "drizzle-orm/expressions";
+import { fromZodError } from "zod-validation-error";
 
 const patchMeSchema = z.object({
   email: z.string().email().optional(),
@@ -38,7 +39,8 @@ export const patchMe: FastifyImp<
     return reply.status(400).send({
       success: false,
       error: {
-        message: "Invalid body",
+        code: "bad_request",
+        message: fromZodError(body.error).toString(),
         errors: body.error.errors,
       },
     });
@@ -64,6 +66,7 @@ export const patchMe: FastifyImp<
     return reply.status(500).send({
       success: false,
       error: {
+        code: "internal_error",
         message: "Failed to update user",
       },
     });

@@ -9,10 +9,20 @@ import {
 import { InferModel } from "drizzle-orm";
 import { FastifyReply, FastifyRequest, RequestGenericInterface } from "fastify";
 import { users } from "../db/schemas";
+import { z } from "zod";
+
+const ERROR = {
+  UNAUTHORIZED: "unauthorized",
+  BAD_AUTH: "bad_auth",
+  NOT_FOUND: "not_found",
+  BAD_REQUEST: "bad_request",
+  INTERNAL_ERROR: "internal_error",
+} as const;
 
 type APIError = {
-  code: "BRUH";
+  code: (typeof ERROR)[keyof typeof ERROR];
   message: string;
+  errors?: z.ZodIssue[];
 };
 
 type ImperialResponse<T = unknown> =
@@ -45,8 +55,11 @@ type FastifyImp<
       ? InferModel<typeof users>
       : null;
   },
-  res: Omit<FastifyReply, "send"> & {
+  res: Omit<FastifyReply, "send" | "status"> & {
     send(data: ImperialResponse<K>): FastifyReply;
+    status(code: number): Omit<FastifyReply, "send" | "status"> & {
+      send(data?: ImperialResponse<K>): FastifyReply;
+    };
   },
 ) => Promise<unknown>;
 
@@ -111,3 +124,5 @@ export type {
   GetRequestType,
   RP,
 };
+
+export { ERROR };

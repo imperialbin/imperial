@@ -21,6 +21,7 @@ export const getUserAdmin: FastifyImp<
     reply.status(404).send({
       success: false,
       error: {
+        code: "not_found",
         message: "User not found",
       },
     });

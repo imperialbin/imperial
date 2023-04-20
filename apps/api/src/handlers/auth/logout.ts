@@ -9,6 +9,7 @@ export const logout: FastifyImp = async (request, reply) => {
     return reply.status(400).send({
       success: false,
       error: {
+        code: "bad_request",
         message: "You can not log out an API token",
       },
     });

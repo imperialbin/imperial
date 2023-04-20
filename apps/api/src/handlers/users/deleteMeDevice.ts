@@ -3,6 +3,7 @@ import { z } from "zod";
 import { FastifyImp } from "../../types";
 import { AuthSessions } from "../../utils/authSessions";
 import { Id } from "@imperial/commons";
+import { fromZodError } from "zod-validation-error";
 
 const deviceSchema = z.custom<Id<"device">>(
   (value) => typeof value === "string" && value.startsWith("device_"),
@@ -27,7 +28,8 @@ export const deleteMeDevices: FastifyImp<
     return reply.status(400).send({
       success: false,
       error: {
-        message: "Invalid body",
+        code: "bad_request",
+        message: fromZodError(body.error).toString(),
         errors: body.error.errors,
       },
     });
@@ -37,6 +39,7 @@ export const deleteMeDevices: FastifyImp<
     return reply.status(401).send({
       success: false,
       error: {
+        code: "bad_request",
         message: "Incorrect password",
       },
     });
@@ -47,6 +50,7 @@ export const deleteMeDevices: FastifyImp<
     return reply.status(404).send({
       success: false,
       error: {
+        code: "not_found",
         message: "Device not found",
       },
     });

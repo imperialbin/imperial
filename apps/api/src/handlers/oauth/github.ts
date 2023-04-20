@@ -19,6 +19,7 @@ export const github: FastifyImp<
     return reply.status(401).send({
       success: false,
       error: {
+        code: "bad_auth",
         message: accessToken.error_description,
       },
     });
@@ -29,6 +30,7 @@ export const github: FastifyImp<
     return reply.status(500).send({
       success: false,
       error: {
+        code: "internal_error",
         message: "Internal server error",
       },
     });

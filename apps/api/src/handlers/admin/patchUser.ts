@@ -1,10 +1,11 @@
 /* eslint-disable no-negated-condition */
-import { FastifyImp } from "../../types";
+import { Id, permer } from "@imperial/commons";
+import { eq } from "drizzle-orm/expressions";
 import { z } from "zod";
+import { fromZodError } from "zod-validation-error";
 import { db } from "../../db";
 import { users } from "../../db/schemas";
-import { eq } from "drizzle-orm/expressions";
-import { Id, permer } from "@imperial/commons";
+import { FastifyImp } from "../../types";
 
 const patchUserSchema = z.object({
   email: z.string().email().optional(),
@@ -25,11 +26,13 @@ export const patchUser: FastifyImp<
   true
 > = async (request, reply) => {
   const body = patchUserSchema.safeParse(request.body);
+
   if (!body.success) {
     return reply.status(400).send({
       success: false,
       error: {
-        message: "Invalid body",
+        code: "bad_request",
+        message: fromZodError(body.error).toString(),
         errors: body.error.errors,
       },
     });
@@ -48,6 +51,7 @@ export const patchUser: FastifyImp<
       return reply.status(400).send({
         success: false,
         error: {
+          code: "bad_request",
           message: "Username is already taken",
         },
       });
@@ -62,6 +66,7 @@ export const patchUser: FastifyImp<
     return reply.status(404).send({
       success: false,
       error: {
+        code: "not_found",
         message: "User not found",
       },
     });
@@ -92,6 +97,7 @@ export const patchUser: FastifyImp<
     return reply.status(500).send({
       success: false,
       error: {
+        code: "internal_error",
         message: "Failed to update user",
       },
     });

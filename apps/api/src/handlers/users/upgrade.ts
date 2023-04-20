@@ -16,6 +16,7 @@ export const upgradeMe: FastifyImp<
     reply.status(400).send({
       success: false,
       error: {
+        code: "bad_request",
         message: "Invalid token",
       },
     });
@@ -33,6 +34,7 @@ export const upgradeMe: FastifyImp<
     reply.status(400).send({
       success: false,
       error: {
+        code: "bad_request",
         message: "Invalid token",
       },
     });

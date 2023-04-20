@@ -6,6 +6,7 @@ import { FastifyImp } from "../../types";
 import { SES } from "../../utils/aws";
 import { Redis } from "../../utils/redis";
 import { generateRandomSecureString } from "../../utils/strings";
+import { fromZodError } from "zod-validation-error";
 
 const resendConfirmEmailBody = z.object({
   email: z.string().email(),
@@ -19,7 +20,8 @@ export const resendConfirmEmail: FastifyImp<{
     return reply.status(400).send({
       success: false,
       error: {
-        message: "Invalid body",
+        code: "bad_request",
+        message: fromZodError(body.error).toString(),
         errors: body.error.errors,
       },
     });
@@ -39,6 +41,7 @@ export const resendConfirmEmail: FastifyImp<{
     return reply.status(400).send({
       success: false,
       error: {
+        code: "bad_request",
         message: "User already confirmed",
       },
     });

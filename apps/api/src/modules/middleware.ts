@@ -33,7 +33,8 @@ const checkAuthentication = async (
     reply.status(401).send({
       success: false,
       error: {
-        message: "Unauthorized",
+        code: "unauthorized",
+        message: "You must be authenticated to access this route",
       },
     });
   }
@@ -47,6 +48,7 @@ const checkNoAuthentication = async (
     reply.status(401).send({
       success: false,
       error: {
+        code: "authorized",
         message: "You can't be authenticated in this route",
       },
     });
@@ -59,7 +61,8 @@ const checkAdmin = async (req: FastifyRequest, reply: FastifyReply) => {
     reply.status(401).send({
       success: false,
       error: {
-        message: "Unauthorized",
+        code: "unauthorized",
+        message: "You must be an admin to access this route",
       },
     });
   }

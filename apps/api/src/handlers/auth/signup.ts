@@ -10,6 +10,7 @@ import { pika } from "@imperial/commons";
 import { permer } from "@imperial/commons";
 import { generateRandomSecureString } from "../../utils/strings";
 import { Redis } from "../../utils/redis";
+import { fromZodError } from "zod-validation-error";
 
 const signupSchema = z.object({
   username: z.string().min(1),
@@ -29,7 +30,8 @@ export const signup: FastifyImp<
     return reply.status(400).send({
       success: false,
       error: {
-        message: "Invalid body",
+        code: "bad_request",
+        message: fromZodError(body.error).toString(),
         errors: body.error.errors,
       },
     });
@@ -44,6 +46,7 @@ export const signup: FastifyImp<
     return reply.status(400).send({
       success: false,
       error: {
+        code: "bad_request",
         message: "Username already exists",
       },
     });
@@ -58,6 +61,7 @@ export const signup: FastifyImp<
     return reply.status(400).send({
       success: false,
       error: {
+        code: "bad_request",
         message: "Email already exists",
       },
     });
@@ -99,6 +103,7 @@ export const signup: FastifyImp<
     return reply.status(500).send({
       success: false,
       error: {
+        code: "internal_error",
         message: "Something went wrong",
       },
     });

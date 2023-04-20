@@ -23,6 +23,7 @@ export const regenerateAPIToken: FastifyImp<{}, unknown, true> = async (
     reply.status(500).send({
       success: false,
       error: {
+        code: "internal_error",
         message: "Failed to update user",
       },
     });

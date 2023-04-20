@@ -5,6 +5,7 @@ import { eq } from "drizzle-orm/expressions";
 import { z } from "zod";
 import { db } from "../../db";
 import { users } from "../../db/schemas";
+import { fromZodError } from "zod-validation-error";
 
 const deleteMeSchema = z.object({
   password: z.string().min(8),
@@ -19,7 +20,8 @@ export const deleteMe: FastifyImp<{}, unknown, true> = async (
     return reply.status(400).send({
       success: false,
       error: {
-        message: "Invalid body",
+        code: "bad_request",
+        message: fromZodError(body.error).toString(),
         errors: body.error.errors,
       },
     });
@@ -30,6 +32,7 @@ export const deleteMe: FastifyImp<{}, unknown, true> = async (
     return reply.status(400).send({
       success: false,
       error: {
+        code: "bad_request",
         message: "Invalid password",
       },
     });

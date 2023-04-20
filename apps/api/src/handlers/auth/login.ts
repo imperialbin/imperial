@@ -6,6 +6,7 @@ import { users } from "../../db/schemas";
 import { FastifyImp, SelfUser } from "../../types";
 import { AuthSessions } from "../../utils/authSessions";
 import { SES } from "../../utils/aws";
+import { fromZodError } from "zod-validation-error";
 
 const loginSchema = z.object({
   username: z.string().min(1).or(z.string().email()),
@@ -23,7 +24,8 @@ export const login: FastifyImp<
     return reply.status(400).send({
       success: false,
       error: {
-        message: "Invalid body",
+        code: "bad_request",
+        message: fromZodError(body.error).toString(),
         errors: body.error.errors,
       },
     });
@@ -46,6 +48,7 @@ export const login: FastifyImp<
     return reply.status(400).send({
       success: false,
       error: {
+        code: "bad_request",
         message: "Incorrect username or password",
       },
     });
@@ -55,6 +58,7 @@ export const login: FastifyImp<
     return reply.status(400).send({
       success: false,
       error: {
+        code: "bad_request",
         message: "You are banned",
       },
     });
@@ -64,6 +68,7 @@ export const login: FastifyImp<
     return reply.status(400).send({
       success: false,
       error: {
+        code: "bad_request",
         message: "Incorrect username or password",
       },
     });

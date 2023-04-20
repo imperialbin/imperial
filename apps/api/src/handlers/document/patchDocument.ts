@@ -10,6 +10,7 @@ import {
   getLinksObject,
 } from "../../utils/publicObjects";
 import { languageSchema } from "../../utils/schemas";
+import { fromZodError } from "zod-validation-error";
 
 const patchDocumentSchema = z.object({
   id: z.string().min(4).max(36),
@@ -38,7 +39,8 @@ export const patchDocument: FastifyImp<
     return reply.status(400).send({
       success: false,
       error: {
-        message: body.error.message,
+        code: "bad_request",
+        message: fromZodError(body.error).toString(),
         errors: body.error.errors,
       },
     });
@@ -58,6 +60,7 @@ export const patchDocument: FastifyImp<
     return reply.status(404).send({
       success: false,
       error: {
+        code: "not_found",
         message: "Document not found",
       },
     });
@@ -70,6 +73,7 @@ export const patchDocument: FastifyImp<
     return reply.status(403).send({
       success: false,
       error: {
+        code: "bad_auth",
         message: "You are not allowed to edit this document",
       },
     });
@@ -79,6 +83,7 @@ export const patchDocument: FastifyImp<
     return reply.status(400).send({
       success: false,
       error: {
+        code: "bad_request",
         message: "You can not edit an encrypted document",
       },
     });

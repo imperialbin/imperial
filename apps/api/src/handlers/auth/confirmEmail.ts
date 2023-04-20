@@ -5,6 +5,7 @@ import { db } from "../../db";
 import { users } from "../../db/schemas";
 import { FastifyImp } from "../../types";
 import { Redis } from "../../utils/redis";
+import { fromZodError } from "zod-validation-error";
 
 const confirmEmailBody = z.object({
   token: z.string().length(32),
@@ -18,7 +19,8 @@ export const confirmEmail: FastifyImp<{
     return reply.status(400).send({
       success: false,
       error: {
-        message: "Invalid body",
+        code: "bad_request",
+        message: fromZodError(body.error).toString(),
         errors: body.error.errors,
       },
     });
@@ -32,6 +34,7 @@ export const confirmEmail: FastifyImp<{
     return reply.status(400).send({
       success: false,
       error: {
+        code: "bad_request",
         message: "Invalid token",
       },
     });
@@ -43,6 +46,7 @@ export const confirmEmail: FastifyImp<{
     return reply.status(400).send({
       success: false,
       error: {
+        code: "bad_request",
         message: "User no longer exists",
       },
     });
