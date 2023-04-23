@@ -237,7 +237,12 @@ function Nav({ user, document, language, dispatch, editors }: INavProps) {
     );
 
     dispatch(setLanguage(data.settings.language));
-    router.push(`/${data.id}${data.settings.encrypted ? `#${password}` : ""}`);
+    router.push(
+      `/${data.id}${data.settings.encrypted ? `#${password}` : ""}`,
+      undefined,
+      { shallow: true },
+    );
+    dispatch(setReadOnly(true));
   }, [monaco, language, document, user, saving, editors]);
 
   const newDocument = () => {
