@@ -11,11 +11,12 @@ import { permer } from "@imperial/commons";
 import { generateRandomSecureString } from "../../utils/strings";
 import { Redis } from "../../utils/redis";
 import { fromZodError } from "zod-validation-error";
+import { usernameSchema } from "../../utils/schemas";
 
 const signupSchema = z.object({
-  username: z.string().min(1),
+  username: usernameSchema,
   email: z.string().email(),
-  password: z.string().min(8),
+  password: z.string().min(8).max(128),
 });
 
 export const signup: FastifyImp<
@@ -27,11 +28,12 @@ export const signup: FastifyImp<
 > = async (request, reply) => {
   const body = signupSchema.safeParse(request.body);
   if (!body.success) {
+    console.log(fromZodError(body.error));
     return reply.status(400).send({
       success: false,
       error: {
         code: "bad_request",
-        message: fromZodError(body.error).toString(),
+        message: fromZodError(body.error).message,
         errors: body.error.errors,
       },
     });

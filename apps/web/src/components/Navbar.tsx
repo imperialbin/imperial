@@ -237,7 +237,6 @@ function Nav({ user, document, language, dispatch, editors }: INavProps) {
     );
 
     dispatch(setLanguage(data.settings.language));
-
     router.push(`/${data.id}${data.settings.encrypted ? `#${password}` : ""}`);
   }, [monaco, language, document, user, saving, editors]);
 

@@ -97,6 +97,13 @@ const UserRole = styled("span", {
   color: "$text-secondary",
 });
 
+const TileSpan = styled("span", {
+  fontSize: "1em",
+  fontWeight: 600,
+  color: "$text-secondary",
+  width: "100%",
+});
+
 const Tiles = styled("div", {
   display: "grid",
   gridTemplateColumns: "1fr 1fr",
@@ -433,9 +440,9 @@ function UserSettings({ user, dispatch }: ReduxProps & ModalProps) {
             </Tile>
           </Tiles>
           <Subtitle>Recent Documents</Subtitle>
-          <Tiles>
-            {recentDocuments.length > 0 ? (
-              recentDocuments.map((document) => (
+          {recentDocuments.length > 0 ? (
+            <Tiles>
+              {recentDocuments.map((document) => (
                 <Link
                   key={document.id}
                   style={{ display: "inherit" }}
@@ -477,11 +484,11 @@ function UserSettings({ user, dispatch }: ReduxProps & ModalProps) {
                     </span>
                   </Tile>
                 </Link>
-              ))
-            ) : (
-              <span>You have no recent documents</span>
-            )}
-          </Tiles>
+              ))}
+            </Tiles>
+          ) : (
+            <TileSpan>You have no recent documents</TileSpan>
+          )}
           <Button>
             <ArrowLeft color="var(--error)" />
             Logout
