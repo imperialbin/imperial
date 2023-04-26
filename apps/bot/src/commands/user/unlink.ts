@@ -5,9 +5,9 @@ import { db } from "../../db";
 import { users } from "@imperial/internal";
 import { sql } from "drizzle-orm";
 
-export const link: Command = {
-  name: "link",
-  description: "Link your IMPERIAL account with your Discord",
+export const unlink: Command = {
+  name: "unlink",
+  description: "Unlink your IMPERIAL account with your Discord",
   run: async (client, interaction) => {
     const userID = interaction.user.id;
 
@@ -19,40 +19,33 @@ export const link: Command = {
           .where(sql`${users.discord}->>'id' = ${userID}`)
       )?.[0] ?? null;
 
-    if (connectedUser) {
+    if (!connectedUser) {
       return interaction.reply({
         embeds: [
           createEmbed(
             "Oopsie",
-            "You're already connected!",
+            "This Discord account is not connected to an IMPERIAL account.",
             interaction,
-            true,
-            [
-              {
-                inline: true,
-                name: "Relink?",
-                value: `${env.FRONTEND_URL}/link/discord`,
-              },
-            ]
+            true
           ),
         ],
       });
     }
 
+    await db
+      .update(users)
+      .set({
+        discord: null,
+      })
+      .where(sql`${users.discord}->>'id' = ${userID}`);
+
     interaction.reply({
       embeds: [
         createEmbed(
-          "Link your account",
-          "Linking your account is easy, simple click the link below, then your IMPERIAL account will automatically be linked with your Discord account",
+          "Success",
+          "Your Discord account has been unlinked from your IMPERIAL account.",
           interaction,
-          false,
-          [
-            {
-              name: "Link account",
-              value: `${env.FRONTEND_URL}/link/discord`,
-              inline: false,
-            },
-          ]
+          false
         ),
       ],
       ephemeral: true,
