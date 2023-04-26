@@ -22,10 +22,11 @@ export const getDocument: Command = {
     },
   ],
   run: async (client, interaction) => {
+    const userId = interaction.user.id;
     const document = await API.getDocument(
       interaction.options.getString("id", true),
-      "",
-      interaction.options.getString("password") ?? undefined
+      interaction.options.getString("password") ?? undefined,
+      userId
     );
 
     if ("error" in document) {

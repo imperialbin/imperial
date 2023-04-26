@@ -77,6 +77,7 @@ export const createDocument: Command = {
     },
   ],
   run: async (client, interaction) => {
+    const userId = interaction.user.id;
     const options = {
       language: interaction.options.getString("language") ?? "plaintext",
       expiration: interaction.options.getInteger("expiration") ?? 0,
@@ -93,7 +94,7 @@ export const createDocument: Command = {
     const document = await API.createDocument(
       interaction.options.getString("content", true),
       options,
-      ""
+      userId
     );
 
     if ("error" in document) {
@@ -124,7 +125,17 @@ export const createDocument: Command = {
               value: document.links.raw,
               inline: true,
             },
-          ]
+          ].concat(
+            document.settings.encrypted && document.password
+              ? [
+                  {
+                    name: "Password",
+                    value: document.password,
+                    inline: false,
+                  },
+                ]
+              : []
+          )
         ),
       ],
     });

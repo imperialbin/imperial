@@ -1,12 +1,16 @@
 import { Document, Logger } from "@imperial/commons";
 import { ZodError } from "zod";
+import { db } from "../db";
+import { users } from "@imperial/internal";
+import { sql } from "drizzle-orm";
+import { env } from "./env";
 
 class API {
   private static async req<T>(
     method: "POST" | "GET" | "PATCH" | "DELETE" | "PUT",
     endpoint: `/${string}`,
     body?: any,
-    headers?: Record<string, string>
+    headers?: Record<string, any>
   ): Promise<
     | {
         success: true;
@@ -21,7 +25,7 @@ class API {
       }
   > {
     try {
-      const request = fetch(`http://localhost:8080/v1${endpoint}`, {
+      const request = fetch(`${env.API_URL_V1}${endpoint}`, {
         method,
         headers: {
           "Content-Type": "application/json",
@@ -64,9 +68,9 @@ class API {
   public static async createDocument(
     content: string,
     settings: Partial<Document["settings"]>,
-    token: string
+    userId: string
   ) {
-    const document = await this.req<Document>(
+    const document = await this.req<Document & { password?: string }>(
       "POST",
       "/documents",
       {
@@ -74,7 +78,7 @@ class API {
         settings,
       },
       {
-        Authorization: token,
+        Authorization: await this.getApiTokenById(userId),
       }
     );
 
@@ -88,15 +92,15 @@ class API {
 
   public static async getDocument(
     id: string,
-    token: string,
-    password?: string
+    password?: string,
+    userId?: string
   ): Promise<Document | { error: { message: string } }> {
     const document = await this.req<Document>(
       "GET",
       `/documents/${id}?password=${password}`,
       undefined,
       {
-        Authorization: token,
+        Authorization: await this.getApiTokenById(userId ?? ""),
       }
     );
 
@@ -106,6 +110,24 @@ class API {
     }
 
     return document.data;
+  }
+
+  public static async getApiTokenById(userId: string) {
+    const maybeUser =
+      (
+        await db
+          .select({
+            token: users.api_token,
+          })
+          .from(users)
+          .where(sql`${users.discord}->>'id' = ${userId}`)
+      )?.[0] ?? null;
+
+    if (!maybeUser) {
+      return null;
+    }
+
+    return maybeUser.token;
   }
 }
 
