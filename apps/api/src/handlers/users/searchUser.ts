@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { ilike } from "drizzle-orm/expressions";
+import { ilike } from "drizzle-orm";
 import { db } from "../../db";
 import { users } from "../../db/schemas";
 import { FastifyImp, User } from "../../types";

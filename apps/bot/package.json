@@ -18,7 +18,6 @@
   "dependencies": {
     "discord.js": "^14.9.0",
     "dotenv": "^16.0.3",
-    "drizzle-orm": "^0.23.13",
     "pg": "^8.10.0",
     "zod": "^3.21.4"
   }

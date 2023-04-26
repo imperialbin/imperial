@@ -1,6 +1,6 @@
 /* eslint-disable no-negated-condition */
 import { Id, permer } from "@imperial/commons";
-import { eq } from "drizzle-orm/expressions";
+import { eq } from "drizzle-orm";
 import { z } from "zod";
 import { fromZodError } from "zod-validation-error";
 import { db } from "../../db";

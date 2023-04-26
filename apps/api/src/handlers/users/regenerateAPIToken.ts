@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm/expressions";
+import { eq } from "drizzle-orm";
 import { db } from "../../db";
 import { users } from "../../db/schemas";
 import { FastifyImp } from "../../types";

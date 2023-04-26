@@ -31,7 +31,6 @@
     "commons": "*",
     "cron": "^2.3.0",
     "dotenv": "^16.0.3",
-    "drizzle-orm": "^0.23.13",
     "envsafe": "^2.0.3",
     "fastify": "^4.15.0",
     "fastify-plugin": "^4.5.0",

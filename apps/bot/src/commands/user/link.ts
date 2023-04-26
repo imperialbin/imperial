@@ -1,6 +1,9 @@
 import { Command } from "@bot/commands/commands";
 import { createEmbed } from "@bot/utils/embeds";
 import { env } from "@bot/utils/env";
+import { db } from "../../db";
+import { users } from "@imperial/internal";
+import { sql } from "drizzle-orm";
 
 export const link: Command = {
   name: "link",
@@ -8,12 +11,12 @@ export const link: Command = {
   run: async (client, interaction) => {
     const userID = interaction.user.id;
 
-    /*     const connectedUser =
+    const connectedUser =
       (
         await db
           .select()
           .from(users)
-          .where(sql`discord->>'id' = '${userID}'`)
+          .where(sql`${users.discord}->>'id' = ${userID}`)
       )?.[0] ?? null;
 
     if (connectedUser) {
@@ -22,7 +25,7 @@ export const link: Command = {
           createEmbed("Oopsie", "You're already connected!", interaction, true),
         ],
       });
-    } */
+    }
 
     interaction.reply({
       embeds: [

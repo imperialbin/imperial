@@ -2,7 +2,7 @@ import { FastifyImp } from "../../types";
 import { z } from "zod";
 import { db } from "../../db";
 import { users } from "../../db/schemas";
-import { eq } from "drizzle-orm/expressions";
+import { eq } from "drizzle-orm";
 import { fromZodError } from "zod-validation-error";
 
 const patchMeSchema = z.object({

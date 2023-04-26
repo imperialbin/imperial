@@ -1,6 +1,6 @@
 import { Id } from "@imperial/commons";
 import bcrypt from "bcrypt";
-import { eq } from "drizzle-orm/expressions";
+import { eq } from "drizzle-orm";
 import { z } from "zod";
 import { db } from "../../db";
 import { users } from "../../db/schemas";

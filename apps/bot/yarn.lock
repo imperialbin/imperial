@@ -558,66 +558,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"drizzle-orm@npm:^0.23.13":
-  version: 0.23.13
-  resolution: "drizzle-orm@npm:0.23.13"
-  peerDependencies:
-    "@aws-sdk/client-rds-data": ">=3"
-    "@cloudflare/workers-types": ">=3"
-    "@libsql/client": "*"
-    "@neondatabase/serverless": ">=0.1"
-    "@planetscale/database": ">=1"
-    "@types/better-sqlite3": "*"
-    "@types/pg": "*"
-    "@types/sql.js": "*"
-    better-sqlite3: ">=7"
-    bun-types: "*"
-    knex: "*"
-    kysely: "*"
-    mysql2: ">=2"
-    pg: ">=8"
-    postgres: ">=3"
-    sql.js: ">=1"
-    sqlite3: ">=5"
-  peerDependenciesMeta:
-    "@aws-sdk/client-rds-data":
-      optional: true
-    "@cloudflare/workers-types":
-      optional: true
-    "@libsql/client":
-      optional: true
-    "@neondatabase/serverless":
-      optional: true
-    "@planetscale/database":
-      optional: true
-    "@types/better-sqlite3":
-      optional: true
-    "@types/pg":
-      optional: true
-    "@types/sql.js":
-      optional: true
-    better-sqlite3:
-      optional: true
-    bun-types:
-      optional: true
-    knex:
-      optional: true
-    kysely:
-      optional: true
-    mysql2:
-      optional: true
-    pg:
-      optional: true
-    postgres:
-      optional: true
-    sql.js:
-      optional: true
-    sqlite3:
-      optional: true
-  checksum: 16687e2925683869f9290ce895302acdd004d084de93dad45297fd62fbb823de7c4a85246ee84de5b5c56fadb1d7605d956a8c8980e3b72a0a985910be5dfc12
-  languageName: node
-  linkType: hard
-
 "emoji-regex@npm:^8.0.0":
   version: 8.0.0
   resolution: "emoji-regex@npm:8.0.0"
@@ -902,7 +842,6 @@ __metadata:
     "@types/node": ^18.15.11
     discord.js: ^14.9.0
     dotenv: ^16.0.3
-    drizzle-orm: ^0.23.13
     pg: ^8.10.0
     tsx: ^3.12.6
     typescript: ^5.0.4

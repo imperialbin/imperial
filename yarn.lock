@@ -3447,7 +3447,6 @@ __metadata:
     cron: ^2.3.0
     dotenv: ^16.0.3
     drizzle-kit: ^0.17.4
-    drizzle-orm: ^0.23.13
     envsafe: ^2.0.3
     eslint: ">=8.0.0"
     eslint-config-xo: ^0.43.1
@@ -5030,9 +5029,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"drizzle-orm@npm:^0.23.13":
-  version: 0.23.13
-  resolution: "drizzle-orm@npm:0.23.13"
+"drizzle-orm@npm:^0.25.3":
+  version: 0.25.3
+  resolution: "drizzle-orm@npm:0.25.3"
   peerDependencies:
     "@aws-sdk/client-rds-data": ">=3"
     "@cloudflare/workers-types": ">=3"
@@ -5086,7 +5085,7 @@ __metadata:
       optional: true
     sqlite3:
       optional: true
-  checksum: 16687e2925683869f9290ce895302acdd004d084de93dad45297fd62fbb823de7c4a85246ee84de5b5c56fadb1d7605d956a8c8980e3b72a0a985910be5dfc12
+  checksum: 9caa0d68aefee918cb0d5c3aa6e9791a3519a4876da075c1c1676e213ed9afc651315d3801324b254ed33159b7936688dbeff0f2f8edeb5fcbe954d457d7863b
   languageName: node
   linkType: hard
 
@@ -7690,7 +7689,6 @@ eslint-config-turbo@latest:
     "@types/node": ^18.15.11
     discord.js: ^14.9.0
     dotenv: ^16.0.3
-    drizzle-orm: ^0.23.13
     pg: ^8.10.0
     tsx: ^3.12.6
     typescript: ^5.0.4
@@ -7702,6 +7700,7 @@ eslint-config-turbo@latest:
   version: 0.0.0-use.local
   resolution: "imperial@workspace:."
   dependencies:
+    drizzle-orm: ^0.25.3
     eslint-config-custom: "*"
     prettier: latest
     turbo: latest
@@ -7800,7 +7799,6 @@ eslint-config-turbo@latest:
     "@types/cli-color": ^2.0.2
     commons: "*"
     drizzle-kit: ^0.17.4
-    drizzle-orm: ^0.23.13
   languageName: unknown
   linkType: soft
 

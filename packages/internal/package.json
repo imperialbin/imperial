@@ -8,8 +8,7 @@
     "migrate": "drizzle-kit generate:pg"
   },
   "dependencies": {
-    "commons": "*",
-    "drizzle-orm": "^0.23.13"
+    "commons": "*"
   },
   "devDependencies": {
     "@types/cli-color": "^2.0.2",

@@ -1,5 +1,5 @@
 /* eslint-disable complexity */
-import { eq } from "drizzle-orm/expressions";
+import { eq } from "drizzle-orm";
 import { nanoid } from "nanoid";
 import { z } from "zod";
 import { db } from "../../db";

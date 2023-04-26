@@ -1,5 +1,5 @@
 import { Id } from "@imperial/commons";
-import { eq } from "drizzle-orm/expressions";
+import { eq } from "drizzle-orm";
 import { db } from "../db";
 import { devices, documents, users } from "../db/schemas";
 import { User } from "../types";

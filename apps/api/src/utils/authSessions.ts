@@ -1,5 +1,5 @@
 import { Id, pika } from "@imperial/commons";
-import { and, eq, ne } from "drizzle-orm/expressions";
+import { and, eq, ne } from "drizzle-orm";
 import { db } from "../db";
 import { devices, users } from "../db/schemas";
 import { Redis } from "./redis";

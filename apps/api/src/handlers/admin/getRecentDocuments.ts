@@ -1,4 +1,4 @@
-import { desc } from "drizzle-orm/expressions";
+import { desc } from "drizzle-orm";
 import { db } from "../../db";
 import { documents } from "../../db/schemas";
 import { FastifyImp } from "../../types";
