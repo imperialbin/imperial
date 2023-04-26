@@ -28,7 +28,6 @@ export const signup: FastifyImp<
 > = async (request, reply) => {
   const body = signupSchema.safeParse(request.body);
   if (!body.success) {
-    console.log(fromZodError(body.error));
     return reply.status(400).send({
       success: false,
       error: {

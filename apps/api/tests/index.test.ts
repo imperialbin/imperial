@@ -46,7 +46,6 @@ export const ADMIN_AUTH_TOKEN = process.env.ADMIN_AUTH_TOKEN ?? "";
 export let server: Awaited<ReturnType<typeof main>>;
 
 beforeAll(async () => {
-  console.log("huh", server);
   server = await main();
 });
 
