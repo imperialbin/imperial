@@ -1,32 +1,19 @@
-import {
-  createHash,
-  createDecipheriv,
-  createCipheriv,
-  randomBytes,
-} from "crypto";
+import * as CryptoJS from "crypto-js";
 
-const decrypt = (password: string, cipherText: string): string => {
-  const [initVector, text] = cipherText
-    .split("IMPERIAL_ENCRYPTED")[1]
-    .split(":");
-  const hashedPassword = createHash("sha256").update(password).digest();
-  const decipher = createDecipheriv(
-    "aes256",
-    hashedPassword,
-    Buffer.from(initVector, "hex"),
-  );
+const decrypt = (password: string, encryptedIV: string) => {
+  try {
+    const decryptedValue = CryptoJS.AES.decrypt(
+      encryptedIV.split("IMPERIAL_ENCRYPTED")[1],
+      password,
+    ).toString(CryptoJS.enc.Utf8);
 
-  return decipher.update(text, "hex", "utf-8") + decipher.final("utf-8");
+    return decryptedValue.length !== 0 ? decryptedValue : null;
+  } catch {
+    return null;
+  }
 };
 
-const encrypt = (password: string, content: string): string => {
-  const initVector = randomBytes(16);
-
-  const hashedPassword = createHash("sha256").update(password).digest();
-  const cipher = createCipheriv("aes256", hashedPassword, initVector);
-  return `${initVector.toString("hex")}:${
-    cipher.update(content, "utf-8", "hex") + cipher.final("hex")
-  }`;
-};
+const encrypt = (password: string, content: string) =>
+  "IMPERIAL_ENCRYPTED" + CryptoJS.AES.encrypt(content, password).toString();
 
 export { decrypt, encrypt };

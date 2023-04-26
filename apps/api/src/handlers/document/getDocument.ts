@@ -50,7 +50,12 @@ export const getDocument: FastifyImp<
   let { content } = document;
   if (document.settings.encrypted && password) {
     try {
-      content = decrypt(password, document.content);
+      const decrypted = decrypt(password, document.content);
+      if (!decrypted) {
+        throw new Error("routines:EVP_DecryptFinal_ex:bad");
+      }
+
+      content = decrypted;
     } catch (e) {
       // If its not a bad password log
       if (!String(e).includes("routines:EVP_DecryptFinal_ex:bad")) {

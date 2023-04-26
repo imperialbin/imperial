@@ -30,6 +30,7 @@
     "cli-color": "^2.0.3",
     "commons": "*",
     "cron": "^2.3.0",
+    "crypto-js": "^4.1.1",
     "dotenv": "^16.0.3",
     "envsafe": "^2.0.3",
     "fastify": "^4.15.0",
