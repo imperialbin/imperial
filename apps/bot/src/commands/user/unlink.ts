@@ -29,6 +29,7 @@ export const unlink: Command = {
             true
           ),
         ],
+        ephemeral: true,
       });
     }
 

@@ -36,6 +36,7 @@ export const link: Command = {
             ]
           ),
         ],
+        ephemeral: true,
       });
     }
 
