@@ -18,6 +18,7 @@ import { Document } from "@web/types";
 import { supportedLanguages } from "@web/utils/constants";
 import { encrypt, generateSecureString } from "@web/utils/crypto";
 import { makeRequest } from "@web/utils/rest";
+import { setCookie } from "cookies-next";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -237,11 +238,10 @@ function Nav({ user, document, language, dispatch, editors }: INavProps) {
     );
 
     dispatch(setLanguage(data.settings.language));
-    router.push(
-      `/${data.id}${data.settings.encrypted ? `#${password}` : ""}`,
-      undefined,
-      { shallow: true },
-    );
+    setCookie("created-document", JSON.stringify(data), {
+      expires: new Date(Date.now() + 2500),
+    });
+    router.push(`/${data.id}${data.settings.encrypted ? `#${password}` : ""}`);
     dispatch(setReadOnly(true));
   }, [monaco, language, document, user, saving, editors]);
 

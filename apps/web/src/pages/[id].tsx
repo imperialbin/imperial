@@ -24,15 +24,28 @@ export const getServerSideProps: GetServerSideProps<{
     "Cache-Control",
     "public, s-maxage=10, stale-while-revalidate=59",
   );
-  const { data, error } = await makeRequest<DocumentType>(
-    "GET",
-    `/document/${context.params?.id}`,
-  );
+
+  const potentialDocument = JSON.parse(
+    context.req.cookies["created-document"] ?? "null",
+  ) as DocumentType | null;
+
+  if (!potentialDocument) {
+    const { data, error } = await makeRequest<DocumentType>(
+      "GET",
+      `/document/${context.params?.id}`,
+    );
+
+    return {
+      props: {
+        document: data ?? null,
+        error: error ?? null,
+      },
+    };
+  }
 
   return {
     props: {
-      document: data ?? null,
-      error: error ?? null,
+      document: potentialDocument,
     },
   };
 };
