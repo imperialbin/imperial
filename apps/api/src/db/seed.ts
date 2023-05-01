@@ -5,13 +5,13 @@
  *
  */
 
-import { uniqueNamesGenerator, names } from "unique-names-generator";
-import { db, setupDB } from ".";
-import { documents, users } from "./schemas";
 import { pika } from "@imperial/commons";
 import { exit } from "process";
+import { names, uniqueNamesGenerator } from "unique-names-generator";
+import { db, setupDB } from ".";
 import { Logger } from "../utils/logger";
-import { nanoid } from "nanoid";
+import { documentIdGenerator } from "../utils/strings";
+import { documents, users } from "./schemas";
 
 const seed = async () => {
   await setupDB();
@@ -59,7 +59,7 @@ const seed = async () => {
       for (let i = 0; i < Math.floor(Math.random() * 10); i++) {
         docCount++;
         await db.insert(documents).values({
-          id: nanoid(8),
+          id: documentIdGenerator(8),
           content: "Hello, world!",
           creator: user.id,
           created_at: new Date().toISOString(),

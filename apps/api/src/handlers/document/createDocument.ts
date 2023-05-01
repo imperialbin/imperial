@@ -1,6 +1,5 @@
 /* eslint-disable complexity */
 import { eq } from "drizzle-orm";
-import { nanoid } from "nanoid";
 import { z } from "zod";
 import { db } from "../../db";
 import { documents, users } from "../../db/schemas";
@@ -11,7 +10,10 @@ import { guessLanguage } from "../../utils/language";
 import { getLinksObject } from "../../utils/publicObjects";
 import { languageSchema } from "../../utils/schemas";
 import { screenshotDocument } from "../../utils/screenshotDocument";
-import { generateRandomSecureString } from "../../utils/strings";
+import {
+  generateRandomSecureString,
+  documentIdGenerator,
+} from "../../utils/strings";
 import { fromZodError } from "zod-validation-error";
 
 const createDocumentSchema = z.object({
@@ -70,14 +72,14 @@ export const createDocument: FastifyImp<
     };
   }
 
-  let id = nanoid(8);
+  let id = documentIdGenerator(8);
   let { content } = body.data;
 
   // URL configuration
   if (body.data.settings?.short_urls) {
-    id = nanoid(4);
+    id = documentIdGenerator(4);
   } else if (body.data.settings?.long_urls) {
-    id = nanoid(36);
+    id = documentIdGenerator(36);
   }
 
   // Encryption configuration
