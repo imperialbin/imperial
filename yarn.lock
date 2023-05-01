@@ -1604,15 +1604,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@next/eslint-plugin-next@npm:12.3.4":
-  version: 12.3.4
-  resolution: "@next/eslint-plugin-next@npm:12.3.4"
-  dependencies:
-    glob: 7.1.7
-  checksum: e4ae97062f3efe8f70904cf0da296ab501a2924423273352d01b18d8ffff1eb2e9a65c47dd6f9cfa0d696eada272486a3f519b2786918d0a9ab735b93f5ce4b3
-  languageName: node
-  linkType: hard
-
 "@next/eslint-plugin-next@npm:13.1.6":
   version: 13.1.6
   resolution: "@next/eslint-plugin-next@npm:13.1.6"
@@ -3085,7 +3076,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/parser@npm:>=5.43.0, @typescript-eslint/parser@npm:^5.21.0, @typescript-eslint/parser@npm:^5.42.0":
+"@typescript-eslint/parser@npm:>=5.43.0, @typescript-eslint/parser@npm:^5.42.0":
   version: 5.57.1
   resolution: "@typescript-eslint/parser@npm:5.57.1"
   dependencies:
@@ -3533,7 +3524,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"array-includes@npm:^3.1.4, array-includes@npm:^3.1.5, array-includes@npm:^3.1.6":
+"array-includes@npm:^3.1.5, array-includes@npm:^3.1.6":
   version: 3.1.6
   resolution: "array-includes@npm:3.1.6"
   dependencies:
@@ -3565,7 +3556,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"array.prototype.flatmap@npm:^1.2.5, array.prototype.flatmap@npm:^1.3.1":
+"array.prototype.flatmap@npm:^1.3.1":
   version: 1.3.1
   resolution: "array.prototype.flatmap@npm:1.3.1"
   dependencies:
@@ -5707,17 +5698,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-custom@npm:*":
-  version: 0.0.0
-  resolution: "eslint-config-custom@npm:0.0.0"
-  dependencies:
-    eslint-config-next: ^12.0.8
-    eslint-config-prettier: ^8.3.0
-    eslint-plugin-react: 7.28.0
-  checksum: 5547fc411e4deb779ecd293d6d40e552125a356e38762b0e5e96e4d4c8898ac588b396dddc47ce331ca9b363f9dc05286275e45e42d25791910b9a6d17e1d7bd
-  languageName: node
-  linkType: hard
-
 "eslint-config-next@npm:13.1.6":
   version: 13.1.6
   resolution: "eslint-config-next@npm:13.1.6"
@@ -5764,40 +5744,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-next@npm:^12.0.8":
-  version: 12.3.4
-  resolution: "eslint-config-next@npm:12.3.4"
-  dependencies:
-    "@next/eslint-plugin-next": 12.3.4
-    "@rushstack/eslint-patch": ^1.1.3
-    "@typescript-eslint/parser": ^5.21.0
-    eslint-import-resolver-node: ^0.3.6
-    eslint-import-resolver-typescript: ^2.7.1
-    eslint-plugin-import: ^2.26.0
-    eslint-plugin-jsx-a11y: ^6.5.1
-    eslint-plugin-react: ^7.31.7
-    eslint-plugin-react-hooks: ^4.5.0
-  peerDependencies:
-    eslint: ^7.23.0 || ^8.0.0
-    typescript: ">=3.3.1"
-  peerDependenciesMeta:
-    typescript:
-      optional: true
-  checksum: 53cd24d7b764fe382812a5e76571083fe59e892ac88ac5ccddf171e261f5a3ea36cb1c34283f97569c97a4bae51ece5252d5aa71fd130d31ada94310dc4147ee
-  languageName: node
-  linkType: hard
-
-"eslint-config-prettier@npm:^8.3.0":
-  version: 8.8.0
-  resolution: "eslint-config-prettier@npm:8.8.0"
-  peerDependencies:
-    eslint: ">=7.0.0"
-  bin:
-    eslint-config-prettier: bin/cli.js
-  checksum: 1e94c3882c4d5e41e1dcfa2c368dbccbfe3134f6ac7d40101644d3bfbe3eb2f2ffac757f3145910b5eacf20c0e85e02b91293d3126d770cbf3dc390b3564681c
-  languageName: node
-  linkType: hard
-
 "eslint-config-xo-react@npm:^0.27.0":
   version: 0.27.0
   resolution: "eslint-config-xo-react@npm:0.27.0"
@@ -5840,22 +5786,6 @@ __metadata:
     is-core-module: ^2.11.0
     resolve: ^1.22.1
   checksum: 3379aacf1d2c6952c1b9666c6fa5982c3023df695430b0d391c0029f6403a7775414873d90f397e98ba6245372b6c8960e16e74d9e4a3b0c0a4582f3bdbe3d6e
-  languageName: node
-  linkType: hard
-
-"eslint-import-resolver-typescript@npm:^2.7.1":
-  version: 2.7.1
-  resolution: "eslint-import-resolver-typescript@npm:2.7.1"
-  dependencies:
-    debug: ^4.3.4
-    glob: ^7.2.0
-    is-glob: ^4.0.3
-    resolve: ^1.22.0
-    tsconfig-paths: ^3.14.1
-  peerDependencies:
-    eslint: "*"
-    eslint-plugin-import: "*"
-  checksum: 1d81b657b1f73bf95b8f0b745c0305574b91630c1db340318f3ca8918e206fce20a933b95e7c419338cc4452cb80bb2b2d92acaf01b6aa315c78a332d832545c
   languageName: node
   linkType: hard
 
@@ -5946,30 +5876,6 @@ __metadata:
   peerDependencies:
     eslint: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0-0
   checksum: 23001801f14c1d16bf0a837ca7970d9dd94e7b560384b41db378b49b6e32dc43d6e2790de1bd737a652a86f81a08d6a91f402525061b47719328f586a57e86c3
-  languageName: node
-  linkType: hard
-
-"eslint-plugin-react@npm:7.28.0":
-  version: 7.28.0
-  resolution: "eslint-plugin-react@npm:7.28.0"
-  dependencies:
-    array-includes: ^3.1.4
-    array.prototype.flatmap: ^1.2.5
-    doctrine: ^2.1.0
-    estraverse: ^5.3.0
-    jsx-ast-utils: ^2.4.1 || ^3.0.0
-    minimatch: ^3.0.4
-    object.entries: ^1.1.5
-    object.fromentries: ^2.0.5
-    object.hasown: ^1.1.0
-    object.values: ^1.1.5
-    prop-types: ^15.7.2
-    resolve: ^2.0.0-next.3
-    semver: ^6.3.0
-    string.prototype.matchall: ^4.0.6
-  peerDependencies:
-    eslint: ^3 || ^4 || ^5 || ^6 || ^7 || ^8
-  checksum: 90293d0fd53bb1f735ffd32141cdd211fb1120c9f7bbe5342f9e923261a39e52a2b2575d4e46c9cd77d257f42db4a99b8b339689fc5b5c1c26048929f69b1784
   languageName: node
   linkType: hard
 
@@ -7011,7 +6917,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"glob@npm:^7.0.0, glob@npm:^7.1.3, glob@npm:^7.1.4, glob@npm:^7.2.0":
+"glob@npm:^7.0.0, glob@npm:^7.1.3, glob@npm:^7.1.4":
   version: 7.2.3
   resolution: "glob@npm:7.2.3"
   dependencies:
@@ -7530,7 +7436,6 @@ __metadata:
   resolution: "imperial@workspace:."
   dependencies:
     drizzle-orm: ^0.25.3
-    eslint-config-custom: "*"
     prettier: latest
     turbo: latest
   languageName: unknown
@@ -10593,7 +10498,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"object.entries@npm:^1.1.5, object.entries@npm:^1.1.6":
+"object.entries@npm:^1.1.6":
   version: 1.1.6
   resolution: "object.entries@npm:1.1.6"
   dependencies:
@@ -10604,7 +10509,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"object.fromentries@npm:^2.0.5, object.fromentries@npm:^2.0.6":
+"object.fromentries@npm:^2.0.6":
   version: 2.0.6
   resolution: "object.fromentries@npm:2.0.6"
   dependencies:
@@ -10615,7 +10520,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"object.hasown@npm:^1.1.0, object.hasown@npm:^1.1.2":
+"object.hasown@npm:^1.1.2":
   version: 1.1.2
   resolution: "object.hasown@npm:1.1.2"
   dependencies:
@@ -10625,7 +10530,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"object.values@npm:^1.1.5, object.values@npm:^1.1.6":
+"object.values@npm:^1.1.6":
   version: 1.1.6
   resolution: "object.values@npm:1.1.6"
   dependencies:
@@ -11968,7 +11873,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"resolve@npm:^1.1.6, resolve@npm:^1.1.7, resolve@npm:^1.10.0, resolve@npm:^1.22.0, resolve@npm:^1.22.1":
+"resolve@npm:^1.1.6, resolve@npm:^1.1.7, resolve@npm:^1.10.0, resolve@npm:^1.22.1":
   version: 1.22.1
   resolution: "resolve@npm:1.22.1"
   dependencies:
@@ -11994,7 +11899,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"resolve@npm:^2.0.0-next.3, resolve@npm:^2.0.0-next.4":
+"resolve@npm:^2.0.0-next.4":
   version: 2.0.0-next.4
   resolution: "resolve@npm:2.0.0-next.4"
   dependencies:
@@ -12007,7 +11912,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"resolve@patch:resolve@^1.1.6#~builtin<compat/resolve>, resolve@patch:resolve@^1.1.7#~builtin<compat/resolve>, resolve@patch:resolve@^1.10.0#~builtin<compat/resolve>, resolve@patch:resolve@^1.22.0#~builtin<compat/resolve>, resolve@patch:resolve@^1.22.1#~builtin<compat/resolve>":
+"resolve@patch:resolve@^1.1.6#~builtin<compat/resolve>, resolve@patch:resolve@^1.1.7#~builtin<compat/resolve>, resolve@patch:resolve@^1.10.0#~builtin<compat/resolve>, resolve@patch:resolve@^1.22.1#~builtin<compat/resolve>":
   version: 1.22.1
   resolution: "resolve@patch:resolve@npm%3A1.22.1#~builtin<compat/resolve>::version=1.22.1&hash=c3c19d"
   dependencies:
@@ -12033,7 +11938,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"resolve@patch:resolve@^2.0.0-next.3#~builtin<compat/resolve>, resolve@patch:resolve@^2.0.0-next.4#~builtin<compat/resolve>":
+"resolve@patch:resolve@^2.0.0-next.4#~builtin<compat/resolve>":
   version: 2.0.0-next.4
   resolution: "resolve@patch:resolve@npm%3A2.0.0-next.4#~builtin<compat/resolve>::version=2.0.0-next.4&hash=c3c19d"
   dependencies:
@@ -12646,7 +12551,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"string.prototype.matchall@npm:^4.0.6, string.prototype.matchall@npm:^4.0.8":
+"string.prototype.matchall@npm:^4.0.8":
   version: 4.0.8
   resolution: "string.prototype.matchall@npm:4.0.8"
   dependencies:
