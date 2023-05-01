@@ -17,6 +17,8 @@ const Wrapper = styled("div", {
   height: "100vh",
 });
 
+// Deploy
+
 export const getServerSideProps: GetServerSideProps<{
   document: DocumentType | null;
 }> = async (context) => {
