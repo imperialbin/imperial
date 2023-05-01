@@ -16,6 +16,7 @@ import { Info } from "react-feather";
 import { SkeletonTheme } from "react-loading-skeleton";
 import { Provider } from "react-redux";
 import config from "../next-seo.config";
+import DragandDrop from "../components/DragAndDrop";
 
 export default function App({ Component, pageProps }: AppProps) {
   globalStyles();
@@ -55,6 +56,16 @@ export default function App({ Component, pageProps }: AppProps) {
 
     loader.init().then(async (monaco) => {
       monaco.editor.defineTheme("imperial", IMPERIAL_THEME);
+      monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
+        target: monaco.languages.typescript.ScriptTarget.ES2016,
+        allowNonTsExtensions: true,
+        moduleResolution: monaco.languages.typescript.ModuleResolutionKind.NodeJs,
+        module: monaco.languages.typescript.ModuleKind.CommonJS,
+        noEmit: true,
+        typeRoots: ["node_modules/@types"],
+        jsx: monaco.languages.typescript.JsxEmit.React,
+        jsxFactory: "JSXAlone.createElement",
+      });
     });
   }, []);
 
@@ -65,6 +76,7 @@ export default function App({ Component, pageProps }: AppProps) {
           baseColor="var(--bg-contrast)"
           highlightColor="var(--bg-secondary)"
         >
+          <DragandDrop />
           <DefaultSeo {...config} />
           <NotificationsManager />
           <ModalManager />
