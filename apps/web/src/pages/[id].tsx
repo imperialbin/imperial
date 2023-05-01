@@ -80,7 +80,7 @@ function Document({ document }: InferProps) {
             document?.settings?.encrypted ? " 🔐" : ""
           }`,
           siteName: document.timestamps.expiration
-            ? `Deletes on ${dayjs(document.timestamps.expiration).format("L")}`
+            ? `Deletes on ${dayjs(document.timestamps.expiration).format("DD/MM/YYYY")}`
             : "Never expires",
           images: [
             {

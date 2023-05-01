@@ -1,4 +1,3 @@
-/* eslint-disable turbo/no-undeclared-env-vars */
 /**
  * Migration scripts to migrate from MongoDB to PostgreSQL
  *
