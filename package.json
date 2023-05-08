@@ -78,7 +78,7 @@
     "node-fetch": "^2.6.1",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
-    "puppeteer": "^9.0.0",
+    "puppeteer": "^20.1.1",
     "qrcode": "^1.4.4",
     "querystring": "^0.2.1",
     "rate-limit-redis": "^2.1.0",
