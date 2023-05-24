@@ -11,6 +11,6 @@ const usernameSchema = z
   .string()
   .min(1)
   .max(64)
-  .regex(/^[a-zA-Z0-9_]+$/, { message: "Username must be alphanumeric" });
+  .regex(/^[a-zA-Z0-9_-]+$/, { message: "Username must be alphanumeric" });
 
 export { languageSchema, usernameSchema };
