@@ -3,6 +3,12 @@ import { setupDB } from "@bot/db";
 import { env } from "@bot/utils/env";
 import { Logger } from "@imperial/commons";
 import { ChatInputCommandInteraction, Client, Interaction } from "discord.js";
+import Sentry from "@sentry/node";
+
+Sentry.init({
+  dsn: env.SENTRY_DSN,
+  tracesSampleRate: 1.0,
+});
 
 const client = new Client({
   intents: [],
