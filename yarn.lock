@@ -3395,7 +3395,7 @@ __metadata:
     cron: ^2.3.0
     crypto-js: ^4.1.1
     dotenv: ^16.0.3
-    drizzle-kit: ^0.17.4
+    drizzle-kit: ^0.18.0
     envsafe: ^2.0.3
     eslint: ">=8.0.0"
     eslint-config-xo: ^0.43.1
@@ -4952,9 +4952,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"drizzle-kit@npm:^0.17.4":
-  version: 0.17.4
-  resolution: "drizzle-kit@npm:0.17.4"
+"drizzle-kit@npm:^0.18.0":
+  version: 0.18.0
+  resolution: "drizzle-kit@npm:0.18.0"
   dependencies:
     camelcase: ^7.0.1
     chalk: ^5.2.0
@@ -4964,16 +4964,17 @@ __metadata:
     glob: ^8.1.0
     hanji: ^0.0.5
     json-diff: 0.9.0
+    minimatch: ^7.4.3
     zod: ^3.20.2
   bin:
     drizzle-kit: index.js
-  checksum: 35117bf8f7660618c651f5046faf0778de592a75ff5bbe07a3a91630bf1bf3a5066138fd58f414d10f073914f86658b828aeec925a50d3e149fc0c5f0b5b6966
+  checksum: 52a3e705b707841be2dba8eb2f7b8f680ae7618f4f65edf821bab8629f328e69734bddbc182ed910470762be01dbfa6d7c48ebb7a556c59a7bd332415d2e18e7
   languageName: node
   linkType: hard
 
-"drizzle-orm@npm:^0.25.3":
-  version: 0.25.3
-  resolution: "drizzle-orm@npm:0.25.3"
+"drizzle-orm@npm:^0.26.0":
+  version: 0.26.0
+  resolution: "drizzle-orm@npm:0.26.0"
   peerDependencies:
     "@aws-sdk/client-rds-data": ">=3"
     "@cloudflare/workers-types": ">=3"
@@ -4983,6 +4984,7 @@ __metadata:
     "@types/better-sqlite3": "*"
     "@types/pg": "*"
     "@types/sql.js": "*"
+    "@vercel/postgres": "*"
     better-sqlite3: ">=7"
     bun-types: "*"
     knex: "*"
@@ -5009,6 +5011,8 @@ __metadata:
       optional: true
     "@types/sql.js":
       optional: true
+    "@vercel/postgres":
+      optional: true
     better-sqlite3:
       optional: true
     bun-types:
@@ -5027,7 +5031,7 @@ __metadata:
       optional: true
     sqlite3:
       optional: true
-  checksum: 9caa0d68aefee918cb0d5c3aa6e9791a3519a4876da075c1c1676e213ed9afc651315d3801324b254ed33159b7936688dbeff0f2f8edeb5fcbe954d457d7863b
+  checksum: 47369b0190c6dc135652c550da7cfc8cb767baa0cdcdaf333c2cca711d4aedd8e55464de5e1bdde55ffe9a591a28a6a055ce923c8e100e7e313b0206766da025
   languageName: node
   linkType: hard
 
@@ -7435,7 +7439,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "imperial@workspace:."
   dependencies:
-    drizzle-orm: ^0.25.3
+    drizzle-orm: ^0.26.0
     prettier: latest
     turbo: latest
   languageName: unknown
@@ -7532,7 +7536,7 @@ __metadata:
   dependencies:
     "@types/cli-color": ^2.0.2
     commons: "*"
-    drizzle-kit: ^0.17.4
+    drizzle-kit: ^0.18.0
   languageName: unknown
   linkType: soft
 
@@ -9802,6 +9806,15 @@ __metadata:
   dependencies:
     brace-expansion: ^2.0.1
   checksum: 7564208ef81d7065a370f788d337cd80a689e981042cb9a1d0e6580b6c6a8c9279eba80010516e258835a988363f99f54a6f711a315089b8b42694f5da9d0d77
+  languageName: node
+  linkType: hard
+
+"minimatch@npm:^7.4.3":
+  version: 7.4.6
+  resolution: "minimatch@npm:7.4.6"
+  dependencies:
+    brace-expansion: ^2.0.1
+  checksum: 1a6c8d22618df9d2a88aabeef1de5622eb7b558e9f8010be791cb6b0fa6e102d39b11c28d75b855a1e377b12edc7db8ff12a99c20353441caa6a05e78deb5da9
   languageName: node
   linkType: hard
 

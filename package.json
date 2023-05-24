@@ -22,6 +22,6 @@
   },
   "packageManager": "yarn@3.5.0",
   "dependencies": {
-    "drizzle-orm": "^0.25.3"
+    "drizzle-orm": "^0.26.0"
   }
 }

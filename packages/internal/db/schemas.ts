@@ -13,6 +13,7 @@ import {
   Id,
   SupportedLanguagesID,
 } from "@imperial/commons";
+import { relations } from "drizzle-orm";
 
 export const users = pgTable("users", {
   id: text("id").primaryKey().$type<Id<"user">>(),
@@ -30,6 +31,11 @@ export const users = pgTable("users", {
   github: json("github").$type<GitHubUser>(),
   discord: json("discord").$type<DiscordUser>(),
 });
+
+export const usersRelations = relations(users, ({ many }) => ({
+  documents: many(documents),
+  devices: many(devices),
+}));
 
 export const documents = pgTable("documents", {
   id: text("id").primaryKey(),
@@ -59,6 +65,13 @@ export const documents = pgTable("documents", {
     .notNull(),
 });
 
+export const documentsRelations = relations(documents, ({ one }) => ({
+  creator: one(users, {
+    fields: [documents.creator],
+    references: [users.id],
+  }),
+}));
+
 export const devices = pgTable("devices", {
   id: text("id").primaryKey(),
   user: text("user")
@@ -69,6 +82,13 @@ export const devices = pgTable("devices", {
   auth_token: text("auth_token").notNull().$type<Id<"imperial_auth">>(),
   created_at: text("created_at").notNull(),
 });
+
+export const devicesRelations = relations(devices, ({ one }) => ({
+  user: one(users, {
+    fields: [devices.user],
+    references: [users.id],
+  }),
+}));
 
 export const memberPlusTokens = pgTable("member_plus_tokens", {
   id: text("id").primaryKey().$type<Id<"member_plus">>(),
