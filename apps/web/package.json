@@ -24,6 +24,7 @@
     "lodash": "^4.17.21",
     "monaco-editor": "^0.36.1",
     "next": "13.1.6",
+    "next-progress": "^2.3.1",
     "next-seo": "^5.15.0",
     "react": "18.2.0",
     "react-copy-to-clipboard": "^5.1.0",

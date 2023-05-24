@@ -17,6 +17,7 @@ import { SkeletonTheme } from "react-loading-skeleton";
 import { Provider } from "react-redux";
 import config from "../next-seo.config";
 import DragandDrop from "../components/DragAndDrop";
+import NextProgress from "next-progress";
 
 export default function App({ Component, pageProps }: AppProps) {
   globalStyles();
@@ -76,6 +77,8 @@ export default function App({ Component, pageProps }: AppProps) {
           baseColor="var(--bg-contrast)"
           highlightColor="var(--bg-secondary)"
         >
+          <NextProgress color="var(--text-secondary)" options={{ showSpinner: false }} />
+
           <DragandDrop />
           <DefaultSeo {...config} />
           <NotificationsManager />

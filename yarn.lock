@@ -10148,6 +10148,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"next-progress@npm:^2.3.1":
+  version: 2.3.1
+  resolution: "next-progress@npm:2.3.1"
+  dependencies:
+    nprogress: ^0.2.0
+  peerDependencies:
+    next: ">=6.0.0"
+    react: ">=16.0.0"
+  checksum: 1e0018ed850677830bf5ee7fa10ac9060363456d8574b36393fc39f8bca85ce11695cccf6870fdc713ad25d9860ece06d2de6cfc6307e57fe85c2e5c510d5eef
+  languageName: node
+  linkType: hard
+
 "next-seo@npm:^5.15.0, next-seo@npm:^5.5.0":
   version: 5.15.0
   resolution: "next-seo@npm:5.15.0"
@@ -10514,6 +10526,13 @@ __metadata:
     gauge: ^4.0.3
     set-blocking: ^2.0.0
   checksum: ae238cd264a1c3f22091cdd9e2b106f684297d3c184f1146984ecbe18aaa86343953f26b9520dedd1b1372bc0316905b736c1932d778dbeb1fcf5a1001390e2a
+  languageName: node
+  linkType: hard
+
+"nprogress@npm:^0.2.0":
+  version: 0.2.0
+  resolution: "nprogress@npm:0.2.0"
+  checksum: 66b7bec5d563ecf2d1c3d2815e6d5eb74ed815eee8563e0afa63d3f185ab1b9cf2ddd97e1ded263b9995c5019d26d600320e849e50f3747984daa033744619dc
   languageName: node
   linkType: hard
 
@@ -13918,6 +13937,7 @@ turbo@latest:
     lodash: ^4.17.21
     monaco-editor: ^0.36.1
     next: 13.1.6
+    next-progress: ^2.3.1
     next-seo: ^5.15.0
     react: 18.2.0
     react-copy-to-clipboard: ^5.1.0
