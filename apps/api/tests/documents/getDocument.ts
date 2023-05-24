@@ -35,6 +35,7 @@ export default async () => {
   expect(resEncryptedWrongPassword.statusCode).toBe(400);
   expect(resEncryptedWrongPassword.json()).toHaveProperty("success", false);
   expect(resEncryptedWrongPassword.json()).toHaveProperty("error", {
+    code: "bad_request",
     message: "Invalid password",
   });
 

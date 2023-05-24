@@ -1,4 +1,4 @@
-import { AUTH_TOKEN, BUDDY_USER, CREATED_USER } from "../auth/register";
+import { AUTH_TOKEN, BUDDY_USER } from "../auth/register";
 import { server } from "../index.test";
 
 export default async () => {
@@ -10,7 +10,8 @@ export default async () => {
   expect(resNoAuth.statusCode).toBe(401);
   expect(resNoAuth.json()).toHaveProperty("success", false);
   expect(resNoAuth.json()).toHaveProperty("error", {
-    message: "Unauthorized",
+    code: "unauthorized",
+    message: "You must be authenticated to access this route",
   });
 
   const resNoUser = await server.inject({

@@ -16,6 +16,7 @@ export default async () => {
 
   expect(resBadUsername.json()).toHaveProperty("success", false);
   expect(resBadUsername.json()).toHaveProperty("error", {
+    code: "bad_request",
     message: "Incorrect username or password",
   });
 
@@ -30,6 +31,7 @@ export default async () => {
 
   expect(resBadPassword.json()).toHaveProperty("success", false);
   expect(resBadPassword.json()).toHaveProperty("error", {
+    code: "bad_request",
     message: "Incorrect username or password",
   });
 

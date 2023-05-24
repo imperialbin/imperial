@@ -10,7 +10,8 @@ export default async () => {
   expect(resNoAuth.statusCode).toBe(401);
   expect(resNoAuth.json()).toHaveProperty("success", false);
   expect(resNoAuth.json()).toHaveProperty("error", {
-    message: "Unauthorized",
+    code: "unauthorized",
+    message: "You must be authenticated to access this route",
   });
 
   const resBadPassword = await server.inject({
@@ -27,6 +28,7 @@ export default async () => {
   expect(resBadPassword.statusCode).toBe(400);
   expect(resBadPassword.json()).toHaveProperty("success", false);
   expect(resBadPassword.json()).toHaveProperty("error", {
+    code: "bad_request",
     message: "Invalid password",
   });
 

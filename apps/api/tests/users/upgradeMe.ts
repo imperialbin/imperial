@@ -11,7 +11,8 @@ export default async () => {
   expect(resNoAuth.statusCode).toBe(401);
   expect(resNoAuth.json()).toHaveProperty("success", false);
   expect(resNoAuth.json()).toHaveProperty("error", {
-    message: "Unauthorized",
+    code: "unauthorized",
+    message: "You must be authenticated to access this route",
   });
 
   const resBadToken = await server.inject({

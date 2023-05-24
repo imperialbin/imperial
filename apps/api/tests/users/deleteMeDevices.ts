@@ -11,7 +11,8 @@ export default async () => {
   expect(resNoAuth.statusCode).toBe(401);
   expect(resNoAuth.json()).toHaveProperty("success", false);
   expect(resNoAuth.json()).toHaveProperty("error", {
-    message: "Unauthorized",
+    code: "unauthorized",
+    message: "You must be authenticated to access this route",
   });
 
   const resNoDeviceFound = await server.inject({
@@ -29,6 +30,7 @@ export default async () => {
   expect(resNoDeviceFound.statusCode).toBe(404);
   expect(resNoDeviceFound.json()).toHaveProperty("success", false);
   expect(resNoDeviceFound.json()).toHaveProperty("error", {
+    code: "not_found",
     message: "Device not found",
   });
 
@@ -47,6 +49,7 @@ export default async () => {
   expect(resBadPassword.statusCode).toBe(401);
   expect(resBadPassword.json()).toHaveProperty("success", false);
   expect(resBadPassword.json()).toHaveProperty("error", {
+    code: "bad_request",
     message: "Incorrect password",
   });
 

@@ -14,7 +14,8 @@ export default async () => {
   expect(resNoAuth.statusCode).toBe(401);
   expect(resNoAuth.json()).toHaveProperty("success", false);
   expect(resNoAuth.json()).toHaveProperty("error", {
-    message: "Unauthorized",
+    code: "unauthorized",
+    message: "You must be authenticated to access this route",
   });
 
   // Test to make have bad credentials
@@ -33,6 +34,7 @@ export default async () => {
   expect(resWrongPassword.statusCode).toBe(400);
   expect(resWrongPassword.json()).toHaveProperty("success", false);
   expect(resWrongPassword.json()).toHaveProperty("error", {
+    code: "bad_request",
     message: "Invalid password",
   });
 

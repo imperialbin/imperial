@@ -14,7 +14,8 @@ export default async () => {
   expect(resNoAuth.statusCode).toBe(401);
   expect(resNoAuth.json()).toHaveProperty("success", false);
   expect(resNoAuth.json()).toHaveProperty("error", {
-    message: "Unauthorized",
+    code: "unauthorized",
+    message: "You must be an admin to access this route",
   });
 
   const resNoAdmin = await server.inject({
@@ -31,7 +32,8 @@ export default async () => {
   expect(resNoAdmin.statusCode).toBe(401);
   expect(resNoAdmin.json()).toHaveProperty("success", false);
   expect(resNoAdmin.json()).toHaveProperty("error", {
-    message: "Unauthorized",
+    code: "unauthorized",
+    message: "You must be an admin to access this route",
   });
 
   const resWrongID = await server.inject({
@@ -48,6 +50,7 @@ export default async () => {
   expect(resWrongID.statusCode).toBe(404);
   expect(resWrongID.json()).toHaveProperty("success", false);
   expect(resWrongID.json()).toHaveProperty("error", {
+    code: "not_found",
     message: "User not found",
   });
 

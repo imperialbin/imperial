@@ -1,6 +1,6 @@
 import { SelfUser } from "@imperial/commons";
 import { server } from "../index.test";
-import { nanoid } from "nanoid";
+import { customAlphabet } from "nanoid";
 
 export let CREATED_USER: SelfUser;
 export let BUDDY_USER: SelfUser;
@@ -8,9 +8,11 @@ export let BUDDY_USER: SelfUser;
 export let AUTH_TOKEN = "";
 export let BUDDY_AUTH_TOKEN = "";
 
+const alphanumericUsername = customAlphabet("abcdefghijklmnopqrstuvwxyz", 5);
+
 export default async () => {
-  const created_username = `unit-test-${nanoid(5)}`;
-  const buddy_username = `unit-test-buddy-${nanoid(5)}`;
+  const created_username = `unit-test-${alphanumericUsername(5)}`;
+  const buddy_username = `unit-test-buddy-${alphanumericUsername(5)}`;
 
   const res = await server.inject({
     method: "POST",
@@ -44,6 +46,7 @@ export default async () => {
 
   expect(resUsernameExists.json()).toHaveProperty("success", false);
   expect(resUsernameExists.json()).toHaveProperty("error", {
+    code: "bad_request",
     message: "Username already exists",
   });
 
@@ -59,6 +62,7 @@ export default async () => {
 
   expect(resEmailExists.json()).toHaveProperty("success", false);
   expect(resEmailExists.json()).toHaveProperty("error", {
+    code: "bad_request",
     message: "Email already exists",
   });
 

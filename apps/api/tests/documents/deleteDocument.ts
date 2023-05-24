@@ -11,7 +11,8 @@ export default async () => {
   expect(resNoAuth.statusCode).toBe(401);
   expect(resNoAuth.json()).toHaveProperty("success", false);
   expect(resNoAuth.json()).toHaveProperty("error", {
-    message: "Unauthorized",
+    code: "unauthorized",
+    message: "You must be authenticated to access this route",
   });
 
   const resNoDocument = await server.inject({
@@ -25,6 +26,7 @@ export default async () => {
   expect(resNoDocument.statusCode).toBe(404);
   expect(resNoDocument.json()).toHaveProperty("success", false);
   expect(resNoDocument.json()).toHaveProperty("error", {
+    code: "not_found",
     message: "Document not found",
   });
 

@@ -1,7 +1,7 @@
 import { main } from "../src/server";
 import createMemberPlusToken from "./admin/createMemberPlusToken";
 import getRecentDocuments from "./admin/getRecentDocuments";
-import getUser from "./admin/getUser";
+import getUserAdmin from "./admin/getUser";
 import patchUser from "./admin/patchUser";
 import forgot from "./auth/forgot";
 import login from "./auth/login";
@@ -19,6 +19,7 @@ import deleteMe from "./users/deleteMe";
 import getMe from "./users/getMe";
 import getMeDevices from "./users/getMeDevices";
 import getMeRecentDocuments from "./users/getMeRecentDocuments";
+import getUser from "./users/getUser";
 import patchMe from "./users/patchMe";
 import regenerateAPIToken from "./users/regenerateAPIToken";
 import searchUser from "./users/searchUser";
@@ -40,7 +41,6 @@ import upgradeMe from "./users/upgradeMe";
  *
  */
 
-// eslint-disable-next-line turbo/no-undeclared-env-vars
 export const ADMIN_AUTH_TOKEN = process.env.ADMIN_AUTH_TOKEN ?? "";
 
 export let server: Awaited<ReturnType<typeof main>>;
@@ -76,7 +76,7 @@ describe("Test IMPERIAL API", () => {
     test("Can create member+ tokens", createMemberPlusToken);
     test("Can get recent documents", getRecentDocuments);
     test("Can patch user", patchUser);
-    test("Can get user", getUser);
+    test("Can get user", getUserAdmin);
   } else {
     console.warn("ADMIN_AUTH_TOKEN not set, skipping admin tests");
   }

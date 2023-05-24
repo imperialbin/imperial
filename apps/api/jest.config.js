@@ -4,5 +4,6 @@ module.exports = {
   testEnvironment: "node",
   moduleNameMapper: {
     "@imperial/commons": "<rootDir>/../../packages/commons",
+    "@imperial/internal": "<rootDir>/../../packages/internal",
   },
 };

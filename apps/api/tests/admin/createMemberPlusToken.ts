@@ -14,7 +14,8 @@ export default async () => {
   expect(resNoAuth.statusCode).toBe(401);
   expect(resNoAuth.json()).toHaveProperty("success", false);
   expect(resNoAuth.json()).toHaveProperty("error", {
-    message: "Unauthorized",
+    code: "unauthorized",
+    message: "You must be an admin to access this route",
   });
 
   const resNoAdmin = await server.inject({
@@ -28,7 +29,8 @@ export default async () => {
   expect(resNoAdmin.statusCode).toBe(401);
   expect(resNoAdmin.json()).toHaveProperty("success", false);
   expect(resNoAdmin.json()).toHaveProperty("error", {
-    message: "Unauthorized",
+    code: "unauthorized",
+    message: "You must be an admin to access this route",
   });
 
   const res = await server.inject({

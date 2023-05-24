@@ -12,7 +12,8 @@ export default async () => {
   expect(resNoAuth.statusCode).toBe(401);
   expect(resNoAuth.json()).toHaveProperty("success", false);
   expect(resNoAuth.json()).toHaveProperty("error", {
-    message: "Unauthorized",
+    code: "unauthorized",
+    message: "You must be authenticated to access this route",
   });
 
   const resBadAuth = await server.inject({
@@ -26,7 +27,8 @@ export default async () => {
   expect(resBadAuth.statusCode).toBe(401);
   expect(resBadAuth.json()).toHaveProperty("success", false);
   expect(resBadAuth.json()).toHaveProperty("error", {
-    message: "Unauthorized",
+    code: "unauthorized",
+    message: "You must be authenticated to access this route",
   });
 
   const resBadWithAPIToken = await server.inject({
@@ -40,6 +42,7 @@ export default async () => {
   expect(resBadWithAPIToken.statusCode).toBe(400);
   expect(resBadWithAPIToken.json()).toHaveProperty("success", false);
   expect(resBadWithAPIToken.json()).toHaveProperty("error", {
+    code: "bad_request",
     message: "You can not log out an API token",
   });
 

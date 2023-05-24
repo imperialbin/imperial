@@ -1,4 +1,4 @@
-import { AUTH_TOKEN, BUDDY_USER, CREATED_USER } from "../auth/register";
+import { AUTH_TOKEN, BUDDY_USER } from "../auth/register";
 import { server } from "../index.test";
 
 export default async () => {
@@ -10,7 +10,8 @@ export default async () => {
   expect(resNoAuth.statusCode).toBe(401);
   expect(resNoAuth.json()).toHaveProperty("success", false);
   expect(resNoAuth.json()).toHaveProperty("error", {
-    message: "Unauthorized",
+    code: "unauthorized",
+    message: "You must be authenticated to access this route",
   });
 
   const resNoUser = await server.inject({
@@ -24,6 +25,7 @@ export default async () => {
   expect(resNoUser.statusCode).toBe(404);
   expect(resNoUser.json()).toHaveProperty("success", false);
   expect(resNoUser.json()).toHaveProperty("error", {
+    code: "not_found",
     message: "User not found",
   });
 
@@ -38,7 +40,8 @@ export default async () => {
   expect(res.statusCode).toBe(200);
   expect(res.json()).toHaveProperty("success", true);
   expect(res.json()).toHaveProperty("data");
-  expect(res.json().data).toBe({
+
+  expect(res.json().data).toStrictEqual({
     id: BUDDY_USER.id,
     username: BUDDY_USER.username,
     documents_made: 0,
