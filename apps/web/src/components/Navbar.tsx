@@ -212,9 +212,9 @@ function Nav({ user, document, language, dispatch, editors }: INavProps) {
         },
       },
     );
-    setSaving(false);
 
     if (!success || !data) {
+      setSaving(false);
       dispatch(setReadOnly(false));
 
       return dispatch(
