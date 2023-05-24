@@ -15,6 +15,7 @@ import {
   documentIdGenerator,
 } from "../../utils/strings";
 import { fromZodError } from "zod-validation-error";
+import { env } from "../../utils/env";
 
 const createDocumentSchema = z.object({
   content: z.string().min(1),
@@ -56,7 +57,7 @@ export const createDocument: FastifyImp<
   }
 
   // If they are not logged in dont allow any settings, but let them set the language
-  if (!request.user?.confirmed) {
+  if ((env.PRODUCTION && !request.user?.confirmed) || !request.user) {
     body.data.settings = {
       language: body.data.settings?.language ?? "plaintext",
       expiration: 7,
