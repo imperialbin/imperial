@@ -15,6 +15,9 @@ jobs:
           node-version: 14.x
 
       - name: Install deps
+        run: yarn install
+
+      - name: Install deps again :3
         run: yarn install:all
 
       - name: Run ESLint
