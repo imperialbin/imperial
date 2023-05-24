@@ -3,7 +3,7 @@ import { setupDB } from "@bot/db";
 import { env } from "@bot/utils/env";
 import { Logger } from "@imperial/commons";
 import { ChatInputCommandInteraction, Client, Interaction } from "discord.js";
-import Sentry from "@sentry/node";
+import * as Sentry from "@sentry/node";
 
 Sentry.init({
   dsn: env.SENTRY_DSN,

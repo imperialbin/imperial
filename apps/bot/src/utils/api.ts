@@ -80,7 +80,14 @@ class API {
       {
         Authorization: await this.getApiTokenById(userId),
       }
-    );
+    ).catch((err) => {
+      return {
+        success: false,
+        error: {
+          message: String(err),
+        },
+      } as const;
+    });
 
     if (!document.success) {
       Logger.error("API", document.error.message);
@@ -102,7 +109,14 @@ class API {
       {
         Authorization: await this.getApiTokenById(userId ?? ""),
       }
-    );
+    ).catch((err) => {
+      return {
+        success: false,
+        error: {
+          message: String(err),
+        },
+      } as const;
+    });
 
     if (!document.success) {
       Logger.error("API", document.error.message);
