@@ -1,17 +1,17 @@
 {
   "name": "imperial",
-  "version": "0.0.0",
-  "private": true,
+  "version": "1.0.0",
   "workspaces": [
     "apps/*",
     "packages/*"
   ],
   "scripts": {
     "start": "turbo start",
-    "build": "turbo run build",
-    "dev": "docker-compose up -d && turbo run dev",
-    "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "build": "turbo build",
+    "dev": "docker-compose up -d && turbo dev",
+    "lint": "turbo lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "install:all": "yarn workspaces foreach install"
   },
   "devDependencies": {
     "prettier": "latest",

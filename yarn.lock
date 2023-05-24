@@ -1446,7 +1446,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@monaco-editor/loader@npm:^1.3.2":
+"@monaco-editor/loader@npm:^1.3.3":
   version: 1.3.3
   resolution: "@monaco-editor/loader@npm:1.3.3"
   dependencies:
@@ -1458,16 +1458,15 @@ __metadata:
   linkType: hard
 
 "@monaco-editor/react@npm:^4.4.6":
-  version: 4.4.6
-  resolution: "@monaco-editor/react@npm:4.4.6"
+  version: 4.5.1
+  resolution: "@monaco-editor/react@npm:4.5.1"
   dependencies:
-    "@monaco-editor/loader": ^1.3.2
-    prop-types: ^15.7.2
+    "@monaco-editor/loader": ^1.3.3
   peerDependencies:
     monaco-editor: ">= 0.25.0 < 1"
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-  checksum: cb25b5ce153608c2a4291390456488e100c5e3ac48a913875c98182836e2a9f315d4f96e85cf6f7d4b1eadff8d08d13356e38891b472894155bcb2c4aeaf3b1c
+  checksum: 989b98f5750f0b0ad54dc1dd7da8e92c67fcab55e89e26465ab7312fae87b3795f2e4603e7979e9545b7ad5d00fbcb3f21d20144d9e7eafa6f6989a76ad78c3a
   languageName: node
   linkType: hard
 
@@ -2267,13 +2266,13 @@ __metadata:
   linkType: hard
 
 "@reduxjs/toolkit@npm:^1.9.2":
-  version: 1.9.3
-  resolution: "@reduxjs/toolkit@npm:1.9.3"
+  version: 1.9.5
+  resolution: "@reduxjs/toolkit@npm:1.9.5"
   dependencies:
-    immer: ^9.0.16
-    redux: ^4.2.0
+    immer: ^9.0.21
+    redux: ^4.2.1
     redux-thunk: ^2.4.2
-    reselect: ^4.1.7
+    reselect: ^4.1.8
   peerDependencies:
     react: ^16.9.0 || ^17.0.0 || ^18
     react-redux: ^7.2.1 || ^8.0.2
@@ -2282,7 +2281,7 @@ __metadata:
       optional: true
     react-redux:
       optional: true
-  checksum: d965fc6197fd420e4b8eb714015aa908d4ea214e6e10889cf4521e64ac4f8e0a7de29ee4e8da63b291acc40ac330dd31682334090d54838add73c746dc590650
+  checksum: 54672c5593d05208af577e948a338f23128d3aa01ef056ab0d40bcfa14400cf6566be99e11715388f12c1d7655cdf7c5c6b63cb92eb0fecf996c454a46a3914c
   languageName: node
   linkType: hard
 
@@ -2859,9 +2858,9 @@ __metadata:
   linkType: hard
 
 "@types/lodash@npm:^4.14.191":
-  version: 4.14.192
-  resolution: "@types/lodash@npm:4.14.192"
-  checksum: 31e1f0543a04158d2c429c45efd7c77882736630d0652f82eb337d6159ec0c249c5d175c0af731537b53271e665ff8d76f43221d75d03646d31cb4bd6f0056b1
+  version: 4.14.194
+  resolution: "@types/lodash@npm:4.14.194"
+  checksum: 113f34831c461469d91feca2dde737f88487732898b4d25e9eb23b087bb193985f864d1e1e0f3b777edc5022e460443588b6000a3b2348c966f72d17eedc35ea
   languageName: node
   linkType: hard
 
@@ -7470,7 +7469,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"immer@npm:^9.0.16":
+"immer@npm:^9.0.21":
   version: 9.0.21
   resolution: "immer@npm:9.0.21"
   checksum: 70e3c274165995352f6936695f0ef4723c52c92c92dd0e9afdfe008175af39fa28e76aafb3a2ca9d57d1fb8f796efc4dd1e1cc36f18d33fa5b74f3dfb0375432
@@ -11551,11 +11550,11 @@ __metadata:
   linkType: hard
 
 "react-loading-skeleton@npm:^3.1.1":
-  version: 3.2.0
-  resolution: "react-loading-skeleton@npm:3.2.0"
+  version: 3.3.1
+  resolution: "react-loading-skeleton@npm:3.3.1"
   peerDependencies:
     react: ">=16.8.0"
-  checksum: 0da0d6747191696aee37aa202bb09af72316f7ddb6b5e7c7d82beaa7f06a6e931814f0f0d8e4536524985cb9c26f15ec95420e0463d8e9a3698dfdade20eb4ee
+  checksum: 0de3437a5da8b7133bf86043e4e002e5422b50cd71b9a650f2947a89ace39be8b7c61a098f1d7dd0be559dc3ac293d60697fdae23cb09c3905b2952e1a68693d
   languageName: node
   linkType: hard
 
@@ -11742,7 +11741,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"redux@npm:^4.2.0, redux@npm:^4.2.1":
+"redux@npm:^4.2.1":
   version: 4.2.1
   resolution: "redux@npm:4.2.1"
   dependencies:
@@ -11906,10 +11905,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"reselect@npm:^4.1.7":
-  version: 4.1.7
-  resolution: "reselect@npm:4.1.7"
-  checksum: 738d8e2b8f0dca154ad29de6a209c9fbca2d70ae6788fd85df87f2c74b95a65bbf2d16d43a9e2faff39de34d17a29d706ba08a6b2ee5660c09589edbd19af7e1
+"reselect@npm:^4.1.8":
+  version: 4.1.8
+  resolution: "reselect@npm:4.1.8"
+  checksum: a4ac87cedab198769a29be92bc221c32da76cfdad6911eda67b4d3e7136dca86208c3b210e31632eae31ebd2cded18596f0dd230d3ccc9e978df22f233b5583e
   languageName: node
   linkType: hard
 
