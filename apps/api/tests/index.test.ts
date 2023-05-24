@@ -26,7 +26,7 @@ import searchUser from "./users/searchUser";
 import upgradeMe from "./users/upgradeMe";
 
 /**
- * Omitted Testes
+ * Omitted Tests
  *
  * Auth:
  * Confirm Email - Requires email to be sent
