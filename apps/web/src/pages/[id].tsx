@@ -24,11 +24,6 @@ export const config = {
 export const getServerSideProps: GetServerSideProps<{
   document: DocumentType | null;
 }> = async (context) => {
-  context.res.setHeader(
-    "Cache-Control",
-    "public, s-maxage=10, stale-while-revalidate=59",
-  );
-
   const potentialDocument = JSON.parse(
     context.req.cookies["created-document"] ?? "null",
   ) as DocumentType | null;
