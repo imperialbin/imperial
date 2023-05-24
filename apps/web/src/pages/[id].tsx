@@ -18,7 +18,7 @@ const Wrapper = styled("div", {
 });
 
 export const config = {
-  runtime: "edge",
+  runtime: "experimental-edge",
 };
 
 export const getServerSideProps: GetServerSideProps<{
