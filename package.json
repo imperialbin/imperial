@@ -7,8 +7,8 @@
     "packages/*"
   ],
   "scripts": {
+    "start": "turbo start",
     "build": "turbo run build",
-    "install-packages": "yarn install && cd apps/api && yarn install && cd ../web && yarn install && cd ../docs && yarn install && cd ../bot && yarn install",
     "dev": "docker-compose up -d && turbo run dev",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""

@@ -7429,6 +7429,7 @@ __metadata:
     discord.js: ^14.9.0
     dotenv: ^16.0.3
     pg: ^8.10.0
+    tsc-alias: ^1.8.6
     tsx: ^3.12.6
     typescript: ^5.0.4
     zod: ^3.21.4
@@ -13104,6 +13105,22 @@ __metadata:
   bin:
     tsc-alias: dist/bin/index.js
   checksum: 9b92f4141e2d388bd248d3bb362fa48e1bab7a350004ec000016375ca779632d6c6eac53f2a2d92284152cc42dabdf1d9e70162da5a5eb691d93e161d5ed65d2
+  languageName: node
+  linkType: hard
+
+"tsc-alias@npm:^1.8.6":
+  version: 1.8.6
+  resolution: "tsc-alias@npm:1.8.6"
+  dependencies:
+    chokidar: ^3.5.3
+    commander: ^9.0.0
+    globby: ^11.0.4
+    mylas: ^2.1.9
+    normalize-path: ^3.0.0
+    plimit-lit: ^1.2.6
+  bin:
+    tsc-alias: dist/bin/index.js
+  checksum: e177c155e1501a1021cec8b201be582afabb3e2651b2e44883bf18efdce7f49fe0132497ab1df1d9f3bddd6e972db15d4de148b9514c6847e05f0ddd53896286
   languageName: node
   linkType: hard
 

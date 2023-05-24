@@ -8,7 +8,7 @@ import { Document as DocumentType } from "@web/types";
 import { env } from "@web/utils/env";
 import { makeRequest } from "@web/utils/rest";
 import dayjs from "dayjs";
-import { GetServerSideProps, InferGetServerSidePropsType } from "next";
+import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import { NextSeo } from "next-seo";
 import { useEffect, useState } from "react";
 
@@ -17,11 +17,20 @@ const Wrapper = styled("div", {
   height: "100vh",
 });
 
+const isServerReq = (req: GetServerSidePropsContext["req"]) => !req?.url?.startsWith("/_next");
 // Deploy
 
 export const getServerSideProps: GetServerSideProps<{
   document: DocumentType | null;
 }> = async (context) => {
+  if (!isServerReq(context.req)) {
+    return {
+      props: {
+        document: null,
+      },
+    };
+  }
+
   context.res.setHeader(
     "Cache-Control",
     "public, s-maxage=10, stale-while-revalidate=59",

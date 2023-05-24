@@ -9,6 +9,7 @@
     "lint": {
       "outputs": []
     },
-    "dev": {}
+    "dev": {},
+    "start": {}
   }
 }
