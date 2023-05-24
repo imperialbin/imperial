@@ -1,4 +1,3 @@
-/* eslint-disable no-negated-condition */
 import { Id, permer } from "@imperial/commons";
 import { eq } from "drizzle-orm";
 import { z } from "zod";

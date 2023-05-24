@@ -5,6 +5,7 @@
     "apps/*",
     "packages/*"
   ],
+  "private": true,
   "scripts": {
     "start": "turbo start",
     "build": "turbo build",
