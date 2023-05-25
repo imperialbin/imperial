@@ -234,7 +234,7 @@ dayjs.updateLocale("en", {
   },
 });
 
-function UserSettings({ user, dispatch }: ReduxProps & ModalProps) {
+function UserSettings({ user, dispatch, closeModal }: ReduxProps & ModalProps) {
   const [recentDocuments, setRecentDocuments] = useState<Document[]>([]);
   const [iconValue, setIconValue] = useState(
     user?.icon
@@ -447,6 +447,7 @@ function UserSettings({ user, dispatch }: ReduxProps & ModalProps) {
                   key={document.id}
                   style={{ display: "inherit" }}
                   href={`/${document.id}`}
+                  onClick={closeModal}
                 >
                   <Tile>
                     <DocumentTitle>
