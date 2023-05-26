@@ -9,6 +9,8 @@ jobs:
   test:
     runs-on: ubuntu-latest
     container: node:18-alpine
+    env:
+      DATABASE_URL: postgres://imperial:imperial@postgres:5432/postgres
 
     services:
       postgres:
