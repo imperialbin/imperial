@@ -96,8 +96,7 @@ export const login: FastifyImp<
 
   reply
     .setCookie("imperial-auth", token, {
-      domain:
-        "." + (request.headers.origin?.split("://")[1] ?? "imperialb.in`"),
+      domain: `.${request.hostname}`,
     })
     .send({
       success: true,
