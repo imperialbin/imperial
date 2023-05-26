@@ -27,14 +27,14 @@ Requires:
 - Yarn
 - Docker
 
-1.) Fork the repository
-2.) Clone the repository
-3.) Run `yarn` and `yarn install:all` to install dependencies
-4.) Run `yarn dev` to start the development server
-5.) Make your changes
-6.) Commit your changes
-7.) Push your changes
-8.) Open a pull request
+1. Fork the repository
+2. Clone the repository
+3. Run `yarn` and `yarn install:all` to install dependencies
+4. Run `yarn dev` to start the development server
+5. Make your changes
+6. Commit your changes
+7. Push your changes
+8. Open a pull request
 
 ## License
 
