@@ -18,6 +18,7 @@ client.login(env.DISCORD_BOT_TOKEN);
 
 client.on("ready", async (client) => {
   Logger.info("INIT", "Initializing bot.");
+
   await client.application.commands.set(COMMANDS).catch((err) => {
     console.log("err", err);
   });
