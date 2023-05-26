@@ -1,0 +1,45 @@
+# Authentication
+
+Learn about how IMPERIAL handles authentication. There are two ways to authenticate with the API.
+
+The way you authenticate is through headers. Either send the cookie, or provide an `Authorization` header, like so.
+
+```ts
+fetch("https://api/impb.in/v1/users/@me", {
+  method: "GET",
+  headers: {
+    Authorization:
+      "imperial_c181MzFhNWFiYTVkM2MwNGU3Y2U4MTRmMTViODNiNjgwYV8xNjc4NTgxNTkwMzQzNzIwOTg",
+  },
+});
+```
+
+## API Key
+
+The API key is a unique identifier for your account. It is used to authenticate all requests to the API. You can find your API key in your user settings.
+
+They look like this
+
+```
+imperial_c181MzFhNWFiYTVkM2MwNGU3Y2U4MTRmMTViODNiNjgwYV8xNjc4NTgxNTkwMzQzNzIwOTg
+```
+
+Notice the prefix `imperial_`
+
+## Auth Token
+
+The auth token is a unique identifier for your session. It is used to authenticate all requests to the API. They are set in your cookies.
+
+They look like this
+
+```
+imperial_auth_c18wMGU0MjVlODM0ZDI1ODNjNmU3YjYxM2Y5OTAxYzhjM18xNjk0OTE5MzQzODE5ODE3MDM
+```
+
+Notice the prefix `imperial_auth_`
+
+## Rate Limits
+
+API limits are subjective to the route you are hitting, in most cases you can hit the endpoint 500 times before being rate limited for a minute.
+
+However, on some routes, (namely auth routes) you can only hit those endpoints 10 times every minute.

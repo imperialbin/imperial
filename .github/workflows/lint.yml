@@ -8,8 +8,6 @@ jobs:
     steps:
       - name: Checkout project
         uses: actions/checkout@v2
-        with:
-          clean: false
 
       - name: Use Node.js 14
         uses: actions/setup-node@v1
@@ -17,9 +15,10 @@ jobs:
           node-version: 14.x
 
       - name: Install deps
-        run: npm i
+        run: yarn install
+
+      - name: Install deps again :3
+        run: yarn install:all
 
       - name: Run ESLint
-        run: npm run lint
-        env:
-          CI: true
+        run: yarn lint

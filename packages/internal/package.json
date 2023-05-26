@@ -1,0 +1,17 @@
+{
+  "name": "internal",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "types": "index.ts",
+  "license": "MPL-3.0",
+  "scripts": {
+    "migrate": "drizzle-kit generate:pg"
+  },
+  "dependencies": {
+    "commons": "*"
+  },
+  "devDependencies": {
+    "@types/cli-color": "^2.0.2",
+    "drizzle-kit": "^0.18.0"
+  }
+}

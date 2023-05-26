@@ -1,0 +1,7 @@
+{
+  "index": "Introduction",
+  "get_document": "GET document",
+  "post_document": "POST document",
+  "patch_document": "PATCH document",
+  "delete_document": "DELETE document"
+}

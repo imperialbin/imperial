@@ -1,0 +1,12 @@
+{
+  "name": "commons",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "types": "index.ts",
+  "license": "MIT",
+  "dependencies": {
+    "cli-color": "^2.0.3",
+    "permer": "^1.2.0",
+    "pika-id": "^1.1.3"
+  }
+}

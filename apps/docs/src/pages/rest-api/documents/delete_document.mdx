@@ -1,0 +1,91 @@
+import { Callout } from "nextra-theme-docs";
+
+# DELETE /v1/document/:id
+
+Delete a document.
+
+<Callout type="warning" emoji="⚠️">
+  Only document creators can delete documents, not editors.
+</Callout>
+
+## Example
+
+Minimal Example:
+
+```ts
+fetch("https://api.impb.in/v1/document/MO0lJElX", {
+  method: "DELETE",
+  headers: {
+    Authorization: "imperial_123456789",
+    "Content-Type": "application/json",
+  },
+})
+  .then((res) => res.json())
+  .then(console.log)
+  .catch((err) => console.error(err));
+```
+
+Options:
+
+```ts
+fetch("https://api.impb.in/v1/document/MO0lJElX", {
+  method: "DELETE",
+  headers: {
+    Authorization: "imperial_123456789",
+    "Content-Type": "application/json",
+  },
+})
+  .then((res) => res.json())
+  .then(console.log)
+  .catch((err) => console.error(err));
+```
+
+## Responses
+
+### 204 OK
+
+`OK`
+
+### 401 Unauthorized
+
+```json
+{
+  "success": false,
+  "error": {
+    "message": "Unauthorized"
+  }
+}
+```
+
+### 403 Forbidden
+
+```json
+{
+  "success": false,
+  "error": {
+    "message": "You do not own this document"
+  }
+}
+```
+
+### 404 Not Found
+
+```json
+{
+  "success": false,
+  "error": {
+    "message": "Document not found"
+  }
+}
+```
+
+### 5xx Internal Server Error
+
+```json
+{
+  "success": false,
+  "error": {
+    "message": "Internal server error"
+  }
+}
+```

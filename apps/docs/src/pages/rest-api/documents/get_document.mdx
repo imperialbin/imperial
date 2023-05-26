@@ -1,0 +1,78 @@
+# GET /v1/document/:id
+
+Get a document by id.
+
+## Query parameters
+
+you can send the following query parameters.
+
+- ?password=string - Used for encrypted documents incase you are trying to decrypt a document without using the frontend (the frontend decrypts it locally)
+
+## Example
+
+```ts
+fetch("https://api.impb.in/v1/document/dfj3d")
+  .then((res) => res.json())
+  .catch((err) => console.error(err));
+```
+
+## Responses
+
+### 200 OK
+
+```json
+{
+  "success": true,
+  "data": {
+    "id": "qLK9IQw4",
+    "content": "hello world!",
+    "creator": {
+      "documents_made": 11,
+      "id": "user_MTY3ODU4MTU5MDM0MzcyMDk3",
+      "username": "cody",
+      "flags": 1,
+      "icon": "https://github.com/looskie.png"
+    },
+    "views": 2,
+    "gist_url": null,
+    "timestamps": {
+      "creation": "2023-04-15T20:30:06.272Z",
+      "expiration": "2023-04-22T20:30:06.272Z"
+    },
+    "settings": {
+      "language": "plaintext",
+      "image_embed": false,
+      "instant_delete": false,
+      "encrypted": false,
+      "public": false,
+      "editors": []
+    },
+    "links": {
+      "formatted": "https://staging.impb.in/qLK9IQw4",
+      "raw": "https://staging.impb.in/r/qLK9IQw4"
+    }
+  }
+}
+```
+
+### 404 Not Found
+
+```json
+{
+  "success": false,
+  "error": {
+    "message": "Document not found"
+  }
+}
+```
+
+### 5xx Internal Server Error
+
+```json
+{
+  "success": false,
+  "error": {
+    "message": "Internal server error"
+  }
+}
+```

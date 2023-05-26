@@ -1,26 +1,17 @@
-version: "3"
+version: "3.9"
+
 services:
-  mongo:
-    image: mongo
-    volumes:
-      - "mongo_data:/mongo/data"
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_USER: imperial
+      POSTGRES_PASSWORD: imperial
+      POSTGRES_DB: postgres
     ports:
-      - "12345:27017"
+      - "5432:5432"
 
   redis:
     image: redis
-    volumes:
-      - "redis_data:/redis/data"
-
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    command: "yarn start"
-    env_file: .env
     ports:
-      - "8080:3000"
+      - "6379:6379"
 
-volumes:
-  redis_data:
-  mongo_data:

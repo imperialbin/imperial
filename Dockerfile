@@ -1,10 +1,31 @@
-FROM node:alpine
+FROM node:16-alpine AS builder
+
 WORKDIR /app
 
-ADD package.json .
-ADD yarn.lock .
+RUN yarn global add turbo
+COPY . .
+RUN turbo prune --scope=api --docker
 
+FROM node:alpine AS installer
+WORKDIR /app
+
+COPY .gitignore .gitignore
+COPY --from=builder /app/out/json/ .
+COPY --from=builder /app/out/yarn.lock ./yarn.lock
 RUN yarn install
 
-ADD . .
-RUN yarn build
+COPY --from=builder /app/out/full/ .
+COPY turbo.json turbo.json
+
+RUN cd apps/api && yarn install
+RUN yarn build --scope=api
+
+FROM zenika/alpine-chrome:with-node as runner
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD 1
+ENV PUPPETEER_EXECUTABLE_PATH /usr/bin/chromium-browser
+
+WORKDIR /app
+
+COPY --from=installer /app .
+
+CMD cd apps/api && yarn start
