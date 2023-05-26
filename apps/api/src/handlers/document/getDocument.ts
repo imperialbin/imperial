@@ -74,12 +74,19 @@ export const getDocument: FastifyImp<
 
   const editors = await getEditorsByIds(document.settings.editors);
 
-  await db
-    .update(documents)
-    .set({
-      views: document.views + 1,
-    })
-    .where(eq(documents.id, id));
+  if (
+    document.settings.instant_delete &&
+    request.user?.id !== document.creator?.id
+  ) {
+    await db.delete(documents).where(eq(documents.id, id));
+  } else {
+    await db
+      .update(documents)
+      .set({
+        views: document.views + 1,
+      })
+      .where(eq(documents.id, id));
+  }
 
   reply.send({
     success: true,
