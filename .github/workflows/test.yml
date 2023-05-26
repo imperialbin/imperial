@@ -11,6 +11,7 @@ jobs:
     container: node:18-alpine
     env:
       DATABASE_URL: postgres://imperial:imperial@postgres:5432/postgres
+      REDIS_URL: redis://redis:6379
 
     services:
       postgres:
@@ -29,8 +30,6 @@ jobs:
 
       redis:
         image: redis
-        env:
-          REDIS_HOST: 127.0.0.1
         options: >-
           --health-cmd "redis-cli ping"
           --health-interval 10s

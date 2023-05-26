@@ -48,7 +48,8 @@ export const main = async () => {
     max: 500,
     timeWindow: "1 minute",
     keyGenerator(request) {
-      return (request.headers["x-real-ip"] ??
+      return (request?.user?.id ??
+        request.headers["x-real-ip"] ??
         request.headers["x-client-ip"] ??
         request.headers["x-forwarded-for"] ??
         request.ip) as string;
