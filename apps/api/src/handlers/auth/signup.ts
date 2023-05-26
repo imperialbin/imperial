@@ -13,6 +13,7 @@ import { Redis } from "../../utils/redis";
 import { fromZodError } from "zod-validation-error";
 import { usernameSchema } from "../../utils/schemas";
 import { env } from "../../utils/env";
+import { parseDomainFromOrigin } from "../../utils/parse";
 
 const signupSchema = z.object({
   username: usernameSchema,
@@ -142,7 +143,7 @@ export const signup: FastifyImp<
 
   reply
     .setCookie("imperial-auth", token, {
-      domain: `.${request.hostname}`,
+      domain: `.${parseDomainFromOrigin(request.headers.origin ?? "imperialb.in")}`,
     })
     .send({
       success: true,

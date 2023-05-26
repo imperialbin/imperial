@@ -7,6 +7,7 @@ import { FastifyImp, SelfUser } from "../../types";
 import { AuthSessions } from "../../utils/authSessions";
 import { SES } from "../../utils/aws";
 import { fromZodError } from "zod-validation-error";
+import { parseDomainFromOrigin } from "../../utils/parse";
 
 const loginSchema = z.object({
   username: z.string().min(1).or(z.string().email()),
@@ -96,7 +97,7 @@ export const login: FastifyImp<
 
   reply
     .setCookie("imperial-auth", token, {
-      domain: `.${request.hostname}`,
+      domain: `.${parseDomainFromOrigin(request.headers.origin ?? "imperialb.in")}`,
     })
     .send({
       success: true,
