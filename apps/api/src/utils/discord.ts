@@ -16,7 +16,7 @@ export class Discord {
           code,
           grant_type: "authorization_code",
           redirect_uri: `${env.FRONTEND_URL}/auth/discord`,
-          scope: "identify,guilds.join,guilds",
+          scope: "identify",
         }),
       },
     )
