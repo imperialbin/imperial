@@ -570,13 +570,13 @@ function UserSettings({ user, dispatch, closeModal }: ReduxProps & ModalProps) {
             />
           </InputWrapper>
           <Subtitle>Editor Settings</Subtitle>
-          <Setting
+          {/*           <Setting
             title="Clipboard"
             type="switch"
             toggled={user.settings.clipboard}
             description="Let IMPERIAL automatically paste your clipboard."
             onToggle={() => patchUser("clipboard", !user.settings.clipboard)}
-          />
+          /> */}
           <Setting
             title="Longer URLs"
             type="switch"
