@@ -3,6 +3,7 @@ import { generateString } from "@web/utils/strings";
 export type NotificationType = "success" | "warning" | "error";
 export type Notification = {
   type: NotificationType;
+  description?: string;
   message: string;
   onClick?: () => unknown;
   icon: JSX.Element;

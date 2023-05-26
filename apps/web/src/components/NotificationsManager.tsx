@@ -29,12 +29,22 @@ const NotificationWrapper = styled(motion.div, {
 
   "> svg": {
     height: "auto",
-    width: 25,
+    minWidth: 25,
+    maxWidth: 25,
     marginRight: 10,
   },
 
-  "> span": {
-    fontSize: "1em",
+  "> div": {
+    display: "flex",
+    flexDirection: "column",
+    "> p": {
+      fontSize: "1em",
+    },
+
+    "> span": {
+      fontSize: "0.95em",
+      opacity: 0.8,
+    },
   },
 
   variants: {
@@ -117,7 +127,10 @@ const Notification = memo(({ notification, dispatch }: INotificationProps) => {
       }}
     >
       {notification.icon}
-      <span>{notification.message}</span>
+      <div>
+        <p>{notification.message}</p>
+        {notification.description ? <span>{notification.description}</span> : null}
+      </div>
     </NotificationWrapper>
   );
 });

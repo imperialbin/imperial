@@ -230,9 +230,10 @@ function Nav({ user, document, language, dispatch, editors }: INavProps) {
       addNotification({
         icon: <Check />,
         message: "Successfully created document",
+        description: "Click to copy URL",
         type: "success",
         async onClick() {
-          await navigator.clipboard.writeText(`${window.location}/${data.id}`);
+          await navigator.clipboard.writeText(`${window.origin}/${data.id}`);
         },
       }),
     );
