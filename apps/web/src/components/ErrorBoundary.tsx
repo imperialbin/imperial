@@ -12,6 +12,8 @@ const Container = styled("div", {
   height: "100vh",
   width: "100vw",
   color: "$text-muted",
+  background: "url('/img/texture.png')",
+  backgroundSize: "500px",
 
   "> svg": {
     position: "absolute",

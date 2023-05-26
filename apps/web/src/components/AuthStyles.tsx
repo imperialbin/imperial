@@ -7,6 +7,8 @@ const Wrapper = styled("div", {
   justifyContent: "center",
   width: "100vw",
   height: "100vh",
+  background: "url('/img/texture.png')",
+  backgroundSize: "500px",
 });
 
 const Container = styled("div", {

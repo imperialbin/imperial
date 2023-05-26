@@ -10,6 +10,8 @@ const Wrapper = styled("div", {
   justifyContent: "center",
   width: "100%",
   height: "100vh",
+  background: "url('/img/texture.png')",
+  backgroundSize: "500px",
 });
 
 const LogoContainer = styled("div", {
