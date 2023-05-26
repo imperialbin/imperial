@@ -1,5 +1,5 @@
-import { AUTH_TOKEN } from "../auth/register";
-import { ADMIN_AUTH_TOKEN, server } from "../index.test";
+import { ADMIN_AUTH_TOKEN, AUTH_TOKEN } from "../auth/register";
+import { server } from "../index.test";
 import { Id } from "@imperial/commons";
 
 export let MEMBER_PLUS_TOKEN: Id<"member_plus">;

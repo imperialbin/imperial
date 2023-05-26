@@ -1,5 +1,5 @@
-import { AUTH_TOKEN } from "../auth/register";
-import { ADMIN_AUTH_TOKEN, server } from "../index.test";
+import { ADMIN_AUTH_TOKEN, AUTH_TOKEN } from "../auth/register";
+import { server } from "../index.test";
 
 export default async () => {
   // Make sure that normal users dont have access

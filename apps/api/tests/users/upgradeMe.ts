@@ -29,6 +29,7 @@ export default async () => {
   expect(resBadToken.statusCode).toBe(400);
   expect(resBadToken.json()).toHaveProperty("success", false);
   expect(resBadToken.json()).toHaveProperty("error", {
+    code: "bad_request",
     message: "Invalid token",
   });
 

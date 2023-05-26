@@ -12,6 +12,7 @@ import { generateRandomSecureString } from "../../utils/strings";
 import { Redis } from "../../utils/redis";
 import { fromZodError } from "zod-validation-error";
 import { usernameSchema } from "../../utils/schemas";
+import { env } from "../../utils/env";
 
 const signupSchema = z.object({
   username: usernameSchema,
@@ -80,7 +81,15 @@ export const signup: FastifyImp<
           email: body.data.email,
           password: hashedPassword,
           api_token: pika.gen("imperial"),
-          flags: permer.calculate(["member"]),
+          flags: permer.calculate(
+            // Concat still is bad and doesn't infer types, i wonder if we'd benefit from typescript-reset
+            ["member"].concat(
+              !env.PRODUCTION &&
+                body.data.username.startsWith("unit-test-admin-")
+                ? ["admin"]
+                : [],
+            ) as ["member" | "admin"],
+          ),
           settings: {
             clipboard: false,
             long_urls: false,

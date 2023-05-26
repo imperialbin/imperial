@@ -41,8 +41,6 @@ import upgradeMe from "./users/upgradeMe";
  *
  */
 
-export const ADMIN_AUTH_TOKEN = process.env.ADMIN_AUTH_TOKEN ?? "";
-
 export let server: Awaited<ReturnType<typeof main>>;
 
 beforeAll(async () => {
@@ -72,14 +70,10 @@ describe("Test IMPERIAL API", () => {
   test("Can delete document", deleteDocument);
 
   // Admin
-  if (ADMIN_AUTH_TOKEN) {
-    test("Can create member+ tokens", createMemberPlusToken);
-    test("Can get recent documents", getRecentDocuments);
-    test("Can patch user", patchUser);
-    test("Can get user", getUserAdmin);
-  } else {
-    console.warn("ADMIN_AUTH_TOKEN not set, skipping admin tests");
-  }
+  test("Can create member+ tokens", createMemberPlusToken);
+  test("Can get recent documents", getRecentDocuments);
+  test("Can patch user", patchUser);
+  test("Can get user", getUserAdmin);
 
   // Users
   test("Can get @me", getMe);
@@ -91,9 +85,7 @@ describe("Test IMPERIAL API", () => {
   test("Can search user", searchUser);
 
   // If there is no admin token there is definitely no member+ token
-  if (ADMIN_AUTH_TOKEN) {
-    test("Can upgrade", upgradeMe);
-  }
+  test("Can upgrade", upgradeMe);
 
   test("Can delete me", deleteMe);
 });

@@ -4,15 +4,18 @@ import { customAlphabet } from "nanoid";
 
 export let CREATED_USER: SelfUser;
 export let BUDDY_USER: SelfUser;
+export let ADMIN_USER: SelfUser;
 
 export let AUTH_TOKEN = "";
 export let BUDDY_AUTH_TOKEN = "";
+export let ADMIN_AUTH_TOKEN = "";
 
 const alphanumericUsername = customAlphabet("abcdefghijklmnopqrstuvwxyz", 5);
 
 export default async () => {
   const created_username = `unit-test-${alphanumericUsername(5)}`;
   const buddy_username = `unit-test-buddy-${alphanumericUsername(5)}`;
+  const admin_username = `unit-test-admin-${alphanumericUsername(5)}`;
 
   const res = await server.inject({
     method: "POST",
@@ -76,6 +79,19 @@ export default async () => {
       password: "12345678",
     },
   });
+
+  const resAdmin = await server.inject({
+    method: "POST",
+    url: "/v1/auth/signup",
+    payload: {
+      username: admin_username,
+      email: `${admin_username}@impb.in`,
+      password: "12345678",
+    },
+  });
+
+  ADMIN_USER = resAdmin.json().data.user as SelfUser;
+  ADMIN_AUTH_TOKEN = resAdmin.json().data.token as string;
 
   BUDDY_USER = resBuddy.json().data.user as SelfUser;
   BUDDY_AUTH_TOKEN = resBuddy.json().data.token as string;
