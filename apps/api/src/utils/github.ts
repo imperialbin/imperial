@@ -111,4 +111,31 @@ export class GitHub {
 
     return gist;
   }
+
+  public static async editGist(
+    gistId: string,
+    documentId: string,
+    newContent: string,
+    userAuth: string,
+  ) {
+    const gist = await fetch(`https://api.github.com/gists/${gistId}`, {
+      method: "PATCH",
+      headers: {
+        Authorization: `token ${userAuth}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        files: {
+          [`${documentId}`]: newContent,
+        },
+      }),
+    })
+      .then((res) => res.json() as unknown as GitHubGistResponse)
+      .catch((err) => {
+        Logger.error("GitHub", `Error creating Gist ${String(err)}`);
+        return null;
+      });
+
+    return gist;
+  }
 }

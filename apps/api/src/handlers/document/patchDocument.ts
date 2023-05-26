@@ -11,6 +11,7 @@ import {
 } from "../../utils/publicObjects";
 import { languageSchema } from "../../utils/schemas";
 import { fromZodError } from "zod-validation-error";
+import { GitHub } from "../../utils/github";
 
 const patchDocumentSchema = z.object({
   id: z.string().min(4).max(36),
@@ -118,6 +119,15 @@ export const patchDocument: FastifyImp<
         .where(eq(documents.id, id))
         .returning()
     )[0] ?? null;
+
+  if (request.user.github && updatedDocument.gist_url) {
+    GitHub.editGist(
+      updatedDocument.gist_url,
+      updatedDocument.id,
+      updatedDocument.content,
+      request.user.github.token,
+    );
+  }
 
   reply.send({
     success: true,
