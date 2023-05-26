@@ -46,14 +46,16 @@ function UserPopover({ close, user, dispatch }: PopoverBase & ReduxProps) {
             >
               User profile
             </Item>
-            <Item
-              onClick={() => {
-                dispatch(openModal("resend_confirm_email", { email: user.email }));
-                close();
-              }}
-            >
-              Confirm Email
-            </Item>
+            {!user.confirmed ? (
+              <Item
+                onClick={() => {
+                  dispatch(openModal("resend_confirm_email", { email: user.email }));
+                  close();
+                }}
+              >
+                Confirm Email
+              </Item>
+            ) : null}
             <Item>
               <Link href="/discord" target="_blank">
                 Discord
