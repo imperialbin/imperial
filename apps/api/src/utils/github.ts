@@ -103,7 +103,14 @@ export class GitHub {
         },
       }),
     })
-      .then((res) => res.json() as unknown as GitHubGistResponse)
+      .then(async (res) => {
+        const json = (await res.json()) as Record<string, string>;
+        if (!res.ok) {
+          throw new Error(json.message ?? "Unknown error");
+        }
+
+        return res as unknown as GitHubGistResponse;
+      })
       .catch((err) => {
         Logger.error("GitHub", `Error creating Gist ${String(err)}`);
         return null;
@@ -113,11 +120,13 @@ export class GitHub {
   }
 
   public static async editGist(
-    gistId: string,
+    gistURL: string,
     documentId: string,
     newContent: string,
     userAuth: string,
   ) {
+    const gistId = gistURL.split("/").at(-1) ?? gistURL;
+
     const gist = await fetch(`https://api.github.com/gists/${gistId}`, {
       method: "PATCH",
       headers: {
@@ -126,11 +135,18 @@ export class GitHub {
       },
       body: JSON.stringify({
         files: {
-          [`${documentId}`]: newContent,
+          [`${documentId}`]: { content: newContent },
         },
       }),
     })
-      .then((res) => res.json() as unknown as GitHubGistResponse)
+      .then(async (res) => {
+        const json = (await res.json()) as Record<string, string>;
+        if (!res.ok) {
+          throw new Error(json.message ?? "Unknown error");
+        }
+
+        return res as unknown as GitHubGistResponse;
+      })
       .catch((err) => {
         Logger.error("GitHub", `Error creating Gist ${String(err)}`);
         return null;
