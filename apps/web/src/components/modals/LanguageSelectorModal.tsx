@@ -60,9 +60,17 @@ export default function LanguageSelector({ closeModal, dispatch }: ModalProps) {
     closeModal();
   };
 
+  const filteredLanguages = useMemo(
+    () =>
+      supportedLanguages.filter((language) =>
+        language.name.toLowerCase().includes(searchQuery.toLowerCase()),
+      ),
+    [supportedLanguages, searchQuery],
+  );
+
   useEffect(() => {
     const enterHandler = ({ key }: KeyboardEvent) => {
-      if (key === "Enter" && searchQuery.length > 0) {
+      if (key === "Enter") {
         changeLanguage(filteredLanguages[0].id);
         window.removeEventListener("keydown", enterHandler);
       }
@@ -72,15 +80,7 @@ export default function LanguageSelector({ closeModal, dispatch }: ModalProps) {
     return () => {
       window.removeEventListener("keydown", enterHandler);
     };
-  }, []);
-
-  const filteredLanguages = useMemo(
-    () =>
-      supportedLanguages.filter((language) =>
-        language.name.toLowerCase().includes(searchQuery.toLowerCase()),
-      ),
-    [supportedLanguages, searchQuery],
-  );
+  }, [filteredLanguages]);
 
   return (
     <StyledWrapper>
