@@ -73,7 +73,7 @@ const migrateUsersFromMongo = async () => {
 
     newUsers.push({
       id: pika.gen("user"),
-      api_token: pika.gen("imperial_auth"),
+      api_token: pika.gen("imperial"),
       email: mongoUser.email,
       username: mongoUser.name,
       password: mongoUser.password,
