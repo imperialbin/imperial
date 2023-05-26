@@ -140,11 +140,16 @@ export const signup: FastifyImp<
     "Confirm Email",
   );
 
-  reply.setCookie("imperial-auth", token).send({
-    success: true,
-    data: {
-      token,
-      user: userWithoutPassword,
-    },
-  });
+  reply
+    .setCookie("imperial-auth", token, {
+      domain:
+        "." + (request.headers.origin?.split("://")[1] ?? "imperialb.in`"),
+    })
+    .send({
+      success: true,
+      data: {
+        token,
+        user: userWithoutPassword,
+      },
+    });
 };
