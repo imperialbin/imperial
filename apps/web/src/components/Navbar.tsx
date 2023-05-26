@@ -206,6 +206,7 @@ function Nav({ user, document, language, dispatch, editors }: INavProps) {
           image_embed: user ? user.settings.image_embed : false,
           expiration: user ? user.settings.expiration : 14,
           public: false,
+          create_gist: user ? user.settings.create_gist : false,
           password,
           editors: editors.map((user) => user.username),
           language,

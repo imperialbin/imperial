@@ -613,6 +613,14 @@ function UserSettings({ user, dispatch, closeModal }: ReduxProps & ModalProps) {
             onToggle={() => patchUser("image_embed", !user.settings.image_embed)}
           />
           <Setting
+            title="Create Gist"
+            type="switch"
+            disabled={!user.github}
+            toggled={user.settings.create_gist}
+            description="Save all your IMPERIAL documents to your GitHub account with gists."
+            onToggle={() => patchUser("create_gist", !user.settings.create_gist)}
+          />
+          <Setting
             title="Font Ligatures"
             type="switch"
             toggled={user.settings.font_ligatures}
