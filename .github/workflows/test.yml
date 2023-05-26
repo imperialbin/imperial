@@ -1,7 +1,6 @@
 name: Test API
 on:
   push:
-    branches: [next-next]
     paths:
       - apps/api/**
 
