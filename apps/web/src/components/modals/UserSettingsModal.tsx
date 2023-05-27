@@ -415,9 +415,11 @@ function UserSettings({ user, dispatch, closeModal }: ReduxProps & ModalProps) {
               <Username>{user.username}</Username>
               <UserRole>
                 {userRole}{" "}
-                <Link href="/auth/upgrade" onClick={closeModal}>
-                  (Upgrade)
-                </Link>
+                {userRole === "Member" ? (
+                  <Link href="/auth/upgrade" onClick={closeModal}>
+                    (Upgrade)
+                  </Link>
+                ) : null}
               </UserRole>
             </UserInfo>
           </UserOverview>
