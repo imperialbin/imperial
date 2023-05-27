@@ -87,11 +87,11 @@ function Login({ dispatch, closeModal }: ModalProps) {
       );
     }
 
-    if (username.length < 3) {
+    if (username.length < 1) {
       return dispatch(
         addNotification({
           icon: <X />,
-          message: "Username must be 3 characters",
+          message: "Username must be atleast 1 character",
           type: "error",
         }),
       );
