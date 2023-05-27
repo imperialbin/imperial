@@ -230,6 +230,7 @@ export const createDocument: FastifyImp<
         instant_delete: createdDocument.settings.instant_delete,
         encrypted: createdDocument.settings.encrypted,
         public: createdDocument.settings.public,
+        password: password ?? undefined,
         editors,
       },
     },
