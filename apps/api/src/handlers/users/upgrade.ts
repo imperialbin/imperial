@@ -47,7 +47,12 @@ export const upgradeMe: FastifyImp<
     })
     .where(eq(users.id, request.user.id));
 
-  await db.delete(memberPlusTokens).where(eq(memberPlusTokens.id, token.id));
+  await db
+    .update(memberPlusTokens)
+    .set({
+      claimed_by: request.user.id,
+    })
+    .where(eq(memberPlusTokens.id, request.body.token));
 
   reply.status(204).send();
 };
