@@ -13,7 +13,7 @@ export const regenerateAPIToken: FastifyImp<{}, unknown, true> = async (
       await db
         .update(users)
         .set({
-          api_token: pika.gen("imperial_auth"),
+          api_token: pika.gen("imperial"),
         })
         .where(eq(users.id, request.user.id))
         .returning()
