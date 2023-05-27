@@ -126,11 +126,11 @@ export const createDocument: Command = {
               inline: true,
             },
           ].concat(
-            document.settings.encrypted && document.password
+            document.settings.encrypted && document.settings.password
               ? [
                   {
                     name: "Password",
-                    value: document.password,
+                    value: document.settings.password,
                     inline: false,
                   },
                 ]
