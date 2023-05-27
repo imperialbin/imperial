@@ -5,7 +5,7 @@ import { ArrowUp, Mail, X } from "react-feather";
 import { ConnectedProps, connect } from "react-redux";
 import { Container, StyledButton, Wrapper } from "../../components/AuthStyles";
 import Input from "../../components/Input";
-import { addNotification } from "../../state/actions";
+import { addNotification, openModal } from "../../state/actions";
 import { ImperialState } from "../../state/reducers";
 import { STRIPE_MEMBER_PLUS_LINK } from "../../utils/constants";
 import { makeRequest } from "../../utils/rest";
@@ -23,13 +23,15 @@ function Upgrade({ user, dispatch }: ReduxProps) {
 
   const upgrade = async () => {
     if (!user) {
-      return dispatch(
+      dispatch(openModal("login"));
+      dispatch(
         addNotification({
           message: "You must be logged in to upgrade your account.",
           type: "error",
           icon: <X />,
         }),
       );
+      return;
     }
 
     if (!token) {
