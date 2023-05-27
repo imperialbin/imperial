@@ -38,6 +38,8 @@ export const stripeWebhook: FastifyImp<{}, unknown, true> = async (
     });
   }
 
+  Logger.info("stripe", `Received Stripe webhook ${event.type}`);
+
   switch (event.type) {
     case "charge.succeeded": {
       await chargeSucceeded(event);
