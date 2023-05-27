@@ -29,7 +29,7 @@ const seed = async () => {
           .insert(users)
           .values({
             id: pika.gen("user"),
-            api_token: pika.gen("imperial_auth"),
+            api_token: pika.gen("imperial"),
             email: `${name}@gmail.com`,
             username: name,
             icon: `https://github.com/${name}.png`,
