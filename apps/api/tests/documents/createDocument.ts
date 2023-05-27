@@ -23,7 +23,7 @@ export default async () => {
       settings: {
         language: "typescript",
         image_embed: true,
-        instant_delete: true,
+        instant_delete: false,
         encrypted: true,
         long_urls: true,
         public: true,
@@ -54,7 +54,7 @@ export default async () => {
       settings: {
         language: "typescript",
         image_embed: true,
-        instant_delete: true,
+        instant_delete: false,
         encrypted: false,
         long_urls: true,
         public: true,
@@ -81,7 +81,7 @@ export default async () => {
   expect(res.json().data).toHaveProperty("settings", {
     language: "typescript",
     image_embed: true,
-    instant_delete: true,
+    instant_delete: false,
     encrypted: false,
     public: true,
     editors: [
