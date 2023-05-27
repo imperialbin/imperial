@@ -39,7 +39,7 @@ function Reset() {
     setDisableButton(true);
     const { success, error } = await makeRequest("POST", "/auth/reset_password/token", {
       token,
-      newPassword,
+      new_password: newPassword,
     });
 
     if (!success) {
