@@ -91,5 +91,8 @@ export const devicesRelations = relations(devices, ({ one }) => ({
 }));
 
 export const memberPlusTokens = pgTable("member_plus_tokens", {
-  id: text("id").primaryKey().$type<Id<"member_plus">>(),
+  id: text("id").primaryKey().$type<Id<"member_plus">>().notNull(),
+  claimed_by: text("claimed_by")
+    .references(() => users.id, { onDelete: "cascade" })
+    .$type<Id<"user">>(),
 });
