@@ -73,3 +73,19 @@ label {
   color: var(--text-secondary);
   font-size: 0.9em;
 }
+
+a {
+  color: var(--text-primary);
+  opacity: 0.8;
+  text-decoration: underline;
+  transition: opacity 0.15s ease-in-out;
+  -webkit-transition: opacity 0.15s ease-in-out;
+  -moz-transition: opacity 0.15s ease-in-out;
+  -ms-transition: opacity 0.15s ease-in-out;
+  -o-transition: opacity 0.15s ease-in-out;
+}
+
+a:hover {
+  opacity: 1;
+  color: var(--text-white);
+}

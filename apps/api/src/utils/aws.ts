@@ -8,6 +8,9 @@ import ConfirmEmail from "./emails/confirm_email";
 import ResetPassword from "./emails/reset_password";
 import NewLogin from "./emails/new_login";
 import { FunctionComponent } from "react";
+import PaymentFailed from "./emails/payment_failed";
+import PaymentSuccess from "./emails/payment_success";
+import OrderRefunded from "./emails/order_refunded";
 
 const s3 = new S3Client({
   region: env.AWS_REGION,
@@ -27,6 +30,9 @@ const EMAILS = {
   confirm_email: ConfirmEmail,
   new_login: NewLogin,
   reset_password: ResetPassword,
+  order_refunded: OrderRefunded,
+  payment_failed: PaymentFailed,
+  payment_success: PaymentSuccess,
 };
 
 class SES {

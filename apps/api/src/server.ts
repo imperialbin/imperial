@@ -11,6 +11,7 @@ import { usersRoutes } from "./routes/users";
 import { env } from "./utils/env";
 import { Logger } from "./utils/logger";
 import { Redis } from "./utils/redis";
+import { stripeRoutes } from "./routes/stripe";
 
 Sentry.init({
   dsn: env.SENTRY_DSN,
@@ -55,6 +56,11 @@ export const main = async () => {
         request.ip) as string;
     },
   });
+  await server.register(import("fastify-raw-body"), {
+    global: false,
+    encoding: false,
+    runFirst: true,
+  });
 
   server.get("/", async (_, reply) => {
     reply.send({
@@ -80,6 +86,7 @@ export const main = async () => {
   server.register(authRoutes, { prefix: `/${API_VERSION}/auth` });
   server.register(oAuthRoutes, { prefix: `/${API_VERSION}/oauth` });
   server.register(adminRoutes, { prefix: `/${API_VERSION}/admin` });
+  server.register(stripeRoutes, { prefix: `/${API_VERSION}/stripe` });
 
   server.setNotFoundHandler((_, reply) => {
     reply.code(404).send({

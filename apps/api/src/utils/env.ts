@@ -97,4 +97,14 @@ export const env = envsafe({
     default: "imperial",
     desc: "The cookie signer",
   }),
+  STRIPE_SECRET_KEY: str({
+    default: "",
+    desc: "The stripe secret key",
+    allowEmpty: true,
+  }),
+  STRIPE_WEBHOOK_SECRET: str({
+    default: "",
+    desc: "The stripe webhook secret",
+    allowEmpty: true,
+  }),
 });

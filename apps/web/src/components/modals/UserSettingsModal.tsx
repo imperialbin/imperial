@@ -80,14 +80,18 @@ const Subtitle = styled("h1", {
 });
 
 const UserInfo = styled("div", {
+  width: "100%",
   display: "flex",
   flexDirection: "column",
+  overflow: "hidden",
 });
 
 const Username = styled("span", {
   fontSize: "1.5em",
   fontWeight: 600,
   color: "$text-white",
+  overflow: "hidden",
+  textOverflow: "ellipsis",
 });
 
 const UserRole = styled("span", {
@@ -95,6 +99,12 @@ const UserRole = styled("span", {
   fontWeight: "400",
   opacity: "0.6",
   color: "$text-secondary",
+
+  "> a": {
+    fontSize: "0.9rem",
+    fontWeight: "400",
+    textDecoration: "none",
+  },
 });
 
 const TileSpan = styled("span", {
@@ -392,6 +402,8 @@ function UserSettings({ user, dispatch, closeModal }: ReduxProps & ModalProps) {
     fetchRecentDocuments();
   }, []);
 
+  const userRole = getRole(user.flags);
+
   return (
     <Wrapper>
       <Header />
@@ -401,7 +413,12 @@ function UserSettings({ user, dispatch, closeModal }: ReduxProps & ModalProps) {
             <UserIcon URL={user.icon ?? "/img/pfp.png"} size={70} />
             <UserInfo>
               <Username>{user.username}</Username>
-              <UserRole>{getRole(user.flags)}</UserRole>
+              <UserRole>
+                {userRole}{" "}
+                <Link href="/auth/upgrade" onClick={closeModal}>
+                  (Upgrade)
+                </Link>
+              </UserRole>
             </UserInfo>
           </UserOverview>
           <Tiles>

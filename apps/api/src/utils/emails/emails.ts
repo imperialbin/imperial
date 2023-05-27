@@ -11,6 +11,15 @@ type EmailProps = {
   reset_password: {
     token: string;
   };
+  order_refunded: {
+    receipt_url: string;
+    amount_refunded: string;
+  };
+  payment_success: {
+    token: string;
+    receipt_url: string;
+  };
+  payment_failed: {};
 };
 
 type Emails = keyof EmailProps;

@@ -115,3 +115,5 @@ export const supportedLanguages = [
   { name: "XML", id: "xml", icon: undefined },
   { name: "YAML", id: "yaml", icon: undefined },
 ] as const;
+
+export const STRIPE_MEMBER_PLUS_LINK = "https://buy.stripe.com/3cscN18YMfg39PO5kk";
