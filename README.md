@@ -6,7 +6,7 @@ Welcome to IMPERIAL's monolithic repository, storing the API, web interface, and
 Apps:
 - [api](https://github.com/imperialbin/imperial/tree/main/apps/api) - The API for IMPERIAL.
 - [web](https://github.com/imperialbin/imperial/tree/main/apps/web) - The web interface for IMPERIAL.
-- [docs](https://github.com/imperialbin/imperial/tree/main/docs) - The documentation for IMPERIAL.
+- [docs](https://github.com/imperialbin/imperial/tree/main/apps/docs) - The documentation for IMPERIAL.
 - [bot](https://github.com/imperialbin/imperial/tree/main/apps/bot) - The bot for IMPERIAL.
 
 Packages:
