@@ -207,6 +207,7 @@ export const createDocument: FastifyImp<
       id: createdDocument.id,
       // Use the content from the body, not the database, as the database content is (sometimes) encrypted
       content: body.data.content,
+      password,
       creator: request.user
         ? {
             id: request.user.id,
