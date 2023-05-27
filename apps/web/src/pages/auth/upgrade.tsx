@@ -6,6 +6,8 @@ import Input from "../../components/Input";
 import { addNotification } from "../../state/actions";
 import { ImperialState } from "../../state/reducers";
 import { makeRequest } from "../../utils/rest";
+import Link from "next/link";
+import { STRIPE_MEMBER_PLUS_LINK } from "../../utils/constants";
 
 function Upgrade({ user, dispatch }: ReduxProps) {
   const [token, setToken] = useState("");
@@ -64,8 +66,8 @@ function Upgrade({ user, dispatch }: ReduxProps) {
         <div>
           <h1>Upgrade to Member+</h1>
           <p>
-            If you haven&apos;t yet purchased a token, you can do so here. Thanks for your
-            support!{" "}
+            If you haven&apos;t yet purchased a token, you can do so{" "}
+            <Link href={STRIPE_MEMBER_PLUS_LINK}>here</Link>. Thanks for your support!{" "}
           </p>
         </div>
 
