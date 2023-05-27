@@ -13,7 +13,7 @@ type EmailProps = {
   };
   order_refunded: {
     receipt_url: string;
-    amount_refunded: number;
+    amount_refunded: string;
   };
   payment_success: {
     token: string;

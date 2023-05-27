@@ -48,7 +48,11 @@ export default async function (event: Stripe.DiscriminatedEvent.ChargeEvent) {
   SES.sendEmail(
     "order_refunded",
     {
-      amount_refunded: event.data.object.amount_refunded,
+      amount_refunded: new Intl.NumberFormat("en-us", {
+        style: "currency",
+        currency: "USD",
+        minimumFractionDigits: 2,
+      }).format(event.data.object.amount_refunded / 100),
       receipt_url: event.data.object.receipt_url as string,
     },
     event.data.object.billing_details.email as string,
