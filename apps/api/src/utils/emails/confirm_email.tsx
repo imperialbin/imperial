@@ -16,7 +16,7 @@ export default function ConfirmEmail({
         like encrypted documents, screenshot embeds, and more!
       </p>
       <Button href={`https://imperialb.in/auth/confirm?token=${token}`}>
-        Reset Password
+        Confirm Email
       </Button>
     </PageBase>
   );
