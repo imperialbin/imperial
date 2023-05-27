@@ -1,17 +1,25 @@
-import { useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import { ArrowUp, Mail, X } from "react-feather";
 import { ConnectedProps, connect } from "react-redux";
 import { Container, StyledButton, Wrapper } from "../../components/AuthStyles";
 import Input from "../../components/Input";
 import { addNotification } from "../../state/actions";
 import { ImperialState } from "../../state/reducers";
-import { makeRequest } from "../../utils/rest";
-import Link from "next/link";
 import { STRIPE_MEMBER_PLUS_LINK } from "../../utils/constants";
+import { makeRequest } from "../../utils/rest";
 
 function Upgrade({ user, dispatch }: ReduxProps) {
   const [token, setToken] = useState("");
   const [disableButton, setDisableButton] = useState(false);
+  const query = useRouter().query as { token?: string };
+
+  useEffect(() => {
+    if (query.token) {
+      setToken(query.token);
+    }
+  }, [query]);
 
   const upgrade = async () => {
     if (!user) {
