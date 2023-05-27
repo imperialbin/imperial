@@ -49,7 +49,7 @@ function Upgrade() {
           ? "Confirming your email"
           : success
           ? "Confirmed your email"
-          : "Oops..."}
+          : "Oops"}
       </Title>
       <Paragraph>{message}</Paragraph>
     </CallbackWrapper>

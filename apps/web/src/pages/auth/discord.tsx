@@ -66,7 +66,7 @@ function Discord() {
           ? "Connecting your Discord"
           : success
           ? "Connected!"
-          : "Uh Oh..."}
+          : "Uh Oh"}
       </Title>
       <Paragraph>{message}</Paragraph>
     </CallbackWrapper>

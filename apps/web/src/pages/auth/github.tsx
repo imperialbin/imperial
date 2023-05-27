@@ -66,7 +66,7 @@ function GitHub() {
           ? "Connecting your GitHub"
           : success
           ? "Connected!"
-          : "Uh Oh..."}
+          : "Uh Oh"}
       </Title>
       <Paragraph>{message}</Paragraph>
     </CallbackWrapper>
