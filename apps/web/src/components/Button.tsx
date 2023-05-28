@@ -3,8 +3,6 @@ import React, { useEffect } from "react";
 import type * as Stitches from "@stitches/react";
 import { styled } from "@web/stitches.config";
 
-// Vercel deploy
-
 const StyledButton = styled("button", {
   display: "flex",
   alignItems: "center",
