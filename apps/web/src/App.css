@@ -77,7 +77,6 @@ label {
 a {
   color: var(--text-primary);
   opacity: 0.8;
-  text-decoration: underline;
   transition: opacity 0.15s ease-in-out;
   -webkit-transition: opacity 0.15s ease-in-out;
   -moz-transition: opacity 0.15s ease-in-out;
