@@ -52,6 +52,7 @@ const DropdownButton = styled("button", {
   whiteSpace: "nowrap",
   padding: "5px 10px",
   fontWeight: 500,
+  width: "-webkit-fill-available",
   background: "transparent",
   gap: 10,
   outline: "none",
