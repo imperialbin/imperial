@@ -45,7 +45,7 @@ const Wrapper = styled(motion.div, {
   top: 0,
   right: 0,
   zIndex: 100,
-  background: "$primary",
+  background: "$primary900",
   color: "$text-primary",
   borderBottomLeftRadius: "$large",
   padding: "0 15px",
@@ -72,7 +72,7 @@ const HideNavContainer = styled(motion.div, {
   transition: "all 0.15s ease-in-out",
 
   "&:hover": {
-    background: "$tertiary",
+    background: "$primary600",
     opacity: 1,
   },
 });

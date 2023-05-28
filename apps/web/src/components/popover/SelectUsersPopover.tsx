@@ -26,8 +26,8 @@ const Item = styled("button", {
   transition: "background 0.15s ease-in-out, border 0.15s ease-in-out",
 
   "&:hover": {
-    background: "$primary",
-    border: "1.5px solid $contrast",
+    background: "$primary900",
+    border: "1.5px solid $primary500",
   },
 
   "> img": {

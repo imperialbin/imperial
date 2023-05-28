@@ -43,7 +43,7 @@ const ContentWrapper = styled(motion.div, {
   maxWidth: 500,
   gap: 10,
   width: "90%",
-  background: "$primary",
+  background: "$primary900",
   boxShadow: "-1px 6px 36px 8px rgba(0, 0, 0, 0.25)",
 });
 

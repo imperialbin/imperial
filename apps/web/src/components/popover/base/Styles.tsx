@@ -26,7 +26,7 @@ const Item = styled("li", {
   "&:hover": {
     color: "$text-primary",
     opacity: 1,
-    background: "$contrast",
+    background: "$primary500",
   },
 
   variants: {
@@ -45,7 +45,7 @@ const Separator = styled("span", {
   margin: "8px auto",
   width: "80%",
   height: "1.5px",
-  background: "$contrast",
+  background: "$primary600",
 });
 
 export { List, Item, Separator };

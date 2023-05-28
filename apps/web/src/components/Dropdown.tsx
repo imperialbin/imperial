@@ -37,7 +37,7 @@ const Wrapper = styled("ul", {
 
     "&:hover": {
       color: "hsl(var(--text-secondary))",
-      backgroundColor: "hsl(var(--bg-secondary))",
+      backgroundColor: "$primary-700",
     },
 
     "&:focus-visible": {
@@ -57,7 +57,7 @@ const DropdownButton = styled("button", {
   outline: "none",
   cursor: "pointer",
   color: "$text-secondary",
-  border: "2px solid var(--bg-contrast)",
+  border: "1px solid $primary500",
   borderRadius: "$tiny",
   opacity: 1,
   overflow: "hidden",

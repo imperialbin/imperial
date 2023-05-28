@@ -32,14 +32,14 @@ const Editor = styled(motion.div, {
   alignItems: "center",
   borderRadius: "$medium",
   color: "$text-secondary",
-  border: "1.5px solid $contrast",
+  border: "1.5px solid $primary500",
   transition: "background 0.2s ease-in-out",
   padding: 10,
   overflow: "hidden",
   marginTop: 10,
 
   "&:hover": {
-    background: "$tertiary",
+    background: "$primary600",
   },
 
   "> img": {

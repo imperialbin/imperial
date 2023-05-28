@@ -31,28 +31,32 @@ function EditorSkeleton(): JSX.Element {
             key={i}
             duration={0.5}
             style={{ display: "inline-block", marginTop: i === 0 ? 0 : 3 }}
-            width={Math.floor(Math.random() * 200) + 100}
-            height={16}
+            width={Math.floor(Math.random() * 400) + 100}
+            height={18}
           />
         ))}
-        <Skeleton duration={0.5} style={{ marginTop: 48 }} width={300} height={16} />
+        <Skeleton duration={0.5} style={{ marginTop: 48 }} width={250} height={18} />
         {[...Array(18)].map((_, i) => {
-          const randomChance = Math.floor(Math.random() * 200);
+          const randomChance = Math.random() * 100;
+
           return (
             <Skeleton
               key={i}
               duration={0.5}
+              wrapper={({ children }) => (
+                <div style={{ display: "flex" }}>{children}</div>
+              )}
               style={{
                 display: "block",
-                margin: `${randomChance > 20 ? "3px" : "16px"} 25px`,
+                margin: `${randomChance > 30 ? "3px" : "16px"} 25px`,
               }}
-              width={randomChance + 120}
-              height={16}
+              width={randomChance + 230}
+              height={18}
             />
           );
         })}
-        <Skeleton duration={0.5} style={{ marginTop: 3 }} width={30} height={16} />
-        <Skeleton duration={0.5} style={{ marginTop: 48 }} width={280} height={16} />
+        <Skeleton duration={0.5} style={{ marginTop: 3 }} width={30} height={18} />
+        <Skeleton duration={0.5} style={{ marginTop: 48 }} width={280} height={18} />
       </CodeContainer>
     </Container>
   );

@@ -32,7 +32,7 @@ const FormContainer = styled("div", {
 
 const LogoContainer = styled("div", {
   position: "absolute",
-  background: "$tertiary",
+  background: "$primary700",
   display: "flex",
   flexDirection: "column",
   alignItems: "center",

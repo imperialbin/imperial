@@ -8,7 +8,7 @@ const SettingContainer = styled("div", {
   alignItems: "center",
   margin: "15px 0",
   borderTop: "1px solid",
-  borderTopColor: "$contrast",
+  borderTopColor: "$primary500",
 });
 
 const InfoContainer = styled("div", {

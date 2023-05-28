@@ -15,7 +15,7 @@ const Slider = styled("span", {
   height: "25px",
   display: "block",
   borderRadius: "100px",
-  background: "$primary",
+  background: "$primary900",
 
   "&:after": {
     content: "",
