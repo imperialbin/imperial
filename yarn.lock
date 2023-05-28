@@ -11696,7 +11696,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-loading-skeleton@npm:^3.1.1":
+"react-loading-skeleton@npm:^3.3.1":
   version: 3.3.1
   resolution: "react-loading-skeleton@npm:3.3.1"
   peerDependencies:
@@ -14118,7 +14118,7 @@ turbo@latest:
     react-copy-to-clipboard: ^5.1.0
     react-dom: 18.2.0
     react-feather: ^2.0.10
-    react-loading-skeleton: ^3.1.1
+    react-loading-skeleton: ^3.3.1
     react-redux: ^8.0.5
     redux: ^4.2.1
     tsconfig: "*"
