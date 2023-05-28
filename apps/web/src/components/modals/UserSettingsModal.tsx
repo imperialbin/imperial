@@ -30,7 +30,7 @@ const Wrapper = styled("div", {
   width: "80%",
   maxWidth: "800px",
   minHeight: "200px",
-  height: "50%",
+  height: "60%",
   maxHeight: "80%",
   background: "$primary800",
   borderRadius: "10px",
@@ -42,12 +42,15 @@ const Container = styled("div", {
   width: "100%",
   height: "100%",
   alignSelf: "baseline",
+  "@media (max-width: 680px)": {
+    flexDirection: "column",
+  },
 });
 
 const Overview = styled("div", {
   display: "flex",
   flexDirection: "column",
-  width: "80%",
+  width: "100%",
   background: "$primary800",
   boxShadow: "-1px 6px 36px 8px rgba(0, 0, 0, 0.25)",
   padding: "20px",
@@ -63,6 +66,10 @@ const Overview = styled("div", {
   "& > *:last-child": {
     marginTop: "auto",
     alignSelf: "flex-start",
+  },
+
+  "@media (max-width: 680px)": {
+    height: "50%",
   },
 });
 
@@ -219,6 +226,10 @@ const Settings = styled("div", {
   flexGrow: 1,
   padding: 20,
   overflow: "auto",
+  width: "100%",
+  "@media (max-width: 680px)": {
+    height: "50%",
+  },
 });
 
 const InputWrapper = styled("div", {
