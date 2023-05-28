@@ -11,7 +11,7 @@ import { styled } from "@web/stitches.config";
 import { Document, SelfUser, UserSettings as UserSettingsType } from "@web/types";
 import { makeRequest } from "@web/utils/rest";
 import Link from "next/link";
-import { getRole } from "../../utils/permissions";
+import { getRole } from "@web/utils/permissions";
 import Button from "../Button";
 import { DiscordLogo, GitHubLogo } from "../Icons";
 import Input from "../Input";
