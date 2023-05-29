@@ -18,6 +18,7 @@ import { Provider } from "react-redux";
 import config from "../next-seo.config";
 import DragandDrop from "../components/DragAndDrop";
 import NextProgress from "next-progress";
+import "react-loading-skeleton/dist/skeleton.css";
 
 export default function App({ Component, pageProps }: AppProps) {
   globalStyles();
@@ -73,10 +74,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <ErrorBoundary>
       <Provider store={store}>
-        <SkeletonTheme
-          baseColor="var(--bg-contrast)"
-          highlightColor="var(--bg-secondary)"
-        >
+        <SkeletonTheme baseColor="var(--primary-500)" highlightColor="var(--primary-700)">
           <NextProgress color="var(--text-secondary)" options={{ showSpinner: false }} />
 
           <DragandDrop />

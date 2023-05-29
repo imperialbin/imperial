@@ -21,10 +21,17 @@ const stitches = createStitches({
   theme: {
     colors: {
       /* General names */
-      primary: "var(--bg-primary)",
-      secondary: "var(--bg-secondary)",
-      tertiary: "var(--bg-tertiary)",
-      contrast: "var(--bg-contrast)",
+      primary900: "var(--primary-900)",
+      primary800: "var(--primary-800)",
+      primary700: "var(--primary-700)",
+      primary600: "var(--primary-600)",
+      primary500: "var(--primary-500)",
+      primary400: "var(--primary-400)",
+      primary300: "var(--primary-300)",
+      primary200: "var(--primary-200)",
+      primary100: "var(--primary-100)",
+      primary50: "var(--primary-50)",
+      primary: "var(--primary)",
 
       "text-white": "var(--text-white)",
       "text-primary": "var(--text-primary)",
@@ -65,8 +72,8 @@ const stitches = createStitches({
     },
     radii: {
       tiny: "4px",
-      small: "8px",
-      medium: "10px",
+      small: "6px",
+      medium: "8px",
       large: "15px",
     },
     shadows: {

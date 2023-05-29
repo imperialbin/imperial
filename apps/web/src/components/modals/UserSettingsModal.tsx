@@ -11,7 +11,7 @@ import { styled } from "@web/stitches.config";
 import { Document, SelfUser, UserSettings as UserSettingsType } from "@web/types";
 import { makeRequest } from "@web/utils/rest";
 import Link from "next/link";
-import { getRole } from "../../utils/permissions";
+import { getRole } from "@web/utils/permissions";
 import Button from "../Button";
 import { DiscordLogo, GitHubLogo } from "../Icons";
 import Input from "../Input";
@@ -30,11 +30,11 @@ const Wrapper = styled("div", {
   width: "80%",
   maxWidth: "800px",
   minHeight: "200px",
-  height: "50%",
+  height: "60%",
   maxHeight: "80%",
-  background: "$secondary",
+  background: "$primary800",
   borderRadius: "10px",
-  overflow: "hidden",
+  overflow: "auto",
 });
 
 const Container = styled("div", {
@@ -42,13 +42,17 @@ const Container = styled("div", {
   width: "100%",
   height: "100%",
   alignSelf: "baseline",
+
+  "@media (max-width: 680px)": {
+    flexDirection: "column",
+  },
 });
 
 const Overview = styled("div", {
   display: "flex",
   flexDirection: "column",
-  width: "80%",
-  background: "$secondary",
+  width: "100%",
+  background: "$primary800",
   boxShadow: "-1px 6px 36px 8px rgba(0, 0, 0, 0.25)",
   padding: "20px",
   borderBottomRightRadius: "12px",
@@ -63,6 +67,12 @@ const Overview = styled("div", {
   "& > *:last-child": {
     marginTop: "auto",
     alignSelf: "flex-start",
+  },
+
+  "@media (max-width: 680px)": {
+    height: "unset",
+    boxShadow: "unset",
+    overflow: "unset",
   },
 });
 
@@ -127,14 +137,14 @@ const Tile = styled("div", {
   flexDirection: "column",
   justifyContent: "center",
   color: "$text-white",
-  background: "$tertiary",
+  background: "$primary700",
   overflow: "hidden",
   whiteSpace: "nowrap",
   textOverflow: "ellipsis",
   padding: "13px 10px",
   fontSize: "1.2em",
   borderRadius: "8px",
-  border: "2.5px solid $contrast",
+  border: "1px solid $primary400",
 
   "> span": {
     fontSize: "0.8em",
@@ -219,6 +229,12 @@ const Settings = styled("div", {
   flexGrow: 1,
   padding: 20,
   overflow: "auto",
+  width: "100%",
+
+  "@media (max-width: 680px)": {
+    height: "unset",
+    overflow: "unset",
+  },
 });
 
 const InputWrapper = styled("div", {
@@ -704,7 +720,7 @@ function UserSettings({ user, dispatch, closeModal }: ReduxProps & ModalProps) {
               },
               {
                 title: "7 days",
-                value: 2,
+                value: 7,
                 selected: user.settings.expiration === 7,
               },
               {

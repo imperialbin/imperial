@@ -23,7 +23,7 @@ const NotificationWrapper = styled(motion.div, {
   minHeight: 50,
   margin: "10px 0",
   cursor: "pointer",
-  background: "$tertiary",
+  background: "$primary600",
   color: "$text-secondary",
   fontSize: "0.9em",
 

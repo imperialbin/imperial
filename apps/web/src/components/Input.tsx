@@ -44,14 +44,14 @@ const InputComponent = styled("input", {
   padding: "0.9em 10px",
   fontWeight: 500,
   borderRadius: "$medium",
-  background: "$contrast",
+  background: "$primary600",
   transition: "background 0.15s ease-in-out, text-shadow 0.15s ease-in-out",
   color: "$text-secondary",
-  border: "2px solid $contrast",
+  border: "2px solid $primary600",
 
   "&:focus": {
     color: "$text-secondary",
-    background: "$primary",
+    background: "$primary900",
   },
 
   "&::placeholder": {

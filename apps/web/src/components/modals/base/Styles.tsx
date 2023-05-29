@@ -6,7 +6,7 @@ export const Wrapper = styled("div", {
   flexDirection: "column",
   padding: 25,
   margin: 10,
-  background: "$secondary",
+  background: "$primary800",
   borderRadius: 8,
   overflow: "auto",
   maxHeight: "90%",

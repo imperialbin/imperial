@@ -24,7 +24,7 @@ const MiniContainer = styled(motion.div, {
   maxHeight: 180,
   borderRadius: 8,
   padding: 10,
-  background: "$tertiary",
+  background: "$primary600",
   boxShadow: "rgba(0, 0, 0, 0.5) 0px 16px 70px",
 });
 

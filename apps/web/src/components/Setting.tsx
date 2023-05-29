@@ -8,7 +8,7 @@ const SettingContainer = styled("div", {
   alignItems: "center",
   margin: "15px 0",
   borderTop: "1px solid",
-  borderTopColor: "$contrast",
+  borderTopColor: "$primary500",
 });
 
 const InfoContainer = styled("div", {
@@ -98,7 +98,11 @@ function Setting<T = "switch" | "dropdown", K = unknown>({
 
       {/* Dropdowns */}
       {type === "dropdown" ? (
-        <Dropdown items={items ?? []} onSelect={(item) => onSelect && onSelect(item)} />
+        <Dropdown
+          style={{ minWidth: 82 }}
+          items={items ?? []}
+          onSelect={(item) => onSelect?.(item)}
+        />
       ) : null}
     </SettingContainer>
   );

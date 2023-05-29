@@ -17,11 +17,15 @@ const Container = styled("div", {
   justifyContent: "center",
   maxWidth: 600,
   padding: "$large",
-  background: "$primary",
-  border: "1px solid $contrast",
+  background: "$primary900",
+  border: "1px solid $primary500",
   borderRadius: "$large",
   color: "$text-primary",
   gap: 10,
+
+  "> div > h1": {
+    fontSize: "1.5em",
+  },
 
   "> div > p": {
     marginBottom: 10,

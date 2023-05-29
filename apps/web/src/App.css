@@ -1,5 +1,16 @@
 :root {
-  --bg-primary: #121212;
+  --primary-900: hsl(0, 0%, 7%);
+  --primary-800: hsl(0, 0%, 10%);
+  --primary-700: hsl(0, 0%, 13%);
+  --primary-600: hsl(0, 0%, 16%);
+  --primary-500: hsl(0, 0%, 19%);
+  --primary-400: hsl(0, 0%, 22%);
+  --primary-300: hsl(0, 0%, 25%);
+  --primary-200: hsl(0, 0%, 28%);
+  --primary-100: hsl(0, 0%, 31%);
+  --primary-50: hsl(0, 0%, 34%);
+  --primary: hsl(0, 0%, 37%);
+  --bg-primary: hsl(0, 0%, 7%);
   --bg-secondary: #191919;
   --bg-tertiary: #1e1e1e;
   --bg-contrast: #242424;
@@ -77,7 +88,6 @@ label {
 a {
   color: var(--text-primary);
   opacity: 0.8;
-  text-decoration: underline;
   transition: opacity 0.15s ease-in-out;
   -webkit-transition: opacity 0.15s ease-in-out;
   -moz-transition: opacity 0.15s ease-in-out;

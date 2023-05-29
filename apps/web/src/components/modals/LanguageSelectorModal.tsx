@@ -43,7 +43,7 @@ const Language = styled("button", {
   transition: "background 0.15s ease-in-out",
 
   "&:hover": {
-    background: "$tertiary",
+    background: "$primary600",
   },
 
   "> svg": {

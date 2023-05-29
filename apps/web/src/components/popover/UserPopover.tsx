@@ -10,7 +10,6 @@ import { Item, List, Separator } from "./base/Styles";
 import { PopoverBase } from "./base/popover";
 
 const Wrapper = styled("div", {
-  background: "$tertiary",
   borderRadius: "$medium",
 });
 

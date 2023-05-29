@@ -9,10 +9,10 @@ const StyledButton = styled("button", {
   gap: 5,
   padding: "8px 10px",
   borderRadius: "$tiny",
-  background: "$tertiary",
+  background: "$primary700",
   color: "$text-secondary",
   cursor: "pointer",
-  border: "1.5px solid var(--bg-contrast)",
+  border: "1px solid $primary500",
   transition: "color 0.15s ease-in-out, border 0.15s ease-in-out",
 
   "&:hover": {
