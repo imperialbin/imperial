@@ -2361,18 +2361,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sentry-internal/tracing@npm:7.46.0":
-  version: 7.46.0
-  resolution: "@sentry-internal/tracing@npm:7.46.0"
-  dependencies:
-    "@sentry/core": 7.46.0
-    "@sentry/types": 7.46.0
-    "@sentry/utils": 7.46.0
-    tslib: ^1.9.3
-  checksum: 727f32da229db307391f174e98d819db8cf97e58149e5dea1bfe9b4ab0efc44eec6ad8d93c62051d56f202d5be7895180f4711ca44bf2986714ce8cf8015ab17
-  languageName: node
-  linkType: hard
-
 "@sentry-internal/tracing@npm:7.53.0":
   version: 7.53.0
   resolution: "@sentry-internal/tracing@npm:7.53.0"
@@ -2424,17 +2412,6 @@ __metadata:
   bin:
     sentry-cli: bin/sentry-cli
   checksum: d5b130bb45bc96d0f738801343455e6a113d1cc9e16166f0d6bfa022809b557159f010677d2dc05adcdfa7f8ad23c401182b6daef720fa2a0bad82fa6e3b2148
-  languageName: node
-  linkType: hard
-
-"@sentry/core@npm:7.46.0":
-  version: 7.46.0
-  resolution: "@sentry/core@npm:7.46.0"
-  dependencies:
-    "@sentry/types": 7.46.0
-    "@sentry/utils": 7.46.0
-    tslib: ^1.9.3
-  checksum: af9733781f1ca9091d42363bf67b23999eebe8a2ea15178d93d942788e2adc2c0ed0709d7553cd03b94e19d6b0376066f4e1c367b4a6855c65114ddc864f26f3
   languageName: node
   linkType: hard
 
@@ -2515,22 +2492,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sentry/node@npm:^7.46.0":
-  version: 7.46.0
-  resolution: "@sentry/node@npm:7.46.0"
-  dependencies:
-    "@sentry-internal/tracing": 7.46.0
-    "@sentry/core": 7.46.0
-    "@sentry/types": 7.46.0
-    "@sentry/utils": 7.46.0
-    cookie: ^0.4.1
-    https-proxy-agent: ^5.0.0
-    lru_map: ^0.3.3
-    tslib: ^1.9.3
-  checksum: 0f97b1a28389cebe3f6c6a40550c9bffd397685a188f7e2e9fa7672e9c6178454125fcd453a5eea241fab8b1c1302b575b6bc18299793f16049ced0db92804a8
-  languageName: node
-  linkType: hard
-
 "@sentry/node@npm:^7.53.1":
   version: 7.53.1
   resolution: "@sentry/node@npm:7.53.1"
@@ -2582,13 +2543,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sentry/types@npm:7.46.0":
-  version: 7.46.0
-  resolution: "@sentry/types@npm:7.46.0"
-  checksum: a61a525e425db76fce792c83677b0be6a9b6311cefe6590cc146cfde17870f02918785cef6af3a345c5b2e8631ef1c76785b5b270d4428d612b1cfe30d07a946
-  languageName: node
-  linkType: hard
-
 "@sentry/types@npm:7.53.0":
   version: 7.53.0
   resolution: "@sentry/types@npm:7.53.0"
@@ -2600,16 +2554,6 @@ __metadata:
   version: 7.53.1
   resolution: "@sentry/types@npm:7.53.1"
   checksum: 5f76d7d66d5df5d48f66a755e18ae133ea02a9405093b652eb4921ca62c3114343561a2d8067f2be6d9df8dd32d10e30d3ce58150f795600680e6230fb136681
-  languageName: node
-  linkType: hard
-
-"@sentry/utils@npm:7.46.0":
-  version: 7.46.0
-  resolution: "@sentry/utils@npm:7.46.0"
-  dependencies:
-    "@sentry/types": 7.46.0
-    tslib: ^1.9.3
-  checksum: cc550dac9105e68e28b770879426e12b52953468f3f34df7ff0f5352cdcc4b8a8af2144fe1a20f0a23d3f0afdbba14661951765e3d9f81335acafc35ffd632f1
   languageName: node
   linkType: hard
 
@@ -3495,7 +3439,7 @@ __metadata:
     "@jest/globals": ^29.5.0
     "@react-email/components": ^0.0.4
     "@react-email/render": ^0.0.6
-    "@sentry/node": ^7.46.0
+    "@sentry/node": ^7.53.1
     "@types/bcrypt": ^5.0.0
     "@types/cli-color": ^2.0.2
     "@types/cron": ^2.0.1

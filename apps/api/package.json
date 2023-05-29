@@ -24,7 +24,7 @@
     "@fastify/rate-limit": "^8.0.0",
     "@react-email/components": "^0.0.4",
     "@react-email/render": "^0.0.6",
-    "@sentry/node": "^7.46.0",
+    "@sentry/node": "^7.53.1",
     "aws-sdk": "^2.1353.0",
     "bcrypt": "^5.1.0",
     "cli-color": "^2.0.3",
