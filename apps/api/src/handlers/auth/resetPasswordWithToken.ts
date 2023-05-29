@@ -61,9 +61,12 @@ export const resetPasswordWithToken: FastifyImp<
     });
   }
 
-  await db.update(users).set({
-    password: await bcrypt.hash(body.data.new_password, 10),
-  });
+  await db
+    .update(users)
+    .set({
+      password: await bcrypt.hash(body.data.new_password, 10),
+    })
+    .where(eq(users.id, user.id));
 
   await Redis.del("reset_token", body.data.token);
   await AuthSessions.deleteAllSessionsForUser(user.id);

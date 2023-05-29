@@ -52,9 +52,12 @@ export const confirmEmail: FastifyImp<{
     });
   }
 
-  await db.update(users).set({
-    confirmed: true,
-  });
+  await db
+    .update(users)
+    .set({
+      confirmed: true,
+    })
+    .where(eq(users.id, user.id));
 
   return reply.status(204).send();
 };

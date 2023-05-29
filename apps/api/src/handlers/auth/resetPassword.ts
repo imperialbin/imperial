@@ -6,6 +6,7 @@ import { users } from "../../db/schemas";
 import { FastifyImp } from "../../types";
 import { AuthSessions } from "../../utils/authSessions";
 import { fromZodError } from "zod-validation-error";
+import { eq } from "drizzle-orm";
 
 const resetPasswordBody = z.object({
   old_password: z.string().min(8),
@@ -41,9 +42,12 @@ export const resetPassword: FastifyImp<
     });
   }
 
-  await db.update(users).set({
-    password: await bcrypt.hash(body.data.new_password, 10),
-  });
+  await db
+    .update(users)
+    .set({
+      password: await bcrypt.hash(body.data.new_password, 10),
+    })
+    .where(eq(users.id, request.user.id));
 
   await AuthSessions.deleteAllSessionsForUser(
     request.user.id,
