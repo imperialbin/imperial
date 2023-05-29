@@ -3457,7 +3457,7 @@ __metadata:
     cron: ^2.3.0
     crypto-js: ^4.1.1
     dotenv: ^16.0.3
-    drizzle-kit: ^0.18.0
+    drizzle-kit: ^0.18.1
     envsafe: ^2.0.3
     eslint: ">=8.0.0"
     eslint-config-xo: ^0.43.1
@@ -5024,9 +5024,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"drizzle-kit@npm:^0.18.0":
-  version: 0.18.0
-  resolution: "drizzle-kit@npm:0.18.0"
+"drizzle-kit@npm:^0.18.1":
+  version: 0.18.1
+  resolution: "drizzle-kit@npm:0.18.1"
   dependencies:
     camelcase: ^7.0.1
     chalk: ^5.2.0
@@ -5040,7 +5040,7 @@ __metadata:
     zod: ^3.20.2
   bin:
     drizzle-kit: index.js
-  checksum: 52a3e705b707841be2dba8eb2f7b8f680ae7618f4f65edf821bab8629f328e69734bddbc182ed910470762be01dbfa6d7c48ebb7a556c59a7bd332415d2e18e7
+  checksum: be65b073d00f293e7c278f125d0303eb88d45127c1f99a9b2ff6aaf5b0209db1d54625e4d4db69243f6196d92a84414bd7f39c1dc3b83ecd4e5edd3858e9e46a
   languageName: node
   linkType: hard
 
@@ -7643,7 +7643,7 @@ __metadata:
   dependencies:
     "@types/cli-color": ^2.0.2
     commons: "*"
-    drizzle-kit: ^0.18.0
+    drizzle-kit: ^0.18.1
   languageName: unknown
   linkType: soft
 
