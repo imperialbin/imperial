@@ -1,11 +1,11 @@
-import bcrypt from "bcrypt";
 import { FastifyImp } from "../../types";
 
 import { eq } from "drizzle-orm";
 import { z } from "zod";
+import { fromZodError } from "zod-validation-error";
 import { db } from "../../db";
 import { users } from "../../db/schemas";
-import { fromZodError } from "zod-validation-error";
+import { bCrypt } from "../../utils/bcrypt";
 
 const deleteMeSchema = z.object({
   password: z.string().min(8),
@@ -28,7 +28,7 @@ export const deleteMe: FastifyImp<{}, unknown, true> = async (
   }
 
   const { password } = body.data;
-  if (!(await bcrypt.compare(password, request.user.password))) {
+  if (!(await bCrypt.compare(password, request.user.password))) {
     return reply.status(400).send({
       success: false,
       error: {

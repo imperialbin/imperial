@@ -1,13 +1,13 @@
 import { Id } from "@imperial/commons";
-import bcrypt from "bcrypt";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
+import { fromZodError } from "zod-validation-error";
 import { db } from "../../db";
 import { users } from "../../db/schemas";
 import { FastifyImp } from "../../types";
 import { AuthSessions } from "../../utils/authSessions";
+import { bCrypt } from "../../utils/bcrypt";
 import { Redis } from "../../utils/redis";
-import { fromZodError } from "zod-validation-error";
 
 const resetPasswordWithTokenBody = z.object({
   token: z.string().length(32),
@@ -64,7 +64,7 @@ export const resetPasswordWithToken: FastifyImp<
   await db
     .update(users)
     .set({
-      password: await bcrypt.hash(body.data.new_password, 10),
+      password: await bCrypt.hash(body.data.new_password),
     })
     .where(eq(users.id, user.id));
 

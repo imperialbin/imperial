@@ -1,13 +1,15 @@
-import bcrypt from "bcrypt";
 import { eq, or } from "drizzle-orm";
 import { z } from "zod";
+import { fromZodError } from "zod-validation-error";
 import { db } from "../../db";
 import { users } from "../../db/schemas";
 import { FastifyImp, SelfUser } from "../../types";
 import { AuthSessions } from "../../utils/authSessions";
 import { SES } from "../../utils/aws";
-import { fromZodError } from "zod-validation-error";
+import { bCrypt } from "../../utils/bcrypt";
 import { parseDomainFromOrigin } from "../../utils/parse";
+import { generateRandomSecureString } from "../../utils/strings";
+import { Redis } from "../../utils/redis";
 
 const loginSchema = z.object({
   username: z.string().min(1).or(z.string().email()),
@@ -65,7 +67,30 @@ export const login: FastifyImp<
     });
   }
 
-  if (!(await bcrypt.compare(body.data.password, user.password))) {
+  if (user.password.startsWith("$2b$10")) {
+    const token = generateRandomSecureString(32);
+    await Redis.set("reset_token", token, user.id, {
+      EX: 60 * 60 * 24,
+    });
+
+    await SES.sendEmail(
+      "reset_password",
+      { token },
+      user.email,
+      "Reset Password",
+    );
+
+    return reply.status(400).send({
+      success: false,
+      error: {
+        code: "bad_request",
+        message:
+          "Your password is using an outdated hashing algorithm. We've sent you an email to reset your password.",
+      },
+    });
+  }
+
+  if (!(await bCrypt.compare(body.data.password, user.password))) {
     return reply.status(400).send({
       success: false,
       error: {
@@ -97,7 +122,9 @@ export const login: FastifyImp<
 
   reply
     .setCookie("imperial-auth", token, {
-      domain: `.${parseDomainFromOrigin(request.headers.origin ?? "imperialb.in")}`,
+      domain: `.${parseDomainFromOrigin(
+        request.headers.origin ?? "imperialb.in",
+      )}`,
     })
     .send({
       success: true,

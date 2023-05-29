@@ -1,19 +1,18 @@
-import bcrypt from "bcrypt";
+import { permer, pika } from "@imperial/commons";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
+import { fromZodError } from "zod-validation-error";
 import { db } from "../../db";
 import { users } from "../../db/schemas";
 import { FastifyImp, SelfUser } from "../../types";
 import { AuthSessions } from "../../utils/authSessions";
 import { SES } from "../../utils/aws";
-import { pika } from "@imperial/commons";
-import { permer } from "@imperial/commons";
-import { generateRandomSecureString } from "../../utils/strings";
-import { Redis } from "../../utils/redis";
-import { fromZodError } from "zod-validation-error";
-import { usernameSchema } from "../../utils/schemas";
+import { bCrypt } from "../../utils/bcrypt";
 import { env } from "../../utils/env";
 import { parseDomainFromOrigin } from "../../utils/parse";
+import { Redis } from "../../utils/redis";
+import { usernameSchema } from "../../utils/schemas";
+import { generateRandomSecureString } from "../../utils/strings";
 
 const signupSchema = z.object({
   username: usernameSchema,
@@ -70,7 +69,7 @@ export const signup: FastifyImp<
     });
   }
 
-  const hashedPassword = await bcrypt.hash(body.data.password, 10);
+  const hashedPassword = await bCrypt.hash(body.data.password);
 
   const user =
     (
@@ -143,7 +142,9 @@ export const signup: FastifyImp<
 
   reply
     .setCookie("imperial-auth", token, {
-      domain: `.${parseDomainFromOrigin(request.headers.origin ?? "imperialb.in")}`,
+      domain: `.${parseDomainFromOrigin(
+        request.headers.origin ?? "imperialb.in",
+      )}`,
     })
     .send({
       success: true,

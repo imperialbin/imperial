@@ -1,9 +1,9 @@
-import bcrypt from "bcrypt";
+import { Id } from "@imperial/commons";
 import { z } from "zod";
+import { fromZodError } from "zod-validation-error";
 import { FastifyImp } from "../../types";
 import { AuthSessions } from "../../utils/authSessions";
-import { Id } from "@imperial/commons";
-import { fromZodError } from "zod-validation-error";
+import { bCrypt } from "../../utils/bcrypt";
 
 const deviceSchema = z.custom<Id<"device">>(
   (value) => typeof value === "string" && value.startsWith("device_"),
@@ -35,7 +35,7 @@ export const deleteMeDevices: FastifyImp<
     });
   }
 
-  if (!(await bcrypt.compare(body.data.password, request.user.password))) {
+  if (!(await bCrypt.compare(body.data.password, request.user.password))) {
     return reply.status(401).send({
       success: false,
       error: {

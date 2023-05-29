@@ -1,12 +1,12 @@
 import { Id } from "@imperial/commons";
-import bcrypt from "bcrypt";
+import { eq } from "drizzle-orm";
 import { z } from "zod";
+import { fromZodError } from "zod-validation-error";
 import { db } from "../../db";
 import { users } from "../../db/schemas";
 import { FastifyImp } from "../../types";
 import { AuthSessions } from "../../utils/authSessions";
-import { fromZodError } from "zod-validation-error";
-import { eq } from "drizzle-orm";
+import { bCrypt } from "../../utils/bcrypt";
 
 const resetPasswordBody = z.object({
   old_password: z.string().min(8),
@@ -32,7 +32,7 @@ export const resetPassword: FastifyImp<
     });
   }
 
-  if (!(await bcrypt.compare(body.data.old_password, request.user.password))) {
+  if (!(await bCrypt.compare(body.data.old_password, request.user.password))) {
     return reply.status(400).send({
       success: false,
       error: {
@@ -45,7 +45,7 @@ export const resetPassword: FastifyImp<
   await db
     .update(users)
     .set({
-      password: await bcrypt.hash(body.data.new_password, 10),
+      password: await bCrypt.hash(body.data.new_password),
     })
     .where(eq(users.id, request.user.id));
 
