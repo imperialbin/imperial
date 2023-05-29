@@ -5100,9 +5100,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"drizzle-orm@npm:^0.26.0":
-  version: 0.26.0
-  resolution: "drizzle-orm@npm:0.26.0"
+"drizzle-orm@npm:^0.26.1":
+  version: 0.26.1
+  resolution: "drizzle-orm@npm:0.26.1"
   peerDependencies:
     "@aws-sdk/client-rds-data": ">=3"
     "@cloudflare/workers-types": ">=3"
@@ -5159,7 +5159,7 @@ __metadata:
       optional: true
     sqlite3:
       optional: true
-  checksum: 47369b0190c6dc135652c550da7cfc8cb767baa0cdcdaf333c2cca711d4aedd8e55464de5e1bdde55ffe9a591a28a6a055ce923c8e100e7e313b0206766da025
+  checksum: 6c7ac8f17bd7438fe843048b78d0293d910cc9be791b478b5cf693ac4969c64c65341d975dab3fb83e39cbfc853ddf8a11ab28e0977a1353f05815c76cd99cb1
   languageName: node
   linkType: hard
 
@@ -7602,7 +7602,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "imperial@workspace:."
   dependencies:
-    drizzle-orm: ^0.26.0
+    drizzle-orm: ^0.26.1
     prettier: latest
     turbo: latest
   languageName: unknown
