@@ -109,4 +109,9 @@ export const themes = pgTable("themes", {
     .$type<Id<"user">>(),
   official: boolean("official").notNull().default(false),
   private: boolean("private").notNull().default(false),
+  created_at: date("created_at", {
+    mode: "string",
+  })
+    .notNull()
+    .defaultNow(),
 });
