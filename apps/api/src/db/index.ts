@@ -3,8 +3,9 @@ import { migrate } from "drizzle-orm/postgres-js/migrator";
 import { Pool } from "pg";
 import { env } from "../utils/env";
 import { Logger } from "../utils/logger";
+import * as schema from "@imperial/internal";
 
-export let db: ReturnType<typeof drizzle>;
+export let db: ReturnType<typeof drizzle<typeof schema>>;
 
 export const setupDB = async () => {
   const pool = await new Pool({
@@ -21,7 +22,7 @@ export const setupDB = async () => {
       process.exit(1);
     });
 
-  db = drizzle(pool);
+  db = drizzle(pool, { schema });
 
   await migrate(db, {
     migrationsFolder: "../../packages/internal/db/migrations",
