@@ -715,7 +715,7 @@ function UserSettings({ user, dispatch, closeModal }: ReduxProps & ModalProps) {
               },
               {
                 title: "7 days",
-                value: 2,
+                value: 7,
                 selected: user.settings.expiration === 7,
               },
               {
