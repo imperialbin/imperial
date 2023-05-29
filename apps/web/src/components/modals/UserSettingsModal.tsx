@@ -34,7 +34,7 @@ const Wrapper = styled("div", {
   maxHeight: "80%",
   background: "$primary800",
   borderRadius: "10px",
-  overflow: "hidden",
+  overflow: "auto",
 });
 
 const Container = styled("div", {
@@ -42,6 +42,7 @@ const Container = styled("div", {
   width: "100%",
   height: "100%",
   alignSelf: "baseline",
+
   "@media (max-width: 680px)": {
     flexDirection: "column",
   },
@@ -69,7 +70,9 @@ const Overview = styled("div", {
   },
 
   "@media (max-width: 680px)": {
-    height: "50%",
+    height: "unset",
+    boxShadow: "unset",
+    overflow: "unset",
   },
 });
 
@@ -227,8 +230,10 @@ const Settings = styled("div", {
   padding: 20,
   overflow: "auto",
   width: "100%",
+
   "@media (max-width: 680px)": {
-    height: "50%",
+    height: "unset",
+    overflow: "unset",
   },
 });
 
