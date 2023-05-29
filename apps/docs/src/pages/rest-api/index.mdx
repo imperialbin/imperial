@@ -24,7 +24,7 @@ A response can look like this
 {
   "success": true,
   "data": {
-    "test": "fields"
+    "xxxxx": "xxxxxx"
   }
 }
 ```
@@ -35,11 +35,25 @@ Or if a failed request happened
 {
   "success": false,
   "error": {
-    "message": "Bad Request",
-    "errors"?: ZodErrors[]
+    "code": "xxxxx_xxxx",
+    "message": "xxxxx xxxx xxxx xxxx"
   }
 }
 ```
+
+## Error Codes
+
+These are all the possible error codes
+
+| Code             | Description                                                      |
+| ---------------- | ---------------------------------------------------------------- |
+| `unauthorized`   | User is not authorized the route requires it.                    |
+| `bad_auth`       | User is authorized, but has no access to the requested material. |
+| `not_found`      | The requested material was not found.                            |
+| `bad_request`    | The request was malformed in some way                            |
+| `internal_error` | An internal error occured.                                       |
+
+## Getting Started
 
 <Steps>
  
