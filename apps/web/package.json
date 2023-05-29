@@ -39,7 +39,7 @@
   },
   "devDependencies": {
     "@types/crypto-js": "^4.1.1",
-    "@types/lodash": "^4.14.191",
+    "@types/lodash": "^4.14.195",
     "@types/node": "18.13.0",
     "@types/react": "18.0.28",
     "@types/react-copy-to-clipboard": "^5.0.4",
