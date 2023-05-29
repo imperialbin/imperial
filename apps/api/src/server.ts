@@ -12,6 +12,7 @@ import { env } from "./utils/env";
 import { Logger } from "./utils/logger";
 import { Redis } from "./utils/redis";
 import { stripeRoutes } from "./routes/stripe";
+import { themeRoutes } from "./routes/theme";
 
 Sentry.init({
   dsn: env.SENTRY_DSN,
@@ -87,6 +88,7 @@ export const main = async () => {
   server.register(oAuthRoutes, { prefix: `/${API_VERSION}/oauth` });
   server.register(adminRoutes, { prefix: `/${API_VERSION}/admin` });
   server.register(stripeRoutes, { prefix: `/${API_VERSION}/stripe` });
+  server.register(themeRoutes, { prefix: `/${API_VERSION}/theme` });
 
   server.setNotFoundHandler((_, reply) => {
     reply.code(404).send({
