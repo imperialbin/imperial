@@ -98,7 +98,11 @@ function Setting<T = "switch" | "dropdown", K = unknown>({
 
       {/* Dropdowns */}
       {type === "dropdown" ? (
-        <Dropdown items={items ?? []} onSelect={(item) => onSelect && onSelect(item)} />
+        <Dropdown
+          style={{ minWidth: 82 }}
+          items={items ?? []}
+          onSelect={(item) => onSelect?.(item)}
+        />
       ) : null}
     </SettingContainer>
   );
