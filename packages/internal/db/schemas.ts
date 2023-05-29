@@ -35,6 +35,7 @@ export const users = pgTable("users", {
 export const usersRelations = relations(users, ({ many }) => ({
   documents: many(documents),
   devices: many(devices),
+  themes: many(themes),
 }));
 
 export const documents = pgTable("documents", {
@@ -115,3 +116,10 @@ export const themes = pgTable("themes", {
     .notNull()
     .defaultNow(),
 });
+
+export const themesRelations = relations(themes, ({ one }) => ({
+  creator: one(users, {
+    fields: [themes.creator],
+    references: [users.id],
+  }),
+}));
