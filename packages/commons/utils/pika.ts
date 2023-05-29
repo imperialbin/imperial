@@ -23,6 +23,10 @@ const pika = new Pika([
     prefix: "member_plus",
     description: "Member Plus Token",
   },
+  {
+    prefix: "theme",
+    description: "Theme IDs",
+  },
 ]);
 
 type PikaIDs = (typeof pika.prefixes)[number]["prefix"];

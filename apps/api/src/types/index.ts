@@ -17,6 +17,7 @@ const ERROR = {
   NOT_FOUND: "not_found",
   BAD_REQUEST: "bad_request",
   INTERNAL_ERROR: "internal_error",
+  NOT_IMPLEMENTED: "not_implemented",
 } as const;
 
 type APIError = {

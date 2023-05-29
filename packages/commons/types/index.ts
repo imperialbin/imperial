@@ -100,4 +100,26 @@ type Document = {
   };
 };
 
-export type { SelfUser, UserSettings, DiscordUser, GitHubUser, User, Document };
+type Theme = {
+  id: Id<"theme">;
+  token: string;
+  description: string;
+  name: string;
+  private: boolean;
+  created_at: string;
+  /**
+   * This will only be null if a user deletes their account.
+   */
+  creator: User | null;
+  official: boolean;
+};
+
+export type {
+  SelfUser,
+  UserSettings,
+  DiscordUser,
+  GitHubUser,
+  User,
+  Document,
+  Theme,
+};

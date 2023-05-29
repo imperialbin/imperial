@@ -6,6 +6,7 @@ import {
   SelfUser,
   User,
   UserSettings,
+  Theme,
 } from "./types";
 import { permer } from "./utils/permissions";
 import {
@@ -26,6 +27,7 @@ export type {
   Document,
   SupportedLanguages,
   SupportedLanguagesID,
+  Theme,
 };
 
 export { pika, permer, supportedLanguages, Logger };
