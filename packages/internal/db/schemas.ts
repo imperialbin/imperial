@@ -96,3 +96,17 @@ export const memberPlusTokens = pgTable("member_plus_tokens", {
     .references(() => users.id, { onDelete: "cascade" })
     .$type<Id<"user">>(),
 });
+
+// design.imperialb.in
+
+export const themes = pgTable("themes", {
+  id: text("id").primaryKey().$type<Id<"theme">>().notNull(),
+  token: text("token").notNull(),
+  description: text("description").notNull(),
+  name: text("name").notNull(),
+  creator: text("creator")
+    .references(() => users.id)
+    .$type<Id<"user">>(),
+  official: boolean("official").notNull().default(false),
+  private: boolean("private").notNull().default(false),
+});
