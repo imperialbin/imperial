@@ -7,6 +7,7 @@ import {
   documentsRelations,
   usersRelations,
   themes,
+  themesRelations,
 } from "./db/schemas";
 
 export {
@@ -18,4 +19,5 @@ export {
   documentsRelations,
   usersRelations,
   themes,
+  themesRelations,
 };
