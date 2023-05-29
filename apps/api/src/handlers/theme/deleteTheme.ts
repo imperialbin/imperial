@@ -1,17 +1,18 @@
-import { Id, Theme } from "@imperial/commons";
+import { Id } from "@imperial/commons";
 import { themes, users } from "@imperial/internal";
 import { eq, getTableColumns } from "drizzle-orm";
 import { db } from "../../db";
 import { FastifyImp } from "../../types";
 import { USER_PUBLIC_OBJECT } from "../../utils/publicObjects";
 
-export const getDesign: FastifyImp<
+export const deleteTheme: FastifyImp<
   {
     Params: {
       id: Id<"theme">;
     };
   },
-  Theme
+  unknown,
+  true
 > = async (request, reply) => {
   const themeId = request.params.id;
 
@@ -37,8 +38,17 @@ export const getDesign: FastifyImp<
     });
   }
 
-  return reply.status(200).send({
-    success: true,
-    data: theme,
-  });
+  if (theme.creator?.id !== request.user.id) {
+    return reply.status(403).send({
+      success: false,
+      error: {
+        code: "bad_auth",
+        message: "You do not have permission to delete this theme",
+      },
+    });
+  }
+
+  await db.delete(themes).where(eq(themes.id, themeId));
+
+  return reply.status(204);
 };

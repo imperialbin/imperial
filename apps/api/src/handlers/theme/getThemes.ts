@@ -1,7 +1,7 @@
 import { Theme } from "@imperial/commons";
 import { FastifyImp } from "../../types";
 
-export const getDesign: FastifyImp<{}, Theme[]> = async (request, reply) => {
+export const getThemes: FastifyImp<{}, Theme[]> = async (request, reply) => {
   reply.status(413).send({
     success: false,
     error: {

@@ -5,21 +5,21 @@ import { fromZodError } from "zod-validation-error";
 import { db } from "../../db";
 import { FastifyImp } from "../../types";
 
-const createDesignSchema = z.object({
+const createThemeSchema = z.object({
   token: z.string().min(16),
   description: z.string().min(1).max(200),
   name: z.string().min(1).max(80),
   private: z.boolean().optional().default(false),
 });
 
-export const createDesign: FastifyImp<
+export const createTheme: FastifyImp<
   {
-    Body: z.infer<typeof createDesignSchema>;
+    Body: z.infer<typeof createThemeSchema>;
   },
   Theme,
   true
 > = async (request, reply) => {
-  const body = createDesignSchema.safeParse(request.body);
+  const body = createThemeSchema.safeParse(request.body);
   if (!body.success) {
     return reply.status(400).send({
       success: false,
