@@ -23,6 +23,6 @@
   },
   "packageManager": "yarn@3.5.0",
   "dependencies": {
-    "drizzle-orm": "^0.26.1"
+    "drizzle-orm": "^0.26.2"
   }
 }

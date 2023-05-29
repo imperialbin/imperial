@@ -5044,14 +5044,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"drizzle-orm@npm:^0.26.1":
-  version: 0.26.1
-  resolution: "drizzle-orm@npm:0.26.1"
+"drizzle-orm@npm:^0.26.2":
+  version: 0.26.2
+  resolution: "drizzle-orm@npm:0.26.2"
   peerDependencies:
     "@aws-sdk/client-rds-data": ">=3"
     "@cloudflare/workers-types": ">=3"
     "@libsql/client": "*"
     "@neondatabase/serverless": ">=0.1"
+    "@opentelemetry/api": ^1.4.1
     "@planetscale/database": ">=1"
     "@types/better-sqlite3": "*"
     "@types/pg": "*"
@@ -5074,6 +5075,8 @@ __metadata:
     "@libsql/client":
       optional: true
     "@neondatabase/serverless":
+      optional: true
+    "@opentelemetry/api":
       optional: true
     "@planetscale/database":
       optional: true
@@ -5103,7 +5106,7 @@ __metadata:
       optional: true
     sqlite3:
       optional: true
-  checksum: 6c7ac8f17bd7438fe843048b78d0293d910cc9be791b478b5cf693ac4969c64c65341d975dab3fb83e39cbfc853ddf8a11ab28e0977a1353f05815c76cd99cb1
+  checksum: 31473ce8953884d9145150efa1ad12b76960a5b1a908993015f09dff4736e3dbb1f3805576ddab5736d46ffde0bd420992d99a91227f860266896279684d2857
   languageName: node
   linkType: hard
 
@@ -7546,7 +7549,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "imperial@workspace:."
   dependencies:
-    drizzle-orm: ^0.26.1
+    drizzle-orm: ^0.26.2
     prettier: latest
     turbo: latest
   languageName: unknown
