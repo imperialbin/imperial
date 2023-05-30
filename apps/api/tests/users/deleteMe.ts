@@ -49,7 +49,7 @@ export default async () => {
     method: "POST",
     url: "/v1/users/@me/delete",
     payload: {
-      password: "123456789",
+      password: "12345678",
     },
     headers: {
       authorization: BUDDY_AUTH_TOKEN,
