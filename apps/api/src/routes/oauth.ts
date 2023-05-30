@@ -4,6 +4,7 @@ import { github } from "../handlers/oauth/github";
 import { env } from "../utils/env";
 import { RP } from "../types";
 import { checkAuthentication } from "../modules/middleware";
+import { removeConnection } from "../handlers/oauth/removeConnection";
 
 export const oAuthRoutes = (
   fastify: FastifyInstance,
@@ -23,6 +24,21 @@ export const oAuthRoutes = (
       preHandler: checkAuthentication,
     },
     discord,
+  );
+
+  fastify.delete<RP<typeof removeConnection>>(
+    "/github",
+    {
+      preHandler: checkAuthentication,
+    },
+    removeConnection,
+  );
+  fastify.delete<RP<typeof removeConnection>>(
+    "/discord",
+    {
+      preHandler: checkAuthentication,
+    },
+    removeConnection,
   );
 
   // Redirects
