@@ -3461,7 +3461,7 @@ __metadata:
     envsafe: ^2.0.3
     eslint: ">=8.0.0"
     eslint-config-xo: ^0.43.1
-    eslint-config-xo-typescript: ^0.56.0
+    eslint-config-xo-typescript: ^0.57.0
     fastify: ^4.15.0
     fastify-plugin: ^4.5.0
     fastify-raw-body: ^4.2.0
@@ -5831,15 +5831,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-xo-typescript@npm:^0.56.0":
-  version: 0.56.0
-  resolution: "eslint-config-xo-typescript@npm:0.56.0"
+"eslint-config-xo-typescript@npm:^0.57.0":
+  version: 0.57.0
+  resolution: "eslint-config-xo-typescript@npm:0.57.0"
   peerDependencies:
-    "@typescript-eslint/eslint-plugin": ">=5.43.0"
-    "@typescript-eslint/parser": ">=5.43.0"
+    "@typescript-eslint/eslint-plugin": ">=5.57.0"
+    "@typescript-eslint/parser": ">=5.57.0"
     eslint: ">=8.0.0"
     typescript: ">=4.4"
-  checksum: 1811eeee6a5b7fbcc567d26f51b90a01cd9254d732cabfd30a3cc092e56fd8203ae4b84caefe3ae29f7e4ff28a5932fbd24c495d51fdc2f314b3e61fe34afbac
+  checksum: 6676c5820d0ab477a8395b37f1bad0d2bc9e086350f07b86e8074504e86fae402dde43358829d98eb019377f17575590379df827584fe4596ce435d2baab3ae7
   languageName: node
   linkType: hard
 
