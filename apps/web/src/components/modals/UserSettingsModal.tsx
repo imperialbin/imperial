@@ -2,7 +2,17 @@ import dayjs from "dayjs";
 import calender from "dayjs/plugin/calendar";
 import updateLocale from "dayjs/plugin/updateLocale";
 import { useEffect, useState } from "react";
-import { ArrowLeft, Check, Edit, Eye, Lock, RefreshCw, Unlock, X } from "react-feather";
+import {
+  ArrowLeft,
+  Check,
+  Edit,
+  Eye,
+  Lock,
+  RefreshCw,
+  Trash,
+  Unlock,
+  X,
+} from "react-feather";
 import { ConnectedProps, connect } from "react-redux";
 
 import { addNotification, openModal, setUser } from "@web/state/actions";
@@ -20,6 +30,7 @@ import Tooltip from "../Tooltip";
 import UserIcon from "../UserIcon";
 import Header from "./base/Header";
 import { ModalProps } from "./base/modals";
+import { AnimatePresence, motion } from "framer-motion";
 
 const Wrapper = styled("div", {
   position: "relative",
@@ -132,7 +143,8 @@ const Tiles = styled("div", {
   width: "100%",
 });
 
-const Tile = styled("div", {
+const Tile = styled(motion.div, {
+  position: "relative",
   display: "flex",
   flexDirection: "column",
   justifyContent: "center",
@@ -260,6 +272,33 @@ dayjs.updateLocale("en", {
   },
 });
 
+const DeleteConnectionContainer = styled(motion.button, {
+  background: "unset",
+  border: "unset",
+  outline: "unset",
+  position: "absolute",
+  right: 8,
+  top: 8,
+  cursor: "pointer",
+  opacity: 0.8,
+  transition: "opacity 0.15s ease-in-out",
+
+  "> svg": {
+    width: "16px",
+    color: "$error",
+  },
+
+  "&:hover": {
+    opacity: 1,
+  },
+});
+
+const DELETE_CONNECTION_ANIMATION = {
+  initial: { x: "150%" },
+  animate: { x: 0 },
+  exit: { x: "150%" },
+};
+
 function UserSettings({ user, dispatch, closeModal }: ReduxProps & ModalProps) {
   const [recentDocuments, setRecentDocuments] = useState<Document[]>([]);
   const [iconValue, setIconValue] = useState(
@@ -278,6 +317,27 @@ function UserSettings({ user, dispatch, closeModal }: ReduxProps & ModalProps) {
     dispatch(openModal("login"));
     return null;
   }
+
+  const removeConnection = async (connection: "github" | "discord") => {
+    const { success, error } = await makeRequest("DELETE", `/oauth/${connection}`);
+
+    if (!success) {
+      return dispatch(
+        addNotification({
+          icon: <X />,
+          message: error?.message ?? "An unknown error occurred",
+          type: "error",
+        }),
+      );
+    }
+
+    dispatch(
+      setUser({
+        ...user,
+        [connection]: null,
+      }),
+    );
+  };
 
   const patchUser = async <T extends keyof UserSettingsType>(
     setting: T,
@@ -451,8 +511,23 @@ function UserSettings({ user, dispatch, closeModal }: ReduxProps & ModalProps) {
             <Tile
               clickable
               centered
+              whileHover="animate"
+              initial="initial"
+              animate="exit"
               onClick={() => (!user.discord ? window.open("/link/discord") : null)}
             >
+              <AnimatePresence>
+                {user.discord ? (
+                  <DeleteConnectionContainer
+                    key="remove_discord"
+                    variants={DELETE_CONNECTION_ANIMATION}
+                    transition={{ duration: 0.15 }}
+                    onClick={() => removeConnection("discord")}
+                  >
+                    <Trash />
+                  </DeleteConnectionContainer>
+                ) : null}
+              </AnimatePresence>
               <div>
                 <DiscordLogo />
                 <span>
@@ -466,8 +541,23 @@ function UserSettings({ user, dispatch, closeModal }: ReduxProps & ModalProps) {
             <Tile
               centered
               clickable
+              whileHover="animate"
+              initial="initial"
+              animate="exit"
               onClick={() => (!user.github ? window.open("/link/github") : null)}
             >
+              <AnimatePresence>
+                {user.github ? (
+                  <DeleteConnectionContainer
+                    key="remove_github"
+                    variants={DELETE_CONNECTION_ANIMATION}
+                    transition={{ duration: 0.15 }}
+                    onClick={() => removeConnection("github")}
+                  >
+                    <Trash />
+                  </DeleteConnectionContainer>
+                ) : null}
+              </AnimatePresence>
               <div>
                 <GitHubLogo />
                 {user.github ? user.github.login : "Connect"}

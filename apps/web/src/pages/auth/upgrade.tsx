@@ -1,14 +1,29 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { ArrowUp, Mail, X } from "react-feather";
+import { ArrowLeft, ArrowUp, Mail, X } from "react-feather";
 import { ConnectedProps, connect } from "react-redux";
 import { Container, StyledButton, Wrapper } from "../../components/AuthStyles";
 import Input from "../../components/Input";
 import { addNotification, openModal } from "../../state/actions";
 import { ImperialState } from "../../state/reducers";
+import { styled } from "../../stitches.config";
 import { STRIPE_MEMBER_PLUS_LINK } from "../../utils/constants";
 import { makeRequest } from "../../utils/rest";
+
+const ReturnHomeContainer = styled(Link, {
+  position: "absolute",
+  top: -30,
+  left: 0,
+  display: "flex",
+  alignItems: "center",
+  gap: 5,
+  fontSize: "0.9em",
+
+  svg: {
+    width: 20,
+  },
+});
 
 function Upgrade({ user, dispatch }: ReduxProps) {
   const [token, setToken] = useState("");
@@ -73,6 +88,13 @@ function Upgrade({ user, dispatch }: ReduxProps) {
   return (
     <Wrapper>
       <Container>
+        <ReturnHomeContainer
+          href="/"
+          onClick={() => (user ? dispatch(openModal("user_settings")) : null)}
+        >
+          <ArrowLeft />
+          <span>Return Home</span>
+        </ReturnHomeContainer>
         <div>
           <h1>Upgrade to Member+</h1>
           <p>
