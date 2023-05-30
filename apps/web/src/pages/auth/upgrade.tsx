@@ -5,10 +5,11 @@ import { ArrowUp, Mail, X } from "react-feather";
 import { ConnectedProps, connect } from "react-redux";
 import { Container, StyledButton, Wrapper } from "../../components/AuthStyles";
 import Input from "../../components/Input";
-import { addNotification, openModal } from "../../state/actions";
+import { addNotification, closeModal, openModal } from "../../state/actions";
 import { ImperialState } from "../../state/reducers";
 import { STRIPE_MEMBER_PLUS_LINK } from "../../utils/constants";
 import { makeRequest } from "../../utils/rest";
+import Tooltip from "@web/components/Tooltip";
 
 function Upgrade({ user, dispatch }: ReduxProps) {
   const [token, setToken] = useState("");
@@ -74,6 +75,18 @@ function Upgrade({ user, dispatch }: ReduxProps) {
     <Wrapper>
       <Container>
         <div>
+          <Link href="/">
+            <Tooltip title="Return">
+              <X
+                size={23}
+                style={{
+                  float: "right",
+                }}
+                onClick={() => dispatch(openModal("user_settings"))}
+              />
+            </Tooltip>
+          </Link>
+
           <h1>Upgrade to Member+</h1>
           <p>
             If you haven&apos;t yet purchased a token, you can do so{" "}
