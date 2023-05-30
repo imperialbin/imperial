@@ -3481,7 +3481,7 @@ __metadata:
     stripe: ^12.7.0
     stripe-event-types: ^2.3.0
     ts-jest: ^29.1.0
-    tsc-alias: ^1.8.5
+    tsc-alias: ^1.8.6
     tsconfig: "*"
     tsx: ^3.12.7
     typescript: ">=4.4"
@@ -13352,22 +13352,6 @@ __metadata:
   version: 6.0.3
   resolution: "ts-mixer@npm:6.0.3"
   checksum: 7fbaba0a413bf817835a6a23d46bccf4192dd4d7345b6bae9d594c88acffac35bf4995ef3cce753090c8abcdf2afd16dba8899365584a1f960ccc2a15bf2e2d6
-  languageName: node
-  linkType: hard
-
-"tsc-alias@npm:^1.8.5":
-  version: 1.8.5
-  resolution: "tsc-alias@npm:1.8.5"
-  dependencies:
-    chokidar: ^3.5.3
-    commander: ^9.0.0
-    globby: ^11.0.4
-    mylas: ^2.1.9
-    normalize-path: ^3.0.0
-    plimit-lit: ^1.2.6
-  bin:
-    tsc-alias: dist/bin/index.js
-  checksum: 9b92f4141e2d388bd248d3bb362fa48e1bab7a350004ec000016375ca779632d6c6eac53f2a2d92284152cc42dabdf1d9e70162da5a5eb691d93e161d5ed65d2
   languageName: node
   linkType: hard
 
