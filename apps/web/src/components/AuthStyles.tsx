@@ -12,6 +12,7 @@ const Wrapper = styled("div", {
 });
 
 const Container = styled("div", {
+  position: "relative",
   display: "flex",
   flexDirection: "column",
   justifyContent: "center",
