@@ -2399,6 +2399,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@sentry/browser@npm:7.53.1":
+  version: 7.53.1
+  resolution: "@sentry/browser@npm:7.53.1"
+  dependencies:
+    "@sentry-internal/tracing": 7.53.1
+    "@sentry/core": 7.53.1
+    "@sentry/replay": 7.53.1
+    "@sentry/types": 7.53.1
+    "@sentry/utils": 7.53.1
+    tslib: ^1.9.3
+  checksum: 6250949dfbef169669d9e932515f0d965f449ef82be5fb6b813ab170944cef033c758857a3412aa1a1023d77622f88d8599df8e4b0ea126479f8713bd4aa1838
+  languageName: node
+  linkType: hard
+
 "@sentry/cli@npm:^1.74.6":
   version: 1.75.0
   resolution: "@sentry/cli@npm:1.75.0"
@@ -2508,7 +2522,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sentry/react@npm:7.53.0, @sentry/react@npm:^7.53.0":
+"@sentry/react@npm:7.53.0":
   version: 7.53.0
   resolution: "@sentry/react@npm:7.53.0"
   dependencies:
@@ -2523,6 +2537,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@sentry/react@npm:^7.53.1":
+  version: 7.53.1
+  resolution: "@sentry/react@npm:7.53.1"
+  dependencies:
+    "@sentry/browser": 7.53.1
+    "@sentry/types": 7.53.1
+    "@sentry/utils": 7.53.1
+    hoist-non-react-statics: ^3.3.2
+    tslib: ^1.9.3
+  peerDependencies:
+    react: 15.x || 16.x || 17.x || 18.x
+  checksum: ee08c6a851cae421a134d62e217c192a961930254ea8775e1960420307f4ff08b659405bd883b12698a55085ad1070ac58e618f5799a7edc775368382e807e2d
+  languageName: node
+  linkType: hard
+
 "@sentry/replay@npm:7.53.0":
   version: 7.53.0
   resolution: "@sentry/replay@npm:7.53.0"
@@ -2531,6 +2560,17 @@ __metadata:
     "@sentry/types": 7.53.0
     "@sentry/utils": 7.53.0
   checksum: 1addb8971c8800e221c3fd7d8bf339ca5335c6541cd024bc2b31ea4ac31277eecd800c85a38debcb973ad14eaed2055f167f27328cf611f14a1cf99092faa75a
+  languageName: node
+  linkType: hard
+
+"@sentry/replay@npm:7.53.1":
+  version: 7.53.1
+  resolution: "@sentry/replay@npm:7.53.1"
+  dependencies:
+    "@sentry/core": 7.53.1
+    "@sentry/types": 7.53.1
+    "@sentry/utils": 7.53.1
+  checksum: c3757077a971183f5f9f87006449a110c0f951c76a777aa45cb2f057100ec5bc8fcf50e4c58e8117ddc0f44fdaada101384a45b2b5c427048b4ce57eb780711d
   languageName: node
   linkType: hard
 
@@ -14109,7 +14149,7 @@ __metadata:
     "@next/font": 13.1.6
     "@reduxjs/toolkit": ^1.9.2
     "@sentry/nextjs": ^7.53.0
-    "@sentry/react": ^7.53.0
+    "@sentry/react": ^7.53.1
     "@sentry/tracing": ^7.53.0
     "@stitches/react": ^1.2.8
     "@types/crypto-js": ^4.1.1
