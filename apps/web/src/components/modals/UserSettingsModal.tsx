@@ -8,6 +8,7 @@ import {
   Edit,
   Eye,
   Lock,
+  Monitor,
   RefreshCw,
   Trash,
   Unlock,
@@ -504,9 +505,15 @@ function UserSettings({ user, dispatch, closeModal }: ReduxProps & ModalProps) {
               {user.documents_made}
               <span>Documents Made</span>
             </Tile>
-            <Tile>
-              {user.early_adopter ? "Early Adopter" : "Late Adopter"}
-              <span>Status</span>
+            <Tile
+              centered
+              clickable
+              onClick={() => dispatch(openModal("devices", {}, true))}
+            >
+              <div>
+                <Monitor />
+                Devices
+              </div>
             </Tile>
             <Tile
               clickable

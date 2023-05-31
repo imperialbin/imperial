@@ -13,6 +13,7 @@ import DocumentSettingsModal from "./modals/DocumentSettingsModal";
 import DocumentPasswordModal from "./modals/DocumentPasswordModal";
 import EditorsModal from "./modals/EditorsModal";
 import ResendConfirmEmailModal from "./modals/ResendConfirmEmailModal";
+import DevicesModal from "./modals/DevicesModal";
 
 const Wrapper = styled(motion.div, {
   top: 0,
@@ -64,6 +65,7 @@ const MODAL_MAP = {
   document_password: DocumentPasswordModal,
   editors: EditorsModal,
   resend_confirm_email: ResendConfirmEmailModal,
+  devices: DevicesModal,
 };
 
 type GetComponentProps<T> = T extends
