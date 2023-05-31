@@ -22,6 +22,7 @@ const nextConfig = {
       {
         source: "/purchase",
         destination: "https://buy.stripe.com/3cscN18YMfg39PO5kk",
+        permanent: true,
       },
       {
         source: "/link/discord",
