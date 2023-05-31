@@ -39,6 +39,7 @@ type SettingProps<T = "dropdown" | "switch", k = unknown> = T extends "switch"
       description: string;
       type: T;
       disabled?: boolean;
+      disabledText?: string;
       toggled: boolean;
       onToggle: (toggled: boolean) => void;
 
@@ -50,6 +51,7 @@ type SettingProps<T = "dropdown" | "switch", k = unknown> = T extends "switch"
       description: string;
       type: T;
       disabled?: boolean;
+      disabledText?: string;
       onSelect: (item: IDropdownProps<k>["items"][number]) => void;
       items: IDropdownProps<k>["items"];
 
@@ -69,6 +71,7 @@ function Setting<T = "switch" | "dropdown", K = unknown>({
   toggled,
 
   disabled = false,
+  disabledText,
 
   // OnToggle method for all to do something
   onToggle,
@@ -88,6 +91,7 @@ function Setting<T = "switch" | "dropdown", K = unknown>({
         <Switch
           toggled={toggled}
           disabled={disabled}
+          disabledText={disabledText}
           onToggle={() => {
             if (!onToggle || toggled === undefined) return;
 
