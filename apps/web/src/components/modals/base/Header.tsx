@@ -11,7 +11,7 @@ const Wrapper = styled("div", {
   position: "relative",
   alignItems: "center",
   color: "white",
-  zIndex: 1,
+  zIndex: 100,
 });
 
 const Title = styled("h1", {
@@ -28,9 +28,7 @@ interface IHeaderProps {
 
 function Header({ children, canClose = true }: IHeaderProps) {
   return (
-    <Wrapper
-      style={!children ? { position: "absolute", top: 20, right: 20 } : undefined}
-    >
+    <Wrapper style={!children ? { position: "absolute", top: 20, right: 20 } : undefined}>
       <Title>{children}</Title>
       {canClose ? (
         <Tooltip title="Close (esc)">

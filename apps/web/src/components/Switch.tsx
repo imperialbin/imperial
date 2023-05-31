@@ -58,7 +58,7 @@ const DisabledBackground = styled("div", {
   height: 25,
   top: 20,
   backdropFilter: "blur(1.5px)",
-  zIndex: 99,
+  zIndex: 5,
 
   "> svg": {
     height: 15,
