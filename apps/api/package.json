@@ -39,7 +39,7 @@
     "highlight.js": "^11.8.0",
     "internal": "*",
     "mongoose": "^7.0.3",
-    "nanoid": "^3.3.6",
+    "nanoid": "^4.0.2",
     "permer": "^1.2.0",
     "pg": "^8.11.0",
     "pika-id": "^1.1.3",
