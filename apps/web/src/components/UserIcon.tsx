@@ -4,6 +4,7 @@ import { forwardRef, CSSProperties } from "react";
 const Icon = styled("img", {
   position: "relative",
   borderRadius: "50%",
+  border: "1.5px solid $primary500",
 });
 
 export interface IUserIconProps {
