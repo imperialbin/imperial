@@ -1,21 +1,22 @@
 /* eslint-disable complexity */
+import { permer } from "@imperial/commons";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
+import { fromZodError } from "zod-validation-error";
 import { db } from "../../db";
 import { documents, users } from "../../db/schemas";
 import { Document, FastifyImp, User } from "../../types";
 import { encrypt } from "../../utils/crypto";
+import { env } from "../../utils/env";
 import { GitHub } from "../../utils/github";
 import { guessLanguage } from "../../utils/language";
 import { getLinksObject } from "../../utils/publicObjects";
 import { languageSchema } from "../../utils/schemas";
 import { screenshotDocument } from "../../utils/screenshotDocument";
 import {
-  generateRandomSecureString,
   documentIdGenerator,
+  generateRandomSecureString,
 } from "../../utils/strings";
-import { fromZodError } from "zod-validation-error";
-import { env } from "../../utils/env";
 
 const createDocumentSchema = z.object({
   content: z.string().min(1),
@@ -84,8 +85,10 @@ export const createDocument: FastifyImp<
   }
 
   // Encryption configuration
+  const isMemberPlus = permer.test(request.user?.flags ?? 0, "member-plus");
   let password = body.data.settings?.password ?? undefined;
   if (
+    isMemberPlus &&
     body.data.settings?.encrypted &&
     // We encrypt on the frontend by default, but if you hit our API, we'll make sure to encrypt it for you :D
     !content.startsWith("IMPERIAL_ENCRYPTED")
@@ -176,10 +179,11 @@ export const createDocument: FastifyImp<
   if (
     createdDocument.settings.image_embed &&
     request.user &&
+    isMemberPlus &&
     !createdDocument.settings.instant_delete &&
     !createdDocument.settings.encrypted
   ) {
-    screenshotDocument(createdDocument.id, createdDocument.content, false);
+    screenshotDocument(createdDocument.id, createdDocument.content, true);
   }
 
   if (request.user) {
