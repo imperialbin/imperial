@@ -10,7 +10,7 @@ const CARBON_STATE = (code: string) =>
 const screenshotDocument = async (
   documentId: string,
   code: string,
-  memberPlus: boolean,
+  memberPlus?: boolean,
 ) => {
   try {
     const browser = await puppeteer.launch({
