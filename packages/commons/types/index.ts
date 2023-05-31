@@ -100,4 +100,20 @@ type Document = {
   };
 };
 
-export type { SelfUser, UserSettings, DiscordUser, GitHubUser, User, Document };
+interface Device {
+  id: Id<"device">;
+  user_agent: string;
+  ip: string;
+  created_at: string;
+  this_device: boolean;
+}
+
+export type {
+  SelfUser,
+  UserSettings,
+  DiscordUser,
+  GitHubUser,
+  User,
+  Document,
+  Device,
+};
