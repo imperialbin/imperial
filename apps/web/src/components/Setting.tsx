@@ -89,6 +89,8 @@ function Setting<T = "switch" | "dropdown", K = unknown>({
       {/* Switches */}
       {type === "switch" ? (
         <Switch
+          // Reset toggle
+          key={toggled ? "toggled" : "not-toggled"}
           toggled={toggled}
           disabled={disabled}
           disabledText={disabledText}
