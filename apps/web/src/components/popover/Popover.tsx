@@ -60,6 +60,8 @@ interface IPopover {
 
   /* Allows you to specify if you want absolute positioning or fixed positioning */
   positionStrategy?: Strategy;
+
+  extraOffset?: number;
 }
 
 function Popover({
@@ -76,11 +78,12 @@ function Popover({
   toggleOnTargetClick = true,
   widthAtTarget = false,
   positionStrategy = "absolute",
+  extraOffset = 0,
 }: IPopover) {
   const { x, y, reference, floating, strategy, refs, update, context } = useFloating({
     open: active,
     onOpenChange: setPopover,
-    middleware: [offset(10), flip(), shift()],
+    middleware: [offset(10 + extraOffset), flip(), shift()],
     /* Always have tooltips on the bottom for mobiles unless if the dev wants it on the top */
     placement: placement ?? "bottom",
     strategy: positionStrategy,
