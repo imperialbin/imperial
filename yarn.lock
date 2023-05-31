@@ -954,13 +954,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@fastify/cors@npm:^8.2.1":
-  version: 8.2.1
-  resolution: "@fastify/cors@npm:8.2.1"
+"@fastify/cors@npm:^8.3.0":
+  version: 8.3.0
+  resolution: "@fastify/cors@npm:8.3.0"
   dependencies:
     fastify-plugin: ^4.0.0
     mnemonist: 0.39.5
-  checksum: 219edf11ad8397c7c00ac605c2c084f7dd929a13d95255013612275d195971bd23de1a8cf23304ded8bbe0066e2ea3c7f3c5b7ee0b14af2daed2071f0ed5609a
+  checksum: f487b5a8823264c3db58e99df020e38ada524514d60f2c5c2e01b994519545e2fc9481006d98e485b40e536b9b89f72af9061d9377b8e93f6ce07b14d40164a2
   languageName: node
   linkType: hard
 
@@ -3458,7 +3458,7 @@ __metadata:
   resolution: "api@workspace:apps/api"
   dependencies:
     "@fastify/cookie": ^8.3.0
-    "@fastify/cors": ^8.2.1
+    "@fastify/cors": ^8.3.0
     "@fastify/rate-limit": ^8.0.0
     "@jest/globals": ^29.5.0
     "@react-email/components": ^0.0.4
