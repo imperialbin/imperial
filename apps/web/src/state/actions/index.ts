@@ -25,8 +25,12 @@ export const setDisableClickOutsideModal = (disable: boolean) => ({
   payload: disable,
 });
 
-export const openModal = <T extends Modals>(modal: T, data?: ModalData<T>) => ({
-  type: "OPEN_MODAL",
+export const openModal = <T extends Modals>(
+  modal: T,
+  data?: ModalData<T>,
+  second?: boolean,
+) => ({
+  type: second ? "OPEN_SECOND_MODAL" : "OPEN_MODAL",
   payload: { modal, data },
 });
 
