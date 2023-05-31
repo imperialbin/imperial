@@ -14,7 +14,7 @@
     "@reduxjs/toolkit": "^1.9.2",
     "@sentry/nextjs": "^7.53.0",
     "@sentry/react": "^7.53.0",
-    "@sentry/tracing": "^7.53.0",
+    "@sentry/tracing": "^7.53.1",
     "@stitches/react": "^1.2.8",
     "cookies-next": "^2.1.1",
     "crypto-js": "^4.1.1",

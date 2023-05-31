@@ -2551,12 +2551,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sentry/tracing@npm:^7.53.0":
-  version: 7.53.0
-  resolution: "@sentry/tracing@npm:7.53.0"
+"@sentry/tracing@npm:^7.53.1":
+  version: 7.53.1
+  resolution: "@sentry/tracing@npm:7.53.1"
   dependencies:
-    "@sentry-internal/tracing": 7.53.0
-  checksum: 8f8c7b1027eeafa92ae2d81daa0068c9bb13c74ee5d89a8bd1262a9d45af8d8f87e141df8afc5e8bb74bc74c3c322f5aba210c6225beb98e780aeaa2bba1977f
+    "@sentry-internal/tracing": 7.53.1
+  checksum: 89a5e7ffd68d735462dd2ed7c3fa4a0a31032c090219196910adbaf42b6e7ddd607126deab960a566f2625396d78edcc6997315bb124affd6e0528a7500b0036
   languageName: node
   linkType: hard
 
@@ -14127,7 +14127,7 @@ __metadata:
     "@reduxjs/toolkit": ^1.9.2
     "@sentry/nextjs": ^7.53.0
     "@sentry/react": ^7.53.0
-    "@sentry/tracing": ^7.53.0
+    "@sentry/tracing": ^7.53.1
     "@stitches/react": ^1.2.8
     "@types/crypto-js": ^4.1.1
     "@types/lodash": ^4.14.195
