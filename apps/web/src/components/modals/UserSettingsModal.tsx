@@ -726,22 +726,27 @@ function UserSettings({ user, dispatch, closeModal }: ReduxProps & ModalProps) {
           <Setting
             title="Encrypted"
             type="switch"
-            toggled={user.settings.encrypted}
+            toggled={user.settings.encrypted && userRole === "Member+"}
             description="Encrypt documents with AES256 encryption."
+            disabled={userRole !== "Member+"}
+            disabledText="You must be a Member+ to use this feature."
             onToggle={() => patchUser("encrypted", !user.settings.encrypted)}
           />
           <Setting
             title="Image Embed"
             type="switch"
-            toggled={user.settings.image_embed}
+            toggled={user.settings.image_embed && userRole === "Member+"}
             description="Have a sneak peak at a document's content with Open Graph embeds"
+            disabled={userRole !== "Member+"}
+            disabledText="You must be a Member+ to use this feature."
             onToggle={() => patchUser("image_embed", !user.settings.image_embed)}
           />
           <Setting
             title="Create Gist"
             type="switch"
             disabled={!user.github}
-            toggled={user.settings.create_gist}
+            disabledText="You must have GitHub connected."
+            toggled={user.settings.create_gist && Boolean(user.github)}
             description="Save all your IMPERIAL documents to your GitHub account with gists."
             onToggle={() => patchUser("create_gist", !user.settings.create_gist)}
           />
