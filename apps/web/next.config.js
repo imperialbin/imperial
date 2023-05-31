@@ -20,6 +20,10 @@ const nextConfig = {
         permanent: true,
       },
       {
+        source: "/purchase",
+        destination: "https://buy.stripe.com/3cscN18YMfg39PO5kk",
+      },
+      {
         source: "/link/discord",
         destination:
           process.env.NODE_ENV === "development"
