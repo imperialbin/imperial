@@ -22,7 +22,7 @@
     "@fastify/cookie": "^8.3.0",
     "@fastify/cors": "^8.2.1",
     "@fastify/rate-limit": "^8.0.0",
-    "@react-email/components": "^0.0.4",
+    "@react-email/components": "^0.0.6",
     "@react-email/render": "^0.0.6",
     "@sentry/node": "^7.53.1",
     "aws-sdk": "^2.1353.0",

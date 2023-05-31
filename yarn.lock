@@ -2053,12 +2053,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-email/button@npm:0.0.7":
-  version: 0.0.7
-  resolution: "@react-email/button@npm:0.0.7"
+"@react-email/button@npm:0.0.8":
+  version: 0.0.8
+  resolution: "@react-email/button@npm:0.0.8"
   dependencies:
     react: 18.2.0
-  checksum: c3b7d6a3eb40e4344ebc9540b3045803bb2d18a6e51235d4a3a88e5f0e9e8b87fea0a3d5f91cc8960a6808e592f96615a675d2c688e96a781a3feb3ef68f9f69
+  checksum: ea1e5c065092fec2cf26124aba01123d3043cac43db13cd170ad34b349354f5afe7cf2766a3cea0be84a6b365b5f0e6e51ccc82d9704ff67c4332d9fca78061c
   languageName: node
   linkType: hard
 
@@ -2071,12 +2071,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-email/components@npm:^0.0.4":
-  version: 0.0.4
-  resolution: "@react-email/components@npm:0.0.4"
+"@react-email/components@npm:^0.0.6":
+  version: 0.0.6
+  resolution: "@react-email/components@npm:0.0.6"
   dependencies:
     "@react-email/body": 0.0.2
-    "@react-email/button": 0.0.7
+    "@react-email/button": 0.0.8
     "@react-email/column": 0.0.7
     "@react-email/container": 0.0.8
     "@react-email/font": 0.0.1
@@ -2086,14 +2086,14 @@ __metadata:
     "@react-email/html": 0.0.4
     "@react-email/img": 0.0.5
     "@react-email/link": 0.0.5
-    "@react-email/preview": 0.0.5
-    "@react-email/render": 0.0.6
+    "@react-email/preview": 0.0.6
+    "@react-email/render": 0.0.7
     "@react-email/row": 0.0.5
     "@react-email/section": 0.0.9
-    "@react-email/tailwind": 0.0.7
+    "@react-email/tailwind": 0.0.8
     "@react-email/text": 0.0.5
     react: 18.2.0
-  checksum: 03cce5adb85bf7b4e98d4511b1a6cc43f694d80e57e7a11184b0689039257c83572db8e23bca8411d07a8ff4d8bb28fcbeb91f2493340d2b2536e548e66eb8b7
+  checksum: 71fdf7cfc149c75ff163dfceb9f548b02742997a6035977ec2b96ddc33fb7f95f65a8ed66e994e0e55f5c2c2826e3d963d20c2f7c8b8aa9caccc113d10dc1d28
   languageName: node
   linkType: hard
 
@@ -2168,12 +2168,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-email/preview@npm:0.0.5":
-  version: 0.0.5
-  resolution: "@react-email/preview@npm:0.0.5"
+"@react-email/preview@npm:0.0.6":
+  version: 0.0.6
+  resolution: "@react-email/preview@npm:0.0.6"
   dependencies:
     react: 18.2.0
-  checksum: ef44201e7d217ac8a1a2448f59533b4036b2eddcdcfd374c35c01c61d7808474775cc1e15233c2d3c7d994c178b1460269d183ce0613da79beb753d7d4bead5f
+  checksum: e4bd2e2d78e6865f52044e9c3c8d6d9eac0e4115e6eb8f2979bf444404d775dd134015120f60c54de59e15670467510bb5b95e7aad431584ec6a063a7de4a0d2
   languageName: node
   linkType: hard
 
@@ -2186,6 +2186,18 @@ __metadata:
     react: 18.2.0
     react-dom: 18.2.0
   checksum: fe1f0443058c3264cbf04755142c7f46ec6bc2f71fe5c32e40713961a58e886c9e6764f6821ec3c5d0b77514253603926c84f2d6343beb0b6a3c4dbbd27a62f1
+  languageName: node
+  linkType: hard
+
+"@react-email/render@npm:0.0.7":
+  version: 0.0.7
+  resolution: "@react-email/render@npm:0.0.7"
+  dependencies:
+    html-to-text: 9.0.3
+    pretty: 2.0.0
+    react: 18.2.0
+    react-dom: 18.2.0
+  checksum: 6a646ae06b49124e783a0d21cb923952e25ae420c38effa1e7bf8fa58fb229eb62e21903126fdc8750d786b5745f111225a40f11bb0c75e9ff1b61d963f00eb0
   languageName: node
   linkType: hard
 
@@ -2205,15 +2217,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-email/tailwind@npm:0.0.7":
-  version: 0.0.7
-  resolution: "@react-email/tailwind@npm:0.0.7"
+"@react-email/tailwind@npm:0.0.8":
+  version: 0.0.8
+  resolution: "@react-email/tailwind@npm:0.0.8"
   dependencies:
     html-react-parser: 3.0.9
     react: 18.2.0
     react-dom: 18.2.0
     tw-to-css: 0.0.11
-  checksum: c2e63304adb3e2e2e4cd729ccf541a05266e2767a0120701bb01601cca599d89a1308f4708b69c233d7c21dc858ea8b796acacb2b4e90ab6a41ef9f7db4df26c
+  checksum: ca61108c36fbf21b9e117338e06be49e14edf0c8d38705d50e550f05d9a9f181375358d4ba0adce6e79088ba01a30d63d71bb04d85c44166e92969ccd0f8b602
   languageName: node
   linkType: hard
 
@@ -3461,7 +3473,7 @@ __metadata:
     "@fastify/cors": ^8.2.1
     "@fastify/rate-limit": ^8.0.0
     "@jest/globals": ^29.5.0
-    "@react-email/components": ^0.0.4
+    "@react-email/components": ^0.0.6
     "@react-email/render": ^0.0.6
     "@sentry/node": ^7.53.1
     "@types/bcrypt": ^5.0.0
