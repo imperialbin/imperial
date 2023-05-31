@@ -32,6 +32,7 @@ import UserIcon from "../UserIcon";
 import Header from "./base/Header";
 import { ModalProps } from "./base/modals";
 import { AnimatePresence, motion } from "framer-motion";
+import { permer } from "@imperial/commons";
 
 const Wrapper = styled("div", {
   position: "relative",
@@ -479,7 +480,7 @@ function UserSettings({ user, dispatch, closeModal }: ReduxProps & ModalProps) {
     fetchRecentDocuments();
   }, []);
 
-  const userRole = getRole(user.flags);
+  const hasMemberPlus = permer.test(user.flags, "member-plus");
 
   return (
     <Wrapper>
@@ -491,8 +492,8 @@ function UserSettings({ user, dispatch, closeModal }: ReduxProps & ModalProps) {
             <UserInfo>
               <Username>{user.username}</Username>
               <UserRole>
-                {userRole}{" "}
-                {userRole === "Member" ? (
+                {getRole(user.flags)}{" "}
+                {!hasMemberPlus ? (
                   <Link href="/auth/upgrade" onClick={closeModal}>
                     (Upgrade)
                   </Link>
@@ -733,18 +734,18 @@ function UserSettings({ user, dispatch, closeModal }: ReduxProps & ModalProps) {
           <Setting
             title="Encrypted"
             type="switch"
-            toggled={user.settings.encrypted && userRole === "Member+"}
+            toggled={user.settings.encrypted && hasMemberPlus}
             description="Encrypt documents with AES256 encryption."
-            disabled={userRole !== "Member+"}
+            disabled={!hasMemberPlus}
             disabledText="You must be a Member+ to use this feature."
             onToggle={() => patchUser("encrypted", !user.settings.encrypted)}
           />
           <Setting
             title="Image Embed"
             type="switch"
-            toggled={user.settings.image_embed && userRole === "Member+"}
+            toggled={user.settings.image_embed && hasMemberPlus}
             description="Have a sneak peak at a document's content with Open Graph embeds"
-            disabled={userRole !== "Member+"}
+            disabled={!hasMemberPlus}
             disabledText="You must be a Member+ to use this feature."
             onToggle={() => patchUser("image_embed", !user.settings.image_embed)}
           />
