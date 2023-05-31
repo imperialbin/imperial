@@ -1,12 +1,12 @@
 import { Id } from "@imperial/commons";
+import { devices } from "@imperial/internal";
+import { eq } from "drizzle-orm";
 import { z } from "zod";
 import { fromZodError } from "zod-validation-error";
+import { db } from "../../db";
 import { FastifyImp } from "../../types";
 import { AuthSessions } from "../../utils/authSessions";
 import { bCrypt } from "../../utils/bcrypt";
-import { db } from "../../db";
-import { devices, devices } from "@imperial/internal";
-import { eq } from "drizzle-orm";
 
 const deviceSchema = z.custom<Id<"device">>(
   (value) => typeof value === "string" && value.startsWith("device_"),
