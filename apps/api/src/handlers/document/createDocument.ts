@@ -88,7 +88,8 @@ export const createDocument: FastifyImp<
   const isMemberPlus = permer.test(request.user?.flags ?? 0, "member-plus");
   let password = body.data.settings?.password ?? undefined;
   if (
-    isMemberPlus &&
+    // !env.PRODUCTION is for tests
+    (isMemberPlus || !env.PRODUCTION) &&
     body.data.settings?.encrypted &&
     // We encrypt on the frontend by default, but if you hit our API, we'll make sure to encrypt it for you :D
     !content.startsWith("IMPERIAL_ENCRYPTED")
