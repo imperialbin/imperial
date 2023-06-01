@@ -14,9 +14,7 @@ export const getServerSideProps: GetServerSideProps = async ({ res, params }) =>
   }
 
   return {
-    props: {
-      res,
-    },
+    props: {},
   };
 };
 
