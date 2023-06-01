@@ -4970,7 +4970,7 @@ __metadata:
     eslint-config-next: 13.3.0
     next: 13.3.0
     nextra: ^2.3.0
-    nextra-theme-docs: ^2.3.0
+    nextra-theme-docs: ^2.6.2
     react: 18.2.0
     react-dom: 18.2.0
     typescript: 5.0.4
@@ -10237,7 +10237,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"next-seo@npm:^5.15.0, next-seo@npm:^5.5.0":
+"next-seo@npm:^5.15.0":
   version: 5.15.0
   resolution: "next-seo@npm:5.15.0"
   peerDependencies:
@@ -10245,6 +10245,17 @@ __metadata:
     react: ">=16.0.0"
     react-dom: ">=16.0.0"
   checksum: 05b0769d9c9abcc6a0179e5d724e87b1a3a7591a9c2caa4ef5b791769fcf868cb97fbcd90264106101cf7fbc073b0375ab90026aa519d2e899fbabea12cafbfb
+  languageName: node
+  linkType: hard
+
+"next-seo@npm:^6.0.0":
+  version: 6.0.0
+  resolution: "next-seo@npm:6.0.0"
+  peerDependencies:
+    next: ^8.1.1-canary.54 || >=9.0.0
+    react: ">=16.0.0"
+    react-dom: ">=16.0.0"
+  checksum: aa986b3731386bc91408df6bca09a9edc0cdd8a7730bcdc331f283ab50803a6d60047b685eeec4b11bde1660dbb792e3737e81ef05a65682323d0d07fa9edd85
   languageName: node
   linkType: hard
 
@@ -10394,9 +10405,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nextra-theme-docs@npm:^2.3.0":
-  version: 2.3.0
-  resolution: "nextra-theme-docs@npm:2.3.0"
+"nextra-theme-docs@npm:^2.6.2":
+  version: 2.6.2
+  resolution: "nextra-theme-docs@npm:2.6.2"
   dependencies:
     "@headlessui/react": ^1.7.10
     "@popperjs/core": ^2.11.6
@@ -10406,16 +10417,16 @@ __metadata:
     git-url-parse: ^13.1.0
     intersection-observer: ^0.12.2
     match-sorter: ^6.3.1
-    next-seo: ^5.5.0
+    next-seo: ^6.0.0
     next-themes: ^0.2.1
     scroll-into-view-if-needed: ^3.0.0
     zod: ^3.20.2
   peerDependencies:
     next: ">=9.5.3"
-    nextra: 2.3.0
+    nextra: 2.6.2
     react: ">=16.13.1"
     react-dom: ">=16.13.1"
-  checksum: bd3101555433aed83d3a52c8b82420f119ed9372153ab6eab91cb89feec2a29abe94c3af86354af2bce7e1a743c007b8206e2058d53da33bfc3bf9127c2c35dd
+  checksum: f4eb7e50b9a5da73269a1f77eda374d9cca35e27749bc7eed6a70324edaf793c43a51220314e95e1f8de6678072e2ce08dec29727f2b816b405f70afa3c6ad06
   languageName: node
   linkType: hard
 
