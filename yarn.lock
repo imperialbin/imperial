@@ -2235,14 +2235,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@redis/client@npm:1.5.6":
-  version: 1.5.6
-  resolution: "@redis/client@npm:1.5.6"
+"@redis/client@npm:1.5.8":
+  version: 1.5.8
+  resolution: "@redis/client@npm:1.5.8"
   dependencies:
     cluster-key-slot: 1.1.2
     generic-pool: 3.9.0
     yallist: 4.0.0
-  checksum: df03f77d43e95fa4016b0c434cbdbc1822d2f30b2bfba1b046f7f4d0a6ee9ad15f350e56d6f8030b82b47e1cfa1444e7c43d659e27777ac8b66a1d95e6707f6b
+  checksum: ff4a6cbf4f132baad7e481cd4a60af7031a3528e290a646695a9a3be704ed5818f50e9676070c8bad5e4b18d99369b46fcdc052ef6c023fa2391be8696808ff1
   languageName: node
   linkType: hard
 
@@ -2264,12 +2264,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@redis/search@npm:1.1.2":
-  version: 1.1.2
-  resolution: "@redis/search@npm:1.1.2"
+"@redis/search@npm:1.1.3":
+  version: 1.1.3
+  resolution: "@redis/search@npm:1.1.3"
   peerDependencies:
     "@redis/client": ^1.0.0
-  checksum: fc3c0bd62c150ea7f8b3f08b0e67893b4e8df71b4820d750de6ba00ccff3720fdc5d4f50618e385c9e183c784635185e2e98a3e6c3d20ac30f2c60996f38b992
+  checksum: 5f82616d1a868ebaf6cce46a7b6f7f53f0e92a299958ccf6d3ea099687c2f309d586e0bec9f25aa5174301f8508b54ebbec8835c1642cdb67b8b4d2f81a15872
   languageName: node
   linkType: hard
 
@@ -3501,7 +3501,7 @@ __metadata:
     puppeteer: ^19.8.0
     react: ^18.2.0
     react-email: ^1.9.0
-    redis: ^4.6.5
+    redis: ^4.6.7
     stripe: ^12.7.0
     stripe-event-types: ^2.3.0
     ts-jest: ^29.1.0
@@ -11912,17 +11912,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"redis@npm:^4.6.5":
-  version: 4.6.5
-  resolution: "redis@npm:4.6.5"
+"redis@npm:^4.6.7":
+  version: 4.6.7
+  resolution: "redis@npm:4.6.7"
   dependencies:
     "@redis/bloom": 1.2.0
-    "@redis/client": 1.5.6
+    "@redis/client": 1.5.8
     "@redis/graph": 1.1.0
     "@redis/json": 1.0.4
-    "@redis/search": 1.1.2
+    "@redis/search": 1.1.3
     "@redis/time-series": 1.0.4
-  checksum: 81696673a4c3acefcde310289ac83f40fe974af76f6d2f2a682befd6486128f8870f48b9e6fee1213cecfba9ac705649d27b750e853809d734cccce05868f1b7
+  checksum: d48ff22269d9f22962b40ecd7623c10ad18a26aaffea0987cf80d9ba4f5d72708c6d2782062e6fc1f4255e6aa111b3356e48f636ef26aa0cc75864470d1e60f8
   languageName: node
   linkType: hard
 
