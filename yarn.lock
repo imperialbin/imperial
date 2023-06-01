@@ -2177,7 +2177,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-email/render@npm:0.0.6, @react-email/render@npm:^0.0.6":
+"@react-email/render@npm:0.0.6":
   version: 0.0.6
   resolution: "@react-email/render@npm:0.0.6"
   dependencies:
@@ -2186,6 +2186,18 @@ __metadata:
     react: 18.2.0
     react-dom: 18.2.0
   checksum: fe1f0443058c3264cbf04755142c7f46ec6bc2f71fe5c32e40713961a58e886c9e6764f6821ec3c5d0b77514253603926c84f2d6343beb0b6a3c4dbbd27a62f1
+  languageName: node
+  linkType: hard
+
+"@react-email/render@npm:^0.0.7":
+  version: 0.0.7
+  resolution: "@react-email/render@npm:0.0.7"
+  dependencies:
+    html-to-text: 9.0.3
+    pretty: 2.0.0
+    react: 18.2.0
+    react-dom: 18.2.0
+  checksum: 6a646ae06b49124e783a0d21cb923952e25ae420c38effa1e7bf8fa58fb229eb62e21903126fdc8750d786b5745f111225a40f11bb0c75e9ff1b61d963f00eb0
   languageName: node
   linkType: hard
 
@@ -3462,7 +3474,7 @@ __metadata:
     "@fastify/rate-limit": ^8.0.0
     "@jest/globals": ^29.5.0
     "@react-email/components": ^0.0.4
-    "@react-email/render": ^0.0.6
+    "@react-email/render": ^0.0.7
     "@sentry/node": ^7.53.1
     "@types/bcrypt": ^5.0.0
     "@types/cli-color": ^2.0.2
