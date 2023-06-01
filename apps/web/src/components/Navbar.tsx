@@ -38,6 +38,7 @@ import {
   X,
 } from "react-feather";
 import { ConnectedProps, connect } from "react-redux";
+import { permer } from "@imperial/commons";
 
 const Wrapper = styled(motion.div, {
   position: "fixed",
@@ -195,7 +196,9 @@ function Nav({ user, document, language, dispatch, editors }: INavProps) {
       "/document",
       {
         content:
-          user?.settings.encrypted && user.confirmed
+          user?.settings.encrypted &&
+          user.confirmed &&
+          permer.test(user.flags, "member-plus")
             ? encrypt(password as string, content).toString()
             : content,
         settings: {
