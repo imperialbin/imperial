@@ -80,7 +80,7 @@ export default async () => {
   });
   expect(res.json().data).toHaveProperty("settings", {
     language: "typescript",
-    image_embed: true,
+    image_embed: false,
     instant_delete: false,
     encrypted: false,
     public: true,
