@@ -167,9 +167,10 @@ export const createDocument: FastifyImp<
           expires_at,
           settings: {
             language,
-            image_embed: body.data.settings?.image_embed ?? false,
+            image_embed:
+              (body.data.settings?.image_embed && isMemberPlus) ?? false,
             instant_delete: body.data.settings?.instant_delete ?? false,
-            encrypted: body.data.settings?.encrypted ?? false,
+            encrypted: (body.data.settings?.encrypted && isMemberPlus) ?? false,
             public: body.data.settings?.public ?? false,
             editors: editors.map((user) => user.id),
           },
