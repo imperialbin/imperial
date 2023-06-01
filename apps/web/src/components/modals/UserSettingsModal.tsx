@@ -33,6 +33,7 @@ import Header from "./base/Header";
 import { ModalProps } from "./base/modals";
 import { AnimatePresence, motion } from "framer-motion";
 import { permer } from "@imperial/commons";
+import { getBadgeIcons } from "@web/utils/badge";
 
 const Wrapper = styled("div", {
   position: "relative",
@@ -107,6 +108,16 @@ const UserInfo = styled("div", {
   display: "flex",
   flexDirection: "column",
   overflow: "hidden",
+});
+
+const UserBadges = styled("div", {
+  display: "flex",
+  alignItems: "center",
+  gap: "5px",
+  marginTop: "3.5px",
+  marginLeft: "5px",
+
+  height: "100%",
 });
 
 const Username = styled("span", {
@@ -482,6 +493,8 @@ function UserSettings({ user, dispatch, closeModal }: ReduxProps & ModalProps) {
 
   const hasMemberPlus = permer.test(user.flags, "member-plus");
 
+  const userBadges = getBadgeIcons(user);
+
   return (
     <Wrapper>
       <Header />
@@ -490,7 +503,17 @@ function UserSettings({ user, dispatch, closeModal }: ReduxProps & ModalProps) {
           <UserOverview>
             <UserIcon URL={user.icon ?? "/img/pfp.png"} size={70} />
             <UserInfo>
-              <Username>{user.username}</Username>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <Username>{user.username}</Username>
+
+                {userBadges.length > 0 ? <UserBadges>{userBadges}</UserBadges> : null}
+              </div>
+
               <UserRole>
                 {getRole(user.flags)}{" "}
                 {!hasMemberPlus ? (
