@@ -37,7 +37,7 @@ const badgeChecker = new Permer(
 const getBadges = (user: SelfUser) => {
   const b = badges.filter((b) => badgeChecker.test(user.flags, b.id));
 
-  // hacky way to implement early adopter, will always
+  // Hacky way to implement early adopter, will always
   // push badge to last in array.
   if (user.early_adopter) {
     b.push(badges.find((b) => b.id === "early-adopter")!);
