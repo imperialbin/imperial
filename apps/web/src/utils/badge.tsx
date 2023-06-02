@@ -1,34 +1,32 @@
 import Tooltip from "@web/components/Tooltip";
 import { Permer } from "permer";
-import { Heart, X } from "react-feather";
+import { Code, Plus, Tool, Zap } from "react-feather";
 import { SelfUser } from "../../../../packages/commons/types";
+import { styled } from "@web/stitches.config";
 
-// temporary icons for testing.
-// TODO: sometimes badges look a little weird when placed
-// next to each other, please look into!
 const badges = [
   {
     id: "admin",
     tooltip: "imperialb.in Staff",
-    icon: <Heart color="red" fill="red" />,
+    icon: <Tool color="dark red" fill="red" />,
   },
 
   {
     id: "beta-tester",
     tooltip: "Beta Tester",
-    icon: <Heart color="purple" fill="purple" />,
+    icon: <Code color="dark purple" fill="purple" />,
   },
 
   {
     id: "early-adopter",
     tooltip: "Early Adopter",
-    icon: <Heart color="orange" fill="orange" />,
+    icon: <Zap color="dark orange" fill="orange" />,
   },
 
   {
     id: "member-plus",
     tooltip: "Supporter of imperialb.in",
-    icon: <X color="orange" />,
+    icon: <Plus color="pink" fill="pink" />,
   },
 ] as const;
 
@@ -48,8 +46,24 @@ const getBadges = (user: SelfUser) => {
   return b;
 };
 
-export const getBadgeIcons = (user: SelfUser) => {
-  return getBadges(user).map((b) => {
+const Wrapper = styled("div", {
+  display: "flex",
+  alignItems: "center",
+  gap: "5px",
+  marginTop: "3.5px",
+  marginLeft: "5px",
+  height: "100%",
+
+  "> svg": {
+    width: "18px",
+    maxWidth: "18px",
+  },
+});
+
+export function UserBadges({ user }: { user: SelfUser }) {
+  const badgeIcons = getBadges(user).map((b) => {
     return <Tooltip title={b.tooltip}>{b.icon}</Tooltip>;
   });
-};
+
+  return <Wrapper>{badgeIcons}</Wrapper>;
+}
