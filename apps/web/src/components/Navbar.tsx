@@ -450,8 +450,7 @@ function Nav({ user, document, language, dispatch, editors }: INavProps) {
               <StyledTooltip title="View raw">
                 <Button
                   onClick={() => {
-                    router.push(`/r/${document.id}`);
-                    router.reload();
+                    window.location.href = `/r/${document.id}`;
                   }}
                 >
                   <AlignLeft size={20} />
