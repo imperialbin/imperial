@@ -1,7 +1,6 @@
 import Tooltip from "@web/components/Tooltip";
-import { Permer } from "permer";
 import { Code, Plus, Tool, Zap } from "react-feather";
-import { SelfUser } from "@imperial/commons";
+import { SelfUser, permer } from "@imperial/commons";
 import { styled } from "@web/stitches.config";
 
 const badges = [
@@ -30,12 +29,14 @@ const badges = [
   },
 ] as const;
 
-const badgeChecker = new Permer(
-  badges.filter((b) => b.id !== "early-adopter").map((b) => b.id),
-);
-
 const getBadges = (user: SelfUser) => {
-  const b = badges.filter((b) => badgeChecker.test(user.flags, b.id));
+  const b = badges.filter(({ id }) => {
+    if (id === "early-adopter") {
+      return false;
+    }
+
+    return permer.test(user.flags, id);
+  });
 
   // Hacky way to implement early adopter, will always
   // push badge to last in array.
