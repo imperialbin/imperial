@@ -1,7 +1,7 @@
 import Tooltip from "@web/components/Tooltip";
 import { Permer } from "permer";
 import { Code, Plus, Tool, Zap } from "react-feather";
-import { SelfUser } from "../../../../packages/commons/types";
+import { SelfUser } from "@imperial/commons";
 import { styled } from "@web/stitches.config";
 
 const badges = [
