@@ -61,9 +61,11 @@ const Wrapper = styled("div", {
 });
 
 export function UserBadges({ user }: { user: SelfUser }) {
-  const badgeIcons = getBadges(user).map((b) => {
-    return <Tooltip title={b.tooltip}>{b.icon}</Tooltip>;
-  });
+  const badgeIcons = getBadges(user).map((b) => (
+    <Tooltip key={b.id} title={b.tooltip}>
+      {b.icon}
+    </Tooltip>
+  ));
 
   return <Wrapper>{badgeIcons}</Wrapper>;
 }
