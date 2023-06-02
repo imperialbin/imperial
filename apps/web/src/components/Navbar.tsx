@@ -448,7 +448,11 @@ function Nav({ user, document, language, dispatch, editors }: INavProps) {
 
               {/* Raw document button */}
               <StyledTooltip title="View raw">
-                <Button onClick={() => router.push(`/r/${document.id}`)}>
+                <Button
+                  onClick={() => {
+                    window.location.href = `/r/${document.id}`;
+                  }}
+                >
                   <AlignLeft size={20} />
                 </Button>
               </StyledTooltip>
