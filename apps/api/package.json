@@ -59,7 +59,7 @@
     "@types/cli-color": "^2.0.2",
     "@types/cron": "^2.0.1",
     "@types/crypto-js": "^4.1.1",
-    "@types/jest": "^29.5.0",
+    "@types/jest": "^29.5.2",
     "@types/node": "^18.15.10",
     "@types/pg": "^8.10.1",
     "@types/react": "^18.0.31",
