@@ -483,8 +483,6 @@ function UserSettings({ user, dispatch, closeModal }: ReduxProps & ModalProps) {
 
   const hasMemberPlus = permer.test(user.flags, "member-plus");
 
-  // const userBadges = getBadgeIcons(user);
-
   return (
     <Wrapper>
       <Header />
