@@ -3005,7 +3005,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:^18.0.31":
+"@types/react@npm:*":
   version: 18.0.33
   resolution: "@types/react@npm:18.0.33"
   dependencies:
@@ -3016,18 +3016,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:18.0.28":
-  version: 18.0.28
-  resolution: "@types/react@npm:18.0.28"
+"@types/react@npm:18.2.8, @types/react@npm:^18.2.8":
+  version: 18.2.8
+  resolution: "@types/react@npm:18.2.8"
   dependencies:
     "@types/prop-types": "*"
     "@types/scheduler": "*"
     csstype: ^3.0.2
-  checksum: e752df961105e5127652460504785897ca6e77259e0da8f233f694f9e8f451cde7fa0709d4456ade0ff600c8ce909cfe29f9b08b9c247fa9b734e126ec53edd7
+  checksum: 351fe2450d30bff2ceb6aa84788e948317555e5ea22cb44f6778e08c977aab1878a0119bd94bc3d1bec5f5af4a75ffaa2ce111df5cd9d4ce26bfd719e4d971c2
   languageName: node
   linkType: hard
 
-"@types/react@npm:18.0.35, @types/react@npm:>=16":
+"@types/react@npm:>=16":
   version: 18.0.35
   resolution: "@types/react@npm:18.0.35"
   dependencies:
@@ -3471,7 +3471,7 @@ __metadata:
     "@types/jest": ^29.5.0
     "@types/node": ^18.15.10
     "@types/pg": ^8.10.1
-    "@types/react": ^18.0.31
+    "@types/react": ^18.2.8
     "@typescript-eslint/eslint-plugin": ">=5.43.0"
     "@typescript-eslint/parser": ">=5.43.0"
     aws-sdk: ^2.1353.0
@@ -4964,7 +4964,7 @@ __metadata:
   resolution: "docs@workspace:apps/docs"
   dependencies:
     "@types/node": 18.15.11
-    "@types/react": 18.0.35
+    "@types/react": 18.2.8
     "@types/react-dom": 18.0.11
     eslint: 8.38.0
     eslint-config-next: 13.3.0
@@ -14132,7 +14132,7 @@ __metadata:
     "@types/crypto-js": ^4.1.1
     "@types/lodash": ^4.14.195
     "@types/node": 18.13.0
-    "@types/react": 18.0.28
+    "@types/react": 18.2.8
     "@types/react-copy-to-clipboard": ^5.0.4
     "@types/react-dom": 18.0.10
     "@types/ua-parser-js": ^0.7.36
