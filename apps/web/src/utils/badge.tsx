@@ -41,7 +41,7 @@ const getBadges = (user: SelfUser) => {
   // Hacky way to implement early adopter, will always
   // push badge to last in array.
   if (user.early_adopter) {
-    b.push(badges.find((b) => b.id === "early-adopter")!);
+    b.push(badges.find(({ id }) => id === "early-adopter")!);
   }
 
   return b;
