@@ -6,7 +6,7 @@ import { styled } from "@web/stitches.config";
 const badges = [
   {
     id: "admin",
-    tooltip: "imperialb.in Staff",
+    tooltip: "IMPERIAL Staff",
     icon: <Tool color="dark red" fill="red" />,
   },
 
@@ -24,7 +24,7 @@ const badges = [
 
   {
     id: "member-plus",
-    tooltip: "Supporter of imperialb.in",
+    tooltip: "Supporter of IMPERIAL",
     icon: <Plus color="pink" fill="pink" strokeWidth={2.5} />,
   },
 ] as const;
