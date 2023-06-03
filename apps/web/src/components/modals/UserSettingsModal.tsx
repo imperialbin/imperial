@@ -33,6 +33,7 @@ import Header from "./base/Header";
 import { ModalProps } from "./base/modals";
 import { AnimatePresence, motion } from "framer-motion";
 import { permer } from "@imperial/commons";
+import { UserBadges } from "@web/utils/badge";
 
 const Wrapper = styled("div", {
   position: "relative",
@@ -107,6 +108,16 @@ const UserInfo = styled("div", {
   display: "flex",
   flexDirection: "column",
   overflow: "hidden",
+});
+
+const UsernameContainer = styled("div", {
+  display: "flex",
+  alignItems: "center",
+
+  // Username Badges
+  "> div": {
+    marginLeft: "auto",
+  },
 });
 
 const Username = styled("span", {
@@ -490,7 +501,11 @@ function UserSettings({ user, dispatch, closeModal }: ReduxProps & ModalProps) {
           <UserOverview>
             <UserIcon URL={user.icon ?? "/img/pfp.png"} size={70} />
             <UserInfo>
-              <Username>{user.username}</Username>
+              <UsernameContainer>
+                <Username>{user.username}</Username>
+                <UserBadges user={user} />
+              </UsernameContainer>
+
               <UserRole>
                 {getRole(user.flags)}{" "}
                 {!hasMemberPlus ? (
