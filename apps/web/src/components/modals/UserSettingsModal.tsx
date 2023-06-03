@@ -110,6 +110,16 @@ const UserInfo = styled("div", {
   overflow: "hidden",
 });
 
+const UsernameContainer = styled("div", {
+  display: "flex",
+  alignItems: "center",
+
+  // Username Badges
+  "> div": {
+    marginLeft: "auto",
+  },
+});
+
 const Username = styled("span", {
   fontSize: "1.5em",
   fontWeight: 600,
@@ -491,16 +501,10 @@ function UserSettings({ user, dispatch, closeModal }: ReduxProps & ModalProps) {
           <UserOverview>
             <UserIcon URL={user.icon ?? "/img/pfp.png"} size={70} />
             <UserInfo>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                }}
-              >
+              <UsernameContainer>
                 <Username>{user.username}</Username>
-
                 <UserBadges user={user} />
-              </div>
+              </UsernameContainer>
 
               <UserRole>
                 {getRole(user.flags)}{" "}
