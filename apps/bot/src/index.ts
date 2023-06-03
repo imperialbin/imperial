@@ -14,6 +14,9 @@ const client = new Client({
   intents: [],
 });
 
+if(!env.DISCORD_BOT_TOKEN) {
+  throw "No discord bot token has been provided."
+}
 client.login(env.DISCORD_BOT_TOKEN);
 
 client.on("ready", async (client) => {
