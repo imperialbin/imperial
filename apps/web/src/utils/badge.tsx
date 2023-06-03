@@ -13,7 +13,7 @@ const badges = [
   {
     id: "beta-tester",
     tooltip: "Beta Tester",
-    icon: <Code color="dark purple" fill="purple" />,
+    icon: <Code color="teal" strokeWidth={2.5} />,
   },
 
   {
@@ -25,7 +25,7 @@ const badges = [
   {
     id: "member-plus",
     tooltip: "Supporter of imperialb.in",
-    icon: <Plus color="pink" fill="pink" />,
+    icon: <Plus color="pink" fill="pink" strokeWidth={2.5} />,
   },
 ] as const;
 
@@ -52,21 +52,26 @@ const Wrapper = styled("div", {
   alignItems: "center",
   gap: "5px",
   marginTop: "3.5px",
-  marginLeft: "5px",
+  marginLeft: "10px",
   height: "100%",
+  background: "$primary600",
+  padding: "4px 8px",
+  borderRadius: "$medium",
+  border: "1px solid $primary400",
 
   "> svg": {
     width: "18px",
+    height: "auto",
     maxWidth: "18px",
   },
 });
 
-export function UserBadges({ user }: { user: SelfUser }) {
+export function UserBadges({ user, className }: { user: SelfUser; className?: string }) {
   const badgeIcons = getBadges(user).map((b) => (
     <Tooltip key={b.id} title={b.tooltip}>
       {b.icon}
     </Tooltip>
   ));
 
-  return <Wrapper>{badgeIcons}</Wrapper>;
+  return <Wrapper className={className}>{badgeIcons}</Wrapper>;
 }
