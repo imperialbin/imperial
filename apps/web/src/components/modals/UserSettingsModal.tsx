@@ -20,7 +20,7 @@ import { addNotification, openModal, setUser } from "@web/state/actions";
 import { ImperialState } from "@web/state/reducers";
 import { styled } from "@web/stitches.config";
 import { Document, SelfUser, UserSettings as UserSettingsType } from "@web/types";
-import { ImperialAPIResponse, ImperialError, makeRequest } from "@web/utils/rest";
+import { makeRequest } from "@web/utils/rest";
 import Link from "next/link";
 import { getRole } from "@web/utils/permissions";
 import Button from "../Button";
@@ -364,15 +364,13 @@ function UserSettings({ user, dispatch, closeModal }: ReduxProps & ModalProps) {
     });
 
     if (!success || !data) {
-      dispatch(
+      return dispatch(
         addNotification({
           icon: <X />,
           message: error?.message ?? "An unknown error occurred",
           type: "error",
         }),
       );
-
-      return false;
     }
 
     dispatch(
@@ -476,17 +474,23 @@ function UserSettings({ user, dispatch, closeModal }: ReduxProps & ModalProps) {
     const { value } = item;
     const settings = user.settings;
 
-    const updates: { short_urls: boolean | undefined; long_urls: boolean | undefined } = {
+    const updates: {
+      short_urls: boolean | undefined;
+      long_urls: boolean | undefined;
+    } = {
       short_urls: undefined,
       long_urls: undefined,
     };
 
+    // set to short
     if (value === "short") {
       updates.short_urls = true;
 
+      // fix legacy settings
       if (settings.long_urls) {
         updates.long_urls = false;
       }
+      // set to 8 characters
     } else if (value === "normal") {
       if (settings.short_urls) {
         updates.short_urls = false;
@@ -495,9 +499,11 @@ function UserSettings({ user, dispatch, closeModal }: ReduxProps & ModalProps) {
       if (settings.long_urls) {
         updates.long_urls = false;
       }
+      // set to long
     } else if (value === "long") {
       updates.long_urls = true;
 
+      // fix legacy settings
       if (settings.short_urls) {
         updates.short_urls = false;
       }
