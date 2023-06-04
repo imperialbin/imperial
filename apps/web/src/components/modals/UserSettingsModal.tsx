@@ -20,7 +20,7 @@ import { addNotification, openModal, setUser } from "@web/state/actions";
 import { ImperialState } from "@web/state/reducers";
 import { styled } from "@web/stitches.config";
 import { Document, SelfUser, UserSettings as UserSettingsType } from "@web/types";
-import { makeRequest } from "@web/utils/rest";
+import { ImperialAPIResponse, ImperialError, makeRequest } from "@web/utils/rest";
 import Link from "next/link";
 import { getRole } from "@web/utils/permissions";
 import Button from "../Button";
@@ -363,14 +363,17 @@ function UserSettings({ user, dispatch, closeModal }: ReduxProps & ModalProps) {
       },
     });
 
-    if (!success || !data)
-      return dispatch(
+    if (!success || !data) {
+      dispatch(
         addNotification({
           icon: <X />,
           message: error?.message ?? "An unknown error occurred",
           type: "error",
         }),
       );
+
+      return false;
+    }
 
     dispatch(
       addNotification({
@@ -469,34 +472,59 @@ function UserSettings({ user, dispatch, closeModal }: ReduxProps & ModalProps) {
     setConfirmPassword("");
   };
 
-  const updateURLLength = (item: DropdownItem<"short" | "long" | "normal">) => {
+  const updateURLLength = async (item: DropdownItem<"short" | "long" | "normal">) => {
     const { value } = item;
+    const settings = user.settings;
 
-    // update to short urls.
+    const updates: { short_urls: boolean | undefined; long_urls: boolean | undefined } = {
+      short_urls: undefined,
+      long_urls: undefined,
+    };
+
     if (value === "short") {
-      patchUser("short_urls", true);
+      updates.short_urls = true;
 
-      // update legacy settings.
-      if (user.settings.long_urls) {
-        patchUser("long_urls", false);
+      if (settings.long_urls) {
+        updates.long_urls = false;
       }
-      // update to normal length urls.
     } else if (value === "normal") {
-      if (user.settings.short_urls) {
-        patchUser("short_urls", false);
+      if (settings.short_urls) {
+        updates.short_urls = false;
       }
 
-      if (user.settings.long_urls) {
-        patchUser("long_urls", false);
+      if (settings.long_urls) {
+        updates.long_urls = false;
       }
     } else if (value === "long") {
-      patchUser("long_urls", true);
+      updates.long_urls = true;
 
-      // update legacy settings.
-      if (user.settings.short_urls) {
-        patchUser("short_urls", false);
+      if (settings.short_urls) {
+        updates.short_urls = false;
       }
     }
+
+    const { success, error, data } = await makeRequest("PATCH", "/users/@me", {
+      settings: { ...updates },
+    });
+
+    if (!success || !data)
+      return dispatch(
+        addNotification({
+          icon: <X />,
+          message: error?.message ?? "An unknown error occurred",
+          type: "error",
+        }),
+      );
+
+    dispatch(
+      addNotification({
+        icon: <Check />,
+        message: "Successfully updated user settings",
+        type: "success",
+      }),
+    );
+
+    dispatch(setUser(data));
   };
 
   useEffect(() => {
@@ -764,7 +792,7 @@ function UserSettings({ user, dispatch, closeModal }: ReduxProps & ModalProps) {
               {
                 value: "short",
                 title: "4 Characters",
-                selected: user.settings.short_urls === true,
+                selected: user.settings.short_urls,
               },
               {
                 value: "normal",
@@ -774,7 +802,7 @@ function UserSettings({ user, dispatch, closeModal }: ReduxProps & ModalProps) {
               {
                 value: "long",
                 title: "32 Characters",
-                selected: user.settings.long_urls === true,
+                selected: user.settings.long_urls,
               },
             ]}
             onSelect={updateURLLength}
