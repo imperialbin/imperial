@@ -100,12 +100,16 @@ export const createDocument: FastifyImp<
   let { content } = body.data;
 
   let id: string;
-  // short id.
-  if (body.data.settings?.short_urls) id = documentIdGenerator(4);
-  // long id.
-  else if (body.data.settings?.long_urls) id = documentIdGenerator(36);
-  // normal id.
-  else id = documentIdGenerator(8);
+  // Short id.
+  if (body.data.settings?.short_urls) {
+    id = documentIdGenerator(4);
+    // Long id.
+  } else if (body.data.settings?.long_urls) {
+    id = documentIdGenerator(36);
+    // Normal id.
+  } else {
+    id = documentIdGenerator(8);
+  }
 
   // Encryption configuration
   const isMemberPlus = permer.test(request.user?.flags ?? 0, "member-plus");
