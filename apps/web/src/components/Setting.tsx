@@ -45,6 +45,8 @@ type SettingProps<T = "dropdown" | "switch", k = unknown> = T extends "switch"
 
       onSelect?: never;
       items?: never;
+
+      minWidth?: never;
     }
   : {
       title: string;
@@ -57,6 +59,8 @@ type SettingProps<T = "dropdown" | "switch", k = unknown> = T extends "switch"
 
       toggled?: never;
       onToggle?: never;
+
+      minWidth?: number;
     };
 
 function Setting<T = "switch" | "dropdown", K = unknown>({
@@ -78,6 +82,8 @@ function Setting<T = "switch" | "dropdown", K = unknown>({
   onSelect,
 
   items,
+
+  minWidth,
 }: SettingProps<T, K>): JSX.Element {
   return (
     <SettingContainer>
@@ -105,7 +111,7 @@ function Setting<T = "switch" | "dropdown", K = unknown>({
       {/* Dropdowns */}
       {type === "dropdown" ? (
         <Dropdown
-          style={{ minWidth: 82 }}
+          style={{ minWidth: minWidth ?? 82 }}
           items={items ?? []}
           onSelect={(item) => onSelect?.(item)}
         />

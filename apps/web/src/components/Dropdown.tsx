@@ -90,7 +90,7 @@ const DropdownButton = styled("button", {
   },
 });
 
-type Item<T> = {
+export type DropdownItem<T> = {
   selected?: boolean;
   value: T;
   title: string;
@@ -99,10 +99,10 @@ type Item<T> = {
 
 export interface IDropdownProps<T> {
   placement?: Placement;
-  items: Item<T>[];
+  items: DropdownItem<T>[];
 
   // eslint-disable-next-line no-unused-vars
-  onSelect: (item: Item<T>) => unknown;
+  onSelect: (item: DropdownItem<T>) => unknown;
   notSelectedOverride?: string;
 
   /* Optional parameter to automatically set width to targets width */
@@ -129,11 +129,11 @@ function Dropdown<T>({
   disabled = false,
 }: IDropdownProps<T>) {
   const [active, setActive] = useState(false);
-  const [selected, setSelected] = useState<Item<T> | null>(
+  const [selected, setSelected] = useState<DropdownItem<T> | null>(
     items.find((item) => item.selected) ?? null,
   );
 
-  const stableSetSelected = useCallback((item: Item<T>) => setSelected(item), []);
+  const stableSetSelected = useCallback((item: DropdownItem<T>) => setSelected(item), []);
 
   // Update the selected item if items changes through props
   useEffect(() => {

@@ -33,6 +33,7 @@ import Header from "./base/Header";
 import { ModalProps } from "./base/modals";
 import { AnimatePresence, motion } from "framer-motion";
 import { permer } from "@imperial/commons";
+import { DropdownItem } from "../Dropdown";
 import { UserBadges } from "../UserBadges";
 
 const Wrapper = styled("div", {
@@ -362,7 +363,7 @@ function UserSettings({ user, dispatch, closeModal }: ReduxProps & ModalProps) {
       },
     });
 
-    if (!success || !data)
+    if (!success || !data) {
       return dispatch(
         addNotification({
           icon: <X />,
@@ -370,6 +371,7 @@ function UserSettings({ user, dispatch, closeModal }: ReduxProps & ModalProps) {
           type: "error",
         }),
       );
+    }
 
     dispatch(
       addNotification({
@@ -466,6 +468,58 @@ function UserSettings({ user, dispatch, closeModal }: ReduxProps & ModalProps) {
     setPassword("");
     setNewPassword("");
     setConfirmPassword("");
+  };
+
+  const updateURLLength = async (item: DropdownItem<"short" | "long" | "normal">) => {
+    const { value } = item;
+    const settings = user.settings;
+
+    let payload: Pick<Partial<UserSettingsType>, "short_urls" | "long_urls"> | undefined;
+
+    if (value === "short" && !settings.short_urls) {
+      payload = {
+        short_urls: true,
+        long_urls: settings.long_urls ? false : undefined,
+      };
+    } else if (value === "normal" && (settings.short_urls || settings.long_urls)) {
+      payload = {
+        short_urls: settings.short_urls ? false : undefined,
+        long_urls: settings.long_urls ? false : undefined,
+      };
+    } else if (value === "long" && !settings.long_urls) {
+      payload = {
+        long_urls: true,
+        short_urls: settings.short_urls ? false : undefined,
+      };
+    }
+
+    if (!payload) {
+      return;
+    }
+
+    // TODO: consildate request logic into one place to share with patchUser
+    const { success, error, data } = await makeRequest<SelfUser>("PATCH", "/users/@me", {
+      settings: payload,
+    });
+
+    if (!success || !data)
+      return dispatch(
+        addNotification({
+          icon: <X />,
+          message: error?.message ?? "An unknown error occurred",
+          type: "error",
+        }),
+      );
+
+    dispatch(
+      addNotification({
+        icon: <Check />,
+        message: "Successfully updated user settings",
+        type: "success",
+      }),
+    );
+
+    dispatch(setUser(data));
   };
 
   useEffect(() => {
@@ -726,18 +780,28 @@ function UserSettings({ user, dispatch, closeModal }: ReduxProps & ModalProps) {
             onToggle={() => patchUser("clipboard", !user.settings.clipboard)}
           /> */}
           <Setting
-            title="Longer URLs"
-            type="switch"
-            toggled={user.settings.long_urls}
-            description="Create 32 character URLs."
-            onToggle={() => patchUser("long_urls", !user.settings.long_urls)}
-          />
-          <Setting
-            title="Short URLs"
-            type="switch"
-            toggled={user.settings.short_urls}
-            description="Create 4 character URLs."
-            onToggle={() => patchUser("short_urls", !user.settings.short_urls)}
+            title="URL Length"
+            description="Change the identifier length of the document."
+            type="dropdown"
+            items={[
+              {
+                value: "short",
+                title: "4 Characters",
+                selected: user.settings.short_urls,
+              },
+              {
+                value: "normal",
+                title: "8 Characters",
+                selected: !user.settings.short_urls && !user.settings.long_urls,
+              },
+              {
+                value: "long",
+                title: "32 Characters",
+                selected: user.settings.long_urls,
+              },
+            ]}
+            onSelect={updateURLLength}
+            minWidth={128}
           />
           <Setting
             title="Instant Delete"
