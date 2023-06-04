@@ -471,8 +471,8 @@ function UserSettings({ user, dispatch, closeModal }: ReduxProps & ModalProps) {
   };
 
   const updateURLLength = async (item: DropdownItem<"short" | "long" | "normal">) => {
-    const { value } = item;
-    const { settings } = user;
+    const value = item.value;
+    const settings = user.settings;
 
     let payload: Pick<Partial<UserSettingsType>, "short_urls" | "long_urls"> | undefined;
 
