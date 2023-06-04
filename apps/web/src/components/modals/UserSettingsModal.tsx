@@ -481,7 +481,7 @@ function UserSettings({ user, dispatch, closeModal }: ReduxProps & ModalProps) {
         short_urls: true,
         long_urls: settings.long_urls ? false : undefined,
       };
-    } else if (value === "normal") {
+    } else if (value === "normal" && (settings.short_urls || settings.long_urls)) {
       payload = {
         short_urls: settings.short_urls ? false : undefined,
         long_urls: settings.long_urls ? false : undefined,
