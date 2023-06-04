@@ -1,7 +1,5 @@
-import Tooltip from "@web/components/Tooltip";
-import { Code, Plus, Tool, Zap } from "react-feather";
 import { SelfUser, permer } from "@imperial/commons";
-import { styled } from "@web/stitches.config";
+import { Code, Plus, Tool, Zap } from "react-feather";
 
 const badges = [
   {
