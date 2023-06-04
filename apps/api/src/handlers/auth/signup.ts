@@ -86,7 +86,7 @@ export const signup: FastifyImp<
             ["member"].concat(
               !env.PRODUCTION &&
                 body.data.username.startsWith("unit-test-admin-")
-                ? ["admin"]
+                ? ["admin", "member-plus"]
                 : [],
             ) as ["member" | "admin"],
           ),

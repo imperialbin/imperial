@@ -1,4 +1,4 @@
-import { AUTH_TOKEN } from "../auth/register";
+import { ADMIN_AUTH_TOKEN, AUTH_TOKEN } from "../auth/register";
 import { server } from "../index.test";
 import { CREATED_DOCUMENTS } from "./createDocument";
 
@@ -44,7 +44,7 @@ export default async () => {
     method: "DELETE",
     url: `/v1/document/${CREATED_DOCUMENTS[1].id}`,
     headers: {
-      authorization: AUTH_TOKEN,
+      authorization: ADMIN_AUTH_TOKEN,
     },
   });
 
