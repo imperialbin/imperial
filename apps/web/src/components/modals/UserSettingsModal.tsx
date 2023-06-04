@@ -474,9 +474,9 @@ function UserSettings({ user, dispatch, closeModal }: ReduxProps & ModalProps) {
     const { value } = item;
     const settings = user.settings;
 
-    let payload: Pick<Partial<UserSettingsType>, "short_urls" | "long_urls"> = {};
+    let payload: Pick<Partial<UserSettingsType>, "short_urls" | "long_urls"> | undefined;
 
-    if (value === "short") {
+    if (value === "short" && !settings.short_urls) {
       payload = {
         short_urls: true,
         long_urls: settings.long_urls ? false : undefined,
@@ -486,11 +486,15 @@ function UserSettings({ user, dispatch, closeModal }: ReduxProps & ModalProps) {
         short_urls: settings.short_urls ? false : undefined,
         long_urls: settings.long_urls ? false : undefined,
       };
-    } else if (value === "long") {
+    } else if (value === "long" && !settings.long_urls) {
       payload = {
         long_urls: true,
         short_urls: settings.short_urls ? false : undefined,
       };
+    }
+
+    if (!payload) {
+      return;
     }
 
     // TODO: consildate request logic into one place to share with patchUser
