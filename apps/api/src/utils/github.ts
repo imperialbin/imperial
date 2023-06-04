@@ -109,7 +109,7 @@ export class GitHub {
           throw new Error(json.message ?? "Unknown error");
         }
 
-        return res as unknown as GitHubGistResponse;
+        return json as unknown as GitHubGistResponse;
       })
       .catch((err) => {
         Logger.error("GitHub", `Error creating Gist ${String(err)}`);
