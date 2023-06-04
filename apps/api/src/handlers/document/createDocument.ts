@@ -18,23 +18,26 @@ import {
   generateRandomSecureString,
 } from "../../utils/strings";
 
+const documentSettingsSchema = z
+  .object({
+    language: languageSchema.optional().default("plaintext"),
+    expiration: z.number().or(z.null()).optional().default(null),
+    short_urls: z.boolean().optional().default(false),
+    long_urls: z.boolean().optional().default(false),
+    image_embed: z.boolean().optional().default(false),
+    instant_delete: z.boolean().optional().default(false),
+    encrypted: z.boolean().optional().default(false),
+    password: z.string().optional(),
+    public: z.boolean().optional().default(false),
+    editors: z.array(z.string().min(1).max(200)).optional(),
+    create_gist: z.boolean().optional().default(false),
+  })
+  .optional();
+
 const createDocumentSchema = z.object({
   content: z.string().min(1),
-  settings: z
-    .object({
-      language: languageSchema.optional().default("plaintext"),
-      expiration: z.number().or(z.null()).optional().default(null),
-      short_urls: z.boolean().optional().default(false),
-      long_urls: z.boolean().optional().default(false),
-      image_embed: z.boolean().optional().default(false),
-      instant_delete: z.boolean().optional().default(false),
-      encrypted: z.boolean().optional().default(false),
-      password: z.string().optional(),
-      public: z.boolean().optional().default(false),
-      editors: z.array(z.string().min(1).max(200)).optional(),
-      create_gist: z.boolean().optional().default(false),
-    })
-    .optional(),
+  settings: documentSettingsSchema,
+  infer_settings: z.boolean().optional().default(false),
 });
 
 export const createDocument: FastifyImp<
@@ -74,15 +77,35 @@ export const createDocument: FastifyImp<
     };
   }
 
-  let id = documentIdGenerator(8);
+  // Check whether we should infer the settings
+  // based on the user's defined settings.
+  if (body.data.infer_settings && request.user) {
+    const { settings } = request.user;
+
+    const parsedSettings = documentSettingsSchema.safeParse({
+      ...settings,
+
+      language: body.data.settings?.language ?? "plaintext",
+      editors: body.data.settings?.editors ?? [],
+      public: false,
+      password: body.data.settings?.password,
+    });
+
+    // LGTM, use it as our new settings payload.
+    if (parsedSettings.success) {
+      body.data.settings = parsedSettings.data;
+    }
+  }
+
   let { content } = body.data;
 
-  // URL configuration
-  if (body.data.settings?.short_urls) {
-    id = documentIdGenerator(4);
-  } else if (body.data.settings?.long_urls) {
-    id = documentIdGenerator(36);
-  }
+  let id: string;
+  // short id.
+  if (body.data.settings?.short_urls) id = documentIdGenerator(4);
+  // long id.
+  else if (body.data.settings?.long_urls) id = documentIdGenerator(36);
+  // normal id.
+  else id = documentIdGenerator(8);
 
   // Encryption configuration
   const isMemberPlus = permer.test(request.user?.flags ?? 0, "member-plus");
