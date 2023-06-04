@@ -33,7 +33,7 @@ import Header from "./base/Header";
 import { ModalProps } from "./base/modals";
 import { AnimatePresence, motion } from "framer-motion";
 import { permer } from "@imperial/commons";
-import { UserBadges } from "@web/utils/badge";
+import { UserBadges } from "../UserBadges";
 
 const Wrapper = styled("div", {
   position: "relative",
