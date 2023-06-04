@@ -474,43 +474,28 @@ function UserSettings({ user, dispatch, closeModal }: ReduxProps & ModalProps) {
     const { value } = item;
     const settings = user.settings;
 
-    const updates: {
-      short_urls: boolean | undefined;
-      long_urls: boolean | undefined;
-    } = {
-      short_urls: undefined,
-      long_urls: undefined,
-    };
+    let payload: Pick<Partial<UserSettingsType>, "short_urls" | "long_urls"> = {};
 
-    // set to short
     if (value === "short") {
-      updates.short_urls = true;
-
-      // fix legacy settings
-      if (settings.long_urls) {
-        updates.long_urls = false;
-      }
-      // set to 8 characters
+      payload = {
+        short_urls: true,
+        long_urls: settings.long_urls ? false : undefined,
+      };
     } else if (value === "normal") {
-      if (settings.short_urls) {
-        updates.short_urls = false;
-      }
-
-      if (settings.long_urls) {
-        updates.long_urls = false;
-      }
-      // set to long
+      payload = {
+        short_urls: settings.short_urls ? false : undefined,
+        long_urls: settings.long_urls ? false : undefined,
+      };
     } else if (value === "long") {
-      updates.long_urls = true;
-
-      // fix legacy settings
-      if (settings.short_urls) {
-        updates.short_urls = false;
-      }
+      payload = {
+        long_urls: true,
+        short_urls: settings.short_urls ? false : undefined,
+      };
     }
 
-    const { success, error, data } = await makeRequest("PATCH", "/users/@me", {
-      settings: { ...updates },
+    // TODO: consildate request logic into one place to share with patchUser
+    const { success, error, data } = await makeRequest<SelfUser>("PATCH", "/users/@me", {
+      settings: payload,
     });
 
     if (!success || !data)
