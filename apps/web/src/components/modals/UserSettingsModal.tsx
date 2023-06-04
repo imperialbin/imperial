@@ -800,7 +800,7 @@ function UserSettings({ user, dispatch, closeModal }: ReduxProps & ModalProps) {
                 selected: user.settings.long_urls,
               },
             ]}
-            minWidth={128}
+            minWidth={130}
             onSelect={updateURLLength}
           />
           <Setting
