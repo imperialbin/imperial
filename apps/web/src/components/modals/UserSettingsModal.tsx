@@ -34,6 +34,7 @@ import { ModalProps } from "./base/modals";
 import { AnimatePresence, motion } from "framer-motion";
 import { permer } from "@imperial/commons";
 import { UserBadges } from "@web/utils/badge";
+import { DropdownItem } from "../Dropdown";
 
 const Wrapper = styled("div", {
   position: "relative",
@@ -468,6 +469,36 @@ function UserSettings({ user, dispatch, closeModal }: ReduxProps & ModalProps) {
     setConfirmPassword("");
   };
 
+  const updateURLLength = (item: DropdownItem<"short" | "long" | "normal">) => {
+    const { value } = item;
+
+    // update to short urls.
+    if (value === "short") {
+      patchUser("short_urls", true);
+
+      // update legacy settings.
+      if (user.settings.long_urls) {
+        patchUser("long_urls", false);
+      }
+      // update to normal length urls.
+    } else if (value === "normal") {
+      if (user.settings.short_urls) {
+        patchUser("short_urls", false);
+      }
+
+      if (user.settings.long_urls) {
+        patchUser("long_urls", false);
+      }
+    } else if (value === "long") {
+      patchUser("long_urls", true);
+
+      // update legacy settings.
+      if (user.settings.short_urls) {
+        patchUser("short_urls", false);
+      }
+    }
+  };
+
   useEffect(() => {
     const fetchRecentDocuments = async () => {
       const { data, error, success } = await makeRequest<Document[]>(
@@ -726,18 +757,28 @@ function UserSettings({ user, dispatch, closeModal }: ReduxProps & ModalProps) {
             onToggle={() => patchUser("clipboard", !user.settings.clipboard)}
           /> */}
           <Setting
-            title="Longer URLs"
-            type="switch"
-            toggled={user.settings.long_urls}
-            description="Create 32 character URLs."
-            onToggle={() => patchUser("long_urls", !user.settings.long_urls)}
-          />
-          <Setting
-            title="Short URLs"
-            type="switch"
-            toggled={user.settings.short_urls}
-            description="Create 4 character URLs."
-            onToggle={() => patchUser("short_urls", !user.settings.short_urls)}
+            title="URL Length"
+            description="Change the identifier length of the document."
+            type="dropdown"
+            items={[
+              {
+                value: "short",
+                title: "4 Characters",
+                selected: user.settings.short_urls === true,
+              },
+              {
+                value: "normal",
+                title: "8 Characters",
+                selected: !user.settings.short_urls && !user.settings.long_urls,
+              },
+              {
+                value: "long",
+                title: "32 Characters",
+                selected: user.settings.long_urls === true,
+              },
+            ]}
+            onSelect={updateURLLength}
+            minWidth={128}
           />
           <Setting
             title="Instant Delete"
