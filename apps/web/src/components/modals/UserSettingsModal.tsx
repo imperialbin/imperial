@@ -472,7 +472,7 @@ function UserSettings({ user, dispatch, closeModal }: ReduxProps & ModalProps) {
 
   const updateURLLength = async (item: DropdownItem<"short" | "long" | "normal">) => {
     const { value } = item;
-    const settings = user.settings;
+    const { settings } = user;
 
     let payload: Pick<Partial<UserSettingsType>, "short_urls" | "long_urls"> | undefined;
 
@@ -800,8 +800,8 @@ function UserSettings({ user, dispatch, closeModal }: ReduxProps & ModalProps) {
                 selected: user.settings.long_urls,
               },
             ]}
-            onSelect={updateURLLength}
             minWidth={128}
+            onSelect={updateURLLength}
           />
           <Setting
             title="Instant Delete"
