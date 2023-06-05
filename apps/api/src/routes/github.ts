@@ -1,6 +1,5 @@
 import { FastifyInstance } from "fastify";
 import { githubWebhook } from "../handlers/github/webhook";
-import { github } from "../handlers/oauth/github";
 import { RP } from "../types";
 
 export const githubRoutes = (
@@ -8,7 +7,7 @@ export const githubRoutes = (
   _: unknown,
   done: () => void,
 ) => {
-  fastify.post<RP<typeof github>>(
+  fastify.post<RP<typeof githubWebhook>>(
     "/webhook",
     {
       config: {
