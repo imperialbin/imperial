@@ -1,5 +1,6 @@
 import { SelfUser, permer } from "@imperial/commons";
 import { Code, Plus, Tool, Zap } from "react-feather";
+import { BugIcon } from "../components/Icons";
 
 const badges = [
   {
@@ -24,6 +25,17 @@ const badges = [
     id: "member-plus",
     tooltip: "Supporter of IMPERIAL",
     icon: <Plus color="pink" fill="pink" strokeWidth={2.5} />,
+  },
+  {
+    id: "contributor",
+    tooltip: "Contributor to IMPERIAL",
+    icon: (
+      <BugIcon
+        style={{
+          color: "darkgray",
+        }}
+      />
+    ),
   },
 ] as const;
 
