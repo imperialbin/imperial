@@ -41,9 +41,13 @@ export const env = envsafe({
     desc: "The discord client id",
     allowEmpty: true,
   }),
-  DISCORD_ROLE_MEMBER: str({
-    default: "774213066245931039",
+  DISCORD_ROLE_MEMBER_PLUS: str({
+    default: "786706083334455328",
     desc: "The discord member role id",
+  }),
+  DISCORD_ROLE_CONTRIBUTOR: str({
+    default: "800769859112927312",
+    desc: "The discord contributor role id",
   }),
   DISCORD_BOT_TOKEN: str({
     default: "",
@@ -105,6 +109,11 @@ export const env = envsafe({
   STRIPE_WEBHOOK_SECRET: str({
     default: "",
     desc: "The stripe webhook secret",
+    allowEmpty: true,
+  }),
+  GITHUB_WEBHOOK_SECRET: str({
+    default: "",
+    desc: "The github webhook secret",
     allowEmpty: true,
   }),
 });
