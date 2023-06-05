@@ -2,8 +2,9 @@ import { Logger } from "@imperial/commons";
 import { FastifyImp } from "../../types";
 import { GitHub } from "../../utils/github";
 import push from "./handlers/push";
-import { PingEvent, PushEvent } from "@octokit/webhooks-types";
+import { PingEvent, PushEvent, StarEvent } from "@octokit/webhooks-types";
 import ping from "./handlers/ping";
+import star from "./handlers/star";
 
 export const githubWebhook: FastifyImp<{}, unknown, true> = async (
   request,
@@ -31,6 +32,11 @@ export const githubWebhook: FastifyImp<{}, unknown, true> = async (
   switch (event) {
     case "push": {
       push(request.body as PushEvent);
+      break;
+    }
+
+    case "star": {
+      star(request.body as StarEvent);
       break;
     }
 
