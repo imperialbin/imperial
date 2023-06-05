@@ -1,5 +1,5 @@
 import { SelfUser, permer } from "@imperial/commons";
-import { Code, Plus, Tool, Zap } from "react-feather";
+import { Code, Plus, Star, Tool, Zap } from "react-feather";
 import { BugIcon } from "../components/Icons";
 
 const badges = [
@@ -36,6 +36,11 @@ const badges = [
         }}
       />
     ),
+  },
+  {
+    id: "star-gazer",
+    tooltip: "Starred IMPERIAL",
+    icon: <Star color="goldenrod" />,
   },
 ] as const;
 
