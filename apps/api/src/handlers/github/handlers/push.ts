@@ -6,6 +6,11 @@ import { db } from "../../../db";
 import { Discord } from "../../../utils/discord";
 
 export default async function (event: PushEvent) {
+  const branchName = event.ref.split("/").pop() as string;
+  if (branchName !== event.repository.default_branch) {
+    return;
+  }
+
   const contributors = event.commits.map((commit) => commit.author.username);
   const uniqueContributors = [...new Set(contributors)];
 
