@@ -6,6 +6,7 @@ const permer = new Permer([
   "beta-tester",
   "admin",
   "contributor",
+  "star-gazer",
 ]);
 
 export { permer };
