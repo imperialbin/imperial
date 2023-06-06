@@ -4,12 +4,7 @@ type Props = SVGProps<SVGSVGElement>;
 
 export function Logo(props: Props) {
   return (
-    <svg
-      viewBox="0 0 898 786"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
+    <svg viewBox="0 0 898 786" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
       <path
         d="M447.67 0.5625L230.241 382.531L0.267578 518.748L447.67 785.565L897.86 518.748L666.493 382.531L447.67 0.5625Z"
         fill="#ACACAC"
@@ -18,14 +13,72 @@ export function Logo(props: Props) {
   );
 }
 
+export const BugIcon = React.forwardRef<SVGSVGElement, Props>((props, ref) => (
+  <svg
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+    ref={ref}
+  >
+    <path
+      d="M7.75 13C7.75 10.6528 9.65279 8.75 12 8.75C14.3472 8.75 16.25 10.6528 16.25 13V15C16.25 17.3472 14.3472 19.25 12 19.25C9.65279 19.25 7.75 17.3472 7.75 15V13Z"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M12 9V19"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M8.75 6.38333C8.75 5.48127 9.48127 4.75 10.3833 4.75H13.6167C14.5187 4.75 15.25 5.48127 15.25 6.38333C15.25 7.41426 14.4143 8.25 13.3833 8.25H10.6167C9.58574 8.25 8.75 7.41426 8.75 6.38333Z"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M7.5 14.75L6.06651 15.2713C5.27613 15.5587 4.75 16.3098 4.75 17.1509V19.25"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M8 11L5.8018 9.81635C5.15398 9.46753 4.75 8.79118 4.75 8.05541V5.75"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M16.5 14.75L17.9335 15.2713C18.7239 15.5587 19.25 16.3098 19.25 17.1509V19.25"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M16 11L18.1982 9.81635C18.846 9.46753 19.25 8.79118 19.25 8.05541V5.75"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+));
+BugIcon.displayName = "BugIcon";
+
 export function DiscordLogo(props: Props) {
   return (
-    <svg
-      viewBox="0 0 128 97"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
+    <svg viewBox="0 0 128 97" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
       <path
         d="M107.7 8.07C99.3467 4.24568 90.5282 1.53258 81.4699 0C80.2304 2.21588 79.1088 4.49573 78.1099 6.83C68.461 5.37602 58.6488 5.37602 48.9999 6.83C48.0005 4.49597 46.8789 2.21615 45.6399 0C36.5758 1.54552 27.7515 4.26506 19.3899 8.09C2.7899 32.65 -1.7101 56.6 0.539904 80.21C10.2613 87.3926 21.1423 92.8551 32.7099 96.36C35.3146 92.8568 37.6194 89.1403 39.5999 85.25C35.8382 83.8451 32.2076 82.1117 28.7499 80.07C29.6599 79.41 30.5499 78.73 31.4099 78.07C41.4709 82.8014 52.4519 85.2546 63.5699 85.2546C74.6879 85.2546 85.6689 82.8014 95.7299 78.07C96.5999 78.78 97.4899 79.46 98.3899 80.07C94.9256 82.115 91.2882 83.8517 87.5199 85.26C89.498 89.1485 91.8029 92.8619 94.4099 96.36C105.987 92.8691 116.877 87.4092 126.6 80.22V80.22C129.24 52.84 122.09 29.11 107.7 8.07ZM42.4499 65.69C36.1799 65.69 30.9999 60 30.9999 53C30.9999 46 35.9999 40.26 42.4299 40.26C48.8599 40.26 53.9999 46 53.8899 53C53.7799 60 48.8399 65.69 42.4499 65.69ZM84.6899 65.69C78.4099 65.69 73.2499 60 73.2499 53C73.2499 46 78.2499 40.26 84.6899 40.26C91.1299 40.26 96.2299 46 96.1199 53C96.0099 60 91.0799 65.69 84.6899 65.69Z"
         fill="currentColor"
@@ -36,12 +89,7 @@ export function DiscordLogo(props: Props) {
 
 export function GitHubLogo(props: Props) {
   return (
-    <svg
-      viewBox="0 0 30 30"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
+    <svg viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
       <path
         fillRule="evenodd"
         clipRule="evenodd"
@@ -134,7 +182,7 @@ export function CoffeeScript(props: Props) {
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
-      <path d="M50.3 29.6c11.7-1 15-8.5 28.7-9.8 6.7-.6 11 .8 11.4 3.1.4 2.2-2.9 3.7-7 4-5.6.6-8-1.5-8.4-3.4-4.1.4-4.8 2.2-4.6 3.5.4 2.4 5.5 4.7 14.1 3.9 9.8-.8 13-4.6 12.2-8.5-1-5-8.5-9.2-22-8-17.3 1.6-17.2 9.5-28.9 10.5-4.8.4-7.5-.7-8-2.6-.3-1.9 2-2.8 4.8-3 2.6-.2 5.7.2 7.2 1 1.1-.6 1.5-1.1 1.3-1.8-.4-1.8-4-2.6-8.5-2.2-8.7.8-8.7 4.7-8.4 6.4 1.1 4.7 7.8 7.7 16.1 6.9zm58.6 19.8c-10.8 2.5-24.6 4.1-41.2 4.1-16.9 0-30.7-1.8-41.5-4.1-9.6-2.5-14.8-5.2-16.6-8 .9 6.3 2.5 12.4 4.6 18.2-2.4 1.5-4.7 3.5-6.7 6C3.7 70.4 2 76 2.3 81.5c.3 5.5 3 10 7.3 13.5 4.5 3.5 9.3 4.5 14.8 3.5 2.1-.3 4.5-1.5 6.6-2.1-4.5 0-8.3-1.5-12.1-4.5-4.1-3-7-7.3-7.6-12.4-1-4.8 0-9.3 2.7-13.2.6-.8 1.2-1.4 1.9-2 1.5 3.8 3.3 7.4 5.2 10.9 4.1 6.3 8.3 11.8 12.4 17.7 1.8 3.5 3 7 3.8 10.4 2.7 3.8 6.6 6.5 11.4 7.9 5.9 2.1 12.1 2.9 18.4 2.9h.7c6.3 0 12.9-1 19-3 4.5-1.5 8.3-4 11.1-8h.3c.7-3 1.8-6.8 3.5-10.3 4.1-5.9 8.3-11.4 12.4-17.7 5.5-10 9.3-21.4 11.4-33.6-2.1 3-7.3 5.8-16.6 7.9zm-82.7-8.7c10.8 2.7 24.6 4.1 41.2 4.1 16.9 0 30.4-1.5 41.2-4.1 11.4-2.7 16.9-6.3 16.9-9.6 0-2.5-2.5-4.8-7-6.6 1 .7 1.8 1.8 1.8 3 0 3.5-5.2 6.3-15.6 8.6-9.6 2.1-22 3.6-37 3.6-14.5 0-27.4-1.5-36.7-3.5-10-2.5-15.3-5.2-15.3-8.6 0-1.5.7-2.7 2.7-4.1-6.3 2.5-9.6 4.5-9.6 7.6.3 3.5 5.9 7 17.4 9.6z"/>
+      <path d="M50.3 29.6c11.7-1 15-8.5 28.7-9.8 6.7-.6 11 .8 11.4 3.1.4 2.2-2.9 3.7-7 4-5.6.6-8-1.5-8.4-3.4-4.1.4-4.8 2.2-4.6 3.5.4 2.4 5.5 4.7 14.1 3.9 9.8-.8 13-4.6 12.2-8.5-1-5-8.5-9.2-22-8-17.3 1.6-17.2 9.5-28.9 10.5-4.8.4-7.5-.7-8-2.6-.3-1.9 2-2.8 4.8-3 2.6-.2 5.7.2 7.2 1 1.1-.6 1.5-1.1 1.3-1.8-.4-1.8-4-2.6-8.5-2.2-8.7.8-8.7 4.7-8.4 6.4 1.1 4.7 7.8 7.7 16.1 6.9zm58.6 19.8c-10.8 2.5-24.6 4.1-41.2 4.1-16.9 0-30.7-1.8-41.5-4.1-9.6-2.5-14.8-5.2-16.6-8 .9 6.3 2.5 12.4 4.6 18.2-2.4 1.5-4.7 3.5-6.7 6C3.7 70.4 2 76 2.3 81.5c.3 5.5 3 10 7.3 13.5 4.5 3.5 9.3 4.5 14.8 3.5 2.1-.3 4.5-1.5 6.6-2.1-4.5 0-8.3-1.5-12.1-4.5-4.1-3-7-7.3-7.6-12.4-1-4.8 0-9.3 2.7-13.2.6-.8 1.2-1.4 1.9-2 1.5 3.8 3.3 7.4 5.2 10.9 4.1 6.3 8.3 11.8 12.4 17.7 1.8 3.5 3 7 3.8 10.4 2.7 3.8 6.6 6.5 11.4 7.9 5.9 2.1 12.1 2.9 18.4 2.9h.7c6.3 0 12.9-1 19-3 4.5-1.5 8.3-4 11.1-8h.3c.7-3 1.8-6.8 3.5-10.3 4.1-5.9 8.3-11.4 12.4-17.7 5.5-10 9.3-21.4 11.4-33.6-2.1 3-7.3 5.8-16.6 7.9zm-82.7-8.7c10.8 2.7 24.6 4.1 41.2 4.1 16.9 0 30.4-1.5 41.2-4.1 11.4-2.7 16.9-6.3 16.9-9.6 0-2.5-2.5-4.8-7-6.6 1 .7 1.8 1.8 1.8 3 0 3.5-5.2 6.3-15.6 8.6-9.6 2.1-22 3.6-37 3.6-14.5 0-27.4-1.5-36.7-3.5-10-2.5-15.3-5.2-15.3-8.6 0-1.5.7-2.7 2.7-4.1-6.3 2.5-9.6 4.5-9.6 7.6.3 3.5 5.9 7 17.4 9.6z" />
     </svg>
   );
 }
@@ -351,11 +399,8 @@ export function FSharp(props: Props) {
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
-      <path
-        fill="#378BBA"
-        d="M0 64.5L60.7 3.8v30.4L30.4 64.5l30.4 30.4v30.4L0 64.5z"
-      />
-      <path fill="#378BBA" d="M39.1 64.5l21.7-21.7v43.4L39.1 64.5z"/>
+      <path fill="#378BBA" d="M0 64.5L60.7 3.8v30.4L30.4 64.5l30.4 30.4v30.4L0 64.5z" />
+      <path fill="#378BBA" d="M39.1 64.5l21.7-21.7v43.4L39.1 64.5z" />
       <path
         fill="#30B9DB"
         d="M128 64.5L65.1 3.8v30.4l30.4 30.4-30.4 30.3v30.4L128 64.5z"
@@ -377,10 +422,10 @@ export function Go(props: Props) {
       {...props}
     >
       <defs>
-        <path id="go-original-a" d="M18.8 1h90.5v126H18.8z"/>
+        <path id="go-original-a" d="M18.8 1h90.5v126H18.8z" />
       </defs>
       <clipPath id="go-original-b">
-        <use xlinkHref="#go-original-a" overflow="visible"/>
+        <use xlinkHref="#go-original-a" overflow="visible" />
       </clipPath>
       <path
         fillRule="evenodd"
@@ -585,14 +630,14 @@ export function GraphQL(props: Props) {
       {...props}
     >
       <g fill="#E434AA">
-        <path d="M18.39 96.852l-4.6-2.657L65.04 5.434l4.597 2.656zm0 0"/>
-        <path d="M12.734 87.105H115.23v5.31H12.734zm0 0"/>
-        <path d="M66.031 119.688L14.766 90.09l2.656-4.602 51.266 29.602zm0 0M110.566 42.543L59.301 12.941l2.656-4.597 51.266 29.597zm0 0"/>
-        <path d="M17.434 42.523l-2.657-4.601 51.27-29.598 2.656 4.598zm0 0"/>
-        <path d="M109.621 96.852L58.375 8.09l4.598-2.656 51.25 88.761zm0 0M16.8 34.398h5.313v59.204h-5.312zm0 0"/>
-        <path d="M105.887 34.398h5.312v59.204h-5.312zm0 0"/>
-        <path d="M65.129 117.441l-2.32-4.02 44.586-25.745 2.32 4.02zm0 0"/>
-        <path d="M118.238 95.328c-3.07 5.344-9.918 7.168-15.261 4.098-5.344-3.074-7.168-9.922-4.098-15.266 3.074-5.344 9.922-7.168 15.266-4.097 5.375 3.105 7.199 9.921 4.093 15.265M29.09 43.84c-3.074 5.344-9.922 7.168-15.266 4.097-5.344-3.074-7.168-9.921-4.097-15.265 3.074-5.344 9.921-7.168 15.265-4.098 5.344 3.106 7.168 9.922 4.098 15.266M9.762 95.328c-3.075-5.344-1.25-12.16 4.093-15.266 5.344-3.07 12.16-1.246 15.266 4.098 3.07 5.344 1.246 12.16-4.098 15.266-5.375 3.07-12.191 1.246-15.261-4.098M98.91 43.84c-3.07-5.344-1.246-12.16 4.098-15.266 5.344-3.07 12.16-1.246 15.265 4.098 3.07 5.344 1.247 12.16-4.097 15.266-5.344 3.07-12.192 1.246-15.266-4.098M64 126.656a11.158 11.158 0 01-11.168-11.168A11.158 11.158 0 0164 104.32a11.158 11.158 0 0111.168 11.168c0 6.145-4.992 11.168-11.168 11.168M64 23.68a11.158 11.158 0 01-11.168-11.168A11.158 11.158 0 0164 1.344a11.158 11.158 0 0111.168 11.168A11.158 11.158 0 0164 23.68"/>
+        <path d="M18.39 96.852l-4.6-2.657L65.04 5.434l4.597 2.656zm0 0" />
+        <path d="M12.734 87.105H115.23v5.31H12.734zm0 0" />
+        <path d="M66.031 119.688L14.766 90.09l2.656-4.602 51.266 29.602zm0 0M110.566 42.543L59.301 12.941l2.656-4.597 51.266 29.597zm0 0" />
+        <path d="M17.434 42.523l-2.657-4.601 51.27-29.598 2.656 4.598zm0 0" />
+        <path d="M109.621 96.852L58.375 8.09l4.598-2.656 51.25 88.761zm0 0M16.8 34.398h5.313v59.204h-5.312zm0 0" />
+        <path d="M105.887 34.398h5.312v59.204h-5.312zm0 0" />
+        <path d="M65.129 117.441l-2.32-4.02 44.586-25.745 2.32 4.02zm0 0" />
+        <path d="M118.238 95.328c-3.07 5.344-9.918 7.168-15.261 4.098-5.344-3.074-7.168-9.922-4.098-15.266 3.074-5.344 9.922-7.168 15.266-4.097 5.375 3.105 7.199 9.921 4.093 15.265M29.09 43.84c-3.074 5.344-9.922 7.168-15.266 4.097-5.344-3.074-7.168-9.921-4.097-15.265 3.074-5.344 9.921-7.168 15.265-4.098 5.344 3.106 7.168 9.922 4.098 15.266M9.762 95.328c-3.075-5.344-1.25-12.16 4.093-15.266 5.344-3.07 12.16-1.246 15.266 4.098 3.07 5.344 1.246 12.16-4.098 15.266-5.375 3.07-12.191 1.246-15.261-4.098M98.91 43.84c-3.07-5.344-1.246-12.16 4.098-15.266 5.344-3.07 12.16-1.246 15.265 4.098 3.07 5.344 1.247 12.16-4.097 15.266-5.344 3.07-12.192 1.246-15.266-4.098M64 126.656a11.158 11.158 0 01-11.168-11.168A11.158 11.158 0 0164 104.32a11.158 11.158 0 0111.168 11.168c0 6.145-4.992 11.168-11.168 11.168M64 23.68a11.158 11.158 0 01-11.168-11.168A11.158 11.158 0 0164 1.344a11.158 11.158 0 0111.168 11.168A11.158 11.158 0 0164 23.68" />
       </g>
     </svg>
   );
@@ -610,8 +655,8 @@ export function Handlebars(props: Props) {
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
-      <path d="M14.59 62.67a7.14 7.14 0 002.31-3.48c.46-2 .36-3.94-2.31-5.3C7.82 50.47 3.45 56.57 2.77 58s-1.74 3.68-1 8.84 3.19 9.9 11 11.73a32.89 32.89 0 0022-2.57c6.84-3.26 19.7-9 22.94-9.58a28.15 28.15 0 016.49-.81v-7.85a18 18 0 00-17.38-9.15C34.43 49.59 29.51 56 26.49 58.7s-8.61 9.17-12.37 8-4.81-5.7-3.48-7.14 2.37-1.18 3.18 0a6.24 6.24 0 01.77 3.11z"/>
-      <path d="M113.41 62.67a7.14 7.14 0 01-2.31-3.48c-.46-2-.36-3.94 2.31-5.3 6.76-3.43 11.13 2.67 11.81 4.11s1.74 3.68 1 8.84-3.19 9.9-11 11.73A32.89 32.89 0 0193.23 76c-6.84-3.26-19.7-9-22.94-9.58a28.15 28.15 0 00-6.49-.81v-7.85a18 18 0 0117.38-9.15c12.39 1 17.32 7.38 20.34 10.08s8.61 9.17 12.37 8 4.81-5.76 3.48-7.19-2.37-1.18-3.18 0a6.24 6.24 0 00-.78 3.17z"/>
+      <path d="M14.59 62.67a7.14 7.14 0 002.31-3.48c.46-2 .36-3.94-2.31-5.3C7.82 50.47 3.45 56.57 2.77 58s-1.74 3.68-1 8.84 3.19 9.9 11 11.73a32.89 32.89 0 0022-2.57c6.84-3.26 19.7-9 22.94-9.58a28.15 28.15 0 016.49-.81v-7.85a18 18 0 00-17.38-9.15C34.43 49.59 29.51 56 26.49 58.7s-8.61 9.17-12.37 8-4.81-5.7-3.48-7.14 2.37-1.18 3.18 0a6.24 6.24 0 01.77 3.11z" />
+      <path d="M113.41 62.67a7.14 7.14 0 01-2.31-3.48c-.46-2-.36-3.94 2.31-5.3 6.76-3.43 11.13 2.67 11.81 4.11s1.74 3.68 1 8.84-3.19 9.9-11 11.73A32.89 32.89 0 0193.23 76c-6.84-3.26-19.7-9-22.94-9.58a28.15 28.15 0 00-6.49-.81v-7.85a18 18 0 0117.38-9.15c12.39 1 17.32 7.38 20.34 10.08s8.61 9.17 12.37 8 4.81-5.76 3.48-7.19-2.37-1.18-3.18 0a6.24 6.24 0 00-.78 3.17z" />
     </svg>
   );
 }
@@ -632,7 +677,7 @@ export function HTML(props: Props) {
         fill="#E44D26"
         d="M19.037 113.876L9.032 1.661h109.936l-10.016 112.198-45.019 12.48z"
       />
-      <path fill="#F16529" d="M64 116.8l36.378-10.086 8.559-95.878H64z"/>
+      <path fill="#F16529" d="M64 116.8l36.378-10.086 8.559-95.878H64z" />
       <path
         fill="#EBEBEB"
         d="M64 52.455H45.788L44.53 38.361H64V24.599H29.489l.33 3.692 3.382 37.927H64zm0 35.743l-.061.017-15.327-4.14-.979-10.975H33.816l1.928 21.609 28.193 7.826.063-.017z"
@@ -693,7 +738,7 @@ export function JavaScript(props: Props) {
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
-      <path fill="#F0DB4F" d="M1.408 1.408h125.184v125.185H1.408z"/>
+      <path fill="#F0DB4F" d="M1.408 1.408h125.184v125.185H1.408z" />
       <path
         fill="#323330"
         d="M116.347 96.736c-.917-5.711-4.641-10.508-15.672-14.981-3.832-1.761-8.104-3.022-9.377-5.926-.452-1.69-.512-2.642-.226-3.665.821-3.32 4.784-4.355 7.925-3.403 2.023.678 3.938 2.237 5.093 4.724 5.402-3.498 5.391-3.475 9.163-5.879-1.381-2.141-2.118-3.129-3.022-4.045-3.249-3.629-7.676-5.498-14.756-5.355l-3.688.477c-3.534.893-6.902 2.748-8.877 5.235-5.926 6.724-4.236 18.492 2.975 23.335 7.104 5.332 17.54 6.545 18.873 11.531 1.297 6.104-4.486 8.08-10.234 7.378-4.236-.881-6.592-3.034-9.139-6.949-4.688 2.713-4.688 2.713-9.508 5.485 1.143 2.499 2.344 3.63 4.26 5.795 9.068 9.198 31.76 8.746 35.83-5.176.165-.478 1.261-3.666.38-8.581zM69.462 58.943H57.753l-.048 30.272c0 6.438.333 12.34-.714 14.149-1.713 3.558-6.152 3.117-8.175 2.427-2.059-1.012-3.106-2.451-4.319-4.485-.333-.584-.583-1.036-.667-1.071l-9.52 5.83c1.583 3.249 3.915 6.069 6.902 7.901 4.462 2.678 10.459 3.499 16.731 2.059 4.082-1.189 7.604-3.652 9.448-7.401 2.666-4.915 2.094-10.864 2.07-17.444.06-10.735.001-21.468.001-32.237z"
@@ -722,13 +767,13 @@ export function Kotlin(props: Props) {
         x2="40.299"
         y2="-8.322"
       >
-        <stop offset="0" stopColor="#1c93c1"/>
-        <stop offset=".163" stopColor="#2391c0"/>
-        <stop offset=".404" stopColor="#378bbe"/>
-        <stop offset=".696" stopColor="#587eb9"/>
-        <stop offset=".995" stopColor="#7f6cb1"/>
+        <stop offset="0" stopColor="#1c93c1" />
+        <stop offset=".163" stopColor="#2391c0" />
+        <stop offset=".404" stopColor="#378bbe" />
+        <stop offset=".696" stopColor="#587eb9" />
+        <stop offset=".995" stopColor="#7f6cb1" />
       </linearGradient>
-      <path fill="url(#kotlin-original-a)" d="M0 0h65.4L0 64.4z"/>
+      <path fill="url(#kotlin-original-a)" d="M0 0h65.4L0 64.4z" />
       <linearGradient
         id="kotlin-original-b"
         gradientUnits="userSpaceOnUse"
@@ -737,12 +782,12 @@ export function Kotlin(props: Props) {
         x2="95.988"
         y2="94.876"
       >
-        <stop offset="0" stopColor="#1c93c1"/>
-        <stop offset=".216" stopColor="#2d8ebf"/>
-        <stop offset=".64" stopColor="#587eb9"/>
-        <stop offset=".995" stopColor="#7f6cb1"/>
+        <stop offset="0" stopColor="#1c93c1" />
+        <stop offset=".216" stopColor="#2d8ebf" />
+        <stop offset=".64" stopColor="#587eb9" />
+        <stop offset=".995" stopColor="#7f6cb1" />
       </linearGradient>
-      <path fill="url(#kotlin-original-b)" d="M128 128L64.6 62.6 0 128z"/>
+      <path fill="url(#kotlin-original-b)" d="M128 128L64.6 62.6 0 128z" />
       <linearGradient
         id="kotlin-original-c"
         gradientUnits="userSpaceOnUse"
@@ -751,16 +796,16 @@ export function Kotlin(props: Props) {
         x2="92.481"
         y2="2.116"
       >
-        <stop offset="0" stopColor="#c757a7"/>
-        <stop offset=".046" stopColor="#ca5a9e"/>
-        <stop offset=".241" stopColor="#d66779"/>
-        <stop offset=".428" stopColor="#e17357"/>
-        <stop offset=".6" stopColor="#e97c3a"/>
-        <stop offset=".756" stopColor="#ef8324"/>
-        <stop offset=".888" stopColor="#f28817"/>
-        <stop offset=".982" stopColor="#f48912"/>
+        <stop offset="0" stopColor="#c757a7" />
+        <stop offset=".046" stopColor="#ca5a9e" />
+        <stop offset=".241" stopColor="#d66779" />
+        <stop offset=".428" stopColor="#e17357" />
+        <stop offset=".6" stopColor="#e97c3a" />
+        <stop offset=".756" stopColor="#ef8324" />
+        <stop offset=".888" stopColor="#f28817" />
+        <stop offset=".982" stopColor="#f48912" />
       </linearGradient>
-      <path fill="url(#kotlin-original-c)" d="M0 128L128 0H64.6L0 63.7z"/>
+      <path fill="url(#kotlin-original-c)" d="M0 128L128 0H64.6L0 63.7z" />
     </svg>
   );
 }
@@ -799,7 +844,7 @@ export function Lua(props: Props) {
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
-      <style/>
+      <style />
       <path
         fill="navy"
         d="M127.3 15.1c0-7.9-6.4-14.3-14.3-14.3S98.6 7.1 98.6 15.1 105 29.4 113 29.4s14.3-6.4 14.3-14.3"
@@ -849,8 +894,8 @@ export function ObjectiveC(props: Props) {
       {...props}
     >
       <g fill="#0b5a9d">
-        <path d="M63.877 125.392c-32.671 0-60.37-27.594-60.627-60.469a59.94 59.94 0 0117.506-42.759 60.939 60.939 0 0143.279-18.36 60.081 60.081 0 0142.647 17.71 60.145 60.145 0 0118.157 42.522c.151 33.604-26.864 61.021-60.469 61.363h-.493zm.19-118.406a57.774 57.774 0 00-41.01 17.427 56.775 56.775 0 00-16.63 40.484c.236 31.159 26.495 57.286 57.43 57.286h.414c31.863-.29 57.504-26.266 57.385-58.128a56.97 56.97 0 00-17.217-40.273A56.7 56.7 0 0064.068 6.986z"/>
-        <path d="M16.89 82.383V46.865h8.64v3.183h-4.583v29.218h4.584v3.183l-8.642-.066zM46.213 64.272c0 6.478-3.933 10.167-9.26 10.167s-8.877-4.156-8.877-9.831c0-5.939 3.722-10.121 9.167-10.121s8.97 4.36 8.97 9.785zm-14.415.29c0 3.932 1.973 7.05 5.36 7.05s5.333-3.183 5.333-7.195c0-3.643-1.796-7.083-5.334-7.083s-5.392 3.328-5.392 7.307l.033-.08zM49.205 55.158c1.69-.29 3.407-.434 5.123-.428a9.17 9.17 0 015.537 1.223 4.062 4.062 0 012.006 3.61 4.48 4.48 0 01-3.183 4.183c2.269.46 3.9 2.46 3.9 4.775a5.016 5.016 0 01-1.861 3.978c-1.368 1.21-3.643 1.796-7.162 1.796a33.966 33.966 0 01-4.327-.257l-.033-18.88zm3.499 7.622h1.795c2.433 0 3.801-1.145 3.801-2.782 0-1.638-1.368-2.644-3.61-2.644a9.779 9.779 0 00-2.006.145l.02 5.28zm0 8.878c.618.065 1.243.092 1.86.078 2.263 0 4.262-.861 4.262-3.182s-1.94-3.183-4.373-3.183h-1.75v6.287zM69.54 54.901h3.517v12.554c0 5.334-2.577 7.116-6.365 7.116a9.313 9.313 0 01-2.973-.507l.428-2.834c.703.224 1.44.335 2.183.349 2.006 0 3.183-.921 3.183-4.262l.026-12.416zM83.067 65.357v2.434h-7.32v-2.434h7.32zM100.158 73.63c-1.585.632-3.281.921-4.978.862-6.129 0-9.851-3.834-9.851-9.707-.283-5.353 3.827-9.923 9.18-10.206.375-.02.757-.02 1.131.006a11.112 11.112 0 014.775.862l-.783 2.801a9.476 9.476 0 00-3.788-.75c-3.932 0-6.76 2.467-6.76 7.116 0 4.235 2.499 6.971 6.734 6.971a9.806 9.806 0 003.834-.717l.506 2.762zM111.2 46.766v35.61h-8.641v-3.182h4.583V49.949h-4.583v-3.183h8.64z"/>
+        <path d="M63.877 125.392c-32.671 0-60.37-27.594-60.627-60.469a59.94 59.94 0 0117.506-42.759 60.939 60.939 0 0143.279-18.36 60.081 60.081 0 0142.647 17.71 60.145 60.145 0 0118.157 42.522c.151 33.604-26.864 61.021-60.469 61.363h-.493zm.19-118.406a57.774 57.774 0 00-41.01 17.427 56.775 56.775 0 00-16.63 40.484c.236 31.159 26.495 57.286 57.43 57.286h.414c31.863-.29 57.504-26.266 57.385-58.128a56.97 56.97 0 00-17.217-40.273A56.7 56.7 0 0064.068 6.986z" />
+        <path d="M16.89 82.383V46.865h8.64v3.183h-4.583v29.218h4.584v3.183l-8.642-.066zM46.213 64.272c0 6.478-3.933 10.167-9.26 10.167s-8.877-4.156-8.877-9.831c0-5.939 3.722-10.121 9.167-10.121s8.97 4.36 8.97 9.785zm-14.415.29c0 3.932 1.973 7.05 5.36 7.05s5.333-3.183 5.333-7.195c0-3.643-1.796-7.083-5.334-7.083s-5.392 3.328-5.392 7.307l.033-.08zM49.205 55.158c1.69-.29 3.407-.434 5.123-.428a9.17 9.17 0 015.537 1.223 4.062 4.062 0 012.006 3.61 4.48 4.48 0 01-3.183 4.183c2.269.46 3.9 2.46 3.9 4.775a5.016 5.016 0 01-1.861 3.978c-1.368 1.21-3.643 1.796-7.162 1.796a33.966 33.966 0 01-4.327-.257l-.033-18.88zm3.499 7.622h1.795c2.433 0 3.801-1.145 3.801-2.782 0-1.638-1.368-2.644-3.61-2.644a9.779 9.779 0 00-2.006.145l.02 5.28zm0 8.878c.618.065 1.243.092 1.86.078 2.263 0 4.262-.861 4.262-3.182s-1.94-3.183-4.373-3.183h-1.75v6.287zM69.54 54.901h3.517v12.554c0 5.334-2.577 7.116-6.365 7.116a9.313 9.313 0 01-2.973-.507l.428-2.834c.703.224 1.44.335 2.183.349 2.006 0 3.183-.921 3.183-4.262l.026-12.416zM83.067 65.357v2.434h-7.32v-2.434h7.32zM100.158 73.63c-1.585.632-3.281.921-4.978.862-6.129 0-9.851-3.834-9.851-9.707-.283-5.353 3.827-9.923 9.18-10.206.375-.02.757-.02 1.131.006a11.112 11.112 0 014.775.862l-.783 2.801a9.476 9.476 0 00-3.788-.75c-3.932 0-6.76 2.467-6.76 7.116 0 4.235 2.499 6.971 6.734 6.971a9.806 9.806 0 003.834-.717l.506 2.762zM111.2 46.766v35.61h-8.641v-3.182h4.583V49.949h-4.583v-3.183h8.64z" />
       </g>
     </svg>
   );
@@ -899,20 +944,20 @@ export function PHP(props: Props) {
         />
       </defs>
       <defs>
-        <path id="php-original-c" d="M2.998 31.924h122.004v64.1H2.998z"/>
+        <path id="php-original-c" d="M2.998 31.924h122.004v64.1H2.998z" />
       </defs>
       <clipPath id="php-original-b">
-        <use xlinkHref="#php-original-a" overflow="visible"/>
+        <use xlinkHref="#php-original-a" overflow="visible" />
       </clipPath>
       <clipPath id="php-original-d" clipPath="url(#php-original-b)">
-        <use xlinkHref="#php-original-c" overflow="visible"/>
+        <use xlinkHref="#php-original-c" overflow="visible" />
       </clipPath>
       <g clipPath="url(#php-original-d)">
         <defs>
-          <path id="php-original-e" d="M2.998 31.924h122.004v64.1H2.998z"/>
+          <path id="php-original-e" d="M2.998 31.924h122.004v64.1H2.998z" />
         </defs>
         <clipPath id="php-original-f">
-          <use xlinkHref="#php-original-e" overflow="visible"/>
+          <use xlinkHref="#php-original-e" overflow="visible" />
         </clipPath>
         <g clipPath="url(#php-original-f)">
           <image
@@ -961,8 +1006,8 @@ export function Python(props: Props) {
         y2="1151.089"
         gradientTransform="matrix(.563 0 0 -.568 -29.215 707.817)"
       >
-        <stop offset="0" stopColor="#5A9FD4"/>
-        <stop offset="1" stopColor="#306998"/>
+        <stop offset="0" stopColor="#5A9FD4" />
+        <stop offset="1" stopColor="#306998" />
       </linearGradient>
       <linearGradient
         id="python-original-b"
@@ -973,8 +1018,8 @@ export function Python(props: Props) {
         y2="1149.537"
         gradientTransform="matrix(.563 0 0 -.568 -29.215 707.817)"
       >
-        <stop offset="0" stopColor="#FFD43B"/>
-        <stop offset="1" stopColor="#FFE873"/>
+        <stop offset="0" stopColor="#FFD43B" />
+        <stop offset="1" stopColor="#FFE873" />
       </linearGradient>
       <path
         fill="url(#python-original-a)"
@@ -994,8 +1039,8 @@ export function Python(props: Props) {
         gradientTransform="matrix(0 -.24 -1.055 0 532.979 557.576)"
         gradientUnits="userSpaceOnUse"
       >
-        <stop offset="0" stopColor="#B8B8B8" stopOpacity=".498"/>
-        <stop offset="1" stopColor="#7F7F7F" stopOpacity="0"/>
+        <stop offset="0" stopColor="#B8B8B8" stopOpacity=".498" />
+        <stop offset="1" stopColor="#7F7F7F" stopOpacity="0" />
       </radialGradient>
       <path
         opacity=".444"
@@ -1028,8 +1073,8 @@ export function R(props: Props) {
           gradientTransform="matrix(.2169 0 0 .14527 -.16 14.112)"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stopColor="#cbced0" offset="0"/>
-          <stop stopColor="#84838b" offset="1"/>
+          <stop stopColor="#cbced0" offset="0" />
+          <stop stopColor="#84838b" offset="1" />
         </linearGradient>
         <linearGradient
           id="r-original-b"
@@ -1040,8 +1085,8 @@ export function R(props: Props) {
           gradientTransform="matrix(.17572 0 0 .17931 -.16 14.112)"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stopColor="#276dc3" offset="0"/>
-          <stop stopColor="#165caa" offset="1"/>
+          <stop stopColor="#276dc3" offset="0" />
+          <stop stopColor="#165caa" offset="1" />
         </linearGradient>
       </defs>
       <path
@@ -1098,9 +1143,9 @@ export function Redis(props: Props) {
         fill="#fff"
         d="M80.4 26.1l-10.8 1.2-2.5 5.8-3.9-6.5-12.5-1.1 9.3-3.4-2.8-5.2 8.8 3.4 8.2-2.7L72 23zM66.5 54.5l-20.3-8.4 29.1-4.4z"
       />
-      <ellipse fill="#fff" cx="38.4" cy="35.4" rx="15.5" ry="6"/>
-      <path fill="#7A0C00" d="M93.3 27.7l17.2 6.8-17.2 6.8z"/>
-      <path fill="#AD2115" d="M74.3 35.3l19-7.6v13.6l-1.9.8z"/>
+      <ellipse fill="#fff" cx="38.4" cy="35.4" rx="15.5" ry="6" />
+      <path fill="#7A0C00" d="M93.3 27.7l17.2 6.8-17.2 6.8z" />
+      <path fill="#AD2115" d="M74.3 35.3l19-7.6v13.6l-1.9.8z" />
     </svg>
   );
 }
@@ -1126,11 +1171,11 @@ export function Ruby(props: Props) {
         y2="2426.892"
         gradientTransform="matrix(1 0 0 -1 -47.5 2517)"
       >
-        <stop offset="0" stopColor="#FB7655"/>
-        <stop offset="0" stopColor="#FB7655"/>
-        <stop offset=".41" stopColor="#E42B1E"/>
-        <stop offset=".99" stopColor="#900"/>
-        <stop offset="1" stopColor="#900"/>
+        <stop offset="0" stopColor="#FB7655" />
+        <stop offset="0" stopColor="#FB7655" />
+        <stop offset=".41" stopColor="#E42B1E" />
+        <stop offset=".99" stopColor="#900" />
+        <stop offset="1" stopColor="#900" />
       </linearGradient>
       <path
         fill="url(#ruby-original-a)"
@@ -1145,10 +1190,10 @@ export function Ruby(props: Props) {
         y2="2441.685"
         gradientTransform="matrix(1 0 0 -1 -47.5 2517)"
       >
-        <stop offset="0" stopColor="#871101"/>
-        <stop offset="0" stopColor="#871101"/>
-        <stop offset=".99" stopColor="#911209"/>
-        <stop offset="1" stopColor="#911209"/>
+        <stop offset="0" stopColor="#871101" />
+        <stop offset="0" stopColor="#871101" />
+        <stop offset=".99" stopColor="#911209" />
+        <stop offset="1" stopColor="#911209" />
       </linearGradient>
       <path
         fill="url(#ruby-original-b)"
@@ -1163,10 +1208,10 @@ export function Ruby(props: Props) {
         y2="2402.655"
         gradientTransform="matrix(1 0 0 -1 -47.5 2517)"
       >
-        <stop offset="0" stopColor="#871101"/>
-        <stop offset="0" stopColor="#871101"/>
-        <stop offset=".99" stopColor="#911209"/>
-        <stop offset="1" stopColor="#911209"/>
+        <stop offset="0" stopColor="#871101" />
+        <stop offset="0" stopColor="#871101" />
+        <stop offset=".99" stopColor="#911209" />
+        <stop offset="1" stopColor="#911209" />
       </linearGradient>
       <path
         fill="url(#ruby-original-c)"
@@ -1181,17 +1226,14 @@ export function Ruby(props: Props) {
         y2="2402.644"
         gradientTransform="matrix(1 0 0 -1 -47.5 2517)"
       >
-        <stop offset="0" stopColor="#fff"/>
-        <stop offset="0" stopColor="#fff"/>
-        <stop offset=".23" stopColor="#E57252"/>
-        <stop offset=".46" stopColor="#DE3B20"/>
-        <stop offset=".99" stopColor="#A60003"/>
-        <stop offset="1" stopColor="#A60003"/>
+        <stop offset="0" stopColor="#fff" />
+        <stop offset="0" stopColor="#fff" />
+        <stop offset=".23" stopColor="#E57252" />
+        <stop offset=".46" stopColor="#DE3B20" />
+        <stop offset=".99" stopColor="#A60003" />
+        <stop offset="1" stopColor="#A60003" />
       </linearGradient>
-      <path
-        fill="url(#ruby-original-d)"
-        d="M28.717 123.928l14.001-45.867-30.81 6.588z"
-      />
+      <path fill="url(#ruby-original-d)" d="M28.717 123.928l14.001-45.867-30.81 6.588z" />
       <linearGradient
         id="ruby-original-e"
         gradientUnits="userSpaceOnUse"
@@ -1201,12 +1243,12 @@ export function Ruby(props: Props) {
         y2="2432.757"
         gradientTransform="matrix(1 0 0 -1 -47.5 2517)"
       >
-        <stop offset="0" stopColor="#fff"/>
-        <stop offset="0" stopColor="#fff"/>
-        <stop offset=".23" stopColor="#E4714E"/>
-        <stop offset=".56" stopColor="#BE1A0D"/>
-        <stop offset=".99" stopColor="#A80D00"/>
-        <stop offset="1" stopColor="#A80D00"/>
+        <stop offset="0" stopColor="#fff" />
+        <stop offset="0" stopColor="#fff" />
+        <stop offset=".23" stopColor="#E4714E" />
+        <stop offset=".56" stopColor="#BE1A0D" />
+        <stop offset=".99" stopColor="#A80D00" />
+        <stop offset="1" stopColor="#A80D00" />
       </linearGradient>
       <path
         fill="url(#ruby-original-e)"
@@ -1221,12 +1263,12 @@ export function Ruby(props: Props) {
         y2="2473.401"
         gradientTransform="matrix(1 0 0 -1 -47.5 2517)"
       >
-        <stop offset="0" stopColor="#fff"/>
-        <stop offset="0" stopColor="#fff"/>
-        <stop offset=".18" stopColor="#E46342"/>
-        <stop offset=".4" stopColor="#C82410"/>
-        <stop offset=".99" stopColor="#A80D00"/>
-        <stop offset="1" stopColor="#A80D00"/>
+        <stop offset="0" stopColor="#fff" />
+        <stop offset="0" stopColor="#fff" />
+        <stop offset=".18" stopColor="#E46342" />
+        <stop offset=".4" stopColor="#C82410" />
+        <stop offset=".99" stopColor="#A80D00" />
+        <stop offset="1" stopColor="#A80D00" />
       </linearGradient>
       <path
         fill="url(#ruby-original-f)"
@@ -1241,16 +1283,13 @@ export function Ruby(props: Props) {
         y2="2518.077"
         gradientTransform="matrix(1 0 0 -1 -47.5 2517)"
       >
-        <stop offset="0" stopColor="#fff"/>
-        <stop offset="0" stopColor="#fff"/>
-        <stop offset=".54" stopColor="#C81F11"/>
-        <stop offset=".99" stopColor="#BF0905"/>
-        <stop offset="1" stopColor="#BF0905"/>
+        <stop offset="0" stopColor="#fff" />
+        <stop offset="0" stopColor="#fff" />
+        <stop offset=".54" stopColor="#C81F11" />
+        <stop offset=".99" stopColor="#BF0905" />
+        <stop offset="1" stopColor="#BF0905" />
       </linearGradient>
-      <path
-        fill="url(#ruby-original-g)"
-        d="M104.978 4.437L84.481 15.764 71.551 4.285z"
-      />
+      <path fill="url(#ruby-original-g)" d="M104.978 4.437L84.481 15.764 71.551 4.285z" />
       <linearGradient
         id="ruby-original-h"
         gradientUnits="userSpaceOnUse"
@@ -1260,16 +1299,13 @@ export function Ruby(props: Props) {
         y2="2424.153"
         gradientTransform="matrix(1 0 0 -1 -47.5 2517)"
       >
-        <stop offset="0" stopColor="#fff"/>
-        <stop offset="0" stopColor="#fff"/>
-        <stop offset=".31" stopColor="#DE4024"/>
-        <stop offset=".99" stopColor="#BF190B"/>
-        <stop offset="1" stopColor="#BF190B"/>
+        <stop offset="0" stopColor="#fff" />
+        <stop offset="0" stopColor="#fff" />
+        <stop offset=".31" stopColor="#DE4024" />
+        <stop offset=".99" stopColor="#BF190B" />
+        <stop offset="1" stopColor="#BF190B" />
       </linearGradient>
-      <path
-        fill="url(#ruby-original-h)"
-        d="M3.802 100.034l8.586-15.659L5.442 65.72z"
-      />
+      <path fill="url(#ruby-original-h)" d="M3.802 100.034l8.586-15.659L5.442 65.72z" />
       <path
         fill="#fff"
         d="M4.981 65.131l6.987 19.821 30.365-6.812L77 45.922l9.783-31.075L71.38 3.969l-26.19 9.802c-8.252 7.675-24.263 22.86-24.84 23.146-.573.291-10.575 19.195-15.369 28.214z"
@@ -1283,16 +1319,16 @@ export function Ruby(props: Props) {
         y2="2514.739"
         gradientTransform="matrix(1 0 0 -1 -47.5 2517)"
       >
-        <stop offset="0" stopColor="#BD0012"/>
-        <stop offset="0" stopColor="#BD0012"/>
-        <stop offset=".07" stopColor="#fff"/>
-        <stop offset=".17" stopColor="#fff"/>
-        <stop offset=".27" stopColor="#C82F1C"/>
-        <stop offset=".33" stopColor="#820C01"/>
-        <stop offset=".46" stopColor="#A31601"/>
-        <stop offset=".72" stopColor="#B31301"/>
-        <stop offset=".99" stopColor="#E82609"/>
-        <stop offset="1" stopColor="#E82609"/>
+        <stop offset="0" stopColor="#BD0012" />
+        <stop offset="0" stopColor="#BD0012" />
+        <stop offset=".07" stopColor="#fff" />
+        <stop offset=".17" stopColor="#fff" />
+        <stop offset=".27" stopColor="#C82F1C" />
+        <stop offset=".33" stopColor="#820C01" />
+        <stop offset=".46" stopColor="#A31601" />
+        <stop offset=".72" stopColor="#B31301" />
+        <stop offset=".99" stopColor="#E82609" />
+        <stop offset="1" stopColor="#E82609" />
       </linearGradient>
       <path
         fill="url(#ruby-original-i)"
@@ -1307,11 +1343,11 @@ export function Ruby(props: Props) {
         y2="2416.039"
         gradientTransform="matrix(1 0 0 -1 -47.5 2517)"
       >
-        <stop offset="0" stopColor="#8C0C01"/>
-        <stop offset="0" stopColor="#8C0C01"/>
-        <stop offset=".54" stopColor="#990C00"/>
-        <stop offset=".99" stopColor="#A80D0E"/>
-        <stop offset="1" stopColor="#A80D0E"/>
+        <stop offset="0" stopColor="#8C0C01" />
+        <stop offset="0" stopColor="#8C0C01" />
+        <stop offset=".54" stopColor="#990C00" />
+        <stop offset=".99" stopColor="#A80D0E" />
+        <stop offset="1" stopColor="#A80D0E" />
       </linearGradient>
       <path
         fill="url(#ruby-original-j)"
@@ -1326,10 +1362,10 @@ export function Ruby(props: Props) {
         y2="2465.217"
         gradientTransform="matrix(1 0 0 -1 -47.5 2517)"
       >
-        <stop offset="0" stopColor="#7E110B"/>
-        <stop offset="0" stopColor="#7E110B"/>
-        <stop offset=".99" stopColor="#9E0C00"/>
-        <stop offset="1" stopColor="#9E0C00"/>
+        <stop offset="0" stopColor="#7E110B" />
+        <stop offset="0" stopColor="#7E110B" />
+        <stop offset=".99" stopColor="#9E0C00" />
+        <stop offset="1" stopColor="#9E0C00" />
       </linearGradient>
       <path
         fill="url(#ruby-original-k)"
@@ -1344,10 +1380,10 @@ export function Ruby(props: Props) {
         y2="2497.199"
         gradientTransform="matrix(1 0 0 -1 -47.5 2517)"
       >
-        <stop offset="0" stopColor="#79130D"/>
-        <stop offset="0" stopColor="#79130D"/>
-        <stop offset=".99" stopColor="#9E120B"/>
-        <stop offset="1" stopColor="#9E120B"/>
+        <stop offset="0" stopColor="#79130D" />
+        <stop offset="0" stopColor="#79130D" />
+        <stop offset=".99" stopColor="#9E120B" />
+        <stop offset="1" stopColor="#9E120B" />
       </linearGradient>
       <path
         fill="url(#ruby-original-l)"
@@ -1365,10 +1401,10 @@ export function Ruby(props: Props) {
         gradientTransform="matrix(1 0 0 -1 -47.5 2517)"
         gradientUnits="userSpaceOnUse"
       >
-        <stop offset="0" stopColor="#A80D00"/>
-        <stop offset="0" stopColor="#A80D00"/>
-        <stop offset=".99" stopColor="#7E0E08"/>
-        <stop offset="1" stopColor="#7E0E08"/>
+        <stop offset="0" stopColor="#A80D00" />
+        <stop offset="0" stopColor="#A80D00" />
+        <stop offset=".99" stopColor="#7E0E08" />
+        <stop offset="1" stopColor="#7E0E08" />
       </radialGradient>
       <path
         fill="url(#ruby-original-m)"
@@ -1382,10 +1418,10 @@ export function Ruby(props: Props) {
         gradientTransform="matrix(1 0 0 -1 -47.5 2517)"
         gradientUnits="userSpaceOnUse"
       >
-        <stop offset="0" stopColor="#A30C00"/>
-        <stop offset="0" stopColor="#A30C00"/>
-        <stop offset=".99" stopColor="#800E08"/>
-        <stop offset="1" stopColor="#800E08"/>
+        <stop offset="0" stopColor="#A30C00" />
+        <stop offset="0" stopColor="#A30C00" />
+        <stop offset=".99" stopColor="#800E08" />
+        <stop offset="1" stopColor="#800E08" />
       </radialGradient>
       <path
         fill="url(#ruby-original-n)"
@@ -1400,11 +1436,11 @@ export function Ruby(props: Props) {
         y2="2427.506"
         gradientTransform="matrix(1 0 0 -1 -47.5 2517)"
       >
-        <stop offset="0" stopColor="#8B2114"/>
-        <stop offset="0" stopColor="#8B2114"/>
-        <stop offset=".43" stopColor="#9E100A"/>
-        <stop offset=".99" stopColor="#B3100C"/>
-        <stop offset="1" stopColor="#B3100C"/>
+        <stop offset="0" stopColor="#8B2114" />
+        <stop offset="0" stopColor="#8B2114" />
+        <stop offset=".43" stopColor="#9E100A" />
+        <stop offset=".99" stopColor="#B3100C" />
+        <stop offset="1" stopColor="#B3100C" />
       </linearGradient>
       <path
         fill="url(#ruby-original-o)"
@@ -1419,11 +1455,11 @@ export function Ruby(props: Props) {
         y2="2497.045"
         gradientTransform="matrix(1 0 0 -1 -47.5 2517)"
       >
-        <stop offset="0" stopColor="#B31000"/>
-        <stop offset="0" stopColor="#B31000"/>
-        <stop offset=".44" stopColor="#910F08"/>
-        <stop offset=".99" stopColor="#791C12"/>
-        <stop offset="1" stopColor="#791C12"/>
+        <stop offset="0" stopColor="#B31000" />
+        <stop offset="0" stopColor="#B31000" />
+        <stop offset=".44" stopColor="#910F08" />
+        <stop offset=".99" stopColor="#791C12" />
+        <stop offset="1" stopColor="#791C12" />
       </linearGradient>
       <path
         fill="url(#ruby-original-p)"
@@ -1489,7 +1525,7 @@ export function TypeScript(props: Props) {
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
-      <path fill="#fff" d="M22.67 47h99.67v73.67H22.67z"/>
+      <path fill="#fff" d="M22.67 47h99.67v73.67H22.67z" />
       <path
         data-name="original"
         fill="#007acc"

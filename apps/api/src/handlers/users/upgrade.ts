@@ -4,6 +4,7 @@ import { memberPlusTokens, users } from "../../db/schemas";
 import { FastifyImp } from "../../types";
 import { permer } from "@imperial/commons";
 import { Id } from "@imperial/commons";
+import { Discord } from "../../utils/discord";
 
 export const upgradeMe: FastifyImp<
   {
@@ -53,6 +54,10 @@ export const upgradeMe: FastifyImp<
       claimed_by: request.user.id,
     })
     .where(eq(memberPlusTokens.id, request.body.token));
+
+  if (request.user.discord) {
+    Discord.setRole(request.user.discord.id, "member-plus");
+  }
 
   reply.status(204).send();
 };

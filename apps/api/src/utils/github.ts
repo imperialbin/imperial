@@ -1,3 +1,4 @@
+import crypto from "crypto";
 import { GitHubUser, GitHubUserResponse } from "../types";
 import { env } from "./env";
 import { Logger } from "./logger";
@@ -153,5 +154,14 @@ export class GitHub {
       });
 
     return gist;
+  }
+
+  public static verifySignature(body: unknown, requestSignature: string) {
+    const signature = crypto
+      .createHmac("sha256", env.GITHUB_WEBHOOK_SECRET)
+      .update(JSON.stringify(body))
+      .digest("hex");
+
+    return `sha256=${signature}` === requestSignature;
   }
 }
