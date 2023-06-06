@@ -20,8 +20,8 @@ export default async function (event: StarEvent) {
 
   // Starred_at will be null if the user unstars the repo
   if (event.starred_at !== null) {
-    const alreadyStared = permer.test(user.flags, "star-gazer");
-    if (alreadyStared) {
+    const alreadyStarred = permer.test(user.flags, "star-gazer");
+    if (alreadyStarred) {
       return;
     }
 
