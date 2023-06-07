@@ -34,7 +34,6 @@ const USER_PUBLIC_OBJECT = {
 
 const DEVICES_PUBLIC_OBJECT = {
   id: devices.id,
-  user: devices.user,
   user_agent: devices.user_agent,
   ip: devices.ip,
   created_at: devices.created_at,

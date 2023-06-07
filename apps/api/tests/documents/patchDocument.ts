@@ -1,4 +1,4 @@
-import { AUTH_TOKEN } from "../auth/register";
+import { ADMIN_AUTH_TOKEN, AUTH_TOKEN } from "../auth/register";
 import { server } from "../index.test";
 import { CREATED_DOCUMENTS } from "./createDocument";
 
@@ -46,7 +46,7 @@ export default async () => {
       content: "hello world!",
     },
     headers: {
-      authorization: AUTH_TOKEN,
+      authorization: ADMIN_AUTH_TOKEN,
     },
   });
 

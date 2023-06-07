@@ -1,5 +1,10 @@
 import { Document } from "@imperial/commons";
-import { AUTH_TOKEN, BUDDY_USER, CREATED_USER } from "../auth/register";
+import {
+  ADMIN_AUTH_TOKEN,
+  AUTH_TOKEN,
+  BUDDY_USER,
+  CREATED_USER,
+} from "../auth/register";
 import { server } from "../index.test";
 
 export const CREATED_DOCUMENTS: Array<Document & { password?: string }> = [];
@@ -80,7 +85,7 @@ export default async () => {
   });
   expect(res.json().data).toHaveProperty("settings", {
     language: "typescript",
-    image_embed: true,
+    image_embed: false,
     instant_delete: false,
     encrypted: false,
     public: true,
@@ -105,7 +110,7 @@ export default async () => {
       },
     },
     headers: {
-      Authorization: AUTH_TOKEN,
+      Authorization: ADMIN_AUTH_TOKEN,
     },
   });
 

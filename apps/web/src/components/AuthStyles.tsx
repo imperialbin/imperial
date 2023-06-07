@@ -24,13 +24,19 @@ const Container = styled("div", {
   color: "$text-primary",
   gap: 10,
 
-  "> div > h1": {
-    fontSize: "1.5em",
-  },
+  "> div": {
+    "> h1": {
+      fontSize: "1.5em",
+    },
 
-  "> div > p": {
-    marginBottom: 10,
-    color: "$text-secondary",
+    "> p": {
+      marginBottom: 10,
+      color: "$text-secondary",
+
+      "> a": {
+        textDecoration: "underline",
+      },
+    },
   },
 });
 

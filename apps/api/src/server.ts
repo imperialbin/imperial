@@ -6,13 +6,14 @@ import { middleware } from "./modules/middleware";
 import { adminRoutes } from "./routes/admin";
 import { authRoutes } from "./routes/auth";
 import { documentRoutes } from "./routes/document";
+import { githubRoutes } from "./routes/github";
 import { oAuthRoutes } from "./routes/oauth";
+import { stripeRoutes } from "./routes/stripe";
+import { themeRoutes } from "./routes/theme";
 import { usersRoutes } from "./routes/users";
 import { env } from "./utils/env";
 import { Logger } from "./utils/logger";
 import { Redis } from "./utils/redis";
-import { stripeRoutes } from "./routes/stripe";
-import { themeRoutes } from "./routes/theme";
 
 Sentry.init({
   dsn: env.SENTRY_DSN,
@@ -88,6 +89,7 @@ export const main = async () => {
   server.register(oAuthRoutes, { prefix: `/${API_VERSION}/oauth` });
   server.register(adminRoutes, { prefix: `/${API_VERSION}/admin` });
   server.register(stripeRoutes, { prefix: `/${API_VERSION}/stripe` });
+  server.register(githubRoutes, { prefix: `/${API_VERSION}/github` });
   server.register(themeRoutes, { prefix: `/${API_VERSION}/theme` });
 
   server.setNotFoundHandler((_, reply) => {

@@ -1977,6 +1977,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@octokit/webhooks-types@npm:^7.0.2":
+  version: 7.0.2
+  resolution: "@octokit/webhooks-types@npm:7.0.2"
+  checksum: 6dd241619e5b697ac0721d85f568c0a0ac44c8fcba6f9641ee79a34b1ca4782243ef26cea1416838c628abca47051c427612f832e2a0f2c17b8493563c292e8b
+  languageName: node
+  linkType: hard
+
 "@pkgr/utils@npm:^2.3.1":
   version: 2.3.1
   resolution: "@pkgr/utils@npm:2.3.1"
@@ -3461,6 +3468,7 @@ __metadata:
     "@fastify/cors": ^8.2.1
     "@fastify/rate-limit": ^8.0.0
     "@jest/globals": ^29.5.0
+    "@octokit/webhooks-types": ^7.0.2
     "@react-email/components": ^0.0.4
     "@react-email/render": ^0.0.6
     "@sentry/node": ^7.53.1

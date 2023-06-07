@@ -114,6 +114,14 @@ type Theme = {
   official: boolean;
 };
 
+interface Device {
+  id: Id<"device">;
+  user_agent: string;
+  ip: string;
+  created_at: string;
+  this_device: boolean;
+}
+
 export type {
   SelfUser,
   UserSettings,
@@ -122,4 +130,5 @@ export type {
   User,
   Document,
   Theme,
+  Device,
 };

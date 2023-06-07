@@ -39,22 +39,28 @@ type SettingProps<T = "dropdown" | "switch", k = unknown> = T extends "switch"
       description: string;
       type: T;
       disabled?: boolean;
+      disabledText?: string;
       toggled: boolean;
       onToggle: (toggled: boolean) => void;
 
       onSelect?: never;
       items?: never;
+
+      minWidth?: never;
     }
   : {
       title: string;
       description: string;
       type: T;
       disabled?: boolean;
+      disabledText?: string;
       onSelect: (item: IDropdownProps<k>["items"][number]) => void;
       items: IDropdownProps<k>["items"];
 
       toggled?: never;
       onToggle?: never;
+
+      minWidth?: number;
     };
 
 function Setting<T = "switch" | "dropdown", K = unknown>({
@@ -69,12 +75,15 @@ function Setting<T = "switch" | "dropdown", K = unknown>({
   toggled,
 
   disabled = false,
+  disabledText,
 
   // OnToggle method for all to do something
   onToggle,
   onSelect,
 
   items,
+
+  minWidth,
 }: SettingProps<T, K>): JSX.Element {
   return (
     <SettingContainer>
@@ -86,8 +95,11 @@ function Setting<T = "switch" | "dropdown", K = unknown>({
       {/* Switches */}
       {type === "switch" ? (
         <Switch
+          // Reset toggle
+          key={toggled ? "toggled" : "not-toggled"}
           toggled={toggled}
           disabled={disabled}
+          disabledText={disabledText}
           onToggle={() => {
             if (!onToggle || toggled === undefined) return;
 
@@ -99,7 +111,7 @@ function Setting<T = "switch" | "dropdown", K = unknown>({
       {/* Dropdowns */}
       {type === "dropdown" ? (
         <Dropdown
-          style={{ minWidth: 82 }}
+          style={{ minWidth: minWidth ?? 82 }}
           items={items ?? []}
           onSelect={(item) => onSelect?.(item)}
         />

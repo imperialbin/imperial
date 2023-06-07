@@ -6,6 +6,7 @@ import {
   SelfUser,
   User,
   UserSettings,
+  Device,
   Theme,
 } from "./types";
 import { permer } from "./utils/permissions";
@@ -24,6 +25,7 @@ export type {
   DiscordUser,
   GitHubUser,
   User,
+  Device,
   Document,
   SupportedLanguages,
   SupportedLanguagesID,

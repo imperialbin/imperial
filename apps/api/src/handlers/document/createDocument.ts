@@ -1,39 +1,43 @@
 /* eslint-disable complexity */
+import { permer } from "@imperial/commons";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
+import { fromZodError } from "zod-validation-error";
 import { db } from "../../db";
 import { documents, users } from "../../db/schemas";
 import { Document, FastifyImp, User } from "../../types";
 import { encrypt } from "../../utils/crypto";
+import { env } from "../../utils/env";
 import { GitHub } from "../../utils/github";
 import { guessLanguage } from "../../utils/language";
 import { getLinksObject } from "../../utils/publicObjects";
 import { languageSchema } from "../../utils/schemas";
 import { screenshotDocument } from "../../utils/screenshotDocument";
 import {
-  generateRandomSecureString,
   documentIdGenerator,
+  generateRandomSecureString,
 } from "../../utils/strings";
-import { fromZodError } from "zod-validation-error";
-import { env } from "../../utils/env";
+
+const documentSettingsSchema = z
+  .object({
+    language: languageSchema.optional().default("plaintext"),
+    expiration: z.number().or(z.null()).optional().default(null),
+    short_urls: z.boolean().optional().default(false),
+    long_urls: z.boolean().optional().default(false),
+    image_embed: z.boolean().optional().default(false),
+    instant_delete: z.boolean().optional().default(false),
+    encrypted: z.boolean().optional().default(false),
+    password: z.string().optional(),
+    public: z.boolean().optional().default(false),
+    editors: z.array(z.string().min(1).max(200)).optional(),
+    create_gist: z.boolean().optional().default(false),
+  })
+  .optional();
 
 const createDocumentSchema = z.object({
   content: z.string().min(1),
-  settings: z
-    .object({
-      language: languageSchema.optional().default("plaintext"),
-      expiration: z.number().or(z.null()).optional().default(null),
-      short_urls: z.boolean().optional().default(false),
-      long_urls: z.boolean().optional().default(false),
-      image_embed: z.boolean().optional().default(false),
-      instant_delete: z.boolean().optional().default(false),
-      encrypted: z.boolean().optional().default(false),
-      password: z.string().optional(),
-      public: z.boolean().optional().default(false),
-      editors: z.array(z.string().min(1).max(200)).optional(),
-      create_gist: z.boolean().optional().default(false),
-    })
-    .optional(),
+  settings: documentSettingsSchema,
+  infer_settings: z.boolean().optional().default(false),
 });
 
 export const createDocument: FastifyImp<
@@ -73,19 +77,46 @@ export const createDocument: FastifyImp<
     };
   }
 
-  let id = documentIdGenerator(8);
+  // Check whether we should infer the settings
+  // based on the user's defined settings.
+  if (body.data.infer_settings && request.user) {
+    const { settings } = request.user;
+
+    const parsedSettings = documentSettingsSchema.safeParse({
+      ...settings,
+
+      language: body.data.settings?.language ?? "plaintext",
+      editors: body.data.settings?.editors ?? [],
+      public: false,
+      password: body.data.settings?.password,
+    });
+
+    // LGTM, use it as our new settings payload.
+    if (parsedSettings.success) {
+      body.data.settings = parsedSettings.data;
+    }
+  }
+
   let { content } = body.data;
 
-  // URL configuration
+  let id: string;
+  // Short id.
   if (body.data.settings?.short_urls) {
     id = documentIdGenerator(4);
+    // Long id.
   } else if (body.data.settings?.long_urls) {
     id = documentIdGenerator(36);
+    // Normal id.
+  } else {
+    id = documentIdGenerator(8);
   }
 
   // Encryption configuration
+  const isMemberPlus = permer.test(request.user?.flags ?? 0, "member-plus");
   let password = body.data.settings?.password ?? undefined;
   if (
+    // !env.PRODUCTION is for tests
+    (isMemberPlus || !env.PRODUCTION) &&
     body.data.settings?.encrypted &&
     // We encrypt on the frontend by default, but if you hit our API, we'll make sure to encrypt it for you :D
     !content.startsWith("IMPERIAL_ENCRYPTED")
@@ -163,9 +194,10 @@ export const createDocument: FastifyImp<
           expires_at,
           settings: {
             language,
-            image_embed: body.data.settings?.image_embed ?? false,
+            image_embed:
+              (body.data.settings?.image_embed && isMemberPlus) ?? false,
             instant_delete: body.data.settings?.instant_delete ?? false,
-            encrypted: body.data.settings?.encrypted ?? false,
+            encrypted: (body.data.settings?.encrypted && isMemberPlus) ?? false,
             public: body.data.settings?.public ?? false,
             editors: editors.map((user) => user.id),
           },
@@ -176,10 +208,11 @@ export const createDocument: FastifyImp<
   if (
     createdDocument.settings.image_embed &&
     request.user &&
+    isMemberPlus &&
     !createdDocument.settings.instant_delete &&
     !createdDocument.settings.encrypted
   ) {
-    screenshotDocument(createdDocument.id, createdDocument.content, false);
+    screenshotDocument(createdDocument.id, createdDocument.content, true);
   }
 
   if (request.user) {

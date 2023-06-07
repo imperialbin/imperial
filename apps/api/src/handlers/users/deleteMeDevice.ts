@@ -1,6 +1,9 @@
 import { Id } from "@imperial/commons";
+import { devices } from "@imperial/internal";
+import { eq } from "drizzle-orm";
 import { z } from "zod";
 import { fromZodError } from "zod-validation-error";
+import { db } from "../../db";
 import { FastifyImp } from "../../types";
 import { AuthSessions } from "../../utils/authSessions";
 import { bCrypt } from "../../utils/bcrypt";
@@ -19,10 +22,6 @@ export const deleteMeDevices: FastifyImp<
   unknown,
   true
 > = async (request, reply) => {
-  if (!request.user) {
-    return;
-  }
-
   const body = deleteDeviceBody.safeParse(request.body);
   if (!body.success) {
     return reply.status(400).send({
@@ -31,6 +30,25 @@ export const deleteMeDevices: FastifyImp<
         code: "bad_request",
         message: fromZodError(body.error).toString(),
         errors: body.error.errors,
+      },
+    });
+  }
+
+  const userDevices = await db
+    .select()
+    .from(devices)
+    .where(eq(devices.user, request.user.id));
+
+  const requestedDevice = userDevices.find(
+    (device) => device.id === body.data.device_id,
+  );
+
+  if (!requestedDevice) {
+    return reply.status(404).send({
+      success: false,
+      error: {
+        code: "not_found",
+        message: "Device not found",
       },
     });
   }

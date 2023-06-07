@@ -74,7 +74,7 @@ export const documentsRelations = relations(documents, ({ one }) => ({
 }));
 
 export const devices = pgTable("devices", {
-  id: text("id").primaryKey(),
+  id: text("id").primaryKey().$type<Id<"device">>(),
   user: text("user")
     .references(() => users.id, { onDelete: "cascade" })
     .$type<Id<"user">>(),
