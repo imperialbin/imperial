@@ -7,30 +7,32 @@ import { Logger } from "../utils/logger";
 export let db: ReturnType<typeof drizzle>;
 
 export const setupDB = async () => {
-  const pool = await new Pool({
-    connectionString: env.DATABASE_URL,
-  })
-    .connect()
-    .then((client) => {
-      Logger.info("INIT", "Connected to database");
-
-      return client;
+  setTimeout(() => {
+    const pool = await new Pool({
+      connectionString: env.DATABASE_URL,
     })
-    .catch((err) => {
-      Logger.error("INIT", `Failed to connect to database ${String(err)}}`);
-      process.exit(1);
-    });
-
-  db = drizzle(pool);
-
-  await migrate(db, {
-    migrationsFolder: "../../packages/internal/db/migrations",
-  })
-    .then(() => {
-      Logger.info("INIT", "Migrated database");
+      .connect()
+      .then((client) => {
+        Logger.info("INIT", "Connected to database");
+  
+        return client;
+      })
+      .catch((err) => {
+        Logger.error("INIT", `Failed to connect to database ${String(err)}}`);
+        process.exit(1);
+      });
+  
+    db = drizzle(pool);
+  
+    await migrate(db, {
+      migrationsFolder: "../../packages/internal/db/migrations",
     })
-    .catch((err) => {
-      Logger.error("INIT", `Failed to migrate database ${String(err)}`);
-      process.exit(1);
-    });
+      .then(() => {
+        Logger.info("INIT", "Migrated database");
+      })
+      .catch((err) => {
+        Logger.error("INIT", `Failed to migrate database ${String(err)}`);
+        process.exit(1);
+      });
+  }, 1000)
 };
