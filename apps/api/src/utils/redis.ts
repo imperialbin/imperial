@@ -16,18 +16,17 @@ class Redis {
       this.redis = createClient({
         url: env.REDIS_URL,
       });
-  
+
       this.redis.on("error", (err) => {
         Logger.error("INIT", "Failed to connect to redis " + String(err));
-        process.exit(1);
       });
-  
+
       this.redis.on("connect", () => {
         Logger.info("INIT", "Connected to redis");
       });
-  
+
       await this.redis.connect();
-    }, 300)
+    }, 300);
   }
 
   public static async set(
