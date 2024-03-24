@@ -29,7 +29,7 @@ const nextConfig = {
         destination:
           process.env.NODE_ENV === "development"
             ? "http://localhost:8080/v1/oauth/discord"
-            : "https://imperial.hop.sh/v1/oauth/discord",
+            : "https://api.imperialb.in/v1/oauth/discord",
         permanent: true,
       },
       {
@@ -37,7 +37,7 @@ const nextConfig = {
         destination:
           process.env.NODE_ENV === "development"
             ? "http://localhost:8080/v1/oauth/github"
-            : "https://imperial.hop.sh/v1/oauth/github",
+            : "https://api.imperialb.in/v1/oauth/github",
         permanent: true,
       },
     ];
