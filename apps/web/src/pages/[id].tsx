@@ -81,13 +81,16 @@ function Document({ document }: InferProps) {
           siteName: document.timestamps.expiration
             ? `Deletes on ${dayjs(document.timestamps.expiration).format("DD/MM/YYYY")}`
             : "Never expires",
-          images: [
-            {
-              url: env.CDN_URL + document.id + ".jpeg",
-              alt: `IMPERIAL ${document.id}`,
-              type: "image/jpeg",
-            },
-          ],
+          description: !document.settings.image_embed ? document.content : undefined,
+          images: document.settings.image_embed
+            ? [
+                {
+                  url: env.CDN_URL + document.id + ".jpeg",
+                  alt: `IMPERIAL ${document.id}`,
+                  type: "image/jpeg",
+                },
+              ]
+            : undefined,
           type: "website",
         }}
       />
