@@ -23,7 +23,9 @@ Sentry.init({
 export const main = async () => {
   const server = fastify({
     bodyLimit: 5000000,
-    trustProxy: true,
+    trustProxy: env.PRODUCTION
+      ? ["10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16", "127.0.0.1"]
+      : true,
   });
 
   await setupDB();
@@ -32,7 +34,17 @@ export const main = async () => {
   const API_VERSION = "v1";
 
   server.register(middleware);
-  server.register(cors, { maxAge: 600, origin: true, credentials: true });
+  server.register(cors, {
+    maxAge: 600,
+    origin: [
+      "https://imperialb.in",
+      "https://www.imperialb.in",
+      "https://staging.imperialb.in",
+      "https://app.imperialb.in",
+      env.PRODUCTION ? "" : "http://localhost:3000",
+    ].filter(Boolean),
+    credentials: true,
+  });
   server.register(import("@fastify/cookie"), {
     secret: env.COOKIE_SIGNER,
     parseOptions: {

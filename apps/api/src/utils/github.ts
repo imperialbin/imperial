@@ -162,6 +162,13 @@ export class GitHub {
       .update(JSON.stringify(body))
       .digest("hex");
 
-    return `sha256=${signature}` === requestSignature;
+    const expected = Buffer.from(`sha256=${signature}`);
+    const actual = Buffer.from(requestSignature);
+
+    if (expected.length !== actual.length) {
+      return false;
+    }
+
+    return crypto.timingSafeEqual(expected, actual);
   }
 }
