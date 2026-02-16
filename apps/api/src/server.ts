@@ -42,7 +42,7 @@ export const main = async () => {
       path: "/",
       domain: ".impb.in",
       // New date 6 months from now
-      expires: new Date(Date.now() + 15778476000),
+      maxAge: 15778476000,
     },
   });
   await server.register(import("@fastify/rate-limit"), {
