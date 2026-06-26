@@ -1,3 +1,8 @@
+> [!NOTE]
+> IMPERIAL is sunsetting on July 1st and archiving all of its repositories.
+> If you have any non-expiring documents that you would like to retrieve, please
+> reach out to `imperial at cody.bio`
+
 # IMPERIAL
 Welcome to IMPERIAL's monolithic repository, storing the API, web interface, and API.
 
