@@ -38,7 +38,7 @@ export default async () => {
     },
   });
 
-  expect(res.statusCode).toBe(204);
+  expect(res.statusCode).toBe(200);
 
   const resEncrypted = await server.inject({
     method: "DELETE",
@@ -48,5 +48,5 @@ export default async () => {
     },
   });
 
-  expect(resEncrypted.statusCode).toBe(204);
+  expect(resEncrypted.statusCode).toBe(200);
 };
